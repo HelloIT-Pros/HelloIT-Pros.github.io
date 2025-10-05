@@ -1,0 +1,826 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Noonshop Customer Journey Flowchart</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Arial, sans-serif;
+            background: #ffffff;
+            padding: 40px 20px;
+            overflow-x: auto;
+        }
+
+        .flowchart {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-width: 1200px;
+            margin: 0 auto;
+        }
+
+        h1 {
+            text-align: center;
+            margin-bottom: 40px;
+            font-size: 1.8em;
+        }
+
+        /* Node Types */
+        .node {
+            background: white;
+            border: 2px solid #000;
+            padding: 15px 25px;
+            margin: 10px;
+            text-align: center;
+            position: relative;
+        }
+
+        .start-end {
+            border-radius: 30px;
+            background: #000;
+            color: white;
+            font-weight: 600;
+            padding: 20px 40px;
+        }
+
+        .process {
+            border-radius: 5px;
+            min-width: 300px;
+        }
+
+        .decision {
+            width: 150px;
+            height: 150px;
+            background: white;
+            border: 2px solid #000;
+            transform: rotate(45deg);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 20px;
+        }
+
+        .decision-text {
+            transform: rotate(-45deg);
+            font-weight: 600;
+        }
+
+        .wait-node {
+            border-radius: 20px;
+            border: 1px solid #000;
+            padding: 8px 20px;
+            background: #f9f9f9;
+            font-size: 0.9em;
+        }
+
+        .condition-node {
+            border: 2px dashed #000;
+            border-radius: 10px;
+            background: #f5f5f5;
+            padding: 15px 25px;
+        }
+
+        /* Connectors */
+        .connector {
+            width: 2px;
+            height: 30px;
+            background: #000;
+        }
+
+        .connector-short {
+            width: 2px;
+            height: 15px;
+            background: #000;
+        }
+
+        /* Branching */
+        .branch-container {
+            display: flex;
+            gap: 60px;
+            align-items: flex-start;
+            position: relative;
+            margin: 20px 0;
+        }
+
+        .branch {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-width: 250px;
+        }
+
+        .branch-label {
+            font-weight: 600;
+            margin-bottom: 10px;
+            font-size: 0.9em;
+        }
+
+        .outcome {
+            background: #e8e8e8;
+            border: 2px solid #000;
+            padding: 12px 20px;
+            border-radius: 5px;
+            text-align: center;
+            font-size: 0.9em;
+        }
+
+        .stage-label {
+            font-weight: 600;
+            font-size: 1.1em;
+            margin-bottom: 5px;
+        }
+
+        .email-label {
+            font-size: 0.85em;
+            color: #333;
+            margin-top: 5px;
+        }
+
+        .new-badge {
+            display: inline-block;
+            background: #000;
+            color: white;
+            padding: 2px 8px;
+            font-size: 0.7em;
+            margin-left: 5px;
+            border-radius: 3px;
+        }
+
+        .merge-line {
+            font-size: 0.85em;
+            color: #666;
+            margin: 10px 0;
+        }
+
+        .integration-box {
+            background: #fffae6;
+            border: 2px solid #000;
+            border-style: double;
+            padding: 15px;
+            margin: 20px 0;
+            text-align: center;
+            font-size: 0.85em;
+            font-weight: 600;
+        }
+
+        .exit-point {
+            background: #ffe6e6;
+            border: 2px solid #000;
+            padding: 12px 20px;
+            border-radius: 5px;
+            text-align: center;
+            font-size: 0.85em;
+            font-weight: 600;
+        }
+
+        .header-logo {
+            position: absolute;
+            top: 20px;
+            left: 40px;
+            height: 35px;
+            width: auto;
+            opacity: 0.9;
+        }
+
+        /* Horizontal connector for branches */
+        .h-connector {
+            position: absolute;
+            height: 2px;
+            background: #000;
+            top: 80px;
+            left: 50%;
+            transform: translateX(-50%);
+        }
+
+        .branch-v-connector {
+            width: 2px;
+            height: 80px;
+            background: #000;
+        }
+    </style>
+</head>
+<body>
+    <img src="https://framerusercontent.com/images/N2Kik9IzLpZkJPIbcdGehAoVIfc.png?scale-down-to=512" alt="Hello IT Logo" class="header-logo">
+    
+    <h1>Noonshop Customer Journey & CRM Flow Map</h1>
+    <p style="text-align: center; color: #666; margin-bottom: 40px; font-size: 0.95em;">
+        Warm Lead & Prospect Nurture - For engaged leads & prospects to book appointments
+    </p>
+    
+    <div class="flowchart">
+        <!-- START -->
+        <div class="node start-end">
+            START<br>
+            <span style="font-weight: normal; font-size: 0.9em;">Prospect Enters CRM</span>
+        </div>
+        <div class="connector"></div>
+        
+        <div class="node process">
+            <strong>System Check: Verify New Prospect</strong><br>
+            <span class="email-label">Check email/phone against Shopify & QuickBooks<br>Ensure not a past client, no previous orders/billing</span>
+        </div>
+        <div class="connector-short"></div>
+        
+        <div class="decision">
+            <div class="decision-text">New<br>Prospect?</div>
+        </div>
+
+        <div class="branch-container">
+            <div class="branch">
+                <div class="branch-label">YES - New</div>
+                <div class="outcome">
+                    Continue to nurture flow
+                </div>
+            </div>
+            <div class="branch">
+                <div class="branch-label">NO - Existing</div>
+                <div class="outcome">
+                    <strong>DO NOT ENROLL</strong><br>
+                    Tag as existing client<br>
+                    Route to customer success
+                </div>
+                <div class="connector"></div>
+                <div class="node start-end" style="padding: 15px 30px; font-size: 0.9em;">END</div>
+            </div>
+        </div>
+
+        <div class="merge-line">↓ Continue with New Prospects Only</div>
+        <div class="connector"></div>
+        
+        <div class="node process">
+            <strong>Assign Rep + Calendly Link</strong><br>
+            <span class="email-label">Disposition: New Lead – Not Contacted</span>
+        </div>
+        <div class="connector"></div>
+
+        <!-- REAL-TIME INTEGRATION NOTICE -->
+        <div class="integration-box">
+            REAL-TIME ORDER MONITORING ACTIVE<br>
+            If Shopify order OR QuickBooks invoice created - IMMEDIATE PAUSE + Exit to Customer Journey
+        </div>
+        <div class="connector"></div>
+
+        <!-- STAGE 1 -->
+        <div class="node process">
+            <div class="stage-label">Stage 1: Day 1–3</div>
+            <div class="email-label">Email #1 from Rep<br>Warm intro, reference prospect source<br>CTA: Book appointment</div>
+        </div>
+        <div class="connector-short"></div>
+        <div class="node wait-node">Wait 3 days</div>
+        <div class="connector-short"></div>
+        
+        <div class="decision">
+            <div class="decision-text">Booked?</div>
+        </div>
+
+        <div class="branch-container">
+            <div class="branch">
+                <div class="branch-label">YES</div>
+                <div class="outcome">
+                    Disposition: Booked<br>
+                    Create Appointment<br>
+                    Send Rep Confirmation<br>
+                    After Appt: Anna Follow-up<br>
+                    (Ask how we did, reference rep)<br>
+                    Notify Rep<br>
+                    <strong>PAUSE NURTURE</strong>
+                </div>
+                <div class="connector"></div>
+                <div class="node start-end" style="padding: 15px 30px; font-size: 0.9em;">END: Paused for Appointment</div>
+            </div>
+            <div class="branch">
+                <div class="branch-label">NO</div>
+                <div class="outcome">
+                    Disposition: Contacted
+                </div>
+            </div>
+        </div>
+
+        <div class="merge-line">↓ Continue to Stage 2</div>
+        <div class="connector"></div>
+
+        <!-- Post-Appointment Check (Separate Process) -->
+        <div style="margin: 40px 0; padding: 25px; background: #f0f0f0; border: 2px dashed #000; max-width: 700px; margin-left: auto; margin-right: auto;">
+            <h3 style="margin-bottom: 15px; font-size: 1.1em; text-align: center;">Post-Appointment Process (Separate Workflow)</h3>
+            <div style="font-size: 0.9em; line-height: 1.6;">
+                <strong>Trigger:</strong> When appointment status changes to "Complete"<br><br>
+                <strong>Action:</strong> Check Shopify/QB for order<br><br>
+                <strong>If Order Placed:</strong> EXIT to Customer Journey, Tag: Active Customer<br>
+                <strong>If No Order:</strong> Create sales follow-up task for rep, continue monitoring
+            </div>
+        </div>
+
+        <div class="connector"></div>
+
+        <!-- STAGE 2 -->
+        <div class="node process">
+            <div class="stage-label">Stage 2: Day 4–7</div>
+            <div class="email-label">Email #2 from Rep<br>Follow-up on previous email, value proposition of Noonshop<br>CTA: Book appointment</div>
+        </div>
+        <div class="connector-short"></div>
+        <div class="node wait-node">Wait 5 days</div>
+        <div class="connector-short"></div>
+        
+        <div class="decision">
+            <div class="decision-text">Booked?</div>
+        </div>
+
+        <div class="branch-container">
+            <div class="branch">
+                <div class="branch-label">YES</div>
+                <div class="outcome">
+                    Disposition: Booked<br>
+                    Create Appointment<br>
+                    Send Rep Confirmation<br>
+                    Notify Rep<br>
+                    <strong>PAUSE NURTURE</strong>
+                </div>
+                <div class="connector"></div>
+                <div class="node start-end" style="padding: 15px 30px; font-size: 0.9em;">END: Paused for Appointment</div>
+            </div>
+            <div class="branch">
+                <div class="branch-label">NO</div>
+                <div class="outcome">
+                    Disposition: Contacted
+                </div>
+            </div>
+        </div>
+
+        <div class="merge-line">↓ Continue to Stage 3</div>
+        <div class="connector"></div>
+
+        <!-- STAGE 3 -->
+        <div class="node process">
+            <div class="stage-label">Stage 3: Day 10–14</div>
+            <div class="email-label">Email #3<br>Social proof: improved satisfaction story, what customers are saying<br>CTA: Book appointment</div>
+        </div>
+        <div class="connector-short"></div>
+        <div class="node wait-node">Wait 5–7 days</div>
+        <div class="connector-short"></div>
+        
+        <div class="decision">
+            <div class="decision-text">Booked?</div>
+        </div>
+
+        <div class="branch-container">
+            <div class="branch">
+                <div class="branch-label">YES</div>
+                <div class="outcome">
+                    Disposition: Booked<br>
+                    Create Appointment<br>
+                    Send Rep Confirmation<br>
+                    Notify Rep<br>
+                    <strong>PAUSE NURTURE</strong>
+                </div>
+                <div class="connector"></div>
+                <div class="node start-end" style="padding: 15px 30px; font-size: 0.9em;">END: Paused for Appointment</div>
+            </div>
+            <div class="branch">
+                <div class="branch-label">NO</div>
+                <div class="outcome">
+                    Disposition: Contacted
+                </div>
+            </div>
+        </div>
+
+        <div class="merge-line">↓ Continue to Stage 4</div>
+        <div class="connector"></div>
+
+        <!-- STAGE 4 -->
+        <div class="node process">
+            <div class="stage-label">Stage 4: Day 18–21</div>
+            <div class="email-label">📧 Email #4 from Rep<br>Offer: hand-picked glasses for your office</div>
+        </div>
+        <div class="connector-short"></div>
+        <div class="node wait-node">⏱ Wait 5 days</div>
+        <div class="connector-short"></div>
+        
+        <div class="decision">
+            <div class="decision-text">Booked?</div>
+        </div>
+
+        <div class="branch-container">
+            <div class="branch">
+                <div class="branch-label">YES</div>
+                <div class="outcome">
+                    Disposition: Booked<br>
+                    Create Appointment<br>
+                    Send Rep Confirmation<br>
+                    Notify Rep<br>
+                    <strong>PAUSE NURTURE</strong>
+                </div>
+                <div class="connector"></div>
+                <div class="node start-end" style="padding: 15px 30px; font-size: 0.9em;">END: Paused for Appointment</div>
+            </div>
+            <div class="branch">
+                <div class="branch-label">NO</div>
+                <div class="outcome">
+                    Disposition: Contacted
+                </div>
+            </div>
+        </div>
+
+        <div class="merge-line">↓ Continue to Stage 5</div>
+        <div class="connector"></div>
+
+        <!-- STAGE 5 -->
+        <div class="node process">
+            <div class="stage-label">Stage 5: Day 24–27</div>
+            <div class="email-label">📧 Email #5 from Rep<br>Top sellers & patient demand</div>
+        </div>
+        <div class="connector-short"></div>
+        <div class="node wait-node">⏱ Wait 5–7 days</div>
+        <div class="connector-short"></div>
+        
+        <div class="decision">
+            <div class="decision-text">Booked?</div>
+        </div>
+
+        <div class="branch-container">
+            <div class="branch">
+                <div class="branch-label">YES</div>
+                <div class="outcome">
+                    Disposition: Booked<br>
+                    Create Appointment<br>
+                    Send Rep Confirmation<br>
+                    Notify Rep<br>
+                    <strong>PAUSE NURTURE</strong>
+                </div>
+                <div class="connector"></div>
+                <div class="node start-end" style="padding: 15px 30px; font-size: 0.9em;">END: Paused for Appointment</div>
+            </div>
+            <div class="branch">
+                <div class="branch-label">NO</div>
+                <div class="outcome">
+                    Disposition: Contacted
+                </div>
+            </div>
+        </div>
+
+        <div class="merge-line">↓ Conditional Check</div>
+        <div class="connector"></div>
+
+        <!-- CONDITIONAL CHECK -->
+        <div class="node condition-node">
+            <strong>CONDITIONAL CHECK</strong><br>
+            <span class="email-label">No Appointment Linked?</span>
+        </div>
+        <div class="connector-short"></div>
+
+        <div class="decision">
+            <div class="decision-text">Check</div>
+        </div>
+
+        <div class="branch-container">
+            <div class="branch">
+                <div class="branch-label">YES - Continue</div>
+                <div class="outcome">
+                    Proceed to Stage 6
+                </div>
+            </div>
+            <div class="branch">
+                <div class="branch-label">NO - Skip Stage 6</div>
+                <div class="outcome">
+                    Jump to Stage 7
+                </div>
+            </div>
+        </div>
+
+        <div class="merge-line">↓ Stage 6 (if applicable)</div>
+        <div class="connector"></div>
+
+        <!-- STAGE 6 -->
+        <div class="node process" style="border: 3px solid #000;">
+            <div class="stage-label">Stage 6: Day 32–35</div>
+            <div class="email-label">Email #6 from Anna<br>"Noticed you haven't booked" – empathetic nudge</div>
+        </div>
+        <div class="connector-short"></div>
+        <div class="node wait-node">Wait 7 days</div>
+        <div class="connector-short"></div>
+        
+        <div class="decision">
+            <div class="decision-text">Booked?</div>
+        </div>
+
+        <div class="branch-container">
+            <div class="branch">
+                <div class="branch-label">YES</div>
+                <div class="outcome">
+                    Same webhook actions<br>
+                    <strong>PAUSE NURTURE</strong>
+                </div>
+                <div class="connector"></div>
+                <div class="node start-end" style="padding: 15px 30px; font-size: 0.9em;">END</div>
+            </div>
+            <div class="branch">
+                <div class="branch-label">NO</div>
+                <div class="outcome">
+                    Disposition:<br>Dormant Lead – Recycle
+                </div>
+            </div>
+        </div>
+
+        <div class="merge-line">↓ Continue to Stage 7</div>
+        <div class="connector"></div>
+
+        <!-- STAGE 7 -->
+        <div class="node process">
+            <div class="stage-label">Stage 7: Day 42–45</div>
+            <div class="email-label">Email #7 from Rep<br>Recap Noonshop difference + top sellers<br>CTA: Book appointment</div>
+        </div>
+        <div class="connector-short"></div>
+        <div class="node wait-node">Wait 7 days</div>
+        <div class="connector-short"></div>
+        
+        <div class="decision">
+            <div class="decision-text">Booked?</div>
+        </div>
+
+        <div class="branch-container">
+            <div class="branch">
+                <div class="branch-label">YES</div>
+                <div class="outcome">
+                    Disposition: Booked<br>
+                    Create Appointment<br>
+                    Send Rep Confirmation<br>
+                    Notify Rep<br>
+                    <strong>PAUSE NURTURE</strong>
+                </div>
+                <div class="connector"></div>
+                <div class="node start-end" style="padding: 15px 30px; font-size: 0.9em;">END: Paused for Appointment</div>
+            </div>
+            <div class="branch">
+                <div class="branch-label">NO</div>
+                <div class="outcome">
+                    Disposition: Contacted
+                </div>
+            </div>
+        </div>
+
+        <div class="merge-line">↓ Continue to Stage 8</div>
+        <div class="connector"></div>
+
+        <!-- STAGE 8 -->
+        <div class="node process">
+            <div class="stage-label">Stage 8: Day 55–60</div>
+            <div class="email-label">Email #8 Final Touch<br>Ask if now is not a good time, prefer another time?<br>I'll check back in...</div>
+        </div>
+        <div class="connector-short"></div>
+        
+        <div class="decision">
+            <div class="decision-text">Booked?</div>
+        </div>
+
+        <div class="branch-container">
+            <div class="branch">
+                <div class="branch-label">YES</div>
+                <div class="outcome">
+                    Disposition: Booked<br>
+                    Create Appointment<br>
+                    Send Rep Confirmation<br>
+                    Notify Rep<br>
+                    <strong>PAUSE NURTURE</strong>
+                </div>
+                <div class="connector"></div>
+                <div class="node start-end" style="padding: 15px 30px; font-size: 0.9em;">END: Paused for Appointment</div>
+            </div>
+            <div class="branch">
+                <div class="branch-label">NO</div>
+                <div class="outcome">
+                    Disposition: Cold Lead
+                </div>
+            </div>
+        </div>
+
+        <div class="merge-line">↓ Final Step</div>
+        <div class="connector"></div>
+
+        <!-- Pre-Stage 9 Verification -->
+        <div class="node condition-node">
+            <strong>Pre-Stage 9 Verification</strong><br>
+            <span class="email-label">Before sending Anna email: Re-check Shopify/QB<br>Ensure still a prospect (not customer)</span>
+        </div>
+        <div class="connector-short"></div>
+        
+        <div class="decision">
+            <div class="decision-text">Still<br>Prospect?</div>
+        </div>
+
+        <div class="branch-container">
+            <div class="branch">
+                <div class="branch-label">YES</div>
+                <div class="outcome">
+                    Continue to Stage 9
+                </div>
+            </div>
+            <div class="branch">
+                <div class="branch-label">NO - Became Customer</div>
+                <div class="exit-point">
+                    EXIT → Customer Journey<br>
+                    Remove from nurture
+                </div>
+                <div class="connector"></div>
+                <div class="node start-end" style="padding: 15px 30px; font-size: 0.9em;">END</div>
+            </div>
+        </div>
+
+        <div class="merge-line">↓ Continue</div>
+        <div class="connector"></div>
+
+        <!-- Follow-up Stage 9 -->
+        <div class="node process">
+            <div class="stage-label">Stage 9: Day 90 (30 days later)</div>
+            <div class="email-label">Email #9 from Anna<br>Check-in: "Wanted to follow up..."<br>CTA: Book appointment</div>
+        </div>
+        <div class="connector-short"></div>
+        
+        <div class="decision">
+            <div class="decision-text">Booked?</div>
+        </div>
+
+        <div class="branch-container">
+            <div class="branch">
+                <div class="branch-label">YES</div>
+                <div class="outcome">
+                    Disposition: Booked<br>
+                    Create Appointment<br>
+                    Send Rep Confirmation<br>
+                    Notify Rep<br>
+                    <strong>PAUSE NURTURE</strong>
+                </div>
+                <div class="connector"></div>
+                <div class="node start-end" style="padding: 15px 30px; font-size: 0.9em;">END: Paused for Appointment</div>
+            </div>
+            <div class="branch">
+                <div class="branch-label">NO</div>
+                <div class="outcome">
+                    Disposition: Cold Lead
+                </div>
+            </div>
+        </div>
+
+        <div class="merge-line">↓ Continue</div>
+        <div class="connector"></div>
+
+        <!-- Pre-Stage 10 Verification -->
+        <div class="node condition-node">
+            <strong>Pre-Stage 10 Verification</strong><br>
+            <span class="email-label">Before second Anna email: Re-check Shopify/QB</span>
+        </div>
+        <div class="connector-short"></div>
+        
+        <div class="decision">
+            <div class="decision-text">Still<br>Prospect?</div>
+        </div>
+
+        <div class="branch-container">
+            <div class="branch">
+                <div class="branch-label">YES</div>
+                <div class="outcome">
+                    Continue to Stage 10
+                </div>
+            </div>
+            <div class="branch">
+                <div class="branch-label">NO - Became Customer</div>
+                <div class="exit-point">
+                    EXIT → Customer Journey<br>
+                    Remove from nurture
+                </div>
+                <div class="connector"></div>
+                <div class="node start-end" style="padding: 15px 30px; font-size: 0.9em;">END</div>
+            </div>
+        </div>
+
+        <div class="merge-line">↓ Continue</div>
+        <div class="connector"></div>
+
+        <!-- Follow-up Stage 10 -->
+        <div class="node process">
+            <div class="stage-label">Stage 10: Day 150 (60 days later)</div>
+            <div class="email-label">Email #10 from Anna<br>Second check-in: "Circling back..."<br>CTA: Book appointment</div>
+        </div>
+        <div class="connector-short"></div>
+        
+        <div class="decision">
+            <div class="decision-text">Booked?</div>
+        </div>
+
+        <div class="branch-container">
+            <div class="branch">
+                <div class="branch-label">YES</div>
+                <div class="outcome">
+                    Disposition: Booked<br>
+                    Create Appointment<br>
+                    Send Rep Confirmation<br>
+                    Notify Rep<br>
+                    <strong>PAUSE NURTURE</strong>
+                </div>
+                <div class="connector"></div>
+                <div class="node start-end" style="padding: 15px 30px; font-size: 0.9em;">END: Paused for Appointment</div>
+            </div>
+            <div class="branch">
+                <div class="branch-label">NO</div>
+                <div class="outcome">
+                    Disposition: Cold Lead
+                </div>
+            </div>
+        </div>
+
+        <div class="merge-line">↓ Final Outcome</div>
+        <div class="connector"></div>
+
+        <!-- END -->
+        <div class="node start-end">
+            Enroll in Cold Lead Nurture Campaign
+        </div>
+
+        <!-- Technical Notes -->
+        <div style="margin-top: 60px; padding: 30px; background: #f9f9f9; border: 1px solid #ddd; max-width: 800px;">
+            <h2 style="margin-bottom: 20px; font-size: 1.3em;">Webhook & CRM Technical Notes</h2>
+            <div style="font-size: 0.9em; line-height: 1.8;">
+                <p><strong>Calendly Hidden Fields:</strong> lead_id, rep_id, appt_type (office|virtual)</p>
+                <p style="margin-top: 15px;">
+                    <strong>On invitee.created webhook:</strong><br>
+                    • Match to lead (by lead_id or email)<br>
+                    • Set appropriate Disposition<br>
+                    • Create Appointment object in CRM<br>
+                    • Notify rep (email/Slack)<br>
+                    • PAUSE nurture sequence immediately
+                </p>
+                <p style="margin-top: 15px;">
+                    <strong>On reschedule/cancel webhook:</strong><br>
+                    • Update Appointment record<br>
+                    • If cancel: Set disposition to "Appointment Canceled"<br>
+                    • Trigger short Re-book Micro-Flow (1–2 emails) unless already rebooked
+                </p>
+            </div>
+        </div>
+
+        <!-- Integration Technical Notes -->
+        <div style="margin-top: 30px; padding: 30px; background: #fffae6; border: 3px double #000; max-width: 800px;">
+            <h2 style="margin-bottom: 20px; font-size: 1.3em;">Shopify & QuickBooks Integration Points</h2>
+            <div style="font-size: 0.9em; line-height: 1.8;">
+                <p style="margin-bottom: 15px;">
+                    <strong>1. Real-Time Order Monitor (All Stages):</strong><br>
+                    • Shopify webhook: order.created - Immediately pause nurture, update to "Customer - Order Placed", exit to customer journey<br>
+                    • QuickBooks webhook: invoice.created - Same actions as above<br>
+                    • This monitor runs parallel to entire nurture sequence
+                </p>
+                <p style="margin-bottom: 15px;">
+                    <strong>2. Post-Appointment Verification:</strong><br>
+                    • Trigger: When appointment status = "Complete"<br>
+                    • Check Shopify orders by email/phone<br>
+                    • Check QuickBooks invoices by email/phone<br>
+                    • If order found: Move to customer journey<br>
+                    • If no order: Create sales follow-up task for rep
+                </p>
+                <p style="margin-bottom: 15px;">
+                    <strong>3. Pre-Anna Email Verification (Before Stage 9 & 10):</strong><br>
+                    • Before sending 30-day and 60-day Anna emails<br>
+                    • Re-verify prospect status against Shopify/QB<br>
+                    • Prevents reaching out to contacts who became customers outside CRM
+                </p>
+                <p style="margin-bottom: 15px;">
+                    <strong>4. Weekly Batch Verification:</strong><br>
+                    • Schedule: Every Monday 6:00 AM<br>
+                    • Pull all contacts with disposition = "In Nurture"<br>
+                    • Bulk check against Shopify orders + QB invoices<br>
+                    • Auto-remove any matches, tag as "Customer - Non-CRM Order"<br>
+                    • Catches orders placed via phone, trade show, direct contact
+                </p>
+                <p style="margin-bottom: 15px;">
+                    <strong>5. QuickBooks Payment Trigger:</strong><br>
+                    • Webhook: payment.received<br>
+                    • Match contact by email/phone<br>
+                    • Immediate action: Remove from nurture, update to "Active Customer", notify customer success team
+                </p>
+                <p style="margin-top: 20px; padding: 15px; background: white; border: 2px solid #000;">
+                    <strong>Data Matching Priority:</strong><br>
+                    1. Email (primary)<br>
+                    2. Phone number (secondary)<br>
+                    3. Full name + company (tertiary fallback)<br>
+                    Always log match method for audit trail
+                </p>
+                <p style="margin-top: 20px; padding: 15px; background: white; border: 2px solid #000;">
+                    <strong>Active Integration Summary:</strong><br>
+                    • Real-Time Order Monitor: Shopify + QuickBooks webhooks actively monitoring all stages<br>
+                    • Weekly Batch Check: Every Monday - Verify all active nurture contacts<br>
+                    • Payment Trigger: QB payment received = immediate exit to customer journey
+                </p>
+            </div>
+        </div>
+
+        <!-- Footer -->
+        <div style="margin-top: 40px; padding-top: 20px; border-top: 1px solid #ddd; text-align: center; color: #666; font-size: 0.85em;">
+            Last updated October 5, 2025
+        </div>
+    </div>
+</body>
+</html>
