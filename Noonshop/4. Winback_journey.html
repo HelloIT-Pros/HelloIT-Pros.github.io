@@ -1,0 +1,732 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Noonshop Win-Back Customer Journey</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Arial, sans-serif;
+            background: #ffffff;
+            padding: 40px 20px;
+            color: #1a1a1a;
+            line-height: 1.6;
+            position: relative;
+        }
+
+        .flowchart {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-width: 1200px;
+            margin: 0 auto;
+        }
+
+        h1 {
+            text-align: center;
+            margin-bottom: 40px;
+            font-size: 1.8em;
+        }
+
+        .header-logo {
+            position: absolute;
+            top: 20px;
+            left: 40px;
+            height: 35px;
+            width: auto;
+            opacity: 0.9;
+        }
+
+        .node {
+            background: white;
+            border: 2px solid #000;
+            padding: 15px 25px;
+            margin: 10px;
+            text-align: center;
+            position: relative;
+        }
+
+        .start-end {
+            border-radius: 30px;
+            background: #000;
+            color: white;
+            font-weight: 600;
+            padding: 20px 40px;
+        }
+
+        .process {
+            border-radius: 5px;
+            min-width: 300px;
+        }
+
+        .decision {
+            width: 150px;
+            height: 150px;
+            background: white;
+            border: 2px solid #000;
+            transform: rotate(45deg);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 20px;
+        }
+
+        .decision-text {
+            transform: rotate(-45deg);
+            font-weight: 600;
+        }
+
+        .wait-node {
+            border-radius: 20px;
+            border: 1px solid #000;
+            padding: 8px 20px;
+            background: #f9f9f9;
+            font-size: 0.9em;
+        }
+
+        .condition-node {
+            border: 2px dashed #000;
+            border-radius: 10px;
+            background: #f5f5f5;
+            padding: 15px 25px;
+        }
+
+        .connector {
+            width: 2px;
+            height: 30px;
+            background: #000;
+        }
+
+        .connector-short {
+            width: 2px;
+            height: 15px;
+            background: #000;
+        }
+
+        .branch-container {
+            display: flex;
+            gap: 60px;
+            align-items: flex-start;
+            position: relative;
+            margin: 20px 0;
+        }
+
+        .branch {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-width: 250px;
+        }
+
+        .branch-label {
+            font-weight: 600;
+            margin-bottom: 10px;
+            font-size: 0.9em;
+        }
+
+        .outcome {
+            background: #e8e8e8;
+            border: 2px solid #000;
+            padding: 12px 20px;
+            border-radius: 5px;
+            text-align: center;
+            font-size: 0.9em;
+        }
+
+        .stage-label {
+            font-weight: 600;
+            font-size: 1.1em;
+            margin-bottom: 5px;
+        }
+
+        .email-label {
+            font-size: 0.85em;
+            color: #333;
+            margin-top: 5px;
+        }
+
+        .merge-line {
+            font-size: 0.85em;
+            color: #666;
+            margin: 10px 0;
+        }
+
+        .integration-box {
+            background: #fffae6;
+            border: 2px solid #000;
+            border-style: double;
+            padding: 15px;
+            margin: 20px 0;
+            text-align: center;
+            font-size: 0.85em;
+            font-weight: 600;
+        }
+
+        .exit-point {
+            background: #e6ffe6;
+            border: 2px solid #000;
+            padding: 12px 20px;
+            border-radius: 5px;
+            text-align: center;
+            font-size: 0.85em;
+            font-weight: 600;
+        }
+    </style>
+</head>
+<body>
+    <img src="https://framerusercontent.com/images/N2Kik9IzLpZkJPIbcdGehAoVIfc.png?scale-down-to=512" alt="Hello IT Logo" class="header-logo">
+    
+    <h1>Noonshop Win-Back Customer Journey & CRM Flow Map</h1>
+    <p style="text-align: center; color: #666; margin-bottom: 40px; font-size: 0.95em;">
+        Re-engage inactive customers through personalized touches, value education, and relationship building
+    </p>
+    
+    <div class="flowchart">
+        <!-- START -->
+        <div class="node start-end">
+            START<br>
+            <span style="font-weight: normal; font-size: 0.9em;">Customer Becomes Inactive</span>
+        </div>
+        <div class="connector"></div>
+        
+        <div class="node process">
+            <strong>Entry Criteria</strong><br>
+            <span class="email-label">No order in 90+ days (or Expected Reorder Date + 72 days)<br>Tag: Inactive Customer - Win-Back</span>
+        </div>
+        <div class="connector"></div>
+
+        <!-- REAL-TIME INTEGRATION NOTICE -->
+        <div class="integration-box">
+            REAL-TIME ORDER MONITORING ACTIVE<br>
+            If order placed at ANY stage - EXIT to Active Customer Journey
+        </div>
+        <div class="connector"></div>
+
+        <!-- STAGE 1 -->
+        <div class="node process">
+            <div class="stage-label">Stage 1: Day 0-2</div>
+            <div class="email-label">Email #1 from Rep - Personal handwritten-style message<br>"Hey [Name], it's been a while since we connected..."<br>Casual check-in, ask how practice is going<br>No sales pitch, just relationship building</div>
+        </div>
+        <div class="connector-short"></div>
+        <div class="node wait-node">Wait 10 days</div>
+        <div class="connector-short"></div>
+        
+        <div class="decision">
+            <div class="decision-text">Order<br>Placed?</div>
+        </div>
+
+        <div class="branch-container">
+            <div class="branch">
+                <div class="branch-label">YES</div>
+                <div class="exit-point">
+                    Status: Active Customer<br>
+                    <strong>EXIT to Active Customer Journey</strong>
+                </div>
+                <div class="connector"></div>
+                <div class="node start-end" style="padding: 15px 30px; font-size: 0.9em;">END</div>
+            </div>
+            <div class="branch">
+                <div class="branch-label">NO</div>
+                <div class="outcome">
+                    Status: Inactive Customer
+                </div>
+            </div>
+        </div>
+
+        <div class="merge-line">↓ Continue to Stage 2</div>
+        <div class="connector"></div>
+
+        <!-- STAGE 2 -->
+        <div class="node process">
+            <div class="stage-label">Stage 2: Day 12-15</div>
+            <div class="email-label">Email #2 from Rep - Quick product highlight<br>Showcase 2-3 new arrivals that would fit their practice<br>Light touch, "thought you might like these..."<br>No pressure, just sharing</div>
+        </div>
+        <div class="connector-short"></div>
+        <div class="node wait-node">Wait 10 days</div>
+        <div class="connector-short"></div>
+        
+        <div class="decision">
+            <div class="decision-text">Order<br>Placed?</div>
+        </div>
+
+        <div class="branch-container">
+            <div class="branch">
+                <div class="branch-label">YES</div>
+                <div class="exit-point">
+                    Status: Active Customer<br>
+                    <strong>EXIT to Active Customer Journey</strong>
+                </div>
+                <div class="connector"></div>
+                <div class="node start-end" style="padding: 15px 30px; font-size: 0.9em;">END</div>
+            </div>
+            <div class="branch">
+                <div class="branch-label">NO</div>
+                <div class="outcome">
+                    Status: Inactive Customer
+                </div>
+            </div>
+        </div>
+
+        <div class="merge-line">↓ Continue to Stage 3</div>
+        <div class="connector"></div>
+
+        <!-- STAGE 3 -->
+        <div class="node process">
+            <div class="stage-label">Stage 3: Day 22-26</div>
+            <div class="email-label">Email #3 from Anna - Brand story refresh<br>What's new at Noonshop, our latest collections<br>Customer testimonial: "How [Practice Name] increased optical revenue by 40%"<br>Light CTA: Browse new arrivals</div>
+        </div>
+        <div class="connector-short"></div>
+        <div class="node wait-node">Wait 14 days</div>
+        <div class="connector-short"></div>
+        
+        <div class="decision">
+            <div class="decision-text">Order<br>Placed?</div>
+        </div>
+
+        <div class="branch-container">
+            <div class="branch">
+                <div class="branch-label">YES</div>
+                <div class="exit-point">
+                    Status: Active Customer<br>
+                    <strong>EXIT to Active Customer Journey</strong>
+                </div>
+                <div class="connector"></div>
+                <div class="node start-end" style="padding: 15px 30px; font-size: 0.9em;">END</div>
+            </div>
+            <div class="branch">
+                <div class="branch-label">NO</div>
+                <div class="outcome">
+                    Status: Inactive Customer
+                </div>
+            </div>
+        </div>
+
+        <div class="merge-line">↓ Continue to Stage 4</div>
+        <div class="connector"></div>
+
+        <!-- STAGE 4 -->
+        <div class="node process">
+            <div class="stage-label">Stage 4: Day 36-40</div>
+            <div class="email-label">Email #4 from Rep - Value education<br>Tips for growing optical revenue at your practice<br>Industry insights, merchandising best practices<br>Frame display ideas, patient engagement strategies</div>
+        </div>
+        <div class="connector-short"></div>
+        <div class="node wait-node">Wait 14 days</div>
+        <div class="connector-short"></div>
+        
+        <div class="decision">
+            <div class="decision-text">Order<br>Placed?</div>
+        </div>
+
+        <div class="branch-container">
+            <div class="branch">
+                <div class="branch-label">YES</div>
+                <div class="exit-point">
+                    Status: Active Customer<br>
+                    <strong>EXIT to Active Customer Journey</strong>
+                </div>
+                <div class="connector"></div>
+                <div class="node start-end" style="padding: 15px 30px; font-size: 0.9em;">END</div>
+            </div>
+            <div class="branch">
+                <div class="branch-label">NO</div>
+                <div class="outcome">
+                    Status: Inactive Customer
+                </div>
+            </div>
+        </div>
+
+        <div class="merge-line">↓ Continue to Stage 5</div>
+        <div class="connector"></div>
+
+        <!-- STAGE 5 -->
+        <div class="node process">
+            <div class="stage-label">Stage 5: Day 50-54</div>
+            <div class="email-label">Email #5 from Rep - Product spotlight<br>Curated selection based on past purchase history<br>"I picked these out specifically for your practice..."<br>Top sellers that similar practices are loving<br>Personal note from rep</div>
+        </div>
+        <div class="connector-short"></div>
+        <div class="node wait-node">Wait 14 days</div>
+        <div class="connector-short"></div>
+        
+        <div class="decision">
+            <div class="decision-text">Order<br>Placed?</div>
+        </div>
+
+        <div class="branch-container">
+            <div class="branch">
+                <div class="branch-label">YES</div>
+                <div class="exit-point">
+                    Status: Active Customer<br>
+                    <strong>EXIT to Active Customer Journey</strong>
+                </div>
+                <div class="connector"></div>
+                <div class="node start-end" style="padding: 15px 30px; font-size: 0.9em;">END</div>
+            </div>
+            <div class="branch">
+                <div class="branch-label">NO</div>
+                <div class="outcome">
+                    Status: Inactive Customer
+                </div>
+            </div>
+        </div>
+
+        <div class="merge-line">↓ Continue to Stage 6</div>
+        <div class="connector"></div>
+
+        <!-- STAGE 6 -->
+        <div class="node process">
+            <div class="stage-label">Stage 6: Day 64-68</div>
+            <div class="email-label">Email #6 from Rep - Case study share<br>In-depth look at how another practice succeeded with Noonshop<br>Specific strategies they used, results they achieved<br>Conversational tone, "thought this might interest you..."</div>
+        </div>
+        <div class="connector-short"></div>
+        <div class="node wait-node">Wait 14 days</div>
+        <div class="connector-short"></div>
+        
+        <div class="decision">
+            <div class="decision-text">Order<br>Placed?</div>
+        </div>
+
+        <div class="branch-container">
+            <div class="branch">
+                <div class="branch-label">YES</div>
+                <div class="exit-point">
+                    Status: Active Customer<br>
+                    <strong>EXIT to Active Customer Journey</strong>
+                </div>
+                <div class="connector"></div>
+                <div class="node start-end" style="padding: 15px 30px; font-size: 0.9em;">END</div>
+            </div>
+            <div class="branch">
+                <div class="branch-label">NO</div>
+                <div class="outcome">
+                    Status: Inactive Customer
+                </div>
+            </div>
+        </div>
+
+        <div class="merge-line">↓ Continue to Stage 7</div>
+        <div class="connector"></div>
+
+        <!-- STAGE 7 -->
+        <div class="node process">
+            <div class="stage-label">Stage 7: Day 78-82</div>
+            <div class="email-label">Email #7 from Anna - Success story deep dive<br>Full case study: How [Named Practice] transformed their optical business<br>Real numbers, real results, real testimonials<br>What patients are saying about Noonshop quality</div>
+        </div>
+        <div class="connector-short"></div>
+        <div class="node wait-node">Wait 14 days</div>
+        <div class="connector-short"></div>
+        
+        <div class="decision">
+            <div class="decision-text">Order<br>Placed?</div>
+        </div>
+
+        <div class="branch-container">
+            <div class="branch">
+                <div class="branch-label">YES</div>
+                <div class="exit-point">
+                    Status: Active Customer<br>
+                    <strong>EXIT to Active Customer Journey</strong>
+                </div>
+                <div class="connector"></div>
+                <div class="node start-end" style="padding: 15px 30px; font-size: 0.9em;">END</div>
+            </div>
+            <div class="branch">
+                <div class="branch-label">NO</div>
+                <div class="outcome">
+                    Status: Inactive Customer
+                </div>
+            </div>
+        </div>
+
+        <div class="merge-line">↓ Continue to Stage 8</div>
+        <div class="connector"></div>
+
+        <!-- STAGE 8 -->
+        <div class="node process">
+            <div class="stage-label">Stage 8: Day 92-96</div>
+            <div class="email-label">Email #8 from Rep - Quick tip share<br>Single actionable tip for increasing frame sales<br>Short, valuable, no ask<br>"Just wanted to share something that's been working..."</div>
+        </div>
+        <div class="connector-short"></div>
+        <div class="node wait-node">Wait 14 days</div>
+        <div class="connector-short"></div>
+        
+        <div class="decision">
+            <div class="decision-text">Order<br>Placed?</div>
+        </div>
+
+        <div class="branch-container">
+            <div class="branch">
+                <div class="branch-label">YES</div>
+                <div class="exit-point">
+                    Status: Active Customer<br>
+                    <strong>EXIT to Active Customer Journey</strong>
+                </div>
+                <div class="connector"></div>
+                <div class="node start-end" style="padding: 15px 30px; font-size: 0.9em;">END</div>
+            </div>
+            <div class="branch">
+                <div class="branch-label">NO</div>
+                <div class="outcome">
+                    Status: Inactive Customer
+                </div>
+            </div>
+        </div>
+
+        <div class="merge-line">↓ Continue to Stage 9</div>
+        <div class="connector"></div>
+
+        <!-- STAGE 9 -->
+        <div class="node process">
+            <div class="stage-label">Stage 9: Day 106-110</div>
+            <div class="email-label">Email #9 from Rep - Direct outreach, personal tone<br>"[Name], I wanted to reach out personally..."<br>"I'd love to reconnect and see if there's anything we can do better for you"<br>Open conversation, ask about their current needs<br>Offer personal call to understand how to serve them better</div>
+        </div>
+        <div class="connector-short"></div>
+        <div class="node wait-node">Wait 14 days</div>
+        <div class="connector-short"></div>
+        
+        <div class="decision">
+            <div class="decision-text">Order<br>Placed?</div>
+        </div>
+
+        <div class="branch-container">
+            <div class="branch">
+                <div class="branch-label">YES</div>
+                <div class="exit-point">
+                    Status: Active Customer<br>
+                    <strong>EXIT to Active Customer Journey</strong>
+                </div>
+                <div class="connector"></div>
+                <div class="node start-end" style="padding: 15px 30px; font-size: 0.9em;">END</div>
+            </div>
+            <div class="branch">
+                <div class="branch-label">NO</div>
+                <div class="outcome">
+                    Status: Inactive Customer
+                </div>
+            </div>
+        </div>
+
+        <div class="merge-line">↓ Continue to Stage 10</div>
+        <div class="connector"></div>
+
+        <!-- STAGE 10 -->
+        <div class="node process">
+            <div class="stage-label">Stage 10: Day 120-124</div>
+            <div class="email-label">Email #10 from Rep - New collection preview<br>Sneak peek at upcoming styles before general release<br>"Wanted you to be among the first to see these..."<br>Exclusive early access feel</div>
+        </div>
+        <div class="connector-short"></div>
+        <div class="node wait-node">Wait 14 days</div>
+        <div class="connector-short"></div>
+        
+        <div class="decision">
+            <div class="decision-text">Order<br>Placed?</div>
+        </div>
+
+        <div class="branch-container">
+            <div class="branch">
+                <div class="branch-label">YES</div>
+                <div class="exit-point">
+                    Status: Active Customer<br>
+                    <strong>EXIT to Active Customer Journey</strong>
+                </div>
+                <div class="connector"></div>
+                <div class="node start-end" style="padding: 15px 30px; font-size: 0.9em;">END</div>
+            </div>
+            <div class="branch">
+                <div class="branch-label">NO</div>
+                <div class="outcome">
+                    Status: Inactive Customer
+                </div>
+            </div>
+        </div>
+
+        <div class="merge-line">↓ Continue to Stage 11</div>
+        <div class="connector"></div>
+
+        <!-- STAGE 11 -->
+        <div class="node process">
+            <div class="stage-label">Stage 11: Day 134-138</div>
+            <div class="email-label">Email #11 from Rep - Win-back incentive offer<br>"I'd love to welcome you back with something special..."<br>Exclusive discount or special offer for returning customers<br>Limited-time incentive to re-engage<br>Very personal, handwritten-style message</div>
+        </div>
+        <div class="connector-short"></div>
+        <div class="node wait-node">Wait 21 days</div>
+        <div class="connector-short"></div>
+        
+        <div class="decision">
+            <div class="decision-text">Order<br>Placed?</div>
+        </div>
+
+        <div class="branch-container">
+            <div class="branch">
+                <div class="branch-label">YES</div>
+                <div class="exit-point">
+                    Status: Active Customer<br>
+                    <strong>EXIT to Active Customer Journey</strong>
+                </div>
+                <div class="connector"></div>
+                <div class="node start-end" style="padding: 15px 30px; font-size: 0.9em;">END</div>
+            </div>
+            <div class="branch">
+                <div class="branch-label">NO</div>
+                <div class="outcome">
+                    Status: Inactive Customer
+                </div>
+            </div>
+        </div>
+
+        <div class="merge-line">↓ Continue to Stage 12</div>
+        <div class="connector"></div>
+
+        <!-- STAGE 12 -->
+        <div class="node process">
+            <div class="stage-label">Stage 12: Day 155-159</div>
+            <div class="email-label">Email #12 from Rep - Soft check-in<br>"Just wanted to say hi and see how things are going..."<br>No sales pitch, pure relationship touch<br>Open door for conversation</div>
+        </div>
+        <div class="connector-short"></div>
+        <div class="node wait-node">Wait 21 days</div>
+        <div class="connector-short"></div>
+        
+        <div class="decision">
+            <div class="decision-text">Order<br>Placed?</div>
+        </div>
+
+        <div class="branch-container">
+            <div class="branch">
+                <div class="branch-label">YES</div>
+                <div class="exit-point">
+                    Status: Active Customer<br>
+                    <strong>EXIT to Active Customer Journey</strong>
+                </div>
+                <div class="connector"></div>
+                <div class="node start-end" style="padding: 15px 30px; font-size: 0.9em;">END</div>
+            </div>
+            <div class="branch">
+                <div class="branch-label">NO</div>
+                <div class="outcome">
+                    Status: Inactive Customer
+                </div>
+            </div>
+        </div>
+
+        <div class="merge-line">↓ Continue to Stage 13</div>
+        <div class="connector"></div>
+
+        <!-- STAGE 13 -->
+        <div class="node process">
+            <div class="stage-label">Stage 13: Day 176-180</div>
+            <div class="email-label">Email #13 from Anna - Final value touch<br>Industry trends, market insights for optical practices<br>What's working now for independent optometry<br>No sales pitch, pure value and education<br>Keep door open for future</div>
+        </div>
+        <div class="connector-short"></div>
+        <div class="node wait-node">Wait 30 days</div>
+        <div class="connector-short"></div>
+        
+        <div class="decision">
+            <div class="decision-text">Order<br>Placed?</div>
+        </div>
+
+        <div class="branch-container">
+            <div class="branch">
+                <div class="branch-label">YES</div>
+                <div class="exit-point">
+                    Status: Active Customer<br>
+                    <strong>EXIT to Active Customer Journey</strong>
+                </div>
+                <div class="connector"></div>
+                <div class="node start-end" style="padding: 15px 30px; font-size: 0.9em;">END</div>
+            </div>
+            <div class="branch">
+                <div class="branch-label">NO</div>
+                <div class="outcome">
+                    Status: Dormant Customer
+                </div>
+            </div>
+        </div>
+
+        <div class="merge-line">↓ Final Outcome</div>
+        <div class="connector"></div>
+
+        <!-- END -->
+        <div class="node start-end">
+            Move to Long-Term Dormant Nurture<br>
+            <span style="font-weight: normal; font-size: 0.85em;">(Quarterly check-ins, major announcements only)</span>
+        </div>
+
+        <!-- Technical Notes -->
+        <div style="margin-top: 60px; padding: 30px; background: #f9f9f9; border: 1px solid #ddd; max-width: 800px;">
+            <h2 style="margin-bottom: 20px; font-size: 1.3em;">CRM Technical Notes</h2>
+            <div style="font-size: 0.9em; line-height: 1.8;">
+                <p><strong>Entry Trigger:</strong> Customer tagged as "Inactive Customer"</p>
+                <p style="margin-top: 15px;">
+                    <strong>Entry Criteria:</strong><br>
+                    • No order in 90+ days from last purchase, OR<br>
+                    • First-time customer: Expected Reorder Date + 72 days with no second order<br>
+                    • System auto-tags as "Inactive Customer - Win-Back"
+                </p>
+                <p style="margin-top: 15px;">
+                    <strong>Personalization Requirements:</strong><br>
+                    • All rep emails use conversational, handwritten style (no corporate speak)<br>
+                    • Product recommendations based on purchase history<br>
+                    • Practice name used throughout messaging<br>
+                    • Rep includes personal notes/observations when possible
+                </p>
+                <p style="margin-top: 15px;">
+                    <strong>Status Updates:</strong><br>
+                    • Entry: Inactive Customer - Win-Back<br>
+                    • On order: Active Customer → Exit to Active Journey<br>
+                    • After Stage 13 (no order): Dormant Customer → Long-term nurture
+                </p>
+            </div>
+        </div>
+
+        <!-- Integration Technical Notes -->
+        <div style="margin-top: 30px; padding: 30px; background: #fffae6; border: 3px double #000; max-width: 800px;">
+            <h2 style="margin-bottom: 20px; font-size: 1.3em;">Shopify Integration Points</h2>
+            <div style="font-size: 0.9em; line-height: 1.8;">
+                <p style="margin-bottom: 15px;">
+                    <strong>1. Real-Time Order Monitor (All Stages):</strong><br>
+                    • Shopify webhook: order.created<br>
+                    • Match to customer email OR phone<br>
+                    • If customer in Win-Back Journey → Immediately exit to Active Customer Journey<br>
+                    • Update status to "Active Customer"<br>
+                    • Send rep notification: "Great news! [Customer] just reordered!"
+                </p>
+                <p style="margin-bottom: 15px;">
+                    <strong>2. Purchase History Analysis:</strong><br>
+                    • Pull past order data for personalized product recommendations in Stage 5<br>
+                    • Identify favorite styles, price points, quantities<br>
+                    • Rep reviews before sending Stage 5 to add personal touch
+                </p>
+                <p style="margin-bottom: 15px;">
+                    <strong>3. Rep Notification System:</strong><br>
+                    • When customer in Win-Back places order, send immediate notification to rep<br>
+                    • Email subject: "Great news! [Customer Name] just reordered!"<br>
+                    • Include order details and suggest personal follow-up call
+                </p>
+                <p style="margin-top: 20px; padding: 15px; background: white; border: 2px solid #000;">
+                    <strong>Data Matching Priority:</strong><br>
+                    1. Customer ID (primary)<br>
+                    2. Email address (secondary)<br>
+                    3. Phone number (tertiary)<br>
+                    Always log match method for audit trail
+                </p>
+                <p style="margin-top: 20px; padding: 15px; background: white; border: 2px solid #000;">
+                    <strong>Active Integration Summary:</strong><br>
+                    • Real-Time Order Monitor: Shopify webhooks monitoring all stages for reactivation<br>
+                    • Purchase History Engine: Personalized product recommendations<br>
+                    • Rep Notification System: Alert reps when win-back succeeds
+                </p>
+            </div>
+        </div>
+
+        <!-- Footer -->
+        <div style="margin-top: 40px; padding-top: 20px; border-top: 1px solid #ddd; text-align: center; color: #666; font-size: 0.85em;">
+            Last updated December 6, 2024
+        </div>
+    </div>
+</body>
+</html>

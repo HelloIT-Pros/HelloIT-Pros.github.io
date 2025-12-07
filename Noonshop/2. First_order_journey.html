@@ -1,0 +1,549 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Noonshop First-Order Customer Journey</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Arial, sans-serif;
+            background: #ffffff;
+            padding: 40px 20px;
+            color: #1a1a1a;
+            line-height: 1.6;
+            position: relative;
+        }
+
+        .flowchart {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-width: 1200px;
+            margin: 0 auto;
+        }
+
+        h1 {
+            text-align: center;
+            margin-bottom: 40px;
+            font-size: 1.8em;
+        }
+
+        .header-logo {
+            position: absolute;
+            top: 20px;
+            left: 40px;
+            height: 35px;
+            width: auto;
+            opacity: 0.9;
+        }
+
+        .node {
+            background: white;
+            border: 2px solid #000;
+            padding: 15px 25px;
+            margin: 10px;
+            text-align: center;
+            position: relative;
+        }
+
+        .start-end {
+            border-radius: 30px;
+            background: #000;
+            color: white;
+            font-weight: 600;
+            padding: 20px 40px;
+        }
+
+        .process {
+            border-radius: 5px;
+            min-width: 300px;
+        }
+
+        .decision {
+            width: 150px;
+            height: 150px;
+            background: white;
+            border: 2px solid #000;
+            transform: rotate(45deg);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 20px;
+        }
+
+        .decision-text {
+            transform: rotate(-45deg);
+            font-weight: 600;
+        }
+
+        .wait-node {
+            border-radius: 20px;
+            border: 1px solid #000;
+            padding: 8px 20px;
+            background: #f9f9f9;
+            font-size: 0.9em;
+        }
+
+        .condition-node {
+            border: 2px dashed #000;
+            border-radius: 10px;
+            background: #f5f5f5;
+            padding: 15px 25px;
+        }
+
+        .connector {
+            width: 2px;
+            height: 30px;
+            background: #000;
+        }
+
+        .connector-short {
+            width: 2px;
+            height: 15px;
+            background: #000;
+        }
+
+        .branch-container {
+            display: flex;
+            gap: 60px;
+            align-items: flex-start;
+            position: relative;
+            margin: 20px 0;
+        }
+
+        .branch {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-width: 250px;
+        }
+
+        .branch-label {
+            font-weight: 600;
+            margin-bottom: 10px;
+            font-size: 0.9em;
+        }
+
+        .outcome {
+            background: #e8e8e8;
+            border: 2px solid #000;
+            padding: 12px 20px;
+            border-radius: 5px;
+            text-align: center;
+            font-size: 0.9em;
+        }
+
+        .stage-label {
+            font-weight: 600;
+            font-size: 1.1em;
+            margin-bottom: 5px;
+        }
+
+        .email-label {
+            font-size: 0.85em;
+            color: #333;
+            margin-top: 5px;
+        }
+
+        .merge-line {
+            font-size: 0.85em;
+            color: #666;
+            margin: 10px 0;
+        }
+
+        .integration-box {
+            background: #fffae6;
+            border: 2px solid #000;
+            border-style: double;
+            padding: 15px;
+            margin: 20px 0;
+            text-align: center;
+            font-size: 0.85em;
+            font-weight: 600;
+        }
+
+        .exit-point {
+            background: #ffe6e6;
+            border: 2px solid #000;
+            padding: 12px 20px;
+            border-radius: 5px;
+            text-align: center;
+            font-size: 0.85em;
+            font-weight: 600;
+        }
+    </style>
+</head>
+<body>
+    <img src="https://framerusercontent.com/images/N2Kik9IzLpZkJPIbcdGehAoVIfc.png?scale-down-to=512" alt="Hello IT Logo" class="header-logo">
+    
+    <h1>Noonshop First-Order Customer Journey & CRM Flow Map</h1>
+    <p style="text-align: center; color: #666; margin-bottom: 40px; font-size: 0.95em;">
+        Onboard new customers, reinforce brand value, drive repeat purchases
+    </p>
+    
+    <div class="flowchart">
+        <!-- START -->
+        <div class="node start-end">
+            START<br>
+            <span style="font-weight: normal; font-size: 0.9em;">First Order Placed</span>
+        </div>
+        <div class="connector"></div>
+        
+        <div class="node process">
+            <strong>System Check: Verify First-Time Customer</strong><br>
+            <span class="email-label">Check Shopify order history by email OR phone<br>Confirm this is first purchase (no prior orders under either identifier)</span>
+        </div>
+        <div class="connector-short"></div>
+        
+        <div class="decision">
+            <div class="decision-text">First<br>Order?</div>
+        </div>
+
+        <div class="branch-container">
+            <div class="branch">
+                <div class="branch-label">YES - First Time</div>
+                <div class="outcome">
+                    Continue to onboarding flow
+                </div>
+            </div>
+            <div class="branch">
+                <div class="branch-label">NO - Repeat Customer</div>
+                <div class="outcome">
+                    <strong>DO NOT ENROLL</strong><br>
+                    Route to repeat customer journey
+                </div>
+                <div class="connector"></div>
+                <div class="node start-end" style="padding: 15px 30px; font-size: 0.9em;">END</div>
+            </div>
+        </div>
+
+        <div class="merge-line">↓ Continue with First-Time Customers Only</div>
+        <div class="connector"></div>
+        
+        <div class="node process">
+            <strong>Tag Customer & Assign Rep</strong><br>
+            <span class="email-label">Status: First-Time Customer - Onboarding<br><strong>Rep Action Required: Set Expected Reorder Date</strong><br>(Based on order size/quantity)</span>
+        </div>
+        <div class="connector"></div>
+
+        <!-- REP INPUT NOTICE -->
+        <div class="integration-box">
+            REP SETS REORDER TIMELINE<br>
+            Rep reviews order size → Sets expected reorder date in CRM<br>
+            System uses this date to trigger reorder check emails
+        </div>
+        <div class="connector"></div>
+
+        <!-- REAL-TIME INTEGRATION NOTICE -->
+        <div class="integration-box">
+            REAL-TIME REPEAT ORDER MONITORING ACTIVE<br>
+            If second order placed - EXIT to Repeat Customer Journey
+        </div>
+        <div class="connector"></div>
+
+        <!-- STAGE 1 -->
+        <div class="node process">
+            <div class="stage-label">Stage 1: Immediate (Day 0-1)</div>
+            <div class="email-label">Email #1 from Anna<br>Thank you for your order, welcome to Noonshop family<br>What to expect: delivery timeline, introduction to your rep</div>
+        </div>
+        <div class="connector"></div>
+
+        <!-- STAGE 2 -->
+        <div class="node process">
+            <div class="stage-label">Stage 2: Day 3-5</div>
+            <div class="email-label">Email #2 from Rep<br>Personal introduction, how to display/merchandise glasses<br>Tips for maximizing patient engagement</div>
+        </div>
+        <div class="connector"></div>
+
+        <!-- STAGE 3 -->
+        <div class="node process">
+            <div class="stage-label">Stage 3: Day 7-10</div>
+            <div class="email-label">Email #3 from Anna<br>Brand story: Why Noonshop exists (ophthalmologist origin)<br>Our quality commitment and design philosophy</div>
+        </div>
+        <div class="connector"></div>
+
+        <!-- STAGE 4 -->
+        <div class="node process">
+            <div class="stage-label">Stage 4: Day 14-17</div>
+            <div class="email-label">Email #4 from Rep<br>Check-in: Are your customers loving them?<br>Share what happy customers say about Noonshop quality<br>Tips for highlighting quality and selling more frames</div>
+        </div>
+        <div class="connector"></div>
+
+        <!-- Reorder Check Point -->
+        <div class="node condition-node">
+            <strong>Reorder Check Trigger</strong><br>
+            <span class="email-label">Trigger: 7 days before rep-defined expected reorder date</span>
+        </div>
+        <div class="connector-short"></div>
+        
+        <div class="decision">
+            <div class="decision-text">Repeat<br>Order?</div>
+        </div>
+
+        <div class="branch-container">
+            <div class="branch">
+                <div class="branch-label">YES</div>
+                <div class="outcome">
+                    Status: Active Customer<br>
+                    <strong>EXIT to Repeat Customer Journey</strong>
+                </div>
+                <div class="connector"></div>
+                <div class="node start-end" style="padding: 15px 30px; font-size: 0.9em;">END</div>
+            </div>
+            <div class="branch">
+                <div class="branch-label">NO</div>
+                <div class="outcome">
+                    Status: First-Time Customer
+                </div>
+            </div>
+        </div>
+
+        <div class="merge-line">↓ Continue to Stage 5</div>
+        <div class="connector"></div>
+
+        <!-- STAGE 5 -->
+        <div class="node process">
+            <div class="stage-label">Stage 5: 7 days prior to Expected Reorder Date</div>
+            <div class="email-label">Email #5 from Rep<br>Friendly reminder: Time to restock?<br>New arrivals and top sellers from current collection<br>CTA: Browse new styles or reorder favorites</div>
+        </div>
+        <div class="connector-short"></div>
+        <div class="node wait-node">Wait 7 days (to expected reorder date)</div>
+        <div class="connector-short"></div>
+        
+        <div class="decision">
+            <div class="decision-text">Repeat<br>Order?</div>
+        </div>
+
+        <div class="branch-container">
+            <div class="branch">
+                <div class="branch-label">YES</div>
+                <div class="outcome">
+                    Status: Active Customer<br>
+                    <strong>EXIT to Repeat Customer Journey</strong>
+                </div>
+                <div class="connector"></div>
+                <div class="node start-end" style="padding: 15px 30px; font-size: 0.9em;">END</div>
+            </div>
+            <div class="branch">
+                <div class="branch-label">NO</div>
+                <div class="outcome">
+                    Status: First-Time Customer
+                </div>
+            </div>
+        </div>
+
+        <div class="merge-line">↓ Continue to Stage 6</div>
+        <div class="connector"></div>
+
+        <!-- STAGE 6 -->
+        <div class="node process">
+            <div class="stage-label">Stage 6: Expected Reorder Date + 7 days</div>
+            <div class="email-label">Email #6 from Anna<br>Ready to reorder?<br>Customer success stories, how practices increased optical revenue<br>Offer assistance with product selection</div>
+        </div>
+        <div class="connector-short"></div>
+        <div class="node wait-node">Wait 14 days</div>
+        <div class="connector-short"></div>
+        
+        <div class="decision">
+            <div class="decision-text">Repeat<br>Order?</div>
+        </div>
+
+        <div class="branch-container">
+            <div class="branch">
+                <div class="branch-label">YES</div>
+                <div class="outcome">
+                    Status: Active Customer<br>
+                    <strong>EXIT to Repeat Customer Journey</strong>
+                </div>
+                <div class="connector"></div>
+                <div class="node start-end" style="padding: 15px 30px; font-size: 0.9em;">END</div>
+            </div>
+            <div class="branch">
+                <div class="branch-label">NO</div>
+                <div class="outcome">
+                    Status: First-Time Customer
+                </div>
+            </div>
+        </div>
+
+        <div class="merge-line">↓ Continue to Stage 7</div>
+        <div class="connector"></div>
+
+        <!-- STAGE 7 -->
+        <div class="node process">
+            <div class="stage-label">Stage 7: Expected Reorder Date + 21 days</div>
+            <div class="email-label">Email #7 from Rep<br>Exclusive offer: Special pricing on second order<br>Personal recommendations based on first purchase<br>Rep offers direct call to discuss needs</div>
+        </div>
+        <div class="connector-short"></div>
+        <div class="node wait-node">Wait 21 days</div>
+        <div class="connector-short"></div>
+        
+        <div class="decision">
+            <div class="decision-text">Repeat<br>Order?</div>
+        </div>
+
+        <div class="branch-container">
+            <div class="branch">
+                <div class="branch-label">YES</div>
+                <div class="outcome">
+                    Status: Active Customer<br>
+                    <strong>EXIT to Repeat Customer Journey</strong>
+                </div>
+                <div class="connector"></div>
+                <div class="node start-end" style="padding: 15px 30px; font-size: 0.9em;">END</div>
+            </div>
+            <div class="branch">
+                <div class="branch-label">NO</div>
+                <div class="outcome">
+                    Status: At-Risk Customer
+                </div>
+            </div>
+        </div>
+
+        <div class="merge-line">↓ Continue to Stage 8</div>
+        <div class="connector"></div>
+
+        <!-- STAGE 8 -->
+        <div class="node process">
+            <div class="stage-label">Stage 8: Expected Reorder Date + 42 days</div>
+            <div class="email-label">Email #8 from Anna<br>Final re-engagement: "We'd love to see you back"<br>Ask for feedback on first experience<br>Offer personalized support from team</div>
+        </div>
+        <div class="connector-short"></div>
+        <div class="node wait-node">Wait 30 days</div>
+        <div class="connector-short"></div>
+        
+        <div class="decision">
+            <div class="decision-text">Repeat<br>Order?</div>
+        </div>
+
+        <div class="branch-container">
+            <div class="branch">
+                <div class="branch-label">YES</div>
+                <div class="outcome">
+                    Status: Active Customer<br>
+                    <strong>EXIT to Repeat Customer Journey</strong>
+                </div>
+                <div class="connector"></div>
+                <div class="node start-end" style="padding: 15px 30px; font-size: 0.9em;">END</div>
+            </div>
+            <div class="branch">
+                <div class="branch-label">NO</div>
+                <div class="outcome">
+                    Status: Inactive Customer
+                </div>
+            </div>
+        </div>
+
+        <div class="merge-line">↓ Final Outcome</div>
+        <div class="connector"></div>
+
+        <!-- END -->
+        <div class="node start-end">
+            Enroll in Win-Back Campaign<br>
+            <span style="font-weight: normal; font-size: 0.85em;">(Expected reorder date + 72 days, no repeat purchase)</span>
+        </div>
+
+        <!-- Technical Notes -->
+        <div style="margin-top: 60px; padding: 30px; background: #f9f9f9; border: 1px solid #ddd; max-width: 800px;">
+            <h2 style="margin-bottom: 20px; font-size: 1.3em;">CRM Technical Notes</h2>
+            <div style="font-size: 0.9em; line-height: 1.8;">
+                <p><strong>Entry Trigger:</strong> Shopify order.created webhook</p>
+                <p style="margin-top: 15px;">
+                    <strong>First-Order Verification:</strong><br>
+                    • Query Shopify customer order history by email OR phone<br>
+                    • Check if customer has any previous orders under either identifier<br>
+                    • If order_count = 1 (and no orders found under alternate identifier), enroll in First-Order Journey<br>
+                    • If order_count > 1 (or orders found under alternate identifier), route to Repeat Customer Journey<br>
+                    • This prevents duplicate accounts from being treated as new customers
+                </p>
+                <p style="margin-top: 15px;">
+                    <strong>Rep Action: Set Expected Reorder Date</strong><br>
+                    • After first order, rep reviews order size/quantity<br>
+                    • Rep sets custom "Expected Reorder Date" field in CRM<br>
+                    • Examples:<br>
+                    &nbsp;&nbsp;- Small order (3-5 frames): Reorder in ~30 days<br>
+                    &nbsp;&nbsp;- Medium order (10-15 frames): Reorder in ~60 days<br>
+                    &nbsp;&nbsp;- Large order (20+ frames): Reorder in ~90 days<br>
+                    • This date becomes the anchor for all subsequent emails
+                </p>
+                <p style="margin-top: 15px;">
+                    <strong>Email Timing Based on Expected Reorder Date:</strong><br>
+                    • Stages 1-4: Fixed timeline (onboarding/education)<br>
+                    • Stage 5: Expected Date MINUS 7 days (pre-reorder reminder)<br>
+                    • Stage 6: Expected Date + 7 days (follow-up)<br>
+                    • Stage 7: Expected Date + 21 days (incentive offer)<br>
+                    • Stage 8: Expected Date + 42 days (final re-engagement)
+                </p>
+                <p style="margin-top: 15px;">
+                    <strong>Automatic Status Updates:</strong><br>
+                    • Day 0: First-Time Customer - Onboarding<br>
+                    • Expected Date PLUS 30 days (no repeat order): At-Risk Customer<br>
+                    • Expected Date PLUS 60 days (no repeat order): Inactive Customer<br>
+                    • On second order: Active Customer → Exit to Repeat Journey
+                </p>
+            </div>
+        </div>
+
+        <!-- Integration Technical Notes -->
+        <div style="margin-top: 30px; padding: 30px; background: #fffae6; border: 3px double #000; max-width: 800px;">
+            <h2 style="margin-bottom: 20px; font-size: 1.3em;">Shopify Integration Points</h2>
+            <div style="font-size: 0.9em; line-height: 1.8;">
+                <p style="margin-bottom: 15px;">
+                    <strong>1. Real-Time Repeat Order Monitor (All Stages):</strong><br>
+                    • Shopify webhook: order.created<br>
+                    • Match to customer email<br>
+                    • If customer already in First-Order Journey → Immediately exit to Repeat Customer Journey<br>
+                    • Update status to "Active Customer"<br>
+                    • This monitor runs parallel to entire onboarding sequence
+                </p>
+                <p style="margin-bottom: 15px;">
+                    <strong>2. Expected Reorder Date System:</strong><br>
+                    • CRM field: "Expected Reorder Date" (date field, required)<br>
+                    • Trigger notification to rep after first order to set this date<br>
+                    • Use this date to calculate all Stage 5-8 email timing<br>
+                    • If rep doesn't set date within 48 hours, default to first order date + 60 days
+                </p>
+                <p style="margin-bottom: 15px;">
+                    <strong>3. Daily Customer Status Batch Check:</strong><br>
+                    • Schedule: Every day at 6:00 AM<br>
+                    • Pull all customers with status = "First-Time Customer"<br>
+                    • Check days since expected reorder date<br>
+                    • Auto-update status based on timeline:<br>
+                    &nbsp;&nbsp;- Expected Date PLUS 30 days, no repeat order → "At-Risk Customer"<br>
+                    &nbsp;&nbsp;- Expected Date PLUS 60 days, no repeat order → "Inactive Customer"
+                </p>
+                <p style="margin-bottom: 15px;">
+                    <strong>4. Product Recommendation Engine:</strong><br>
+                    • Track first order items (SKUs, styles, price points)<br>
+                    • Use for personalized recommendations in Stage 5 & 7<br>
+                    • Suggest complementary styles or similar collections
+                </p>
+                <p style="margin-top: 20px; padding: 15px; background: white; border: 2px solid #000;">
+                    <strong>Data Matching Priority:</strong><br>
+                    1. Customer ID (primary)<br>
+                    2. Email address (secondary)<br>
+                    3. Phone number (tertiary)<br>
+                    Always log match method for audit trail
+                </p>
+                <p style="margin-top: 20px; padding: 15px; background: white; border: 2px solid #000;">
+                    <strong>Active Integration Summary:</strong><br>
+                    • Real-Time Repeat Order Monitor: Shopify webhooks actively monitoring all stages<br>
+                    • Daily Batch Status Update: Every day at 6:00 AM - Update customer lifecycle status<br>
+                    • Personalization Engine: Track purchase history for tailored recommendations
+                </p>
+            </div>
+        </div>
+
+        <!-- Footer -->
+        <div style="margin-top: 40px; padding-top: 20px; border-top: 1px solid #ddd; text-align: center; color: #666; font-size: 0.85em;">
+            Last updated December 6, 2024
+        </div>
+    </div>
+</body>
+</html>
