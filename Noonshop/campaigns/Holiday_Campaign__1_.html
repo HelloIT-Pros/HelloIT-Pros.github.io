@@ -1,0 +1,1272 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Noonshop Holiday Campaign</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: #f8f9fa;
+            color: #1a1a1a;
+            line-height: 1.6;
+        }
+
+        header {
+            background: white;
+            border-bottom: 1px solid #eee;
+            padding: 20px 30px;
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .logo {
+            height: 40px;
+        }
+
+        h1 {
+            font-size: 1.4rem;
+            font-weight: 600;
+            color: #1a1a1a;
+        }
+
+        .subtitle {
+            color: #666;
+            font-size: 0.85rem;
+            margin-left: auto;
+        }
+
+        .main-container {
+            display: flex;
+            height: calc(100vh - 81px);
+        }
+
+        /* Left Panel - Flow Map */
+        .flow-panel {
+            width: 320px;
+            background: white;
+            border-right: 1px solid #eee;
+            overflow-y: auto;
+            padding: 25px 20px;
+            flex-shrink: 0;
+        }
+
+        .flow-title {
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: #999;
+            margin-bottom: 20px;
+            padding-left: 10px;
+        }
+
+        .flow-stage {
+            display: flex;
+            align-items: flex-start;
+            gap: 15px;
+            padding: 12px 10px;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            position: relative;
+        }
+
+        .flow-stage:hover {
+            background: #f5f5f5;
+        }
+
+        .flow-stage.active {
+            background: #e8f4f8;
+        }
+
+        .flow-stage.active::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 0;
+            bottom: 0;
+            width: 3px;
+            background: #00aeee;
+            border-radius: 0 2px 2px 0;
+        }
+
+        .stage-indicator {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            flex-shrink: 0;
+        }
+
+        .stage-icon {
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.1rem;
+            background: #f5f5f5;
+        }
+
+        .stage-icon.rep {
+            background: #e3f2fd;
+        }
+
+        .stage-icon.anna {
+            background: #fce4ec;
+        }
+
+        .flow-stage.active .stage-icon {
+            box-shadow: 0 0 0 3px rgba(0, 174, 238, 0.3);
+        }
+
+        .stage-line {
+            width: 2px;
+            height: 20px;
+            background: #ddd;
+            margin-top: 5px;
+        }
+
+        .flow-stage:last-child .stage-line {
+            display: none;
+        }
+
+        .stage-summary {
+            flex: 1;
+            padding-top: 4px;
+        }
+
+        .stage-summary h3 {
+            font-size: 0.9rem;
+            font-weight: 600;
+            margin-bottom: 3px;
+        }
+
+        .stage-summary p {
+            font-size: 0.75rem;
+            color: #666;
+        }
+
+        /* Right Panel - Email Content */
+        .content-panel {
+            flex: 1;
+            overflow-y: auto;
+            padding: 30px 40px;
+            background: #f8f9fa;
+        }
+
+        .empty-state {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100%;
+            color: #999;
+            text-align: center;
+        }
+
+        .empty-state svg {
+            width: 60px;
+            height: 60px;
+            margin-bottom: 15px;
+            opacity: 0.4;
+        }
+
+        .empty-state p {
+            font-size: 1rem;
+        }
+
+        .email-display {
+            display: none;
+            max-width: 700px;
+        }
+
+        .email-display.visible {
+            display: block;
+        }
+
+        .email-header {
+            margin-bottom: 25px;
+        }
+
+        .email-header h2 {
+            font-size: 1.5rem;
+            font-weight: 600;
+            margin-bottom: 8px;
+        }
+
+        .email-meta {
+            display: flex;
+            gap: 20px;
+            font-size: 0.9rem;
+            color: #666;
+        }
+
+        .strategy-box {
+            background: #f5f5f5;
+            border: 1px solid #e0e0e0;
+            color: #1a1a1a;
+            padding: 18px 22px;
+            border-radius: 8px;
+            margin-bottom: 25px;
+        }
+
+        .strategy-box h4 {
+            font-size: 0.7rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: #666;
+            margin-bottom: 8px;
+        }
+
+        .strategy-box p {
+            font-size: 0.95rem;
+            line-height: 1.5;
+        }
+
+        .email-card {
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+            overflow: hidden;
+        }
+
+        .email-card-header {
+            background: #fafafa;
+            padding: 15px 22px;
+            border-bottom: 1px solid #eee;
+        }
+
+        .email-subject-line {
+            font-size: 0.8rem;
+            color: #666;
+        }
+
+        .email-subject-line strong {
+            color: #1a1a1a;
+            font-size: 1rem;
+        }
+
+        .email-body-container {
+            padding: 25px;
+        }
+
+        .email-body {
+            white-space: pre-wrap;
+            font-size: 0.95rem;
+            color: #333;
+            line-height: 1.8;
+        }
+
+        .placeholder {
+            background: #fff3e0;
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-family: monospace;
+            font-size: 0.85rem;
+            color: #e65100;
+        }
+
+        .signature {
+            margin-top: 30px;
+            padding-top: 20px;
+            border-top: 1px solid #eee;
+            color: #666;
+            font-size: 0.9rem;
+            line-height: 1.7;
+        }
+
+        .signature strong {
+            color: #1a1a1a;
+        }
+
+        .nav-buttons {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 30px;
+            padding-top: 20px;
+            border-top: 1px solid #eee;
+        }
+
+        .nav-btn {
+            padding: 10px 20px;
+            border: 1px solid #ddd;
+            background: white;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 0.9rem;
+            transition: all 0.2s ease;
+        }
+
+        .nav-btn:hover {
+            background: #f5f5f5;
+            border-color: #ccc;
+        }
+
+        .nav-btn:disabled {
+            opacity: 0.4;
+            cursor: not-allowed;
+        }
+
+        @media (max-width: 900px) {
+            .main-container {
+                flex-direction: column;
+                height: auto;
+            }
+
+            .flow-panel {
+                width: 100%;
+                max-height: 300px;
+                border-right: none;
+                border-bottom: 1px solid #eee;
+            }
+
+            .content-panel {
+                padding: 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <img src="https://framerusercontent.com/images/N2Kik9IzLpZkJPIbcdGehAoVIfc.png?scale-down-to=512" alt="Hello IT Logo" class="logo">
+        <h1>Noonshop Holiday Campaign</h1>
+        <span class="subtitle">19 seasonal touchpoints</span>
+    </header>
+
+    <div class="main-container">
+        <!-- Left: Flow Map -->
+        <div class="flow-panel">
+            <div class="flow-title">Calendar</div>
+
+            <div class="flow-stage" data-stage="1" onclick="showStage(1)">
+                <div class="stage-indicator">
+                    <div class="stage-icon rep">🎉</div>
+                    <div class="stage-line"></div>
+                </div>
+                <div class="stage-summary">
+                    <h3>New Year</h3>
+                    <p>January 1 • From Rep</p>
+                </div>
+            </div>
+
+            <div class="flow-stage" data-stage="2" onclick="showStage(2)">
+                <div class="stage-indicator">
+                    <div class="stage-icon rep">💌</div>
+                    <div class="stage-line"></div>
+                </div>
+                <div class="stage-summary">
+                    <h3>Valentine's Day</h3>
+                    <p>February 14 • From Rep</p>
+                </div>
+            </div>
+
+            <div class="flow-stage" data-stage="3" onclick="showStage(3)">
+                <div class="stage-indicator">
+                    <div class="stage-icon rep">⏰</div>
+                    <div class="stage-line"></div>
+                </div>
+                <div class="stage-summary">
+                    <h3>Spring Forward</h3>
+                    <p>March • From Rep</p>
+                </div>
+            </div>
+
+            <div class="flow-stage" data-stage="4" onclick="showStage(4)">
+                <div class="stage-indicator">
+                    <div class="stage-icon anna">👁</div>
+                    <div class="stage-line"></div>
+                </div>
+                <div class="stage-summary">
+                    <h3>Save Your Vision Month</h3>
+                    <p>March • From Anna</p>
+                </div>
+            </div>
+
+            <div class="flow-stage" data-stage="5" onclick="showStage(5)">
+                <div class="stage-indicator">
+                    <div class="stage-icon rep">🇺🇸</div>
+                    <div class="stage-line"></div>
+                </div>
+                <div class="stage-summary">
+                    <h3>Memorial Day</h3>
+                    <p>May • From Rep</p>
+                </div>
+            </div>
+
+            <div class="flow-stage" data-stage="6" onclick="showStage(6)">
+                <div class="stage-indicator">
+                    <div class="stage-icon rep">☀️</div>
+                    <div class="stage-line"></div>
+                </div>
+                <div class="stage-summary">
+                    <h3>First Day of Summer</h3>
+                    <p>June 21 • From Rep</p>
+                </div>
+            </div>
+
+            <div class="flow-stage" data-stage="7" onclick="showStage(7)">
+                <div class="stage-indicator">
+                    <div class="stage-icon rep">🕶</div>
+                    <div class="stage-line"></div>
+                </div>
+                <div class="stage-summary">
+                    <h3>National Sunglasses Day</h3>
+                    <p>June 27 • From Rep</p>
+                </div>
+            </div>
+
+            <div class="flow-stage" data-stage="8" onclick="showStage(8)">
+                <div class="stage-indicator">
+                    <div class="stage-icon rep">🎆</div>
+                    <div class="stage-line"></div>
+                </div>
+                <div class="stage-summary">
+                    <h3>Fourth of July</h3>
+                    <p>July 4 • From Rep</p>
+                </div>
+            </div>
+
+            <div class="flow-stage" data-stage="9" onclick="showStage(9)">
+                <div class="stage-indicator">
+                    <div class="stage-icon anna">👓</div>
+                    <div class="stage-line"></div>
+                </div>
+                <div class="stage-summary">
+                    <h3>National Eye Exam Month</h3>
+                    <p>August • From Anna</p>
+                </div>
+            </div>
+
+            <div class="flow-stage" data-stage="10" onclick="showStage(10)">
+                <div class="stage-indicator">
+                    <div class="stage-icon rep">🧘</div>
+                    <div class="stage-line"></div>
+                </div>
+                <div class="stage-summary">
+                    <h3>National Relaxation Day</h3>
+                    <p>August 15 • From Rep</p>
+                </div>
+            </div>
+
+            <div class="flow-stage" data-stage="11" onclick="showStage(11)">
+                <div class="stage-indicator">
+                    <div class="stage-icon rep">🛠</div>
+                    <div class="stage-line"></div>
+                </div>
+                <div class="stage-summary">
+                    <h3>Labor Day</h3>
+                    <p>September • From Rep</p>
+                </div>
+            </div>
+
+            <div class="flow-stage" data-stage="12" onclick="showStage(12)">
+                <div class="stage-indicator">
+                    <div class="stage-icon rep">📚</div>
+                    <div class="stage-line"></div>
+                </div>
+                <div class="stage-summary">
+                    <h3>National Read a Book Day</h3>
+                    <p>September 6 • From Rep</p>
+                </div>
+            </div>
+
+            <div class="flow-stage" data-stage="13" onclick="showStage(13)">
+                <div class="stage-indicator">
+                    <div class="stage-icon rep">🍂</div>
+                    <div class="stage-line"></div>
+                </div>
+                <div class="stage-summary">
+                    <h3>First Day of Fall</h3>
+                    <p>September 22 • From Rep</p>
+                </div>
+            </div>
+
+            <div class="flow-stage" data-stage="14" onclick="showStage(14)">
+                <div class="stage-indicator">
+                    <div class="stage-icon rep">☕</div>
+                    <div class="stage-line"></div>
+                </div>
+                <div class="stage-summary">
+                    <h3>National Coffee Day</h3>
+                    <p>September 29 • From Rep</p>
+                </div>
+            </div>
+
+            <div class="flow-stage" data-stage="15" onclick="showStage(15)">
+                <div class="stage-indicator">
+                    <div class="stage-icon anna">🌍</div>
+                    <div class="stage-line"></div>
+                </div>
+                <div class="stage-summary">
+                    <h3>World Sight Day</h3>
+                    <p>October • From Anna</p>
+                </div>
+            </div>
+
+            <div class="flow-stage" data-stage="16" onclick="showStage(16)">
+                <div class="stage-indicator">
+                    <div class="stage-icon rep">🎃</div>
+                    <div class="stage-line"></div>
+                </div>
+                <div class="stage-summary">
+                    <h3>Halloween</h3>
+                    <p>October 31 • From Rep</p>
+                </div>
+            </div>
+
+            <div class="flow-stage" data-stage="17" onclick="showStage(17)">
+                <div class="stage-indicator">
+                    <div class="stage-icon rep">🕰</div>
+                    <div class="stage-line"></div>
+                </div>
+                <div class="stage-summary">
+                    <h3>Fall Back</h3>
+                    <p>November • From Rep</p>
+                </div>
+            </div>
+
+            <div class="flow-stage" data-stage="18" onclick="showStage(18)">
+                <div class="stage-indicator">
+                    <div class="stage-icon rep">🦃</div>
+                    <div class="stage-line"></div>
+                </div>
+                <div class="stage-summary">
+                    <h3>Thanksgiving</h3>
+                    <p>November • From Rep</p>
+                </div>
+            </div>
+
+            <div class="flow-stage" data-stage="19" onclick="showStage(19)">
+                <div class="stage-indicator">
+                    <div class="stage-icon anna">🎄</div>
+                </div>
+                <div class="stage-summary">
+                    <h3>Holiday Season</h3>
+                    <p>December • From Anna</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Right: Email Content -->
+        <div class="content-panel">
+            <div class="empty-state" id="emptyState">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
+                </svg>
+                <p>Select a holiday to view the email</p>
+            </div>
+
+            <!-- Stage 1: New Year -->
+            <div class="email-display" id="stage1">
+                <div class="email-header">
+                    <h2>🎉 New Year</h2>
+                    <div class="email-meta">
+                        <span>📅 January 1</span>
+                        <span>👤 From Rep</span>
+                    </div>
+                </div>
+                <div class="strategy-box">
+                    <h4>Strategy</h4>
+                    <p>Fresh start energy. Warm wishes with soft CTA for frame board planning.</p>
+                </div>
+                <div class="email-card">
+                    <div class="email-card-header">
+                        <div class="email-subject-line">Subject: <strong><span class="placeholder">{{First Name}}</span>, a quick note as the new year begins</strong></div>
+                    </div>
+                    <div class="email-body-container">
+                        <div class="email-body">Hi <span class="placeholder">{{First Name}}</span>,
+
+I wanted to take a moment to wish you a very happy and successful year ahead.
+
+I hope you and everyone at <span class="placeholder">{{Practice Name}}</span> had a chance to reset over the holidays. A new year always brings fresh energy and new opportunities for practices like yours.
+
+As you plan how to refresh your frame board this year, I know Noonshop can be a strong partner, especially when it comes to comfort, fit, and styles patients actually enjoy wearing. When you are ready to explore what that could look like, you can schedule a time that works for you here:
+<span class="placeholder">{{Calendly}}</span></div>
+                        <div class="signature">
+                            Warmly,<br>
+                            <strong><span class="placeholder">{{Rep Name}}</span></strong>
+                        </div>
+                    </div>
+                </div>
+                <div class="nav-buttons">
+                    <button class="nav-btn" disabled>← Previous</button>
+                    <button class="nav-btn" onclick="showStage(2)">Next →</button>
+                </div>
+            </div>
+
+            <!-- Stage 2: Valentine's Day -->
+            <div class="email-display" id="stage2">
+                <div class="email-header">
+                    <h2>💌 Valentine's Day</h2>
+                    <div class="email-meta">
+                        <span>📅 February 14</span>
+                        <span>👤 From Rep</span>
+                    </div>
+                </div>
+                <div class="strategy-box">
+                    <h4>Strategy</h4>
+                    <p>Appreciation-focused. Light, warm tone. No hard sell.</p>
+                </div>
+                <div class="email-card">
+                    <div class="email-card-header">
+                        <div class="email-subject-line">Subject: <strong>A little Valentine's note for <span class="placeholder">{{First Name}}</span></strong></div>
+                    </div>
+                    <div class="email-body-container">
+                        <div class="email-body">Hi <span class="placeholder">{{First Name}}</span>,
+
+Happy Valentine's Day.
+
+Just a quick note to send a little appreciation your way. We enjoy staying connected with practices like <span class="placeholder">{{Practice Name}}</span> that care about the experience they give their patients.
+
+If you'd ever like to talk eyewear or explore options for your frame board this year, just reply and let me know. I'm always happy to connect.</div>
+                        <div class="signature">
+                            Warmly,<br>
+                            <strong><span class="placeholder">{{Rep Name}}</span></strong>
+                        </div>
+                    </div>
+                </div>
+                <div class="nav-buttons">
+                    <button class="nav-btn" onclick="showStage(1)">← Previous</button>
+                    <button class="nav-btn" onclick="showStage(3)">Next →</button>
+                </div>
+            </div>
+
+            <!-- Stage 3: Spring Forward -->
+            <div class="email-display" id="stage3">
+                <div class="email-header">
+                    <h2>⏰ Spring Forward</h2>
+                    <div class="email-meta">
+                        <span>📅 March (Daylight Saving)</span>
+                        <span>👤 From Rep</span>
+                    </div>
+                </div>
+                <div class="strategy-box">
+                    <h4>Strategy</h4>
+                    <p>Timely reminder. Seasonal planning hook. Soft product mention.</p>
+                </div>
+                <div class="email-card">
+                    <div class="email-card-header">
+                        <div class="email-subject-line">Subject: <strong>Before the clocks change this weekend…</strong></div>
+                    </div>
+                    <div class="email-body-container">
+                        <div class="email-body">Hi <span class="placeholder">{{First Name}}</span>,
+
+Just a friendly reminder that we spring forward this weekend.
+
+As you plan your spring and summer updates, this is a great time to look at new frame collections and what patients are responding to right now. We have some beautiful new styles designed for comfort and everyday wear.
+
+When you are ready to review options for your practice, you can schedule a time here:
+<span class="placeholder">{{Calendly}}</span></div>
+                        <div class="signature">
+                            <strong><span class="placeholder">{{Rep Name}}</span></strong>
+                        </div>
+                    </div>
+                </div>
+                <div class="nav-buttons">
+                    <button class="nav-btn" onclick="showStage(2)">← Previous</button>
+                    <button class="nav-btn" onclick="showStage(4)">Next →</button>
+                </div>
+            </div>
+
+            <!-- Stage 4: Save Your Vision Month -->
+            <div class="email-display" id="stage4">
+                <div class="email-header">
+                    <h2>👁 Save Your Vision Month</h2>
+                    <div class="email-meta">
+                        <span>📅 March</span>
+                        <span>👩‍⚕️ From Anna (Founder)</span>
+                    </div>
+                </div>
+                <div class="strategy-box">
+                    <h4>Strategy</h4>
+                    <p>Industry recognition. Respect for their work. Founder credibility.</p>
+                </div>
+                <div class="email-card">
+                    <div class="email-card-header">
+                        <div class="email-subject-line">Subject: <strong>Thinking of you and your patients this March</strong></div>
+                    </div>
+                    <div class="email-body-container">
+                        <div class="email-body">Hi <span class="placeholder">{{First Name}}</span>,
+
+March is Save Your Vision Month, and I wanted to take a moment to recognize the work you do.
+
+Helping patients see clearly truly changes lives, and we deeply respect the role you play in your community. If Noonshop can ever support your practice with better-fitting, better-feeling eyewear for your patients, we would be honored to help.</div>
+                        <div class="signature">
+                            Warmly,<br>
+                            <strong>Anna Park, MD</strong><br>
+                            Founder, Noonshop
+                        </div>
+                    </div>
+                </div>
+                <div class="nav-buttons">
+                    <button class="nav-btn" onclick="showStage(3)">← Previous</button>
+                    <button class="nav-btn" onclick="showStage(5)">Next →</button>
+                </div>
+            </div>
+
+            <!-- Stage 5: Memorial Day -->
+            <div class="email-display" id="stage5">
+                <div class="email-header">
+                    <h2>🇺🇸 Memorial Day</h2>
+                    <div class="email-meta">
+                        <span>📅 May (Last Monday)</span>
+                        <span>👤 From Rep</span>
+                    </div>
+                </div>
+                <div class="strategy-box">
+                    <h4>Strategy</h4>
+                    <p>Respectful tone. Honor the day. Light summer planning mention.</p>
+                </div>
+                <div class="email-card">
+                    <div class="email-card-header">
+                        <div class="email-subject-line">Subject: <strong>Before the Memorial Day weekend begins</strong></div>
+                    </div>
+                    <div class="email-body-container">
+                        <div class="email-body">Hi <span class="placeholder">{{First Name}}</span>,
+
+This Memorial Day, we pause to remember and honor those who gave so much.
+
+As you move into the summer season and prepare for frame board updates, just know we are here and ready to support you. You can schedule time with me anytime here:
+<span class="placeholder">{{Calendly}}</span>
+
+Wishing you and your team a peaceful weekend,</div>
+                        <div class="signature">
+                            <strong><span class="placeholder">{{Rep Name}}</span></strong>
+                        </div>
+                    </div>
+                </div>
+                <div class="nav-buttons">
+                    <button class="nav-btn" onclick="showStage(4)">← Previous</button>
+                    <button class="nav-btn" onclick="showStage(6)">Next →</button>
+                </div>
+            </div>
+
+            <!-- Stage 6: First Day of Summer -->
+            <div class="email-display" id="stage6">
+                <div class="email-header">
+                    <h2>☀️ First Day of Summer</h2>
+                    <div class="email-meta">
+                        <span>📅 June 21</span>
+                        <span>👤 From Rep</span>
+                    </div>
+                </div>
+                <div class="strategy-box">
+                    <h4>Strategy</h4>
+                    <p>Seasonal energy. Light, comfortable frame positioning. Soft CTA.</p>
+                </div>
+                <div class="email-card">
+                    <div class="email-card-header">
+                        <div class="email-subject-line">Subject: <strong>A quick hello on the first day of summer</strong></div>
+                    </div>
+                    <div class="email-body-container">
+                        <div class="email-body">Hi <span class="placeholder">{{First Name}}</span>,
+
+Happy first day of summer.
+
+This season brings more light, more energy, and more patients thinking about new eyewear. As you plan your summer frame board, it is a great time to introduce styles that feel light, comfortable, and easy to wear all day.
+
+We have some great new collections that fit that perfectly. You can schedule a time to review them here:
+<span class="placeholder">{{Calendly}}</span></div>
+                        <div class="signature">
+                            <strong><span class="placeholder">{{Rep Name}}</span></strong>
+                        </div>
+                    </div>
+                </div>
+                <div class="nav-buttons">
+                    <button class="nav-btn" onclick="showStage(5)">← Previous</button>
+                    <button class="nav-btn" onclick="showStage(7)">Next →</button>
+                </div>
+            </div>
+
+            <!-- Stage 7: National Sunglasses Day -->
+            <div class="email-display" id="stage7">
+                <div class="email-header">
+                    <h2>🕶 National Sunglasses Day</h2>
+                    <div class="email-meta">
+                        <span>📅 June 27</span>
+                        <span>👤 From Rep</span>
+                    </div>
+                </div>
+                <div class="strategy-box">
+                    <h4>Strategy</h4>
+                    <p>Industry-relevant moment. UV protection angle. Sunwear opportunity.</p>
+                </div>
+                <div class="email-card">
+                    <div class="email-card-header">
+                        <div class="email-subject-line">Subject: <strong>Protecting patients' eyes this summer</strong></div>
+                    </div>
+                    <div class="email-body-container">
+                        <div class="email-body">Hi <span class="placeholder">{{First Name}}</span>,
+
+Did you know today is National Sunglasses Day?
+
+A great reminder of how important UV protection is, especially this time of year. If you are planning any sunwear updates for your practice, Noonshop has some excellent options I would love to show you.
+
+Whenever you are ready, you can schedule time here:
+<span class="placeholder">{{Calendly}}</span></div>
+                        <div class="signature">
+                            <strong><span class="placeholder">{{Rep Name}}</span></strong>
+                        </div>
+                    </div>
+                </div>
+                <div class="nav-buttons">
+                    <button class="nav-btn" onclick="showStage(6)">← Previous</button>
+                    <button class="nav-btn" onclick="showStage(8)">Next →</button>
+                </div>
+            </div>
+
+            <!-- Stage 8: Fourth of July -->
+            <div class="email-display" id="stage8">
+                <div class="email-header">
+                    <h2>🎆 Fourth of July</h2>
+                    <div class="email-meta">
+                        <span>📅 July 4</span>
+                        <span>👤 From Rep</span>
+                    </div>
+                </div>
+                <div class="strategy-box">
+                    <h4>Strategy</h4>
+                    <p>Warm holiday wishes. Personal tone. No hard CTA.</p>
+                </div>
+                <div class="email-card">
+                    <div class="email-card-header">
+                        <div class="email-subject-line">Subject: <strong>Thinking of you this Fourth of July</strong></div>
+                    </div>
+                    <div class="email-body-container">
+                        <div class="email-body">Hi <span class="placeholder">{{First Name}}</span>,
+
+Wishing you a very happy Fourth of July.
+
+Hope you get to enjoy some good food, time with family, and a little time away from the office. When you are ready to think about what comes next for your frame board this season, I am here.</div>
+                        <div class="signature">
+                            <strong><span class="placeholder">{{Rep Name}}</span></strong>
+                        </div>
+                    </div>
+                </div>
+                <div class="nav-buttons">
+                    <button class="nav-btn" onclick="showStage(7)">← Previous</button>
+                    <button class="nav-btn" onclick="showStage(9)">Next →</button>
+                </div>
+            </div>
+
+            <!-- Stage 9: National Eye Exam Month -->
+            <div class="email-display" id="stage9">
+                <div class="email-header">
+                    <h2>👓 National Eye Exam Month</h2>
+                    <div class="email-meta">
+                        <span>📅 August</span>
+                        <span>👩‍⚕️ From Anna (Founder)</span>
+                    </div>
+                </div>
+                <div class="strategy-box">
+                    <h4>Strategy</h4>
+                    <p>Industry recognition. Gratitude for their work. Founder credibility.</p>
+                </div>
+                <div class="email-card">
+                    <div class="email-card-header">
+                        <div class="email-subject-line">Subject: <strong>Thinking of your patients this August</strong></div>
+                    </div>
+                    <div class="email-body-container">
+                        <div class="email-body">Hi <span class="placeholder">{{First Name}}</span>,
+
+August is National Eye Exam Month, and I wanted to say thank you.
+
+Your dedication to your patients' eye health truly makes a difference. If our team at Noonshop can ever support your practice with eyewear that helps patients feel comfortable and confident, we would be happy to be a resource.</div>
+                        <div class="signature">
+                            Warmly,<br>
+                            <strong>Anna Park, MD</strong><br>
+                            Founder, Noonshop
+                        </div>
+                    </div>
+                </div>
+                <div class="nav-buttons">
+                    <button class="nav-btn" onclick="showStage(8)">← Previous</button>
+                    <button class="nav-btn" onclick="showStage(10)">Next →</button>
+                </div>
+            </div>
+
+            <!-- Stage 10: National Relaxation Day -->
+            <div class="email-display" id="stage10">
+                <div class="email-header">
+                    <h2>🧘 National Relaxation Day</h2>
+                    <div class="email-meta">
+                        <span>📅 August 15</span>
+                        <span>👤 From Rep</span>
+                    </div>
+                </div>
+                <div class="strategy-box">
+                    <h4>Strategy</h4>
+                    <p>Human, caring tone. Acknowledge their hard work. Very soft touch.</p>
+                </div>
+                <div class="email-card">
+                    <div class="email-card-header">
+                        <div class="email-subject-line">Subject: <strong>A little pause in the day</strong></div>
+                    </div>
+                    <div class="email-body-container">
+                        <div class="email-body">Hi <span class="placeholder">{{First Name}}</span>,
+
+Just a quick note to let you know today is National Relaxation Day.
+
+You work hard, and you deserve a moment to breathe. When you are ready to think about what is next for your optical, just know I am always easy to reach.</div>
+                        <div class="signature">
+                            <strong><span class="placeholder">{{Rep Name}}</span></strong>
+                        </div>
+                    </div>
+                </div>
+                <div class="nav-buttons">
+                    <button class="nav-btn" onclick="showStage(9)">← Previous</button>
+                    <button class="nav-btn" onclick="showStage(11)">Next →</button>
+                </div>
+            </div>
+
+            <!-- Stage 11: Labor Day -->
+            <div class="email-display" id="stage11">
+                <div class="email-header">
+                    <h2>🛠 Labor Day</h2>
+                    <div class="email-meta">
+                        <span>📅 September (First Monday)</span>
+                        <span>👤 From Rep</span>
+                    </div>
+                </div>
+                <div class="strategy-box">
+                    <h4>Strategy</h4>
+                    <p>Well-earned break acknowledgment. Fall planning hook. Soft CTA.</p>
+                </div>
+                <div class="email-card">
+                    <div class="email-card-header">
+                        <div class="email-subject-line">Subject: <strong>Before the long weekend begins</strong></div>
+                    </div>
+                    <div class="email-body-container">
+                        <div class="email-body">Hi <span class="placeholder">{{First Name}}</span>,
+
+Happy Labor Day.
+
+I hope you get a chance to enjoy a well-earned break. As you head into the fall season, this is a great time to look at frame updates and what patients are asking for. Whenever you are ready, you can book time with me here:
+<span class="placeholder">{{Calendly}}</span></div>
+                        <div class="signature">
+                            <strong><span class="placeholder">{{Rep Name}}</span></strong>
+                        </div>
+                    </div>
+                </div>
+                <div class="nav-buttons">
+                    <button class="nav-btn" onclick="showStage(10)">← Previous</button>
+                    <button class="nav-btn" onclick="showStage(12)">Next →</button>
+                </div>
+            </div>
+
+            <!-- Stage 12: National Read a Book Day -->
+            <div class="email-display" id="stage12">
+                <div class="email-header">
+                    <h2>📚 National Read a Book Day</h2>
+                    <div class="email-meta">
+                        <span>📅 September 6</span>
+                        <span>👤 From Rep</span>
+                    </div>
+                </div>
+                <div class="strategy-box">
+                    <h4>Strategy</h4>
+                    <p>Vision-relevant hook. Gratitude for their work. Soft connection.</p>
+                </div>
+                <div class="email-card">
+                    <div class="email-card-header">
+                        <div class="email-subject-line">Subject: <strong>A small note about clear vision</strong></div>
+                    </div>
+                    <div class="email-body-container">
+                        <div class="email-body">Hi <span class="placeholder">{{First Name}}</span>,
+
+Today is National Read a Book Day, which always makes me think about how important good vision is to everyday life.
+
+Thank you for helping patients see clearly enough to enjoy the things they love. If you would ever like to explore eyewear options that make that experience even better for your patients, I would love to connect.</div>
+                        <div class="signature">
+                            <strong><span class="placeholder">{{Rep Name}}</span></strong>
+                        </div>
+                    </div>
+                </div>
+                <div class="nav-buttons">
+                    <button class="nav-btn" onclick="showStage(11)">← Previous</button>
+                    <button class="nav-btn" onclick="showStage(13)">Next →</button>
+                </div>
+            </div>
+
+            <!-- Stage 13: First Day of Fall -->
+            <div class="email-display" id="stage13">
+                <div class="email-header">
+                    <h2>🍂 First Day of Fall</h2>
+                    <div class="email-meta">
+                        <span>📅 September 22</span>
+                        <span>👤 From Rep</span>
+                    </div>
+                </div>
+                <div class="strategy-box">
+                    <h4>Strategy</h4>
+                    <p>Fresh start energy. Seasonal planning. Soft product mention.</p>
+                </div>
+                <div class="email-card">
+                    <div class="email-card-header">
+                        <div class="email-subject-line">Subject: <strong>A new season for <span class="placeholder">{{Practice Name}}</span></strong></div>
+                    </div>
+                    <div class="email-body-container">
+                        <div class="email-body">Hi <span class="placeholder">{{First Name}}</span>,
+
+Happy first day of fall.
+
+A new season always brings a fresh start. As you plan for the months ahead, this is a great time to look at new frame styles and collections that fit cooler weather and changing patient needs. I would be happy to walk you through what is new when it makes sense for you.</div>
+                        <div class="signature">
+                            <strong><span class="placeholder">{{Rep Name}}</span></strong>
+                        </div>
+                    </div>
+                </div>
+                <div class="nav-buttons">
+                    <button class="nav-btn" onclick="showStage(12)">← Previous</button>
+                    <button class="nav-btn" onclick="showStage(14)">Next →</button>
+                </div>
+            </div>
+
+            <!-- Stage 14: National Coffee Day -->
+            <div class="email-display" id="stage14">
+                <div class="email-header">
+                    <h2>☕ National Coffee Day</h2>
+                    <div class="email-meta">
+                        <span>📅 September 29</span>
+                        <span>👤 From Rep</span>
+                    </div>
+                </div>
+                <div class="strategy-box">
+                    <h4>Strategy</h4>
+                    <p>Fun, light tone. Human connection. Very soft CTA.</p>
+                </div>
+                <div class="email-card">
+                    <div class="email-card-header">
+                        <div class="email-subject-line">Subject: <strong>Hope your cup is full today ☕</strong></div>
+                    </div>
+                    <div class="email-body-container">
+                        <div class="email-body">Hi <span class="placeholder">{{First Name}}</span>,
+
+Happy National Coffee Day.
+
+Hope you get to enjoy an extra cup today. And if you would ever like to chat about frames, collections, or what patients are responding to, just reply or schedule time here:
+<span class="placeholder">{{Calendly}}</span></div>
+                        <div class="signature">
+                            <strong><span class="placeholder">{{Rep Name}}</span></strong>
+                        </div>
+                    </div>
+                </div>
+                <div class="nav-buttons">
+                    <button class="nav-btn" onclick="showStage(13)">← Previous</button>
+                    <button class="nav-btn" onclick="showStage(15)">Next →</button>
+                </div>
+            </div>
+
+            <!-- Stage 15: World Sight Day -->
+            <div class="email-display" id="stage15">
+                <div class="email-header">
+                    <h2>🌍 World Sight Day</h2>
+                    <div class="email-meta">
+                        <span>📅 October (Second Thursday)</span>
+                        <span>👩‍⚕️ From Anna (Founder)</span>
+                    </div>
+                </div>
+                <div class="strategy-box">
+                    <h4>Strategy</h4>
+                    <p>Global awareness moment. Deep gratitude. Founder credibility.</p>
+                </div>
+                <div class="email-card">
+                    <div class="email-card-header">
+                        <div class="email-subject-line">Subject: <strong>Thinking of your patients today</strong></div>
+                    </div>
+                    <div class="email-body-container">
+                        <div class="email-body">Hi <span class="placeholder">{{First Name}}</span>,
+
+Today is World Sight Day, a reminder of how powerful healthy vision is.
+
+Thank you for the work you do every day to protect and improve the sight of your patients. If Noonshop can ever support your practice with eyewear that truly serves them, we would be honored to help.</div>
+                        <div class="signature">
+                            Warmly,<br>
+                            <strong>Anna Park, MD</strong><br>
+                            Founder, Noonshop
+                        </div>
+                    </div>
+                </div>
+                <div class="nav-buttons">
+                    <button class="nav-btn" onclick="showStage(14)">← Previous</button>
+                    <button class="nav-btn" onclick="showStage(16)">Next →</button>
+                </div>
+            </div>
+
+            <!-- Stage 16: Halloween -->
+            <div class="email-display" id="stage16">
+                <div class="email-header">
+                    <h2>🎃 Halloween</h2>
+                    <div class="email-meta">
+                        <span>📅 October 31</span>
+                        <span>👤 From Rep</span>
+                    </div>
+                </div>
+                <div class="strategy-box">
+                    <h4>Strategy</h4>
+                    <p>Fun, light tone. End-of-year planning mention. No hard sell.</p>
+                </div>
+                <div class="email-card">
+                    <div class="email-card-header">
+                        <div class="email-subject-line">Subject: <strong>A quick hello this Halloween</strong></div>
+                    </div>
+                    <div class="email-body-container">
+                        <div class="email-body">Hi <span class="placeholder">{{First Name}}</span>,
+
+Happy Halloween.
+
+Hope your day is filled with treats, not tricks. And if you are thinking about any end-of-year updates for your frame board, I am always here when you are ready.</div>
+                        <div class="signature">
+                            <strong><span class="placeholder">{{Rep Name}}</span></strong>
+                        </div>
+                    </div>
+                </div>
+                <div class="nav-buttons">
+                    <button class="nav-btn" onclick="showStage(15)">← Previous</button>
+                    <button class="nav-btn" onclick="showStage(17)">Next →</button>
+                </div>
+            </div>
+
+            <!-- Stage 17: Fall Back -->
+            <div class="email-display" id="stage17">
+                <div class="email-header">
+                    <h2>🕰 Fall Back</h2>
+                    <div class="email-meta">
+                        <span>📅 November (First Sunday)</span>
+                        <span>👤 From Rep</span>
+                    </div>
+                </div>
+                <div class="strategy-box">
+                    <h4>Strategy</h4>
+                    <p>Timely reminder. Light, helpful tone. Soft CTA.</p>
+                </div>
+                <div class="email-card">
+                    <div class="email-card-header">
+                        <div class="email-subject-line">Subject: <strong>One small time change coming up</strong></div>
+                    </div>
+                    <div class="email-body-container">
+                        <div class="email-body">Hi <span class="placeholder">{{First Name}}</span>,
+
+Just a friendly reminder to set your clocks back this weekend.
+
+Enjoy that extra hour of sleep. And if it is helpful to connect about frames or collections for the rest of the year, you can schedule time here:
+<span class="placeholder">{{Calendly}}</span></div>
+                        <div class="signature">
+                            <strong><span class="placeholder">{{Rep Name}}</span></strong>
+                        </div>
+                    </div>
+                </div>
+                <div class="nav-buttons">
+                    <button class="nav-btn" onclick="showStage(16)">← Previous</button>
+                    <button class="nav-btn" onclick="showStage(18)">Next →</button>
+                </div>
+            </div>
+
+            <!-- Stage 18: Thanksgiving -->
+            <div class="email-display" id="stage18">
+                <div class="email-header">
+                    <h2>🦃 Thanksgiving</h2>
+                    <div class="email-meta">
+                        <span>📅 November (Fourth Thursday)</span>
+                        <span>👤 From Rep</span>
+                    </div>
+                </div>
+                <div class="strategy-box">
+                    <h4>Strategy</h4>
+                    <p>Gratitude-focused. Warm wishes. Light end-of-year availability mention.</p>
+                </div>
+                <div class="email-card">
+                    <div class="email-card-header">
+                        <div class="email-subject-line">Subject: <strong>Wishing you a warm Thanksgiving</strong></div>
+                    </div>
+                    <div class="email-body-container">
+                        <div class="email-body">Hi <span class="placeholder">{{First Name}}</span>,
+
+Before the holiday rush kicks in, I just wanted to say thank you for staying connected.
+
+Wishing you and everyone at <span class="placeholder">{{Practice Name}}</span> a relaxing and meaningful Thanksgiving. If you need anything before the end of the year, just let me know.</div>
+                        <div class="signature">
+                            <strong><span class="placeholder">{{Rep Name}}</span></strong>
+                        </div>
+                    </div>
+                </div>
+                <div class="nav-buttons">
+                    <button class="nav-btn" onclick="showStage(17)">← Previous</button>
+                    <button class="nav-btn" onclick="showStage(19)">Next →</button>
+                </div>
+            </div>
+
+            <!-- Stage 19: Holiday Season -->
+            <div class="email-display" id="stage19">
+                <div class="email-header">
+                    <h2>🎄 Holiday Season</h2>
+                    <div class="email-meta">
+                        <span>📅 December</span>
+                        <span>👩‍⚕️ From Anna (Founder)</span>
+                    </div>
+                </div>
+                <div class="strategy-box">
+                    <h4>Strategy</h4>
+                    <p>Warm year-end close. Founder credibility. Looking ahead to new year.</p>
+                </div>
+                <div class="email-card">
+                    <div class="email-card-header">
+                        <div class="email-subject-line">Subject: <strong>Warm wishes for you this season</strong></div>
+                    </div>
+                    <div class="email-body-container">
+                        <div class="email-body">Hi <span class="placeholder">{{First Name}}</span>,
+
+Happy Holidays from all of us at Noonshop.
+
+We know this is a busy time of year, and we hope you find moments to slow down and enjoy it. If Noonshop can be a resource for your practice in the year ahead, we would love to help.</div>
+                        <div class="signature">
+                            Warmly,<br>
+                            <strong>Anna Park, MD</strong><br>
+                            Founder, Noonshop
+                        </div>
+                    </div>
+                </div>
+                <div class="nav-buttons">
+                    <button class="nav-btn" onclick="showStage(18)">← Previous</button>
+                    <button class="nav-btn" disabled>Next →</button>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <script>
+        function showStage(num) {
+            // Hide all email displays
+            document.querySelectorAll('.email-display').forEach(el => {
+                el.classList.remove('visible');
+            });
+
+            // Remove active from all flow stages
+            document.querySelectorAll('.flow-stage').forEach(el => {
+                el.classList.remove('active');
+            });
+
+            // Hide empty state
+            document.getElementById('emptyState').style.display = 'none';
+
+            // Show selected stage
+            document.getElementById('stage' + num).classList.add('visible');
+
+            // Highlight in flow map
+            document.querySelector('.flow-stage[data-stage="' + num + '"]').classList.add('active');
+
+            // Scroll content panel to top
+            document.querySelector('.content-panel').scrollTop = 0;
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Noonshop Campaign Journeys - HelloIT Pros</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            line-height: 1.6;
+            color: #1a1a1a;
+            background: linear-gradient(135deg, #f5f5f5 0%, #e8e8e8 100%);
+            min-height: 100vh;
+            padding: 40px 20px;
+        }
+        
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.1);
+            overflow: hidden;
+        }
+        
+        .header {
+            background: #000000;
+            color: white;
+            padding: 50px 40px;
+            text-align: center;
+        }
+        
+        .logo {
+            height: 60px;
+            margin-bottom: 20px;
+        }
+        
+        .header h1 {
+            font-size: 36px;
+            font-weight: 700;
+            margin-bottom: 10px;
+        }
+        
+        .header p {
+            font-size: 18px;
+            opacity: 0.9;
+            font-weight: 300;
+        }
+
+        .breadcrumb {
+            padding: 15px 40px;
+            background: #f8f8f8;
+            border-bottom: 1px solid #e0e0e0;
+            font-size: 14px;
+        }
+
+        .breadcrumb a {
+            color: #666;
+            text-decoration: none;
+        }
+
+        .breadcrumb a:hover {
+            color: #000;
+        }
+
+        .breadcrumb span {
+            color: #999;
+            margin: 0 8px;
+        }
+        
+        .content {
+            padding: 50px 40px;
+        }
+        
+        .section-title {
+            font-size: 24px;
+            font-weight: 600;
+            margin-bottom: 25px;
+            color: #000000;
+            border-bottom: 3px solid #000000;
+            padding-bottom: 10px;
+        }
+        
+        .resources-grid {
+            display: grid;
+            gap: 25px;
+            margin-top: 30px;
+        }
+        
+        .resource-card {
+            background: #f8f8f8;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px;
+            padding: 30px;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            color: inherit;
+            display: block;
+        }
+        
+        .resource-card:hover {
+            border-color: #000000;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+            transform: translateY(-2px);
+        }
+        
+        .resource-card h3 {
+            font-size: 22px;
+            font-weight: 600;
+            color: #000000;
+            margin-bottom: 12px;
+        }
+        
+        .resource-card p {
+            color: #666;
+            font-size: 15px;
+            line-height: 1.6;
+            margin-bottom: 15px;
+        }
+        
+        .resource-tag {
+            display: inline-block;
+            background: #000000;
+            color: white;
+            padding: 5px 12px;
+            border-radius: 4px;
+            font-size: 12px;
+            font-weight: 500;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .resource-tag.prospect {
+            background: #1976d2;
+        }
+
+        .resource-tag.customer {
+            background: #2e7d32;
+        }
+
+        .resource-tag.winback {
+            background: #c2185b;
+        }
+
+        .resource-tag.seasonal {
+            background: #f57c00;
+        }
+        
+        .view-link {
+            color: #000000;
+            font-weight: 600;
+            margin-top: 15px;
+            display: inline-block;
+            font-size: 15px;
+        }
+        
+        .view-link:after {
+            content: " →";
+        }
+        
+        .footer {
+            background: #f8f8f8;
+            padding: 30px 40px;
+            text-align: center;
+            color: #666;
+            font-size: 14px;
+            border-top: 1px solid #e0e0e0;
+        }
+        
+        @media (max-width: 768px) {
+            .header h1 {
+                font-size: 28px;
+            }
+            
+            .content {
+                padding: 30px 25px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <img src="https://framerusercontent.com/images/N2Kik9IzLpZkJPIbcdGehAoVIfc.png?scale-down-to=512" alt="HelloIT Logo" class="logo">
+            <h1>Noonshop Campaigns</h1>
+            <p>Customer Journey & Email Automation Flows</p>
+        </div>
+
+        <div class="breadcrumb">
+            <a href="../../">HelloIT Pros</a>
+            <span>›</span>
+            Noonshop Campaigns
+        </div>
+        
+        <div class="content">
+            <h2 class="section-title">Campaign Journeys</h2>
+            
+            <div class="resources-grid">
+                <a href="Prospect_Journey_Interactive_v2.html" class="resource-card">
+                    <span class="resource-tag prospect">Prospect</span>
+                    <h3>Prospect Journey</h3>
+                    <p>Complete prospect nurture workflow with real-time order monitoring, automated email sequences, and Shopify/QuickBooks integration for warm leads and prospects.</p>
+                    <span class="view-link">View Journey</span>
+                </a>
+
+                <a href="First_Order_Journey.html" class="resource-card">
+                    <span class="resource-tag customer">Customer</span>
+                    <h3>First Order Journey</h3>
+                    <p>Post-purchase nurture sequence for first-time customers. Includes welcome, check-in, education, and restock awareness stages to drive second orders.</p>
+                    <span class="view-link">View Journey</span>
+                </a>
+                
+                <a href="Win_Back_Journey.html" class="resource-card">
+                    <span class="resource-tag winback">Win-Back</span>
+                    <h3>Win-Back Journey</h3>
+                    <p>Re-engagement campaign for lapsed customers. Strategic touchpoints to reconnect with customers who haven't ordered recently.</p>
+                    <span class="view-link">View Journey</span>
+                </a>
+
+                <a href="Holiday_Campaign__1_.html" class="resource-card">
+                    <span class="resource-tag seasonal">Seasonal</span>
+                    <h3>Holiday Campaign</h3>
+                    <p>Seasonal promotional campaign with holiday-themed messaging and special offers to drive end-of-year orders.</p>
+                    <span class="view-link">View Campaign</span>
+                </a>
+            </div>
+        </div>
+        
+        <div class="footer">
+            <p>HelloIT Pros - Professional IT Solutions & Strategic Consulting</p>
+            <p style="margin-top: 10px; font-size: 13px;">Noonshop Campaign Documentation</p>
+        </div>
+    </div>
+</body>
+</html>
