@@ -1,1 +1,828 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Noonshop First Order Journey</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: #f8f9fa;
+            color: #1a1a1a;
+            line-height: 1.6;
+        }
+
+        header {
+            background: white;
+            border-bottom: 1px solid #eee;
+            padding: 20px 30px;
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .logo {
+            height: 40px;
+        }
+
+        h1 {
+            font-size: 1.4rem;
+            font-weight: 600;
+            color: #1a1a1a;
+        }
+
+        .subtitle {
+            color: #666;
+            font-size: 0.85rem;
+            margin-left: auto;
+        }
+
+        .main-container {
+            display: flex;
+            height: calc(100vh - 81px);
+        }
+
+        /* Left Panel - Flow Map */
+        .flow-panel {
+            width: 320px;
+            background: white;
+            border-right: 1px solid #eee;
+            overflow-y: auto;
+            padding: 25px 20px;
+            flex-shrink: 0;
+        }
+
+        .flow-title {
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: #999;
+            margin-bottom: 20px;
+            padding-left: 10px;
+        }
+
+        .flow-stage {
+            display: flex;
+            align-items: flex-start;
+            gap: 15px;
+            padding: 12px 10px;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            position: relative;
+        }
+
+        .flow-stage:hover {
+            background: #f5f5f5;
+        }
+
+        .flow-stage.active {
+            background: #e8f4f8;
+        }
+
+        .flow-stage.active::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 0;
+            bottom: 0;
+            width: 3px;
+            background: #00aeee;
+            border-radius: 0 2px 2px 0;
+        }
+
+        .stage-indicator {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            flex-shrink: 0;
+        }
+
+        .stage-dot {
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 600;
+            font-size: 0.85rem;
+        }
+
+        .stage-dot.rep {
+            background: #e3f2fd;
+            color: #1976d2;
+        }
+
+        .stage-dot.anna {
+            background: #fce4ec;
+            color: #c2185b;
+        }
+
+        .flow-stage.active .stage-dot {
+            box-shadow: 0 0 0 3px rgba(0, 174, 238, 0.3);
+        }
+
+        .stage-line {
+            width: 2px;
+            height: 20px;
+            background: #ddd;
+            margin-top: 5px;
+        }
+
+        .flow-stage:last-child .stage-line {
+            display: none;
+        }
+
+        .stage-summary {
+            flex: 1;
+            padding-top: 4px;
+        }
+
+        .stage-summary h3 {
+            font-size: 0.9rem;
+            font-weight: 600;
+            margin-bottom: 3px;
+        }
+
+        .stage-summary p {
+            font-size: 0.75rem;
+            color: #666;
+        }
+
+        /* Right Panel - Email Content */
+        .content-panel {
+            flex: 1;
+            overflow-y: auto;
+            padding: 30px 40px;
+            background: #f8f9fa;
+        }
+
+        .empty-state {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100%;
+            color: #999;
+            text-align: center;
+        }
+
+        .empty-state svg {
+            width: 60px;
+            height: 60px;
+            margin-bottom: 15px;
+            opacity: 0.4;
+        }
+
+        .empty-state p {
+            font-size: 1rem;
+        }
+
+        .email-display {
+            display: none;
+            max-width: 700px;
+        }
+
+        .email-display.visible {
+            display: block;
+        }
+
+        .email-header {
+            margin-bottom: 25px;
+        }
+
+        .email-header h2 {
+            font-size: 1.5rem;
+            font-weight: 600;
+            margin-bottom: 8px;
+        }
+
+        .email-meta {
+            display: flex;
+            gap: 20px;
+            font-size: 0.9rem;
+            color: #666;
+        }
+
+        .strategy-box {
+            background: #f5f5f5;
+            border: 1px solid #e0e0e0;
+            color: #1a1a1a;
+            padding: 18px 22px;
+            border-radius: 8px;
+            margin-bottom: 25px;
+        }
+
+        .strategy-box h4 {
+            font-size: 0.7rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: #666;
+            margin-bottom: 8px;
+        }
+
+        .strategy-box p {
+            font-size: 0.95rem;
+            line-height: 1.5;
+        }
+
+        .email-card {
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+            overflow: hidden;
+        }
+
+        .email-card-header {
+            background: #fafafa;
+            padding: 15px 22px;
+            border-bottom: 1px solid #eee;
+        }
+
+        .email-subject-line {
+            font-size: 0.8rem;
+            color: #666;
+        }
+
+        .email-subject-line strong {
+            color: #1a1a1a;
+            font-size: 1rem;
+        }
+
+        .email-body-container {
+            padding: 25px;
+        }
+
+        .email-body {
+            white-space: pre-wrap;
+            font-size: 0.95rem;
+            color: #333;
+            line-height: 1.8;
+        }
+
+        .placeholder {
+            background: #fff3e0;
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-family: monospace;
+            font-size: 0.85rem;
+            color: #e65100;
+        }
+
+        .signature {
+            margin-top: 30px;
+            padding-top: 20px;
+            border-top: 1px solid #eee;
+            color: #666;
+            font-size: 0.9rem;
+            line-height: 1.7;
+        }
+
+        .signature strong {
+            color: #1a1a1a;
+        }
+
+        .nav-buttons {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 30px;
+            padding-top: 20px;
+            border-top: 1px solid #eee;
+        }
+
+        .nav-btn {
+            padding: 10px 20px;
+            border: 1px solid #ddd;
+            background: white;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 0.9rem;
+            transition: all 0.2s ease;
+        }
+
+        .nav-btn:hover {
+            background: #f5f5f5;
+            border-color: #ccc;
+        }
+
+        .nav-btn:disabled {
+            opacity: 0.4;
+            cursor: not-allowed;
+        }
+
+        @media (max-width: 900px) {
+            .main-container {
+                flex-direction: column;
+                height: auto;
+            }
+
+            .flow-panel {
+                width: 100%;
+                max-height: 300px;
+                border-right: none;
+                border-bottom: 1px solid #eee;
+            }
+
+            .content-panel {
+                padding: 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <img src="https://framerusercontent.com/images/N2Kik9IzLpZkJPIbcdGehAoVIfc.png?scale-down-to=512" alt="Hello IT Logo" class="logo">
+        <h1>Noonshop First Order Journey</h1>
+        <span class="subtitle">8 emails over ~45–75 days</span>
+    </header>
+
+    <div class="main-container">
+        <!-- Left: Flow Map -->
+        <div class="flow-panel">
+            <div class="flow-title">Journey Stages</div>
+
+            <div class="flow-stage" data-stage="1" onclick="showStage(1)">
+                <div class="stage-indicator">
+                    <div class="stage-dot anna">1</div>
+                    <div class="stage-line"></div>
+                </div>
+                <div class="stage-summary">
+                    <h3>Welcome & Confirmation</h3>
+                    <p>Day 0–1 • From Anna</p>
+                </div>
+            </div>
+
+            <div class="flow-stage" data-stage="2" onclick="showStage(2)">
+                <div class="stage-indicator">
+                    <div class="stage-dot rep">2</div>
+                    <div class="stage-line"></div>
+                </div>
+                <div class="stage-summary">
+                    <h3>Display & Merchandising</h3>
+                    <p>Day 3–5 • From Rep</p>
+                </div>
+            </div>
+
+            <div class="flow-stage" data-stage="3" onclick="showStage(3)">
+                <div class="stage-indicator">
+                    <div class="stage-dot anna">3</div>
+                    <div class="stage-line"></div>
+                </div>
+                <div class="stage-summary">
+                    <h3>Brand Story</h3>
+                    <p>Day 7–10 • From Anna</p>
+                </div>
+            </div>
+
+            <div class="flow-stage" data-stage="4" onclick="showStage(4)">
+                <div class="stage-indicator">
+                    <div class="stage-dot rep">4</div>
+                    <div class="stage-line"></div>
+                </div>
+                <div class="stage-summary">
+                    <h3>First Impressions Check-in</h3>
+                    <p>Day 14–17 • From Rep</p>
+                </div>
+            </div>
+
+            <div class="flow-stage" data-stage="5" onclick="showStage(5)">
+                <div class="stage-indicator">
+                    <div class="stage-dot rep">5</div>
+                    <div class="stage-line"></div>
+                </div>
+                <div class="stage-summary">
+                    <h3>Restock Awareness</h3>
+                    <p>Reorder Date − 7 days • From Rep</p>
+                </div>
+            </div>
+
+            <div class="flow-stage" data-stage="6" onclick="showStage(6)">
+                <div class="stage-indicator">
+                    <div class="stage-dot anna">6</div>
+                    <div class="stage-line"></div>
+                </div>
+                <div class="stage-summary">
+                    <h3>Second Order Encouragement</h3>
+                    <p>Reorder Date + 7 days • From Anna</p>
+                </div>
+            </div>
+
+            <div class="flow-stage" data-stage="7" onclick="showStage(7)">
+                <div class="stage-indicator">
+                    <div class="stage-dot rep">7</div>
+                    <div class="stage-line"></div>
+                </div>
+                <div class="stage-summary">
+                    <h3>Incentive Offer</h3>
+                    <p>Reorder Date + 21 days • From Rep</p>
+                </div>
+            </div>
+
+            <div class="flow-stage" data-stage="8" onclick="showStage(8)">
+                <div class="stage-indicator">
+                    <div class="stage-dot anna">8</div>
+                </div>
+                <div class="stage-summary">
+                    <h3>Final Re-engagement</h3>
+                    <p>Reorder Date + 42 days • From Anna</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Right: Email Content -->
+        <div class="content-panel">
+            <div class="empty-state" id="emptyState">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
+                </svg>
+                <p>Select a stage to view the email</p>
+            </div>
+
+            <!-- Stage 1 -->
+            <div class="email-display" id="stage1">
+                <div class="email-header">
+                    <h2>Stage 1: Welcome & Confirmation</h2>
+                    <div class="email-meta">
+                        <span>📅 Day 0–1</span>
+                        <span>👩‍⚕️ From Anna (Founder)</span>
+                    </div>
+                </div>
+                <div class="strategy-box">
+                    <h4>Strategy</h4>
+                    <p>Confirm the order and reduce buyer's remorse. Set expectations for delivery and next steps. Introduce the relationship with their rep.</p>
+                </div>
+                <div class="email-card">
+                    <div class="email-card-header">
+                        <div class="email-subject-line">Subject: <strong>Welcome to Noonshop, <span class="placeholder">{{First Name}}</span></strong></div>
+                    </div>
+                    <div class="email-body-container">
+                        <div class="email-body">Hi <span class="placeholder">{{First Name}}</span>,
+
+Thank you so much for your first order with Noonshop! I am genuinely excited to have <span class="placeholder">{{Practice Name}}</span> as part of our community.
+
+Your frames will be on the way shortly, and you will receive shipment and tracking details from the Noonshop team as soon as they ship.
+
+You will also be hearing from <span class="placeholder">{{Rep Name}}</span>, who will be your main point of contact. <span class="placeholder">{{Rep Name}}</span> is wonderful at helping practices get the most out of their frames, from display to reorders and everything in between.
+
+We built Noonshop to make eyewear that actually fits and feels great on real patients. I cannot wait to hear about your experience as part of our community.</div>
+                        <div class="signature">
+                            Warmly,<br>
+                            <strong>Anna Park, MD</strong><br>
+                            Founder<br>
+                            Noonshop<br>
+                            <span class="placeholder">{{Email}}</span><br>
+                            <span class="placeholder">{{Phone}}</span><br>
+                            <span class="placeholder">{{Calendly}}</span><br>
+                            <span class="placeholder">{{LinkedIn}}</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="nav-buttons">
+                    <button class="nav-btn" disabled>← Previous</button>
+                    <button class="nav-btn" onclick="showStage(2)">Next →</button>
+                </div>
+            </div>
+
+            <!-- Stage 2 -->
+            <div class="email-display" id="stage2">
+                <div class="email-header">
+                    <h2>Stage 2: Display & Merchandising</h2>
+                    <div class="email-meta">
+                        <span>📅 Day 3–5</span>
+                        <span>👤 From Rep</span>
+                    </div>
+                </div>
+                <div class="strategy-box">
+                    <h4>Strategy</h4>
+                    <p>Start the relationship. Help them succeed with their first display. Give practical value immediately.</p>
+                </div>
+                <div class="email-card">
+                    <div class="email-card-header">
+                        <div class="email-subject-line">Subject: <strong>Getting your Noonshop frames ready</strong></div>
+                    </div>
+                    <div class="email-body-container">
+                        <div class="email-body">Hi <span class="placeholder">{{First Name}}</span>,
+
+We are putting the finishing touches on your order now, and you will hear from our Noonshop team with shipment details shortly.
+
+Once your frames arrive, a few small things can make a big difference in how quickly they move. Where you place them, how many you show, and how you talk about fit all play a role.
+
+I would love to share a few simple display and merchandising tips that have worked well for other practices so you get off to a strong start.
+
+I am here to support you from day one, so feel free to reply whenever you are ready.</div>
+                        <div class="signature">
+                            <strong><span class="placeholder">{{Rep Name}}</span></strong><br>
+                            <span class="placeholder">{{Title}}</span><br>
+                            Noonshop<br>
+                            <span class="placeholder">{{Email}}</span><br>
+                            <span class="placeholder">{{Phone}}</span><br>
+                            <span class="placeholder">{{Calendly}}</span><br>
+                            <span class="placeholder">{{LinkedIn}}</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="nav-buttons">
+                    <button class="nav-btn" onclick="showStage(1)">← Previous</button>
+                    <button class="nav-btn" onclick="showStage(3)">Next →</button>
+                </div>
+            </div>
+
+            <!-- Stage 3 -->
+            <div class="email-display" id="stage3">
+                <div class="email-header">
+                    <h2>Stage 3: Brand Story</h2>
+                    <div class="email-meta">
+                        <span>📅 Day 7–10</span>
+                        <span>👩‍⚕️ From Anna (Founder)</span>
+                    </div>
+                </div>
+                <div class="strategy-box">
+                    <h4>Strategy</h4>
+                    <p>Reinforce the brand story. Deepen trust. Explain why Noonshop exists.</p>
+                </div>
+                <div class="email-card">
+                    <div class="email-card-header">
+                        <div class="email-subject-line">Subject: <strong>Why I started Noonshop</strong></div>
+                    </div>
+                    <div class="email-body-container">
+                        <div class="email-body">Hi <span class="placeholder">{{First Name}}</span>,
+
+I wanted to share a bit of our story with you.
+
+I am an ophthalmologist, and for years I watched patients struggle with glasses that never quite felt right. They would blame themselves when, in reality, the frames simply were not designed for real faces.
+
+That is why we built Noonshop. Every frame is designed around comfort, balance, and fit first, then style follows. We use premium materials and thoughtful design so patients actually enjoy wearing their glasses.
+
+Thank you again for trusting us with your first order. It means a lot.</div>
+                        <div class="signature">
+                            Warmly,<br>
+                            <strong>Anna Park, MD</strong><br>
+                            Founder<br>
+                            Noonshop<br>
+                            <span class="placeholder">{{Email}}</span><br>
+                            <span class="placeholder">{{Phone}}</span><br>
+                            <span class="placeholder">{{Calendly}}</span><br>
+                            <span class="placeholder">{{LinkedIn}}</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="nav-buttons">
+                    <button class="nav-btn" onclick="showStage(2)">← Previous</button>
+                    <button class="nav-btn" onclick="showStage(4)">Next →</button>
+                </div>
+            </div>
+
+            <!-- Stage 4 -->
+            <div class="email-display" id="stage4">
+                <div class="email-header">
+                    <h2>Stage 4: First Impressions Check-in</h2>
+                    <div class="email-meta">
+                        <span>📅 Day 14–17 (after delivery)</span>
+                        <span>👤 From Rep</span>
+                    </div>
+                </div>
+                <div class="strategy-box">
+                    <h4>Strategy</h4>
+                    <p>Check in on first impressions. Share social proof. Help them sell more frames.</p>
+                </div>
+                <div class="email-card">
+                    <div class="email-card-header">
+                        <div class="email-subject-line">Subject: <strong>How are they going so far?</strong></div>
+                    </div>
+                    <div class="email-body-container">
+                        <div class="email-body">Hi <span class="placeholder">{{First Name}}</span>,
+
+I wanted to check in and see how your Noonshop frames are doing.
+
+A lot of practices tell us their patients comment right away on how light and comfortable they feel. We also hear that people tend to decide faster when a frame feels good as soon as they put it on.
+
+If you have had any feedback so far, I would love to hear it. I am also happy to share a few tips on how other offices highlight quality and move more frames.
+
+<span class="placeholder">{{Calendly Link}}</span></div>
+                        <div class="signature">
+                            <strong><span class="placeholder">{{Rep Name}}</span></strong><br>
+                            <span class="placeholder">{{Title}}</span><br>
+                            Noonshop<br>
+                            <span class="placeholder">{{Email}}</span><br>
+                            <span class="placeholder">{{Phone}}</span><br>
+                            <span class="placeholder">{{Calendly}}</span><br>
+                            <span class="placeholder">{{LinkedIn}}</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="nav-buttons">
+                    <button class="nav-btn" onclick="showStage(3)">← Previous</button>
+                    <button class="nav-btn" onclick="showStage(5)">Next →</button>
+                </div>
+            </div>
+
+            <!-- Stage 5 -->
+            <div class="email-display" id="stage5">
+                <div class="email-header">
+                    <h2>Stage 5: Restock Awareness</h2>
+                    <div class="email-meta">
+                        <span>📅 7 days before Expected Reorder Date</span>
+                        <span>👤 From Rep</span>
+                    </div>
+                </div>
+                <div class="strategy-box">
+                    <h4>Strategy</h4>
+                    <p>Create awareness of restocking. Introduce newness. Make reordering feel easy.</p>
+                </div>
+                <div class="email-card">
+                    <div class="email-card-header">
+                        <div class="email-subject-line">Subject: <strong>Getting ahead of your next restock</strong></div>
+                    </div>
+                    <div class="email-body-container">
+                        <div class="email-body">Hi <span class="placeholder">{{First Name}}</span>,
+
+I wanted to reach out as you start thinking about what to bring in next for your frame board.
+
+We have some great new arrivals and a few styles that have been especially strong sellers across practices like yours. Many offices like to mix in something fresh with their best sellers to keep the board feeling new.
+
+If you would like, I can walk you through what is moving well right now.
+<span class="placeholder">{{Calendly Link}}</span></div>
+                        <div class="signature">
+                            <strong><span class="placeholder">{{Rep Name}}</span></strong><br>
+                            <span class="placeholder">{{Title}}</span><br>
+                            Noonshop<br>
+                            <span class="placeholder">{{Email}}</span><br>
+                            <span class="placeholder">{{Phone}}</span><br>
+                            <span class="placeholder">{{Calendly}}</span><br>
+                            <span class="placeholder">{{LinkedIn}}</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="nav-buttons">
+                    <button class="nav-btn" onclick="showStage(4)">← Previous</button>
+                    <button class="nav-btn" onclick="showStage(6)">Next →</button>
+                </div>
+            </div>
+
+            <!-- Stage 6 -->
+            <div class="email-display" id="stage6">
+                <div class="email-header">
+                    <h2>Stage 6: Second Order Encouragement</h2>
+                    <div class="email-meta">
+                        <span>📅 Expected Reorder Date + 7 days</span>
+                        <span>👩‍⚕️ From Anna (Founder)</span>
+                    </div>
+                </div>
+                <div class="strategy-box">
+                    <h4>Strategy</h4>
+                    <p>Encourage the second order. Use success stories. Offer personal support.</p>
+                </div>
+                <div class="email-card">
+                    <div class="email-card-header">
+                        <div class="email-subject-line">Subject: <strong>Ready when you are</strong></div>
+                    </div>
+                    <div class="email-body-container">
+                        <div class="email-body">Hi <span class="placeholder">{{First Name}}</span>,
+
+I wanted to personally check in.
+
+Many of the practices we work with see their optical revenue grow once they fine tune what sells best for their patients. Frames that fit well and feel good tend to turn first time buyers into repeat patients, and that is exactly what we aim to help you achieve.
+
+If you would like any help selecting what to bring in next, my team and I are always here.</div>
+                        <div class="signature">
+                            Warmly,<br>
+                            <strong>Anna Park, MD</strong><br>
+                            Founder<br>
+                            Noonshop<br>
+                            <span class="placeholder">{{Email}}</span><br>
+                            <span class="placeholder">{{Phone}}</span><br>
+                            <span class="placeholder">{{Calendly}}</span><br>
+                            <span class="placeholder">{{LinkedIn}}</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="nav-buttons">
+                    <button class="nav-btn" onclick="showStage(5)">← Previous</button>
+                    <button class="nav-btn" onclick="showStage(7)">Next →</button>
+                </div>
+            </div>
+
+            <!-- Stage 7 -->
+            <div class="email-display" id="stage7">
+                <div class="email-header">
+                    <h2>Stage 7: Incentive Offer</h2>
+                    <div class="email-meta">
+                        <span>📅 Expected Reorder Date + 21 days</span>
+                        <span>👤 From Rep</span>
+                    </div>
+                </div>
+                <div class="strategy-box">
+                    <h4>Strategy</h4>
+                    <p>Create urgency. Offer incentive. Provide personal recommendations.</p>
+                </div>
+                <div class="email-card">
+                    <div class="email-card-header">
+                        <div class="email-subject-line">Subject: <strong>A thank you on your next order</strong></div>
+                    </div>
+                    <div class="email-body-container">
+                        <div class="email-body">Hi <span class="placeholder">{{First Name}}</span>,
+
+I wanted to reach out with something special.
+
+We are offering preferred pricing on your second Noonshop order as a thank you for being part of our community. I have also pulled a few recommendations based on what you ordered the first time.
+
+If you would like to go over them, we can do that quickly here:
+<span class="placeholder">{{Calendly Link}}</span></div>
+                        <div class="signature">
+                            <strong><span class="placeholder">{{Rep Name}}</span></strong><br>
+                            <span class="placeholder">{{Title}}</span><br>
+                            Noonshop<br>
+                            <span class="placeholder">{{Email}}</span><br>
+                            <span class="placeholder">{{Phone}}</span><br>
+                            <span class="placeholder">{{Calendly}}</span><br>
+                            <span class="placeholder">{{LinkedIn}}</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="nav-buttons">
+                    <button class="nav-btn" onclick="showStage(6)">← Previous</button>
+                    <button class="nav-btn" onclick="showStage(8)">Next →</button>
+                </div>
+            </div>
+
+            <!-- Stage 8 -->
+            <div class="email-display" id="stage8">
+                <div class="email-header">
+                    <h2>Stage 8: Final Re-engagement</h2>
+                    <div class="email-meta">
+                        <span>📅 Expected Reorder Date + 42 days</span>
+                        <span>👩‍⚕️ From Anna (Founder)</span>
+                    </div>
+                </div>
+                <div class="strategy-box">
+                    <h4>Strategy</h4>
+                    <p>Final re-engagement. Ask for feedback. Keep relationship intact.</p>
+                </div>
+                <div class="email-card">
+                    <div class="email-card-header">
+                        <div class="email-subject-line">Subject: <strong>We would love to hear from you</strong></div>
+                    </div>
+                    <div class="email-body-container">
+                        <div class="email-body">Hi <span class="placeholder">{{First Name}}</span>,
+
+I just wanted to reach out one more time.
+
+If there is anything about your first Noonshop experience that did not quite meet expectations, I would truly love to hear about it. We are always learning and improving.
+
+If you would like a little more hands on support, my team is here and happy to help.</div>
+                        <div class="signature">
+                            Warmly,<br>
+                            <strong>Anna Park, MD</strong><br>
+                            Founder<br>
+                            Noonshop<br>
+                            <span class="placeholder">{{Email}}</span><br>
+                            <span class="placeholder">{{Phone}}</span><br>
+                            <span class="placeholder">{{Calendly}}</span><br>
+                            <span class="placeholder">{{LinkedIn}}</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="nav-buttons">
+                    <button class="nav-btn" onclick="showStage(7)">← Previous</button>
+                    <button class="nav-btn" disabled>Next →</button>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <script>
+        function showStage(num) {
+            // Hide all email displays
+            document.querySelectorAll('.email-display').forEach(el => {
+                el.classList.remove('visible');
+            });
+
+            // Remove active from all flow stages
+            document.querySelectorAll('.flow-stage').forEach(el => {
+                el.classList.remove('active');
+            });
+
+            // Hide empty state
+            document.getElementById('emptyState').style.display = 'none';
+
+            // Show selected stage
+            document.getElementById('stage' + num).classList.add('visible');
+
+            // Highlight in flow map
+            document.querySelector('.flow-stage[data-stage="' + num + '"]').classList.add('active');
+
+            // Scroll content panel to top
+            document.querySelector('.content-panel').scrollTop = 0;
+        }
+    </script>
+</body>
+</html>
 
