@@ -1,0 +1,578 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Noonshop Holiday Greeting Journey</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Arial, sans-serif;
+            background: #ffffff;
+            padding: 40px 20px;
+            color: #1a1a1a;
+            line-height: 1.6;
+            position: relative;
+        }
+
+        .flowchart {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-width: 1200px;
+            margin: 0 auto;
+        }
+
+        h1 {
+            text-align: center;
+            margin-bottom: 40px;
+            font-size: 1.8em;
+        }
+
+        .header-logo {
+            position: absolute;
+            top: 20px;
+            left: 40px;
+            height: 35px;
+            width: auto;
+            opacity: 0.9;
+        }
+
+        .node {
+            background: white;
+            border: 2px solid #000;
+            padding: 15px 25px;
+            margin: 10px;
+            text-align: center;
+            position: relative;
+        }
+
+        .start-end {
+            border-radius: 30px;
+            background: #000;
+            color: white;
+            font-weight: 600;
+            padding: 20px 40px;
+        }
+
+        .process {
+            border-radius: 5px;
+            min-width: 300px;
+        }
+
+        .holiday-node {
+            border: 3px solid #000;
+            border-radius: 10px;
+            background: #fffae6;
+            padding: 20px 30px;
+            min-width: 500px;
+        }
+
+        .connector {
+            width: 2px;
+            height: 30px;
+            background: #000;
+        }
+
+        .connector-short {
+            width: 2px;
+            height: 15px;
+            background: #000;
+        }
+
+        .stage-label {
+            font-weight: 600;
+            font-size: 1.2em;
+            margin-bottom: 10px;
+        }
+
+        .email-label {
+            font-size: 0.9em;
+            color: #333;
+            margin-top: 5px;
+            line-height: 1.6;
+        }
+
+        .merge-line {
+            font-size: 0.85em;
+            color: #666;
+            margin: 10px 0;
+        }
+
+        .integration-box {
+            background: #fffae6;
+            border: 2px solid #000;
+            border-style: double;
+            padding: 15px;
+            margin: 20px 0;
+            text-align: center;
+            font-size: 0.85em;
+            font-weight: 600;
+        }
+
+        .template-box {
+            background: #f9f9f9;
+            border: 2px solid #000;
+            padding: 20px 30px;
+            margin: 20px 0;
+            max-width: 700px;
+            text-align: left;
+        }
+    </style>
+</head>
+<body>
+    <img src="https://framerusercontent.com/images/N2Kik9IzLpZkJPIbcdGehAoVIfc.png?scale-down-to=512" alt="Hello IT Logo" class="header-logo">
+    
+    <h1>Noonshop Holiday Greeting Journey & CRM Flow Map</h1>
+    <p style="text-align: center; color: #666; margin-bottom: 40px; font-size: 0.95em;">
+        Universal holiday greetings for ALL contacts - prospects, leads, customers (active & inactive)<br>
+        Arranged chronologically from January to December
+    </p>
+    
+    <div class="flowchart">
+        <!-- START -->
+        <div class="node start-end">
+            HOLIDAY CAMPAIGN TRIGGER<br>
+            <span style="font-weight: normal; font-size: 0.9em;">System detects upcoming holiday</span>
+        </div>
+        <div class="connector"></div>
+        
+        <div class="node process">
+            <strong>Entry Criteria</strong><br>
+            <span class="email-label">ALL contacts in database<br>Prospects, Leads, Customers (Active, Inactive, Dormant)<br>Exclude: Unsubscribed, Do Not Contact</span>
+        </div>
+        <div class="connector"></div>
+
+        <!-- TIMING -->
+        <div class="integration-box">
+            HOLIDAY TIMING SYSTEM<br>
+            Send 3-5 days BEFORE each major holiday
+        </div>
+        <div class="connector"></div>
+
+        <!-- HOLIDAY 1: NEW YEAR -->
+        <div class="holiday-node">
+            <div class="stage-label">1. New Year (Late December/Early January)</div>
+            <div class="email-label">
+                <strong>From:</strong> Rep (reflective, optimistic)<br>
+                <strong>Subject:</strong> Here's to a great year ahead!<br><br>
+                <strong>Message Tone:</strong> Reflection, optimism, fresh starts<br>
+                "Hey [First Name], as we close out the year..."<br>
+                Brief reflection on the past year (keep it light)<br>
+                Optimism for their practice in the new year<br>
+                "Looking forward to connecting with you in [New Year]"<br>
+                <strong>NO sales pitch, relationship focus</strong><br>
+                Sign-off: Personal from rep
+            </div>
+        </div>
+        <div class="connector"></div>
+
+        <!-- HOLIDAY 2: VALENTINE'S DAY -->
+        <div class="holiday-node">
+            <div class="stage-label">2. Valentine's Day (February 14)</div>
+            <div class="email-label">
+                <strong>From:</strong> Rep (light, appreciative)<br>
+                <strong>Subject:</strong> We appreciate you!<br><br>
+                <strong>Message Tone:</strong> Appreciation, light and friendly<br>
+                "Happy Valentine's Day [First Name]!"<br>
+                Express appreciation for their partnership/relationship<br>
+                Keep it professional but warm<br>
+                Simple, short, sweet<br>
+                <strong>NO sales pitch</strong><br>
+                Sign-off: [Rep Name]
+            </div>
+        </div>
+        <div class="connector"></div>
+
+        <!-- HOLIDAY 3: DAYLIGHT SAVING - SPRING -->
+        <div class="holiday-node">
+            <div class="stage-label">3. Daylight Saving Time - Spring Forward (March)</div>
+            <div class="email-label">
+                <strong>From:</strong> Rep (helpful, friendly)<br>
+                <strong>Subject:</strong> Don't forget to spring forward this weekend!<br><br>
+                <strong>Message Tone:</strong> Helpful reminder, lighthearted<br>
+                "Hey [First Name], just a friendly reminder..."<br>
+                Remind them to set clocks forward this weekend<br>
+                "Hope you don't lose too much sleep!"<br>
+                Brief, useful, friendly<br>
+                <strong>NO sales pitch</strong><br>
+                Sign-off: [Rep Name]
+            </div>
+        </div>
+        <div class="connector"></div>
+
+        <!-- HOLIDAY 4: SAVE YOUR VISION MONTH -->
+        <div class="holiday-node">
+            <div class="stage-label">4. Save Your Vision Month (March)</div>
+            <div class="email-label">
+                <strong>From:</strong> Anna (educational, supportive)<br>
+                <strong>Subject:</strong> March is Save Your Vision Month!<br><br>
+                <strong>Message Tone:</strong> Educational, empowering<br>
+                "Hi [First Name], March is Save Your Vision Month..."<br>
+                Acknowledge the important work they do for eye health<br>
+                "Thank you for helping your community see better every day"<br>
+                <strong>NO sales pitch, pure appreciation</strong><br>
+                Sign-off: Anna
+            </div>
+        </div>
+        <div class="connector"></div>
+
+        <!-- HOLIDAY 5: MEMORIAL DAY -->
+        <div class="holiday-node">
+            <div class="stage-label">5. Memorial Day (Late May)</div>
+            <div class="email-label">
+                <strong>From:</strong> Rep (respectful, patriotic)<br>
+                <strong>Subject:</strong> Remembering this Memorial Day<br><br>
+                <strong>Message Tone:</strong> Respect, gratitude, patriotism<br>
+                "This Memorial Day, we remember..."<br>
+                Brief acknowledgment of meaning of the day<br>
+                Hope they have a safe and peaceful weekend<br>
+                Keep it tasteful and respectful<br>
+                <strong>NO sales pitch</strong><br>
+                Sign-off: [Rep Name]
+            </div>
+        </div>
+        <div class="connector"></div>
+
+        <!-- HOLIDAY 6: FIRST DAY OF SUMMER -->
+        <div class="holiday-node">
+            <div class="stage-label">6. First Day of Summer (June 21)</div>
+            <div class="email-label">
+                <strong>From:</strong> Rep (upbeat, seasonal)<br>
+                <strong>Subject:</strong> Happy First Day of Summer!<br><br>
+                <strong>Message Tone:</strong> Celebratory, summer energy<br>
+                "Happy Summer [First Name]!"<br>
+                Brief summer greeting, hope they enjoy the season<br>
+                "Here's to sunshine and good times ahead!"<br>
+                Light and fun<br>
+                <strong>NO sales pitch</strong><br>
+                Sign-off: [Rep Name]
+            </div>
+        </div>
+        <div class="connector"></div>
+
+        <!-- HOLIDAY 7: NATIONAL SUNGLASSES DAY -->
+        <div class="holiday-node">
+            <div class="stage-label">7. National Sunglasses Day (June 27)</div>
+            <div class="email-label">
+                <strong>From:</strong> Rep (fun, playful)<br>
+                <strong>Subject:</strong> Happy National Sunglasses Day!<br><br>
+                <strong>Message Tone:</strong> Fun, lighthearted, on-brand<br>
+                "Did you know today is National Sunglasses Day?"<br>
+                Celebrate the importance of UV protection<br>
+                "Hope your patients are staying sun-safe!"<br>
+                Keep it fun and relevant to their work<br>
+                <strong>NO sales pitch</strong><br>
+                Sign-off: [Rep Name]
+            </div>
+        </div>
+        <div class="connector"></div>
+
+        <!-- HOLIDAY 8: JULY 4TH -->
+        <div class="holiday-node">
+            <div class="stage-label">8. Independence Day / July 4th (July 4)</div>
+            <div class="email-label">
+                <strong>From:</strong> Rep (celebratory, patriotic)<br>
+                <strong>Subject:</strong> Happy 4th of July!<br><br>
+                <strong>Message Tone:</strong> Celebration, summer fun, freedom<br>
+                "Happy Independence Day [First Name]!"<br>
+                Hope they enjoy fireworks, BBQs, time with family<br>
+                Light summer energy<br>
+                <strong>NO sales pitch</strong><br>
+                Sign-off: [Rep Name]
+            </div>
+        </div>
+        <div class="connector"></div>
+
+        <!-- HOLIDAY 9: NATIONAL EYE EXAM MONTH -->
+        <div class="holiday-node">
+            <div class="stage-label">9. National Eye Exam Month (August)</div>
+            <div class="email-label">
+                <strong>From:</strong> Anna (appreciative, educational)<br>
+                <strong>Subject:</strong> Celebrating National Eye Exam Month<br><br>
+                <strong>Message Tone:</strong> Appreciation for their work<br>
+                "August is National Eye Exam Month, [First Name]..."<br>
+                Thank them for the vital work they do every day<br>
+                "Your dedication to eye health makes a real difference"<br>
+                Acknowledge their expertise and impact<br>
+                <strong>NO sales pitch, pure appreciation</strong><br>
+                Sign-off: Anna
+            </div>
+        </div>
+        <div class="connector"></div>
+
+        <!-- HOLIDAY 10: NATIONAL RELAXATION DAY -->
+        <div class="holiday-node">
+            <div class="stage-label">10. National Relaxation Day (August 15)</div>
+            <div class="email-label">
+                <strong>From:</strong> Rep (encouraging, lighthearted)<br>
+                <strong>Subject:</strong> Take a break today!<br><br>
+                <strong>Message Tone:</strong> Encouraging self-care<br>
+                "Hey [First Name], today is National Relaxation Day!"<br>
+                Encourage them to take a moment for themselves<br>
+                "You work hard – you deserve a little rest!"<br>
+                Light and caring<br>
+                <strong>NO sales pitch</strong><br>
+                Sign-off: [Rep Name]
+            </div>
+        </div>
+        <div class="connector"></div>
+
+        <!-- HOLIDAY 11: LABOR DAY -->
+        <div class="holiday-node">
+            <div class="stage-label">11. Labor Day (Early September)</div>
+            <div class="email-label">
+                <strong>From:</strong> Rep (appreciative, relaxed)<br>
+                <strong>Subject:</strong> Enjoy your Labor Day weekend!<br><br>
+                <strong>Message Tone:</strong> Appreciation for hard work, end of summer<br>
+                "Happy Labor Day [First Name]!"<br>
+                Acknowledge their hard work at the practice<br>
+                Hope they enjoy a well-deserved break<br>
+                <strong>NO sales pitch</strong><br>
+                Sign-off: Personal from rep
+            </div>
+        </div>
+        <div class="connector"></div>
+
+        <!-- HOLIDAY 12: NATIONAL READ A BOOK DAY -->
+        <div class="holiday-node">
+            <div class="stage-label">12. National Read a Book Day (September 6)</div>
+            <div class="email-label">
+                <strong>From:</strong> Rep (fun, relevant)<br>
+                <strong>Subject:</strong> Happy National Read a Book Day!<br><br>
+                <strong>Message Tone:</strong> Fun, vision-relevant<br>
+                "Today is National Read a Book Day [First Name]!"<br>
+                Perfect tie-in to vision and eye health<br>
+                "Thanks for helping people see clearly to enjoy their favorite books"<br>
+                Light, relevant, appreciative<br>
+                <strong>NO sales pitch</strong><br>
+                Sign-off: [Rep Name]
+            </div>
+        </div>
+        <div class="connector"></div>
+
+        <!-- HOLIDAY 13: FIRST DAY OF FALL -->
+        <div class="holiday-node">
+            <div class="stage-label">13. First Day of Fall (September 22)</div>
+            <div class="email-label">
+                <strong>From:</strong> Rep (seasonal, warm)<br>
+                <strong>Subject:</strong> Happy First Day of Fall!<br><br>
+                <strong>Message Tone:</strong> Seasonal, cozy<br>
+                "Happy Fall [First Name]!"<br>
+                Acknowledge the season change<br>
+                "Hope you enjoy the cooler weather and beautiful colors"<br>
+                Brief, seasonal greeting<br>
+                <strong>NO sales pitch</strong><br>
+                Sign-off: [Rep Name]
+            </div>
+        </div>
+        <div class="connector"></div>
+
+        <!-- HOLIDAY 14: NATIONAL COFFEE DAY -->
+        <div class="holiday-node">
+            <div class="stage-label">14. National Coffee Day (September 29)</div>
+            <div class="email-label">
+                <strong>From:</strong> Rep (fun, relatable)<br>
+                <strong>Subject:</strong> Cheers to National Coffee Day!<br><br>
+                <strong>Message Tone:</strong> Lighthearted, relatable<br>
+                "Happy National Coffee Day [First Name]!"<br>
+                "Hope you enjoy an extra cup today – you've earned it!"<br>
+                Fun, relatable, human<br>
+                Very brief and light<br>
+                <strong>NO sales pitch</strong><br>
+                Sign-off: [Rep Name]
+            </div>
+        </div>
+        <div class="connector"></div>
+
+        <!-- HOLIDAY 15: WORLD SIGHT DAY -->
+        <div class="holiday-node">
+            <div class="stage-label">15. World Sight Day (2nd Thursday of October)</div>
+            <div class="email-label">
+                <strong>From:</strong> Anna (meaningful, on-brand)<br>
+                <strong>Subject:</strong> Celebrating World Sight Day<br><br>
+                <strong>Message Tone:</strong> Meaningful, mission-driven<br>
+                "Today is World Sight Day, [First Name]..."<br>
+                Acknowledge the global importance of vision health<br>
+                Thank them for the work they do every day<br>
+                "Your dedication to eye care changes lives"<br>
+                <strong>NO sales pitch, pure mission</strong><br>
+                Sign-off: Anna
+            </div>
+        </div>
+        <div class="connector"></div>
+
+        <!-- HOLIDAY 16: HALLOWEEN -->
+        <div class="holiday-node">
+            <div class="stage-label">16. Halloween (October 31)</div>
+            <div class="email-label">
+                <strong>From:</strong> Rep (fun, playful)<br>
+                <strong>Subject:</strong> Happy Halloween!<br><br>
+                <strong>Message Tone:</strong> Fun, lighthearted, playful<br>
+                "Happy Halloween [First Name]!"<br>
+                Hope they enjoy the spooky season<br>
+                "May your day be filled with treats, not tricks!"<br>
+                Keep it fun and brief<br>
+                <strong>NO sales pitch</strong><br>
+                Sign-off: [Rep Name]
+            </div>
+        </div>
+        <div class="connector"></div>
+
+        <!-- HOLIDAY 17: DAYLIGHT SAVING - FALL BACK -->
+        <div class="holiday-node">
+            <div class="stage-label">17. Daylight Saving Time - Fall Back (Early November)</div>
+            <div class="email-label">
+                <strong>From:</strong> Rep (helpful, friendly)<br>
+                <strong>Subject:</strong> Don't forget to fall back this weekend!<br><br>
+                <strong>Message Tone:</strong> Helpful reminder<br>
+                "Hey [First Name], friendly reminder..."<br>
+                Remind them to set clocks back this weekend<br>
+                "Enjoy that extra hour of sleep!"<br>
+                Brief, useful, friendly<br>
+                <strong>NO sales pitch</strong><br>
+                Sign-off: [Rep Name]
+            </div>
+        </div>
+        <div class="connector"></div>
+
+        <!-- HOLIDAY 18: THANKSGIVING -->
+        <div class="holiday-node">
+            <div class="stage-label">18. Thanksgiving (Late November)</div>
+            <div class="email-label">
+                <strong>From:</strong> Rep (personalized, handwritten-style)<br>
+                <strong>Subject:</strong> Happy Thanksgiving from [Rep Name]<br><br>
+                <strong>Message Tone:</strong> Gratitude, appreciation for relationship<br>
+                "Hey [First Name], I wanted to take a moment before Thanksgiving to say thank you..."<br>
+                Express genuine appreciation, mention practice by name<br>
+                Warm wishes for them and their team<br>
+                <strong>NO sales pitch, NO product mentions</strong><br>
+                Sign-off: Personal from rep
+            </div>
+        </div>
+        <div class="connector"></div>
+
+        <!-- HOLIDAY 19: CHRISTMAS/HOLIDAYS -->
+        <div class="holiday-node">
+            <div class="stage-label">19. Christmas/Holiday Season (Mid December)</div>
+            <div class="email-label">
+                <strong>From:</strong> Anna (warm, friendly)<br>
+                <strong>Subject:</strong> Season's Greetings from the Noonshop Family<br><br>
+                <strong>Message Tone:</strong> Warmth, celebration, togetherness<br>
+                "Happy Holidays [First Name]! From all of us at Noonshop..."<br>
+                Acknowledge the busy season, wish for rest and joy<br>
+                Mention gratitude for being part of Noonshop family<br>
+                <strong>NO sales pitch, pure goodwill</strong><br>
+                Sign-off: Anna + Noonshop team
+            </div>
+        </div>
+        <div class="connector"></div>
+
+        <!-- END -->
+        <div class="node start-end">
+            CYCLE REPEATS ANNUALLY<br>
+            <span style="font-weight: normal; font-size: 0.85em;">No follow-up, just goodwill touchpoints</span>
+        </div>
+
+        <!-- Technical Notes -->
+        <div style="margin-top: 60px; padding: 30px; background: #f9f9f9; border: 1px solid #ddd; max-width: 800px;">
+            <h2 style="margin-bottom: 20px; font-size: 1.3em;">CRM Technical Notes</h2>
+            <div style="font-size: 0.9em; line-height: 1.8;">
+                <p><strong>Target Audience:</strong> ALL contacts in CRM database</p>
+                <p style="margin-top: 15px;">
+                    <strong>Includes:</strong><br>
+                    • Prospects (in nurture)<br>
+                    • Leads (not yet customers)<br>
+                    • First-time customers<br>
+                    • Active customers<br>
+                    • Inactive customers<br>
+                    • Dormant customers<br>
+                    • Win-back journey contacts
+                </p>
+                <p style="margin-top: 15px;">
+                    <strong>Excludes:</strong><br>
+                    • Unsubscribed contacts<br>
+                    • "Do Not Contact" tags<br>
+                    • Invalid email addresses
+                </p>
+                <p style="margin-top: 15px;">
+                    <strong>Timing Logic:</strong><br>
+                    • System maintains holiday date calendar (updated annually)<br>
+                    • Campaign triggers 3-5 days before each holiday<br>
+                    • Send time: 9:00 AM in recipient's timezone (if available, else 9:00 AM EST)<br>
+                    • One email per holiday maximum
+                </p>
+                <p style="margin-top: 15px;">
+                    <strong>Personalization Fields Required:</strong><br>
+                    • First Name<br>
+                    • Practice Name (if customer/known)<br>
+                    • Assigned Rep Name<br>
+                    • Rep email signature
+                </p>
+                <p style="margin-top: 15px;">
+                    <strong>Design Notes:</strong><br>
+                    • Plain text or minimal HTML (looks handwritten)<br>
+                    • Rep's email signature at bottom<br>
+                    • NO images, NO CTAs, NO links<br>
+                    • Mobile-friendly formatting
+                </p>
+            </div>
+        </div>
+
+        <!-- Integration Technical Notes -->
+        <div style="margin-top: 30px; padding: 30px; background: #fffae6; border: 3px double #000; max-width: 800px;">
+            <h2 style="margin-bottom: 20px; font-size: 1.3em;">Holiday Calendar & Automation</h2>
+            <div style="font-size: 0.9em; line-height: 1.8;">
+                <p style="margin-bottom: 15px;">
+                    <strong>Annual Holiday Schedule (In Chronological Order - 19 Total Touchpoints):</strong><br>
+                    1. New Year: December 28-30 (send before New Year's Eve)<br>
+                    2. Valentine's Day: February 14 (send February 12)<br>
+                    3. Daylight Saving - Spring: 2nd Sunday in March (send Friday before)<br>
+                    4. Save Your Vision Month: March (send March 1)<br>
+                    5. Memorial Day: Last Monday in May (send Thursday before)<br>
+                    6. First Day of Summer: June 21 (send June 20)<br>
+                    7. National Sunglasses Day: June 27 (send June 26)<br>
+                    8. July 4th: July 4 (send July 2)<br>
+                    9. National Eye Exam Month: August (send August 1)<br>
+                    10. National Relaxation Day: August 15 (send August 15)<br>
+                    11. Labor Day: First Monday in September (send Thursday before)<br>
+                    12. National Read a Book Day: September 6 (send September 6)<br>
+                    13. First Day of Fall: September 22 (send September 22)<br>
+                    14. National Coffee Day: September 29 (send September 29)<br>
+                    15. World Sight Day: 2nd Thursday in October (send that day)<br>
+                    16. Halloween: October 31 (send October 30)<br>
+                    17. Daylight Saving - Fall: 1st Sunday in November (send Friday before)<br>
+                    18. Thanksgiving: 4th Thursday in November (send Tuesday before)<br>
+                    19. Christmas/Holidays: December 20-23 (send once mid-December)
+                </p>
+                <p style="margin-bottom: 15px;">
+                    <strong>No Overlap with Other Campaigns:</strong><br>
+                    • Holiday emails do NOT pause other journeys<br>
+                    • Holiday emails run in parallel to all active campaigns<br>
+                    • Everyone gets holiday greetings regardless of journey status
+                </p>
+                <p style="margin-bottom: 15px;">
+                    <strong>Rep Assignment Logic:</strong><br>
+                    • If contact has assigned rep → Email from that rep<br>
+                    • If contact has no assigned rep → Email from Anna or default rep<br>
+                    • Ensure rep name personalization works for all scenarios
+                </p>
+                <p style="margin-top: 20px; padding: 15px; background: white; border: 2px solid #000;">
+                    <strong>Key Principle:</strong><br>
+                    These are pure relationship touches. Zero sales intent. Just genuine human connection. This builds trust and goodwill that pays dividends year-round.
+                </p>
+            </div>
+        </div>
+
+        <!-- Footer -->
+        <div style="margin-top: 40px; padding-top: 20px; border-top: 1px solid #ddd; text-align: center; color: #666; font-size: 0.85em;">
+            Last updated December 6, 2024
+        </div>
+    </div>
+</body>
+</html>
