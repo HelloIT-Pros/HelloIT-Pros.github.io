@@ -1,0 +1,675 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>NoonShop CRM Build Summary</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --gold: #C9A84C;
+    --gold-light: #E8C97A;
+    --ink: #1A1A1A;
+    --ink-mid: #3D3D3D;
+    --ink-soft: #7A7A7A;
+    --cream: #FAF8F4;
+    --cream-warm: #F2EDE4;
+    --line: #E0D9CE;
+    --open: #D97B4F;
+  }
+
+  @page { size: A4; margin: 0; }
+
+  body {
+    font-family: 'DM Sans', sans-serif;
+    background: var(--cream);
+    color: var(--ink);
+    font-size: 9.5pt;
+    line-height: 1.55;
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
+  }
+
+  .page {
+    width: 210mm;
+    min-height: 297mm;
+    margin: 0 auto;
+    background: var(--cream);
+    position: relative;
+    overflow: hidden;
+  }
+
+  .top-bar {
+    height: 5px;
+    background: linear-gradient(90deg, var(--gold), var(--gold-light), var(--gold));
+    width: 100%;
+  }
+
+  .header {
+    padding: 22px 32px 18px;
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    border-bottom: 1px solid var(--line);
+  }
+
+  .brand-tag {
+    font-size: 7.5pt;
+    font-weight: 600;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin-bottom: 4px;
+  }
+
+  h1 {
+    font-family: 'DM Serif Display', serif;
+    font-size: 22pt;
+    font-weight: 400;
+    color: var(--ink);
+    line-height: 1.15;
+  }
+
+  h1 em {
+    font-style: italic;
+    color: var(--gold);
+  }
+
+  .header-meta {
+    text-align: right;
+    font-size: 7.5pt;
+    color: var(--ink-soft);
+    line-height: 1.8;
+  }
+
+  .header-meta strong {
+    display: block;
+    font-size: 9pt;
+    font-weight: 600;
+    color: var(--ink-mid);
+    letter-spacing: 0.05em;
+  }
+
+  .body {
+    padding: 20px 32px 24px;
+  }
+
+  .intro {
+    font-size: 9pt;
+    color: var(--ink-mid);
+    font-weight: 300;
+    border-left: 3px solid var(--gold);
+    padding-left: 12px;
+    margin-bottom: 20px;
+    max-width: 520px;
+    line-height: 1.6;
+  }
+
+  .grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+    margin-bottom: 16px;
+  }
+
+  .grid-3 {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 14px;
+    margin-bottom: 16px;
+  }
+
+  .card {
+    background: white;
+    border: 1px solid var(--line);
+    border-radius: 6px;
+    padding: 14px 16px;
+    position: relative;
+  }
+
+  .card.accent {
+    border-top: 3px solid var(--gold);
+  }
+
+  .card.open-item {
+    border-top: 3px solid var(--open);
+    background: #FFF9F6;
+  }
+
+  .card-label {
+    font-size: 6.5pt;
+    font-weight: 700;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin-bottom: 6px;
+  }
+
+  .card.open-item .card-label {
+    color: var(--open);
+  }
+
+  h2 {
+    font-family: 'DM Serif Display', serif;
+    font-size: 11pt;
+    font-weight: 400;
+    color: var(--ink);
+    margin-bottom: 8px;
+    line-height: 1.2;
+  }
+
+  .stats {
+    display: flex;
+    gap: 18px;
+    margin-bottom: 10px;
+  }
+
+  .stat-num {
+    font-family: 'DM Serif Display', serif;
+    font-size: 22pt;
+    color: var(--gold);
+    line-height: 1;
+  }
+
+  .stat-label {
+    font-size: 7pt;
+    color: var(--ink-soft);
+    font-weight: 500;
+    letter-spacing: 0.05em;
+    margin-top: 1px;
+  }
+
+  .pills {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 5px;
+    margin-top: 8px;
+  }
+
+  .pill {
+    background: var(--cream-warm);
+    border: 1px solid var(--line);
+    border-radius: 20px;
+    font-size: 7pt;
+    font-weight: 500;
+    padding: 3px 9px;
+    color: var(--ink-mid);
+  }
+
+  ul.dash {
+    list-style: none;
+    padding: 0;
+  }
+
+  ul.dash li {
+    padding-left: 12px;
+    position: relative;
+    color: var(--ink-mid);
+    font-size: 8.5pt;
+    margin-bottom: 4px;
+    line-height: 1.45;
+  }
+
+  ul.dash li::before {
+    content: '—';
+    position: absolute;
+    left: 0;
+    color: var(--gold);
+    font-size: 7pt;
+    top: 1px;
+  }
+
+  .integration {
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+    padding: 9px 0;
+    border-bottom: 1px solid var(--line);
+  }
+  .integration:last-child { border-bottom: none; padding-bottom: 0; }
+  .integration:first-child { padding-top: 0; }
+
+  .int-icon {
+    width: 28px;
+    height: 28px;
+    border-radius: 6px;
+    background: var(--cream-warm);
+    border: 1px solid var(--line);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 11pt;
+    flex-shrink: 0;
+  }
+
+  .int-name {
+    font-weight: 600;
+    font-size: 8.5pt;
+    color: var(--ink);
+    margin-bottom: 2px;
+  }
+
+  .int-desc {
+    font-size: 7.5pt;
+    color: var(--ink-soft);
+    line-height: 1.5;
+  }
+
+  .not-list {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+  }
+
+  .not-item {
+    display: flex;
+    align-items: center;
+    gap: 7px;
+    font-size: 8pt;
+    color: var(--ink-mid);
+  }
+
+  .not-badge {
+    font-size: 6.5pt;
+    font-weight: 700;
+    letter-spacing: 0.05em;
+    background: #F0F0F0;
+    border-radius: 3px;
+    padding: 2px 6px;
+    color: #888;
+    text-transform: uppercase;
+    flex-shrink: 0;
+  }
+
+  .footer {
+    border-top: 1px solid var(--line);
+    padding: 10px 32px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .footer-brand {
+    font-size: 7pt;
+    font-weight: 600;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--ink-soft);
+  }
+
+  .footer-brand span { color: var(--gold); }
+
+  .footer-note {
+    font-size: 7pt;
+    color: var(--ink-soft);
+  }
+
+  .open-note {
+    font-size: 7.5pt;
+    color: var(--open);
+    font-weight: 600;
+    margin-top: 6px;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+  }
+
+  .open-dot {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: var(--open);
+    display: inline-block;
+  }
+
+  .section-divider {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin: 4px 0 12px;
+  }
+
+  .section-divider span {
+    font-size: 7pt;
+    font-weight: 700;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--ink-soft);
+    white-space: nowrap;
+  }
+
+  .section-divider::before,
+  .section-divider::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background: var(--line);
+  }
+
+  @media print {
+    body { background: white; }
+    .page { margin: 0; width: 100%; }
+  }
+</style>
+</head>
+<body>
+
+<div class="page">
+  <div class="top-bar"></div>
+
+  <div class="header">
+    <div class="header-left">
+      <div class="brand-tag">HelloIT &nbsp;·&nbsp; CRM Build Delivery</div>
+      <h1>NoonShop <em>CRM</em><br>Build Summary</h1>
+    </div>
+    <div class="header-meta">
+      <img src="data:image/jpeg;base64,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" alt="NoonShop" style="height:34px;width:auto;opacity:0.75;margin-bottom:10px;display:block;margin-left:auto;">
+      <strong>Go High Level Platform</strong>
+      Prepared by HelloIT<br>
+      CRM Automation &amp; Customer Journey<br>
+      March 2026
+    </div>
+  </div>
+
+  <div class="body">
+
+    <p class="intro">This document summarizes the full scope of the CRM build completed for NoonShop on the Go High Level platform — covering campaign strategy, system automations, integrations, and sales infrastructure.</p>
+
+    <div class="grid">
+
+      <div class="card accent">
+        <div class="card-label">Campaign Strategy</div>
+        <h2>Email Campaigns &amp; Messaging</h2>
+        <div class="stats">
+          <div class="stat">
+            <div class="stat-num">5</div>
+            <div class="stat-label">Core Campaigns</div>
+          </div>
+          <div class="stat">
+            <div class="stat-num">60</div>
+            <div class="stat-label">Emails Written</div>
+          </div>
+        </div>
+        <p style="font-size:7.5pt;color:var(--ink-soft);margin-bottom:6px;">Designed to support prospecting, relationship building, and consistent outreach across the full customer lifecycle.</p>
+        <div class="pills">
+          <span class="pill">Prospect Journey</span>
+          <span class="pill">Active Customer</span>
+          <span class="pill">First Order</span>
+          <span class="pill">Win Back</span>
+          <span class="pill">Holiday</span>
+        </div>
+      </div>
+
+      <div class="card accent">
+        <div class="card-label">System Automations</div>
+        <h2>Automation Flows</h2>
+        <div class="stats">
+          <div class="stat">
+            <div class="stat-num">5</div>
+            <div class="stat-label">Automation Flows</div>
+          </div>
+        </div>
+        <ul class="dash">
+          <li>Lead status management</li>
+          <li>Campaign enrollment logic</li>
+          <li>Contact tagging</li>
+          <li>Workflow triggers</li>
+          <li>Automation guardrails</li>
+        </ul>
+      </div>
+
+    </div>
+
+    <div class="section-divider"><span>System Integrations</span></div>
+
+    <div class="grid">
+
+      <div class="card">
+        <div class="card-label">Integrations</div>
+        <h2>Connected Systems</h2>
+        <div class="integration">
+          <div class="int-icon">🛍</div>
+          <div>
+            <div class="int-name">Shopify</div>
+            <div class="int-desc">Synced with Go High Level. Customer and order data flows from Shopify into the CRM — contacts and purchase history captured automatically.</div>
+          </div>
+        </div>
+        <div class="integration">
+          <div class="int-icon">📒</div>
+          <div>
+            <div class="int-name">QuickBooks</div>
+            <div class="int-desc">Existing QB contacts synced to GHL. New contacts from QuickBooks continue to sync automatically (up to 5 min delay).</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="card" style="background:var(--cream-warm);">
+        <div class="card-label">Platform Scope</div>
+        <h2>What GHL Is <em style="font-style:italic;font-family:'DM Serif Display',serif;">Not</em></h2>
+        <p style="font-size:7.5pt;color:var(--ink-soft);margin-bottom:10px;">Go High Level is a CRM and marketing automation platform. It is not a replacement for:</p>
+        <div class="not-list">
+          <div class="not-item">Inventory Management System</div>
+          <div class="not-item">Point of Sale (POS)</div>
+          <div class="not-item">Accounting System</div>
+        </div>
+        <p style="font-size:7.5pt;color:var(--ink-soft);margin-top:10px;">Key integrations with Shopify and QuickBooks bridge these systems into the CRM.</p>
+      </div>
+
+    </div>
+
+    <div class="section-divider"><span>Sales Infrastructure</span></div>
+
+    <div class="grid-3">
+
+      <div class="card accent">
+        <div class="card-label">Personal Branding</div>
+        <h2>Email Signatures</h2>
+        <ul class="dash">
+          <li>Emails sent from salesperson's own email address</li>
+          <li>Custom signature per rep</li>
+          <li>Consistent branding &amp; contact visibility</li>
+        </ul>
+      </div>
+
+      <div class="card accent">
+        <div class="card-label">Booking System</div>
+        <h2>Appointment Pages</h2>
+        <ul class="dash">
+          <li>Booking pages built inside GHL</li>
+          <li>Integrated with each rep's Outlook calendar</li>
+          <li>Prospects schedule meetings directly</li>
+          <li>Double-booking prevented via calendar sync</li>
+        </ul>
+      </div>
+
+      <div style="display:flex;flex-direction:column;gap:14px;">
+
+        <div class="card open-item">
+          <div class="card-label">Open Item</div>
+          <h2 style="font-size:9.5pt;margin-bottom:4px;">Domain Integration</h2>
+          <p style="font-size:7.5pt;color:var(--ink-soft);">GoDaddy credentials needed to connect NoonShop domain for booking links and CRM features.</p>
+          <div class="open-note"><span class="open-dot"></span> Pending credentials</div>
+        </div>
+
+        <div class="card open-item">
+          <div class="card-label">Open Item</div>
+          <h2 style="font-size:9.5pt;margin-bottom:4px;">Gmail Test Account</h2>
+          <p style="font-size:7.5pt;color:var(--ink-soft);">Customer-side Gmail testing account to be created for end-to-end QA.</p>
+          <div class="open-note"><span class="open-dot"></span> Not yet created</div>
+        </div>
+
+      </div>
+
+    </div>
+
+    <!-- Phase 1 Testing -->
+    <div class="section-divider"><span>Phase 1 &nbsp;&middot;&nbsp; Testing &amp; Calibration</span></div>
+
+    <div style="background:#FFF3EC;border:1px solid #F0C4A8;border-left:4px solid var(--open);border-radius:6px;padding:12px 16px;margin-bottom:16px;">
+      <div style="font-size:6.5pt;font-weight:700;letter-spacing:0.18em;text-transform:uppercase;color:var(--open);margin-bottom:5px;">Important Rule &mdash; Testing Phase</div>
+      <p style="font-size:8.5pt;color:var(--ink-mid);margin-bottom:8px;">For the next week, we are strictly operating in a testing environment. This is a hard rule during testing:</p>
+      <div style="display:flex;gap:20px;flex-wrap:wrap;">
+        <div style="display:flex;align-items:center;gap:6px;font-size:8pt;color:var(--ink-mid);"><span style="width:7px;height:7px;border-radius:50%;background:var(--open);display:inline-block;flex-shrink:0;"></span>Only test contacts should be used</div>
+        <div style="display:flex;align-items:center;gap:6px;font-size:8pt;color:var(--ink-mid);"><span style="width:7px;height:7px;border-radius:50%;background:var(--open);display:inline-block;flex-shrink:0;"></span>Only test email accounts should be used</div>
+        <div style="display:flex;align-items:center;gap:6px;font-size:8pt;color:var(--ink-mid);"><span style="width:7px;height:7px;border-radius:50%;background:var(--open);display:inline-block;flex-shrink:0;"></span>No campaigns or automations assigned to real prospects</div>
+      </div>
+    </div>
+
+    <div class="grid">
+
+      <div class="card accent">
+        <div class="card-label">Purpose of Testing Phase</div>
+        <h2>What We Are Validating</h2>
+        <ul class="dash">
+          <li>Validate the automations are triggering correctly</li>
+          <li>Test all workflows end-to-end</li>
+          <li>Ensure emails deliver correctly to inboxes</li>
+          <li>Make adjustments before going live</li>
+        </ul>
+      </div>
+
+      <div class="card accent">
+        <div class="card-label">Setup Required</div>
+        <h2>Test Email Accounts</h2>
+        <p style="font-size:7.5pt;color:var(--ink-soft);margin-bottom:8px;">Everyone involved in testing must add a test email account to their devices. You can use the test Gmail we created or create your own. Add it to:</p>
+        <ul class="dash">
+          <li>Your phone</li>
+          <li>Outlook</li>
+          <li>Wherever you check your email</li>
+        </ul>
+        <p style="font-size:7.5pt;color:var(--ink-soft);margin-top:8px;">This allows you to receive campaign emails and properly test the workflows.</p>
+      </div>
+
+    </div>
+
+    <!-- Sales Process Forms -->
+    <div class="section-divider"><span>Sales Process Forms</span></div>
+
+    <div class="grid">
+
+      <div class="card accent">
+        <div class="card-label">Form 1 &nbsp;&middot;&nbsp; Sales Reps</div>
+        <h2>New Prospect Form</h2>
+        <p style="font-size:7.5pt;color:var(--ink-soft);margin-bottom:8px;">Whenever a salesperson meets a new prospect, they should enter them using this form. We recommend adding it to your phone for quick access.</p>
+        <ul class="dash">
+          <li>Every prospect enters the CRM correctly</li>
+          <li>The appropriate communication journey begins automatically</li>
+        </ul>
+      </div>
+
+      <div class="card accent">
+        <div class="card-label">Form 2 &nbsp;&middot;&nbsp; Sales Operations Only</div>
+        <h2>New Order Entry Form</h2>
+        <p style="font-size:7.5pt;color:var(--ink-soft);margin-bottom:8px;">A manual step used by Sales Operations (not Sales Reps) to record completed orders. This allows the CRM to:</p>
+        <ul class="dash">
+          <li>Update the customer's journey stage</li>
+          <li>Record the last order date</li>
+          <li>Calculate the expected reorder date</li>
+          <li>Automatically send reorder emails at the right time</li>
+        </ul>
+        <p style="font-size:7pt;color:var(--gold);font-weight:600;margin-top:8px;">Will be demonstrated during today's walkthrough.</p>
+      </div>
+
+    </div>
+
+    <!-- Setup Actions -->
+    <div class="section-divider"><span>Setup Actions for the Team</span></div>
+
+    <div class="grid-3">
+
+      <div class="card accent">
+        <div class="card-label">Calendar</div>
+        <h2>Connect Outlook Calendars</h2>
+        <p style="font-size:7.5pt;color:var(--ink-soft);margin-bottom:8px;">Each salesperson must connect their Outlook calendar to Go High Level. This enables the booking system to work correctly and prevents double-booking.</p>
+        <ul class="dash">
+          <li>Required for appointment booking pages to function</li>
+          <li>Ensures real-time calendar availability</li>
+        </ul>
+      </div>
+
+      <div class="card accent">
+        <div class="card-label">Mobile App</div>
+        <h2>Download the GHL CRM App</h2>
+        <p style="font-size:7.5pt;color:var(--ink-soft);margin-bottom:8px;">Download the Go High Level mobile app to manage contacts, view pipelines, and receive notifications on the go.</p>
+        <ul class="dash">
+          <li>Available on iOS and Android</li>
+          <li>Log in with your GHL credentials</li>
+        </ul>
+      </div>
+
+      <div class="card accent">
+        <div class="card-label">Quick Access</div>
+        <h2>Add GHL to Your Home Screen</h2>
+        <p style="font-size:7.5pt;color:var(--ink-soft);margin-bottom:8px;">Add the Go High Level browser page to your phone or device home screen for fast one-tap access without opening a browser each time.</p>
+        <ul class="dash">
+          <li>Open GHL in Safari or Chrome</li>
+          <li>Tap Share &rarr; "Add to Home Screen"</li>
+          <li>Access your CRM instantly from your home screen</li>
+        </ul>
+      </div>
+
+    </div>
+
+    <div class="grid">
+
+      <div class="card accent">
+        <div class="card-label">All Sales Reps</div>
+        <h2>New Prospect Form</h2>
+        <p style="font-size:7.5pt;color:var(--ink-soft);margin-bottom:8px;">Every sales rep should save quick access to the New Prospect Form so they can add contacts on the spot — in the field, at a meeting, or on the go.</p>
+        <ul class="dash">
+          <li>Add the form to your <strong style="color:var(--ink);">phone home screen</strong></li>
+          <li>Save it to your <strong style="color:var(--ink);">browser favorites</strong></li>
+          <li>The faster prospects are entered, the sooner the CRM journey begins</li>
+        </ul>
+      </div>
+
+      <div class="card accent">
+        <div class="card-label">Sales Operations Only</div>
+        <h2>New Order Entry Form</h2>
+        <p style="font-size:7.5pt;color:var(--ink-soft);margin-bottom:8px;">Sales Operations staff should save the New Order Entry Form for quick access when recording completed orders.</p>
+        <ul class="dash">
+          <li>Add the form to your <strong style="color:var(--ink);">phone home screen</strong></li>
+          <li>Save it to your <strong style="color:var(--ink);">browser favorites</strong></li>
+          <li>Timely order entry ensures reorder campaigns trigger at the right time</li>
+        </ul>
+      </div>
+
+    </div>
+
+    <!-- Updated Open Items -->
+    <div class="section-divider"><span>Open Items Still Being Finalized</span></div>
+
+    <div class="grid-3">
+      <div class="card open-item">
+        <div class="card-label">Open Item</div>
+        <h2 style="font-size:9.5pt;margin-bottom:4px;">Domain Registration</h2>
+        <p style="font-size:7.5pt;color:var(--ink-soft);">Some domain registration steps are still being completed for booking links and CRM features.</p>
+        <div class="open-note"><span class="open-dot"></span> In progress</div>
+      </div>
+      <div class="card open-item">
+        <div class="card-label">Open Item</div>
+        <h2 style="font-size:9.5pt;margin-bottom:4px;">Email Redirects</h2>
+        <p style="font-size:7.5pt;color:var(--ink-soft);">Email redirects still need to be configured as part of the domain and sending setup.</p>
+        <div class="open-note"><span class="open-dot"></span> Pending configuration</div>
+      </div>
+      <div class="card open-item">
+        <div class="card-label">Open Item</div>
+        <h2 style="font-size:9.5pt;margin-bottom:4px;">David's Email Signature</h2>
+        <p style="font-size:7.5pt;color:var(--ink-soft);">Signature still needs to be created in the CRM due to permission issues. Being resolved shortly.</p>
+        <div class="open-note"><span class="open-dot"></span> Permission issue</div>
+      </div>
+    </div>
+
+  </div>
+
+  <div class="footer">
+    <div class="footer-brand">Delivered by <span>HelloIT</span> &nbsp;·&nbsp; CRM Automation &amp; Customer Journey</div>
+    <div class="footer-note">Go High Level Platform &nbsp;·&nbsp; NoonShop &nbsp;·&nbsp; 2026</div>
+  </div>
+
+</div>
+
+</body>
+</html>
