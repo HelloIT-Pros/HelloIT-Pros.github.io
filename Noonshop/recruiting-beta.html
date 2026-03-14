@@ -1,0 +1,1231 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Noon Shop — Sales Opportunity (Beta)</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Outfit:wght@100;200;300;400;500&family=Playfair+Display:ital,wght@0,400;0,700;1,400;1,700&display=swap" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/gsap@3.12.7/dist/gsap.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/gsap@3.12.7/dist/ScrollTrigger.min.js"></script>
+<style>
+:root{
+  --white:#F7F6F3;--paper:#EEECE7;--ink:#0C0C0C;--ink2:#1A1A1A;
+  --mid:#888;--border:rgba(12,12,12,.10);
+  --D:'Bebas Neue',sans-serif;--B:'Outfit',sans-serif;
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:auto}
+body{background:var(--ink);color:var(--white);font-family:var(--B);font-weight:300;overflow-x:hidden;cursor:none}
+
+/* Loader */
+.loader{position:fixed;inset:0;background:var(--ink);z-index:10000;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:20px;pointer-events:none}
+.loader-brand{font-family:var(--D);font-size:clamp(28px,3.6vw,44px);letter-spacing:.32em;color:#F7F6F3;opacity:0;transform:translateY(8px)}
+.loader-line{width:0;height:1px;background:rgba(247,246,243,.35)}
+
+.cur{position:fixed;width:7px;height:7px;background:#F7F6F3;border-radius:50%;pointer-events:none;z-index:9999;mix-blend-mode:difference}
+.ring{position:fixed;width:32px;height:32px;border:1px solid rgba(247,246,243,.35);border-radius:50%;pointer-events:none;z-index:9998;mix-blend-mode:difference}
+
+.sp{position:fixed;top:0;left:0;height:1px;background:linear-gradient(90deg,transparent,rgba(247,246,243,.6),rgba(247,246,243,.3));width:0%;z-index:200;transition:width .1s linear}
+
+nav{position:fixed;top:0;left:0;right:0;z-index:100;display:flex;justify-content:space-between;align-items:center;padding:28px 60px;transition:background .4s,backdrop-filter .4s}
+nav.scrolled{background:rgba(12,12,12,.6);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px)}
+.nav-logo{font-family:var(--D);font-size:18px;letter-spacing:.14em;color:rgba(247,246,243,.6);text-decoration:none;transition:color .3s}
+.nav-logo:hover{color:#F7F6F3}
+.nav-links{display:flex;gap:32px;align-items:center}
+.nav-link{font-family:var(--B);font-size:11px;font-weight:500;letter-spacing:.2em;text-transform:uppercase;color:rgba(247,246,243,.55);text-decoration:none;padding-bottom:2px;transition:color .3s;position:relative}
+.nav-link::after{content:'';position:absolute;bottom:-2px;left:0;right:0;height:1px;background:#F7F6F3;transform:scaleX(0);transform-origin:right;transition:transform .4s cubic-bezier(.4,0,.2,1)}
+.nav-link:hover{color:#F7F6F3}
+.nav-link:hover::after{transform:scaleX(1);transform-origin:left}
+
+/* Hero */
+.hero{min-height:100vh;background:var(--ink);display:flex;flex-direction:column;justify-content:flex-end;padding:0 60px 88px;position:relative;overflow:hidden}
+#heroVideo{position:absolute;top:0;left:0;width:100%;height:100%;object-fit:cover;pointer-events:none;z-index:0;opacity:0}
+#heroCanvas{position:absolute;top:0;left:0;width:100%;height:100%;pointer-events:none;z-index:1}
+.hero-wm{position:absolute;right:-30px;top:50%;transform:translateY(-52%);font-family:var(--D);font-size:clamp(240px,32vw,500px);color:rgba(247,246,243,.038);line-height:1;pointer-events:none;user-select:none;letter-spacing:.04em;z-index:1}
+.hero-topline{position:absolute;top:0;left:0;right:0;height:1px;background:linear-gradient(90deg,transparent,rgba(247,246,243,.12),transparent);z-index:2}
+.hero-tag{font-size:10px;font-weight:400;letter-spacing:.36em;text-transform:uppercase;color:rgba(247,246,243,.38);margin-bottom:28px;position:relative;z-index:2}
+.hero-h1{font-family:var(--D);font-size:clamp(56px,9vw,160px);line-height:.88;letter-spacing:.025em;color:#F7F6F3;position:relative;z-index:2;clip-path:inset(0 0 100% 0);opacity:0}
+.hero-h1-sub{display:block;font-family:'Playfair Display',Georgia,serif;font-style:italic;font-weight:400;font-size:clamp(36px,5.5vw,96px);line-height:1.0;letter-spacing:-.01em;color:rgba(247,246,243,.55);margin-top:4px}
+.hero-foot{display:flex;justify-content:space-between;align-items:flex-end;margin-top:64px;position:relative;z-index:2}
+.hero-sub{font-size:16px;font-weight:300;line-height:1.78;color:rgba(247,246,243,.45);max-width:420px}
+.hero-cta{display:inline-flex;align-items:center;gap:18px;text-decoration:none;color:#F7F6F3;flex-shrink:0}
+.hero-cta-txt{font-size:11px;font-weight:500;letter-spacing:.2em;text-transform:uppercase}
+.hero-arrow{width:56px;height:1px;background:rgba(247,246,243,.55);position:relative;transition:width .4s}
+.hero-arrow::after{content:'';position:absolute;right:0;top:-3px;width:7px;height:7px;border-right:1px solid rgba(247,246,243,.55);border-top:1px solid rgba(247,246,243,.55);transform:rotate(45deg)}
+.hero-cta:hover .hero-arrow{width:90px}
+.hero-scroll{position:absolute;bottom:88px;right:60px;display:flex;flex-direction:column;align-items:center;gap:12px;z-index:2}
+.hero-scroll span{font-size:9px;font-weight:400;letter-spacing:.26em;text-transform:uppercase;color:rgba(247,246,243,.22);writing-mode:vertical-rl}
+.sline{width:1px;height:64px;background:rgba(247,246,243,.2);animation:pulse 2.5s 2s infinite}
+@keyframes pulse{0%,100%{opacity:.1;transform:scaleY(.4)}50%{opacity:.45;transform:scaleY(1)}}
+
+/* Shared */
+section{padding:136px 60px;position:relative}
+.ls{background:var(--white);color:var(--ink)}
+.ls2{background:var(--paper);color:var(--ink)}
+.rule-d{height:1px;background:rgba(247,246,243,.08);margin:0 60px}
+.rule-l{height:1px;background:var(--border);margin:0 60px}
+.tag{font-size:10px;font-weight:500;letter-spacing:.32em;text-transform:uppercase;color:rgba(247,246,243,.35);margin-bottom:52px;display:flex;align-items:center;gap:16px}
+.tag::before{content:'';display:block;width:36px;height:1px;background:currentColor}
+.tag-dark{color:var(--mid)}.tag-dark::before{background:var(--mid)}
+
+.dh{font-family:var(--D);font-size:clamp(64px,9.5vw,160px);line-height:.88;letter-spacing:.025em;margin-bottom:80px}
+.dh-sub{display:block;font-family:'Playfair Display',Georgia,serif;font-size:clamp(44px,7vw,112px);font-weight:400;font-style:italic;line-height:1.0;letter-spacing:-.01em;margin-top:8px;color:var(--mid)}
+.dh-sub-bright{color:rgba(247,246,243,.5)}
+
+.opp-icon{width:48px;height:48px;border:1px solid var(--border);border-radius:50%;display:flex;align-items:center;justify-content:center;margin-bottom:20px;color:var(--ink)}
+.tech-icon-svg{width:56px;height:56px;border:1px solid rgba(247,246,243,.14);border-radius:50%;display:flex;align-items:center;justify-content:center;margin-bottom:28px}
+.trait-icon{width:36px;height:36px;border:1px solid var(--border);border-radius:50%;display:flex;align-items:center;justify-content:center;flex-shrink:0;color:var(--ink)}
+
+/* Problem/dark */
+.dark{background:var(--ink)}
+.prob-body{display:grid;grid-template-columns:1fr 1fr;gap:64px;max-width:960px}
+.prob-body p{font-size:17px;line-height:1.7;color:rgba(247,246,243,.52);margin-bottom:12px}
+.prob-body p:last-child{margin-bottom:0}
+.prob-body p strong{color:#F7F6F3;font-weight:400}
+.prob-origin{grid-column:1/-1;border-top:1px solid rgba(247,246,243,.08);padding-top:64px;display:grid;grid-template-columns:1fr 2fr;gap:64px;align-items:center;position:relative}
+.prob-pull{font-family:var(--D);font-size:clamp(36px,3.8vw,56px);line-height:.92;letter-spacing:.025em;color:rgba(247,246,243,.85)}
+.prob-origin-txt{font-size:16px;line-height:1.85;color:rgba(247,246,243,.48)}
+.lens-bg{position:absolute;right:-100px;top:-120px;width:400px;height:400px;border-radius:50%;border:1px solid rgba(247,246,243,.05);animation:lensRotate 30s linear infinite;pointer-events:none}
+.lens-bg::before{content:'';position:absolute;inset:30px;border-radius:50%;border:1px solid rgba(247,246,243,.04)}
+.lens-bg::after{content:'';position:absolute;inset:60px;border-radius:50%;border:1px solid rgba(247,246,243,.03)}
+@keyframes lensRotate{from{transform:rotate(0deg)}to{transform:rotate(360deg)}}
+
+/* Opportunity cards with 3D tilt */
+.opp-intro p{font-size:18px;font-weight:300;line-height:1.8;color:var(--ink2);max-width:680px;margin-bottom:14px}
+.opp-intro{margin-bottom:80px}
+.opp-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:2px;background:var(--border)}
+.opp-card{padding:52px 48px;background:var(--white);transition:transform .45s cubic-bezier(.4,0,.2,1),box-shadow .45s ease,background .35s;position:relative}
+.opp-card:hover{background:#EDE9E2;transform:translateY(-4px);box-shadow:0 16px 40px rgba(0,0,0,.08)}
+.opp-title{font-family:var(--D);font-size:clamp(26px,2.6vw,40px);line-height:.92;letter-spacing:.025em;margin-bottom:16px;color:var(--ink)}
+.opp-text{font-size:15px;font-weight:300;line-height:1.75;color:var(--mid)}
+
+/* Noise texture overlay */
+.noise{position:absolute;inset:0;pointer-events:none;opacity:.03;z-index:0;background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");background-repeat:repeat;background-size:256px 256px}
+
+/* Tech horizontal scroll */
+.tech-hscroll-wrap{position:relative;overflow:hidden}
+.tech-hscroll-pin{min-height:100vh;display:flex;align-items:center}
+.tech-hscroll-track{display:flex;gap:1px;width:max-content}
+.tech-col{padding:56px 44px;background:var(--ink);transition:background .3s,box-shadow .5s;width:36vw;min-width:400px;max-width:520px;flex-shrink:0;border:1px solid rgba(247,246,243,.07)}
+.tech-col:hover{background:#131313;box-shadow:0 0 40px rgba(247,246,243,.04),inset 0 0 20px rgba(247,246,243,.02)}
+.tech-col-title{font-family:var(--D);font-size:clamp(26px,2.6vw,38px);line-height:.92;letter-spacing:.025em;color:#F7F6F3;margin-bottom:28px;padding-bottom:20px;border-bottom:1px solid rgba(247,246,243,.1)}
+.tech-list{list-style:none}
+.tech-list li{font-size:15px;font-weight:300;line-height:1.65;color:rgba(247,246,243,.7);padding:10px 0;border-bottom:1px solid rgba(247,246,243,.06);display:flex;gap:12px}
+.tech-list li::before{content:'→';color:rgba(247,246,243,.28);flex-shrink:0}
+.tech-list li svg{opacity:0;transition:opacity .5s}
+.tech-col.in-view li svg{opacity:1}
+.tech-close{border:1px solid rgba(247,246,243,.12);padding:64px;max-width:900px;display:grid;grid-template-columns:1fr 1fr;gap:80px;align-items:center;margin-top:80px}
+.tech-close-h{font-family:var(--D);font-size:clamp(36px,3.8vw,60px);line-height:.9;letter-spacing:.025em;color:#F7F6F3}
+.tech-close-p{font-size:16px;font-weight:300;line-height:1.8;color:rgba(247,246,243,.48)}
+
+/* Opportunity Model scroll timeline */
+.model-disclaimer{font-size:13px;font-weight:300;color:var(--mid);letter-spacing:.04em;margin-bottom:72px;font-style:italic}
+.model-vertical{position:relative;max-width:900px;padding-left:80px}
+.model-vline{position:absolute;left:30px;top:0;bottom:0;width:1px;background:var(--border)}
+.model-vline-fill{width:100%;height:0%;background:var(--ink);transition:none}
+.model-vstep{position:relative;margin-bottom:80px;opacity:0;transform:translateX(40px)}
+.model-vstep:last-child{margin-bottom:0}
+.model-vstep-num{position:absolute;left:-80px;top:-10px;font-family:var(--D);font-size:clamp(60px,6vw,100px);color:rgba(12,12,12,.06);line-height:1;pointer-events:none;user-select:none}
+.model-vstep-dot{position:absolute;left:-54px;top:8px;width:11px;height:11px;border-radius:50%;border:2px solid var(--ink);background:var(--white);transition:background .3s}
+.model-vstep.in-view .model-vstep-dot{background:var(--ink)}
+.model-step-period{font-size:10px;font-weight:500;letter-spacing:.22em;text-transform:uppercase;color:var(--mid);margin-bottom:16px}
+.model-step-title{font-family:var(--D);font-size:clamp(22px,2.2vw,34px);line-height:.92;letter-spacing:.025em;color:var(--ink);margin-bottom:24px;padding-bottom:20px;border-bottom:1px solid var(--border)}
+.model-step-body p{font-size:14px;font-weight:300;line-height:1.75;color:var(--mid);margin-bottom:12px}
+.model-step-body p:last-child{margin-bottom:0}
+
+/* Leverage split viewport */
+.leverage-split{display:grid;grid-template-columns:1fr 1px 1fr;gap:0;min-height:60vh;align-items:start;max-width:1100px}
+.leverage-divider-line{background:rgba(247,246,243,.12);width:1px;height:100%;min-height:300px}
+.leverage-half{padding:0 48px}
+.leverage-half:first-child{padding-left:0}
+.leverage-half:last-child{padding-right:0}
+.leverage-col-label{font-size:10px;font-weight:500;letter-spacing:.28em;text-transform:uppercase;color:rgba(247,246,243,.35);margin-bottom:28px}
+.leverage-list{list-style:none}
+.leverage-list li{font-size:16px;font-weight:300;line-height:1.6;color:rgba(247,246,243,.72);padding:14px 0;border-bottom:1px solid rgba(247,246,243,.07);display:flex;align-items:center;gap:14px}
+.leverage-list li svg{flex-shrink:0}
+.leverage-result-glass{margin-top:80px;padding:48px 56px;background:rgba(247,246,243,.04);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);border:1px solid rgba(247,246,243,.08);max-width:600px}
+.leverage-result-label{font-size:10px;font-weight:500;letter-spacing:.28em;text-transform:uppercase;color:rgba(247,246,243,.35);margin-bottom:24px}
+.leverage-result-text{font-family:'Playfair Display',Georgia,serif;font-style:italic;font-size:clamp(28px,3vw,48px);font-weight:400;line-height:1.2;letter-spacing:-.01em;color:#F7F6F3}
+
+/* Thrives */
+.thrives-layout{display:grid;grid-template-columns:3fr 2fr;gap:80px;max-width:1000px}
+.trait{display:flex;gap:20px;align-items:flex-start;padding:28px 0;border-bottom:1px solid var(--border);position:relative;padding-left:16px;border-left:3px solid transparent;transition:border-left-color .4s,padding-left .4s}
+.trait:hover{border-left-color:var(--ink);padding-left:24px}
+.trait-name{font-size:15px;font-weight:500;margin-bottom:4px;color:var(--ink)}
+.trait-desc{font-size:14px;font-weight:300;color:var(--mid);line-height:1.65}
+.sidebar{background:var(--paper);border:1px solid var(--border);padding:48px 40px;align-self:start}
+.sidebar-lbl{font-size:10px;font-weight:500;letter-spacing:.22em;text-transform:uppercase;color:var(--mid);margin-bottom:18px}
+.sidebar-txt{font-size:15px;font-weight:300;line-height:1.8;color:var(--ink2)}
+.sidebar-pull{margin-top:32px;padding-top:32px;border-top:1px solid var(--border);font-family:var(--D);font-size:clamp(22px,2vw,32px);line-height:.95;letter-spacing:.025em;color:var(--ink)}
+
+/* Vision timeline */
+.vision-row{display:flex;max-width:1000px;position:relative}
+.vision-row::before{content:'';position:absolute;top:18px;left:0;right:0;height:1px;background:rgba(12,12,12,.12)}
+.vision-pt{flex:1;padding-top:56px;position:relative;padding-right:24px}
+.vision-pt:last-child{padding-right:0}
+.vision-pt::before{content:'';position:absolute;top:12px;left:0;width:12px;height:12px;border:1px solid var(--ink);border-radius:50%;background:var(--paper);transition:background .4s}
+.vision-pt.in-view::before{background:var(--ink)}
+.vision-pt-icon{width:32px;height:32px;border:1px solid var(--border);border-radius:50%;display:flex;align-items:center;justify-content:center;margin-bottom:12px;color:var(--ink)}
+.vision-yr{font-size:10px;font-weight:500;letter-spacing:.22em;text-transform:uppercase;color:var(--mid);margin-bottom:14px}
+.vision-ttl{font-family:var(--D);font-size:clamp(20px,2vw,28px);line-height:.92;letter-spacing:.025em;margin-bottom:10px;color:var(--ink)}
+.vision-txt{font-size:15px;font-weight:300;line-height:1.7;color:var(--mid)}
+
+/* Quiz */
+.quiz{background:var(--white);min-height:100vh;display:flex;flex-direction:column;justify-content:center;padding:100px 60px 80px;position:relative;overflow:hidden}
+.quiz .noise{opacity:.02}
+.quiz .tag{color:var(--mid)}.quiz .tag::before{background:var(--mid)}
+.qprogbar-wrap{position:absolute;top:0;left:0;right:0;height:4px;background:rgba(12,12,12,.07)}
+.qprogbar{height:100%;background:var(--ink);width:0%;transition:width .5s cubic-bezier(.4,0,.2,1)}
+.qcounter{position:absolute;top:36px;right:60px;font-family:var(--D);font-size:clamp(48px,5vw,72px);line-height:1;letter-spacing:.04em;color:rgba(12,12,12,.07);pointer-events:none;user-select:none}
+.quiz-wrap{max-width:960px;position:relative;z-index:1}
+.quiz-step{display:none}
+.quiz-step.active{display:block;animation:qIn .45s cubic-bezier(.4,0,.2,1) forwards}
+@keyframes qIn{from{opacity:0;transform:translateX(24px)}to{opacity:1;transform:translateX(0)}}
+.quiz-q{font-family:'Bebas Neue',sans-serif !important;font-size:clamp(64px,9.5vw,140px);line-height:.88;letter-spacing:.025em;color:var(--ink);margin-bottom:10px;font-weight:400;-webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility}
+.quiz-hint{font-size:13px;font-weight:300;color:var(--mid);letter-spacing:.04em;margin-bottom:40px}
+
+.qopts-list{display:flex;flex-direction:column;gap:2px}
+.qrow{display:flex;align-items:center;border:1px solid var(--border);background:var(--white);cursor:pointer;transition:background .18s,border-color .18s,border-left .18s;overflow:hidden}
+.qrow:hover{background:var(--paper);border-color:rgba(12,12,12,.2)}
+.qrow.sel{background:var(--ink);border-color:var(--ink);border-left:4px solid #F7F6F3}
+.qrow-check{width:52px;flex-shrink:0;display:flex;align-items:center;justify-content:center;font-size:14px;color:transparent;transition:color .18s;align-self:stretch;border-right:1px solid var(--border);position:relative}
+.qrow-check::before{content:'';width:20px;height:20px;border-radius:50%;border:1px solid rgba(12,12,12,.2);position:absolute;transition:border-color .18s}
+.qrow:hover .qrow-check::before{border-color:rgba(12,12,12,.4)}
+.qrow.sel .qrow-check::before{display:none}
+.qrow.sel .qrow-check{color:#F7F6F3;border-color:rgba(247,246,243,.15)}
+.qrow-body{padding:18px 24px;flex:1}
+.qrow-main{font-family:var(--D);font-size:clamp(20px,2.2vw,30px);line-height:.95;letter-spacing:.025em;color:var(--ink);transition:color .18s}
+.qrow.sel .qrow-main{color:#F7F6F3}
+.qrow-sub{font-size:13px;font-weight:300;color:var(--mid);margin-top:4px;transition:color .18s}
+.qrow.sel .qrow-sub{color:rgba(247,246,243,.5)}
+
+.qopts-tiles{display:grid;gap:2px}
+.qopts-tiles.cols2{grid-template-columns:repeat(2,1fr)}
+.qopts-tiles.cols3{grid-template-columns:repeat(3,1fr)}
+.qtile{padding:32px 28px;border:1px solid var(--border);background:var(--white);cursor:pointer;transition:background .18s,border-color .18s;position:relative;overflow:hidden}
+.qtile::after{content:'';position:absolute;bottom:0;left:0;right:0;height:2px;background:var(--ink);transform:scaleX(0);transform-origin:left;transition:transform .25s ease}
+.qtile:hover{background:var(--paper);border-color:rgba(12,12,12,.22)}
+.qtile:hover::after{transform:scaleX(.4)}
+.qtile.sel{background:var(--ink);border-color:var(--ink)}
+.qtile.sel::after{transform:scaleX(1);background:#F7F6F3}
+.qtile-icon{width:40px;height:40px;margin-bottom:20px;display:flex;align-items:center;justify-content:center;border:1px solid var(--border);border-radius:50%;color:var(--ink);transition:color .18s,border-color .18s}
+.qtile:hover .qtile-icon{border-color:rgba(12,12,12,.3)}
+.qtile.sel .qtile-icon{color:#F7F6F3;border-color:rgba(247,246,243,.3)}
+.qtile-main{font-family:var(--D);font-size:clamp(18px,2vw,26px);line-height:.95;letter-spacing:.025em;color:var(--ink);transition:color .18s;margin-bottom:8px}
+.qtile.sel .qtile-main{color:#F7F6F3}
+.qtile-sub{font-size:13px;font-weight:300;color:var(--mid);line-height:1.5;transition:color .18s}
+.qtile.sel .qtile-sub{color:rgba(247,246,243,.5)}
+.qtile-sel-badge{position:absolute;top:12px;right:12px;width:20px;height:20px;border-radius:50%;background:#F7F6F3;display:flex;align-items:center;justify-content:center;font-size:10px;color:var(--ink);opacity:0;transform:scale(.5);transition:opacity .2s,transform .2s}
+.qtile.sel .qtile-sel-badge{opacity:1;transform:scale(1)}
+
+.qnav{display:flex;justify-content:space-between;align-items:center;margin-top:40px;padding-top:32px;border-top:1px solid var(--border)}
+.qnav-left{display:flex;align-items:center;gap:24px}
+.qstep-label{font-size:11px;font-weight:500;letter-spacing:.18em;text-transform:uppercase;color:var(--mid)}
+.qbtn,.qback{font-size:11px;font-weight:500;letter-spacing:.2em;text-transform:uppercase;cursor:pointer;border:none;font-family:var(--B);transition:all .25s}
+.qbtn{background:var(--ink);color:#F7F6F3;padding:16px 36px}
+.qbtn:hover{background:var(--ink2)}
+.qbtn:disabled{opacity:.2;cursor:not-allowed}
+.qback{background:transparent;color:rgba(12,12,12,.3);padding:0}
+.qback:hover{color:var(--ink)}
+
+.qform{display:flex;flex-direction:column;gap:0;margin-bottom:0}
+.qfield{display:flex;flex-direction:column;gap:8px;padding:24px 0;border-bottom:1px solid var(--border)}
+.qfield label{font-size:10px;font-weight:500;letter-spacing:.22em;text-transform:uppercase;color:var(--mid)}
+.qfield input{background:transparent;border:none;padding:8px 0;font-family:var(--D);font-size:clamp(28px,3vw,44px);letter-spacing:.025em;color:var(--ink);outline:none}
+.qfield input::placeholder{color:rgba(12,12,12,.18)}
+.qsubmit{display:inline-flex;align-items:center;gap:18px;padding:20px 44px;background:var(--ink);border:none;font-size:11px;font-weight:500;letter-spacing:.2em;text-transform:uppercase;color:#F7F6F3;cursor:pointer;font-family:var(--B);transition:background .25s;align-self:flex-start}
+.qsubmit:hover{background:var(--ink2)}
+
+.qsuccess{display:none}
+.qsuccess.on{display:flex;flex-direction:column;animation:qIn .7s forwards}
+.qsuccess-tag{font-size:10px;font-weight:500;letter-spacing:.28em;text-transform:uppercase;color:var(--mid);margin-bottom:32px;display:flex;align-items:center;gap:12px}
+.qsuccess-tag::before{content:'✓';display:inline-flex;align-items:center;justify-content:center;width:24px;height:24px;border:1px solid var(--border);border-radius:50%;font-size:11px;color:var(--ink)}
+.qsuccess-h{font-family:'Bebas Neue',sans-serif;font-size:clamp(44px,6vw,96px);line-height:.88;letter-spacing:.025em;margin-bottom:16px;color:var(--ink)}
+.qsuccess-txt{font-size:16px;font-weight:300;line-height:1.8;color:var(--mid);max-width:560px;margin-bottom:64px}
+
+.qs-timeline{position:relative;padding-left:32px;max-width:760px;margin-bottom:64px}
+.qs-line{position:absolute;left:0;top:8px;bottom:8px;width:1px;background:var(--border)}
+.qs-line-fill{width:100%;height:0%;background:var(--ink);transition:height 0s linear}
+.qs-step{display:flex;gap:32px;margin-bottom:48px;position:relative;opacity:0;transform:translateY(20px);transition:opacity .5s ease,transform .5s ease}
+.qs-step.visible{opacity:1;transform:translateY(0)}
+.qs-step-dot{position:absolute;left:-36px;top:6px;width:9px;height:9px;border-radius:50%;border:1px solid var(--ink);background:var(--white);flex-shrink:0;transition:background .3s}
+.qs-step.visible .qs-step-dot{background:var(--ink)}
+.qs-step-content{flex:1}
+.qs-step-period{font-size:10px;font-weight:500;letter-spacing:.22em;text-transform:uppercase;color:var(--mid);margin-bottom:8px}
+.qs-step-title{font-family:'Bebas Neue',sans-serif;font-size:clamp(22px,2.4vw,34px);line-height:.92;letter-spacing:.025em;color:var(--ink);margin-bottom:12px}
+.qs-step-body{font-size:15px;font-weight:300;line-height:1.75;color:var(--mid)}
+.qs-cta{opacity:0;transform:translateY(16px);transition:opacity .5s ease,transform .5s ease;display:flex;flex-direction:column;gap:20px;align-items:flex-start}
+.qs-cta.visible{opacity:1;transform:translateY(0)}
+.qs-cta-label{font-size:11px;font-weight:500;letter-spacing:.2em;text-transform:uppercase;color:var(--mid)}
+
+/* Schedule */
+#schedule{min-height:80vh;display:flex;align-items:center;justify-content:center;text-align:center;position:relative;overflow:hidden}
+#scheduleVideo{position:absolute;top:0;left:0;width:100%;height:100%;object-fit:cover;pointer-events:none;z-index:0;opacity:0}
+#scheduleCanvas{position:absolute;top:0;left:0;width:100%;height:100%;pointer-events:none;z-index:1}
+#schedule::before{content:'CALL';position:absolute;font-family:var(--D);font-size:clamp(180px,25vw,380px);color:rgba(247,246,243,.025);line-height:1;pointer-events:none;user-select:none;letter-spacing:.04em;z-index:1}
+.schedule-inner{position:relative;z-index:2;display:flex;flex-direction:column;align-items:center}
+.schedule-tag{font-size:10px;font-weight:500;letter-spacing:.32em;text-transform:uppercase;color:rgba(247,246,243,.35);margin-bottom:32px}
+.schedule-headline{font-family:var(--D);font-size:clamp(80px,13vw,200px);line-height:.87;letter-spacing:.025em;color:#F7F6F3;margin-bottom:32px}
+.schedule-sub{font-size:17px;font-weight:300;line-height:1.75;color:rgba(247,246,243,.48);max-width:480px;margin-bottom:56px}
+.schedule-btn{display:inline-flex;align-items:center;gap:16px;padding:20px 52px;border:1px solid rgba(247,246,243,.35);font-size:12px;font-weight:500;letter-spacing:.22em;text-transform:uppercase;color:#F7F6F3;text-decoration:none;transition:all .3s;position:relative;overflow:hidden;--mx:50%;--my:50%}
+.schedule-btn::before{content:'';position:absolute;inset:0;background:radial-gradient(300px circle at var(--mx) var(--my),rgba(247,246,243,.1),transparent 40%);opacity:0;transition:opacity .3s;pointer-events:none}
+.schedule-btn:hover{background:rgba(247,246,243,.08);border-color:rgba(247,246,243,.7)}
+.schedule-btn:hover::before{opacity:1}
+.schedule-arrow{font-size:16px;transition:transform .3s}
+.schedule-btn:hover .schedule-arrow{transform:translateX(6px)}
+
+footer{background:var(--ink);padding:56px 60px;display:flex;justify-content:space-between;align-items:center;border-top:1px solid rgba(247,246,243,.06)}
+.flogo{font-family:var(--D);font-size:22px;letter-spacing:.14em;color:rgba(247,246,243,.4)}
+.fcopy{font-size:11px;font-weight:300;letter-spacing:.08em;color:rgba(247,246,243,.22)}
+
+/* Responsive */
+@media(max-width:900px){
+  nav{padding:20px 24px}
+  .nav-links{gap:16px}
+  section,.quiz{padding:80px 24px}
+  .hero{padding:0 24px 64px}
+  .rule-d,.rule-l{margin:0 24px}
+  footer{padding:40px 24px;flex-direction:column;gap:16px;text-align:center}
+  .prob-body{grid-template-columns:1fr}
+  .prob-origin{grid-template-columns:1fr}
+  .opp-grid{grid-template-columns:1fr}
+  .tech-col{width:85vw;min-width:280px}
+  .tech-close{grid-template-columns:1fr}
+  .thrives-layout{grid-template-columns:1fr}
+  .leverage-split{grid-template-columns:1fr;gap:40px}
+  .leverage-divider-line{display:none}
+  .leverage-half{padding:0}
+  .vision-row{flex-direction:column}
+  .vision-row::before{display:none}
+  .vision-pt{padding-top:0;padding-left:28px;padding-right:0;margin-bottom:28px}
+  .vision-pt::before{top:4px}
+  .hero-foot{flex-direction:column;align-items:flex-start;gap:36px}
+  .hero-scroll{display:none}
+  .qopts-tiles.cols3{grid-template-columns:repeat(2,1fr)}
+  .model-vertical{padding-left:48px}
+  .model-vstep-num{left:-48px;font-size:48px}
+  .model-vstep-dot{left:-22px}
+  .model-vline{left:0}
+  #heroCanvas,#heroVideo,#scheduleVideo,#scheduleCanvas{display:none}
+  body{cursor:auto}
+  .cur,.ring{display:none}
+  .lens-bg{display:none}
+  .loader{display:none}
+}
+</style>
+</head>
+<body>
+
+<div class="loader" id="pageLoader"><span class="loader-brand">NOON SHOP</span><div class="loader-line" id="loaderLine"></div></div>
+
+<div class="sp" id="sp"></div>
+<div class="cur" id="cur"></div>
+<div class="ring" id="ring"></div>
+
+<nav id="mainNav">
+  <a href="#top" class="nav-logo">NOON SHOP</a>
+  <div class="nav-links">
+    <a href="#problem" class="nav-link">Product</a>
+    <a href="#territory" class="nav-link">Territory</a>
+    <a href="#tech" class="nav-link">Tech</a>
+    <a href="#quiz" class="nav-link">Apply</a>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section class="hero" id="top">
+  <video id="heroVideo" autoplay muted loop playsinline>
+    <source src="assets/noon-hero.mp4?v=2" type="video/mp4">
+  </video>
+  <canvas id="heroCanvas"></canvas>
+  <div class="hero-topline"></div>
+  <div class="hero-wm" id="heroWm">NOON</div>
+  <div class="hero-tag">Optical Sales · United States · Canada</div>
+  <h1 class="hero-h1" id="heroH1">
+    IMAGINE REPRESENTING<br>EYEWEAR THAT
+    <span class="hero-h1-sub">actually solves the problem.</span>
+  </h1>
+  <div class="hero-foot" id="heroFoot">
+    <p class="hero-sub">If you enjoy building relationships, growing territory, and representing optical products you genuinely believe in — Noon Shop is the opportunity you've been looking for.</p>
+    <a href="#problem" class="hero-cta">
+      <span class="hero-cta-txt">See the Opportunity</span>
+      <span class="hero-arrow"></span>
+    </a>
+  </div>
+  <div class="hero-scroll" id="heroScroll"><span>Scroll</span><div class="sline"></div></div>
+</section>
+
+<div class="rule-d"></div>
+
+<!-- PRODUCT BELIEF -->
+<section class="dark" id="problem">
+  <div class="noise"></div>
+  <div class="tag">A Better Product to Represent</div>
+  <h2 class="dh" style="color:#F7F6F3;">
+    SELL SOMETHING
+    <span class="dh-sub dh-sub-bright">that actually makes a difference.</span>
+  </h2>
+  <div class="prob-body">
+    <div>
+      <p>Many salespeople in optical know this experience. You walk into a practice and present another collection that looks similar to everything already on the wall.</p>
+      <p>But the real problem patients experience isn't style. <strong>It's fit.</strong> Many people aren't seeing their best because their frames don't position lenses correctly on the face.</p>
+    </div>
+    <div>
+      <p>Noon Shop eyewear is designed to fit real faces — so lenses align properly with the eyes.</p>
+      <p><strong>Better comfort. Better vision. Better patient experience.</strong></p>
+    </div>
+    <div class="prob-origin">
+      <div class="lens-bg"></div>
+      <div class="prob-pull">WHEN A PRODUCT<br>SOLVES A REAL<br>PROBLEM.</div>
+      <p class="prob-origin-txt">For a salesperson, that changes everything. You walk into a practice with something differentiated — a product that solves a problem people didn't know they had. And when a product solves a real problem, selling becomes easier.</p>
+    </div>
+  </div>
+</section>
+
+<!-- TERRITORY -->
+<section class="ls" id="territory">
+  <div class="noise"></div>
+  <div class="tag tag-dark">Picture Your Territory</div>
+  <h2 class="dh" style="color:var(--ink)">
+    NOW IMAGINE<br>BUILDING A TERRITORY
+    <span class="dh-sub">around that.</span>
+  </h2>
+  <div class="opp-intro">
+    <p>Noon Shop is a vibrant company expanding across North America and Canada, creating a unique opportunity for the salespeople who join early.</p>
+    <p>You wouldn't just be managing an existing territory. You would be helping build one.</p>
+  </div>
+  <div class="opp-grid" id="oppGrid">
+    <div class="opp-card">
+      <div class="opp-icon"><svg width="32" height="32" viewBox="0 0 32 32" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M4 28V16L16 4l12 12v12"/><path d="M12 28v-8h8v8"/></svg></div>
+      <div class="opp-title">DEVELOP<br>RELATIONSHIPS</div>
+      <p class="opp-text">Build lasting partnerships with optical practices that grow stronger — and more valuable — over time.</p>
+    </div>
+    <div class="opp-card">
+      <div class="opp-icon"><svg width="32" height="32" viewBox="0 0 32 32" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M6 26l5-5 4 4 5-8 6-9"/><path d="M20 8h6v6"/></svg></div>
+      <div class="opp-title">GROW A BOOK<br>OF BUSINESS</div>
+      <p class="opp-text">Build something that compounds — accounts, revenue, and a reputation that travels with you.</p>
+    </div>
+    <div class="opp-card">
+      <div class="opp-icon"><svg width="32" height="32" viewBox="0 0 32 32" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="16" cy="10" r="5"/><circle cx="7" cy="24" r="4"/><circle cx="25" cy="24" r="4"/><path d="M11.5 14.5L7 20M20.5 14.5L25 20"/><path d="M11 24h10"/></svg></div>
+      <div class="opp-title">INTRODUCE<br>SOMETHING NEW</div>
+      <p class="opp-text">Bring a differentiated product to practices that have never seen anything like it. That's a powerful opening.</p>
+    </div>
+    <div class="opp-card">
+      <div class="opp-icon"><svg width="32" height="32" viewBox="0 0 32 32" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M4 24V12a2 2 0 012-2h20a2 2 0 012 2v12"/><path d="M4 18h24"/><path d="M10 18v6M22 18v6"/></svg></div>
+      <div class="opp-title">BECOME A<br>TRUSTED PARTNER</div>
+      <p class="opp-text">The salespeople who thrive here become recognized partners to their accounts — not just vendors.</p>
+    </div>
+  </div>
+</section>
+
+<div class="rule-l"></div>
+
+<!-- TECH — horizontal scroll -->
+<section class="dark" id="tech">
+  <div class="tag">The Modern Sales Advantage</div>
+  <h2 class="dh" style="color:#F7F6F3;">
+    WITH SALES TECH<br>TO FUEL YOUR GROWTH.
+    <span class="dh-sub dh-sub-bright">Meet your unfair advantage.</span>
+  </h2>
+  <div class="tech-hscroll-wrap">
+    <div class="tech-hscroll-pin" id="techPin">
+      <div class="tech-hscroll-track" id="techTrack">
+        <div class="tech-col">
+          <div class="tech-icon-svg"><svg width="36" height="36" viewBox="0 0 36 36" fill="none" stroke="rgba(247,246,243,.7)" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="4" width="28" height="28" rx="2"/><path d="M4 13h28"/><circle cx="11" cy="8.5" r="1.5" fill="rgba(247,246,243,.7)" stroke="none"/><circle cx="17" cy="8.5" r="1.5" fill="rgba(247,246,243,.7)" stroke="none"/><path d="M10 20h6M10 25h10"/></svg></div>
+          <div class="tech-col-title">CRM RELATIONSHIP<br>ENGINE</div>
+          <ul class="tech-list">
+            <li>Track every relationship with optical practices</li>
+            <li>Automated follow-ups that never miss</li>
+            <li>Full territory growth management tools</li>
+            <li>Accounts, pipeline, and opportunity tracking</li>
+            <li>Stay consistent — without the manual effort</li>
+          </ul>
+        </div>
+        <div class="tech-col">
+          <div class="tech-icon-svg"><svg width="36" height="36" viewBox="0 0 36 36" fill="none" stroke="rgba(247,246,243,.7)" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><circle cx="18" cy="18" r="6"/><path d="M18 4v4M18 28v4M4 18h4M28 18h4M7.76 7.76l2.83 2.83M25.41 25.41l2.83 2.83M7.76 28.24l2.83-2.83M25.41 10.59l2.83-2.83"/></svg></div>
+          <div class="tech-col-title">AI-POWERED<br>SALES SUPPORT</div>
+          <ul class="tech-list">
+            <li>Sales insights and client intelligence</li>
+            <li>Communication preparation and drafting</li>
+            <li>Real-time client and market research</li>
+            <li>Product explanation tools at your fingertips</li>
+            <li>Content creation built for optical sales</li>
+          </ul>
+        </div>
+        <div class="tech-col">
+          <div class="tech-icon-svg"><svg width="36" height="36" viewBox="0 0 36 36" fill="none" stroke="rgba(247,246,243,.7)" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><circle cx="28" cy="8" r="4"/><circle cx="8" cy="18" r="4"/><circle cx="28" cy="28" r="4"/><path d="M12 16l12-6M12 20l12 6"/></svg></div>
+          <div class="tech-col-title">SOCIAL &amp; BRAND<br>VISIBILITY</div>
+          <ul class="tech-list">
+            <li>Brand visibility across social platforms</li>
+            <li>Content that amplifies your outreach</li>
+            <li>Noon Shop story told on your behalf</li>
+            <li>Build your own professional presence</li>
+            <li>In today's world, visibility creates opportunity</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="tech-close">
+    <div class="tech-close-h">YOU BRING THE<br>RELATIONSHIPS.<br>WE AMPLIFY THEM.</div>
+    <p class="tech-close-p">The most successful salespeople don't rely on hustle alone. They use systems and technology that multiply their effort. Noon Shop provides the platform — you bring the drive.</p>
+  </div>
+</section>
+
+<!-- OPPORTUNITY MODEL — vertical scroll timeline -->
+<section class="ls" id="model">
+  <div class="tag tag-dark">The Opportunity Model</div>
+  <h2 class="dh" style="color:var(--ink)">
+    IMAGINE WHAT YOUR<br>FIRST YEAR COULD
+    <span class="dh-sub">look like.</span>
+  </h2>
+  <p class="model-disclaimer">What a successful Noon Shop territory could look like. Illustrative, not guaranteed.</p>
+
+  <div class="model-vertical" id="modelTimeline">
+    <div class="model-vline"><div class="model-vline-fill" id="modelLineFill"></div></div>
+
+    <div class="model-vstep">
+      <div class="model-vstep-num">01</div>
+      <div class="model-vstep-dot"></div>
+      <div class="model-step-period">Month 1–2</div>
+      <div class="model-step-title">BUILD YOUR TERRITORY</div>
+      <div class="model-step-body">
+        <p>You begin introducing Noon Shop to optical practices in your region. Early conversations focus on introducing the brand, sharing the story of correctly fitting eyewear, and identifying practices interested in trying something new.</p>
+        <p>Your CRM platform helps you stay organized as you begin building relationships.</p>
+      </div>
+    </div>
+
+    <div class="model-vstep">
+      <div class="model-vstep-num">02</div>
+      <div class="model-vstep-dot"></div>
+      <div class="model-step-period">Month 3–6</div>
+      <div class="model-step-title">EARLY ACCOUNTS BEGIN TO GROW</div>
+      <div class="model-step-body">
+        <p>Practices begin placing initial orders. During this phase you focus on strengthening relationships, hosting trunk shows or in-store presentations, and supporting early adopters.</p>
+        <p>As practices begin seeing patient response, many expand their orders.</p>
+      </div>
+    </div>
+
+    <div class="model-vstep">
+      <div class="model-vstep-num">03</div>
+      <div class="model-vstep-dot"></div>
+      <div class="model-step-period">Month 6–12</div>
+      <div class="model-step-title">TERRITORY MOMENTUM BUILDS</div>
+      <div class="model-step-body">
+        <p>Your territory begins developing recurring business — repeat orders, growing product placement, and new introductions through referrals.</p>
+        <p>Your CRM system continues helping manage relationships and follow-ups automatically.</p>
+      </div>
+    </div>
+
+    <div class="model-vstep">
+      <div class="model-vstep-num">04</div>
+      <div class="model-vstep-dot"></div>
+      <div class="model-step-period">Long Term</div>
+      <div class="model-step-title">YOUR TERRITORY BECOMES AN ASSET</div>
+      <div class="model-step-body">
+        <p>As your relationships grow, your territory becomes something valuable. You are no longer simply introducing the product — you are managing a network of optical practices that trust you.</p>
+        <p>Expanding accounts, growing new relationships, and hosting regional events.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- LEVERAGE — split viewport -->
+<section class="dark" id="leverage">
+  <div class="tag">The Leverage Behind the Opportunity</div>
+  <h2 class="dh" style="color:#F7F6F3;">
+    YOU'RE NOT<br>BUILDING IT ALONE.
+    <span class="dh-sub dh-sub-bright">when you join, we go together.</span>
+  </h2>
+  <div class="leverage-split">
+    <div class="leverage-half">
+      <div class="leverage-col-label">YOU BRING</div>
+      <ul class="leverage-list" id="leverageYou">
+        <li><svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="rgba(247,246,243,.5)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M13 3L6 10l-3-3"/></svg>Relationships and trust with optical practices</li>
+        <li><svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="rgba(247,246,243,.5)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M13 3L6 10l-3-3"/></svg>Ambition and drive to build something real</li>
+        <li><svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="rgba(247,246,243,.5)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M13 3L6 10l-3-3"/></svg>Territory building skills and market knowledge</li>
+      </ul>
+    </div>
+    <div class="leverage-divider-line"></div>
+    <div class="leverage-half">
+      <div class="leverage-col-label">NOON SHOP PROVIDES</div>
+      <ul class="leverage-list" id="leverageNoon">
+        <li><svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="rgba(247,246,243,.5)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M13 3L6 10l-3-3"/></svg>A differentiated product that solves a real problem</li>
+        <li><svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="rgba(247,246,243,.5)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M13 3L6 10l-3-3"/></svg>A modern CRM platform built for territory growth</li>
+        <li><svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="rgba(247,246,243,.5)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M13 3L6 10l-3-3"/></svg>AI-powered sales and communication tools</li>
+        <li><svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="rgba(247,246,243,.5)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M13 3L6 10l-3-3"/></svg>Brand visibility and social media support</li>
+        <li><svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="rgba(247,246,243,.5)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M13 3L6 10l-3-3"/></svg>Direct access to leadership</li>
+      </ul>
+    </div>
+  </div>
+  <div class="leverage-result-glass" id="leverageResult">
+    <div class="leverage-result-label">THE RESULT</div>
+    <div class="leverage-result-text">A modern sales platform built for growth.</div>
+  </div>
+</section>
+
+<!-- THRIVES -->
+<section class="ls" id="thrives">
+  <div class="tag tag-dark">The Right Fit</div>
+  <h2 class="dh" style="color:var(--ink)">
+    YOU WILL<br>THRIVE HERE IF…
+    <span class="dh-sub">Does this sound like you?</span>
+  </h2>
+  <div class="thrives-layout">
+    <div id="traitsList">
+      <div class="trait">
+        <div class="trait-icon"><svg width="20" height="20" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M10 2l2 6h6l-5 3.5 2 6L10 14l-5 3.5 2-6L2 8h6z"/></svg></div>
+        <div><div class="trait-name">You enjoy building long-term relationships</div><div class="trait-desc">You invest in accounts over time and clients trust you because of it.</div></div>
+      </div>
+      <div class="trait">
+        <div class="trait-icon"><svg width="20" height="20" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M3 17l4-4 3 3 4-5 3-5"/><circle cx="10" cy="6" r="2"/></svg></div>
+        <div><div class="trait-name">You like watching a territory develop over time</div><div class="trait-desc">You think in years, not quarters. Building something that compounds excites you.</div></div>
+      </div>
+      <div class="trait">
+        <div class="trait-icon"><svg width="20" height="20" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="10" cy="10" r="8"/><path d="M10 6v4l3 3"/></svg></div>
+        <div><div class="trait-name">You prefer autonomy over micromanagement</div><div class="trait-desc">You do your best work when you have the freedom to manage your own approach.</div></div>
+      </div>
+      <div class="trait">
+        <div class="trait-icon"><svg width="20" height="20" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M10 2v16M2 10h16"/><circle cx="10" cy="10" r="8"/></svg></div>
+        <div><div class="trait-name">You want to represent something you believe in</div><div class="trait-desc">Selling a product that genuinely helps people changes how you show up every day.</div></div>
+      </div>
+      <div class="trait">
+        <div class="trait-icon"><svg width="20" height="20" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M10 18s-7-4.5-7-10a7 7 0 0114 0c0 5.5-7 10-7 10z"/><circle cx="10" cy="8" r="2"/></svg></div>
+        <div><div class="trait-name">You're excited to be early in something growing</div><div class="trait-desc">You understand that the best opportunities come before everyone else sees them.</div></div>
+      </div>
+    </div>
+    <div class="sidebar">
+      <div class="sidebar-lbl">Who may not thrive</div>
+      <p class="sidebar-txt">Someone who prefers rigid structure or requires constant direction may struggle in this role. This opportunity rewards initiative and discipline above all else.</p>
+      <div class="sidebar-pull">INITIATIVE<br>ABOVE<br>ALL ELSE.</div>
+    </div>
+  </div>
+</section>
+
+<div class="rule-l"></div>
+
+<!-- VISION — horizontal scroll -->
+<section class="ls2" id="vision">
+  <div class="tag tag-dark">Where Noon Shop Is Going</div>
+  <h2 class="dh" style="color:var(--ink)">
+    GET IN EARLY ON
+    <span class="dh-sub">something bigger.</span>
+  </h2>
+  <div class="vision-row">
+    <div class="vision-pt">
+      <div class="vision-pt-icon"><svg width="20" height="20" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><path d="M10 2l2 4h5l-4 3 1.5 5L10 12l-4.5 2L7 9 3 6h5z"/></svg></div>
+      <div class="vision-yr">Founded 2023</div>
+      <div class="vision-ttl">THE BEGINNING</div>
+      <p class="vision-txt">Born from a personal experience. Built to solve a problem the industry had overlooked for decades.</p>
+    </div>
+    <div class="vision-pt">
+      <div class="vision-pt-icon"><svg width="20" height="20" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><path d="M3 17l4-5 3 2 4-6 3-4"/><path d="M14 4h3v3"/></svg></div>
+      <div class="vision-yr">Now</div>
+      <div class="vision-ttl">EXPANDING</div>
+      <p class="vision-txt">Building distribution across the US and Canada. Recruiting the sales team that will shape its growth.</p>
+    </div>
+    <div class="vision-pt">
+      <div class="vision-pt-icon"><svg width="20" height="20" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><circle cx="10" cy="10" r="8"/><path d="M2 10h16M10 2a13 13 0 010 16M10 2a13 13 0 000 16"/></svg></div>
+      <div class="vision-yr">Next</div>
+      <div class="vision-ttl">NATIONAL COVERAGE</div>
+      <p class="vision-txt">Full territory coverage across North America. Corporate optical partnerships. Greater brand recognition.</p>
+    </div>
+    <div class="vision-pt">
+      <div class="vision-pt-icon"><svg width="20" height="20" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><path d="M10 2v4M10 14v4M2 10h4M14 10h4"/><circle cx="10" cy="10" r="3"/></svg></div>
+      <div class="vision-yr">The Future</div>
+      <div class="vision-ttl">TRUSTED NAME</div>
+      <p class="vision-txt">A recognized name in correctly fitting eyewear — built by the reps who joined early.</p>
+    </div>
+  </div>
+</section>
+
+<!-- QUIZ -->
+<section class="quiz" id="quiz">
+  <div class="noise"></div>
+  <div class="qprogbar-wrap"><div class="qprogbar" id="qprogbar"></div></div>
+  <div class="qcounter" id="qcounter">01 / 06</div>
+  <div class="tag">Let's Learn About You</div>
+  <div class="quiz-wrap">
+
+    <div class="quiz-step active" data-step="1">
+      <div class="quiz-q" style="font-family:'Bebas Neue',sans-serif;">READY TO TAKE<br>THE NEXT STEP?<span style="display:block;font-family:'Playfair Display',Georgia,serif;font-style:italic;font-weight:400;font-size:clamp(40px,6vw,96px);line-height:1.05;letter-spacing:-.01em;color:var(--mid);margin-top:4px;">Tell us who you are.</span></div>
+      <div class="quiz-hint" style="display:none;"></div>
+      <div class="qopts-list">
+        <div class="qrow" data-v="rookie"><div class="qrow-check">✓</div><div class="qrow-body"><div class="qrow-main">ROOKIE</div><div class="qrow-sub">Less than 2 years — hungry to prove myself</div></div></div>
+        <div class="qrow" data-v="rising"><div class="qrow-check">✓</div><div class="qrow-body"><div class="qrow-main">RISING REP</div><div class="qrow-sub">2–5 years — building momentum</div></div></div>
+        <div class="qrow" data-v="veteran"><div class="qrow-check">✓</div><div class="qrow-body"><div class="qrow-main">INDUSTRY VETERAN</div><div class="qrow-sub">5–10 years — experienced and confident</div></div></div>
+        <div class="qrow" data-v="pro"><div class="qrow-check">✓</div><div class="qrow-body"><div class="qrow-main">SEASONED PRO</div><div class="qrow-sub">10+ years — relationships and reputation</div></div></div>
+        <div class="qrow" data-v="optical"><div class="qrow-check">✓</div><div class="qrow-body"><div class="qrow-main">OPTICAL INSIDER</div><div class="qrow-sub">I've worked specifically in optical sales</div></div></div>
+      </div>
+      <div class="qnav">
+        <div class="qnav-left"><span class="qstep-label">Step 1 of 6</span></div>
+        <button class="qbtn" data-next="2" disabled>Continue →</button>
+      </div>
+    </div>
+
+    <div class="quiz-step" data-step="2">
+      <div class="quiz-q">WHICH OF THESE<br>SOUNDS MOST<br>LIKE YOU?</div>
+      <div class="quiz-hint">Choose the one that resonates.</div>
+      <div class="qopts-tiles cols2">
+        <div class="qtile" data-v="builder"><div class="qtile-sel-badge">✓</div><span class="qtile-icon"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 00-3-3.87"/><path d="M16 3.13a4 4 0 010 7.75"/></svg></span><div class="qtile-main">RELATIONSHIP<br>BUILDER</div><div class="qtile-sub">I grow strong, long-term accounts</div></div>
+        <div class="qtile" data-v="hunter"><div class="qtile-sel-badge">✓</div><span class="qtile-icon"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="3"/><line x1="12" y1="2" x2="12" y2="5"/><line x1="12" y1="19" x2="12" y2="22"/><line x1="2" y1="12" x2="5" y2="12"/><line x1="19" y1="12" x2="22" y2="12"/></svg></span><div class="qtile-main">TERRITORY<br>HUNTER</div><div class="qtile-sub">I enjoy opening new accounts and markets</div></div>
+        <div class="qtile" data-v="connector"><div class="qtile-sel-badge">✓</div><span class="qtile-icon"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><line x1="8.59" y1="13.51" x2="15.42" y2="17.49"/><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"/></svg></span><div class="qtile-main">INDUSTRY<br>CONNECTOR</div><div class="qtile-sub">I build networks and introductions</div></div>
+        <div class="qtile" data-v="entrepreneur"><div class="qtile-sel-badge">✓</div><span class="qtile-icon"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg></span><div class="qtile-main">ENTREPRENEURIAL<br>SELLER</div><div class="qtile-sub">I like the freedom to build something meaningful</div></div>
+      </div>
+      <div class="qnav">
+        <div class="qnav-left"><button class="qback" data-back="1">← Back</button><span class="qstep-label">Step 2 of 6</span></div>
+        <button class="qbtn" data-next="3" disabled>Continue →</button>
+      </div>
+    </div>
+
+    <div class="quiz-step" data-step="3">
+      <div class="quiz-q">WHAT PART OF<br>SELLING ENERGIZES<br>YOU MOST?</div>
+      <div class="quiz-hint">Pick one.</div>
+      <div class="qopts-tiles cols3">
+        <div class="qtile" data-v="relationships"><div class="qtile-sel-badge">✓</div><span class="qtile-icon"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z"/></svg></span><div class="qtile-main">LONG-TERM<br>RELATIONSHIPS</div><div class="qtile-sub">Building deep trust with clients</div></div>
+        <div class="qtile" data-v="accounts"><div class="qtile-sel-badge">✓</div><span class="qtile-icon"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><polygon points="3 11 22 2 13 21 11 13 3 11"/></svg></span><div class="qtile-main">OPENING NEW<br>ACCOUNTS</div><div class="qtile-sub">New markets, new ground</div></div>
+        <div class="qtile" data-v="education"><div class="qtile-sel-badge">✓</div><span class="qtile-icon"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg></span><div class="qtile-main">EDUCATING<br>CUSTOMERS</div><div class="qtile-sub">Products that genuinely help people</div></div>
+        <div class="qtile" data-v="events"><div class="qtile-sel-badge">✓</div><span class="qtile-icon"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 11l-4 4-2-2"/></svg></span><div class="qtile-main">IN-PERSON<br>EVENTS</div><div class="qtile-sub">Trunk shows, demos, face-to-face</div></div>
+        <div class="qtile" data-v="territory"><div class="qtile-sel-badge">✓</div><span class="qtile-icon"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg></span><div class="qtile-main">GROWING A<br>TERRITORY</div><div class="qtile-sub">Watching it expand over time</div></div>
+      </div>
+      <div class="qnav">
+        <div class="qnav-left"><button class="qback" data-back="2">← Back</button><span class="qstep-label">Step 3 of 6</span></div>
+        <button class="qbtn" data-next="4" disabled>Continue →</button>
+      </div>
+    </div>
+
+    <div class="quiz-step" data-step="4">
+      <div class="quiz-q">WHAT INCOME<br>OPPORTUNITY ARE<br>YOU LOOKING FOR?</div>
+      <div class="quiz-hint">Be honest — there are no wrong answers.</div>
+      <div class="qopts-list">
+        <div class="qrow" data-v="100k"><div class="qrow-check">✓</div><div class="qrow-body"><div class="qrow-main">$100K+</div></div></div>
+        <div class="qrow" data-v="150k"><div class="qrow-check">✓</div><div class="qrow-body"><div class="qrow-main">$150K+</div></div></div>
+        <div class="qrow" data-v="200k"><div class="qrow-check">✓</div><div class="qrow-body"><div class="qrow-main">$200K+</div></div></div>
+        <div class="qrow" data-v="300k"><div class="qrow-check">✓</div><div class="qrow-body"><div class="qrow-main">$300K+</div></div></div>
+        <div class="qrow" data-v="unlimited"><div class="qrow-check">✓</div><div class="qrow-body"><div class="qrow-main">UNLIMITED</div><div class="qrow-sub">I want to build something significant</div></div></div>
+      </div>
+      <div class="qnav">
+        <div class="qnav-left"><button class="qback" data-back="3">← Back</button><span class="qstep-label">Step 4 of 6</span></div>
+        <button class="qbtn" data-next="5" disabled>Continue →</button>
+      </div>
+    </div>
+
+    <div class="quiz-step" data-step="5">
+      <div class="quiz-q">WHAT WOULD EXCITE<br>YOU MOST ABOUT<br>A NEW OPPORTUNITY?</div>
+      <div class="quiz-hint">What drives you at work.</div>
+      <div class="qopts-tiles cols2">
+        <div class="qtile" data-v="believe"><div class="qtile-sel-badge">✓</div><span class="qtile-icon"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M9 12l2 2 4-4"/><path d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg></span><div class="qtile-main">A PRODUCT I<br>BELIEVE IN</div><div class="qtile-sub">Something I can stand behind completely</div></div>
+        <div class="qtile" data-v="territory-own"><div class="qtile-sel-badge">✓</div><span class="qtile-icon"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg></span><div class="qtile-main">MY OWN<br>TERRITORY</div><div class="qtile-sub">Something that grows and becomes mine</div></div>
+        <div class="qtile" data-v="early"><div class="qtile-sel-badge">✓</div><span class="qtile-icon"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg></span><div class="qtile-main">BEING<br>EARLY</div><div class="qtile-sub">Getting in before everyone else sees it</div></div>
+        <div class="qtile" data-v="autonomy"><div class="qtile-sel-badge">✓</div><span class="qtile-icon"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 014 10 15.3 15.3 0 01-4 10 15.3 15.3 0 01-4-10 15.3 15.3 0 014-10z"/></svg></span><div class="qtile-main">FULL<br>AUTONOMY</div><div class="qtile-sub">My pace, my approach, my schedule</div></div>
+        <div class="qtile" data-v="new"><div class="qtile-sel-badge">✓</div><span class="qtile-icon"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5v14M5 12l7-7 7 7"/></svg></span><div class="qtile-main">INTRODUCING<br>SOMETHING NEW</div><div class="qtile-sub">Helping bring a new idea to the industry</div></div>
+      </div>
+      <div class="qnav">
+        <div class="qnav-left"><button class="qback" data-back="4">← Back</button><span class="qstep-label">Step 5 of 6</span></div>
+        <button class="qbtn" data-next="6" disabled>Continue →</button>
+      </div>
+    </div>
+
+    <div class="quiz-step" data-step="6">
+      <div class="quiz-q">WHERE ARE YOU<br>LOCATED AND HOW<br>CAN WE REACH YOU?</div>
+      <div class="quiz-hint">This is the start of a conversation, not an application.</div>
+      <div class="qform">
+        <div class="qfield"><label>Your Name</label><input type="text" id="fname" placeholder="Your name"></div>
+        <div class="qfield"><label>Email Address</label><input type="email" id="femail" placeholder="your@email.com"></div>
+        <div class="qfield"><label>City / Market</label><input type="text" id="fmarket" placeholder="City, state or zip code"></div>
+      </div>
+      <div class="qnav">
+        <div class="qnav-left"><button class="qback" data-back="5">← Back</button><span class="qstep-label">Step 6 of 6</span></div>
+        <button class="qsubmit" id="submitBtn">Start the Conversation →</button>
+      </div>
+    </div>
+
+    <div class="qsuccess" id="qsuccess">
+      <div class="qsuccess-tag">Application Received</div>
+      <h3 class="qsuccess-h">YOU SOUND LIKE<br>SOMEONE WHO COULD<br>THRIVE AT NOON SHOP.</h3>
+      <p class="qsuccess-txt">A member of our team will reach out soon. In the meantime — here's what building a Noon Shop territory can look like.</p>
+      <div class="qs-timeline">
+        <div class="qs-line"><div class="qs-line-fill" id="qsLineFill"></div></div>
+        <div class="qs-step" id="qss1"><div class="qs-step-dot"></div><div class="qs-step-content"><div class="qs-step-period">Month 1–2</div><div class="qs-step-title">BUILD YOUR TERRITORY</div><p class="qs-step-body">You begin introducing Noon Shop to optical practices in your region — sharing the brand story, identifying interested practices, and building early relationships with your CRM keeping you organized.</p></div></div>
+        <div class="qs-step" id="qss2"><div class="qs-step-dot"></div><div class="qs-step-content"><div class="qs-step-period">Month 3–6</div><div class="qs-step-title">EARLY ACCOUNTS BEGIN TO GROW</div><p class="qs-step-body">Practices begin placing initial orders. You host trunk shows, support early adopters, and as patients respond positively many accounts expand their orders.</p></div></div>
+        <div class="qs-step" id="qss3"><div class="qs-step-dot"></div><div class="qs-step-content"><div class="qs-step-period">Month 6–12</div><div class="qs-step-title">TERRITORY MOMENTUM BUILDS</div><p class="qs-step-body">Repeat orders. Growing product placement. New introductions through referrals. Your CRM continues managing follow-ups automatically while you focus on relationships.</p></div></div>
+        <div class="qs-step" id="qss4"><div class="qs-step-dot"></div><div class="qs-step-content"><div class="qs-step-period">Long Term</div><div class="qs-step-title">YOUR TERRITORY BECOMES AN ASSET</div><p class="qs-step-body">You are no longer just introducing a product. You are managing a network of optical practices that trust you — expanding accounts, growing new relationships, hosting regional events.</p></div></div>
+      </div>
+      <div class="qs-cta" id="qsCta">
+        <div class="qs-cta-label">Ready to take the next step?</div>
+        <a href="#schedule" class="schedule-btn" style="margin-top:0;">Schedule a Call <span class="schedule-arrow">→</span></a>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- SCHEDULE -->
+<section class="dark" id="schedule">
+  <video id="scheduleVideo" autoplay muted loop playsinline>
+    <source src="assets/noon-hero.mp4?v=2" type="video/mp4">
+  </video>
+  <canvas id="scheduleCanvas"></canvas>
+  <div class="schedule-inner">
+    <div class="schedule-tag">Ready to Talk?</div>
+    <h2 class="schedule-headline">SCHEDULE<br>A CALL.</h2>
+    <p class="schedule-sub">Spend 20 minutes with our team. No pressure — just a conversation to see if this is the right fit for you.</p>
+    <a href="mailto:hello@noonshop.com" class="schedule-btn" id="scheduleBtn">Schedule a Call <span class="schedule-arrow">→</span></a>
+  </div>
+</section>
+
+<footer>
+  <div class="flogo">NOON SHOP</div>
+  <div class="fcopy">© 2025 Noon Shop · Optical Sales Careers · United States & Canada</div>
+</footer>
+
+<script type="importmap">{"imports":{"three":"https://esm.sh/three@0.170.0"}}</script>
+<script type="module">
+import * as THREE from 'three';
+
+/* ═══ THREE.JS HERO PARTICLES ═══ */
+(function initHeroCanvas(){
+  const canvas = document.getElementById('heroCanvas');
+  if(!canvas || window.innerWidth < 901) return;
+
+  const renderer = new THREE.WebGLRenderer({canvas, alpha:true, antialias:true});
+  renderer.setSize(canvas.clientWidth, canvas.clientHeight);
+  renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+
+  const scene = new THREE.Scene();
+  const camera = new THREE.PerspectiveCamera(60, canvas.clientWidth/canvas.clientHeight, 0.1, 100);
+  camera.position.z = 4;
+
+  const count = 600;
+  const positions = new Float32Array(count * 3);
+  const velocities = new Float32Array(count * 3);
+  for(let i=0; i<count; i++){
+    const angle = Math.random() * Math.PI * 2;
+    const radius = 1.2 + Math.random() * 1.8;
+    positions[i*3] = Math.cos(angle) * radius;
+    positions[i*3+1] = (Math.random() - 0.5) * 3;
+    positions[i*3+2] = Math.sin(angle) * radius + (Math.random()-0.5)*1.5;
+    velocities[i*3] = (Math.random()-0.5)*0.002;
+    velocities[i*3+1] = (Math.random()-0.5)*0.002;
+    velocities[i*3+2] = (Math.random()-0.5)*0.002;
+  }
+
+  const geo = new THREE.BufferGeometry();
+  geo.setAttribute('position', new THREE.BufferAttribute(positions, 3));
+  const mat = new THREE.PointsMaterial({color:0xF7F6F3, size:0.02, transparent:true, opacity:0.5, sizeAttenuation:true});
+  const points = new THREE.Points(geo, mat);
+  scene.add(points);
+
+  const ringGeo = new THREE.RingGeometry(1.8, 1.82, 64);
+  const ringMat = new THREE.MeshBasicMaterial({color:0xF7F6F3, transparent:true, opacity:0.06, side:THREE.DoubleSide});
+  const ring = new THREE.Mesh(ringGeo, ringMat);
+  scene.add(ring);
+
+  const ring2Geo = new THREE.RingGeometry(2.4, 2.42, 64);
+  const ring2Mat = new THREE.MeshBasicMaterial({color:0xF7F6F3, transparent:true, opacity:0.03, side:THREE.DoubleSide});
+  const ring2 = new THREE.Mesh(ring2Geo, ring2Mat);
+  scene.add(ring2);
+
+  let mouseX=0, mouseY=0;
+  document.addEventListener('mousemove', e=>{
+    mouseX = (e.clientX/window.innerWidth - 0.5)*2;
+    mouseY = (e.clientY/window.innerHeight - 0.5)*2;
+  });
+
+  function animate(){
+    requestAnimationFrame(animate);
+    const pos = geo.attributes.position.array;
+    for(let i=0; i<count; i++){
+      pos[i*3] += velocities[i*3];
+      pos[i*3+1] += velocities[i*3+1];
+      pos[i*3+2] += velocities[i*3+2];
+    }
+    geo.attributes.position.needsUpdate = true;
+    points.rotation.y += 0.0008;
+    points.rotation.x += 0.0003;
+    ring.rotation.z += 0.001;
+    ring2.rotation.z -= 0.0007;
+    camera.position.x += (mouseX*0.3 - camera.position.x)*0.03;
+    camera.position.y += (-mouseY*0.2 - camera.position.y)*0.03;
+    camera.lookAt(0,0,0);
+    renderer.render(scene, camera);
+  }
+  animate();
+
+  window.addEventListener('resize', ()=>{
+    renderer.setSize(canvas.clientWidth, canvas.clientHeight);
+    camera.aspect = canvas.clientWidth/canvas.clientHeight;
+    camera.updateProjectionMatrix();
+  });
+})();
+
+/* ═══ THREE.JS SCHEDULE BG ═══ */
+(function initScheduleCanvas(){
+  const canvas = document.getElementById('scheduleCanvas');
+  if(!canvas || window.innerWidth < 901) return;
+
+  const renderer = new THREE.WebGLRenderer({canvas, alpha:true});
+  renderer.setSize(canvas.clientWidth, canvas.clientHeight);
+  renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+
+  const scene = new THREE.Scene();
+  const camera = new THREE.PerspectiveCamera(50, canvas.clientWidth/canvas.clientHeight, 0.1, 100);
+  camera.position.z = 5;
+
+  const planeGeo = new THREE.PlaneGeometry(10, 10, 60, 60);
+  const planeMat = new THREE.ShaderMaterial({
+    transparent:true,
+    uniforms:{uTime:{value:0}},
+    vertexShader:`
+      uniform float uTime;
+      varying vec2 vUv;
+      void main(){
+        vUv = uv;
+        vec3 pos = position;
+        pos.z = sin(pos.x*1.5 + uTime*0.4)*0.15 + cos(pos.y*1.5 + uTime*0.3)*0.15;
+        gl_Position = projectionMatrix * modelViewMatrix * vec4(pos,1.0);
+      }
+    `,
+    fragmentShader:`
+      varying vec2 vUv;
+      void main(){
+        float d = distance(vUv, vec2(0.5));
+        float a = smoothstep(0.6, 0.0, d) * 0.06;
+        gl_FragColor = vec4(0.969, 0.965, 0.953, a);
+      }
+    `
+  });
+  const plane = new THREE.Mesh(planeGeo, planeMat);
+  scene.add(plane);
+
+  function animate(){
+    requestAnimationFrame(animate);
+    planeMat.uniforms.uTime.value += 0.016;
+    renderer.render(scene, camera);
+  }
+  animate();
+
+  window.addEventListener('resize', ()=>{
+    renderer.setSize(canvas.clientWidth, canvas.clientHeight);
+    camera.aspect = canvas.clientWidth/canvas.clientHeight;
+    camera.updateProjectionMatrix();
+  });
+})();
+</script>
+
+<script>
+gsap.registerPlugin(ScrollTrigger);
+
+/* ═══ PAGE LOADER ═══ */
+let heroReady;
+const heroPromise = new Promise(r=>{ heroReady = r; });
+(function initLoader(){
+  const loader = document.getElementById('pageLoader');
+  if(!loader){ heroReady(); return; }
+  const brand = loader.querySelector('.loader-brand');
+  const line = document.getElementById('loaderLine');
+  const tl = gsap.timeline();
+  tl.to(brand, {opacity:1, y:0, duration:0.7, ease:'power3.out'})
+    .to(line, {width:'120px', duration:0.8, ease:'power2.inOut'}, '-=0.3')
+    .to(brand, {opacity:0, y:-12, duration:0.5, delay:0.6, ease:'power2.in'})
+    .to(line, {opacity:0, width:'180px', duration:0.4, ease:'power2.in'}, '-=0.4')
+    .to(loader, {opacity:0, duration:0.6, ease:'power2.inOut', onComplete:()=>{ loader.remove(); heroReady(); }});
+})();
+
+/* ═══ CUSTOM CURSOR ═══ */
+const cur=document.getElementById('cur'), ring=document.getElementById('ring');
+let mx=0, my=0, cx=0, cy=0, rx=0, ry=0;
+document.addEventListener('mousemove', e=>{ mx=e.clientX; my=e.clientY; });
+(function cursorLoop(){
+  cx += (mx-cx)*0.2; cy += (my-cy)*0.2;
+  rx += (mx-rx)*0.08; ry += (my-ry)*0.08;
+  cur.style.transform = `translate(${cx-3.5}px, ${cy-3.5}px)`;
+  ring.style.transform = `translate(${rx-16}px, ${ry-16}px)`;
+  requestAnimationFrame(cursorLoop);
+})();
+
+/* Magnetic button */
+const schedBtn = document.getElementById('scheduleBtn');
+if(schedBtn){
+  schedBtn.addEventListener('mousemove', e=>{
+    const r = schedBtn.getBoundingClientRect();
+    const dx = e.clientX - (r.left + r.width/2);
+    const dy = e.clientY - (r.top + r.height/2);
+    gsap.to(schedBtn, {x:dx*0.3, y:dy*0.3, duration:0.3, ease:'power2.out'});
+  });
+  schedBtn.addEventListener('mouseleave', ()=>{
+    gsap.to(schedBtn, {x:0, y:0, duration:0.5, ease:'elastic.out(1, 0.4)'});
+  });
+}
+
+/* ═══ SCROLL PROGRESS BAR ═══ */
+window.addEventListener('scroll', ()=>{
+  const pct = window.scrollY/(document.body.scrollHeight-window.innerHeight)*100;
+  document.getElementById('sp').style.width = pct+'%';
+}, {passive:true});
+
+/* ═══ NAV SCROLL STATE ═══ */
+const mainNav = document.getElementById('mainNav');
+window.addEventListener('scroll', ()=>{
+  mainNav.classList.toggle('scrolled', window.scrollY > 60);
+}, {passive:true});
+
+/* ═══ HERO WATERMARK PARALLAX ═══ */
+const wm = document.getElementById('heroWm');
+window.addEventListener('scroll', ()=>{
+  wm.style.transform = `translateY(calc(-52% + ${window.scrollY*0.18}px))`;
+}, {passive:true});
+
+/* ═══ HERO ENTRANCE ═══ */
+heroPromise.then(()=>{
+  const tl = gsap.timeline();
+  tl.fromTo('#heroVideo', {opacity:0}, {opacity:0.35, duration:1.8, ease:'power2.out'}, 0)
+    .from('.hero-tag', {opacity:0, y:16, duration:0.6, ease:'power2.out'}, 0.1)
+    .fromTo('#heroH1', {clipPath:'inset(0 0 100% 0)', opacity:0}, {clipPath:'inset(0 0 0% 0)', opacity:1, duration:1.2, ease:'power3.out'}, 0.3)
+    .from('#heroFoot', {opacity:0, y:30, duration:0.8, ease:'power2.out'}, 1.2)
+    .from('#heroScroll', {opacity:0, y:20, duration:0.6, ease:'power2.out'}, 1.5);
+});
+
+/* ═══ GSAP SCROLL REVEALS ═══ */
+gsap.utils.toArray('.dh').forEach(el=>{
+  gsap.fromTo(el,
+    {clipPath:'inset(0 0 100% 0)', opacity:0},
+    {clipPath:'inset(0 0 0% 0)', opacity:1, duration:1.2, ease:'power3.out',
+     scrollTrigger:{trigger:el, start:'top 85%'}}
+  );
+});
+
+gsap.utils.toArray('.tag').forEach(el=>{
+  gsap.from(el, {scrollTrigger:{trigger:el, start:'top 90%'}, opacity:0, x:-30, duration:0.7, ease:'power2.out'});
+});
+
+gsap.utils.toArray('.prob-body > div:not(.prob-origin)').forEach((el,i)=>{
+  gsap.from(el, {scrollTrigger:{trigger:el, start:'top 85%'}, opacity:0, y:40, duration:0.8, delay:i*0.15, ease:'power2.out'});
+});
+
+gsap.utils.toArray('.prob-body p').forEach((p,i)=>{
+  gsap.from(p, {scrollTrigger:{trigger:p, start:'top 92%'}, opacity:0, y:18, x:-10, duration:0.6, delay:i*0.08, ease:'power2.out'});
+});
+
+gsap.from('.prob-origin', {scrollTrigger:{trigger:'.prob-origin', start:'top 80%'}, opacity:0, y:50, duration:1, ease:'power3.out'});
+
+gsap.utils.toArray('.opp-intro p').forEach((p,i)=>{
+  gsap.from(p, {scrollTrigger:{trigger:p, start:'top 90%'}, opacity:0, y:18, x:-10, duration:0.6, delay:i*0.1, ease:'power2.out'});
+});
+
+/* ═══ OPPORTUNITY CARDS REVEAL ═══ */
+gsap.utils.toArray('.opp-card').forEach((card,i)=>{
+  gsap.from(card, {
+    scrollTrigger:{trigger:card, start:'top 85%'},
+    opacity:0, y:40, duration:0.7, delay:i*0.1, ease:'power2.out'
+  });
+});
+
+/* ═══ TECH HORIZONTAL SCROLL ═══ */
+(function initTechHScroll(){
+  const track = document.getElementById('techTrack');
+  const pin = document.getElementById('techPin');
+  if(!track || !pin || window.innerWidth < 901) return;
+
+  const totalScroll = track.scrollWidth - pin.clientWidth;
+
+  gsap.to(track, {
+    x: -totalScroll,
+    ease:'none',
+    scrollTrigger:{
+      trigger:'#tech .tech-hscroll-wrap',
+      start:'top top',
+      end: ()=> '+=' + totalScroll,
+      pin: pin,
+      scrub:1,
+      invalidateOnRefresh:true
+    }
+  });
+})();
+
+/* ═══ MODEL VERTICAL TIMELINE ═══ */
+(function initModelTimeline(){
+  const steps = gsap.utils.toArray('.model-vstep');
+  const lineFill = document.getElementById('modelLineFill');
+  const timeline = document.getElementById('modelTimeline');
+  if(!timeline) return;
+
+  steps.forEach((step, i)=>{
+    gsap.to(step, {
+      scrollTrigger:{trigger:step, start:'top 80%'},
+      opacity:1, x:0, duration:0.8, delay:0.1,
+      ease:'power2.out',
+      onStart:()=> step.classList.add('in-view')
+    });
+  });
+
+  gsap.to(lineFill, {
+    height:'100%',
+    ease:'none',
+    scrollTrigger:{
+      trigger:timeline,
+      start:'top 60%',
+      end:'bottom 40%',
+      scrub:true
+    }
+  });
+})();
+
+/* ═══ LEVERAGE STAGGERED REVEAL ═══ */
+document.querySelectorAll('#leverageYou li, #leverageNoon li').forEach(li=>{
+  li.style.borderLeftWidth = '0px';
+  li.style.borderLeftStyle = 'solid';
+  li.style.borderLeftColor = 'rgba(247,246,243,.25)';
+  li.style.paddingLeft = '0px';
+});
+gsap.utils.toArray('#leverageYou li, #leverageNoon li').forEach((li,i)=>{
+  const tl = gsap.timeline({scrollTrigger:{trigger:li, start:'top 90%'}});
+  tl.from(li, {opacity:0, x:-24, duration:0.5, delay:i*0.06, ease:'power2.out'})
+    .to(li, {borderLeftWidth:'3px', paddingLeft:'14px', duration:0.4, ease:'power2.out'}, '-=0.2');
+});
+
+gsap.from('#leverageResult', {
+  scrollTrigger:{trigger:'#leverageResult', start:'top 85%'},
+  opacity:0, y:40, scale:0.95, duration:0.8, ease:'power2.out'
+});
+
+/* ═══ TRAITS REVEAL ═══ */
+gsap.utils.toArray('.trait').forEach((trait,i)=>{
+  gsap.from(trait, {
+    scrollTrigger:{trigger:trait, start:'top 85%'},
+    opacity:0, x:-30, duration:0.6, delay:i*0.08, ease:'power2.out'
+  });
+});
+
+gsap.from('.sidebar', {
+  scrollTrigger:{trigger:'.sidebar', start:'top 80%'},
+  opacity:0, y:40, duration:0.8, ease:'power2.out'
+});
+
+/* ═══ VISION TIMELINE REVEAL ═══ */
+gsap.utils.toArray('.vision-pt').forEach((pt,i)=>{
+  gsap.from(pt, {
+    scrollTrigger:{trigger:pt, start:'top 85%'},
+    opacity:0, y:28, duration:0.7, delay:i*0.12, ease:'power2.out',
+    onComplete:()=> pt.classList.add('in-view')
+  });
+});
+
+/* ═══ SCHEDULE REVEAL ═══ */
+gsap.fromTo('#scheduleVideo', {opacity:0}, {
+  opacity:0.15, duration:1.5, ease:'power2.out',
+  scrollTrigger:{trigger:'#schedule', start:'top 80%'}
+});
+gsap.from('.schedule-inner', {
+  scrollTrigger:{trigger:'#schedule', start:'top 70%'},
+  opacity:0, y:60, duration:1, ease:'power3.out'
+});
+
+/* ═══ SCHEDULE BUTTON SHINE ═══ */
+document.querySelectorAll('.schedule-btn').forEach(btn=>{
+  btn.addEventListener('mousemove', e=>{
+    const r = btn.getBoundingClientRect();
+    btn.style.setProperty('--mx', ((e.clientX - r.left)/r.width*100)+'%');
+    btn.style.setProperty('--my', ((e.clientY - r.top)/r.height*100)+'%');
+  });
+});
+
+/* ═══ FOOTER REVEAL ═══ */
+gsap.from('footer', {
+  scrollTrigger:{trigger:'footer', start:'top 95%'},
+  opacity:0, y:20, duration:0.8, ease:'power2.out'
+});
+
+/* ═══ NOISE PARALLAX ═══ */
+gsap.utils.toArray('.noise').forEach(n=>{
+  gsap.to(n, {
+    y:-40, ease:'none',
+    scrollTrigger:{trigger:n.parentElement, start:'top bottom', end:'bottom top', scrub:true}
+  });
+});
+
+/* ═══ QUIZ LOGIC (preserved from original) ═══ */
+const TOTAL=6, ans={};
+const progbar=document.getElementById('qprogbar'), qcounter=document.getElementById('qcounter');
+
+function updateProgress(n){
+  progbar.style.width=((n-1)/TOTAL*100)+'%';
+  qcounter.textContent='0'+n+' / 0'+TOTAL;
+}
+function goTo(n){
+  document.querySelectorAll('.quiz-step').forEach(s=>s.classList.remove('active'));
+  const t=document.querySelector(`.quiz-step[data-step="${n}"]`);
+  if(t){t.classList.add('active');updateProgress(n);}
+}
+
+document.querySelectorAll('.qopts-list').forEach(g=>{
+  g.addEventListener('click',e=>{
+    const row=e.target.closest('.qrow');if(!row)return;
+    const step=row.closest('.quiz-step');
+    step.querySelectorAll('.qrow').forEach(r=>r.classList.remove('sel'));
+    row.classList.add('sel');
+    ans[`s${step.dataset.step}`]=row.dataset.v;
+    const btn=step.querySelector('.qbtn');
+    if(btn)btn.disabled=false;
+  });
+});
+
+document.querySelectorAll('.qopts-tiles').forEach(g=>{
+  g.addEventListener('click',e=>{
+    const tile=e.target.closest('.qtile');if(!tile)return;
+    const step=tile.closest('.quiz-step');
+    step.querySelectorAll('.qtile').forEach(t=>t.classList.remove('sel'));
+    tile.classList.add('sel');
+    ans[`s${step.dataset.step}`]=tile.dataset.v;
+    const btn=step.querySelector('.qbtn');
+    if(btn)btn.disabled=false;
+    const next=btn&&btn.dataset.next;
+    if(next)setTimeout(()=>goTo(next),420);
+  });
+});
+
+document.querySelectorAll('.qbtn').forEach(b=>b.addEventListener('click',()=>{if(!b.disabled)goTo(b.dataset.next);}));
+document.querySelectorAll('.qback').forEach(b=>b.addEventListener('click',()=>goTo(b.dataset.back)));
+
+document.getElementById('submitBtn').addEventListener('click',()=>{
+  const name=document.getElementById('fname').value.trim();
+  const email=document.getElementById('femail').value.trim();
+  if(!name||!email){
+    if(!name)document.getElementById('fname').style.opacity='.4';
+    if(!email)document.getElementById('femail').style.opacity='.4';
+    setTimeout(()=>{
+      document.getElementById('fname').style.opacity='';
+      document.getElementById('femail').style.opacity='';
+    },600);
+    return;
+  }
+  progbar.style.width='100%';
+  qcounter.textContent='✓';
+  document.querySelector('.quiz-step[data-step="6"]').style.display='none';
+  const success = document.getElementById('qsuccess');
+  success.classList.add('on');
+
+  const steps = [
+    {el: document.getElementById('qss1'), delay: 400},
+    {el: document.getElementById('qss2'), delay: 900},
+    {el: document.getElementById('qss3'), delay: 1400},
+    {el: document.getElementById('qss4'), delay: 1900},
+  ];
+  const lineFill = document.getElementById('qsLineFill');
+  const cta = document.getElementById('qsCta');
+
+  steps.forEach(({el, delay}) => {
+    setTimeout(() => { el.classList.add('visible'); }, delay);
+  });
+
+  setTimeout(() => {
+    lineFill.style.transition = 'height 1.8s ease';
+    lineFill.style.height = '100%';
+  }, 400);
+
+  setTimeout(() => { cta.classList.add('visible'); }, 2400);
+});
+</script>
+</body>
+</html>
