@@ -307,11 +307,10 @@ footer{background:var(--ink);padding:56px 60px;display:flex;justify-content:spac
   .model-vstep-num{left:-48px;font-size:48px}
   .model-vstep-dot{left:-22px}
   .model-vline{left:0}
-  #heroCanvas,#heroVideo,#scheduleVideo,#scheduleCanvas{display:none}
+  #heroCanvas,#scheduleCanvas{display:none}
   body{cursor:auto}
   .cur,.ring{display:none}
   .lens-bg{display:none}
-  .loader{display:none}
 }
 </style>
 </head>
@@ -976,6 +975,12 @@ const wm = document.getElementById('heroWm');
 window.addEventListener('scroll', ()=>{
   wm.style.transform = `translateY(calc(-52% + ${window.scrollY*0.18}px))`;
 }, {passive:true});
+
+/* ═══ iOS VIDEO AUTOPLAY FIX ═══ */
+document.querySelectorAll('video[autoplay]').forEach(v=>{
+  const p = v.play();
+  if(p) p.catch(()=>{});
+});
 
 /* ═══ HERO ENTRANCE ═══ */
 heroPromise.then(()=>{
