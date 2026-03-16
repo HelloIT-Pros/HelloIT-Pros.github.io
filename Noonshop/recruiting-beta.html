@@ -45,8 +45,8 @@ nav.scrolled{background:rgba(12,12,12,.6);backdrop-filter:blur(16px);-webkit-bac
 .hero-wm{position:absolute;right:-30px;top:50%;transform:translateY(-52%);font-family:var(--D);font-size:clamp(240px,32vw,500px);color:rgba(247,246,243,.038);line-height:1;pointer-events:none;user-select:none;letter-spacing:.04em;z-index:1;opacity:0}
 .hero-topline{position:absolute;top:0;left:0;right:0;height:1px;background:linear-gradient(90deg,transparent,rgba(247,246,243,.12),transparent);z-index:2}
 .hero-tag{font-size:10px;font-weight:400;letter-spacing:.36em;text-transform:uppercase;color:rgba(247,246,243,.38);margin-bottom:28px;position:relative;z-index:2;opacity:0}
-.hero-h1{font-family:var(--D);font-size:clamp(56px,9vw,160px);line-height:.88;letter-spacing:.025em;color:#F7F6F3;position:relative;z-index:2;opacity:0}
-.hero-h1-sub{display:block;font-family:'Playfair Display',Georgia,serif;font-style:italic;font-weight:400;font-size:clamp(36px,5.5vw,96px);line-height:1.0;letter-spacing:-.01em;color:rgba(247,246,243,.55);margin-top:4px}
+.hero-h1{font-family:var(--D);font-size:clamp(56px,9vw,160px);line-height:.88;letter-spacing:.025em;color:#F7F6F3;position:relative;z-index:2;opacity:0;padding-bottom:0.15em}
+.hero-h1-sub{display:block;font-family:'Playfair Display',Georgia,serif;font-style:italic;font-weight:400;font-size:clamp(36px,5.5vw,96px);line-height:1.18;letter-spacing:-.01em;color:rgba(247,246,243,.55);margin-top:4px}
 .hero-foot{display:flex;justify-content:space-between;align-items:flex-end;margin-top:64px;position:relative;z-index:2;opacity:0}
 .hero-sub{font-size:16px;font-weight:300;line-height:1.78;color:rgba(247,246,243,.45);max-width:420px}
 .hero-cta{display:inline-flex;align-items:center;gap:18px;text-decoration:none;color:#F7F6F3;flex-shrink:0}
@@ -69,8 +69,8 @@ section{padding:136px 60px;position:relative}
 .tag::before{content:'';display:block;width:36px;height:1px;background:currentColor}
 .tag-dark{color:var(--mid)}.tag-dark::before{background:var(--mid)}
 
-.dh{font-family:var(--D);font-size:clamp(64px,9.5vw,160px);line-height:.88;letter-spacing:.025em;margin-bottom:80px}
-.dh-sub{display:block;font-family:'Playfair Display',Georgia,serif;font-size:clamp(44px,7vw,112px);font-weight:400;font-style:italic;line-height:1.0;letter-spacing:-.01em;margin-top:8px;color:var(--mid)}
+.dh{font-family:var(--D);font-size:clamp(64px,9.5vw,160px);line-height:.88;letter-spacing:.025em;margin-bottom:80px;padding-bottom:0.15em}
+.dh-sub{display:block;font-family:'Playfair Display',Georgia,serif;font-size:clamp(44px,7vw,112px);font-weight:400;font-style:italic;line-height:1.18;letter-spacing:-.01em;margin-top:8px;color:var(--mid)}
 .dh-sub-bright{color:rgba(247,246,243,.5)}
 
 .opp-icon{width:48px;height:48px;border:1px solid var(--border);border-radius:50%;display:flex;align-items:center;justify-content:center;margin-bottom:20px;color:var(--ink)}
@@ -104,8 +104,8 @@ section{padding:136px 60px;position:relative}
 .noise{position:absolute;inset:0;pointer-events:none;opacity:.03;z-index:0;background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");background-repeat:repeat;background-size:256px 256px}
 
 /* Tech horizontal scroll */
-.tech-hscroll-wrap{position:relative;overflow:hidden}
-.tech-hscroll-pin{min-height:100vh;display:flex;align-items:center}
+.tech-hscroll-wrap{position:relative;overflow:hidden;max-width:100vw}
+.tech-hscroll-pin{min-height:100vh;display:flex;align-items:center;overflow:hidden}
 .tech-hscroll-track{display:flex;gap:1px;width:max-content}
 .tech-col{padding:56px 44px;background:var(--ink);transition:background .3s,box-shadow .5s;width:36vw;min-width:400px;max-width:520px;flex-shrink:0;border:1px solid rgba(247,246,243,.07)}
 .tech-col:hover{background:#131313;box-shadow:0 0 40px rgba(247,246,243,.04),inset 0 0 20px rgba(247,246,243,.02)}
@@ -146,7 +146,7 @@ section{padding:136px 60px;position:relative}
 .leverage-list li svg{flex-shrink:0}
 .leverage-result-glass{margin-top:80px;padding:48px 56px;background:rgba(247,246,243,.04);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);border:1px solid rgba(247,246,243,.08);max-width:600px}
 .leverage-result-label{font-size:10px;font-weight:500;letter-spacing:.28em;text-transform:uppercase;color:rgba(247,246,243,.35);margin-bottom:24px}
-.leverage-result-text{font-family:'Playfair Display',Georgia,serif;font-style:italic;font-size:clamp(28px,3vw,48px);font-weight:400;line-height:1.2;letter-spacing:-.01em;color:#F7F6F3}
+.leverage-result-text{font-family:'Playfair Display',Georgia,serif;font-style:italic;font-size:clamp(28px,3vw,48px);font-weight:400;line-height:1.3;letter-spacing:-.01em;color:#F7F6F3}
 
 /* Thrives */
 .thrives-layout{display:grid;grid-template-columns:3fr 2fr;gap:80px;max-width:1000px}
@@ -290,7 +290,8 @@ footer{background:var(--ink);padding:56px 60px;display:flex;justify-content:spac
   .prob-body{grid-template-columns:1fr}
   .prob-origin{grid-template-columns:1fr}
   .opp-grid{grid-template-columns:1fr}
-  .tech-col{width:85vw;min-width:280px}
+  .tech-hscroll-track{flex-direction:column;width:100%}
+  .tech-col{width:100%;min-width:unset;max-width:unset}
   .tech-close{grid-template-columns:1fr}
   .thrives-layout{grid-template-columns:1fr}
   .leverage-split{grid-template-columns:1fr;gap:40px}
@@ -479,8 +480,6 @@ footer{background:var(--ink);padding:56px 60px;display:flex;justify-content:spac
     IMAGINE WHAT YOUR<br>FIRST YEAR COULD
     <span class="dh-sub">look like.</span>
   </h2>
-  <p class="model-disclaimer">What a successful Noon Shop territory could look like. Illustrative, not guaranteed.</p>
-
   <div class="model-vertical" id="modelTimeline">
     <div class="model-vline"><div class="model-vline-fill" id="modelLineFill"></div></div>
 
@@ -533,9 +532,8 @@ footer{background:var(--ink);padding:56px 60px;display:flex;justify-content:spac
 <!-- LEVERAGE — split viewport -->
 <section class="dark" id="leverage">
   <div class="tag">The Leverage Behind the Opportunity</div>
-  <h2 class="dh" style="color:#F7F6F3;">
-    YOU'RE NOT<br>BUILDING IT ALONE.
-    <span class="dh-sub dh-sub-bright">when you join, we go together.</span>
+  <h2 class="dh" style="color:#F7F6F3;font-family:'Playfair Display',Georgia,serif;font-style:italic;font-weight:400;font-size:clamp(56px,8vw,130px);letter-spacing:-.01em;line-height:1.1;">
+    We go together.
   </h2>
   <div class="leverage-split">
     <div class="leverage-half">
@@ -568,7 +566,7 @@ footer{background:var(--ink);padding:56px 60px;display:flex;justify-content:spac
 <section class="ls" id="thrives">
   <div class="tag tag-dark">The Right Fit</div>
   <h2 class="dh" style="color:var(--ink)">
-    YOU WILL<br>THRIVE HERE IF…
+    YOU WILL<br>THRIVE HERE.
     <span class="dh-sub">Does this sound like you?</span>
   </h2>
   <div class="thrives-layout">
