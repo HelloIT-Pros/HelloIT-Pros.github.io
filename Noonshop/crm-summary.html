@@ -26,19 +26,19 @@
     font-family: 'DM Sans', sans-serif;
     background: var(--cream);
     color: var(--ink);
-    font-size: 9.5pt;
-    line-height: 1.55;
+    font-size: 13pt;
+    line-height: 1.6;
     -webkit-print-color-adjust: exact;
     print-color-adjust: exact;
   }
 
   .page {
-    width: 210mm;
-    min-height: 297mm;
+    max-width: 1060px;
     margin: 0 auto;
     background: var(--cream);
     position: relative;
     overflow: hidden;
+    padding-bottom: 40px;
   }
 
   .top-bar {
@@ -48,7 +48,7 @@
   }
 
   .header {
-    padding: 22px 32px 18px;
+    padding: 28px 40px 22px;
     display: flex;
     justify-content: space-between;
     align-items: flex-end;
@@ -56,17 +56,17 @@
   }
 
   .brand-tag {
-    font-size: 7.5pt;
+    font-size: 10pt;
     font-weight: 600;
     letter-spacing: 0.15em;
     text-transform: uppercase;
     color: var(--gold);
-    margin-bottom: 4px;
+    margin-bottom: 6px;
   }
 
   h1 {
     font-family: 'DM Serif Display', serif;
-    font-size: 22pt;
+    font-size: 28pt;
     font-weight: 400;
     color: var(--ink);
     line-height: 1.15;
@@ -79,25 +79,25 @@
 
   .header-meta {
     text-align: right;
-    font-size: 7.5pt;
+    font-size: 10pt;
     color: var(--ink-soft);
     line-height: 1.8;
   }
 
   .header-meta strong {
     display: block;
-    font-size: 9pt;
+    font-size: 12pt;
     font-weight: 600;
     color: var(--ink-mid);
     letter-spacing: 0.05em;
   }
 
   .body {
-    padding: 20px 32px 24px;
+    padding: 28px 40px 32px;
   }
 
   .intro {
-    font-size: 9pt;
+    font-size: 12pt;
     color: var(--ink-mid);
     font-weight: 300;
     border-left: 3px solid var(--gold);
@@ -125,7 +125,7 @@
     background: white;
     border: 1px solid var(--line);
     border-radius: 6px;
-    padding: 14px 16px;
+    padding: 18px 20px;
     position: relative;
   }
 
@@ -139,12 +139,12 @@
   }
 
   .card-label {
-    font-size: 6.5pt;
+    font-size: 9pt;
     font-weight: 700;
     letter-spacing: 0.18em;
     text-transform: uppercase;
     color: var(--gold);
-    margin-bottom: 6px;
+    margin-bottom: 8px;
   }
 
   .card.open-item .card-label {
@@ -153,11 +153,11 @@
 
   h2 {
     font-family: 'DM Serif Display', serif;
-    font-size: 11pt;
+    font-size: 15pt;
     font-weight: 400;
     color: var(--ink);
-    margin-bottom: 8px;
-    line-height: 1.2;
+    margin-bottom: 10px;
+    line-height: 1.25;
   }
 
   .stats {
@@ -168,17 +168,17 @@
 
   .stat-num {
     font-family: 'DM Serif Display', serif;
-    font-size: 22pt;
+    font-size: 28pt;
     color: var(--gold);
     line-height: 1;
   }
 
   .stat-label {
-    font-size: 7pt;
+    font-size: 10pt;
     color: var(--ink-soft);
     font-weight: 500;
     letter-spacing: 0.05em;
-    margin-top: 1px;
+    margin-top: 2px;
   }
 
   .pills {
@@ -192,9 +192,9 @@
     background: var(--cream-warm);
     border: 1px solid var(--line);
     border-radius: 20px;
-    font-size: 7pt;
+    font-size: 10pt;
     font-weight: 500;
-    padding: 3px 9px;
+    padding: 4px 12px;
     color: var(--ink-mid);
   }
 
@@ -204,12 +204,12 @@
   }
 
   ul.dash li {
-    padding-left: 12px;
+    padding-left: 16px;
     position: relative;
     color: var(--ink-mid);
-    font-size: 8.5pt;
-    margin-bottom: 4px;
-    line-height: 1.45;
+    font-size: 11.5pt;
+    margin-bottom: 6px;
+    line-height: 1.5;
   }
 
   ul.dash li::before {
@@ -217,7 +217,7 @@
     position: absolute;
     left: 0;
     color: var(--gold);
-    font-size: 7pt;
+    font-size: 10pt;
     top: 1px;
   }
 
@@ -246,15 +246,15 @@
 
   .int-name {
     font-weight: 600;
-    font-size: 8.5pt;
+    font-size: 12pt;
     color: var(--ink);
-    margin-bottom: 2px;
+    margin-bottom: 3px;
   }
 
   .int-desc {
-    font-size: 7.5pt;
+    font-size: 11pt;
     color: var(--ink-soft);
-    line-height: 1.5;
+    line-height: 1.55;
   }
 
   .not-list {
@@ -266,18 +266,18 @@
   .not-item {
     display: flex;
     align-items: center;
-    gap: 7px;
-    font-size: 8pt;
+    gap: 8px;
+    font-size: 11.5pt;
     color: var(--ink-mid);
   }
 
   .not-badge {
-    font-size: 6.5pt;
+    font-size: 9pt;
     font-weight: 700;
     letter-spacing: 0.05em;
     background: #F0F0F0;
     border-radius: 3px;
-    padding: 2px 6px;
+    padding: 3px 8px;
     color: #888;
     text-transform: uppercase;
     flex-shrink: 0;
@@ -285,14 +285,14 @@
 
   .footer {
     border-top: 1px solid var(--line);
-    padding: 10px 32px;
+    padding: 14px 40px;
     display: flex;
     justify-content: space-between;
     align-items: center;
   }
 
   .footer-brand {
-    font-size: 7pt;
+    font-size: 10pt;
     font-weight: 600;
     letter-spacing: 0.1em;
     text-transform: uppercase;
@@ -302,15 +302,15 @@
   .footer-brand span { color: var(--gold); }
 
   .footer-note {
-    font-size: 7pt;
+    font-size: 10pt;
     color: var(--ink-soft);
   }
 
   .open-note {
-    font-size: 7.5pt;
+    font-size: 10.5pt;
     color: var(--open);
     font-weight: 600;
-    margin-top: 6px;
+    margin-top: 8px;
     display: flex;
     align-items: center;
     gap: 5px;
@@ -332,7 +332,7 @@
   }
 
   .section-divider span {
-    font-size: 7pt;
+    font-size: 10pt;
     font-weight: 700;
     letter-spacing: 0.18em;
     text-transform: uppercase;
@@ -392,7 +392,7 @@
             <div class="stat-label">Emails Written</div>
           </div>
         </div>
-        <p style="font-size:7.5pt;color:var(--ink-soft);margin-bottom:6px;">Designed to support prospecting, relationship building, and consistent outreach across the full customer lifecycle.</p>
+        <p style="font-size:11pt;color:var(--ink-soft);margin-bottom:8px;">Designed to support prospecting, relationship building, and consistent outreach across the full customer lifecycle.</p>
         <div class="pills">
           <span class="pill">Prospect Journey</span>
           <span class="pill">Active Customer</span>
@@ -448,13 +448,13 @@
       <div class="card" style="background:var(--cream-warm);">
         <div class="card-label">Platform Scope</div>
         <h2>What GHL Is <em style="font-style:italic;font-family:'DM Serif Display',serif;">Not</em></h2>
-        <p style="font-size:7.5pt;color:var(--ink-soft);margin-bottom:10px;">Go High Level is a CRM and marketing automation platform. It is not a replacement for:</p>
+        <p style="font-size:11pt;color:var(--ink-soft);margin-bottom:12px;">Go High Level is a CRM and marketing automation platform. It is not a replacement for:</p>
         <div class="not-list">
           <div class="not-item">Inventory Management System</div>
           <div class="not-item">Point of Sale (POS)</div>
           <div class="not-item">Accounting System</div>
         </div>
-        <p style="font-size:7.5pt;color:var(--ink-soft);margin-top:10px;">Key integrations with Shopify and QuickBooks bridge these systems into the CRM.</p>
+        <p style="font-size:11pt;color:var(--ink-soft);margin-top:12px;">Key integrations with Shopify and QuickBooks bridge these systems into the CRM.</p>
       </div>
 
     </div>
@@ -476,7 +476,7 @@
       <div class="card accent">
         <div class="card-label">Sales Forms</div>
         <h2>New Prospect Form &amp; New Order Form</h2>
-        <p style="font-size:7.5pt;color:var(--ink-soft);">Created the New Prospect Form and New Order Form to support adding new contacts into the CRM and moving customers into the appropriate workflows once orders are placed.</p>
+        <p style="font-size:11pt;color:var(--ink-soft);">Created the New Prospect Form and New Order Form to support adding new contacts into the CRM and moving customers into the appropriate workflows once orders are placed.</p>
       </div>
 
       <div class="card accent">
@@ -502,25 +502,25 @@
       <div class="card accent">
         <div class="card-label">Form 1 &nbsp;&middot;&nbsp; Sales Reps</div>
         <h2>New Prospect Form</h2>
-        <p style="font-size:7.5pt;color:var(--ink-soft);margin-bottom:8px;">Whenever a salesperson meets a new prospect, they should enter them using this form. We recommend adding it to your phone for quick access.</p>
+        <p style="font-size:11pt;color:var(--ink-soft);margin-bottom:8px;">Whenever a salesperson meets a new prospect, they should enter them using this form. We recommend adding it to your phone for quick access.</p>
         <ul class="dash">
           <li>Every prospect enters the CRM correctly</li>
           <li>The appropriate communication journey begins automatically</li>
         </ul>
-        <a href="https://go.noonshop.com/prospect-form-page" style="display:inline-block;margin-top:10px;font-size:7pt;font-weight:600;color:var(--gold);text-decoration:none;border:1px solid var(--gold);border-radius:3px;padding:3px 9px;letter-spacing:0.05em;">go.noonshop.com/prospect-form-page &rarr;</a>
+        <a href="https://go.noonshop.com/prospect-form-page" style="display:inline-block;margin-top:10px;font-size:10pt;font-weight:600;color:var(--gold);text-decoration:none;border:1px solid var(--gold);border-radius:3px;padding:3px 9px;letter-spacing:0.05em;">go.noonshop.com/prospect-form-page &rarr;</a>
       </div>
 
       <div class="card accent">
         <div class="card-label">Form 2 &nbsp;&middot;&nbsp; Sales Operations Only</div>
         <h2>New Order Entry Form</h2>
-        <p style="font-size:7.5pt;color:var(--ink-soft);margin-bottom:8px;">A manual step used by Sales Operations (not Sales Reps) to record completed orders. This allows the CRM to:</p>
+        <p style="font-size:11pt;color:var(--ink-soft);margin-bottom:8px;">A manual step used by Sales Operations (not Sales Reps) to record completed orders. This allows the CRM to:</p>
         <ul class="dash">
           <li>Update the customer's journey stage</li>
           <li>Record the last order date</li>
           <li>Calculate the expected reorder date</li>
           <li>Automatically send reorder emails at the right time</li>
         </ul>
-        <a href="https://go.noonshop.com/new-order-form" style="display:inline-block;margin-top:10px;font-size:7pt;font-weight:600;color:var(--gold);text-decoration:none;border:1px solid var(--gold);border-radius:3px;padding:3px 9px;letter-spacing:0.05em;">go.noonshop.com/new-order-form &rarr;</a>
+        <a href="https://go.noonshop.com/new-order-form" style="display:inline-block;margin-top:10px;font-size:10pt;font-weight:600;color:var(--gold);text-decoration:none;border:1px solid var(--gold);border-radius:3px;padding:3px 9px;letter-spacing:0.05em;">go.noonshop.com/new-order-form &rarr;</a>
       </div>
 
     </div>
@@ -533,7 +533,7 @@
       <div class="card accent">
         <div class="card-label">Calendar</div>
         <h2>Connect Outlook Calendars</h2>
-        <p style="font-size:7.5pt;color:var(--ink-soft);margin-bottom:8px;">Each salesperson must connect their Outlook calendar to Go High Level. This enables the booking system to work correctly and prevents double-booking.</p>
+        <p style="font-size:11pt;color:var(--ink-soft);margin-bottom:8px;">Each salesperson must connect their Outlook calendar to Go High Level. This enables the booking system to work correctly and prevents double-booking.</p>
         <ul class="dash">
           <li>Required for appointment booking pages to function</li>
           <li>Ensures real-time calendar availability</li>
@@ -543,7 +543,7 @@
       <div class="card accent">
         <div class="card-label">Mobile App</div>
         <h2>Download the GHL CRM App</h2>
-        <p style="font-size:7.5pt;color:var(--ink-soft);margin-bottom:8px;">Download the Go High Level mobile app to manage contacts, view pipelines, and receive notifications on the go.</p>
+        <p style="font-size:11pt;color:var(--ink-soft);margin-bottom:8px;">Download the Go High Level mobile app to manage contacts, view pipelines, and receive notifications on the go.</p>
         <ul class="dash">
           <li>Available on iOS and Android</li>
           <li>Log in with your GHL credentials</li>
@@ -553,7 +553,7 @@
       <div class="card accent">
         <div class="card-label">Quick Access</div>
         <h2>Add GHL to Your Home Screen</h2>
-        <p style="font-size:7.5pt;color:var(--ink-soft);margin-bottom:8px;">Add the Go High Level browser page to your phone or device home screen for fast one-tap access without opening a browser each time.</p>
+        <p style="font-size:11pt;color:var(--ink-soft);margin-bottom:8px;">Add the Go High Level browser page to your phone or device home screen for fast one-tap access without opening a browser each time.</p>
         <ul class="dash">
           <li>Open GHL in Safari or Chrome</li>
           <li>Tap Share &rarr; "Add to Home Screen"</li>
@@ -568,7 +568,7 @@
       <div class="card accent">
         <div class="card-label">All Sales Reps</div>
         <h2>New Prospect Form</h2>
-        <p style="font-size:7.5pt;color:var(--ink-soft);margin-bottom:8px;">Every sales rep should save quick access to the New Prospect Form so they can add contacts on the spot — in the field, at a meeting, or on the go.</p>
+        <p style="font-size:11pt;color:var(--ink-soft);margin-bottom:8px;">Every sales rep should save quick access to the New Prospect Form so they can add contacts on the spot — in the field, at a meeting, or on the go.</p>
         <ul class="dash">
           <li>Add the form to your <strong style="color:var(--ink);">phone home screen</strong></li>
           <li>Save it to your <strong style="color:var(--ink);">browser favorites</strong></li>
@@ -579,7 +579,7 @@
       <div class="card accent">
         <div class="card-label">Sales Operations Only</div>
         <h2>New Order Entry Form</h2>
-        <p style="font-size:7.5pt;color:var(--ink-soft);margin-bottom:8px;">Sales Operations staff should save the New Order Entry Form for quick access when recording completed orders.</p>
+        <p style="font-size:11pt;color:var(--ink-soft);margin-bottom:8px;">Sales Operations staff should save the New Order Entry Form for quick access when recording completed orders.</p>
         <ul class="dash">
           <li>Add the form to your <strong style="color:var(--ink);">phone home screen</strong></li>
           <li>Save it to your <strong style="color:var(--ink);">browser favorites</strong></li>
@@ -595,39 +595,39 @@
     <!-- Completed -->
     <div style="margin-bottom:14px;">
       <div style="display:flex;align-items:center;gap:8px;margin-bottom:8px;">
-        <span style="background:#D4EDDA;color:#276F3E;font-size:6.5pt;font-weight:700;letter-spacing:0.15em;text-transform:uppercase;padding:3px 8px;border-radius:3px;">&#10003; Completed</span>
+        <span style="background:#D4EDDA;color:#276F3E;font-size:12.5pt;font-weight:700;letter-spacing:0.15em;text-transform:uppercase;padding:3px 8px;border-radius:3px;">&#10003; Completed</span>
         <div style="flex:1;height:1px;background:var(--line);"></div>
       </div>
       <div class="grid">
         <div class="card" style="border-top:3px solid #3A9E5F;">
           <div class="card-label" style="color:#3A9E5F;">Completed</div>
-          <h2 style="font-size:9.5pt;margin-bottom:6px;">Emails from <a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="791817171809180b1239171616170a111609571a1614">[email&#160;protected]</a></h2>
-          <p style="font-size:7.5pt;color:var(--ink-soft);">Outbound campaign emails have been configured to send from <a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="294847474859485b4269474646475a414659074a4644">[email&#160;protected]</a>.</p>
+          <h2 style="font-size:13pt;margin-bottom:6px;">Emails from <a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="791817171809180b1239171616170a111609571a1614">[email&#160;protected]</a></h2>
+          <p style="font-size:11pt;color:var(--ink-soft);">Outbound campaign emails have been configured to send from <a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="294847474859485b4269474646475a414659074a4644">[email&#160;protected]</a>.</p>
         </div>
         <div class="card" style="border-top:3px solid #3A9E5F;">
           <div class="card-label" style="color:#3A9E5F;">Completed</div>
-          <h2 style="font-size:9.5pt;margin-bottom:6px;">Sales Infrastructure Setup</h2>
-          <p style="font-size:7.5pt;color:var(--ink-soft);">Email signatures, booking pages, and Outlook calendar integrations are complete for the sales team.</p>
+          <h2 style="font-size:13pt;margin-bottom:6px;">Sales Infrastructure Setup</h2>
+          <p style="font-size:11pt;color:var(--ink-soft);">Email signatures, booking pages, and Outlook calendar integrations are complete for the sales team.</p>
         </div>
         <div class="card" style="border-top:3px solid #3A9E5F;">
           <div class="card-label" style="color:#3A9E5F;">Completed</div>
-          <h2 style="font-size:9.5pt;margin-bottom:6px;">Domain Integration</h2>
-          <p style="font-size:7.5pt;color:var(--ink-soft);">Noon Shop domain has been successfully connected for booking links and CRM features.</p>
+          <h2 style="font-size:13pt;margin-bottom:6px;">Domain Integration</h2>
+          <p style="font-size:11pt;color:var(--ink-soft);">Noon Shop domain has been successfully connected for booking links and CRM features.</p>
         </div>
         <div class="card" style="border-top:3px solid #3A9E5F;">
           <div class="card-label" style="color:#3A9E5F;">Completed</div>
-          <h2 style="font-size:9.5pt;margin-bottom:6px;">Gmail Test Account</h2>
-          <p style="font-size:7.5pt;color:var(--ink-soft);">Customer-side Gmail test account has been created and is ready for end-to-end QA testing.</p>
+          <h2 style="font-size:13pt;margin-bottom:6px;">Gmail Test Account</h2>
+          <p style="font-size:11pt;color:var(--ink-soft);">Customer-side Gmail test account has been created and is ready for end-to-end QA testing.</p>
         </div>
         <div class="card" style="border-top:3px solid #3A9E5F;">
           <div class="card-label" style="color:#3A9E5F;">Completed</div>
-          <h2 style="font-size:9.5pt;margin-bottom:6px;">Update Brand Name in Email Templates</h2>
-          <p style="font-size:7.5pt;color:var(--ink-soft);">"Noonshop" has been updated to "Noon Shop" across all email templates and communications in the CRM.</p>
+          <h2 style="font-size:13pt;margin-bottom:6px;">Update Brand Name in Email Templates</h2>
+          <p style="font-size:11pt;color:var(--ink-soft);">"Noonshop" has been updated to "Noon Shop" across all email templates and communications in the CRM.</p>
         </div>
         <div class="card" style="border-top:3px solid #3A9E5F;">
           <div class="card-label" style="color:#3A9E5F;">Completed</div>
-          <h2 style="font-size:9.5pt;margin-bottom:6px;">Remove Mortgage Section from File Contacts</h2>
-          <p style="font-size:7.5pt;color:var(--ink-soft);">The Mortgage section has been removed from file contacts within the CRM.</p>
+          <h2 style="font-size:13pt;margin-bottom:6px;">Remove Mortgage Section from File Contacts</h2>
+          <p style="font-size:11pt;color:var(--ink-soft);">The Mortgage section has been removed from file contacts within the CRM.</p>
         </div>
       </div>
     </div>
@@ -635,24 +635,24 @@
     <!-- In Progress -->
     <div style="margin-bottom:14px;">
       <div style="display:flex;align-items:center;gap:8px;margin-bottom:8px;">
-        <span style="background:#FFF3CD;color:#856404;font-size:6.5pt;font-weight:700;letter-spacing:0.15em;text-transform:uppercase;padding:3px 8px;border-radius:3px;">&#9679; In Progress</span>
+        <span style="background:#FFF3CD;color:#856404;font-size:12.5pt;font-weight:700;letter-spacing:0.15em;text-transform:uppercase;padding:3px 8px;border-radius:3px;">&#9679; In Progress</span>
         <div style="flex:1;height:1px;background:var(--line);"></div>
       </div>
       <div class="grid">
         <div class="card" style="border-top:3px solid #E6A817;">
           <div class="card-label" style="color:#E6A817;">In Progress</div>
-          <h2 style="font-size:9.5pt;margin-bottom:6px;">White Label &amp; Custom Domain</h2>
-          <p style="font-size:7.5pt;color:var(--ink-soft);">White label the CRM with the Noon Shop logo and implement the custom domain: <strong style="color:var(--ink);">crmconnect.noonshop.com</strong></p>
+          <h2 style="font-size:13pt;margin-bottom:6px;">White Label &amp; Custom Domain</h2>
+          <p style="font-size:11pt;color:var(--ink-soft);">White label the CRM with the Noon Shop logo and implement the custom domain: <strong style="color:var(--ink);">crmconnect.noonshop.com</strong></p>
         </div>
         <div class="card" style="border-top:3px solid #3A9E5F;">
           <div class="card-label" style="color:#3A9E5F;">Completed</div>
-          <h2 style="font-size:9.5pt;margin-bottom:6px;">Mobile Optimization</h2>
-          <p style="font-size:7.5pt;color:var(--ink-soft);">Media query and mobile optimization updates across all CRM pages and forms are complete.</p>
+          <h2 style="font-size:13pt;margin-bottom:6px;">Mobile Optimization</h2>
+          <p style="font-size:11pt;color:var(--ink-soft);">Media query and mobile optimization updates across all CRM pages and forms are complete.</p>
         </div>
         <div class="card" style="border-top:3px solid #E6A817;">
           <div class="card-label" style="color:#E6A817;">In Progress</div>
-          <h2 style="font-size:9.5pt;margin-bottom:6px;">Integration Documentation</h2>
-          <p style="font-size:7.5pt;color:var(--ink-soft);">Provide documentation outlining how integrations work between QuickBooks, Shopify, and GoHighLevel — including how changes to customer records (name, email, phone, company name, invoices) sync between systems, and clarifying which field stores the business name / practice name.</p>
+          <h2 style="font-size:13pt;margin-bottom:6px;">Integration Documentation</h2>
+          <p style="font-size:11pt;color:var(--ink-soft);">Provide documentation outlining how integrations work between QuickBooks, Shopify, and GoHighLevel — including how changes to customer records (name, email, phone, company name, invoices) sync between systems, and clarifying which field stores the business name / practice name.</p>
         </div>
       </div>
     </div>
@@ -660,26 +660,26 @@
     <!-- Remaining Open Items -->
     <div>
       <div style="display:flex;align-items:center;gap:8px;margin-bottom:8px;">
-        <span style="background:#FEE8E0;color:#B94020;font-size:6.5pt;font-weight:700;letter-spacing:0.15em;text-transform:uppercase;padding:3px 8px;border-radius:3px;">&#9675; Remaining</span>
+        <span style="background:#FEE8E0;color:#B94020;font-size:12.5pt;font-weight:700;letter-spacing:0.15em;text-transform:uppercase;padding:3px 8px;border-radius:3px;">&#9675; Remaining</span>
         <div style="flex:1;height:1px;background:var(--line);"></div>
       </div>
       <div class="grid-3">
         <div class="card open-item">
           <div class="card-label">Open Item</div>
-          <h2 style="font-size:9pt;margin-bottom:4px;">Domain Warm-Up &amp; Dedicated IP</h2>
-          <p style="font-size:7.5pt;color:var(--ink-soft);">Complete domain warm-up process and purchase a dedicated IP to improve email deliverability.</p>
+          <h2 style="font-size:12.5pt;margin-bottom:4px;">Domain Warm-Up &amp; Dedicated IP</h2>
+          <p style="font-size:11pt;color:var(--ink-soft);">Complete domain warm-up process and purchase a dedicated IP to improve email deliverability.</p>
           <div class="open-note"><span class="open-dot"></span> Pending</div>
         </div>
         <div class="card open-item">
           <div class="card-label">Open Item</div>
-          <h2 style="font-size:9pt;margin-bottom:4px;">Reply-To Configuration</h2>
-          <p style="font-size:7.5pt;color:var(--ink-soft);">Resolve the reply-to configuration so that email replies route back to the assigned Sales Agent rather than a general inbox.</p>
+          <h2 style="font-size:12.5pt;margin-bottom:4px;">Reply-To Configuration</h2>
+          <p style="font-size:11pt;color:var(--ink-soft);">Resolve the reply-to configuration so that email replies route back to the assigned Sales Agent rather than a general inbox.</p>
           <div class="open-note"><span class="open-dot"></span> Pending</div>
         </div>
         <div class="card open-item">
           <div class="card-label">Open Item</div>
-          <h2 style="font-size:9pt;margin-bottom:4px;">Peter's Headshot</h2>
-          <p style="font-size:7.5pt;color:var(--ink-soft);">Peter's headshot is still pending. Required to complete his salesperson profile and email signature.</p>
+          <h2 style="font-size:12.5pt;margin-bottom:4px;">Peter's Headshot</h2>
+          <p style="font-size:11pt;color:var(--ink-soft);">Peter's headshot is still pending. Required to complete his salesperson profile and email signature.</p>
           <div class="open-note"><span class="open-dot"></span> Awaiting asset</div>
         </div>
       </div>
@@ -692,12 +692,12 @@
       <div class="card accent">
         <div class="card-label">Action Required</div>
         <h2>Update Customer Records</h2>
-        <p style="font-size:7.5pt;color:var(--ink-soft);">Update all customer records in GoHighLevel with corrected contact information and apply the appropriate tags to ensure contacts are enrolled in the right workflows and campaigns.</p>
+        <p style="font-size:11pt;color:var(--ink-soft);">Update all customer records in GoHighLevel with corrected contact information and apply the appropriate tags to ensure contacts are enrolled in the right workflows and campaigns.</p>
       </div>
       <div class="card open-item">
         <div class="card-label">Open Item</div>
-        <h2 style="font-size:9.5pt;margin-bottom:4px;">Peter's Headshot</h2>
-        <p style="font-size:7.5pt;color:var(--ink-soft);">Peter's headshot is still pending. Required to complete his salesperson profile and email signature.</p>
+        <h2 style="font-size:13pt;margin-bottom:4px;">Peter's Headshot</h2>
+        <p style="font-size:11pt;color:var(--ink-soft);">Peter's headshot is still pending. Required to complete his salesperson profile and email signature.</p>
         <div class="open-note"><span class="open-dot"></span> Awaiting asset</div>
       </div>
     </div>
@@ -708,42 +708,42 @@
     <div class="section-divider"><span>Data Sync &amp; Integration Notes</span></div>
 
     <div style="margin-bottom:16px;background:white;border:1px solid var(--line);border-radius:6px;padding:14px 16px;">
-      <p style="font-size:8pt;color:var(--ink-soft);margin-bottom:12px;border-left:3px solid var(--gold);padding-left:12px;">The following outlines how data flows between GoHighLevel (GHL) and QuickBooks (QB). Understanding these rules is important to avoid data inconsistencies across systems.</p>
+      <p style="font-size:11pt;color:var(--ink-soft);margin-bottom:12px;border-left:3px solid var(--gold);padding-left:12px;">The following outlines how data flows between GoHighLevel (GHL) and QuickBooks (QB). Understanding these rules is important to avoid data inconsistencies across systems.</p>
 
-      <table style="width:100%;border-collapse:collapse;font-size:8pt;table-layout:fixed;">
+      <table style="width:100%;border-collapse:collapse;font-size:11pt;table-layout:fixed;">
         <thead>
           <tr style="background:var(--cream-warm);">
-            <th style="text-align:left;padding:8px 12px;border:1px solid var(--line);font-weight:600;color:var(--ink);font-size:7pt;letter-spacing:0.08em;text-transform:uppercase;width:35%;">Action</th>
-            <th style="text-align:center;padding:8px 12px;border:1px solid var(--line);font-weight:600;color:var(--ink);font-size:7pt;letter-spacing:0.08em;text-transform:uppercase;width:32%;">Syncs to Other System?</th>
-            <th style="text-align:left;padding:8px 12px;border:1px solid var(--line);font-weight:600;color:var(--ink);font-size:7pt;letter-spacing:0.08em;text-transform:uppercase;">Note</th>
+            <th style="text-align:left;padding:8px 12px;border:1px solid var(--line);font-weight:600;color:var(--ink);font-size:10pt;letter-spacing:0.08em;text-transform:uppercase;width:35%;">Action</th>
+            <th style="text-align:center;padding:8px 12px;border:1px solid var(--line);font-weight:600;color:var(--ink);font-size:10pt;letter-spacing:0.08em;text-transform:uppercase;width:32%;">Syncs to Other System?</th>
+            <th style="text-align:left;padding:8px 12px;border:1px solid var(--line);font-weight:600;color:var(--ink);font-size:10pt;letter-spacing:0.08em;text-transform:uppercase;">Note</th>
           </tr>
         </thead>
         <tbody>
           <tr>
             <td style="padding:9px 12px;border:1px solid var(--line);color:var(--ink-mid);">New customer created in GHL</td>
             <td style="padding:9px 12px;border:1px solid var(--line);text-align:center;">
-              <span style="background:#FEE8E0;color:#B94020;font-size:6.5pt;font-weight:700;padding:2px 8px;border-radius:3px;letter-spacing:0.05em;text-transform:uppercase;">Does Not Sync</span>
+              <span style="background:#FEE8E0;color:#B94020;font-size:12.5pt;font-weight:700;padding:2px 8px;border-radius:3px;letter-spacing:0.05em;text-transform:uppercase;">Does Not Sync</span>
             </td>
             <td style="padding:9px 12px;border:1px solid var(--line);color:var(--ink-soft);">Will not be created in QuickBooks. QB records must be managed separately.</td>
           </tr>
           <tr style="background:var(--cream-warm);">
             <td style="padding:9px 12px;border:1px solid var(--line);color:var(--ink-mid);">Customer name updated in QB</td>
             <td style="padding:9px 12px;border:1px solid var(--line);text-align:center;">
-              <span style="background:#D4EDDA;color:#276F3E;font-size:6.5pt;font-weight:700;padding:2px 8px;border-radius:3px;letter-spacing:0.05em;text-transform:uppercase;">Syncs to GHL</span>
+              <span style="background:#D4EDDA;color:#276F3E;font-size:12.5pt;font-weight:700;padding:2px 8px;border-radius:3px;letter-spacing:0.05em;text-transform:uppercase;">Syncs to GHL</span>
             </td>
             <td style="padding:9px 12px;border:1px solid var(--line);color:var(--ink-soft);">Name change in QuickBooks will update the corresponding contact in GHL.</td>
           </tr>
           <tr>
             <td style="padding:9px 12px;border:1px solid var(--line);color:var(--ink-mid);">Customer phone updated in QB</td>
             <td style="padding:9px 12px;border:1px solid var(--line);text-align:center;">
-              <span style="background:#D4EDDA;color:#276F3E;font-size:6.5pt;font-weight:700;padding:2px 8px;border-radius:3px;letter-spacing:0.05em;text-transform:uppercase;">Syncs to GHL</span>
+              <span style="background:#D4EDDA;color:#276F3E;font-size:12.5pt;font-weight:700;padding:2px 8px;border-radius:3px;letter-spacing:0.05em;text-transform:uppercase;">Syncs to GHL</span>
             </td>
             <td style="padding:9px 12px;border:1px solid var(--line);color:var(--ink-soft);">Phone number change in QuickBooks will update the corresponding contact in GHL.</td>
           </tr>
           <tr style="background:var(--cream-warm);">
             <td style="padding:9px 12px;border:1px solid var(--line);color:var(--ink-mid);">Customer phone updated in GHL</td>
             <td style="padding:9px 12px;border:1px solid var(--line);text-align:center;">
-              <span style="background:#FEE8E0;color:#B94020;font-size:6.5pt;font-weight:700;padding:2px 8px;border-radius:3px;letter-spacing:0.05em;text-transform:uppercase;">Does Not Sync</span>
+              <span style="background:#FEE8E0;color:#B94020;font-size:12.5pt;font-weight:700;padding:2px 8px;border-radius:3px;letter-spacing:0.05em;text-transform:uppercase;">Does Not Sync</span>
             </td>
             <td style="padding:9px 12px;border:1px solid var(--line);color:var(--ink-soft);">Phone number changes made in GHL will not carry over to QuickBooks. Update QB separately.</td>
           </tr>
@@ -755,14 +755,14 @@
     <div class="section-divider"><span>Field Mappings &amp; Flows</span></div>
 
     <div style="margin-bottom:16px;background:white;border:1px solid var(--line);border-radius:6px;padding:14px 16px;">
-      <p style="font-size:8pt;color:var(--ink-soft);margin-bottom:12px;border-left:3px solid var(--gold);padding-left:12px;">The following outlines how specific fields are mapped between systems and how they flow through the CRM.</p>
+      <p style="font-size:11pt;color:var(--ink-soft);margin-bottom:12px;border-left:3px solid var(--gold);padding-left:12px;">The following outlines how specific fields are mapped between systems and how they flow through the CRM.</p>
 
-      <table style="width:100%;border-collapse:collapse;font-size:8pt;table-layout:fixed;">
+      <table style="width:100%;border-collapse:collapse;font-size:11pt;table-layout:fixed;">
         <thead>
           <tr style="background:var(--cream-warm);">
-            <th style="text-align:left;padding:8px 12px;border:1px solid var(--line);font-weight:600;color:var(--ink);font-size:7pt;letter-spacing:0.08em;text-transform:uppercase;width:35%;">Source Field</th>
-            <th style="text-align:left;padding:8px 12px;border:1px solid var(--line);font-weight:600;color:var(--ink);font-size:7pt;letter-spacing:0.08em;text-transform:uppercase;width:30%;">Maps To</th>
-            <th style="text-align:left;padding:8px 12px;border:1px solid var(--line);font-weight:600;color:var(--ink);font-size:7pt;letter-spacing:0.08em;text-transform:uppercase;">Note</th>
+            <th style="text-align:left;padding:8px 12px;border:1px solid var(--line);font-weight:600;color:var(--ink);font-size:10pt;letter-spacing:0.08em;text-transform:uppercase;width:35%;">Source Field</th>
+            <th style="text-align:left;padding:8px 12px;border:1px solid var(--line);font-weight:600;color:var(--ink);font-size:10pt;letter-spacing:0.08em;text-transform:uppercase;width:30%;">Maps To</th>
+            <th style="text-align:left;padding:8px 12px;border:1px solid var(--line);font-weight:600;color:var(--ink);font-size:10pt;letter-spacing:0.08em;text-transform:uppercase;">Note</th>
           </tr>
         </thead>
         <tbody>
