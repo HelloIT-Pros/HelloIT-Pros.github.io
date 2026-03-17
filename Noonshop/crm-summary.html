@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Noon Shop CRM Build Summary — Updated March 2026</title>
+<title>NoonShop CRM Build Summary</title>
 <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
 <style>
   *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
@@ -18,14 +18,6 @@
     --cream-warm: #F2EDE4;
     --line: #E0D9CE;
     --open: #D97B4F;
-    --green: #3A9E5F;
-    --green-bg: #D4EDDA;
-    --green-text: #276F3E;
-    --yellow: #E6A817;
-    --yellow-bg: #FFF3CD;
-    --yellow-text: #856404;
-    --red-bg: #FEE8E0;
-    --red-text: #B94020;
   }
 
   @page { size: A4; margin: 0; }
@@ -34,19 +26,32 @@
     font-family: 'DM Sans', sans-serif;
     background: var(--cream);
     color: var(--ink);
-    font-size: 9.5pt;
-    line-height: 1.55;
+    font-size: 15px;
+    line-height: 1.6;
     -webkit-print-color-adjust: exact;
     print-color-adjust: exact;
   }
 
   .page {
-    width: 210mm;
-    min-height: 297mm;
+    max-width: 1400px;
+    width: 95%;
+    min-height: 100vh;
     margin: 0 auto;
     background: var(--cream);
     position: relative;
     overflow: hidden;
+    padding: 0 20px;
+  }
+  
+  @media print {
+    .page {
+      width: 210mm;
+      min-height: 297mm;
+      padding: 0;
+    }
+    body {
+      font-size: 9.5pt;
+    }
   }
 
   .top-bar {
@@ -56,7 +61,7 @@
   }
 
   .header {
-    padding: 22px 32px 18px;
+    padding: 40px 50px 30px;
     display: flex;
     justify-content: space-between;
     align-items: flex-end;
@@ -64,137 +69,490 @@
   }
 
   .brand-tag {
-    font-size: 7.5pt;
+    font-size: 12px;
     font-weight: 600;
     letter-spacing: 0.15em;
     text-transform: uppercase;
     color: var(--gold);
-    margin-bottom: 4px;
+    margin-bottom: 8px;
   }
 
   h1 {
     font-family: 'DM Serif Display', serif;
-    font-size: 22pt;
+    font-size: 42px;
     font-weight: 400;
     color: var(--ink);
-    line-height: 1.15;
+    line-height: 1.2;
   }
 
-  h1 em { font-style: italic; color: var(--gold); }
+  h1 em {
+    font-style: italic;
+    color: var(--gold);
+  }
 
   .header-meta {
     text-align: right;
-    font-size: 7.5pt;
+    font-size: 13px;
     color: var(--ink-soft);
     line-height: 1.8;
   }
 
   .header-meta strong {
     display: block;
-    font-size: 9pt;
+    font-size: 16px;
     font-weight: 600;
     color: var(--ink-mid);
     letter-spacing: 0.05em;
   }
-
-  .body { padding: 20px 32px 24px; }
-
-  .intro {
-    font-size: 9pt;
-    color: var(--ink-mid);
-    font-weight: 300;
-    border-left: 3px solid var(--gold);
-    padding-left: 12px;
-    margin-bottom: 20px;
-    max-width: 580px;
-    line-height: 1.6;
+  
+  @media print {
+    .header {
+      padding: 22px 32px 18px;
+    }
+    .brand-tag {
+      font-size: 7.5pt;
+    }
+    h1 {
+      font-size: 22pt;
+    }
+    .header-meta {
+      font-size: 7.5pt;
+    }
+    .header-meta strong {
+      font-size: 9pt;
+    }
   }
 
-  .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-bottom: 16px; }
-  .grid-3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 14px; margin-bottom: 16px; }
-  .grid-4 { display: grid; grid-template-columns: 1fr 1fr 1fr 1fr; gap: 12px; margin-bottom: 16px; }
+  .body {
+    padding: 30px 50px 40px;
+  }
+
+  .intro {
+    font-size: 16px;
+    color: var(--ink-mid);
+    font-weight: 300;
+    border-left: 4px solid var(--gold);
+    padding-left: 20px;
+    margin-bottom: 30px;
+    max-width: 900px;
+    line-height: 1.7;
+  }
+
+  .grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 24px;
+    margin-bottom: 24px;
+  }
+
+  .grid-3 {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 20px;
+    margin-bottom: 24px;
+  }
 
   .card {
     background: white;
     border: 1px solid var(--line);
-    border-radius: 6px;
-    padding: 14px 16px;
+    border-radius: 8px;
+    padding: 20px 24px;
     position: relative;
   }
 
-  .card.accent { border-top: 3px solid var(--gold); }
-  .card.open-item { border-top: 3px solid var(--open); background: #FFF9F6; }
+  .card.accent {
+    border-top: 4px solid var(--gold);
+  }
+
+  .card.open-item {
+    border-top: 4px solid var(--open);
+    background: #FFF9F6;
+  }
 
   .card-label {
-    font-size: 6.5pt;
+    font-size: 11px;
     font-weight: 700;
     letter-spacing: 0.18em;
     text-transform: uppercase;
     color: var(--gold);
-    margin-bottom: 6px;
+    margin-bottom: 10px;
+  }
+  
+  @media print {
+    .body {
+      padding: 20px 32px 24px;
+    }
+    .intro {
+      font-size: 9pt;
+      padding-left: 12px;
+      margin-bottom: 20px;
+      max-width: 520px;
+    }
+    .grid {
+      gap: 16px;
+      margin-bottom: 16px;
+    }
+    .grid-3 {
+      gap: 14px;
+      margin-bottom: 16px;
+    }
+    .card {
+      border-radius: 6px;
+      padding: 14px 16px;
+    }
+    .card.accent {
+      border-top: 3px solid var(--gold);
+    }
+    .card.open-item {
+      border-top: 3px solid var(--open);
+    }
+    .card-label {
+      font-size: 6.5pt;
+      margin-bottom: 6px;
+    }
   }
 
-  .card.open-item .card-label { color: var(--open); }
+  .card.open-item .card-label {
+    color: var(--open);
+  }
 
   h2 {
     font-family: 'DM Serif Display', serif;
-    font-size: 11pt;
+    font-size: 20px;
     font-weight: 400;
     color: var(--ink);
-    margin-bottom: 8px;
-    line-height: 1.2;
+    margin-bottom: 12px;
+    line-height: 1.3;
   }
 
-  .stats { display: flex; gap: 18px; margin-bottom: 10px; }
-  .stat-num { font-family: 'DM Serif Display', serif; font-size: 22pt; color: var(--gold); line-height: 1; }
-  .stat-label { font-size: 7pt; color: var(--ink-soft); font-weight: 500; letter-spacing: 0.05em; margin-top: 1px; }
+  .stats {
+    display: flex;
+    gap: 28px;
+    margin-bottom: 16px;
+  }
 
-  .pills { display: flex; flex-wrap: wrap; gap: 5px; margin-top: 8px; }
-  .pill { background: var(--cream-warm); border: 1px solid var(--line); border-radius: 20px; font-size: 7pt; font-weight: 500; padding: 3px 9px; color: var(--ink-mid); }
+  .stat-num {
+    font-family: 'DM Serif Display', serif;
+    font-size: 38px;
+    color: var(--gold);
+    line-height: 1;
+  }
 
-  ul.dash { list-style: none; padding: 0; }
-  ul.dash li { padding-left: 12px; position: relative; color: var(--ink-mid); font-size: 8.5pt; margin-bottom: 4px; line-height: 1.45; }
-  ul.dash li::before { content: '—'; position: absolute; left: 0; color: var(--gold); font-size: 7pt; top: 1px; }
+  .stat-label {
+    font-size: 12px;
+    color: var(--ink-soft);
+    font-weight: 500;
+    letter-spacing: 0.05em;
+    margin-top: 2px;
+  }
+  
+  @media print {
+    h2 {
+      font-size: 11pt;
+      margin-bottom: 8px;
+    }
+    .stats {
+      gap: 18px;
+      margin-bottom: 10px;
+    }
+    .stat-num {
+      font-size: 22pt;
+    }
+    .stat-label {
+      font-size: 7pt;
+      margin-top: 1px;
+    }
+  }
 
-  .integration { display: flex; align-items: flex-start; gap: 10px; padding: 9px 0; border-bottom: 1px solid var(--line); }
+  .pills {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 5px;
+    margin-top: 8px;
+  }
+
+  .pill {
+    background: var(--cream-warm);
+    border: 1px solid var(--line);
+    border-radius: 20px;
+    font-size: 13px;
+    font-weight: 500;
+    padding: 6px 14px;
+    color: var(--ink-mid);
+  }
+
+  ul.dash {
+    list-style: none;
+    padding: 0;
+  }
+
+  ul.dash li {
+    padding-left: 18px;
+    position: relative;
+    color: var(--ink-mid);
+    font-size: 14px;
+    margin-bottom: 8px;
+    line-height: 1.5;
+  }
+
+  ul.dash li::before {
+    content: '—';
+    position: absolute;
+    left: 0;
+    color: var(--gold);
+    font-size: 12px;
+    top: 2px;
+  }
+  
+  @media print {
+    .pill {
+      font-size: 7pt;
+      padding: 3px 9px;
+    }
+    ul.dash li {
+      padding-left: 12px;
+      font-size: 8.5pt;
+      margin-bottom: 4px;
+      line-height: 1.45;
+    }
+    ul.dash li::before {
+      font-size: 7pt;
+      top: 1px;
+    }
+  }
+
+  .integration {
+    display: flex;
+    align-items: flex-start;
+    gap: 16px;
+    padding: 14px 0;
+    border-bottom: 1px solid var(--line);
+  }
   .integration:last-child { border-bottom: none; padding-bottom: 0; }
   .integration:first-child { padding-top: 0; }
 
-  .int-icon { width: 28px; height: 28px; border-radius: 6px; background: var(--cream-warm); border: 1px solid var(--line); display: flex; align-items: center; justify-content: center; font-size: 11pt; flex-shrink: 0; }
-  .int-name { font-weight: 600; font-size: 8.5pt; color: var(--ink); margin-bottom: 2px; }
-  .int-desc { font-size: 7.5pt; color: var(--ink-soft); line-height: 1.5; }
+  .int-icon {
+    width: 40px;
+    height: 40px;
+    border-radius: 8px;
+    background: var(--cream-warm);
+    border: 1px solid var(--line);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 20px;
+    flex-shrink: 0;
+  }
 
-  .section-divider { display: flex; align-items: center; gap: 10px; margin: 4px 0 12px; }
-  .section-divider span { font-size: 7pt; font-weight: 700; letter-spacing: 0.18em; text-transform: uppercase; color: var(--ink-soft); white-space: nowrap; }
-  .section-divider::before, .section-divider::after { content: ''; flex: 1; height: 1px; background: var(--line); }
+  .int-name {
+    font-weight: 600;
+    font-size: 15px;
+    color: var(--ink);
+    margin-bottom: 4px;
+  }
 
-  .open-note { font-size: 7.5pt; color: var(--open); font-weight: 600; margin-top: 6px; display: flex; align-items: center; gap: 5px; }
-  .open-dot { width: 6px; height: 6px; border-radius: 50%; background: var(--open); display: inline-block; }
+  .int-desc {
+    font-size: 13px;
+    color: var(--ink-soft);
+    line-height: 1.5;
+  }
+  
+  @media print {
+    .integration {
+      gap: 10px;
+      padding: 9px 0;
+    }
+    .int-icon {
+      width: 28px;
+      height: 28px;
+      border-radius: 6px;
+      font-size: 11pt;
+    }
+    .int-name {
+      font-size: 8.5pt;
+      margin-bottom: 2px;
+    }
+    .int-desc {
+      font-size: 7.5pt;
+    }
+  }
+
+  .not-list {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  .not-item {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 14px;
+    color: var(--ink-mid);
+  }
+
+  .not-badge {
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.05em;
+    background: #F0F0F0;
+    border-radius: 4px;
+    padding: 4px 10px;
+    color: #888;
+    text-transform: uppercase;
+    flex-shrink: 0;
+  }
 
   .footer {
     border-top: 1px solid var(--line);
-    padding: 10px 32px;
+    padding: 20px 50px;
     display: flex;
     justify-content: space-between;
     align-items: center;
   }
 
-  .footer-brand { font-size: 7pt; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase; color: var(--ink-soft); }
-  .footer-brand span { color: var(--gold); }
-  .footer-note { font-size: 7pt; color: var(--ink-soft); }
-
-  .status-badge {
-    font-size: 6.5pt;
-    font-weight: 700;
-    letter-spacing: 0.15em;
+  .footer-brand {
+    font-size: 12px;
+    font-weight: 600;
+    letter-spacing: 0.1em;
     text-transform: uppercase;
-    padding: 3px 8px;
-    border-radius: 3px;
+    color: var(--ink-soft);
+  }
+
+  .footer-brand span { color: var(--gold); }
+
+  .footer-note {
+    font-size: 12px;
+    color: var(--ink-soft);
+  }
+
+  .open-note {
+    font-size: 13px;
+    color: var(--open);
+    font-weight: 600;
+    margin-top: 10px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .open-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: var(--open);
+    display: inline-block;
+  }
+  
+  @media print {
+    .not-list {
+      gap: 5px;
+    }
+    .not-item {
+      gap: 7px;
+      font-size: 8pt;
+    }
+    .not-badge {
+      font-size: 6.5pt;
+      padding: 2px 6px;
+      border-radius: 3px;
+    }
+    .footer {
+      padding: 10px 32px;
+    }
+    .footer-brand {
+      font-size: 7pt;
+    }
+    .footer-note {
+      font-size: 7pt;
+    }
+    .open-note {
+      font-size: 7.5pt;
+      margin-top: 6px;
+      gap: 5px;
+    }
+    .open-dot {
+      width: 6px;
+      height: 6px;
+    }
+  }
+
+  .section-divider {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    margin: 8px 0 20px;
+  }
+
+  .section-divider span {
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--ink-soft);
+    white-space: nowrap;
+  }
+
+  .section-divider::before,
+  .section-divider::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background: var(--line);
+  }
+  
+  @media print {
+    .section-divider {
+      gap: 10px;
+      margin: 4px 0 12px;
+    }
+    .section-divider span {
+      font-size: 7pt;
+    }
+  }
+    background: var(--line);
   }
 
   @media print {
     body { background: white; }
     .page { margin: 0; width: 100%; }
+  }
+  
+  /* Mobile responsive styles */
+  @media screen and (max-width: 768px) {
+    .page {
+      width: 100%;
+      padding: 0 10px;
+    }
+    .header {
+      padding: 30px 20px 20px;
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 20px;
+    }
+    .header-meta {
+      text-align: left;
+    }
+    h1 {
+      font-size: 32px;
+    }
+    .body {
+      padding: 20px;
+    }
+    .grid {
+      grid-template-columns: 1fr;
+      gap: 20px;
+    }
+    .grid-3 {
+      grid-template-columns: 1fr;
+      gap: 16px;
+    }
+    .footer {
+      padding: 20px;
+      flex-direction: column;
+      gap: 10px;
+      text-align: center;
+    }
   }
 </style>
 </head>
@@ -206,47 +564,21 @@
   <div class="header">
     <div class="header-left">
       <div class="brand-tag">HelloIT &nbsp;·&nbsp; CRM Build Delivery</div>
-      <h1>Noon Shop <em>CRM</em><br>Build Summary</h1>
+      <h1>NoonShop <em>CRM</em><br>Build Summary</h1>
     </div>
     <div class="header-meta">
+      <img src="data:image/jpeg;base64,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" alt="NoonShop" style="height:34px;width:auto;opacity:0.75;margin-bottom:10px;display:block;margin-left:auto;">
       <strong>Go High Level Platform</strong>
-      Prepared by HelloIT Pros<br>
+      Prepared by HelloIT<br>
       CRM Automation &amp; Customer Journey<br>
-      Updated March 17, 2026
+      March 2026
     </div>
   </div>
 
   <div class="body">
 
-    <p class="intro">Updated summary reflecting the full CRM build and live API audit of the Noon Shop Go High Level tenant — covering campaign strategy, system automations, integrations, sales infrastructure, and identified gaps.</p>
+    <p class="intro">This document summarizes the full scope of the CRM build completed for NoonShop on the Go High Level platform — covering campaign strategy, system automations, integrations, and sales infrastructure.</p>
 
-    <!-- Tenant At A Glance -->
-    <div class="section-divider"><span>Tenant At A Glance</span></div>
-
-    <div class="grid-4">
-      <div class="card accent">
-        <div class="card-label">Contacts</div>
-        <div class="stat-num">18,073</div>
-        <div class="stat-label">Total CRM Contacts</div>
-      </div>
-      <div class="card accent">
-        <div class="card-label">Products</div>
-        <div class="stat-num">163</div>
-        <div class="stat-label">Eyewear Frames (Shopify)</div>
-      </div>
-      <div class="card accent">
-        <div class="card-label">Conversations</div>
-        <div class="stat-num">2,245</div>
-        <div class="stat-label">SMS / Phone Threads</div>
-      </div>
-      <div class="card accent">
-        <div class="card-label">Users</div>
-        <div class="stat-num">7</div>
-        <div class="stat-label">Active Team Members</div>
-      </div>
-    </div>
-
-    <!-- Campaign Strategy -->
     <div class="grid">
 
       <div class="card accent">
@@ -258,45 +590,40 @@
             <div class="stat-label">Core Campaigns</div>
           </div>
           <div class="stat">
-            <div class="stat-num">67</div>
-            <div class="stat-label">Email Templates</div>
+            <div class="stat-num">60</div>
+            <div class="stat-label">Emails Written</div>
           </div>
         </div>
-        <p style="font-size:7.5pt;color:var(--ink-soft);margin-bottom:6px;">Covering the full customer lifecycle from prospecting through win-back, plus 19 seasonal holiday touchpoints.</p>
+        <p style="font-size:7.5pt;color:var(--ink-soft);margin-bottom:6px;">Designed to support prospecting, relationship building, and consistent outreach across the full customer lifecycle.</p>
         <div class="pills">
-          <span class="pill">Prospect Journey (10)</span>
-          <span class="pill">First Order (8)</span>
-          <span class="pill">Active Customer (16)</span>
-          <span class="pill">Win-Back (13)</span>
-          <span class="pill">Holiday (19)</span>
+          <span class="pill">Prospect Journey</span>
+          <span class="pill">Active Customer</span>
+          <span class="pill">First Order</span>
+          <span class="pill">Win Back</span>
+          <span class="pill">Holiday</span>
         </div>
       </div>
 
       <div class="card accent">
         <div class="card-label">System Automations</div>
-        <h2>Published Workflows</h2>
+        <h2>Automation Flows</h2>
         <div class="stats">
           <div class="stat">
-            <div class="stat-num">9</div>
-            <div class="stat-label">Published Workflows</div>
-          </div>
-          <div class="stat">
-            <div class="stat-num">4</div>
-            <div class="stat-label">Active Pipelines</div>
+            <div class="stat-num">5</div>
+            <div class="stat-label">Automation Flows</div>
           </div>
         </div>
         <ul class="dash">
-          <li>5 core customer journey workflows</li>
-          <li>Real-time Shopify order monitoring</li>
-          <li>QuickBooks &amp; Shopify contact identification</li>
-          <li>Post-appointment follow-up automation</li>
-          <li>Lead status &amp; disposition management</li>
+          <li>Lead status management</li>
+          <li>Campaign enrollment logic</li>
+          <li>Contact tagging</li>
+          <li>Workflow triggers</li>
+          <li>Automation guardrails</li>
         </ul>
       </div>
 
     </div>
 
-    <!-- System Integrations -->
     <div class="section-divider"><span>System Integrations</span></div>
 
     <div class="grid">
@@ -308,77 +635,113 @@
           <div class="int-icon">🛍</div>
           <div>
             <div class="int-name">Shopify</div>
-            <div class="int-desc">163 products synced via native integration. Orders flow as webhooks with full line-item detail (SKU, variant, price). Shopify domain: pqq9yi-cc.myshopify.com. Join key: customer email.</div>
+            <div class="int-desc">Synced with Go High Level. Customer and order data flows from Shopify into the CRM — contacts and purchase history captured automatically.</div>
           </div>
         </div>
         <div class="integration">
           <div class="int-icon">📒</div>
           <div>
             <div class="int-name">QuickBooks</div>
-            <div class="int-desc">Customer contacts sync automatically (up to 5 min delay). Standard fields mapped. Financial data (amounts, products, dates) not mapped to GHL.</div>
-          </div>
-        </div>
-        <div class="integration">
-          <div class="int-icon">📧</div>
-          <div>
-            <div class="int-name">Microsoft 365</div>
-            <div class="int-desc">Outbound via mail.noonshop.com. Reply-to routes to hello@noonshop.com → Exchange Online → rep inbox. Outlook calendar sync per rep.</div>
+            <div class="int-desc">Existing QB contacts synced to GHL. New contacts from QuickBooks continue to sync automatically (up to 5 min delay).</div>
           </div>
         </div>
       </div>
 
       <div class="card" style="background:var(--cream-warm);">
-        <div class="card-label">Key Finding</div>
-        <h2>The &ldquo;Data Island&rdquo; <em style="font-style:italic;font-family:'DM Serif Display',serif;">Problem</em></h2>
-        <p style="font-size:7.5pt;color:var(--ink-soft);margin-bottom:8px;">Shopify order data arrives in GHL in two disconnected places:</p>
-        <ul class="dash">
-          <li><strong style="color:var(--ink);">Payments module:</strong> Full line-item detail, amounts, SKUs ✓</li>
-          <li><strong style="color:var(--ink);">Contact custom fields:</strong> Empty for ~95% of contacts ✗</li>
-        </ul>
-        <p style="font-size:7.5pt;color:var(--ink-soft);margin-top:8px;">The bridge (Order Monitor workflow) only fires on live Shopify events — it never ran for the 17K+ contacts imported via QuickBooks.</p>
+        <div class="card-label">Platform Scope</div>
+        <h2>What GHL Is <em style="font-style:italic;font-family:'DM Serif Display',serif;">Not</em></h2>
+        <p style="font-size:7.5pt;color:var(--ink-soft);margin-bottom:10px;">Go High Level is a CRM and marketing automation platform. It is not a replacement for:</p>
+        <div class="not-list">
+          <div class="not-item">Inventory Management System</div>
+          <div class="not-item">Point of Sale (POS)</div>
+          <div class="not-item">Accounting System</div>
+        </div>
+        <p style="font-size:7.5pt;color:var(--ink-soft);margin-top:10px;">Key integrations with Shopify and QuickBooks bridge these systems into the CRM.</p>
       </div>
 
     </div>
 
-    <!-- Sales Infrastructure -->
     <div class="section-divider"><span>Sales Infrastructure</span></div>
 
     <div class="grid-3">
 
       <div class="card accent">
-        <div class="card-label">Team</div>
-        <h2>7 Users</h2>
+        <div class="card-label">Personal Branding</div>
+        <h2>Email Signatures</h2>
         <ul class="dash">
-          <li><strong style="color:var(--ink);">Anna Park</strong> — Founder</li>
-          <li><strong style="color:var(--ink);">David Cho</strong> — Primary Sales Rep</li>
-          <li><strong style="color:var(--ink);">Peter Chong</strong> — Sales Rep</li>
-          <li><strong style="color:var(--ink);">Sandra Kim</strong> — Operations</li>
-          <li>Felipe Abarca, Prakash Karnani (HelloIT)</li>
+          <li>Emails sent from salesperson's own email address</li>
+          <li>Custom signature per rep</li>
+          <li>Consistent branding &amp; contact visibility</li>
         </ul>
       </div>
 
       <div class="card accent">
-        <div class="card-label">Calendars</div>
-        <h2>9 Calendars</h2>
+        <div class="card-label">Booking System</div>
+        <h2>Appointment Pages</h2>
         <ul class="dash">
-          <li>7 personal calendars (per team member)</li>
-          <li>1 round-robin (Booth P17058 — trade show)</li>
-          <li>Outlook calendar sync for booking pages</li>
-          <li>Dedicated booking links per rep</li>
+          <li>Booking pages built inside GHL</li>
+          <li>Integrated with each rep's Outlook calendar</li>
+          <li>Prospects schedule meetings directly</li>
+          <li>Double-booking prevented via calendar sync</li>
+        </ul>
+      </div>
+
+      <div style="display:flex;flex-direction:column;gap:14px;">
+
+        <div class="card open-item">
+          <div class="card-label">Open Item</div>
+          <h2 style="font-size:9.5pt;margin-bottom:4px;">Domain Integration</h2>
+          <p style="font-size:7.5pt;color:var(--ink-soft);">GoDaddy credentials needed to connect NoonShop domain for booking links and CRM features.</p>
+          <div class="open-note"><span class="open-dot"></span> Pending credentials</div>
+        </div>
+
+        <div class="card open-item">
+          <div class="card-label">Open Item</div>
+          <h2 style="font-size:9.5pt;margin-bottom:4px;">Gmail Test Account</h2>
+          <p style="font-size:7.5pt;color:var(--ink-soft);">Customer-side Gmail testing account to be created for end-to-end QA.</p>
+          <div class="open-note"><span class="open-dot"></span> Not yet created</div>
+        </div>
+
+      </div>
+
+    </div>
+
+    <!-- Phase 1 Testing -->
+    <div class="section-divider"><span>Phase 1 &nbsp;&middot;&nbsp; Testing &amp; Calibration</span></div>
+
+    <div style="background:#FFF3EC;border:1px solid #F0C4A8;border-left:4px solid var(--open);border-radius:6px;padding:12px 16px;margin-bottom:16px;">
+      <div style="font-size:6.5pt;font-weight:700;letter-spacing:0.18em;text-transform:uppercase;color:var(--open);margin-bottom:5px;">Important Rule &mdash; Testing Phase</div>
+      <p style="font-size:8.5pt;color:var(--ink-mid);margin-bottom:8px;">For the next week, we are strictly operating in a testing environment. This is a hard rule during testing:</p>
+      <div style="display:flex;gap:20px;flex-wrap:wrap;">
+        <div style="display:flex;align-items:center;gap:6px;font-size:8pt;color:var(--ink-mid);"><span style="width:7px;height:7px;border-radius:50%;background:var(--open);display:inline-block;flex-shrink:0;"></span>Only test contacts should be used</div>
+        <div style="display:flex;align-items:center;gap:6px;font-size:8pt;color:var(--ink-mid);"><span style="width:7px;height:7px;border-radius:50%;background:var(--open);display:inline-block;flex-shrink:0;"></span>Only test email accounts should be used</div>
+        <div style="display:flex;align-items:center;gap:6px;font-size:8pt;color:var(--ink-mid);"><span style="width:7px;height:7px;border-radius:50%;background:var(--open);display:inline-block;flex-shrink:0;"></span>No campaigns or automations assigned to real prospects</div>
+      </div>
+    </div>
+
+    <div class="grid">
+
+      <div class="card accent">
+        <div class="card-label">Purpose of Testing Phase</div>
+        <h2>What We Are Validating</h2>
+        <ul class="dash">
+          <li>Validate the automations are triggering correctly</li>
+          <li>Test all workflows end-to-end</li>
+          <li>Ensure emails deliver correctly to inboxes</li>
+          <li>Make adjustments before going live</li>
         </ul>
       </div>
 
       <div class="card accent">
-        <div class="card-label">Forms</div>
-        <h2>6 Forms</h2>
+        <div class="card-label">Setup Required</div>
+        <h2>Test Email Accounts</h2>
+        <p style="font-size:7.5pt;color:var(--ink-soft);margin-bottom:8px;">Everyone involved in testing must add a test email account to their devices. You can use the test Gmail we created or create your own. Add it to:</p>
         <ul class="dash">
-          <li>Prospect Intake Form (primary)</li>
-          <li>New Order Entry Form (sales ops)</li>
-          <li>Calendar Intake Form</li>
-          <li>Business Inquiry</li>
-          <li>Unsubscribe Form</li>
-          <li>43 total submissions to date</li>
+          <li>Your phone</li>
+          <li>Outlook</li>
+          <li>Wherever you check your email</li>
         </ul>
+        <p style="font-size:7.5pt;color:var(--ink-soft);margin-top:8px;">This allows you to receive campaign emails and properly test the workflows.</p>
       </div>
 
     </div>
@@ -396,7 +759,6 @@
           <li>Every prospect enters the CRM correctly</li>
           <li>The appropriate communication journey begins automatically</li>
         </ul>
-        <a href="https://go.noonshop.com/prospect-form-page" style="display:inline-block;margin-top:10px;font-size:7pt;font-weight:600;color:var(--gold);text-decoration:none;border:1px solid var(--gold);border-radius:3px;padding:3px 9px;letter-spacing:0.05em;">go.noonshop.com/prospect-form-page &rarr;</a>
       </div>
 
       <div class="card accent">
@@ -409,136 +771,106 @@
           <li>Calculate the expected reorder date</li>
           <li>Automatically send reorder emails at the right time</li>
         </ul>
-        <a href="https://go.noonshop.com/new-order-form" style="display:inline-block;margin-top:10px;font-size:7pt;font-weight:600;color:var(--gold);text-decoration:none;border:1px solid var(--gold);border-radius:3px;padding:3px 9px;letter-spacing:0.05em;">go.noonshop.com/new-order-form &rarr;</a>
+        <p style="font-size:7pt;color:var(--gold);font-weight:600;margin-top:8px;">Will be demonstrated during today's walkthrough.</p>
       </div>
 
     </div>
 
-    <!-- Project Status -->
-    <div class="section-divider"><span>Project Status</span></div>
+    <!-- Setup Actions -->
+    <div class="section-divider"><span>Setup Actions for the Team</span></div>
 
-    <!-- Completed -->
-    <div style="margin-bottom:14px;">
-      <div style="display:flex;align-items:center;gap:8px;margin-bottom:8px;">
-        <span class="status-badge" style="background:var(--green-bg);color:var(--green-text);">&#10003; Completed</span>
-        <div style="flex:1;height:1px;background:var(--line);"></div>
+    <div class="grid-3">
+
+      <div class="card accent">
+        <div class="card-label">Calendar</div>
+        <h2>Connect Outlook Calendars</h2>
+        <p style="font-size:7.5pt;color:var(--ink-soft);margin-bottom:8px;">Each salesperson must connect their Outlook calendar to Go High Level. This enables the booking system to work correctly and prevents double-booking.</p>
+        <ul class="dash">
+          <li>Required for appointment booking pages to function</li>
+          <li>Ensures real-time calendar availability</li>
+        </ul>
       </div>
-      <div class="grid-3">
-        <div class="card" style="border-top:3px solid var(--green);">
-          <div class="card-label" style="color:var(--green);">Completed</div>
-          <h2 style="font-size:9.5pt;margin-bottom:6px;">Email Configuration</h2>
-          <p style="font-size:7.5pt;color:var(--ink-soft);">Outbound campaigns send from hello@noonshop.com via mail.noonshop.com (GHL dedicated domain).</p>
-        </div>
-        <div class="card" style="border-top:3px solid var(--green);">
-          <div class="card-label" style="color:var(--green);">Completed</div>
-          <h2 style="font-size:9.5pt;margin-bottom:6px;">Sales Infrastructure</h2>
-          <p style="font-size:7.5pt;color:var(--ink-soft);">Email signatures, booking pages, Outlook calendar integrations, and forms are complete for the sales team.</p>
-        </div>
-        <div class="card" style="border-top:3px solid var(--green);">
-          <div class="card-label" style="color:var(--green);">Completed</div>
-          <h2 style="font-size:9.5pt;margin-bottom:6px;">Domain Integration</h2>
-          <p style="font-size:7.5pt;color:var(--ink-soft);">Noon Shop domain connected for booking links and CRM features.</p>
-        </div>
-        <div class="card" style="border-top:3px solid var(--green);">
-          <div class="card-label" style="color:var(--green);">Completed</div>
-          <h2 style="font-size:9.5pt;margin-bottom:6px;">Integration Documentation</h2>
-          <p style="font-size:7.5pt;color:var(--ink-soft);">Full cross-system attribute mapping documented: Shopify products (163), orders, contacts, QuickBooks field mapping, data flow diagrams, and ERD.</p>
-        </div>
-        <div class="card" style="border-top:3px solid var(--green);">
-          <div class="card-label" style="color:var(--green);">Completed</div>
-          <h2 style="font-size:9.5pt;margin-bottom:6px;">Full API Audit</h2>
-          <p style="font-size:7.5pt;color:var(--ink-soft);">30+ GHL API endpoints tested with read-only token. Products, payments, conversations, calendars, users, and more documented.</p>
-        </div>
-        <div class="card" style="border-top:3px solid var(--green);">
-          <div class="card-label" style="color:var(--green);">Completed</div>
-          <h2 style="font-size:9.5pt;margin-bottom:6px;">Gmail Test Account</h2>
-          <p style="font-size:7.5pt;color:var(--ink-soft);">Customer-side Gmail test account created and ready for end-to-end QA testing.</p>
-        </div>
+
+      <div class="card accent">
+        <div class="card-label">Mobile App</div>
+        <h2>Download the GHL CRM App</h2>
+        <p style="font-size:7.5pt;color:var(--ink-soft);margin-bottom:8px;">Download the Go High Level mobile app to manage contacts, view pipelines, and receive notifications on the go.</p>
+        <ul class="dash">
+          <li>Available on iOS and Android</li>
+          <li>Log in with your GHL credentials</li>
+        </ul>
       </div>
+
+      <div class="card accent">
+        <div class="card-label">Quick Access</div>
+        <h2>Add GHL to Your Home Screen</h2>
+        <p style="font-size:7.5pt;color:var(--ink-soft);margin-bottom:8px;">Add the Go High Level browser page to your phone or device home screen for fast one-tap access without opening a browser each time.</p>
+        <ul class="dash">
+          <li>Open GHL in Safari or Chrome</li>
+          <li>Tap Share &rarr; "Add to Home Screen"</li>
+          <li>Access your CRM instantly from your home screen</li>
+        </ul>
+      </div>
+
     </div>
 
-    <!-- In Progress -->
-    <div style="margin-bottom:14px;">
-      <div style="display:flex;align-items:center;gap:8px;margin-bottom:8px;">
-        <span class="status-badge" style="background:var(--yellow-bg);color:var(--yellow-text);">&#9679; In Progress</span>
-        <div style="flex:1;height:1px;background:var(--line);"></div>
+    <div class="grid">
+
+      <div class="card accent">
+        <div class="card-label">All Sales Reps</div>
+        <h2>New Prospect Form</h2>
+        <p style="font-size:7.5pt;color:var(--ink-soft);margin-bottom:8px;">Every sales rep should save quick access to the New Prospect Form so they can add contacts on the spot — in the field, at a meeting, or on the go.</p>
+        <ul class="dash">
+          <li>Add the form to your <strong style="color:var(--ink);">phone home screen</strong></li>
+          <li>Save it to your <strong style="color:var(--ink);">browser favorites</strong></li>
+          <li>The faster prospects are entered, the sooner the CRM journey begins</li>
+        </ul>
       </div>
-      <div class="grid">
-        <div class="card" style="border-top:3px solid var(--yellow);">
-          <div class="card-label" style="color:var(--yellow);">In Progress</div>
-          <h2 style="font-size:9.5pt;margin-bottom:6px;">White Label &amp; Custom Domain</h2>
-          <p style="font-size:7.5pt;color:var(--ink-soft);">White label the CRM with the Noon Shop logo and implement the custom domain: <strong style="color:var(--ink);">crmconnect.noonshop.com</strong></p>
-        </div>
-        <div class="card" style="border-top:3px solid var(--yellow);">
-          <div class="card-label" style="color:var(--yellow);">In Progress</div>
-          <h2 style="font-size:9.5pt;margin-bottom:6px;">Mobile Optimization</h2>
-          <p style="font-size:7.5pt;color:var(--ink-soft);">Complete media query and mobile optimization updates across all CRM pages and forms.</p>
-        </div>
+
+      <div class="card accent">
+        <div class="card-label">Sales Operations Only</div>
+        <h2>New Order Entry Form</h2>
+        <p style="font-size:7.5pt;color:var(--ink-soft);margin-bottom:8px;">Sales Operations staff should save the New Order Entry Form for quick access when recording completed orders.</p>
+        <ul class="dash">
+          <li>Add the form to your <strong style="color:var(--ink);">phone home screen</strong></li>
+          <li>Save it to your <strong style="color:var(--ink);">browser favorites</strong></li>
+          <li>Timely order entry ensures reorder campaigns trigger at the right time</li>
+        </ul>
       </div>
+
     </div>
 
-    <!-- Remaining Open Items -->
-    <div>
-      <div style="display:flex;align-items:center;gap:8px;margin-bottom:8px;">
-        <span class="status-badge" style="background:var(--red-bg);color:var(--red-text);">&#9675; Open Items</span>
-        <div style="flex:1;height:1px;background:var(--line);"></div>
+    <!-- Updated Open Items -->
+    <div class="section-divider"><span>Open Items Still Being Finalized</span></div>
+
+    <div class="grid-3">
+      <div class="card open-item">
+        <div class="card-label">Open Item</div>
+        <h2 style="font-size:9.5pt;margin-bottom:4px;">Domain Registration</h2>
+        <p style="font-size:7.5pt;color:var(--ink-soft);">Some domain registration steps are still being completed for booking links and CRM features.</p>
+        <div class="open-note"><span class="open-dot"></span> In progress</div>
       </div>
-      <div class="grid">
-        <div style="display:flex;flex-direction:column;gap:10px;">
-          <div class="card open-item">
-            <div class="card-label">Critical</div>
-            <h2 style="font-size:9pt;margin-bottom:4px;">QB Contact Enrichment</h2>
-            <p style="font-size:7.5pt;color:var(--ink-soft);">~95% of contacts (17K+) imported from QuickBooks have no Sales Rep, no Disposition, no Customer Status, and no tags. A bulk enrichment workflow is needed.</p>
-            <div class="open-note"><span class="open-dot"></span> Critical — Blocks journey enrollment</div>
-          </div>
-          <div class="card open-item">
-            <div class="card-label">Critical</div>
-            <h2 style="font-size:9pt;margin-bottom:4px;">Pipeline Outcome Tracking</h2>
-            <p style="font-size:7.5pt;color:var(--ink-soft);">2,007 opportunities across 4 pipelines — 0 Won, 0 Lost. Pipeline is used as a contact tracker, not a sales tool. Win/Loss stages need to be used.</p>
-            <div class="open-note"><span class="open-dot"></span> Critical — No conversion metrics</div>
-          </div>
-          <div class="card open-item">
-            <div class="card-label">Open Item</div>
-            <h2 style="font-size:9pt;margin-bottom:4px;">Empty Custom Values</h2>
-            <p style="font-size:7.5pt;color:var(--ink-soft);">Business Name, Business Email, Business URL, Notification Email/Cell are all blank. Templates using these variables render empty.</p>
-            <div class="open-note"><span class="open-dot"></span> Pending</div>
-          </div>
-        </div>
-        <div style="display:flex;flex-direction:column;gap:10px;">
-          <div class="card open-item">
-            <div class="card-label">Open Item</div>
-            <h2 style="font-size:9pt;margin-bottom:4px;">Update Brand Name in Templates</h2>
-            <p style="font-size:7.5pt;color:var(--ink-soft);">Update "Noonshop" to "Noon Shop" in all email templates and communications throughout the CRM.</p>
-            <div class="open-note"><span class="open-dot"></span> Pending</div>
-          </div>
-          <div class="card open-item">
-            <div class="card-label">Open Item</div>
-            <h2 style="font-size:9pt;margin-bottom:4px;">Peter's Headshot</h2>
-            <p style="font-size:7.5pt;color:var(--ink-soft);">Peter's headshot is still pending. Required to complete his salesperson profile and email signature.</p>
-            <div class="open-note"><span class="open-dot"></span> Awaiting asset</div>
-          </div>
-          <div class="card open-item">
-            <div class="card-label">Open Item</div>
-            <h2 style="font-size:9pt;margin-bottom:4px;">Domain Warm-Up &amp; Dedicated IP</h2>
-            <p style="font-size:7.5pt;color:var(--ink-soft);">Complete domain warm-up process and purchase a dedicated IP to improve email deliverability.</p>
-            <div class="open-note"><span class="open-dot"></span> Pending</div>
-          </div>
-          <div class="card open-item">
-            <div class="card-label">Open Item</div>
-            <h2 style="font-size:9pt;margin-bottom:4px;">Remove Mortgage Section</h2>
-            <p style="font-size:7.5pt;color:var(--ink-soft);">Remove the Mortgage section from file contacts and the 4 default Mortgage survey templates within the CRM.</p>
-            <div class="open-note"><span class="open-dot"></span> Pending</div>
-          </div>
-        </div>
+      <div class="card open-item">
+        <div class="card-label">Open Item</div>
+        <h2 style="font-size:9.5pt;margin-bottom:4px;">Email Redirects</h2>
+        <p style="font-size:7.5pt;color:var(--ink-soft);">Email redirects still need to be configured as part of the domain and sending setup.</p>
+        <div class="open-note"><span class="open-dot"></span> Pending configuration</div>
+      </div>
+      <div class="card open-item">
+        <div class="card-label">Open Item</div>
+        <h2 style="font-size:9.5pt;margin-bottom:4px;">David's Email Signature</h2>
+        <p style="font-size:7.5pt;color:var(--ink-soft);">Signature still needs to be created in the CRM due to permission issues. Being resolved shortly.</p>
+        <div class="open-note"><span class="open-dot"></span> Permission issue</div>
       </div>
     </div>
 
   </div>
 
   <div class="footer">
-    <div class="footer-brand">HelloIT <span>Pros</span> &nbsp;&middot;&nbsp; CRM Implementation</div>
-    <div class="footer-note">Noon Shop &nbsp;·&nbsp; Location ID: 70CEJtz1p3pnSQVuGJgK &nbsp;·&nbsp; Updated March 17, 2026</div>
+    <div class="footer-brand">Delivered by <span>HelloIT</span> &nbsp;·&nbsp; CRM Automation &amp; Customer Journey</div>
+    <div class="footer-note">Go High Level Platform &nbsp;·&nbsp; NoonShop &nbsp;·&nbsp; 2026</div>
   </div>
+
 </div>
 
 </body>
