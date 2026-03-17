@@ -50,8 +50,39 @@
   a:hover { text-decoration: underline; }
   .doc-footer { margin-top: 48px; padding-top: 16px; border-top: 1px solid var(--line); font-size: 10pt; color: var(--ink-soft); display: flex; justify-content: space-between; }
   .doc-footer span { color: var(--gold); font-weight: 600; }
+  /* Executive Summary — visual cards */
+  .es-intro { font-size: 12.5pt; color: var(--ink-mid); font-weight: 300; border-left: 3px solid var(--gold); padding-left: 14px; margin-bottom: 24px; max-width: 680px; line-height: 1.6; }
+  .es-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-bottom: 20px; }
+  .es-grid-3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 14px; margin-bottom: 20px; }
+  .es-card { background: white; border: 1px solid var(--line); border-radius: 6px; padding: 20px 22px; position: relative; }
+  .es-card.accent { border-top: 3px solid var(--gold); }
+  .es-card.highlight { border-top: 3px solid var(--open); background: #FFF9F6; }
+  .es-card-label { font-size: 9pt; font-weight: 700; letter-spacing: 0.18em; text-transform: uppercase; color: var(--gold); margin-bottom: 8px; }
+  .es-card.highlight .es-card-label { color: var(--open); }
+  .es-card h3 { font-family: 'DM Serif Display', serif; font-size: 15pt; font-weight: 400; color: var(--ink); margin: 0 0 10px; line-height: 1.25; }
+  .es-stats { display: flex; flex-wrap: wrap; gap: 20px; margin-bottom: 12px; }
+  .es-stat-num { font-family: 'DM Serif Display', serif; font-size: 28pt; color: var(--gold); line-height: 1; }
+  .es-stat-label { font-size: 10pt; color: var(--ink-soft); font-weight: 500; letter-spacing: 0.05em; margin-top: 2px; }
+  .es-pills { display: flex; flex-wrap: wrap; gap: 5px; margin-top: 8px; }
+  .es-pill { background: var(--cream-warm); border: 1px solid var(--line); border-radius: 20px; font-size: 10pt; font-weight: 500; padding: 4px 12px; color: var(--ink-mid); }
+  .es-pill.active { background: var(--gold); color: white; border-color: var(--gold); }
+  .es-divider { display: flex; align-items: center; gap: 10px; margin: 6px 0 16px; }
+  .es-divider span { font-size: 10pt; font-weight: 700; letter-spacing: 0.18em; text-transform: uppercase; color: var(--ink-soft); white-space: nowrap; }
+  .es-divider::before, .es-divider::after { content: ''; flex: 1; height: 1px; background: var(--line); }
+  .es-int { display: flex; align-items: flex-start; gap: 10px; padding: 10px 0; border-bottom: 1px solid var(--line); }
+  .es-int:last-child { border-bottom: none; padding-bottom: 0; }
+  .es-int:first-child { padding-top: 0; }
+  .es-int-icon { width: 30px; height: 30px; border-radius: 6px; background: var(--cream-warm); border: 1px solid var(--line); display: flex; align-items: center; justify-content: center; font-size: 13pt; flex-shrink: 0; }
+  .es-int-name { font-weight: 600; font-size: 12pt; color: var(--ink); margin-bottom: 2px; }
+  .es-int-desc { font-size: 11pt; color: var(--ink-soft); line-height: 1.55; }
+  .es-journey-row { display: flex; align-items: center; gap: 10px; padding: 10px 0; border-bottom: 1px solid var(--line); }
+  .es-journey-row:last-child { border-bottom: none; }
+  .es-journey-num { font-family: 'DM Serif Display', serif; font-size: 18pt; color: var(--gold); min-width: 28px; text-align: center; line-height: 1; }
+  .es-journey-name { font-weight: 600; font-size: 11.5pt; color: var(--ink); flex: 1; }
+  .es-journey-tag { font-size: 9pt; font-weight: 600; letter-spacing: 0.05em; padding: 3px 8px; border-radius: 3px; text-transform: uppercase; background: #E8F5E9; color: #2E7D32; }
+  .es-journey-emails { font-size: 10pt; color: var(--ink-soft); min-width: 60px; text-align: right; }
   @media print { .sidebar { display: none; } .top-bar { display: none; } .main { margin-left: 0; max-width: 100%; } }
-  @media (max-width: 800px) { .sidebar { display: none; } .main { margin-left: 0; padding: 16px; } }
+  @media (max-width: 800px) { .sidebar { display: none; } .main { margin-left: 0; padding: 16px; } .es-grid, .es-grid-3 { grid-template-columns: 1fr; } }
 </style>
 </head>
 <body>
@@ -95,86 +126,196 @@
 
     <section id="1-executive-summary" class="doc-section">
       <h2>1. Executive Summary</h2>
-      <p>Noon Shop's GHL tenant is the central hub for CRM, marketing automation, and customer lifecycle management for an eyewear/optical B2B business founded by Anna Park MD.</p>
-<p><strong>What's in production:</strong></p>
-<ul class="dash">
-<li><strong>9 published workflows</strong> powering prospect nurture, customer journeys, integrations, and holiday campaigns</li>
-<li><strong>67 email templates</strong> organized across 6 folders covering 5 core campaigns</li>
-<li><strong>4 active pipelines</strong> tracking prospects, cold outreach, landing page leads, and appointments</li>
-<li><strong>163 products</strong> (eyewear frames) with variant pricing, SKUs, and inventory tracking</li>
-<li><strong>2 integrations</strong> — Shopify (e-commerce) and QuickBooks (accounting/invoicing)</li>
-<li><strong>6 users</strong> — Anna Park, David Cho, Peter Chong, Sandra Kim (Noon Shop) + Felipe Abarca, Prakash Karnani (HelloIT Pros)</li>
-<li><strong>9 calendars</strong> (7 personal + 1 round-robin + 1 copy)</li>
-<li><strong>3 funnels/sites</strong> — noonshop, Business Call Booking Funnel, Annaparkmd</li>
-<li><strong>2,245 conversations</strong> (primarily SMS/phone)</li>
-<li><strong>1 knowledge base</strong> configured</li>
-<li><strong>Email delivery</strong> via GHL (Mailgun) on dedicated subdomain <code>mail.noonshop.com</code>; Microsoft 365 handles inbound mail and calendar sync only</li>
-</ul>
-<p><strong>The 5 core journeys</strong> map 1:1 between the GHL published workflows and the flow documentation at <code>Noonshop/Flows/</code>:</p>
-<div class="table-wrap"><table>
-<thead><tr>
-<th>#</th>
-<th>Journey</th>
-<th>GHL Workflow</th>
-<th><code>Noonshop/Flows/</code> File</th>
-<th>GHL Email Folder</th>
-<th>Emails</th>
-<th>Status</th>
-</tr></thead><tbody>
-<tr>
-<td>1</td>
-<td>Prospect Journey</td>
-<td>WF - Prospect Journey (v52)</td>
-<td><code>1.Prospect_Journey.html</code></td>
-<td>Prospect Journey V2</td>
-<td>10</td>
-<td>Published</td>
-</tr>
-<tr>
-<td>2</td>
-<td>First Order Journey</td>
-<td>First Order Journey (v21)</td>
-<td><code>2. First_order_journey.html</code></td>
-<td>Noonshop First Order Journey</td>
-<td>8</td>
-<td>Published</td>
-</tr>
-<tr>
-<td>3</td>
-<td>Active Customer Journey</td>
-<td>Active Customer Journey (v24)</td>
-<td><code>3. Active_customer_journey.html</code></td>
-<td>Prospect Education Journey</td>
-<td>16</td>
-<td>Published</td>
-</tr>
-<tr>
-<td>4</td>
-<td>Win-Back Journey</td>
-<td>Win-Back Journey (v14)</td>
-<td><code>4. Winback_journey.html</code></td>
-<td>Noonshop Win-Back Journey</td>
-<td>13</td>
-<td>Published</td>
-</tr>
-<tr>
-<td>5</td>
-<td>Holiday Journey</td>
-<td>Holiday Greeting Journey (v6)</td>
-<td><code>5. Holiday_journey.html</code></td>
-<td>Noonshop Holiday Campaign</td>
-<td>19</td>
-<td>Published</td>
-</tr>
-</tbody></table></div>
-<p><strong>Additional published workflows (support/integration):</strong></p>
-<ul class="dash">
-<li>Global - Real-Time Order Monitor (v21) — Shopify order event listener</li>
-<li>QuickBooks Contact Identifier (v4) — tags/segments contacts from QB</li>
-<li>Shopify Contact Identifier (v3) — tags/segments contacts from Shopify</li>
-<li>Post-Appointment Follow-up (v5) — post-appointment nurture</li>
-</ul>
-<hr>
+      <p class="es-intro">Noon Shop's GHL tenant is the central hub for CRM, marketing automation, and customer lifecycle management for an eyewear / optical B2B business founded by Anna Park MD.</p>
+
+      <!-- KPI row -->
+      <div class="es-grid" style="grid-template-columns:repeat(4,1fr);">
+        <div class="es-card accent">
+          <div class="es-stat-num">18,073</div>
+          <div class="es-stat-label">Contacts</div>
+        </div>
+        <div class="es-card accent">
+          <div class="es-stat-num">2,245</div>
+          <div class="es-stat-label">Conversations</div>
+        </div>
+        <div class="es-card accent">
+          <div class="es-stat-num">163</div>
+          <div class="es-stat-label">Products</div>
+        </div>
+        <div class="es-card accent">
+          <div class="es-stat-num">6</div>
+          <div class="es-stat-label">Users</div>
+        </div>
+      </div>
+
+      <!-- Production summary -->
+      <div class="es-grid">
+        <div class="es-card accent">
+          <div class="es-card-label">Workflows &amp; Campaigns</div>
+          <h3>Marketing Automation</h3>
+          <div class="es-stats">
+            <div><div class="es-stat-num">9</div><div class="es-stat-label">Published Workflows</div></div>
+            <div><div class="es-stat-num">67</div><div class="es-stat-label">Email Templates</div></div>
+          </div>
+          <p style="font-size:11pt;color:var(--ink-soft);margin:0 0 8px;">Prospect nurture, customer journeys, integrations, and holiday campaigns across 6 template folders.</p>
+          <div class="es-pills">
+            <span class="es-pill active">5 Core Journeys</span>
+            <span class="es-pill">4 Support Workflows</span>
+          </div>
+        </div>
+
+        <div class="es-card accent">
+          <div class="es-card-label">Sales Infrastructure</div>
+          <h3>Pipelines &amp; Commerce</h3>
+          <div class="es-stats">
+            <div><div class="es-stat-num">4</div><div class="es-stat-label">Active Pipelines</div></div>
+            <div><div class="es-stat-num">9</div><div class="es-stat-label">Calendars</div></div>
+          </div>
+          <p style="font-size:11pt;color:var(--ink-soft);margin:0 0 8px;">Tracking prospects, cold outreach, landing-page leads, and appointments. 7 personal + 1 round-robin calendar.</p>
+          <div class="es-pills">
+            <span class="es-pill">3 Funnels / Sites</span>
+            <span class="es-pill">1 Knowledge Base</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="es-divider"><span>Integrations &amp; Email Delivery</span></div>
+
+      <div class="es-grid">
+        <div class="es-card">
+          <div class="es-card-label">Connected Systems</div>
+          <h3>Platform Integrations</h3>
+          <div class="es-int">
+            <div class="es-int-icon">&#x1F6CD;&#xFE0F;</div>
+            <div>
+              <div class="es-int-name">Shopify &mdash; E-Commerce</div>
+              <div class="es-int-desc">Product catalog, customer data, and order events synced into GHL.</div>
+            </div>
+          </div>
+          <div class="es-int">
+            <div class="es-int-icon">&#x1F4D2;</div>
+            <div>
+              <div class="es-int-name">QuickBooks &mdash; Accounting</div>
+              <div class="es-int-desc">Contacts and invoicing data imported from QB into the CRM.</div>
+            </div>
+          </div>
+          <div class="es-int">
+            <div class="es-int-icon">&#x2709;&#xFE0F;</div>
+            <div>
+              <div class="es-int-name">Microsoft 365 &mdash; Inbound Mail &amp; Calendar</div>
+              <div class="es-int-desc">Inbound MX on root domain; Outlook calendar sync per rep. Not used for outbound delivery.</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="es-card" style="background:var(--cream-warm);">
+          <div class="es-card-label">Email Delivery</div>
+          <h3>Outbound Channel</h3>
+          <p style="font-size:11.5pt;color:var(--ink-mid);margin-bottom:12px;">All outbound email is sent via GHL (Mailgun) on a dedicated subdomain.</p>
+          <div style="background:white;border:1px solid var(--line);border-radius:6px;padding:14px 16px;margin-bottom:10px;">
+            <div style="font-size:10pt;font-weight:700;letter-spacing:0.12em;text-transform:uppercase;color:var(--gold);margin-bottom:6px;">Sending Domain</div>
+            <code style="font-size:12pt;">mail.noonshop.com</code>
+          </div>
+          <div class="es-pills">
+            <span class="es-pill">GHL / Mailgun</span>
+            <span class="es-pill">Dedicated Subdomain</span>
+            <span class="es-pill">SPF / DKIM Verified</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="es-divider"><span>5 Core Customer Journeys</span></div>
+
+      <p style="font-size:11.5pt;color:var(--ink-soft);margin-bottom:14px;">Each journey maps 1:1 between the GHL published workflows and the flow documentation at <code>Noonshop/Flows/</code>.</p>
+
+      <div class="es-card accent" style="margin-bottom:20px;">
+        <div class="es-journey-row">
+          <div class="es-journey-num">1</div>
+          <div class="es-journey-name">Prospect Journey</div>
+          <div class="es-journey-emails">10 emails</div>
+          <div class="es-journey-tag">Published</div>
+        </div>
+        <div class="es-journey-row">
+          <div class="es-journey-num">2</div>
+          <div class="es-journey-name">First Order Journey</div>
+          <div class="es-journey-emails">8 emails</div>
+          <div class="es-journey-tag">Published</div>
+        </div>
+        <div class="es-journey-row">
+          <div class="es-journey-num">3</div>
+          <div class="es-journey-name">Active Customer Journey</div>
+          <div class="es-journey-emails">16 emails</div>
+          <div class="es-journey-tag">Published</div>
+        </div>
+        <div class="es-journey-row">
+          <div class="es-journey-num">4</div>
+          <div class="es-journey-name">Win-Back Journey</div>
+          <div class="es-journey-emails">13 emails</div>
+          <div class="es-journey-tag">Published</div>
+        </div>
+        <div class="es-journey-row">
+          <div class="es-journey-num">5</div>
+          <div class="es-journey-name">Holiday Journey</div>
+          <div class="es-journey-emails">19 emails</div>
+          <div class="es-journey-tag">Published</div>
+        </div>
+      </div>
+
+      <div class="es-divider"><span>Support &amp; Integration Workflows</span></div>
+
+      <div class="es-grid" style="grid-template-columns:1fr 1fr;">
+        <div class="es-card">
+          <div class="es-card-label">Shopify</div>
+          <h3 style="font-size:13pt;">Global &mdash; Real-Time Order Monitor <span style="font-size:10pt;color:var(--ink-soft);font-family:'DM Sans',sans-serif;">(v21)</span></h3>
+          <p style="font-size:11pt;color:var(--ink-soft);margin:4px 0 0;">Listens for Shopify order events and routes into CRM pipelines.</p>
+        </div>
+        <div class="es-card">
+          <div class="es-card-label">Shopify</div>
+          <h3 style="font-size:13pt;">Shopify Contact Identifier <span style="font-size:10pt;color:var(--ink-soft);font-family:'DM Sans',sans-serif;">(v3)</span></h3>
+          <p style="font-size:11pt;color:var(--ink-soft);margin:4px 0 0;">Tags and segments contacts originating from Shopify.</p>
+        </div>
+        <div class="es-card">
+          <div class="es-card-label">QuickBooks</div>
+          <h3 style="font-size:13pt;">QuickBooks Contact Identifier <span style="font-size:10pt;color:var(--ink-soft);font-family:'DM Sans',sans-serif;">(v4)</span></h3>
+          <p style="font-size:11pt;color:var(--ink-soft);margin:4px 0 0;">Tags and segments contacts synced from QuickBooks.</p>
+        </div>
+        <div class="es-card">
+          <div class="es-card-label">Appointments</div>
+          <h3 style="font-size:13pt;">Post-Appointment Follow-up <span style="font-size:10pt;color:var(--ink-soft);font-family:'DM Sans',sans-serif;">(v5)</span></h3>
+          <p style="font-size:11pt;color:var(--ink-soft);margin:4px 0 0;">Automated nurture sequence after an appointment is completed.</p>
+        </div>
+      </div>
+
+      <div class="es-divider"><span>Team</span></div>
+
+      <div class="es-grid-3">
+        <div class="es-card">
+          <div class="es-card-label">Noon Shop</div>
+          <ul class="dash" style="margin:0;">
+            <li>Anna Park</li>
+            <li>David Cho</li>
+            <li>Peter Chong</li>
+            <li>Sandra Kim</li>
+          </ul>
+        </div>
+        <div class="es-card">
+          <div class="es-card-label">HelloIT Pros</div>
+          <ul class="dash" style="margin:0;">
+            <li>Felipe Abarca</li>
+            <li>Prakash Karnani</li>
+          </ul>
+        </div>
+        <div class="es-card" style="background:var(--cream-warm);">
+          <div class="es-card-label">Quick Links</div>
+          <ul class="dash" style="margin:0;">
+            <li><a href="#2-system-architecture">System Architecture</a></li>
+            <li><a href="#6-workflows-full-breakdown">Workflow Details</a></li>
+            <li><a href="#8-integrations-cross-system-attribute-mapping">Integration Map</a></li>
+            <li><a href="#16-gaps-open-items">Gaps &amp; Open Items</a></li>
+          </ul>
+        </div>
+      </div>
+      <hr>
     </section>
 
     <section id="2-system-architecture" class="doc-section">
