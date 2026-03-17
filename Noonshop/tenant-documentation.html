@@ -1,0 +1,3658 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Noon Shop — GHL Tenant Documentation</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  :root {
+    --gold: #C9A84C; --gold-light: #E8C97A; --ink: #1A1A1A; --ink-mid: #3D3D3D;
+    --ink-soft: #7A7A7A; --cream: #FAF8F4; --cream-warm: #F2EDE4; --line: #E0D9CE;
+    --open: #D97B4F; --green: #3A9E5F; --sidebar-w: 260px;
+  }
+  body { font-family: 'DM Sans', sans-serif; background: var(--cream); color: var(--ink); font-size: 10pt; line-height: 1.6; }
+  .top-bar { position: fixed; top: 0; left: 0; right: 0; height: 4px; background: linear-gradient(90deg, var(--gold), var(--gold-light), var(--gold)); z-index: 100; }
+  .sidebar { position: fixed; top: 4px; left: 0; bottom: 0; width: var(--sidebar-w); background: white; border-right: 1px solid var(--line); overflow-y: auto; padding: 24px 0; z-index: 50; }
+  .sidebar-brand { padding: 0 20px 16px; border-bottom: 1px solid var(--line); margin-bottom: 12px; }
+  .sidebar-brand .tag { font-size: 7pt; font-weight: 700; letter-spacing: 0.15em; text-transform: uppercase; color: var(--gold); margin-bottom: 4px; }
+  .sidebar-brand h1 { font-family: 'DM Serif Display', serif; font-size: 16pt; font-weight: 400; line-height: 1.2; color: var(--ink); }
+  .sidebar-brand h1 em { color: var(--gold); font-style: italic; }
+  .sidebar nav a { display: block; padding: 6px 20px; font-size: 8pt; color: var(--ink-soft); text-decoration: none; border-left: 3px solid transparent; transition: all 0.15s; line-height: 1.4; }
+  .sidebar nav a:hover, .sidebar nav a.active { color: var(--ink); background: var(--cream); border-left-color: var(--gold); }
+  .main { margin-left: var(--sidebar-w); padding: 32px 48px 64px; max-width: 960px; }
+  .doc-header { background: white; border: 1px solid var(--line); border-top: 4px solid var(--gold); border-radius: 6px; padding: 24px 28px; margin-bottom: 32px; }
+  .doc-header .meta { font-size: 8.5pt; color: var(--ink-soft); line-height: 1.8; }
+  .doc-header .meta strong { color: var(--ink-mid); }
+  .doc-section { margin-bottom: 40px; scroll-margin-top: 20px; }
+  .doc-section h2 { font-family: 'DM Serif Display', serif; font-size: 18pt; font-weight: 400; color: var(--ink); margin-bottom: 16px; padding-bottom: 8px; border-bottom: 2px solid var(--gold); }
+  .doc-section h3 { font-family: 'DM Serif Display', serif; font-size: 13pt; font-weight: 400; color: var(--ink); margin: 24px 0 10px; }
+  .doc-section h4 { font-family: 'DM Sans', sans-serif; font-size: 10pt; font-weight: 700; color: var(--ink-mid); margin: 18px 0 8px; }
+  p { margin-bottom: 10px; color: var(--ink-mid); }
+  strong { color: var(--ink); }
+  code { background: var(--cream-warm); border: 1px solid var(--line); border-radius: 3px; padding: 1px 5px; font-size: 8.5pt; font-family: 'SF Mono', 'Fira Code', monospace; color: var(--ink-mid); }
+  pre.code-block { background: var(--ink); color: #E0D9CE; border-radius: 6px; padding: 16px 20px; font-size: 8pt; font-family: 'SF Mono', 'Fira Code', monospace; line-height: 1.5; overflow-x: auto; margin: 12px 0 16px; white-space: pre; }
+  .table-wrap { overflow-x: auto; margin: 12px 0 16px; }
+  table { width: 100%; border-collapse: collapse; font-size: 8.5pt; background: white; border: 1px solid var(--line); border-radius: 6px; }
+  th { background: var(--cream-warm); font-weight: 700; font-size: 7pt; letter-spacing: 0.08em; text-transform: uppercase; color: var(--ink-soft); padding: 8px 10px; text-align: left; border-bottom: 2px solid var(--line); }
+  td { padding: 7px 10px; border-bottom: 1px solid var(--line); color: var(--ink-mid); vertical-align: top; line-height: 1.45; }
+  tr:last-child td { border-bottom: none; }
+  tr:hover td { background: #FDFCFA; }
+  ul.dash { list-style: none; padding: 0; margin: 8px 0 12px; }
+  ul.dash li { padding-left: 14px; position: relative; color: var(--ink-mid); font-size: 9pt; margin-bottom: 5px; line-height: 1.5; }
+  ul.dash li::before { content: '\2014'; position: absolute; left: 0; color: var(--gold); font-size: 8pt; top: 1px; }
+  .ol-item { color: var(--ink-mid); font-size: 9pt; margin-bottom: 5px; padding-left: 4px; line-height: 1.5; }
+  .ol-num { color: var(--gold); font-weight: 700; font-size: 8.5pt; }
+  .blockquote { border-left: 3px solid var(--gold); padding: 4px 0 4px 14px; color: var(--ink-mid); font-size: 9pt; margin-bottom: 6px; }
+  hr { border: none; border-top: 1px solid var(--line); margin: 24px 0; }
+  a { color: var(--gold); text-decoration: none; }
+  a:hover { text-decoration: underline; }
+  .doc-footer { margin-top: 48px; padding-top: 16px; border-top: 1px solid var(--line); font-size: 7.5pt; color: var(--ink-soft); display: flex; justify-content: space-between; }
+  .doc-footer span { color: var(--gold); font-weight: 600; }
+  @media print { .sidebar { display: none; } .top-bar { display: none; } .main { margin-left: 0; max-width: 100%; } }
+  @media (max-width: 800px) { .sidebar { display: none; } .main { margin-left: 0; padding: 16px; } }
+</style>
+</head>
+<body>
+<div class="top-bar"></div>
+<div class="sidebar">
+  <div class="sidebar-brand">
+    <div class="tag">HelloIT &middot; Documentation</div>
+    <h1>Noon Shop<br><em>GHL</em> Tenant</h1>
+  </div>
+  <nav>
+    <a href="#1-executive-summary">1. Executive Summary</a>
+    <a href="#2-system-architecture">2. System Architecture</a>
+    <a href="#3-contact-sources-attribution">3. Contact Sources &amp; Attribution</a>
+    <a href="#4-contact-field-mapping">4. Contact Field Mapping</a>
+    <a href="#5-pipelines-disposition-logic">5. Pipelines &amp; Disposition Logic</a>
+    <a href="#6-workflows-full-breakdown">6. Workflows — Full Breakdown</a>
+    <a href="#7-email-template-library">7. Email Template Library</a>
+    <a href="#8-integrations-cross-system-attribute-mapping">8. Integrations &amp; Cross-System Attribute Mapping</a>
+    <a href="#9-sales-infrastructure">9. Sales Infrastructure</a>
+    <a href="#10-product-catalog">10. Product Catalog</a>
+    <a href="#11-payments-transactions">11. Payments &amp; Transactions</a>
+    <a href="#12-conversations-communication">12. Conversations &amp; Communication</a>
+    <a href="#13-calendars-appointments">13. Calendars &amp; Appointments</a>
+    <a href="#14-funnels-surveys-knowledge-base">14. Funnels, Surveys &amp; Knowledge Base</a>
+    <a href="#15-data-flow-scenarios">15. Data Flow Scenarios</a>
+    <a href="#16-gaps-open-items">16. Gaps &amp; Open Items</a>
+    <a href="#17-meeting-notes-developer-handoff-mar-17-2026">17. Meeting Notes — Developer Handoff (Mar 17, 2026)</a>
+    <a href="#appendix">Appendix</a>
+  </nav>
+</div>
+<div class="main">
+  <div class="doc-header">
+    <div class="meta">
+      <strong>Tenant:</strong> Noon Shop (Anna Park MD) &nbsp;&middot;&nbsp; <strong>Location ID:</strong> 70CEJtz1p3pnSQVuGJgK<br>
+      <strong>Address:</strong> 12123 Heritage Park Cir, Silver Spring, MD 20906<br>
+      <strong>Phone:</strong> +1 (240) 599-3636 &nbsp;&middot;&nbsp; <strong>Email:</strong> hello@noonshop.com &nbsp;&middot;&nbsp; <strong>Website:</strong> noonshop.com<br>
+      <strong>Contacts:</strong> 18,073 &nbsp;&middot;&nbsp; <strong>Conversations:</strong> 2,245 &nbsp;&middot;&nbsp; <strong>Products:</strong> 163 &nbsp;&middot;&nbsp; <strong>Users:</strong> 7<br>
+      <strong>Documented:</strong> March 16&ndash;17, 2026
+    </div>
+  </div>
+
+    <section id="1-executive-summary" class="doc-section">
+      <h2>1. Executive Summary</h2>
+      <p>Noon Shop's GHL tenant is the central hub for CRM, marketing automation, and customer lifecycle management for an eyewear/optical B2B business founded by Anna Park MD.</p>
+<p><strong>What's in production:</strong></p>
+<ul class="dash">
+<li><strong>9 published workflows</strong> powering prospect nurture, customer journeys, integrations, and holiday campaigns</li>
+<li><strong>67 email templates</strong> organized across 6 folders covering 5 core campaigns</li>
+<li><strong>4 active pipelines</strong> tracking prospects, cold outreach, landing page leads, and appointments</li>
+<li><strong>163 products</strong> (eyewear frames) with variant pricing, SKUs, and inventory tracking</li>
+<li><strong>2 integrations</strong> — Shopify (e-commerce) and QuickBooks (accounting/invoicing)</li>
+<li><strong>7 users</strong> — Anna Park, David Cho, Peter Chong, Sandra Kim (Noon Shop) + Felipe Abarca, Prakash Karnani (HelloIT Pros) + Dev Test</li>
+<li><strong>9 calendars</strong> (7 personal + 1 round-robin + 1 copy)</li>
+<li><strong>3 funnels/sites</strong> — noonshop, Business Call Booking Funnel, Annaparkmd</li>
+<li><strong>2,245 conversations</strong> (primarily SMS/phone)</li>
+<li><strong>1 knowledge base</strong> configured</li>
+<li><strong>Email delivery</strong> via <code>mail.noonshop.com</code> (GHL dedicated domain) with Microsoft 365 (Exchange Online) on root domain</li>
+</ul>
+<p><strong>The 5 core journeys</strong> map 1:1 between the GHL published workflows and the flow documentation at <code>Noonshop/Flows/</code>:</p>
+<div class="table-wrap"><table>
+<thead><tr>
+<th>#</th>
+<th>Journey</th>
+<th>GHL Workflow</th>
+<th><code>Noonshop/Flows/</code> File</th>
+<th>GHL Email Folder</th>
+<th>Emails</th>
+<th>Status</th>
+</tr></thead><tbody>
+<tr>
+<td>1</td>
+<td>Prospect Journey</td>
+<td>WF - Prospect Journey (v52)</td>
+<td><code>1.Prospect_Journey.html</code></td>
+<td>Prospect Journey V2</td>
+<td>10</td>
+<td>Published</td>
+</tr>
+<tr>
+<td>2</td>
+<td>First Order Journey</td>
+<td>First Order Journey (v21)</td>
+<td><code>2. First_order_journey.html</code></td>
+<td>Noonshop First Order Journey</td>
+<td>8</td>
+<td>Published</td>
+</tr>
+<tr>
+<td>3</td>
+<td>Active Customer Journey</td>
+<td>Active Customer Journey (v24)</td>
+<td><code>3. Active_customer_journey.html</code></td>
+<td>Prospect Education Journey</td>
+<td>16</td>
+<td>Published</td>
+</tr>
+<tr>
+<td>4</td>
+<td>Win-Back Journey</td>
+<td>Win-Back Journey (v14)</td>
+<td><code>4. Winback_journey.html</code></td>
+<td>Noonshop Win-Back Journey</td>
+<td>13</td>
+<td>Published</td>
+</tr>
+<tr>
+<td>5</td>
+<td>Holiday Journey</td>
+<td>Holiday Greeting Journey (v6)</td>
+<td><code>5. Holiday_journey.html</code></td>
+<td>Noonshop Holiday Campaign</td>
+<td>19</td>
+<td>Published</td>
+</tr>
+</tbody></table></div>
+<p><strong>Additional published workflows (support/integration):</strong></p>
+<ul class="dash">
+<li>Global - Real-Time Order Monitor (v21) — Shopify order event listener</li>
+<li>QuickBooks Contact Identifier (v4) — tags/segments contacts from QB</li>
+<li>Shopify Contact Identifier (v3) — tags/segments contacts from Shopify</li>
+<li>Post-Appointment Follow-up (v5) — post-appointment nurture</li>
+</ul>
+<hr>
+    </section>
+
+    <section id="2-system-architecture" class="doc-section">
+      <h2>2. System Architecture</h2>
+      <pre class="code-block">
+┌──────────────┐     ┌──────────────┐     ┌──────────────┐     ┌──────────────┐
+│   SHOPIFY    │────▶│  QUICKBOOKS  │◀───▶│   GHL CRM    │────▶│ MICROSOFT 365│
+│  E-Commerce  │     │  Accounting  │     │  18K Contacts │     │    Email     │
+│ noonshop.com │     │  Invoicing   │     │  163 Products │     │  Delivery    │
+│              │     │              │     │  9 Workflows  │     │              │
+└──────────────┘     └──────────────┘     └──────────────┘     └──────────────┘
+</pre>
+<h3 id="2-1-location-sub-account-details">2.1 Location / Sub-Account Details</h3>
+<div class="table-wrap"><table>
+<thead><tr>
+<th>Field</th>
+<th>Value</th>
+</tr></thead><tbody>
+<tr>
+<td>Location Name</td>
+<td>Noon Shop</td>
+</tr>
+<tr>
+<td>Business Name</td>
+<td>Noon Shop</td>
+</tr>
+<tr>
+<td>Address</td>
+<td>12123 Heritage Park Cir, Silver Spring, MD 20906</td>
+</tr>
+<tr>
+<td>Country</td>
+<td>US</td>
+</tr>
+<tr>
+<td>Phone</td>
+<td>+1 (240) 599-3636</td>
+</tr>
+<tr>
+<td>Email</td>
+<td>hello@noonshop.com</td>
+</tr>
+<tr>
+<td>Website</td>
+<td>noonshop.com</td>
+</tr>
+<tr>
+<td>Timezone</td>
+<td>America/New_York</td>
+</tr>
+</tbody></table></div>
+<h3 id="2-2-infrastructure-configuration">2.2 Infrastructure Configuration</h3>
+<div class="table-wrap"><table>
+<thead><tr>
+<th>Component</th>
+<th>Configuration</th>
+</tr></thead><tbody>
+<tr>
+<td>Sending Domain</td>
+<td><code>mail.noonshop.com</code> (GHL Dedicated Domain)</td>
+</tr>
+<tr>
+<td>Root Domain MX</td>
+<td><code>noonshop-com.mail.protection.outlook.com</code> (Exchange Online)</td>
+</tr>
+<tr>
+<td>SPF (Root)</td>
+<td><code>v=spf1 include:spf.protection.outlook.com -all</code></td>
+</tr>
+<tr>
+<td>Website Host</td>
+<td>Shopify (A record: <code>23.227.38.65</code>)</td>
+</tr>
+<tr>
+<td>DNS Registrar</td>
+<td>GoDaddy (<code>ns41/ns42.domaincontrol.com</code>)</td>
+</tr>
+<tr>
+<td>GHL Reply-To</td>
+<td><code>hello@noonshop.com</code> (global setting)</td>
+</tr>
+<tr>
+<td>Custom CRM Domain</td>
+<td><code>crmconnect.noonshop.com</code> (in progress)</td>
+</tr>
+</tbody></table></div>
+<h3 id="2-3-custom-values-location-level-variables">2.3 Custom Values (Location-Level Variables)</h3>
+<p>17 custom values configured for use in templates and workflows:</p>
+<div class="table-wrap"><table>
+<thead><tr>
+<th>Custom Value</th>
+<th>Value</th>
+</tr></thead><tbody>
+<tr>
+<td>Main website</td>
+<td><code>https://www.noonshop.com/</code></td>
+</tr>
+<tr>
+<td>Calendar Link</td>
+<td><code>https://api.leadconnectorhq.com/widget/bookings/2023visionex</code></td>
+</tr>
+<tr>
+<td>Unsubscribe Link</td>
+<td><code>https://api.leadconnectorhq.com/widget/form/3SpmjF0zJOhFowNz</code></td>
+</tr>
+<tr>
+<td>Anna Park Booking Link</td>
+<td><code>https://api.leadconnectorhq.com/widget/booking/Gg6B1Fzgz9jn0...</code></td>
+</tr>
+<tr>
+<td>David Cho Booking Link</td>
+<td><code>https://api.leadconnectorhq.com/widget/booking/8k29ErfhWBl7n...</code></td>
+</tr>
+<tr>
+<td>Peter Chong Booking Link</td>
+<td><code>https://api.leadconnectorhq.com/widget/booking/Ir02J2yFu1zK3...</code></td>
+</tr>
+<tr>
+<td>Anna Email Signature</td>
+<td>HTML signature block (configured)</td>
+</tr>
+<tr>
+<td>Business Name</td>
+<td><em>(empty — not set)</em></td>
+</tr>
+<tr>
+<td>Business Email</td>
+<td><em>(empty — not set)</em></td>
+</tr>
+<tr>
+<td>Business URL</td>
+<td><em>(empty — not set)</em></td>
+</tr>
+<tr>
+<td>Outreach License Key</td>
+<td><em>(empty)</em></td>
+</tr>
+<tr>
+<td>Target API Key</td>
+<td><em>(empty)</em></td>
+</tr>
+<tr>
+<td>Api Key</td>
+<td><em>(empty)</em></td>
+</tr>
+<tr>
+<td>Twilio Number</td>
+<td><em>(empty)</em></td>
+</tr>
+<tr>
+<td>Notification Email</td>
+<td><em>(empty)</em></td>
+</tr>
+<tr>
+<td>Notification Cell</td>
+<td><em>(empty)</em></td>
+</tr>
+<tr>
+<td>Unsubscribe Form</td>
+<td><em>(empty)</em></td>
+</tr>
+</tbody></table></div>
+<p><strong>Note:</strong> Several custom values (Business Name, Business Email, Business URL, Notification Email/Cell) are empty. These should be populated for full template variable support.</p>
+<hr>
+    </section>
+
+    <section id="3-contact-sources-attribution" class="doc-section">
+      <h2>3. Contact Sources &amp; Attribution</h2>
+      <p>18,073 contacts enter GHL from 7 identified entry points:</p>
+<div class="table-wrap"><table>
+<thead><tr>
+<th>Source</th>
+<th>GHL Source Value</th>
+<th>Initial Tags</th>
+<th>Sales Rep</th>
+<th>Disposition</th>
+<th>Pipeline</th>
+</tr></thead><tbody>
+<tr>
+<td><strong>QuickBooks Import</strong></td>
+<td><code>quickbooks</code></td>
+<td><code>customer_quickbooks</code></td>
+<td>Not assigned</td>
+<td>Not set</td>
+<td>None</td>
+</tr>
+<tr>
+<td><strong>Prospect Intake Form</strong></td>
+<td><code>Prospect Intake Form</code></td>
+<td><code>prospect_new</code></td>
+<td>Auto-assigned (David Cho)</td>
+<td>Cold Lead</td>
+<td>Prospect Journey</td>
+</tr>
+<tr>
+<td><strong>Shopify Order</strong></td>
+<td><code>quickbooks</code>*</td>
+<td>Varies by workflow</td>
+<td>N/A</td>
+<td>Active Customer</td>
+<td>First Order Journey</td>
+</tr>
+<tr>
+<td><strong>Instagram</strong></td>
+<td><code>Social media</code></td>
+<td>None</td>
+<td>Not assigned</td>
+<td>Not set</td>
+<td>None</td>
+</tr>
+<tr>
+<td><strong>Facebook</strong></td>
+<td><code>Social media</code></td>
+<td>None</td>
+<td>Not assigned</td>
+<td>Not set</td>
+<td>None</td>
+</tr>
+<tr>
+<td><strong>CSV Import (Vision Expo)</strong></td>
+<td><code>null</code> (CRM UI)</td>
+<td><code>vision expo e 2023 list</code></td>
+<td>Not assigned</td>
+<td>Not set</td>
+<td>Cold Outreach</td>
+</tr>
+<tr>
+<td><strong>Appointment Form (annaparkmd.com)</strong></td>
+<td><code>Appointment Form</code></td>
+<td>None</td>
+<td>Not assigned</td>
+<td>Not set</td>
+<td>Manual review</td>
+</tr>
+<tr>
+<td><strong>Inbound Phone Calls</strong></td>
+<td>Auto-created</td>
+<td>None</td>
+<td>Not assigned</td>
+<td>Not set</td>
+<td>None</td>
+</tr>
+</tbody></table></div>
+<p>*Shopify orders pass through QuickBooks before reaching GHL, so the GHL source often reads <code>quickbooks</code> even for Shopify-originated contacts.</p>
+<p><strong>Key finding:</strong> ~95% of the 18,073 contacts originated from QuickBooks bulk import. These contacts have standard fields mapped but <strong>no custom fields populated</strong> (no Sales Rep, no Disposition, no Customer Status). This is the largest data quality gap in the tenant.</p>
+<hr>
+    </section>
+
+    <section id="4-contact-field-mapping" class="doc-section">
+      <h2>4. Contact Field Mapping</h2>
+      <h3 id="4-1-standard-ghl-fields">4.1 Standard GHL Fields</h3>
+<div class="table-wrap"><table>
+<thead><tr>
+<th>Field</th>
+<th>Populated By</th>
+<th>Required</th>
+</tr></thead><tbody>
+<tr>
+<td>First Name</td>
+<td>All sources</td>
+<td>Yes</td>
+</tr>
+<tr>
+<td>Last Name</td>
+<td>All sources</td>
+<td>Yes</td>
+</tr>
+<tr>
+<td>Email</td>
+<td>All sources</td>
+<td>Recommended</td>
+</tr>
+<tr>
+<td>Phone</td>
+<td>QB / Form / Social</td>
+<td>Optional</td>
+</tr>
+<tr>
+<td>Company Name</td>
+<td>QB / Form</td>
+<td>Optional</td>
+</tr>
+<tr>
+<td>Address (Line 1, City, State, ZIP, Country)</td>
+<td>QuickBooks</td>
+<td>Optional</td>
+</tr>
+<tr>
+<td>Timezone</td>
+<td>Auto-detected</td>
+<td>Auto</td>
+</tr>
+<tr>
+<td>Source</td>
+<td>System</td>
+<td>Auto</td>
+</tr>
+<tr>
+<td>Type</td>
+<td>System (<code>lead</code> or <code>contact</code>)</td>
+<td>Auto</td>
+</tr>
+<tr>
+<td>Assigned To</td>
+<td>Workflow / Manual</td>
+<td>Recommended</td>
+</tr>
+</tbody></table></div>
+<h3 id="4-2-custom-fields-noonshop-specific">4.2 Custom Fields (Noonshop-Specific)</h3>
+<div class="table-wrap"><table>
+<thead><tr>
+<th>Field Name</th>
+<th>Field Key</th>
+<th>Type</th>
+<th>Options / Notes</th>
+<th>Populated By</th>
+<th>Field ID</th>
+</tr></thead><tbody>
+<tr>
+<td>Sales Rep</td>
+<td><code>contact.sales_rep</code></td>
+<td>Single Select</td>
+<td>Anna Park, David Cho, Peter Chong, dev</td>
+<td>Form Workflow</td>
+<td><code>8e0jqpqosCm6PCkaQEEf</code></td>
+</tr>
+<tr>
+<td>Disposition</td>
+<td><code>contact.disposition</code></td>
+<td>Single Select</td>
+<td>New Lead, Contacted, Booked, Dormant, Cold Lead, Active Customer</td>
+<td>Workflow / Manual</td>
+<td><code>T8j22jsftYWKS2s2ZQoH</code></td>
+</tr>
+<tr>
+<td>Customer Status</td>
+<td><code>contact.customer_status</code></td>
+<td>Single Select</td>
+<td>First-Time, Active, Inactive/Win-Back, Dormant</td>
+<td>Shopify Workflow</td>
+<td><code>ThfCNIK5XQcORnryWTh7</code></td>
+</tr>
+<tr>
+<td>Prospect Country</td>
+<td><code>contact.prospect_country</code></td>
+<td>Single Select</td>
+<td>US, Canada</td>
+<td>Form / Workflow</td>
+<td><code>kTJWW6f8J9vIRGzE7oVj</code></td>
+</tr>
+<tr>
+<td>Last Order Date</td>
+<td><code>contact.last_order_date</code></td>
+<td>Date</td>
+<td>Set by Shopify order trigger or New Order Form</td>
+<td>Shopify / Form</td>
+<td><code>JiVL4DgKJyqqUMdtqmjy</code></td>
+</tr>
+<tr>
+<td>Expected Reorder Date</td>
+<td><code>contact.expected_reorder_date</code></td>
+<td>Date</td>
+<td>Calculated post-order</td>
+<td>Shopify Workflow</td>
+<td><code>BenPNTeYTKsod5usAnKC</code></td>
+</tr>
+<tr>
+<td>Current Order Date (Form)</td>
+<td><code>contact.current_order_date_form_only</code></td>
+<td>Date</td>
+<td>Form-captured order date</td>
+<td>Intake Form</td>
+<td><code>HBvCKjf6LS9ztOrPEuat</code></td>
+</tr>
+<tr>
+<td>Company (Custom)</td>
+<td><code>contact.company</code></td>
+<td>Text</td>
+<td>Practice/business name</td>
+<td>Form / QB</td>
+<td><code>l9zKSHEBapdY9YS9uoTD</code></td>
+</tr>
+<tr>
+<td>Sales Rep Booking Link</td>
+<td><code>contact.rep_booking_link</code></td>
+<td>Text</td>
+<td>Calendly URL per rep</td>
+<td>Workflow (auto)</td>
+<td><code>hh2YT74jdo2k9fYmBsXu</code></td>
+</tr>
+<tr>
+<td>Title</td>
+<td><code>contact.title</code></td>
+<td>Text</td>
+<td>MD, Dr., OD, etc.</td>
+<td>Form / Manual</td>
+<td><code>2lNrs2zTjPNBsWMoC2pE</code></td>
+</tr>
+<tr>
+<td>Business Category</td>
+<td><code>contact.business_category</code></td>
+<td>Text</td>
+<td>Medical, Wellness, Beauty</td>
+<td>Form</td>
+<td><code>l52gKiDXjFrtQzp3Ayig</code></td>
+</tr>
+<tr>
+<td>Contact Preference</td>
+<td><code>contact.would_you_prefer_being_contact_to</code></td>
+<td>Single Select</td>
+<td>Email, Phone</td>
+<td>Intake Form</td>
+<td><code>Fupjpp1ViH8ioxlstJ7G</code></td>
+</tr>
+<tr>
+<td>SynUp Scan URL</td>
+<td><code>contact.synup_scan_url</code></td>
+<td>Text</td>
+<td>Business listing scan link</td>
+<td>SynUp Integration</td>
+<td><code>5Pt1GfFmqFzh3yJT19Fl</code></td>
+</tr>
+</tbody></table></div>
+<h3 id="4-3-quickbooks-to-ghl-field-mapping">4.3 QuickBooks-to-GHL Field Mapping</h3>
+<div class="table-wrap"><table>
+<thead><tr>
+<th>QuickBooks Field</th>
+<th>GHL Standard Field</th>
+<th>Status</th>
+</tr></thead><tbody>
+<tr>
+<td>Customer Name (First/Last)</td>
+<td>First Name / Last Name</td>
+<td>Mapped</td>
+</tr>
+<tr>
+<td>Email Address</td>
+<td>Email</td>
+<td>Mapped</td>
+</tr>
+<tr>
+<td>Phone Number</td>
+<td>Phone</td>
+<td>Mapped</td>
+</tr>
+<tr>
+<td>Billing Address</td>
+<td>Address1, City, State, ZIP, Country</td>
+<td>Mapped</td>
+</tr>
+<tr>
+<td>Company Name</td>
+<td>Company Name</td>
+<td>Mapped</td>
+</tr>
+<tr>
+<td>Customer ID / Invoice #</td>
+<td><em>(none)</em></td>
+<td><strong>Not Mapped</strong></td>
+</tr>
+<tr>
+<td>Transaction Amount</td>
+<td><em>(none)</em></td>
+<td><strong>Not Mapped</strong></td>
+</tr>
+<tr>
+<td>Product/Service Purchased</td>
+<td><em>(none)</em></td>
+<td><strong>Not Mapped</strong></td>
+</tr>
+<tr>
+<td>Payment Date</td>
+<td><em>(none)</em></td>
+<td><strong>Not Mapped</strong></td>
+</tr>
+</tbody></table></div>
+<h3 id="4-4-shopify-to-ghl-field-mapping">4.4 Shopify-to-GHL Field Mapping</h3>
+<div class="table-wrap"><table>
+<thead><tr>
+<th>Shopify Event/Field</th>
+<th>GHL Field Updated</th>
+<th>Trigger</th>
+</tr></thead><tbody>
+<tr>
+<td>Order Created — Customer Email</td>
+<td>Email (creates or matches contact)</td>
+<td>New Order</td>
+</tr>
+<tr>
+<td>Order Created — Customer Name</td>
+<td>First Name / Last Name</td>
+<td>New Order</td>
+</tr>
+<tr>
+<td>Order Created — Shipping Address</td>
+<td>Address, City, State, ZIP, Country</td>
+<td>New Order</td>
+</tr>
+<tr>
+<td>Order Date</td>
+<td><code>contact.last_order_date</code></td>
+<td>Order Fulfilled</td>
+</tr>
+<tr>
+<td>First Order Detection</td>
+<td><code>contact.customer_status</code> = "First-Time Customer"</td>
+<td>First Order Only</td>
+</tr>
+<tr>
+<td>Repeat Order Detection</td>
+<td><code>contact.customer_status</code> = "Active Customer"</td>
+<td>2nd+ Order</td>
+</tr>
+<tr>
+<td>Order Fulfilled</td>
+<td><code>contact.expected_reorder_date</code> (calculated)</td>
+<td>Order Fulfilled</td>
+</tr>
+<tr>
+<td>No Order (90+ days)</td>
+<td><code>contact.customer_status</code> = "Inactive / Win-Back"</td>
+<td>Time-based trigger</td>
+</tr>
+</tbody></table></div>
+<hr>
+    </section>
+
+    <section id="5-pipelines-disposition-logic" class="doc-section">
+      <h2>5. Pipelines &amp; Disposition Logic</h2>
+      <h3 id="5-1-active-pipelines">5.1 Active Pipelines</h3>
+<div class="table-wrap"><table>
+<thead><tr>
+<th>Pipeline</th>
+<th>Pipeline ID</th>
+<th>Stages</th>
+<th>Notes</th>
+</tr></thead><tbody>
+<tr>
+<td><strong>Prospect &amp; Sales Journey</strong></td>
+<td><code>W14yg6Hv0yrfFhBtLpoq</code></td>
+<td>New Lead → Contacted → Booked → Appointment Completed → Dormant – Recycle → Cold Lead → Exited – Customer Journey</td>
+<td>Primary B2B pipeline. Created Feb 2026.</td>
+</tr>
+<tr>
+<td><strong>Cold Outreach</strong></td>
+<td><code>EIOHzsnRypOZ0m3rGr1F</code></td>
+<td>Email Sent Day 01–05 → Email Opened → Responded → Yes/No → Booked Meeting → Unsubscribed</td>
+<td>Used for 2023 Vision Expo CSV imports. Most opps stalled at Day 05.</td>
+</tr>
+<tr>
+<td><strong>Landing Page Leads</strong></td>
+<td><code>oAxThrBFXSPfuuq06Qk9</code></td>
+<td>New Leads → First–Eighth Contact → Responded → Unsubscribe/DND → Lost Leads</td>
+<td>8-touch contact cadence. No recent activity.</td>
+</tr>
+<tr>
+<td><strong>Appointment Pipeline</strong></td>
+<td><code>OBYxhLWAKVM8yBNKxHGU</code></td>
+<td>Booked (Email) → Booked (Phone) → Showed → Cancelled</td>
+<td>B2C patient appointments from annaparkmd.com. Created June 2024.</td>
+</tr>
+</tbody></table></div>
+<p><strong>Critical Finding:</strong> 2,007 total opportunities across all pipelines — <strong>0 Won, 0 Lost</strong>. Pipeline is being used as a contact tracker, not a sales outcome tool.</p>
+<h3 id="5-2-disposition-field-logic">5.2 Disposition Field Logic</h3>
+<div class="table-wrap"><table>
+<thead><tr>
+<th>Disposition Value</th>
+<th>When Set</th>
+</tr></thead><tbody>
+<tr>
+<td>New Lead – Not Contacted</td>
+<td>Default for form submissions</td>
+</tr>
+<tr>
+<td>Contacted</td>
+<td>After first outreach attempt</td>
+</tr>
+<tr>
+<td>Booked</td>
+<td>When appointment scheduled</td>
+</tr>
+<tr>
+<td>Dormant Lead – Recycle</td>
+<td>No engagement after full prospect journey</td>
+</tr>
+<tr>
+<td>Cold Lead</td>
+<td>Default for form-submitted contacts prior to outreach</td>
+</tr>
+<tr>
+<td>Active Customer</td>
+<td>After confirmed order</td>
+</tr>
+</tbody></table></div>
+<h3 id="5-3-customer-status-field-logic">5.3 Customer Status Field Logic</h3>
+<div class="table-wrap"><table>
+<thead><tr>
+<th>Customer Status Value</th>
+<th>Trigger</th>
+</tr></thead><tbody>
+<tr>
+<td>First-Time Customer – Onboarding</td>
+<td>First Shopify order placed and fulfilled</td>
+</tr>
+<tr>
+<td>Active Customer</td>
+<td>Second or subsequent Shopify order</td>
+</tr>
+<tr>
+<td>Inactive / Win-Back</td>
+<td>No Shopify order in 90+ days</td>
+</tr>
+<tr>
+<td>Dormant Customer</td>
+<td>No order in 180+ days / no email engagement</td>
+</tr>
+</tbody></table></div>
+<hr>
+    </section>
+
+    <section id="6-workflows-full-breakdown" class="doc-section">
+      <h2>6. Workflows — Full Breakdown</h2>
+      <h3 id="6-1-wf-prospect-journey-published-v52">6.1 WF - Prospect Journey (Published, v52)</h3>
+<p><strong>Purpose:</strong> Nurture new B2B prospects from intake to appointment booking.</p>
+<p><strong>Trigger:</strong> Prospect enters CRM via Prospect Intake Form (tag: <code>prospect_new</code>).</p>
+<p><strong>Duration:</strong> ~150 days (10 emails).</p>
+<p><strong>Paired email folder:</strong> Prospect Journey V2 (10 templates).</p>
+<p><strong>GHL Workflow ID:</strong> <code>f5e0305d-9330-4737-8b3e-4ac329535e2c</code></p>
+<p><strong>Flow:</strong></p>
+<div class="table-wrap"><table>
+<thead><tr>
+<th>Stage</th>
+<th>Day</th>
+<th>Action</th>
+<th>Sender</th>
+<th>Check</th>
+</tr></thead><tbody>
+<tr>
+<td>Entry</td>
+<td>0</td>
+<td>Verify new prospect (check Shopify/QB for existing orders). If existing → tag as existing client, EXIT</td>
+<td>System</td>
+<td>Dupe check</td>
+</tr>
+<tr>
+<td>Assignment</td>
+<td>0</td>
+<td>Assign Sales Rep + Calendly link. Set Disposition = New Lead – Not Contacted</td>
+<td>System</td>
+<td>—</td>
+</tr>
+<tr>
+<td>Real-time</td>
+<td>Any</td>
+<td>If Shopify order or QB invoice detected → EXIT to Customer Journey</td>
+<td>System</td>
+<td>Continuous</td>
+</tr>
+<tr>
+<td>Stage 1</td>
+<td>Day 1–3</td>
+<td>Email #1: Warm Introduction. CTA: Book appointment</td>
+<td>Rep</td>
+<td>Booked?</td>
+</tr>
+<tr>
+<td>Stage 2</td>
+<td>Day 4–7</td>
+<td>Email #2: Value Proposition. CTA: Book appointment</td>
+<td>Rep</td>
+<td>Booked?</td>
+</tr>
+<tr>
+<td>Stage 3</td>
+<td>Day 10–14</td>
+<td>Email #3: Social Proof</td>
+<td>Rep</td>
+<td>Booked?</td>
+</tr>
+<tr>
+<td>Stage 4</td>
+<td>Day 18–21</td>
+<td>Email #4: Personalized Curation (hand-picked glasses)</td>
+<td>Rep</td>
+<td>Booked?</td>
+</tr>
+<tr>
+<td>Stage 5</td>
+<td>Day 24–27</td>
+<td>Email #5: Top Sellers &amp; Patient Demand</td>
+<td>Rep</td>
+<td>Booked?</td>
+</tr>
+<tr>
+<td>Stage 6</td>
+<td>Day 32–35</td>
+<td>Email #6: Founder Introduction (Anna) — "Noticed you haven't booked"</td>
+<td>Anna</td>
+<td>Booked?</td>
+</tr>
+<tr>
+<td>Stage 7</td>
+<td>Day 42–45</td>
+<td>Email #7: Reconnection recap</td>
+<td>Rep</td>
+<td>Booked?</td>
+</tr>
+<tr>
+<td>Stage 8</td>
+<td>Day 55–60</td>
+<td>Email #8: Timing Check — "Is now not a good time?"</td>
+<td>Rep</td>
+<td>Booked?</td>
+</tr>
+<tr>
+<td>Verify</td>
+<td>Day ~85</td>
+<td>Re-check Shopify/QB — still prospect?</td>
+<td>System</td>
+<td>—</td>
+</tr>
+<tr>
+<td>Stage 9</td>
+<td>Day 90</td>
+<td>Email #9: Founder Check-in (Anna)</td>
+<td>Anna</td>
+<td>Booked?</td>
+</tr>
+<tr>
+<td>Verify</td>
+<td>Day ~145</td>
+<td>Re-check Shopify/QB</td>
+<td>System</td>
+<td>—</td>
+</tr>
+<tr>
+<td>Stage 10</td>
+<td>Day 150</td>
+<td>Email #10: Final Touch (Anna) — "Circling back"</td>
+<td>Anna</td>
+<td>Booked?</td>
+</tr>
+<tr>
+<td>Exit</td>
+<td>150+</td>
+<td>If still not booked → Disposition: Cold Lead → Enroll in Cold Lead Nurture</td>
+<td>System</td>
+<td>—</td>
+</tr>
+</tbody></table></div>
+<p><strong>On booking at any stage:</strong> Disposition = Booked → create appointment → send rep confirmation → notify rep → PAUSE NURTURE.</p>
+<p><strong>Post-appointment:</strong> Separate workflow fires on appointment status = Complete. Checks Shopify/QB for order. If order → EXIT to Customer Journey. If no order → create sales follow-up task.</p>
+<hr>
+<h3 id="6-2-first-order-journey-published-v21">6.2 First Order Journey (Published, v21)</h3>
+<p><strong>Purpose:</strong> Onboard new customers after their first order, drive repeat purchase.</p>
+<p><strong>Trigger:</strong> First Shopify order placed (<code>order.created</code> webhook — first order only).</p>
+<p><strong>Duration:</strong> ~72 days post expected-reorder-date (8 emails).</p>
+<p><strong>Paired email folder:</strong> Noonshop First Order Journey (8 templates).</p>
+<p><strong>GHL Workflow ID:</strong> <code>00df0118-0068-498d-bd8c-eda1285d4d7f</code></p>
+<p><strong>Flow:</strong></p>
+<div class="table-wrap"><table>
+<thead><tr>
+<th>Stage</th>
+<th>Timing</th>
+<th>Action</th>
+<th>Sender</th>
+</tr></thead><tbody>
+<tr>
+<td>Entry</td>
+<td>Day 0</td>
+<td>Verify first-time customer. Tag = First-Time Customer. Assign rep. Rep sets expected reorder date.</td>
+<td>System</td>
+</tr>
+<tr>
+<td>Real-time</td>
+<td>Any</td>
+<td>If second order placed → EXIT to Active Customer Journey</td>
+<td>System</td>
+</tr>
+<tr>
+<td>Stage 1</td>
+<td>Day 0–1</td>
+<td>Email #1: Welcome &amp; Confirmation — thank you, delivery timeline, intro to rep</td>
+<td>Anna</td>
+</tr>
+<tr>
+<td>Stage 2</td>
+<td>Day 3–5</td>
+<td>Email #2: Display &amp; Merchandising tips</td>
+<td>Rep</td>
+</tr>
+<tr>
+<td>Stage 3</td>
+<td>Day 7–10</td>
+<td>Email #3: Brand Story — ophthalmologist origin, quality</td>
+<td>Anna</td>
+</tr>
+<tr>
+<td>Stage 4</td>
+<td>Day 14–17</td>
+<td>Email #4: First Impressions Check-in</td>
+<td>Rep</td>
+</tr>
+<tr>
+<td>Stage 5</td>
+<td>Reorder-7d</td>
+<td>Email #5: Restock Awareness — new arrivals, top sellers</td>
+<td>Rep</td>
+</tr>
+<tr>
+<td>Stage 6</td>
+<td>Reorder+7d</td>
+<td>Email #6: Second Order Encouragement</td>
+<td>Anna</td>
+</tr>
+<tr>
+<td>Stage 7</td>
+<td>Reorder+21d</td>
+<td>Email #7: Incentive Offer — special pricing</td>
+<td>Rep</td>
+</tr>
+<tr>
+<td>Stage 8</td>
+<td>Reorder+42d</td>
+<td>Email #8: Final Re-engagement — "We'd love to see you back"</td>
+<td>Anna</td>
+</tr>
+<tr>
+<td>Exit</td>
+<td>Reorder+72d</td>
+<td>Status: Inactive Customer → Enroll in Win-Back Journey</td>
+<td>System</td>
+</tr>
+</tbody></table></div>
+<hr>
+<h3 id="6-3-active-customer-journey-published-v24">6.3 Active Customer Journey (Published, v24)</h3>
+<p><strong>Purpose:</strong> Keep repeat customers engaged and ordering regularly.</p>
+<p><strong>Trigger:</strong> New order placed (any non-first order).</p>
+<p><strong>Duration:</strong> ~210 days from last order (16 emails). Restarts on every new order.</p>
+<p><strong>Paired email folder:</strong> Prospect Education Journey (16 templates).</p>
+<p><strong>GHL Workflow ID:</strong> <code>851d142a-08d2-4b9b-a06d-c3ea1e3a52b6</code></p>
+<p><strong>Flow:</strong></p>
+<div class="table-wrap"><table>
+<thead><tr>
+<th>Stage</th>
+<th>Timing</th>
+<th>Email</th>
+<th>Focus</th>
+<th>Sender</th>
+</tr></thead><tbody>
+<tr>
+<td>Entry</td>
+<td>Day 0</td>
+<td>Record last order date, tag Active Customer, assign rep</td>
+<td>—</td>
+<td>System</td>
+</tr>
+<tr>
+<td>Stage 0</td>
+<td>Day 0</td>
+<td>#1: Order Confirmation</td>
+<td>Delivery expectations</td>
+<td>Rep</td>
+</tr>
+<tr>
+<td>Stage 1</td>
+<td>Day 3–5</td>
+<td>#2: Delivery Check-in</td>
+<td>Post-delivery</td>
+<td>Rep</td>
+</tr>
+<tr>
+<td>Stage 2</td>
+<td>Day 10–14</td>
+<td>#3: Product Education</td>
+<td>Display tips, fit &amp; conversion</td>
+<td>Rep/Anna</td>
+</tr>
+<tr>
+<td>Stage 3</td>
+<td>Day 21</td>
+<td>#4: New Arrivals Preview</td>
+<td>—</td>
+<td>Rep</td>
+</tr>
+<tr>
+<td>Stage 4</td>
+<td>Day 28</td>
+<td>#5: Reorder Reminder</td>
+<td>—</td>
+<td>Rep</td>
+</tr>
+<tr>
+<td>Stage 5</td>
+<td>Day 42</td>
+<td>#6: Industry Insights</td>
+<td>Value content</td>
+<td>Anna</td>
+</tr>
+<tr>
+<td>Stage 6</td>
+<td>Day 56</td>
+<td>#7: Top Sellers Update</td>
+<td>—</td>
+<td>Rep</td>
+</tr>
+<tr>
+<td>Stage 7</td>
+<td>Day 63</td>
+<td>#8: Hand-picked Selections</td>
+<td>Personalized picks</td>
+<td>Rep</td>
+</tr>
+<tr>
+<td>Stage 8</td>
+<td>Day 70</td>
+<td>#9: Personal Check-in</td>
+<td>Soft check-in</td>
+<td>Rep</td>
+</tr>
+<tr>
+<td>Stage 9</td>
+<td>Day 84</td>
+<td>#10: Customer Success Story</td>
+<td>Social proof</td>
+<td>Anna</td>
+</tr>
+<tr>
+<td>Stage 10</td>
+<td>Day 98</td>
+<td>#11: New Collection Preview</td>
+<td>—</td>
+<td>Rep</td>
+</tr>
+<tr>
+<td>Stage 11</td>
+<td>Day 112</td>
+<td>#12: "How Can We Help?"</td>
+<td>—</td>
+<td>Rep</td>
+</tr>
+<tr>
+<td>Stage 12</td>
+<td>Day 126</td>
+<td>#13: Industry Trends</td>
+<td>—</td>
+<td>Anna</td>
+</tr>
+<tr>
+<td>Stage 13</td>
+<td>Day 147</td>
+<td>#14: Curated Bundle Offer</td>
+<td>—</td>
+<td>Rep</td>
+</tr>
+<tr>
+<td>Stage 14</td>
+<td>Day 168</td>
+<td>#15: Relationship Check-in</td>
+<td>—</td>
+<td>Rep</td>
+</tr>
+<tr>
+<td>Stage 15</td>
+<td>Day 189</td>
+<td>#16: Exclusive Preview Invitation</td>
+<td>VIP preview</td>
+<td>Anna</td>
+</tr>
+<tr>
+<td>Exit</td>
+<td>Day 210+</td>
+<td>Status: Inactive Customer → EXIT to Win-Back Journey</td>
+<td>—</td>
+<td>System</td>
+</tr>
+</tbody></table></div>
+<p>Every stage checks for a new order. If order detected → <strong>restart journey from Stage 0</strong>.</p>
+<hr>
+<h3 id="6-4-win-back-journey-published-v14">6.4 Win-Back Journey (Published, v14)</h3>
+<p><strong>Purpose:</strong> Re-engage inactive customers.</p>
+<p><strong>Trigger:</strong> Customer becomes inactive (no order 90+ days or Expected Reorder Date + 72 days).</p>
+<p><strong>Duration:</strong> ~180 days (13 emails).</p>
+<p><strong>Paired email folder:</strong> Noonshop Win-Back Journey (13 templates).</p>
+<p><strong>GHL Workflow ID:</strong> <code>7d5506aa-910e-4cd6-8531-412c6c15865f</code></p>
+<p><strong>Flow:</strong></p>
+<div class="table-wrap"><table>
+<thead><tr>
+<th>Stage</th>
+<th>Day</th>
+<th>Email</th>
+<th>Focus</th>
+<th>Sender</th>
+</tr></thead><tbody>
+<tr>
+<td>Entry</td>
+<td>0</td>
+<td>Tag: Inactive Customer – Win-Back</td>
+<td>—</td>
+<td>System</td>
+</tr>
+<tr>
+<td>Stage 1</td>
+<td>Day 0–2</td>
+<td>#1: Warm Reconnection</td>
+<td>Handwritten-style check-in</td>
+<td>Rep</td>
+</tr>
+<tr>
+<td>Stage 2</td>
+<td>Day 12–15</td>
+<td>#2: New Frames Introduction</td>
+<td>Quick product highlight</td>
+<td>Rep</td>
+</tr>
+<tr>
+<td>Stage 3</td>
+<td>Day 22–26</td>
+<td>#3: Brand Update</td>
+<td>Brand story refresh</td>
+<td>Anna</td>
+</tr>
+<tr>
+<td>Stage 4</td>
+<td>Day 36–40</td>
+<td>#4: Value Delivery</td>
+<td>Merchandising tips</td>
+<td>Rep</td>
+</tr>
+<tr>
+<td>Stage 5</td>
+<td>Day 50–54</td>
+<td>#5: Personalized Picks</td>
+<td>Curated selection</td>
+<td>Rep</td>
+</tr>
+<tr>
+<td>Stage 6</td>
+<td>Day 64–68</td>
+<td>#6: Success Story</td>
+<td>Case study</td>
+<td>Rep</td>
+</tr>
+<tr>
+<td>Stage 7</td>
+<td>Day 78–82</td>
+<td>#7: Industry Insights</td>
+<td>Deep dive</td>
+<td>Anna</td>
+</tr>
+<tr>
+<td>Stage 8</td>
+<td>Day 92–96</td>
+<td>#8: Quick Tip</td>
+<td>—</td>
+<td>Rep</td>
+</tr>
+<tr>
+<td>Stage 9</td>
+<td>Day 106–110</td>
+<td>#9: Direct Check-in</td>
+<td>Personal tone</td>
+<td>Rep</td>
+</tr>
+<tr>
+<td>Stage 10</td>
+<td>Day 120–124</td>
+<td>#10: Exclusive Preview</td>
+<td>New collection</td>
+<td>Rep</td>
+</tr>
+<tr>
+<td>Stage 11</td>
+<td>Day 134–138</td>
+<td>#11: Incentive Offer</td>
+<td>Win-back discount</td>
+<td>Rep</td>
+</tr>
+<tr>
+<td>Stage 12</td>
+<td>Day 155–159</td>
+<td>#12: Soft Hello</td>
+<td>Light touch</td>
+<td>Rep</td>
+</tr>
+<tr>
+<td>Stage 13</td>
+<td>Day 176–180</td>
+<td>#13: Final Value &amp; Door Open</td>
+<td>Last touch</td>
+<td>Anna</td>
+</tr>
+<tr>
+<td>Exit</td>
+<td>180+</td>
+<td>Status: Dormant Customer → Long-term nurture (quarterly)</td>
+<td>—</td>
+<td>System</td>
+</tr>
+</tbody></table></div>
+<p>At any stage: if order placed → EXIT to Active Customer Journey, tag = Active Customer.</p>
+<hr>
+<h3 id="6-5-holiday-greeting-journey-published-v6">6.5 Holiday Greeting Journey (Published, v6)</h3>
+<p><strong>Purpose:</strong> Seasonal greetings to all contacts.</p>
+<p><strong>Trigger:</strong> System calendar (3–5 days before each holiday).</p>
+<p><strong>Audience:</strong> All contacts except Unsubscribed / Do Not Contact.</p>
+<p><strong>Paired email folder:</strong> Noonshop Holiday Campaign (19 templates).</p>
+<p><strong>GHL Workflow ID:</strong> <code>20c0ff0c-e4af-47d7-8725-c2290b2dc5c8</code></p>
+<div class="table-wrap"><table>
+<thead><tr>
+<th>#</th>
+<th>Holiday</th>
+<th>Month</th>
+<th>Sender</th>
+<th>Subject Theme</th>
+</tr></thead><tbody>
+<tr>
+<td>1</td>
+<td>New Year</td>
+<td>Jan</td>
+<td>Rep</td>
+<td>"Here's to a great year ahead!"</td>
+</tr>
+<tr>
+<td>2</td>
+<td>Valentine's Day</td>
+<td>Feb</td>
+<td>Rep</td>
+<td>"We appreciate you!"</td>
+</tr>
+<tr>
+<td>3</td>
+<td>Spring Forward (DST)</td>
+<td>Mar</td>
+<td>Rep</td>
+<td>"Don't forget to spring forward!"</td>
+</tr>
+<tr>
+<td>4</td>
+<td>Save Your Vision Month</td>
+<td>Mar</td>
+<td>Anna</td>
+<td>Educational — eye health</td>
+</tr>
+<tr>
+<td>5</td>
+<td>Memorial Day</td>
+<td>May</td>
+<td>Rep</td>
+<td>Respectful remembrance</td>
+</tr>
+<tr>
+<td>6</td>
+<td>First Day of Summer</td>
+<td>Jun</td>
+<td>Rep</td>
+<td>Seasonal</td>
+</tr>
+<tr>
+<td>7</td>
+<td>National Sunglasses Day</td>
+<td>Jun 27</td>
+<td>Rep</td>
+<td>Playful — sunglasses</td>
+</tr>
+<tr>
+<td>8</td>
+<td>Fourth of July</td>
+<td>Jul 4</td>
+<td>Rep</td>
+<td>Celebratory</td>
+</tr>
+<tr>
+<td>9</td>
+<td>National Eye Exam Month</td>
+<td>Aug</td>
+<td>Anna</td>
+<td>Appreciative — eye care</td>
+</tr>
+<tr>
+<td>10</td>
+<td>National Relaxation Day</td>
+<td>Aug 15</td>
+<td>Rep</td>
+<td>Encouraging</td>
+</tr>
+<tr>
+<td>11</td>
+<td>Labor Day</td>
+<td>Sep</td>
+<td>Rep</td>
+<td>Appreciative</td>
+</tr>
+<tr>
+<td>12</td>
+<td>National Read a Book Day</td>
+<td>Sep 6</td>
+<td>Rep</td>
+<td>Vision-relevant</td>
+</tr>
+<tr>
+<td>13</td>
+<td>First Day of Fall</td>
+<td>Sep 22</td>
+<td>Rep</td>
+<td>Seasonal</td>
+</tr>
+<tr>
+<td>14</td>
+<td>National Coffee Day</td>
+<td>Sep 29</td>
+<td>Rep</td>
+<td>Lighthearted</td>
+</tr>
+<tr>
+<td>15</td>
+<td>World Sight Day</td>
+<td>Oct (2nd Thu)</td>
+<td>Anna</td>
+<td>Mission-driven</td>
+</tr>
+<tr>
+<td>16</td>
+<td>Halloween</td>
+<td>Oct 31</td>
+<td>Rep</td>
+<td>Playful</td>
+</tr>
+<tr>
+<td>17</td>
+<td>Fall Back (DST)</td>
+<td>Nov</td>
+<td>Rep</td>
+<td>Helpful reminder</td>
+</tr>
+<tr>
+<td>18</td>
+<td>Thanksgiving</td>
+<td>Nov</td>
+<td>Rep</td>
+<td>Gratitude</td>
+</tr>
+<tr>
+<td>19</td>
+<td>Christmas/Holidays</td>
+<td>Dec</td>
+<td>Anna</td>
+<td>Season's Greetings</td>
+</tr>
+</tbody></table></div>
+<p><strong>Technical:</strong> Send time 9:00 AM recipient timezone. Plain text or minimal HTML — no images, no CTAs, no links. Runs in parallel with other journeys. Cycle repeats annually.</p>
+<hr>
+<h3 id="6-6-support-integration-workflows-published">6.6 Support/Integration Workflows (Published)</h3>
+<div class="table-wrap"><table>
+<thead><tr>
+<th>Workflow</th>
+<th>Version</th>
+<th>Purpose</th>
+</tr></thead><tbody>
+<tr>
+<td><strong>Global - Real-Time Order Monitor</strong></td>
+<td>v21</td>
+<td>Listens for Shopify <code>order.created</code> webhook. Updates <code>last_order_date</code>, sets <code>customer_status</code>, calculates <code>expected_reorder_date</code>. Triggers First Order or Active Customer journeys.</td>
+</tr>
+<tr>
+<td><strong>QuickBooks Contact Identifier</strong></td>
+<td>v4</td>
+<td>Tags and segments contacts imported from QuickBooks. Applies <code>customer_quickbooks</code> tag.</td>
+</tr>
+<tr>
+<td><strong>Shopify Contact Identifier</strong></td>
+<td>v3</td>
+<td>Tags and segments contacts created from Shopify events.</td>
+</tr>
+<tr>
+<td><strong>Post-Appointment Follow-up</strong></td>
+<td>v5</td>
+<td>Fires after appointment status = Complete. Checks for Shopify/QB order. If order → Active Customer Journey. If no order → creates follow-up task for rep.</td>
+</tr>
+</tbody></table></div>
+<h3 id="6-7-draft-workflows-inactive">6.7 Draft Workflows (Inactive)</h3>
+<p>17 draft workflows exist. These are either legacy, test, or superseded:</p>
+<div class="table-wrap"><table>
+<thead><tr>
+<th>Workflow</th>
+<th>Version</th>
+<th>Notes</th>
+</tr></thead><tbody>
+<tr>
+<td>5 Day Outreach: Email Opened</td>
+<td>v10</td>
+<td>Legacy — replaced by WF - Prospect Journey</td>
+</tr>
+<tr>
+<td>Appointment Cancelled+Showed</td>
+<td>v5</td>
+<td>Handles appointment status changes</td>
+</tr>
+<tr>
+<td>Appointment Confirmed</td>
+<td>v4</td>
+<td>Confirmation flow for appointments</td>
+</tr>
+<tr>
+<td>Landing Page Leads</td>
+<td>v3</td>
+<td>Handles landing page form submissions</td>
+</tr>
+<tr>
+<td>Noon Shop Drip Campaign</td>
+<td>v7</td>
+<td>Legacy drip — superseded by newer journeys</td>
+</tr>
+<tr>
+<td>Prospect: Responded to Email</td>
+<td>v4</td>
+<td>Branch for email responders</td>
+</tr>
+<tr>
+<td>Prospect: Response: NO</td>
+<td>v3</td>
+<td>Negative response branch</td>
+</tr>
+<tr>
+<td>Prospect: Response: YES</td>
+<td>v3</td>
+<td>Positive response branch</td>
+</tr>
+<tr>
+<td>Recipe - Appointment Confirmation + Reminder</td>
+<td>v9</td>
+<td>GHL recipe template, customized</td>
+</tr>
+<tr>
+<td>Responded Workflow</td>
+<td>v4</td>
+<td>General response handler</td>
+</tr>
+<tr>
+<td>Social Media Ads Interactions</td>
+<td>v9</td>
+<td>Routes social media ad leads</td>
+</tr>
+<tr>
+<td>Unsubscribe</td>
+<td>v6</td>
+<td>Handles opt-outs</td>
+</tr>
+<tr>
+<td>Vision Expo 5 Day Outreach: Email Only</td>
+<td>v22</td>
+<td>Legacy Vision Expo event outreach</td>
+</tr>
+<tr>
+<td>New Workflow : 1720192575592</td>
+<td>v1</td>
+<td>Untitled — test/abandoned</td>
+</tr>
+<tr>
+<td>New Workflow : 1758498984484</td>
+<td>v1</td>
+<td>Untitled — test/abandoned</td>
+</tr>
+<tr>
+<td>New Workflow : 1769645956420</td>
+<td>v1</td>
+<td>Untitled — test/abandoned</td>
+</tr>
+<tr>
+<td>New Workflow : 1769774455145</td>
+<td>v1</td>
+<td>Untitled — test/abandoned</td>
+</tr>
+</tbody></table></div>
+<hr>
+    </section>
+
+    <section id="7-email-template-library" class="doc-section">
+      <h2>7. Email Template Library</h2>
+      <p><strong>67 templates</strong> across 6 folders. Full email body text is documented in the companion file <code>GHL-Documentation.md</code>.</p>
+<div class="table-wrap"><table>
+<thead><tr>
+<th>Folder</th>
+<th>Count</th>
+<th>Duration</th>
+<th>Audience</th>
+</tr></thead><tbody>
+<tr>
+<td>Operations</td>
+<td>1</td>
+<td>—</td>
+<td>System (payment reminders)</td>
+</tr>
+<tr>
+<td>Prospect Journey V2</td>
+<td>10</td>
+<td>150 days</td>
+<td>New B2B Prospects</td>
+</tr>
+<tr>
+<td>Noonshop First Order Journey</td>
+<td>8</td>
+<td>~60 days</td>
+<td>First-Time Customers</td>
+</tr>
+<tr>
+<td>Prospect Education Journey</td>
+<td>16</td>
+<td>~180 days</td>
+<td>Active Customers (long-term nurture)</td>
+</tr>
+<tr>
+<td>Noonshop Win-Back Journey</td>
+<td>13</td>
+<td>~90 days</td>
+<td>Inactive Customers</td>
+</tr>
+<tr>
+<td>Noonshop Holiday Campaign</td>
+<td>19</td>
+<td>Seasonal (annual)</td>
+<td>All Active Contacts</td>
+</tr>
+</tbody></table></div>
+<h3 id="standalone-templates-root-level">Standalone Templates (Root-level)</h3>
+<div class="table-wrap"><table>
+<thead><tr>
+<th>Template</th>
+<th>ID</th>
+<th>Notes</th>
+</tr></thead><tbody>
+<tr>
+<td>Email Opened</td>
+<td><code>6504cc175746c567296cd7d4</code></td>
+<td>Legacy template (Sep 2023)</td>
+</tr>
+<tr>
+<td>New Template (3x unnamed)</td>
+<td>Various</td>
+<td>Drafts/tests</td>
+</tr>
+<tr>
+<td>Default - Invoice received</td>
+<td><code>69a0510719f54bc30e727d88</code></td>
+<td>Feb 2026 — invoice notification</td>
+</tr>
+</tbody></table></div>
+<hr>
+    </section>
+
+    <section id="8-integrations-cross-system-attribute-mapping" class="doc-section">
+      <h2>8. Integrations &amp; Cross-System Attribute Mapping</h2>
+      <h3 id="8-1-system-relationship-diagram">8.1 System Relationship Diagram</h3>
+<pre class="code-block">
+                          ┌─────────────────────────────────────┐
+                          │         SHOPIFY (E-Commerce)        │
+                          │    https://pqq9yi-cc.myshopify.com  │
+                          │                                     │
+                          │  Products (163) ──────────────────┐ │
+                          │  Orders ──────────────────────────┤ │
+                          │  Customers ───────────────────────┤ │
+                          │  Line Items (gid://shopify/...) ──┤ │
+                          └────────────┬──────────────────────┘ │
+                                       │                        │
+                    ┌──────────────────▼────────────────────┐   │
+                    │                                       │   │
+        ┌───────────▼───────────┐    ┌──────────────────────▼───▼──────┐
+        │   QUICKBOOKS ONLINE   │    │        GHL CRM (Hub)            │
+        │     (Accounting)      │    │   Location: 70CEJtz1p3pnSQVuGJgK│
+        │                       │    │                                  │
+        │  Customers ───────────┼───▶│  Contacts (18,073)              │
+        │  Invoices             │    │  Products (163, synced)         │
+        │  Payments             │    │  Orders/Transactions            │
+        │  Company Names        │    │  Workflows (9 published)        │
+        └───────────────────────┘    │  Email Templates (67)           │
+                                     │  Pipelines (4)                  │
+                                     └───────────┬────────────────────┘
+                                                  │
+                                     ┌────────────▼────────────────────┐
+                                     │     MICROSOFT 365 (Email)       │
+                                     │                                 │
+                                     │  Outbound: mail.noonshop.com    │
+                                     │  Inbound: hello@noonshop.com    │
+                                     │  Calendar sync per rep          │
+                                     └─────────────────────────────────┘
+</pre>
+<h3 id="8-2-sync-direction-methods">8.2 Sync Direction &amp; Methods</h3>
+<div class="table-wrap"><table>
+<thead><tr>
+<th>Relationship</th>
+<th>Direction</th>
+<th>Method</th>
+<th>Identifier (Join Key)</th>
+<th>Frequency</th>
+</tr></thead><tbody>
+<tr>
+<td><strong>Shopify → GHL (Products)</strong></td>
+<td>One-way</td>
+<td>Native Shopify integration (Store sync)</td>
+<td><code>gid://shopify/ProductOption/{id}</code></td>
+<td>Continuous</td>
+</tr>
+<tr>
+<td><strong>Shopify → GHL (Orders)</strong></td>
+<td>One-way</td>
+<td><code>order.created</code> webhook</td>
+<td>Customer email address</td>
+<td>Per-event</td>
+</tr>
+<tr>
+<td><strong>Shopify → GHL (Contacts)</strong></td>
+<td>One-way</td>
+<td>Order webhook creates/matches contact</td>
+<td>Email address</td>
+<td>Per-event</td>
+</tr>
+<tr>
+<td><strong>QuickBooks → GHL (Contacts)</strong></td>
+<td>One-way</td>
+<td>Native QB integration (customer sync)</td>
+<td>Email address</td>
+<td>Up to 5 min delay</td>
+</tr>
+<tr>
+<td><strong>Shopify → QuickBooks</strong></td>
+<td>One-way*</td>
+<td>Shopify orders flow into QB for invoicing</td>
+<td>Customer email / order reference</td>
+<td>Per-event</td>
+</tr>
+<tr>
+<td><strong>GHL → M365 (Email)</strong></td>
+<td>Two-way</td>
+<td>SMTP outbound / Reply-to inbound</td>
+<td><code>hello@noonshop.com</code> → rep inbox</td>
+<td>Per-email</td>
+</tr>
+<tr>
+<td><strong>GHL → M365 (Calendar)</strong></td>
+<td>Two-way</td>
+<td>Calendar sync per rep</td>
+<td>Outlook calendar ID</td>
+<td>Real-time</td>
+</tr>
+</tbody></table></div>
+<p>*Shopify → QB flow happens outside GHL; GHL sees the resulting QB customer record.</p>
+<h3 id="8-3-shopify-ghl-full-attribute-mapping">8.3 Shopify ↔ GHL: Full Attribute Mapping</h3>
+<h4>8.3.1 Product Sync (Shopify → GHL Store)</h4>
+<div class="table-wrap"><table>
+<thead><tr>
+<th>Shopify Attribute</th>
+<th>GHL Product Field</th>
+<th>Example Value</th>
+<th>Sync Status</th>
+</tr></thead><tbody>
+<tr>
+<td>Product Title</td>
+<td><code>name</code></td>
+<td><code>DR24701</code></td>
+<td>Synced</td>
+</tr>
+<tr>
+<td>Product Description (HTML)</td>
+<td><code>description</code></td>
+<td><code>&lt;p&gt;Shape: Browline&lt;/p&gt;&lt;p&gt;Size: 50-20-147&lt;/p&gt;</code></td>
+<td>Synced</td>
+</tr>
+<tr>
+<td>Product Image URL</td>
+<td><code>image</code></td>
+<td><code>https://cdn.shopify.com/s/files/1/0909/7494/5584/files/DR23207C01_FRONT.jpg</code></td>
+<td>Synced</td>
+</tr>
+<tr>
+<td>Product Option ID</td>
+<td><code>variants[].id</code></td>
+<td><code>gid://shopify/ProductOption/12123161002288</code></td>
+<td>Synced</td>
+</tr>
+<tr>
+<td>Product Option Name</td>
+<td><code>variants[].name</code></td>
+<td><code>Color</code></td>
+<td>Synced</td>
+</tr>
+<tr>
+<td>Variant Names</td>
+<td><code>variants[].options[].name</code></td>
+<td><code>C01</code>, <code>C02</code>, <code>C03</code>...</td>
+<td>Synced</td>
+</tr>
+<tr>
+<td>Variant SKU</td>
+<td><code>prices[].sku</code></td>
+<td><code>DR23207 C03</code></td>
+<td>Synced</td>
+</tr>
+<tr>
+<td>Variant Price</td>
+<td><code>prices[].amount</code> (cents)</td>
+<td><code>105</code> ($1.05 wholesale)</td>
+<td>Synced</td>
+</tr>
+<tr>
+<td>Compare-At Price</td>
+<td><code>prices[].compareAtPrice</code> (cents)</td>
+<td><code>290</code> ($2.90 retail)</td>
+<td>Synced</td>
+</tr>
+<tr>
+<td>Inventory Quantity</td>
+<td><code>prices[].availableQuantity</code></td>
+<td><code>1</code>, <code>0</code>, <code>11</code></td>
+<td>Synced</td>
+</tr>
+<tr>
+<td>Product Slug</td>
+<td><code>slug</code></td>
+<td><code>dr23207</code></td>
+<td>Synced</td>
+</tr>
+<tr>
+<td>Product Type</td>
+<td><code>productType</code></td>
+<td><code>PHYSICAL</code></td>
+<td>Synced</td>
+</tr>
+<tr>
+<td>Weight</td>
+<td><code>prices[].shippingOptions.weight</code></td>
+<td><code>{unit: "g", value: 20}</code></td>
+<td>Synced</td>
+</tr>
+<tr>
+<td>Shopify Domain</td>
+<td>N/A (visible in order <code>sourceMeta</code>)</td>
+<td><code>https://pqq9yi-cc.myshopify.com</code></td>
+<td>Reference</td>
+</tr>
+</tbody></table></div>
+<p><strong>Note on pricing:</strong> GHL stores prices in <strong>cents</strong> (integer). A product showing <code>amount: 105</code> means <strong>$1.05</strong>, not $105. The wholesale pricing appears to be in a custom unit or there's a display multiplier. Compare-at of <code>290</code> cents = $2.90.</p>
+<h4>8.3.2 Order Sync (Shopify → GHL Payments)</h4>
+<div class="table-wrap"><table>
+<thead><tr>
+<th>Shopify Order Attribute</th>
+<th>GHL Payment/Order Field</th>
+<th>Example Value</th>
+</tr></thead><tbody>
+<tr>
+<td>Order ID</td>
+<td><code>sourceId</code></td>
+<td><code>j43r0npaqpd</code></td>
+</tr>
+<tr>
+<td>Shop Domain</td>
+<td><code>sourceName</code> / <code>sourceMeta.domain</code></td>
+<td><code>https://pqq9yi-cc.myshopify.com</code></td>
+</tr>
+<tr>
+<td>Source Type</td>
+<td><code>sourceSubType</code></td>
+<td><code>shopify</code></td>
+</tr>
+<tr>
+<td>Line Item ID</td>
+<td><code>items[]._id</code></td>
+<td><code>gid://shopify/LineItem/17220518773040</code></td>
+</tr>
+<tr>
+<td>Line Item Product Name</td>
+<td><code>items[].name</code></td>
+<td><code>DR25205</code></td>
+</tr>
+<tr>
+<td>Line Item Product ID</td>
+<td><code>items[].product._id</code></td>
+<td>GHL Product ID (mapped)</td>
+</tr>
+<tr>
+<td>Line Item Variant Name</td>
+<td><code>items[].price.name</code></td>
+<td><code>C04</code></td>
+</tr>
+<tr>
+<td>Line Item SKU</td>
+<td><code>items[].price.sku</code></td>
+<td><code>DR25205 C04</code></td>
+</tr>
+<tr>
+<td>Line Item Price</td>
+<td><code>items[].price.amount</code></td>
+<td><code>98.03</code></td>
+</tr>
+<tr>
+<td>Line Item Quantity</td>
+<td><code>items[].qty</code></td>
+<td><code>1</code></td>
+</tr>
+<tr>
+<td>Order Total</td>
+<td><code>amount</code></td>
+<td><code>3590.81</code></td>
+</tr>
+<tr>
+<td>Subtotal</td>
+<td><code>subtotal</code></td>
+<td><code>3590.81</code></td>
+</tr>
+<tr>
+<td>Discount Amount</td>
+<td><code>discount</code></td>
+<td><code>181.54</code></td>
+</tr>
+<tr>
+<td>Coupon Code</td>
+<td><code>couponCode</code></td>
+<td><code>25freepair</code></td>
+</tr>
+<tr>
+<td>Total Products</td>
+<td><code>totalProducts</code></td>
+<td><code>39</code></td>
+</tr>
+<tr>
+<td>Fulfillment Status</td>
+<td><code>fulfillmentStatus</code></td>
+<td><code>unfulfilled</code></td>
+</tr>
+<tr>
+<td>Payment Status</td>
+<td><code>paymentStatus</code></td>
+<td><code>unpaid</code> (payment processed in Shopify)</td>
+</tr>
+</tbody></table></div>
+<p><strong>Key insight:</strong> GHL receives full line-item detail from Shopify orders (product, variant, SKU, qty, price). However, this data lives in the <strong>Payments/Orders</strong> module, NOT on the contact record. The contact record only receives workflow-driven custom field updates.</p>
+<h4>8.3.3 Contact Field Updates (via GHL Workflows on Shopify Events)</h4>
+<div class="table-wrap"><table>
+<thead><tr>
+<th>Event</th>
+<th>GHL Contact Field Updated</th>
+<th>Value</th>
+<th>Set By</th>
+</tr></thead><tbody>
+<tr>
+<td>Shopify order received</td>
+<td><code>contact.last_order_date</code></td>
+<td>Order date</td>
+<td>Global - Real-Time Order Monitor workflow</td>
+</tr>
+<tr>
+<td>Shopify order received</td>
+<td><code>contact.expected_reorder_date</code></td>
+<td>Calculated future date</td>
+<td>Global - Real-Time Order Monitor workflow</td>
+</tr>
+<tr>
+<td>First order detected</td>
+<td><code>contact.customer_status</code></td>
+<td><code>First-Time Customer</code></td>
+<td>First Order Journey workflow</td>
+</tr>
+<tr>
+<td>First order detected</td>
+<td>Tag: <code>first_order_customer</code></td>
+<td>Added</td>
+<td>Workflow</td>
+</tr>
+<tr>
+<td>Repeat order detected</td>
+<td><code>contact.customer_status</code></td>
+<td><code>Active Customer</code></td>
+<td>Active Customer Journey workflow</td>
+</tr>
+<tr>
+<td>Repeat order detected</td>
+<td>Tag: <code>repeat_customer</code></td>
+<td>Added</td>
+<td>Workflow</td>
+</tr>
+<tr>
+<td>Repeat order detected</td>
+<td>Tag: <code>customer_active</code></td>
+<td>Added</td>
+<td>Workflow</td>
+</tr>
+<tr>
+<td>No order 90+ days</td>
+<td><code>contact.customer_status</code></td>
+<td><code>Inactive / Win-Back</code></td>
+<td>Win-Back Journey workflow</td>
+</tr>
+<tr>
+<td>Order triggers reorder window</td>
+<td>Tag: <code>reorder_due</code></td>
+<td>Added</td>
+<td>Workflow</td>
+</tr>
+</tbody></table></div>
+<h3 id="8-4-quickbooks-ghl-full-attribute-mapping">8.4 QuickBooks ↔ GHL: Full Attribute Mapping</h3>
+<h4>8.4.1 Contact Sync (QuickBooks → GHL)</h4>
+<div class="table-wrap"><table>
+<thead><tr>
+<th>QuickBooks Field</th>
+<th>GHL Standard Field</th>
+<th>Sync Status</th>
+<th>Evidence</th>
+</tr></thead><tbody>
+<tr>
+<td>Customer First Name</td>
+<td><code>firstName</code></td>
+<td><strong>Mapped</strong></td>
+<td>All QB contacts have names</td>
+</tr>
+<tr>
+<td>Customer Last Name</td>
+<td><code>lastName</code></td>
+<td><strong>Mapped</strong></td>
+<td>All QB contacts have names</td>
+</tr>
+<tr>
+<td>Email Address</td>
+<td><code>email</code></td>
+<td><strong>Mapped</strong></td>
+<td>Used as join key</td>
+</tr>
+<tr>
+<td>Phone Number</td>
+<td><code>phone</code></td>
+<td><strong>Mapped</strong></td>
+<td>Present on most QB contacts</td>
+</tr>
+<tr>
+<td>Company Name</td>
+<td><code>companyName</code></td>
+<td><strong>Mapped</strong></td>
+<td>e.g., "Icon Optical CA", "Eyelike Optical CA"</td>
+</tr>
+<tr>
+<td>Billing Address Line 1</td>
+<td><code>address1</code></td>
+<td><strong>Mapped</strong></td>
+<td>e.g., "95-3255 Hwy 7 E"</td>
+</tr>
+<tr>
+<td>Billing City</td>
+<td><code>city</code></td>
+<td><strong>Mapped</strong></td>
+<td>e.g., "Markham"</td>
+</tr>
+<tr>
+<td>Billing State/Province</td>
+<td><code>state</code></td>
+<td><strong>Mapped</strong></td>
+<td>e.g., "ON"</td>
+</tr>
+<tr>
+<td>Billing ZIP/Postal Code</td>
+<td><code>postalCode</code></td>
+<td><strong>Mapped</strong></td>
+<td>e.g., "L3R 3P9"</td>
+</tr>
+<tr>
+<td>Billing Country</td>
+<td><code>country</code></td>
+<td><strong>Mapped</strong></td>
+<td>e.g., "CA", "US"</td>
+</tr>
+<tr>
+<td></td>
+<td><strong>GHL <code>source</code></strong></td>
+<td>Set to <code>quickbooks</code></td>
+<td>Auto</td>
+</tr>
+<tr>
+<td></td>
+<td><strong>GHL <code>createdBy.source</code></strong></td>
+<td>Set to <code>STORE</code></td>
+<td>Via Shopify Store integration*</td>
+</tr>
+<tr>
+<td>Customer ID</td>
+<td><em>(none)</em></td>
+<td><strong>NOT MAPPED</strong></td>
+<td>No equivalent GHL field</td>
+</tr>
+<tr>
+<td>Invoice Number</td>
+<td><em>(none)</em></td>
+<td><strong>NOT MAPPED</strong></td>
+<td>Not stored on contact</td>
+</tr>
+<tr>
+<td>Transaction Amount</td>
+<td><em>(none)</em></td>
+<td><strong>NOT MAPPED</strong></td>
+<td>Not stored on contact</td>
+</tr>
+<tr>
+<td>Product/Service Purchased</td>
+<td><em>(none)</em></td>
+<td><strong>NOT MAPPED</strong></td>
+<td>Not stored on contact</td>
+</tr>
+<tr>
+<td>Payment Date</td>
+<td><em>(none)</em></td>
+<td><strong>NOT MAPPED</strong></td>
+<td>Not stored on contact</td>
+</tr>
+<tr>
+<td>Outstanding Balance</td>
+<td><em>(none)</em></td>
+<td><strong>NOT MAPPED</strong></td>
+<td>Not stored on contact</td>
+</tr>
+</tbody></table></div>
+<p>*Note: Some QB contacts show <code>createdBy.source = STORE</code> because Shopify orders flow through QB before reaching GHL, so the GHL native store integration creates the contact record.</p>
+<h4>8.4.2 What QuickBooks Does NOT Set</h4>
+<div class="table-wrap"><table>
+<thead><tr>
+<th>GHL Field</th>
+<th>Expected</th>
+<th>Actual for QB Contacts</th>
+<th>Gap</th>
+</tr></thead><tbody>
+<tr>
+<td><code>contact.sales_rep</code></td>
+<td>Should be assigned</td>
+<td><strong>Empty</strong></td>
+<td>Critical — no rep routing</td>
+</tr>
+<tr>
+<td><code>contact.disposition</code></td>
+<td>Should be set</td>
+<td><strong>Empty</strong></td>
+<td>Critical — no lifecycle tracking</td>
+</tr>
+<tr>
+<td><code>contact.customer_status</code></td>
+<td>Should be set</td>
+<td><strong>Empty</strong></td>
+<td>Critical — can't enroll in journeys</td>
+</tr>
+<tr>
+<td><code>contact.last_order_date</code></td>
+<td>Should reflect QB invoices</td>
+<td><strong>Empty</strong></td>
+<td>No order history on contact</td>
+</tr>
+<tr>
+<td>Tags</td>
+<td>Should have <code>customer_quickbooks</code></td>
+<td><strong>Often empty</strong></td>
+<td>Tagging workflow may not fire for all</td>
+</tr>
+<tr>
+<td><code>assignedTo</code></td>
+<td>Should have a rep ID</td>
+<td><strong>Empty</strong></td>
+<td>No auto-assignment for QB contacts</td>
+</tr>
+<tr>
+<td>Pipeline</td>
+<td>Should be enrolled</td>
+<td><strong>Not enrolled</strong></td>
+<td>No automation for QB contacts</td>
+</tr>
+</tbody></table></div>
+<p><strong>Verified via live data:</strong> Contacts like Kelvin Tai (has $3,590 order in GHL, source=quickbooks) and Sam Pham ($3,185 order) have <strong>zero custom fields populated</strong> and <strong>no tags</strong>. Their order data exists in the Payments module but is completely disconnected from their contact record.</p>
+<h3 id="8-5-the-data-island-problem">8.5 The "Data Island" Problem</h3>
+<pre class="code-block">
+┌──────────────────────────────────────────────────────────────────────────┐
+│                        GHL CONTACT RECORD                               │
+│  ┌─────────────────┐  ┌─────────────────┐  ┌─────────────────────────┐  │
+│  │ Standard Fields  │  │ Custom Fields    │  │ Tags                    │  │
+│  │ Name ✓          │  │ Sales Rep ✗      │  │ (often empty for QB)    │  │
+│  │ Email ✓         │  │ Disposition ✗    │  │                         │  │
+│  │ Phone ✓         │  │ Customer Status ✗│  │                         │  │
+│  │ Company ✓       │  │ Last Order ✗     │  │                         │  │
+│  │ Address ✓       │  │ Reorder Date ✗   │  │                         │  │
+│  │ Source ✓        │  │                  │  │                         │  │
+│  └─────────────────┘  └─────────────────┘  └─────────────────────────┘  │
+│          ▲                                                               │
+│          │ Join key: email                                              │
+│          │                                                               │
+│  ┌───────┴───────────────────────────────────────────────────────────┐  │
+│  │                   PAYMENTS MODULE (Separate)                       │  │
+│  │  Orders ✓ (amount, line items, SKUs, coupon codes)                │  │
+│  │  Transactions ✓ (payment status, fulfillment)                     │  │
+│  │  Source: shopify ✓                                                │  │
+│  │  BUT: This data does NOT flow back to the contact custom fields   │  │
+│  └───────────────────────────────────────────────────────────────────┘  │
+└──────────────────────────────────────────────────────────────────────────┘
+</pre>
+<p><strong>The core issue:</strong> Shopify order data arrives in GHL in two places:</p>
+<div class="ol-item"><span class="ol-num">1.</span> <strong>Payments/Orders module</strong> — full line-item detail, amounts, SKUs, fulfillment status (POPULATED)</div>
+<div class="ol-item"><span class="ol-num">2.</span> <strong>Contact custom fields</strong> — <code>last_order_date</code>, <code>customer_status</code>, <code>expected_reorder_date</code> (EMPTY for QB-sourced contacts)</div>
+<p>The bridge between these two is the <strong>GHL Workflow</strong> ("Global - Real-Time Order Monitor"). This workflow should fire on Shopify order events and update the contact's custom fields. However, for the ~95% of contacts that came through QuickBooks (not directly from Shopify orders), the workflow never fires, leaving their custom fields empty.</p>
+<h3 id="8-6-tag-based-system-identification">8.6 Tag-Based System Identification</h3>
+<p>Tags serve as the primary mechanism for identifying a contact's system of origin and lifecycle stage:</p>
+<div class="table-wrap"><table>
+<thead><tr>
+<th>Tag</th>
+<th>Set By</th>
+<th>Meaning</th>
+<th>Count*</th>
+</tr></thead><tbody>
+<tr>
+<td><code>customer_quickbooks</code></td>
+<td>QB Contact Identifier workflow</td>
+<td>Contact originated from QuickBooks</td>
+<td>~majority</td>
+</tr>
+<tr>
+<td><code>customer_shopify</code></td>
+<td>Shopify Contact Identifier workflow</td>
+<td>Contact originated from Shopify</td>
+<td>Small subset</td>
+</tr>
+<tr>
+<td><code>prospect_new</code></td>
+<td>Prospect Intake Form submission</td>
+<td>New B2B prospect from intake form</td>
+<td>~43</td>
+</tr>
+<tr>
+<td><code>first_order_customer</code></td>
+<td>First Order Journey workflow</td>
+<td>Placed their first Shopify order</td>
+<td>Very few</td>
+</tr>
+<tr>
+<td><code>customer_active</code></td>
+<td>Active Customer Journey workflow</td>
+<td>Has placed 2+ orders</td>
+<td>Very few</td>
+</tr>
+<tr>
+<td><code>repeat_customer</code></td>
+<td>Active Customer Journey workflow</td>
+<td>Repeat buyer</td>
+<td>Very few</td>
+</tr>
+<tr>
+<td><code>reorder_due</code></td>
+<td>Order Monitor workflow</td>
+<td>Reorder window approaching</td>
+<td>Very few</td>
+</tr>
+<tr>
+<td><code>existing_client</code></td>
+<td>Prospect Journey workflow</td>
+<td>Was flagged as existing during prospect check</td>
+<td>Varies</td>
+</tr>
+<tr>
+<td><code>onboarding_active</code></td>
+<td>First Order Journey workflow</td>
+<td>Currently in first-order onboarding</td>
+<td>Varies</td>
+</tr>
+</tbody></table></div>
+<p>*Exact counts require a full contact scan; these are estimates based on sampled data.</p>
+<h3 id="8-7-microsoft-365-integration">8.7 Microsoft 365 Integration</h3>
+<div class="table-wrap"><table>
+<thead><tr>
+<th>Component</th>
+<th>Configuration</th>
+<th>Direction</th>
+</tr></thead><tbody>
+<tr>
+<td>Outbound Email</td>
+<td><code>mail.noonshop.com</code> (GHL dedicated domain)</td>
+<td>GHL → Recipient</td>
+</tr>
+<tr>
+<td>Reply-To</td>
+<td><code>hello@noonshop.com</code> → Exchange Online → forwarded to rep</td>
+<td>Recipient → GHL + M365</td>
+</tr>
+<tr>
+<td>Calendar Sync</td>
+<td>Each rep's Outlook calendar synced to GHL</td>
+<td>Bidirectional</td>
+</tr>
+<tr>
+<td>Booking Pages</td>
+<td>GHL generates booking links tied to rep's Outlook availability</td>
+<td>GHL reads M365</td>
+</tr>
+</tbody></table></div>
+<h3 id="8-8-cross-system-entity-relationship-erd">8.8 Cross-System Entity Relationship (ERD)</h3>
+<pre class="code-block">
+SHOPIFY                          GHL                              QUICKBOOKS
+═══════                          ═══                              ══════════
+
+┌──────────┐                ┌──────────────┐                ┌──────────────┐
+│ Product   │───────────────▶│ Product       │                │              │
+│           │  sync by       │ (163 items)   │                │              │
+│ Option ID │  Shopify GID   │ variant.id =  │                │              │
+│ Variants  │                │  gid://shopify│                │              │
+│ Prices    │                │  /ProductOpt/ │                │              │
+│ Inventory │                │  {id}         │                │              │
+└──────────┘                └──────────────┘                └──────────────┘
+
+┌──────────┐                ┌──────────────┐                ┌──────────────┐
+│ Order     │───────────────▶│ Payment Order │                │ Invoice      │
+│           │  webhook       │ sourceSubType │                │              │
+│ Line Items│  order.created │  = "shopify"  │                │              │
+│ Customer  │                │ items[]._id = │                │              │
+│ Totals    │                │  gid://shopify│                │              │
+│ Discounts │                │  /LineItem/   │                │              │
+│ Coupons   │                │  {id}         │                │              │
+└──────────┘                └──────────────┘                └──────────────┘
+
+┌──────────┐                ┌──────────────┐                ┌──────────────┐
+│ Customer  │──(via order)──▶│ Contact       │◀───(sync)─────│ Customer     │
+│           │  join: email   │ (18,073)      │  join: email   │              │
+│ Email     │                │ source:       │                │ Email        │
+│ Name      │                │  "quickbooks" │                │ Name         │
+│ Address   │                │  or form-based│                │ Company      │
+└──────────┘                │               │                │ Address      │
+                            │ Custom Fields:│                │ Phone        │
+                            │  (empty for   │                └──────────────┘
+                            │   QB contacts)│
+                            └──────────────┘
+
+                            ┌──────────────┐
+                            │ Workflow      │
+                            │ (bridge)      │
+                            │               │
+                            │ Order Monitor │──▶ Updates contact custom fields
+                            │ QB Identifier │──▶ Applies tags
+                            │ Shopify ID    │──▶ Applies tags
+                            └──────────────┘
+</pre>
+<h3 id="8-9-integration-gap-summary">8.9 Integration Gap Summary</h3>
+<div class="table-wrap"><table>
+<thead><tr>
+<th>Gap</th>
+<th>Systems Affected</th>
+<th>Impact</th>
+<th>Recommended Fix</th>
+</tr></thead><tbody>
+<tr>
+<td>QB contacts have no custom fields</td>
+<td>QB → GHL</td>
+<td>95% of contacts can't enter automated journeys</td>
+<td>Build a QB Contact Enrichment workflow</td>
+</tr>
+<tr>
+<td>Order amounts not on contact record</td>
+<td>Shopify → GHL</td>
+<td>Can't personalize emails with order value</td>
+<td>Map <code>order.amount</code> to a new custom field</td>
+</tr>
+<tr>
+<td>No QB Customer ID in GHL</td>
+<td>QB → GHL</td>
+<td>Can't link back to QB record for support</td>
+<td>Create custom field for QB Customer ID</td>
+</tr>
+<tr>
+<td>Payment data disconnected from contact</td>
+<td>GHL internal</td>
+<td>Order history in Payments module not visible on contact</td>
+<td>Workflow to update contact on order completion</td>
+</tr>
+<tr>
+<td>Shopify → QB flow opaque to GHL</td>
+<td>Shopify → QB</td>
+<td>GHL doesn't know if a Shopify customer also has QB invoices</td>
+<td>Tag contacts that exist in both systems</td>
+</tr>
+<tr>
+<td>No product/SKU on contact record</td>
+<td>Shopify → GHL</td>
+<td>Can't segment by product purchased</td>
+<td>Map ordered product names to a custom field</td>
+</tr>
+</tbody></table></div>
+<hr>
+    </section>
+
+    <section id="9-sales-infrastructure" class="doc-section">
+      <h2>9. Sales Infrastructure</h2>
+      <h3 id="9-1-full-user-roster">9.1 Full User Roster</h3>
+<div class="table-wrap"><table>
+<thead><tr>
+<th>Name</th>
+<th>Email</th>
+<th>GHL User ID</th>
+<th>Role</th>
+</tr></thead><tbody>
+<tr>
+<td>Anna Park</td>
+<td>annapark@noonshop.com</td>
+<td><code>J5G7jCf1tcIpBMbj8bDC</code></td>
+<td>Founder / Account Executive</td>
+</tr>
+<tr>
+<td>David Cho</td>
+<td>david@noonshop.com</td>
+<td><code>L3f2VQrDXW8Smp1Eyjju</code></td>
+<td>Sales Representative (Primary — auto-assigned from forms)</td>
+</tr>
+<tr>
+<td>Peter Chong</td>
+<td>peter@noonshop.com</td>
+<td><code>cK0C2sJQVcQemfWeblsy</code></td>
+<td>Sales Representative</td>
+</tr>
+<tr>
+<td>Sandra Kim</td>
+<td>sandra@noonshop.com</td>
+<td><code>2TuTRx4JyPpdKdeGDWJ3</code></td>
+<td>Sales / Operations</td>
+</tr>
+<tr>
+<td>Felipe Abarca</td>
+<td>felipe@helloitpros.com</td>
+<td><code>vQYx4zSfWVBxcQRXWMPA</code></td>
+<td>HelloIT Pros — CRM Implementation</td>
+</tr>
+<tr>
+<td>Prakash Karnani</td>
+<td>prakash@helloitpros.com</td>
+<td><code>AEL7kZ7oMmccKNvIuY7c</code></td>
+<td>HelloIT Pros — Project Manager</td>
+</tr>
+<tr>
+<td>Dev Test</td>
+<td>developertester786@gmail.com</td>
+<td><code>VpbRJit6WrugpJ4ctX6L</code></td>
+<td>Testing / Developer Account</td>
+</tr>
+</tbody></table></div>
+<h3 id="9-2-sales-rep-picklist-custom-field">9.2 Sales Rep Picklist (Custom Field)</h3>
+<div class="table-wrap"><table>
+<thead><tr>
+<th>GHL Picklist Value</th>
+<th>Maps To</th>
+</tr></thead><tbody>
+<tr>
+<td>Anna Park</td>
+<td>Anna Park (Founder)</td>
+</tr>
+<tr>
+<td>David Cho</td>
+<td>David Cho (Primary Sales Rep)</td>
+</tr>
+<tr>
+<td>Peter Chong</td>
+<td>Peter Chong (Sales Rep)</td>
+</tr>
+<tr>
+<td>dev</td>
+<td>Dev Test account</td>
+</tr>
+</tbody></table></div>
+<h3 id="9-3-forms">9.3 Forms</h3>
+<div class="table-wrap"><table>
+<thead><tr>
+<th>Form</th>
+<th>Form ID</th>
+<th>Purpose</th>
+<th>Submissions</th>
+</tr></thead><tbody>
+<tr>
+<td><strong>Noonshop Prospect Intake Form</strong></td>
+<td><code>N38QyQqhWkKpQSLV7Eho</code></td>
+<td>Enter new prospects into CRM. Triggers Prospect Journey.</td>
+<td>Part of 43 total</td>
+</tr>
+<tr>
+<td><strong>New Order Entry Form</strong></td>
+<td><code>QCcXpNNYgJ2zqR8nCqKK</code></td>
+<td>Manually record completed orders. Updates <code>last_order_date</code>. Does NOT create QB invoice or Shopify order.</td>
+<td>Part of 43 total</td>
+</tr>
+<tr>
+<td><strong>Noonshop Calendar Intake Form</strong></td>
+<td><em>(discovered via API)</em></td>
+<td>Calendar/appointment intake</td>
+<td>Part of 43 total</td>
+</tr>
+<tr>
+<td><strong>Business Inquiry</strong></td>
+<td><em>(discovered via API)</em></td>
+<td>General business inquiry form</td>
+<td>Part of 43 total</td>
+</tr>
+<tr>
+<td><strong>Unsubscribe Form</strong></td>
+<td><em>(discovered via API)</em></td>
+<td>Opt-out handling</td>
+<td>Part of 43 total</td>
+</tr>
+<tr>
+<td><strong>Prospect Intake Form (v1)</strong></td>
+<td><code>rVvgMXLQVwh9eaKRRKYV</code></td>
+<td>Legacy version of prospect form</td>
+<td>—</td>
+</tr>
+</tbody></table></div>
+<p><strong>Total form submissions (all forms):</strong> 43 (most recent: Mar 17, 2026 — dev testing)</p>
+<h3 id="9-4-trigger-links">9.4 Trigger Links</h3>
+<div class="table-wrap"><table>
+<thead><tr>
+<th>Link Name</th>
+<th>Link ID</th>
+</tr></thead><tbody>
+<tr>
+<td>Calendar Link</td>
+<td><code>Ovst5BDdmo6QEHeUaxR4</code></td>
+</tr>
+<tr>
+<td>Website</td>
+<td><code>hDvu5GjScw49OuNNpJni</code></td>
+</tr>
+<tr>
+<td>Unsubscribe Link</td>
+<td><code>ww6K48dKHNlqy02DYSEZ</code></td>
+</tr>
+</tbody></table></div>
+<h3 id="9-5-email-signatures">9.5 Email Signatures</h3>
+<ul class="dash">
+<li>Emails send from each salesperson's own email address (e.g., <code>david@noonshop.com</code>)</li>
+<li>Anna Park has a configured HTML email signature in custom values</li>
+<li>Custom signature per rep</li>
+<li>Consistent branding and contact visibility</li>
+</ul>
+<h3 id="9-6-appointment-booking">9.6 Appointment Booking</h3>
+<ul class="dash">
+<li>Built inside GHL</li>
+<li>Integrated with each rep's Outlook calendar</li>
+<li>Double-booking prevented via calendar sync</li>
+<li>Prospects schedule meetings directly</li>
+<li>Booking links stored as custom values (Anna, David, Peter each have dedicated links)</li>
+</ul>
+<hr>
+    </section>
+
+    <section id="10-product-catalog" class="doc-section">
+      <h2>10. Product Catalog</h2>
+      <h3 id="10-1-overview">10.1 Overview</h3>
+<div class="table-wrap"><table>
+<thead><tr>
+<th>Metric</th>
+<th>Value</th>
+</tr></thead><tbody>
+<tr>
+<td>Total Products</td>
+<td>163</td>
+</tr>
+<tr>
+<td>Product Type</td>
+<td>Eyewear frames (prescription glasses)</td>
+</tr>
+<tr>
+<td>Available in Store</td>
+<td>Yes (all products)</td>
+</tr>
+<tr>
+<td>Currency</td>
+<td>USD</td>
+</tr>
+<tr>
+<td>Pricing Model</td>
+<td>One-time purchase per variant (Color)</td>
+</tr>
+<tr>
+<td>Inventory Tracking</td>
+<td>Enabled</td>
+</tr>
+<tr>
+<td>Allow Out-of-Stock Purchases</td>
+<td>Yes</td>
+</tr>
+</tbody></table></div>
+<h3 id="10-2-product-structure">10.2 Product Structure</h3>
+<p>Each product follows a consistent structure:</p>
+<ul class="dash">
+<li><strong>Product Name:</strong> SKU code (e.g., <code>DR24701</code>, <code>DR25105</code>, <code>DR23202</code>)</li>
+<li><strong>Description:</strong> HTML with Shape, Size (lens-bridge-temple), weight, material</li>
+<li><strong>Variant:</strong> Color — each frame has multiple color variants, each with its own SKU, price, and inventory</li>
+<li><strong>Pricing:</strong> Wholesale price (e.g., $105) with compare-at/retail price (e.g., $290)</li>
+<li><strong>Shipping:</strong> Weight configured per variant (typical: 20g), dimensions in cm</li>
+</ul>
+<h3 id="10-3-sample-products">10.3 Sample Products</h3>
+<div class="table-wrap"><table>
+<thead><tr>
+<th>Product SKU</th>
+<th>Shape</th>
+<th>Size</th>
+<th>Variants</th>
+<th>Wholesale Price</th>
+<th>Compare-At Price</th>
+</tr></thead><tbody>
+<tr>
+<td>DR24701</td>
+<td>Browline</td>
+<td>50-20-147</td>
+<td>Color (C03: $105)</td>
+<td>$105</td>
+<td>$290</td>
+</tr>
+<tr>
+<td>DR25105</td>
+<td>Square</td>
+<td>51-19-147</td>
+<td>Color</td>
+<td>—</td>
+<td>—</td>
+</tr>
+<tr>
+<td>DR23202</td>
+<td>Square</td>
+<td>49-21-147</td>
+<td>Color</td>
+<td>—</td>
+<td>—</td>
+</tr>
+<tr>
+<td>DR24106</td>
+<td>Round</td>
+<td>49-21-145</td>
+<td>Color</td>
+<td>—</td>
+<td>—</td>
+</tr>
+<tr>
+<td>DR25701</td>
+<td>Round</td>
+<td>54-19-150</td>
+<td>Color</td>
+<td>—</td>
+<td>—</td>
+</tr>
+</tbody></table></div>
+<p><em>163 total products with full pricing accessible via <code>GET /products/</code> and <code>GET /products/{id}/price</code> endpoints.</em></p>
+<hr>
+    </section>
+
+    <section id="11-payments-transactions" class="doc-section">
+      <h2>11. Payments &amp; Transactions</h2>
+      <h3 id="11-1-transaction-overview">11.1 Transaction Overview</h3>
+<div class="table-wrap"><table>
+<thead><tr>
+<th>Metric</th>
+<th>Value</th>
+</tr></thead><tbody>
+<tr>
+<td>Transaction Status</td>
+<td>All <code>succeeded</code> (in sampled data)</td>
+</tr>
+<tr>
+<td>Sample Total (20 txns)</td>
+<td>$29,861.04</td>
+</tr>
+<tr>
+<td>Date Range (sampled)</td>
+<td>Sep 21, 2025 – Oct 20, 2025</td>
+</tr>
+</tbody></table></div>
+<h3 id="11-2-recent-transactions-top-20">11.2 Recent Transactions (Top 20)</h3>
+<div class="table-wrap"><table>
+<thead><tr>
+<th>Amount</th>
+<th>Status</th>
+<th>Date</th>
+<th>Contact</th>
+</tr></thead><tbody>
+<tr>
+<td>$5,850.00</td>
+<td>succeeded</td>
+<td>2025-09-21</td>
+<td>Dane Sultzer</td>
+</tr>
+<tr>
+<td>$4,410.00</td>
+<td>succeeded</td>
+<td>2025-09-21</td>
+<td>Kelvin Tai</td>
+</tr>
+<tr>
+<td>$3,870.00</td>
+<td>succeeded</td>
+<td>2025-09-21</td>
+<td>Mary Turner</td>
+</tr>
+<tr>
+<td>$3,185.93</td>
+<td>succeeded</td>
+<td>2025-10-20</td>
+<td>Sam Pham</td>
+</tr>
+<tr>
+<td>$3,085.00</td>
+<td>succeeded</td>
+<td>2025-09-21</td>
+<td>Aleronc Cao</td>
+</tr>
+<tr>
+<td>$2,855.00</td>
+<td>succeeded</td>
+<td>2025-09-21</td>
+<td>Man Ma</td>
+</tr>
+<tr>
+<td>$2,670.00</td>
+<td>succeeded</td>
+<td>2025-09-21</td>
+<td>Cheryl Smith</td>
+</tr>
+<tr>
+<td>$924.00</td>
+<td>succeeded</td>
+<td>2025-09-21</td>
+<td>Clara Ely</td>
+</tr>
+<tr>
+<td>$889.36</td>
+<td>succeeded</td>
+<td>2025-09-21</td>
+<td>John Kim</td>
+</tr>
+<tr>
+<td>$691.00</td>
+<td>succeeded</td>
+<td>2025-09-21</td>
+<td>Angela Burton</td>
+</tr>
+<tr>
+<td>$570.62</td>
+<td>succeeded</td>
+<td>2025-09-21</td>
+<td>Jungeun Lim</td>
+</tr>
+<tr>
+<td>$570.00</td>
+<td>succeeded</td>
+<td>2025-09-21</td>
+<td>Lydia Li</td>
+</tr>
+<tr>
+<td>$290.13</td>
+<td>succeeded</td>
+<td>2025-09-21</td>
+<td>Daniel Kay</td>
+</tr>
+<tr>
+<td>$0.00</td>
+<td>succeeded</td>
+<td>2025-09-21</td>
+<td>Jim Chan</td>
+</tr>
+<tr>
+<td>$0.00</td>
+<td>succeeded</td>
+<td>2025-09-21</td>
+<td>Jack Chan</td>
+</tr>
+<tr>
+<td>$0.00</td>
+<td>succeeded</td>
+<td>2025-09-21</td>
+<td>Iris Lau</td>
+</tr>
+<tr>
+<td>$0.00</td>
+<td>succeeded</td>
+<td>2025-09-21</td>
+<td>Yoon Kim</td>
+</tr>
+<tr>
+<td>$0.00</td>
+<td>succeeded</td>
+<td>2025-09-21</td>
+<td>Benny Blum (x2)</td>
+</tr>
+<tr>
+<td>$0.00</td>
+<td>succeeded</td>
+<td>2025-09-21</td>
+<td>Roy Park</td>
+</tr>
+</tbody></table></div>
+<h3 id="11-3-orders">11.3 Orders</h3>
+<div class="table-wrap"><table>
+<thead><tr>
+<th>Order</th>
+<th>Amount</th>
+<th>Status</th>
+<th>Contact</th>
+</tr></thead><tbody>
+<tr>
+<td>Kelvin Tai (Icon Optical_CA)</td>
+<td>$3,590.81</td>
+<td>completed</td>
+<td>Kelvin Tai</td>
+</tr>
+<tr>
+<td>Man Chung Ma</td>
+<td>$3,431.18</td>
+<td>completed</td>
+<td>Man Chung Ma</td>
+</tr>
+<tr>
+<td>Dung Pham</td>
+<td>$2,277.74</td>
+<td>completed</td>
+<td>Dung Pham</td>
+</tr>
+<tr>
+<td>Amy Kang (A+ Optical)</td>
+<td>$378.44</td>
+<td>completed</td>
+<td>Amy Kang</td>
+</tr>
+<tr>
+<td>Kelvin Tai</td>
+<td>$365.64</td>
+<td>cancelled</td>
+<td>Kelvin Tai</td>
+</tr>
+</tbody></table></div>
+<p><strong>Note:</strong> Many $0.00 transactions exist — these likely represent test transactions, free samples, or order adjustments. The bulk of transactions were recorded on Sep 21, 2025 (possibly a Shopify data import date).</p>
+<hr>
+    </section>
+
+    <section id="12-conversations-communication" class="doc-section">
+      <h2>12. Conversations &amp; Communication</h2>
+      <h3 id="12-1-overview">12.1 Overview</h3>
+<div class="table-wrap"><table>
+<thead><tr>
+<th>Metric</th>
+<th>Value</th>
+</tr></thead><tbody>
+<tr>
+<td>Total Conversations</td>
+<td>2,245</td>
+</tr>
+<tr>
+<td>Primary Channel</td>
+<td>SMS / Phone (<code>TYPE_PHONE</code>)</td>
+</tr>
+<tr>
+<td>Most Recent Activity</td>
+<td>Developer Tester, tester noonshop, Sandra Kim (dev testing)</td>
+</tr>
+</tbody></table></div>
+<h3 id="12-2-recent-conversations">12.2 Recent Conversations</h3>
+<div class="table-wrap"><table>
+<thead><tr>
+<th>Contact</th>
+<th>Type</th>
+<th>Unread</th>
+<th>Last Message</th>
+</tr></thead><tbody>
+<tr>
+<td>Developer Tester</td>
+<td>Phone</td>
+<td>0</td>
+<td>Media attachment</td>
+</tr>
+<tr>
+<td>tester noonshop</td>
+<td>Phone</td>
+<td>0</td>
+<td>Media attachment</td>
+</tr>
+<tr>
+<td>Sandra Kim</td>
+<td>Phone</td>
+<td>0</td>
+<td>Media attachment</td>
+</tr>
+<tr>
+<td>Lina Park</td>
+<td>Phone</td>
+<td>1</td>
+<td>"😂"</td>
+</tr>
+<tr>
+<td>Julie Frias</td>
+<td>Phone</td>
+<td>1</td>
+<td>"content idea"</td>
+</tr>
+</tbody></table></div>
+<h3 id="12-3-communication-gaps">12.3 Communication Gaps</h3>
+<ul class="dash">
+<li>Conversations are overwhelmingly phone/SMS-based — no email conversation threads visible in recent data</li>
+<li>Unread messages exist (Lina Park, Julie Frias) without auto-routing to a rep</li>
+<li>No social media (Instagram, Facebook) conversation threads in recent activity despite social media being a documented contact source</li>
+<li>No automated conversation routing or chatbot configured</li>
+</ul>
+<hr>
+    </section>
+
+    <section id="13-calendars-appointments" class="doc-section">
+      <h2>13. Calendars &amp; Appointments</h2>
+      <h3 id="13-1-calendar-inventory">13.1 Calendar Inventory</h3>
+<div class="table-wrap"><table>
+<thead><tr>
+<th>Calendar Name</th>
+<th>Calendar ID</th>
+<th>Type</th>
+</tr></thead><tbody>
+<tr>
+<td>Anna Personal Calendar</td>
+<td><code>fg0kGWBBWI9JpkfFDCUG</code></td>
+<td>Personal</td>
+</tr>
+<tr>
+<td>David Personal Calendar</td>
+<td><code>SRduWjRRJzqDXnDkU4LK</code></td>
+<td>Personal</td>
+</tr>
+<tr>
+<td>Peter Chong's Personal Calendar</td>
+<td><code>Ir02J2yFu1zK3W9goBX6</code></td>
+<td>Personal</td>
+</tr>
+<tr>
+<td>Sandra Kim's Personal Calendar</td>
+<td><code>WCCGAUD290Ps4P8YF8ji</code></td>
+<td>Personal</td>
+</tr>
+<tr>
+<td>Felipe Abarca's Personal Calendar</td>
+<td><code>HP96jWAZ9CRIe4HQsxbF</code></td>
+<td>Personal</td>
+</tr>
+<tr>
+<td>Dev Test's Personal Calendar</td>
+<td><code>Gg6B1Fzgz9jn03rr9ySM</code></td>
+<td>Personal</td>
+</tr>
+<tr>
+<td>Copy of Dev Test's Personal Calendar</td>
+<td><code>8k29ErfhWBl7naDAreUv</code></td>
+<td>Personal</td>
+</tr>
+<tr>
+<td>Copy of Copy of Dev Test's Personal Calendar</td>
+<td><code>rYnTaJNk0OPdgPua7uNZ</code></td>
+<td>Personal</td>
+</tr>
+<tr>
+<td><strong>Noon Shop Product Demo at Booth P17058</strong></td>
+<td><code>LZ6gSGuRdlqyTAJwIo40</code></td>
+<td>Round-Robin</td>
+</tr>
+</tbody></table></div>
+<h3 id="13-2-key-calendar-notes">13.2 Key Calendar Notes</h3>
+<ul class="dash">
+<li><strong>Round-robin calendar</strong> ("Noon Shop Product Demo at Booth P17058") is the only shared/team calendar — appears to be event-specific (trade show booth)</li>
+<li><strong>0 appointments</strong> found in the Product Demo calendar for Jan 2025 – Mar 2026 range</li>
+<li>Two "copy" calendars for Dev Test suggest testing/configuration experimentation</li>
+<li>Each Noon Shop staff member (Anna, David, Peter, Sandra) has a personal calendar linked for appointment booking</li>
+</ul>
+<hr>
+    </section>
+
+    <section id="14-funnels-surveys-knowledge-base" class="doc-section">
+      <h2>14. Funnels, Surveys &amp; Knowledge Base</h2>
+      <h3 id="14-1-funnels-sites">14.1 Funnels / Sites</h3>
+<div class="table-wrap"><table>
+<thead><tr>
+<th>Funnel/Site Name</th>
+<th>Funnel ID</th>
+<th>Notes</th>
+</tr></thead><tbody>
+<tr>
+<td><strong>noonshop</strong></td>
+<td><code>sBeiQzEUcRcfFesKmhB9</code></td>
+<td>Primary site</td>
+</tr>
+<tr>
+<td><strong>Business Call Booking Funnel</strong></td>
+<td><code>KHJbTJojJheQOwqpuFhH</code></td>
+<td>B2B appointment booking</td>
+</tr>
+<tr>
+<td><strong>Annaparkmd</strong></td>
+<td><code>AOXAiIYIHWMMJw4jJVFf</code></td>
+<td>Anna Park MD patient-facing site</td>
+</tr>
+</tbody></table></div>
+<h3 id="14-2-surveys">14.2 Surveys</h3>
+<div class="table-wrap"><table>
+<thead><tr>
+<th>Survey Name</th>
+<th>Survey ID</th>
+<th>Notes</th>
+</tr></thead><tbody>
+<tr>
+<td>Mortgage Survey</td>
+<td><code>Bqxl0HpTzlbzL6dniZhT</code></td>
+<td>Legacy / template — not related to Noon Shop</td>
+</tr>
+<tr>
+<td>Mortgage Survey V2</td>
+<td><code>mRkp572tRNeu3vTUix4R</code></td>
+<td>Legacy / template</td>
+</tr>
+<tr>
+<td>Mortgage</td>
+<td><code>54OJBjnT2ic4QlnC80bc</code></td>
+<td>Legacy / template</td>
+</tr>
+<tr>
+<td>Survey 0</td>
+<td><code>dXoMKmGoHN8w6LZumUTY</code></td>
+<td>Test / empty</td>
+</tr>
+</tbody></table></div>
+<p><strong>Note:</strong> All 4 surveys appear to be GHL default templates ("Mortgage") or test items. No Noon Shop–specific surveys exist.</p>
+<h3 id="14-3-knowledge-base">14.3 Knowledge Base</h3>
+<div class="table-wrap"><table>
+<thead><tr>
+<th>Field</th>
+<th>Value</th>
+</tr></thead><tbody>
+<tr>
+<td>Knowledge Base Name</td>
+<td>Existing knowledge base</td>
+</tr>
+<tr>
+<td>KB ID</td>
+<td><code>jPZRGmWQxtYo0Vr9ZZAO</code></td>
+</tr>
+<tr>
+<td>Created</td>
+<td>Aug 6, 2025</td>
+</tr>
+<tr>
+<td>Is Default</td>
+<td>Yes</td>
+</tr>
+<tr>
+<td>Active Count</td>
+<td>1</td>
+</tr>
+</tbody></table></div>
+<p>The knowledge base is configured but its content/articles were not auditable via API.</p>
+<h3 id="14-4-social-planner">14.4 Social Planner</h3>
+<ul class="dash">
+<li><strong>0 social media posts</strong> scheduled or published through GHL</li>
+<li>No social media accounts connected to the Social Planner module</li>
+<li>Social media contacts (Instagram, Facebook) exist in the CRM but are not managed through GHL's built-in social tools</li>
+</ul>
+<h3 id="14-5-campaigns">14.5 Campaigns</h3>
+<ul class="dash">
+<li><strong>0 campaigns</strong> configured in GHL</li>
+<li>All email sequences are managed through Workflows, not the Campaigns module</li>
+</ul>
+<h3 id="14-6-invoices">14.6 Invoices</h3>
+<ul class="dash">
+<li><strong>No invoices</strong> found in GHL</li>
+<li>Invoicing is handled through QuickBooks, not GHL's native invoice system</li>
+</ul>
+<hr>
+    </section>
+
+    <section id="15-data-flow-scenarios" class="doc-section">
+      <h2>15. Data Flow Scenarios</h2>
+      <h3 id="scenario-1-new-b2b-prospect-submits-intake-form">Scenario 1: New B2B Prospect Submits Intake Form</h3>
+<div class="ol-item"><span class="ol-num">1.</span> Prospect visits <code>go.noonshop.com/prospect-form-page</code> and completes form</div>
+<div class="ol-item"><span class="ol-num">2.</span> GHL creates contact: source = "Prospect Intake Form", type = lead, tag = <code>prospect_new</code></div>
+<div class="ol-item"><span class="ol-num">3.</span> Workflow auto-assigns Sales Rep (David Cho), sets Disposition = Cold Lead, populates booking link</div>
+<div class="ol-item"><span class="ol-num">4.</span> Contact enters Prospect &amp; Sales Journey pipeline at "New Lead"</div>
+<div class="ol-item"><span class="ol-num">5.</span> Prospect Journey V2 email sequence begins (10 emails, 150 days)</div>
+<div class="ol-item"><span class="ol-num">6.</span> All replies forward to assigned rep's Outlook inbox</div>
+<h3 id="scenario-2-customer-places-shopify-order">Scenario 2: Customer Places Shopify Order</h3>
+<div class="ol-item"><span class="ol-num">1.</span> Customer completes checkout on noonshop.com</div>
+<div class="ol-item"><span class="ol-num">2.</span> Shopify sends order webhook to GHL</div>
+<div class="ol-item"><span class="ol-num">3.</span> GHL matches contact by email or creates new</div>
+<div class="ol-item"><span class="ol-num">4.</span> <code>last_order_date</code> set, <code>expected_reorder_date</code> calculated</div>
+<div class="ol-item"><span class="ol-num">5.</span> If first order → Customer Status = "First-Time Customer", enter First Order Journey</div>
+<div class="ol-item"><span class="ol-num">6.</span> If repeat order → Customer Status = "Active Customer", enter Active Customer Journey</div>
+<h3 id="scenario-3-quickbooks-customer-import">Scenario 3: QuickBooks Customer Import</h3>
+<div class="ol-item"><span class="ol-num">1.</span> QB customer list syncs to GHL</div>
+<div class="ol-item"><span class="ol-num">2.</span> Contacts created: source = <code>quickbooks</code>, tag = <code>customer_quickbooks</code></div>
+<div class="ol-item"><span class="ol-num">3.</span> Standard fields mapped; NO custom fields populated</div>
+<div class="ol-item"><span class="ol-num">4.</span> No pipeline enrollment, no sales rep, no disposition</div>
+<div class="ol-item"><span class="ol-num">5.</span> Requires post-import enrichment workflow</div>
+<h3 id="scenario-4-win-back-trigger">Scenario 4: Win-Back Trigger</h3>
+<div class="ol-item"><span class="ol-num">1.</span> Time-based workflow checks <code>last_order_date</code> &gt; 90 days</div>
+<div class="ol-item"><span class="ol-num">2.</span> Customer Status updated to "Inactive / Win-Back"</div>
+<div class="ol-item"><span class="ol-num">3.</span> Win-Back Journey triggered (13 emails)</div>
+<div class="ol-item"><span class="ol-num">4.</span> If new order at any point → exit to Active Customer Journey</div>
+<div class="ol-item"><span class="ol-num">5.</span> If no response after full sequence → "Dormant Customer"</div>
+<h3 id="scenario-5-sales-ops-manually-logs-an-order">Scenario 5: Sales Ops Manually Logs an Order</h3>
+<div class="ol-item"><span class="ol-num">1.</span> Sales Ops submits New Order Entry Form at <code>go.noonshop.com/new-order-form</code></div>
+<div class="ol-item"><span class="ol-num">2.</span> GHL updates <code>last_order_date</code> and calculates <code>expected_reorder_date</code></div>
+<div class="ol-item"><span class="ol-num">3.</span> Customer journey stage updated to Active Customer</div>
+<div class="ol-item"><span class="ol-num">4.</span> Reorder campaign scheduled based on expected date</div>
+<div class="ol-item"><span class="ol-num">5.</span> Form does NOT connect to QB or Shopify — those must be updated separately</div>
+<hr>
+    </section>
+
+    <section id="16-gaps-open-items" class="doc-section">
+      <h2>16. Gaps &amp; Open Items</h2>
+      <h3 id="critical-high-priority">Critical / High Priority</h3>
+<div class="table-wrap"><table>
+<thead><tr>
+<th>#</th>
+<th>Issue</th>
+<th>Impact</th>
+<th>Status</th>
+</tr></thead><tbody>
+<tr>
+<td>1</td>
+<td><strong>QB contacts have no Sales Rep assigned</strong></td>
+<td>Cannot trigger rep-specific emails or routing (18,000+ contacts)</td>
+<td>Open</td>
+</tr>
+<tr>
+<td>2</td>
+<td><strong>QB contacts have no Disposition or Customer Status</strong></td>
+<td>Cannot be enrolled in journeys or tracked through lifecycle</td>
+<td>Open</td>
+</tr>
+<tr>
+<td>3</td>
+<td><strong>Zero Won/Lost pipeline opportunities</strong></td>
+<td>Pipeline reports and conversion metrics are meaningless (2,007 open opps, 0 won, 0 lost)</td>
+<td>Open</td>
+</tr>
+<tr>
+<td>4</td>
+<td><strong>176 unread conversations</strong> — no auto-response routing</td>
+<td>Real engagement going unanswered across IG, FB, phone</td>
+<td>Open</td>
+</tr>
+<tr>
+<td>5</td>
+<td><strong>Workflow re-entry risk</strong> — Prospect Journey V2 fired twice on test contact</td>
+<td>Could send 20 emails in 2 days to real prospects</td>
+<td>Open</td>
+</tr>
+<tr>
+<td>6</td>
+<td><strong>Empty custom values</strong> — Business Name, Business Email, Business URL, Notification Email, Notification Cell all blank</td>
+<td>Templates using these variables will render empty; notification routing broken</td>
+<td>Open</td>
+</tr>
+</tbody></table></div>
+<h3 id="medium-priority">Medium Priority</h3>
+<div class="table-wrap"><table>
+<thead><tr>
+<th>#</th>
+<th>Issue</th>
+<th>Impact</th>
+<th>Status</th>
+</tr></thead><tbody>
+<tr>
+<td>7</td>
+<td>QB financial data (amounts, products, dates) not mapped to GHL</td>
+<td>Limits personalization and order history visibility</td>
+<td>Open</td>
+</tr>
+<tr>
+<td>8</td>
+<td>Social media contacts often lack email/phone</td>
+<td>Automation cannot engage without contact info</td>
+<td>Open</td>
+</tr>
+<tr>
+<td>9</td>
+<td>Inbound phone calls creating contacts with no name or email</td>
+<td>Hidden 6th contact entry point, untracked</td>
+<td>Open</td>
+</tr>
+<tr>
+<td>10</td>
+<td>Form accessible via <code>link.apisystem.tech</code> subdomain</td>
+<td>Affects attribution tracking</td>
+<td>Open</td>
+</tr>
+<tr>
+<td>11</td>
+<td>Business Name vs Company Name field confusion</td>
+<td>QB uses Company Name; prospect form maps to business_name. Meeting discussed resolving this.</td>
+<td>Discussed (see meeting notes)</td>
+</tr>
+<tr>
+<td>12</td>
+<td>Update "Noonshop" to "Noon Shop" in all email templates</td>
+<td>Brand consistency</td>
+<td>Pending</td>
+</tr>
+<tr>
+<td>13</td>
+<td><strong>All 4 surveys are GHL defaults ("Mortgage")</strong> — no Noon Shop surveys</td>
+<td>Surveys module is unused; could be leveraged for customer feedback</td>
+<td>Open</td>
+</tr>
+<tr>
+<td>14</td>
+<td><strong>0 social media posts via Social Planner</strong></td>
+<td>Social media is a contact source but not managed through GHL</td>
+<td>Open</td>
+</tr>
+<tr>
+<td>15</td>
+<td><strong>0 campaigns configured</strong> — all sequences run through Workflows</td>
+<td>Not necessarily a gap, but Campaigns module is entirely unused</td>
+<td>Informational</td>
+</tr>
+<tr>
+<td>16</td>
+<td><strong>$0.00 transactions</strong> in payment data</td>
+<td>6 of 20 sampled transactions are $0.00 — test data or free samples mixed with production data</td>
+<td>Needs Review</td>
+</tr>
+<tr>
+<td>17</td>
+<td><strong>No conversation routing/chatbot</strong></td>
+<td>2,245 conversations with no automated triage or response</td>
+<td>Open</td>
+</tr>
+<tr>
+<td>18</td>
+<td><strong>Round-robin calendar is event-specific</strong> ("Booth P17058") with 0 appointments</td>
+<td>Only shared calendar appears to be a past trade show setup, not a general booking calendar</td>
+<td>Open</td>
+</tr>
+</tbody></table></div>
+<h3 id="low-priority-informational">Low Priority / Informational</h3>
+<div class="table-wrap"><table>
+<thead><tr>
+<th>#</th>
+<th>Issue</th>
+<th>Impact</th>
+<th>Status</th>
+</tr></thead><tbody>
+<tr>
+<td>19</td>
+<td>2 duplicate "Copy of Dev Test" calendars</td>
+<td>Clutter in calendar list</td>
+<td>Cleanup</td>
+</tr>
+<tr>
+<td>20</td>
+<td>4 untitled draft workflows (<code>New Workflow : 17xxxx</code>)</td>
+<td>Clutter in workflow list</td>
+<td>Cleanup</td>
+</tr>
+<tr>
+<td>21</td>
+<td>No invoices in GHL (all invoicing via QuickBooks)</td>
+<td>GHL invoice module unused — acceptable if QB is the system of record</td>
+<td>Informational</td>
+</tr>
+<tr>
+<td>22</td>
+<td>Knowledge base exists but content not auditable via API</td>
+<td>Cannot verify if KB articles are populated</td>
+<td>Needs Manual Check</td>
+</tr>
+</tbody></table></div>
+<h3 id="in-progress">In Progress</h3>
+<div class="table-wrap"><table>
+<thead><tr>
+<th>#</th>
+<th>Item</th>
+<th>Status</th>
+</tr></thead><tbody>
+<tr>
+<td>23</td>
+<td>White Label &amp; Custom Domain (<code>crmconnect.noonshop.com</code>)</td>
+<td>In Progress</td>
+</tr>
+<tr>
+<td>24</td>
+<td>Mobile Optimization across CRM pages/forms</td>
+<td>In Progress</td>
+</tr>
+</tbody></table></div>
+<h3 id="completed">Completed</h3>
+<div class="table-wrap"><table>
+<thead><tr>
+<th>#</th>
+<th>Item</th>
+</tr></thead><tbody>
+<tr>
+<td>25</td>
+<td>Emails from <code>hello@noonshop.com</code> configured</td>
+</tr>
+<tr>
+<td>26</td>
+<td>Sales infrastructure setup (signatures, booking pages, Outlook integrations)</td>
+</tr>
+<tr>
+<td>27</td>
+<td>Domain integration (noonshop.com connected)</td>
+</tr>
+<tr>
+<td>28</td>
+<td>Gmail test account created for QA</td>
+</tr>
+<tr>
+<td>29</td>
+<td>Full API v2 read-only audit completed (all scopes tested)</td>
+</tr>
+</tbody></table></div>
+<hr>
+    </section>
+
+    <section id="17-meeting-notes-developer-handoff-mar-17-2026" class="doc-section">
+      <h2>17. Meeting Notes — Developer Handoff (Mar 17, 2026)</h2>
+      <p><strong>Participants:</strong> Prakash Karnani, Jaspreet, Simranpreet (developers)</p>
+<p><strong>Key decisions:</strong></p>
+<ul class="dash">
+<li><strong>Business Name field change:</strong> The prospect form should be updated to use "Business Name" instead of "Company Name" to align with how QB records come over (where Company may be blank but Business Name has the value).</li>
+<li><strong>Project closure:</strong> Prakash indicated he would close out the current project contract in Outlook today.</li>
+<li><strong>Ongoing availability:</strong> Developers (Jaspreet, Simranpreet) confirmed they'll remain available for follow-up items.</li>
+<li><strong>Future work:</strong> Simranpreet suggested an hourly maintenance contract for future workflow work. Prakash indicated he'll come back with a separate project for new build work.</li>
+<li><strong>WhatsApp communication:</strong> Established WhatsApp channel between Prakash and Simranpreet for quicker communication.</li>
+</ul>
+<hr>
+    </section>
+
+    <section id="appendix" class="doc-section">
+      <h2>Appendix</h2>
+      <h3 id="a-1-api-access-details">A.1 API Access Details</h3>
+<div class="table-wrap"><table>
+<thead><tr>
+<th>Field</th>
+<th>Value</th>
+</tr></thead><tbody>
+<tr>
+<td>API Version</td>
+<td>v2 (<code>Version: 2021-07-28</code>)</td>
+</tr>
+<tr>
+<td>Auth Method</td>
+<td>Private Integration Token (Bearer)</td>
+</tr>
+<tr>
+<td>Base URL</td>
+<td><code>https://services.leadconnectorhq.com</code></td>
+</tr>
+<tr>
+<td>API Docs</td>
+<td><code>https://marketplace.gohighlevel.com/docs/oauth/GettingStarted</code></td>
+</tr>
+<tr>
+<td>Location ID</td>
+<td><code>70CEJtz1p3pnSQVuGJgK</code></td>
+</tr>
+</tbody></table></div>
+<h3 id="a-2-api-endpoint-coverage-full-audit">A.2 API Endpoint Coverage (Full Audit)</h3>
+<div class="table-wrap"><table>
+<thead><tr>
+<th>Endpoint</th>
+<th>Scope</th>
+<th>Status</th>
+<th>Data Found</th>
+</tr></thead><tbody>
+<tr>
+<td><code>GET /workflows/</code></td>
+<td>workflows.readonly</td>
+<td>Working</td>
+<td>26 workflows (9 published, 17 draft)</td>
+</tr>
+<tr>
+<td><code>GET /workflows/{id}</code></td>
+<td>workflows.readonly</td>
+<td><strong>404 — Not exposed</strong></td>
+<td>N/A</td>
+</tr>
+<tr>
+<td><code>GET /emails/builder</code></td>
+<td>emails/builder.readonly</td>
+<td>Working</td>
+<td>67 templates across 6 folders</td>
+</tr>
+<tr>
+<td><code>GET /contacts/</code></td>
+<td>contacts.readonly</td>
+<td>Working</td>
+<td>18,073 contacts</td>
+</tr>
+<tr>
+<td><code>GET /opportunities/search</code></td>
+<td>opportunities.readonly</td>
+<td>Working</td>
+<td>2,007 opportunities</td>
+</tr>
+<tr>
+<td><code>GET /locations/{id}</code></td>
+<td>locations.readonly</td>
+<td>Working</td>
+<td>Full tenant profile</td>
+</tr>
+<tr>
+<td><code>GET /locations/{id}/customFields</code></td>
+<td>locations/customFields.readonly</td>
+<td>Working</td>
+<td>13 custom fields</td>
+</tr>
+<tr>
+<td><code>GET /locations/{id}/customValues</code></td>
+<td>locations/customValues.readonly</td>
+<td>Working</td>
+<td>17 custom values</td>
+</tr>
+<tr>
+<td><code>GET /locations/{id}/tags</code></td>
+<td>locations/tags.readonly</td>
+<td>Working</td>
+<td>46 tags</td>
+</tr>
+<tr>
+<td><code>GET /calendars/</code></td>
+<td>calendars.readonly</td>
+<td>Working</td>
+<td>9 calendars</td>
+</tr>
+<tr>
+<td><code>GET /calendars/events</code></td>
+<td>calendars.readonly</td>
+<td>Working</td>
+<td>0 events (Product Demo calendar)</td>
+</tr>
+<tr>
+<td><code>GET /conversations/search</code></td>
+<td>conversations.readonly</td>
+<td>Working</td>
+<td>2,245 conversations</td>
+</tr>
+<tr>
+<td><code>GET /conversations/reporting</code></td>
+<td>conversations/reports.readonly</td>
+<td><strong>400 — Endpoint error</strong></td>
+<td>N/A</td>
+</tr>
+<tr>
+<td><code>GET /users/</code></td>
+<td>users.readonly</td>
+<td>Working</td>
+<td>7 users</td>
+</tr>
+<tr>
+<td><code>GET /forms/</code></td>
+<td>forms.readonly</td>
+<td>Working</td>
+<td>6 forms</td>
+</tr>
+<tr>
+<td><code>GET /forms/submissions</code></td>
+<td>forms.readonly</td>
+<td>Working</td>
+<td>43 submissions</td>
+</tr>
+<tr>
+<td><code>GET /products/</code></td>
+<td>products.readonly</td>
+<td>Working</td>
+<td>163 products</td>
+</tr>
+<tr>
+<td><code>GET /products/{id}/price</code></td>
+<td>products/prices.readonly</td>
+<td>Working</td>
+<td>Full variant pricing</td>
+</tr>
+<tr>
+<td><code>GET /payments/transactions</code></td>
+<td>payments/transactions.readonly</td>
+<td>Working</td>
+<td>Transaction data (succeeded)</td>
+</tr>
+<tr>
+<td><code>GET /payments/orders</code></td>
+<td>payments/orders.readonly</td>
+<td>Working</td>
+<td>Order data (completed/cancelled)</td>
+</tr>
+<tr>
+<td><code>GET /funnels/funnel/list</code></td>
+<td>funnels/funnel.readonly</td>
+<td>Working</td>
+<td>3 funnels/sites</td>
+</tr>
+<tr>
+<td><code>GET /links/</code></td>
+<td>links.readonly</td>
+<td>Working</td>
+<td>3 trigger links</td>
+</tr>
+<tr>
+<td><code>GET /surveys/</code></td>
+<td>surveys.readonly</td>
+<td>Working</td>
+<td>4 surveys</td>
+</tr>
+<tr>
+<td><code>GET /knowledge-base/</code></td>
+<td>knowledge-bases.readonly</td>
+<td>Working</td>
+<td>1 knowledge base</td>
+</tr>
+<tr>
+<td><code>GET /campaigns/</code></td>
+<td>campaigns.readonly</td>
+<td>Working</td>
+<td>0 campaigns</td>
+</tr>
+<tr>
+<td><code>GET /medias/files</code></td>
+<td>medias.readonly</td>
+<td>Working</td>
+<td>0 media files</td>
+</tr>
+<tr>
+<td><code>GET /social-media-posting/post/</code></td>
+<td>socialplanner/post.readonly</td>
+<td>Working</td>
+<td>0 posts</td>
+</tr>
+<tr>
+<td><code>GET /invoices/search</code></td>
+<td>invoices.readonly</td>
+<td>Working</td>
+<td>0 invoices</td>
+</tr>
+<tr>
+<td><code>GET /lc-email/schedule/list</code></td>
+<td>lc-email.readonly</td>
+<td><strong>Empty response</strong></td>
+<td>N/A</td>
+</tr>
+<tr>
+<td><code>GET /conversation-ai/</code></td>
+<td>conversation-ai.readonly</td>
+<td><strong>404 — Not configured</strong></td>
+<td>N/A</td>
+</tr>
+<tr>
+<td><code>GET /agent-studio/</code></td>
+<td>agent-studio.readonly</td>
+<td><strong>404 — Not configured</strong></td>
+<td>N/A</td>
+</tr>
+</tbody></table></div>
+<h3 id="a-3-email-folder-ids">A.3 Email Folder IDs</h3>
+<div class="table-wrap"><table>
+<thead><tr>
+<th>Folder</th>
+<th>Folder ID</th>
+</tr></thead><tbody>
+<tr>
+<td>Operations</td>
+<td><code>697a78d262b9da726814d6c6</code></td>
+</tr>
+<tr>
+<td>Prospect Journey V2</td>
+<td><code>697c9a45afca4f7f59c8b2d6</code></td>
+</tr>
+<tr>
+<td>Noonshop First Order Journey</td>
+<td><code>69969d89db13ee81ca1d91e0</code></td>
+</tr>
+<tr>
+<td>Prospect Education Journey</td>
+<td><code>699c1d35272d118a3d224adf</code></td>
+</tr>
+<tr>
+<td>Noonshop Win-Back Journey</td>
+<td><code>699c266ed544167b25ca7e74</code></td>
+</tr>
+<tr>
+<td>Noonshop Holiday Campaign</td>
+<td><code>699c2c25d54416352ecac895</code></td>
+</tr>
+</tbody></table></div>
+<h3 id="a-4-api-limitations-confirmed">A.4 API Limitations (Confirmed)</h3>
+<div class="table-wrap"><table>
+<thead><tr>
+<th>Limitation</th>
+<th>Details</th>
+</tr></thead><tbody>
+<tr>
+<td>Workflow steps not exposed</td>
+<td><code>GET /workflows/{id}</code> returns 404. Only list endpoint works. Step/action details require manual export or HTML documentation.</td>
+</tr>
+<tr>
+<td>Conversation reports broken</td>
+<td><code>GET /conversations/reporting</code> returns 400. May require specific query params not publicly documented.</td>
+</tr>
+<tr>
+<td>Conversation AI / Agent Studio</td>
+<td>Return 404. Either not configured in this tenant or API paths have changed since documentation was written.</td>
+</tr>
+<tr>
+<td>LC Email schedules</td>
+<td>Empty response. No scheduled email campaigns found (all sequences run through Workflows, not LC Email).</td>
+</tr>
+<tr>
+<td>Funnel page details</td>
+<td><code>GET /funnels/funnel/{id}</code> returns minimal data; page-level content not accessible.</td>
+</tr>
+<tr>
+<td>Media files</td>
+<td>Returns empty even though media attachments appear in conversations. Media may be stored differently for SMS/MMS.</td>
+</tr>
+</tbody></table></div>
+<h3 id="a-5-token-scopes-read-only-all-enabled">A.5 Token Scopes (Read-Only — All Enabled)</h3>
+<p>The Private Integration Token has 70+ read-only scopes enabled, covering: workflows, contacts, opportunities, conversations, calendars, forms, products, payments, funnels, surveys, users, locations, custom fields/values, tags, templates, social planner, knowledge base, conversation AI, agent studio, voice AI, blogs, invoices, media, and more.</p>
+<h3 id="a-6-document-cross-reference">A.6 Document Cross-Reference</h3>
+<div class="table-wrap"><table>
+<thead><tr>
+<th>Document</th>
+<th>Location</th>
+<th>Content</th>
+</tr></thead><tbody>
+<tr>
+<td>CRM Build Summary</td>
+<td><code>noonshop-crm-summary (10).html</code></td>
+<td>High-level project summary, completed/open items</td>
+</tr>
+<tr>
+<td>Integration Report</td>
+<td><code>Noonshop_Integration_Report_March2026.docx</code></td>
+<td>Full field mapping, data flow architecture, scenarios</td>
+</tr>
+<tr>
+<td>Contact Flow Report</td>
+<td><code>Noonshop_Contact_Flow_Report.html</code></td>
+<td>Contact entry points, pipeline audit, conversation audit, gap analysis</td>
+</tr>
+<tr>
+<td>Flow Documentation (5 files)</td>
+<td><code>Noonshop/Flows/*.html</code></td>
+<td>Step-by-step workflow visualizations (published on GitHub Pages)</td>
+</tr>
+<tr>
+<td>Email Template Content</td>
+<td><code>GHL-Documentation.md</code> (companion file)</td>
+<td>Full extracted text of all 67 email templates</td>
+</tr>
+<tr>
+<td>Meeting Transcript</td>
+<td><code>Meeting 2026-03-17.txt</code></td>
+<td>Developer handoff meeting with Prakash, Jaspreet, Simranpreet</td>
+</tr>
+<tr>
+<td>GHL API v2 Docs</td>
+<td><code>marketplace.gohighlevel.com/docs/oauth/GettingStarted</code></td>
+<td>Official API documentation and endpoint reference</td>
+</tr>
+</tbody></table></div>
+    </section>
+  <div class="doc-footer">
+    <div>HelloIT <span>Pros</span> &middot; CRM Implementation</div>
+    <div>Noon Shop &middot; Location ID: 70CEJtz1p3pnSQVuGJgK &middot; March 2026</div>
+  </div>
+</div>
+<script>
+const sections = document.querySelectorAll('.doc-section');
+const navLinks = document.querySelectorAll('.sidebar nav a');
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      navLinks.forEach(link => link.classList.remove('active'));
+      const id = entry.target.id;
+      const activeLink = document.querySelector('.sidebar nav a[href="#' + id + '"]');
+      if (activeLink) activeLink.classList.add('active');
+    }
+  });
+}, { threshold: 0.1, rootMargin: '-20% 0px -70% 0px' });
+sections.forEach(section => observer.observe(section));
+</script>
+</body>
+</html>
