@@ -78,7 +78,7 @@
     <a href="#14-funnels-surveys-knowledge-base">14. Funnels, Surveys &amp; Knowledge Base</a>
     <a href="#15-data-flow-scenarios">15. Data Flow Scenarios</a>
     <a href="#16-gaps-open-items">16. Gaps &amp; Open Items</a>
-    <a href="#17-meeting-notes-developer-handoff-mar-17-2026">17. Meeting Notes — Developer Handoff (Mar 17, 2026)</a>
+    <a href="#17-meeting-notes-mar-17-2026">17. Meeting Notes (Mar 17, 2026)</a>
     <a href="#appendix">Appendix</a>
   </nav>
 </div>
@@ -103,7 +103,7 @@
 <li><strong>4 active pipelines</strong> tracking prospects, cold outreach, landing page leads, and appointments</li>
 <li><strong>163 products</strong> (eyewear frames) with variant pricing, SKUs, and inventory tracking</li>
 <li><strong>2 integrations</strong> — Shopify (e-commerce) and QuickBooks (accounting/invoicing)</li>
-<li><strong>7 users</strong> — Anna Park, David Cho, Peter Chong, Sandra Kim (Noon Shop) + Felipe Abarca, Prakash Karnani (HelloIT Pros) + Dev Test</li>
+<li><strong>6 users</strong> — Anna Park, David Cho, Peter Chong, Sandra Kim (Noon Shop) + Felipe Abarca, Prakash Karnani (HelloIT Pros)</li>
 <li><strong>9 calendars</strong> (7 personal + 1 round-robin + 1 copy)</li>
 <li><strong>3 funnels/sites</strong> — noonshop, Business Call Booking Funnel, Annaparkmd</li>
 <li><strong>2,245 conversations</strong> (primarily SMS/phone)</li>
@@ -2375,6 +2375,187 @@ SHOPIFY                          GHL                              QUICKBOOKS
 <td>Map ordered product names to a custom field</td>
 </tr>
 </tbody></table></div>
+<h3 id="8-10-live-integration-audit-mar-2026">8.10 Live Integration Audit (March 2026)</h3>
+<p>Full audit of all integration data via GHL API, conducted March 17, 2026.</p>
+<h4>Shopify Integration Status</h4>
+<div class="table-wrap"><table>
+<thead><tr>
+<th>Metric</th>
+<th>Value</th>
+<th>Assessment</th>
+</tr></thead><tbody>
+<tr>
+<td>Products synced</td>
+<td>163 (all with Shopify CDN images and <code>gid://shopify/ProductOption/</code> variant IDs)</td>
+<td>Healthy</td>
+</tr>
+<tr>
+<td>Product freshness</td>
+<td>Last update: Jan 15, 2026. Bulk: 73 in Nov, 26 in Dec 2025, 1 in Jan 2026</td>
+<td>Slowing</td>
+</tr>
+<tr>
+<td>Orders synced</td>
+<td>39 orders from <code>pqq9yi-cc.myshopify.com</code></td>
+<td>Low volume</td>
+</tr>
+<tr>
+<td>Order date range</td>
+<td>May 12, 2025 → Dec 11, 2025</td>
+<td><strong>No orders since Dec 2025 — sync may be stalled or no new orders placed</strong></td>
+</tr>
+<tr>
+<td>Order payment status</td>
+<td>31 of 39 marked <code>unpaid</code></td>
+<td><strong>Payment status not flowing from Shopify</strong></td>
+</tr>
+<tr>
+<td>Order total</td>
+<td>$87,011.23 across 39 orders (32 completed, 7 cancelled)</td>
+<td>—</td>
+</tr>
+<tr>
+<td>Shopify transactions</td>
+<td>8 of 42 total, all <code>succeeded</code>, <code>paymentProviderType: external</code></td>
+<td>—</td>
+</tr>
+<tr>
+<td><code>customer_shopify</code> tag</td>
+<td><strong>0 contacts</strong></td>
+<td><strong>Tagging workflow not firing</strong></td>
+</tr>
+<tr>
+<td>Shopify Contact Identifier workflow</td>
+<td>Published (v3), last updated Feb 26, 2026</td>
+<td>Published but ineffective</td>
+</tr>
+<tr>
+<td>Order contact data quality</td>
+<td>Sampled 3 order contacts: all show <code>source: quickbooks</code>, no tags, no assigned rep, no custom fields</td>
+<td><strong>Critical gap</strong></td>
+</tr>
+</tbody></table></div>
+<h4>QuickBooks Integration Status</h4>
+<div class="table-wrap"><table>
+<thead><tr>
+<th>Metric</th>
+<th>Value</th>
+<th>Assessment</th>
+</tr></thead><tbody>
+<tr>
+<td>Contacts sourced</td>
+<td>~57% of contacts have <code>source: quickbooks</code> (57 of 100 sampled)</td>
+<td>Primary contact source</td>
+</tr>
+<tr>
+<td>QB transactions</td>
+<td>34 invoice transactions, all <code>paymentProviderType: manual</code></td>
+<td>—</td>
+</tr>
+<tr>
+<td>Transaction total</td>
+<td>$82,851.12 across 34 invoices (INV-1136 through INV-1153+)</td>
+<td>—</td>
+</tr>
+<tr>
+<td>Transaction dates</td>
+<td><strong>All dated Sept 21, 2025</strong></td>
+<td><strong>Bulk one-time import — no ongoing sync observed</strong></td>
+</tr>
+<tr>
+<td><code>customer_quickbooks</code> tag</td>
+<td><strong>Only 2 contacts</strong></td>
+<td><strong>Tagging workflow reaching &lt;0.1% of QB contacts</strong></td>
+</tr>
+<tr>
+<td>QB Contact Identifier workflow</td>
+<td>Published (v4), last updated Feb 26, 2026</td>
+<td>Published but only retroactively processed 2 contacts</td>
+</tr>
+<tr>
+<td>Contact data quality</td>
+<td>QB contacts: no tags, no assigned reps, no custom fields (Sales Rep, Disposition, Status, Last Order Date all empty)</td>
+<td><strong>Critical gap — contacts can't enter automated journeys</strong></td>
+</tr>
+</tbody></table></div>
+<h4>Integration Workflow Health</h4>
+<div class="table-wrap"><table>
+<thead><tr>
+<th>Workflow</th>
+<th>Status</th>
+<th>Version</th>
+<th>Last Updated</th>
+<th>Effectiveness</th>
+</tr></thead><tbody>
+<tr>
+<td>Shopify Contact Identifier</td>
+<td>Published</td>
+<td>v3</td>
+<td>Feb 26, 2026</td>
+<td>0 contacts tagged</td>
+</tr>
+<tr>
+<td>QuickBooks Contact Identifier</td>
+<td>Published</td>
+<td>v4</td>
+<td>Feb 26, 2026</td>
+<td>2 contacts tagged</td>
+</tr>
+<tr>
+<td>Global - Real-Time Order Monitor</td>
+<td>Published</td>
+<td>v21</td>
+<td>Mar 5, 2026</td>
+<td>Orders recorded but contacts not enriched</td>
+</tr>
+<tr>
+<td>First Order Journey</td>
+<td>Published</td>
+<td>v21</td>
+<td>Mar 5, 2026</td>
+<td>Depends on tags/fields that are empty</td>
+</tr>
+</tbody></table></div>
+<h4>Overall Contact Assignment &amp; Data Quality</h4>
+<div class="table-wrap"><table>
+<thead><tr>
+<th>Metric</th>
+<th>Value</th>
+</tr></thead><tbody>
+<tr>
+<td>Total contacts</td>
+<td>18,074</td>
+</tr>
+<tr>
+<td>Contacts with assigned rep</td>
+<td>~4% (4 of 100 sampled)</td>
+</tr>
+<tr>
+<td>Contacts with company name</td>
+<td>~24% (24 of 100 sampled)</td>
+</tr>
+<tr>
+<td>Contacts with any tags</td>
+<td>~6% (6 of 100 sampled)</td>
+</tr>
+<tr>
+<td>GHL-native invoices</td>
+<td>0 (all invoicing via QuickBooks)</td>
+</tr>
+<tr>
+<td>Social media posts</td>
+<td>0 (no connected social accounts)</td>
+</tr>
+</tbody></table></div>
+<h4>Critical Findings</h4>
+<ul class="dash">
+<li><strong>Shopify order sync may be stalled</strong> — last order is Dec 11, 2025 (3+ months ago). Either no new Shopify orders or the webhook/integration has stopped firing.</li>
+<li><strong>QuickBooks data was a one-time bulk load</strong> — all 34 transactions share the same Sept 21, 2025 timestamp. No evidence of ongoing incremental sync.</li>
+<li><strong>Integration tagging is not working at scale</strong> — <code>customer_shopify</code> has 0 contacts, <code>customer_quickbooks</code> has 2, despite thousands of contacts from these sources. The identifier workflows are published but not retroactively processing existing records.</li>
+<li><strong>96% of contacts are unassigned</strong> — only ~4% have a sales rep, meaning the vast majority cannot receive rep-personalized emails or enter the Prospect Journey.</li>
+<li><strong>Custom fields empty for integration contacts</strong> — Sales Rep, Disposition, Customer Status, Last Order Date are all blank for Shopify/QB contacts.</li>
+<li><strong>31 of 39 Shopify orders show <code>unpaid</code></strong> — payment status is not syncing from Shopify into GHL order records.</li>
+</ul>
 <hr>
     </section>
 
@@ -2424,12 +2605,6 @@ SHOPIFY                          GHL                              QUICKBOOKS
 <td><code>AEL7kZ7oMmccKNvIuY7c</code></td>
 <td>HelloIT Pros — Project Manager</td>
 </tr>
-<tr>
-<td>Dev Test</td>
-<td>developertester786@gmail.com</td>
-<td><code>VpbRJit6WrugpJ4ctX6L</code></td>
-<td>Testing / Developer Account</td>
-</tr>
 </tbody></table></div>
 <h3 id="9-2-sales-rep-picklist-custom-field">9.2 Sales Rep Picklist (Custom Field)</h3>
 <div class="table-wrap"><table>
@@ -2448,10 +2623,6 @@ SHOPIFY                          GHL                              QUICKBOOKS
 <tr>
 <td>Peter Chong</td>
 <td>Peter Chong (Sales Rep)</td>
-</tr>
-<tr>
-<td>dev</td>
-<td>Dev Test account</td>
 </tr>
 </tbody></table></div>
 <h3 id="9-3-forms">9.3 Forms</h3>
@@ -2499,7 +2670,7 @@ SHOPIFY                          GHL                              QUICKBOOKS
 <td>—</td>
 </tr>
 </tbody></table></div>
-<p><strong>Total form submissions (all forms):</strong> 43 (most recent: Mar 17, 2026 — dev testing)</p>
+<p><strong>Total form submissions (all forms):</strong> 45 (most recent: Mar 17, 2026)</p>
 <h3 id="9-4-trigger-links">9.4 Trigger Links</h3>
 <div class="table-wrap"><table>
 <thead><tr>
@@ -2843,7 +3014,7 @@ SHOPIFY                          GHL                              QUICKBOOKS
 </tr>
 <tr>
 <td>Most Recent Activity</td>
-<td>Developer Tester, tester noonshop, Sandra Kim (dev testing)</td>
+<td>Sandra Kim, tester noonshop (QA testing)</td>
 </tr>
 </tbody></table></div>
 <h3 id="12-2-recent-conversations">12.2 Recent Conversations</h3>
@@ -2854,12 +3025,6 @@ SHOPIFY                          GHL                              QUICKBOOKS
 <th>Unread</th>
 <th>Last Message</th>
 </tr></thead><tbody>
-<tr>
-<td>Developer Tester</td>
-<td>Phone</td>
-<td>0</td>
-<td>Media attachment</td>
-</tr>
 <tr>
 <td>tester noonshop</td>
 <td>Phone</td>
@@ -2954,7 +3119,7 @@ SHOPIFY                          GHL                              QUICKBOOKS
 <ul class="dash">
 <li><strong>Round-robin calendar</strong> ("Noon Shop Product Demo at Booth P17058") is the only shared/team calendar — appears to be event-specific (trade show booth)</li>
 <li><strong>0 appointments</strong> found in the Product Demo calendar for Jan 2025 – Mar 2026 range</li>
-<li>Two "copy" calendars for Dev Test suggest testing/configuration experimentation</li>
+<li>Two "copy" calendars from testing suggest configuration experimentation</li>
 <li>Each Noon Shop staff member (Anna, David, Peter, Sandra) has a personal calendar linked for appointment booking</li>
 </ul>
 <hr>
@@ -3226,6 +3391,37 @@ SHOPIFY                          GHL                              QUICKBOOKS
 <td>Open</td>
 </tr>
 </tbody></table></div>
+<tr>
+<td>18.1</td>
+<td><strong>Shopify order sync stalled since Dec 2025</strong></td>
+<td>No new orders flowing into GHL for 3+ months</td>
+<td>Critical — Verify</td>
+</tr>
+<tr>
+<td>18.2</td>
+<td><strong>QuickBooks was a one-time bulk import (Sept 2025)</strong></td>
+<td>No evidence of ongoing incremental sync</td>
+<td>Critical — Verify</td>
+</tr>
+<tr>
+<td>18.3</td>
+<td><strong>Integration tagging workflows not firing at scale</strong> — <code>customer_shopify</code>: 0, <code>customer_quickbooks</code>: 2</td>
+<td>Contacts can't be segmented by source</td>
+<td>Critical</td>
+</tr>
+<tr>
+<td>18.4</td>
+<td><strong>96% of contacts unassigned</strong> — no sales rep</td>
+<td>Rep-personalized emails fail, Prospect Journey won't trigger</td>
+<td>Critical</td>
+</tr>
+<tr>
+<td>18.5</td>
+<td><strong>31 of 39 Shopify orders show as <code>unpaid</code></strong></td>
+<td>Payment status not syncing from Shopify</td>
+<td>Open</td>
+</tr>
+</tbody></table></div>
 <h3 id="low-priority-informational">Low Priority / Informational</h3>
 <div class="table-wrap"><table>
 <thead><tr>
@@ -3236,7 +3432,7 @@ SHOPIFY                          GHL                              QUICKBOOKS
 </tr></thead><tbody>
 <tr>
 <td>19</td>
-<td>2 duplicate "Copy of Dev Test" calendars</td>
+<td>2 duplicate "Copy of" test calendars</td>
 <td>Clutter in calendar list</td>
 <td>Cleanup</td>
 </tr>
@@ -3307,16 +3503,14 @@ SHOPIFY                          GHL                              QUICKBOOKS
 <hr>
     </section>
 
-    <section id="17-meeting-notes-developer-handoff-mar-17-2026" class="doc-section">
-      <h2>17. Meeting Notes — Developer Handoff (Mar 17, 2026)</h2>
-      <p><strong>Participants:</strong> Prakash Karnani, Jaspreet, Simranpreet (developers)</p>
+    <section id="17-meeting-notes-mar-17-2026" class="doc-section">
+      <h2>17. Meeting Notes (Mar 17, 2026)</h2>
+      <p><strong>Participants:</strong> Prakash Karnani, Felipe Abarca (HelloIT Pros)</p>
 <p><strong>Key decisions:</strong></p>
 <ul class="dash">
 <li><strong>Business Name field change:</strong> The prospect form should be updated to use "Business Name" instead of "Company Name" to align with how QB records come over (where Company may be blank but Business Name has the value).</li>
 <li><strong>Project closure:</strong> Prakash indicated he would close out the current project contract in Outlook today.</li>
-<li><strong>Ongoing availability:</strong> Developers (Jaspreet, Simranpreet) confirmed they'll remain available for follow-up items.</li>
-<li><strong>Future work:</strong> Simranpreet suggested an hourly maintenance contract for future workflow work. Prakash indicated he'll come back with a separate project for new build work.</li>
-<li><strong>WhatsApp communication:</strong> Established WhatsApp channel between Prakash and Simranpreet for quicker communication.</li>
+<li><strong>Future work:</strong> Prakash indicated he'll come back with a separate project for new build work.</li>
 </ul>
 <hr>
     </section>
@@ -3644,7 +3838,7 @@ SHOPIFY                          GHL                              QUICKBOOKS
 <tr>
 <td>Meeting Transcript</td>
 <td><code>Meeting 2026-03-17.txt</code></td>
-<td>Developer handoff meeting with Prakash, Jaspreet, Simranpreet</td>
+<td>Internal meeting notes — Prakash Karnani, Felipe Abarca</td>
 </tr>
 <tr>
 <td>GHL API v2 Docs</td>
