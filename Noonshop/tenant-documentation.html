@@ -2186,71 +2186,375 @@
 <div class="ol-item"><span class="ol-num">1.</span> <strong>Payments/Orders module</strong> — full line-item detail, amounts, SKUs, fulfillment status (POPULATED)</div>
 <div class="ol-item"><span class="ol-num">2.</span> <strong>Contact custom fields</strong> — <code>last_order_date</code>, <code>customer_status</code>, <code>expected_reorder_date</code> (EMPTY for QB-sourced contacts)</div>
 <p>The bridge between these two is the <strong>GHL Workflow</strong> ("Global - Real-Time Order Monitor"). This workflow should fire on Shopify order events and update the contact's custom fields. However, for the ~95% of contacts that came through QuickBooks (not directly from Shopify orders), the workflow never fires, leaving their custom fields empty.</p>
-<h3 id="8-6-tag-based-system-identification">8.6 Tag-Based System Identification</h3>
-<p>Tags serve as the primary mechanism for identifying a contact's system of origin and lifecycle stage:</p>
+<h3 id="8-6-tag-based-system-identification">8.6 Full Tag Map (46 Tags)</h3>
+<p>Complete inventory of all 46 tags in the Noon Shop GHL tenant with live contact counts (audited March 17, 2026), mapped to their source system, purpose, and current usage status.</p>
+<h4>Integration &amp; Lifecycle Tags</h4>
 <div class="table-wrap"><table>
 <thead><tr>
 <th>Tag</th>
 <th>Set By</th>
-<th>Meaning</th>
-<th>Count*</th>
+<th>Purpose</th>
+<th>Contacts</th>
+<th>Status</th>
 </tr></thead><tbody>
 <tr>
 <td><code>customer_quickbooks</code></td>
 <td>QB Contact Identifier workflow</td>
 <td>Contact originated from QuickBooks</td>
-<td>~majority</td>
+<td><strong>2</strong></td>
+<td>Not firing — should be ~10K+</td>
 </tr>
 <tr>
 <td><code>customer_shopify</code></td>
 <td>Shopify Contact Identifier workflow</td>
-<td>Contact originated from Shopify</td>
-<td>Small subset</td>
+<td>Contact originated from Shopify order</td>
+<td><strong>0</strong></td>
+<td>Not firing</td>
 </tr>
 <tr>
-<td><code>prospect_new</code></td>
-<td>Prospect Intake Form submission</td>
-<td>New B2B prospect from intake form</td>
-<td>~43</td>
+<td><code>customer_active</code></td>
+<td>Active Customer Journey workflow</td>
+<td>Has placed 2+ orders, active buyer</td>
+<td>0</td>
+<td>No contacts entering journey</td>
 </tr>
 <tr>
 <td><code>first_order_customer</code></td>
 <td>First Order Journey workflow</td>
 <td>Placed their first Shopify order</td>
-<td>Very few</td>
-</tr>
-<tr>
-<td><code>customer_active</code></td>
-<td>Active Customer Journey workflow</td>
-<td>Has placed 2+ orders</td>
-<td>Very few</td>
+<td>0</td>
+<td>No contacts entering journey</td>
 </tr>
 <tr>
 <td><code>repeat_customer</code></td>
 <td>Active Customer Journey workflow</td>
-<td>Repeat buyer</td>
-<td>Very few</td>
+<td>Has reordered</td>
+<td>0</td>
+<td>Not in use</td>
 </tr>
 <tr>
 <td><code>reorder_due</code></td>
 <td>Order Monitor workflow</td>
-<td>Reorder window approaching</td>
-<td>Very few</td>
-</tr>
-<tr>
-<td><code>existing_client</code></td>
-<td>Prospect Journey workflow</td>
-<td>Was flagged as existing during prospect check</td>
-<td>Varies</td>
+<td>Reorder window approaching based on last order date</td>
+<td>0</td>
+<td>Not in use</td>
 </tr>
 <tr>
 <td><code>onboarding_active</code></td>
 <td>First Order Journey workflow</td>
-<td>Currently in first-order onboarding</td>
-<td>Varies</td>
+<td>Currently in first-order onboarding sequence</td>
+<td>0</td>
+<td>Not in use</td>
+</tr>
+<tr>
+<td><code>existing_client</code></td>
+<td>Prospect Journey workflow</td>
+<td>Flagged as existing customer during prospect check</td>
+<td>0</td>
+<td>Not in use</td>
+</tr>
+<tr>
+<td><code>prospect_new</code></td>
+<td>Prospect Intake Form</td>
+<td>New B2B prospect entered via sales rep form</td>
+<td><strong>6</strong></td>
+<td>Active — form submissions triggering</td>
+</tr>
+<tr>
+<td><code>fresh-import</code></td>
+<td>Manual / Bulk import</td>
+<td>Contacts imported from external source</td>
+<td>0</td>
+<td>Historical — likely used during initial setup</td>
+</tr>
+<tr>
+<td><code>unsubscribed</code></td>
+<td>Holiday Journey / Unsubscribe workflow</td>
+<td>Contact opted out of emails</td>
+<td>0</td>
+<td>Not in use yet</td>
 </tr>
 </tbody></table></div>
-<p>*Exact counts require a full contact scan; these are estimates based on sampled data.</p>
+<h4>Outreach &amp; Engagement Tags (Legacy Cold Outreach Pipeline)</h4>
+<p>These tags map to the <strong>Cold Outreach</strong> pipeline stages and the legacy drip campaign workflows (currently draft):</p>
+<div class="table-wrap"><table>
+<thead><tr>
+<th>Tag</th>
+<th>Pipeline Stage / Trigger</th>
+<th>Contacts</th>
+<th>Status</th>
+</tr></thead><tbody>
+<tr>
+<td><code>email-outreach</code></td>
+<td>Cold Outreach — Email Sent (Day 01+)</td>
+<td><strong>1,999</strong></td>
+<td>Active legacy data</td>
+</tr>
+<tr>
+<td><code>email-outreach-day2</code></td>
+<td>Cold Outreach — Email Sent Day 02</td>
+<td>0</td>
+<td>—</td>
+</tr>
+<tr>
+<td><code>email-outreach-day3</code></td>
+<td>Cold Outreach — Email Sent Day 03</td>
+<td>0</td>
+<td>—</td>
+</tr>
+<tr>
+<td><code>email-opened</code></td>
+<td>Cold Outreach — Email Opened stage</td>
+<td><strong>506</strong></td>
+<td>Active legacy data</td>
+</tr>
+<tr>
+<td><code>email-responded</code></td>
+<td>Cold Outreach — Responded to Email</td>
+<td>0</td>
+<td>—</td>
+</tr>
+<tr>
+<td><code>responded</code></td>
+<td>Cold Outreach — General responded</td>
+<td>2</td>
+<td>—</td>
+</tr>
+<tr>
+<td><code>responded-email</code></td>
+<td>Cold Outreach — Responded via email</td>
+<td>2</td>
+<td>—</td>
+</tr>
+<tr>
+<td><code>responded-yes</code></td>
+<td>Cold Outreach — Responded Yes</td>
+<td>0</td>
+<td>—</td>
+</tr>
+<tr>
+<td><code>responded-no</code></td>
+<td>Cold Outreach — Responded No</td>
+<td>0</td>
+<td>—</td>
+</tr>
+<tr>
+<td><code>sms-outreach</code></td>
+<td>Cold Outreach — SMS sent</td>
+<td>0</td>
+<td>—</td>
+</tr>
+<tr>
+<td><code>sms-responded</code></td>
+<td>Cold Outreach — SMS reply received</td>
+<td>0</td>
+<td>—</td>
+</tr>
+<tr>
+<td><code>vm-outreach</code></td>
+<td>Cold Outreach — Voicemail dropped</td>
+<td>0</td>
+<td>—</td>
+</tr>
+<tr>
+<td><code>facebook-responded</code></td>
+<td>Social Media Ads Interactions workflow</td>
+<td>0</td>
+<td>Draft workflow</td>
+</tr>
+<tr>
+<td><code>instagram-responded</code></td>
+<td>Social Media Ads Interactions workflow</td>
+<td>0</td>
+<td>Draft workflow</td>
+</tr>
+<tr>
+<td><code>called-back</code></td>
+<td>Cold Outreach — Contact returned call</td>
+<td>0</td>
+<td>—</td>
+</tr>
+<tr>
+<td><code>texted-back</code></td>
+<td>Cold Outreach — Contact texted back</td>
+<td>0</td>
+<td>—</td>
+</tr>
+</tbody></table></div>
+<h4>Workflow Trigger Tags</h4>
+<p>These tags are used as workflow entry triggers — adding the tag to a contact starts the corresponding automation:</p>
+<div class="table-wrap"><table>
+<thead><tr>
+<th>Tag</th>
+<th>Triggers Workflow</th>
+<th>Contacts</th>
+</tr></thead><tbody>
+<tr>
+<td><code>start-email-outreach</code></td>
+<td>Begins email outreach sequence</td>
+<td>0</td>
+</tr>
+<tr>
+<td><code>start-email-followup</code></td>
+<td>Begins email follow-up sequence</td>
+<td>0</td>
+</tr>
+<tr>
+<td><code>start-sms-outreach</code></td>
+<td>Begins SMS outreach sequence</td>
+<td>0</td>
+</tr>
+<tr>
+<td><code>start-vm-outreach</code></td>
+<td>Begins voicemail drop sequence</td>
+<td>0</td>
+</tr>
+</tbody></table></div>
+<h4>Appointment &amp; Booking Tags</h4>
+<div class="table-wrap"><table>
+<thead><tr>
+<th>Tag</th>
+<th>Set By</th>
+<th>Contacts</th>
+</tr></thead><tbody>
+<tr>
+<td><code>booked appointment</code></td>
+<td>Appointment booking confirmation</td>
+<td>0</td>
+</tr>
+<tr>
+<td><code>appointment - scheduled</code></td>
+<td>Appointment confirmed workflow</td>
+<td>0</td>
+</tr>
+<tr>
+<td><code>booking-link-clicked</code></td>
+<td>Trigger link tracking</td>
+<td>0</td>
+</tr>
+</tbody></table></div>
+<h4>Trade Show / Event Tags (2023 Legacy)</h4>
+<p>These tags represent contacts acquired from the 2023 Vision Expo trade shows — the largest segment of the contact database:</p>
+<div class="table-wrap"><table>
+<thead><tr>
+<th>Tag</th>
+<th>Source</th>
+<th>Contacts</th>
+</tr></thead><tbody>
+<tr>
+<td><code>vision expo e 2023 list</code></td>
+<td>2023 Vision Expo East attendee/exhibitor list</td>
+<td><strong>16,609</strong></td>
+</tr>
+<tr>
+<td><code>2023</code></td>
+<td>General 2023 import marker</td>
+<td><strong>17,671</strong></td>
+</tr>
+<tr>
+<td><code>2023 vision</code></td>
+<td>2023 Vision Expo contacts</td>
+<td><strong>2,000</strong></td>
+</tr>
+<tr>
+<td><code>2023 vision expo west</code></td>
+<td>2023 Vision Expo West list</td>
+<td><strong>2,000</strong></td>
+</tr>
+<tr>
+<td><code>2023 optical shop list</code></td>
+<td>2023 optical shop lead list</td>
+<td><strong>1,100</strong></td>
+</tr>
+<tr>
+<td><code>2023 vision expo west cold email</code></td>
+<td>Contacts cold-emailed from Vision Expo West 2023</td>
+<td>0</td>
+</tr>
+</tbody></table></div>
+<h4>Utility / Miscellaneous Tags</h4>
+<div class="table-wrap"><table>
+<thead><tr>
+<th>Tag</th>
+<th>Purpose</th>
+<th>Contacts</th>
+</tr></thead><tbody>
+<tr>
+<td><code>contact-copied</code></td>
+<td>Contact was duplicated/copied</td>
+<td>0</td>
+</tr>
+<tr>
+<td><code>copy-positive</code></td>
+<td>Positive copy test result</td>
+<td>0</td>
+</tr>
+<tr>
+<td><code>copy-negative</code></td>
+<td>Negative copy test result</td>
+<td>0</td>
+</tr>
+<tr>
+<td><code>new leads</code></td>
+<td>Landing Page Leads pipeline — New Leads stage</td>
+<td>0</td>
+</tr>
+<tr>
+<td><code>lost lead</code></td>
+<td>Contact marked as lost/inactive</td>
+<td>0</td>
+</tr>
+<tr>
+<td><code>synup-link-created</code></td>
+<td>SynUp integration — scan link generated</td>
+<td>0</td>
+</tr>
+</tbody></table></div>
+<h4>Tag Usage Summary</h4>
+<div class="table-wrap"><table>
+<thead><tr>
+<th>Category</th>
+<th>Tags</th>
+<th>In Active Use</th>
+<th>Key Insight</th>
+</tr></thead><tbody>
+<tr>
+<td>Trade Show / 2023 Legacy</td>
+<td>6</td>
+<td>5</td>
+<td>~92% of contacts (16,609+) are from 2023 Vision Expo list imports — the bulk of the database</td>
+</tr>
+<tr>
+<td>Integration &amp; Lifecycle</td>
+<td>11</td>
+<td>2</td>
+<td>Only <code>prospect_new</code> (6) and <code>customer_quickbooks</code> (2) have contacts — all other lifecycle tags are empty</td>
+</tr>
+<tr>
+<td>Legacy Cold Outreach</td>
+<td>16</td>
+<td>4</td>
+<td><code>email-outreach</code> (1,999) and <code>email-opened</code> (506) show past campaign activity; current workflows don't use these</td>
+</tr>
+<tr>
+<td>Workflow Triggers</td>
+<td>4</td>
+<td>0</td>
+<td>None currently triggered</td>
+</tr>
+<tr>
+<td>Appointment</td>
+<td>3</td>
+<td>0</td>
+<td>No appointments tagged — may indicate booking system not tagging</td>
+</tr>
+<tr>
+<td>Utility / Misc</td>
+<td>6</td>
+<td>0</td>
+<td>Mostly cleanup candidates</td>
+</tr>
+</tbody></table></div>
 <h3 id="8-7-email-delivery-microsoft-365">8.7 Email Delivery &amp; Microsoft 365</h3>
 <div class="table-wrap"><table>
 <thead><tr>
