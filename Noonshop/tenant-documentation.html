@@ -108,7 +108,7 @@
 <li><strong>3 funnels/sites</strong> — noonshop, Business Call Booking Funnel, Annaparkmd</li>
 <li><strong>2,245 conversations</strong> (primarily SMS/phone)</li>
 <li><strong>1 knowledge base</strong> configured</li>
-<li><strong>Email delivery</strong> via <code>mail.noonshop.com</code> (GHL dedicated domain) with Microsoft 365 (Exchange Online) on root domain</li>
+<li><strong>Email delivery</strong> via GHL (Mailgun) on dedicated subdomain <code>mail.noonshop.com</code>; Microsoft 365 handles inbound mail and calendar sync only</li>
 </ul>
 <p><strong>The 5 core journeys</strong> map 1:1 between the GHL published workflows and the flow documentation at <code>Noonshop/Flows/</code>:</p>
 <div class="table-wrap"><table>
@@ -180,12 +180,21 @@
     <section id="2-system-architecture" class="doc-section">
       <h2>2. System Architecture</h2>
       <pre class="code-block">
-┌──────────────┐     ┌──────────────┐     ┌──────────────┐     ┌──────────────┐
-│   SHOPIFY    │────▶│  QUICKBOOKS  │◀───▶│   GHL CRM    │────▶│ MICROSOFT 365│
-│  E-Commerce  │     │  Accounting  │     │  18K Contacts │     │    Email     │
-│ noonshop.com │     │  Invoicing   │     │  163 Products │     │  Delivery    │
-│              │     │              │     │  9 Workflows  │     │              │
-└──────────────┘     └──────────────┘     └──────────────┘     └──────────────┘
+┌──────────────┐     ┌──────────────┐     ┌──────────────────────────────────┐
+│   SHOPIFY    │────▶│  QUICKBOOKS  │◀───▶│          GHL CRM                 │
+│  E-Commerce  │     │  Accounting  │     │  18K Contacts · 163 Products     │
+│ noonshop.com │     │  Invoicing   │     │  9 Workflows · 67 Email Tpl      │
+└──────────────┘     └──────────────┘     │                                  │
+                                          │  Email Delivery: mail.noonshop   │
+                                          │  .com (Mailgun via GHL)          │
+                                          └──────────────┬───────────────────┘
+                                                         │ Calendar sync
+                                                         │ Inbound MX
+                                          ┌──────────────▼───────────────────┐
+                                          │  MICROSOFT 365 (Exchange Online) │
+                                          │  Inbound: hello@noonshop.com     │
+                                          │  Outlook calendars per rep       │
+                                          └──────────────────────────────────┘
 </pre>
 <h3 id="2-1-location-sub-account-details">2.1 Location / Sub-Account Details</h3>
 <div class="table-wrap"><table>
@@ -1653,12 +1662,16 @@
                                      │  Pipelines (4)                  │
                                      └───────────┬────────────────────┘
                                                   │
+                                     │  Email Delivery (built-in):     │
+                                     │  mail.noonshop.com (Mailgun)    │
+                                     └───────────┬────────────────────┘
+                                                  │ Calendar sync
+                                                  │ Inbound MX
                                      ┌────────────▼────────────────────┐
-                                     │     MICROSOFT 365 (Email)       │
+                                     │   MICROSOFT 365 (Exch. Online)  │
                                      │                                 │
-                                     │  Outbound: mail.noonshop.com    │
                                      │  Inbound: hello@noonshop.com    │
-                                     │  Calendar sync per rep          │
+                                     │  Outlook calendars per rep      │
                                      └─────────────────────────────────┘
 </pre>
 <h3 id="8-2-sync-direction-methods">8.2 Sync Direction &amp; Methods</h3>
@@ -2238,7 +2251,7 @@
 </tr>
 </tbody></table></div>
 <p>*Exact counts require a full contact scan; these are estimates based on sampled data.</p>
-<h3 id="8-7-microsoft-365-integration">8.7 Microsoft 365 Integration</h3>
+<h3 id="8-7-email-delivery-microsoft-365">8.7 Email Delivery &amp; Microsoft 365</h3>
 <div class="table-wrap"><table>
 <thead><tr>
 <th>Component</th>
@@ -2246,14 +2259,19 @@
 <th>Direction</th>
 </tr></thead><tbody>
 <tr>
-<td>Outbound Email</td>
-<td><code>mail.noonshop.com</code> (GHL dedicated domain)</td>
+<td>Outbound Email Delivery</td>
+<td><code>mail.noonshop.com</code> — GHL dedicated subdomain, sent via Mailgun</td>
 <td>GHL → Recipient</td>
 </tr>
 <tr>
+<td>Inbound Email (MX)</td>
+<td><code>noonshop.com</code> MX → Exchange Online (<code>noonshop-com.mail.protection.outlook.com</code>)</td>
+<td>Sender → M365</td>
+</tr>
+<tr>
 <td>Reply-To</td>
-<td><code>hello@noonshop.com</code> → Exchange Online → forwarded to rep</td>
-<td>Recipient → GHL + M365</td>
+<td><code>hello@noonshop.com</code> routes to Exchange Online; forwarded to rep</td>
+<td>Recipient → M365 → GHL</td>
 </tr>
 <tr>
 <td>Calendar Sync</td>
@@ -2266,6 +2284,7 @@
 <td>GHL reads M365</td>
 </tr>
 </tbody></table></div>
+<p><strong>Key distinction:</strong> GHL handles all outbound email delivery (campaign emails, workflow emails) through its own infrastructure (Mailgun) on the <code>mail.noonshop.com</code> subdomain. Microsoft 365 is not involved in sending — it only handles inbound mail delivery to the <code>noonshop.com</code> root domain and provides calendar sync for the sales team.</p>
 <h3 id="8-8-cross-system-entity-relationship-erd">8.8 Cross-System Entity Relationship (ERD)</h3>
 <pre class="code-block">
 SHOPIFY                          GHL                              QUICKBOOKS
