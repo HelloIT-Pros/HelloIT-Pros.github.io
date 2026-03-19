@@ -1,0 +1,731 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Noon Shop — Workflow &amp; Email Audit Report</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  :root {
+    --gold: #C9A84C; --gold-light: #E8C97A; --ink: #1A1A1A; --ink-mid: #3D3D3D;
+    --ink-soft: #7A7A7A; --cream: #FAF8F4; --cream-warm: #F2EDE4; --line: #E0D9CE;
+    --red: #C62828; --orange: #D97B4F; --green: #2E7D32; --green-bg: #E8F5E9;
+    --red-bg: #FFEBEE; --orange-bg: #FFF3E0; --sidebar-w: 260px;
+  }
+  body { font-family: 'DM Sans', sans-serif; background: var(--cream); color: var(--ink); font-size: 12.5pt; line-height: 1.65; }
+  .top-bar { position: fixed; top: 0; left: 0; right: 0; height: 4px; background: linear-gradient(90deg, var(--gold), var(--gold-light), var(--gold)); z-index: 100; }
+  .sidebar { position: fixed; top: 4px; left: 0; bottom: 0; width: var(--sidebar-w); background: white; border-right: 1px solid var(--line); overflow-y: auto; padding: 24px 0; z-index: 50; }
+  .sidebar-brand { padding: 0 18px 14px; border-bottom: 1px solid var(--line); margin-bottom: 10px; }
+  .sidebar-brand .tag { font-size: 8.5pt; font-weight: 700; letter-spacing: 0.15em; text-transform: uppercase; color: var(--gold); margin-bottom: 3px; }
+  .sidebar-brand h1 { font-family: 'DM Serif Display', serif; font-size: 16pt; font-weight: 400; line-height: 1.2; color: var(--ink); }
+  .sidebar-brand h1 em { color: var(--gold); font-style: italic; }
+  .sidebar nav { padding: 0 4px; }
+  .sidebar nav a { display: block; padding: 5px 14px; font-size: 9.5pt; color: var(--ink-soft); text-decoration: none; border-left: 3px solid transparent; transition: all 0.15s; line-height: 1.45; border-radius: 0 4px 4px 0; }
+  .sidebar nav a:hover, .sidebar nav a.active { color: var(--ink); background: var(--cream); border-left-color: var(--gold); }
+  .sidebar nav .nav-group { font-size: 8pt; font-weight: 700; letter-spacing: 0.18em; text-transform: uppercase; color: var(--gold); padding: 12px 14px 4px; }
+  .main { margin-left: var(--sidebar-w); padding: 32px 48px 64px; max-width: 1020px; }
+  .doc-header { background: white; border: 1px solid var(--line); border-top: 4px solid var(--gold); border-radius: 6px; padding: 22px 26px; margin-bottom: 28px; }
+  .doc-header .meta { font-size: 10.5pt; color: var(--ink-soft); line-height: 1.8; }
+  .doc-header .meta strong { color: var(--ink-mid); }
+  .doc-section { margin-bottom: 36px; scroll-margin-top: 20px; }
+  .doc-section h2 { font-family: 'DM Serif Display', serif; font-size: 20pt; font-weight: 400; color: var(--ink); margin-bottom: 14px; padding-bottom: 8px; border-bottom: 2px solid var(--gold); }
+  .doc-section h3 { font-family: 'DM Serif Display', serif; font-size: 15pt; font-weight: 400; color: var(--ink); margin: 24px 0 10px; }
+  .doc-section h4 { font-family: 'DM Sans', sans-serif; font-size: 12pt; font-weight: 700; color: var(--ink-mid); margin: 18px 0 8px; }
+  p { margin-bottom: 10px; color: var(--ink-mid); font-size: 12pt; line-height: 1.6; }
+  strong { color: var(--ink); }
+  code { background: var(--cream-warm); border: 1px solid var(--line); border-radius: 3px; padding: 2px 5px; font-size: 10.5pt; font-family: 'SF Mono', 'Fira Code', monospace; color: var(--ink-mid); }
+  pre.code-block { background: var(--ink); color: #E0D9CE; border-radius: 6px; padding: 16px 20px; font-size: 10pt; font-family: 'SF Mono', 'Fira Code', monospace; line-height: 1.55; overflow-x: auto; margin: 12px 0 16px; white-space: pre; }
+  .table-wrap { overflow-x: auto; margin: 10px 0 14px; }
+  table { width: 100%; border-collapse: collapse; font-size: 10.5pt; background: white; border: 1px solid var(--line); border-radius: 6px; }
+  th { background: var(--cream-warm); font-weight: 700; font-size: 9pt; letter-spacing: 0.08em; text-transform: uppercase; color: var(--ink-soft); padding: 9px 11px; text-align: left; border-bottom: 2px solid var(--line); }
+  td { padding: 8px 11px; border-bottom: 1px solid var(--line); color: var(--ink-mid); vertical-align: top; line-height: 1.5; }
+  tr:last-child td { border-bottom: none; }
+  tr:hover td { background: #FDFCFA; }
+  ul.dash { list-style: none; padding: 0; margin: 6px 0 10px; }
+  ul.dash li { padding-left: 18px; position: relative; color: var(--ink-mid); font-size: 11.5pt; margin-bottom: 5px; line-height: 1.55; }
+  ul.dash li::before { content: '\2014'; position: absolute; left: 0; color: var(--gold); font-size: 10.5pt; top: 1px; }
+  hr { border: none; border-top: 1px solid var(--line); margin: 22px 0; }
+  a { color: var(--gold); text-decoration: none; }
+  a:hover { text-decoration: underline; }
+
+  .badge { display: inline-block; font-size: 8.5pt; font-weight: 700; letter-spacing: 0.06em; padding: 3px 9px; border-radius: 3px; text-transform: uppercase; }
+  .badge-ok { background: var(--green-bg); color: var(--green); }
+  .badge-warn { background: var(--orange-bg); color: var(--orange); }
+  .badge-fail { background: var(--red-bg); color: var(--red); }
+  .badge-info { background: var(--cream-warm); color: var(--ink-soft); border: 1px solid var(--line); }
+
+  .stat-row { display: grid; grid-template-columns: repeat(4, 1fr); gap: 14px; margin-bottom: 18px; }
+  .stat-card { background: white; border: 1px solid var(--line); border-radius: 6px; padding: 16px 18px; border-top: 3px solid var(--gold); }
+  .stat-card.warn { border-top-color: var(--orange); }
+  .stat-card.fail { border-top-color: var(--red); }
+  .stat-num { font-family: 'DM Serif Display', serif; font-size: 26pt; color: var(--gold); line-height: 1; }
+  .stat-card.warn .stat-num { color: var(--orange); }
+  .stat-card.fail .stat-num { color: var(--red); }
+  .stat-label { font-size: 9.5pt; color: var(--ink-soft); font-weight: 500; letter-spacing: 0.05em; margin-top: 3px; }
+
+  .timeline { position: relative; padding-left: 28px; margin: 16px 0; }
+  .timeline::before { content: ''; position: absolute; left: 8px; top: 4px; bottom: 4px; width: 2px; background: var(--line); }
+  .tl-item { position: relative; margin-bottom: 18px; }
+  .tl-dot { position: absolute; left: -24px; top: 5px; width: 12px; height: 12px; border-radius: 50%; border: 2px solid var(--gold); background: white; }
+  .tl-dot.fail { border-color: var(--red); background: var(--red-bg); }
+  .tl-dot.ok { border-color: var(--green); background: var(--green-bg); }
+  .tl-dot.fix { border-color: var(--orange); background: var(--orange-bg); }
+  .tl-title { font-weight: 700; font-size: 11pt; color: var(--ink); margin-bottom: 2px; }
+  .tl-detail { font-size: 10.5pt; color: var(--ink-soft); line-height: 1.5; }
+
+  .flow-row { display: flex; align-items: center; gap: 8px; margin: 12px 0; flex-wrap: wrap; }
+  .flow-box { background: white; border: 1px solid var(--line); border-radius: 6px; padding: 8px 14px; font-size: 10pt; font-weight: 600; color: var(--ink-mid); text-align: center; min-width: 90px; }
+  .flow-box.active { border-color: var(--gold); background: #FBF8F0; color: var(--ink); }
+  .flow-box.support { border-color: var(--line); background: var(--cream-warm); }
+  .flow-arrow { color: var(--gold); font-size: 16pt; font-weight: 700; }
+
+  .doc-footer { margin-top: 40px; padding-top: 14px; border-top: 1px solid var(--line); font-size: 9.5pt; color: var(--ink-soft); display: flex; justify-content: space-between; }
+  .doc-footer span { color: var(--gold); font-weight: 600; }
+
+  @media print { .sidebar { display: none; } .top-bar { display: none; } .main { margin-left: 0; max-width: 100%; } }
+  @media (max-width: 800px) { .sidebar { display: none; } .main { margin-left: 0; padding: 16px; } .stat-row { grid-template-columns: 1fr 1fr; } }
+</style>
+</head>
+<body>
+<div class="top-bar"></div>
+<div class="sidebar">
+  <div class="sidebar-brand">
+    <div class="tag">HelloIT Pros &middot; Audit Report</div>
+    <h1>Noon Shop<br><em>Workflow</em> Audit</h1>
+  </div>
+  <nav>
+    <div class="nav-group">Overview</div>
+    <a href="#executive-summary">Executive Summary</a>
+    <a href="#test-results">From Name Testing</a>
+    <div class="nav-group">Infrastructure</div>
+    <a href="#email-settings">Email Settings</a>
+    <a href="#staff-roster">Staff Roster</a>
+    <a href="#folder-structure">Folder Structure</a>
+    <div class="nav-group">Workflow Audit</div>
+    <a href="#prospect-journey">Prospect Journey (v52)</a>
+    <a href="#first-order">First Order Journey (v21)</a>
+    <a href="#active-customer">Active Customer Journey (v24)</a>
+    <a href="#win-back">Win-Back Journey (v14)</a>
+    <a href="#holiday-greeting">Holiday Greeting (v6)</a>
+    <a href="#support-workflows">Support Workflows</a>
+    <a href="#draft-workflows">Draft Workflows</a>
+    <div class="nav-group">Analysis</div>
+    <a href="#merge-field-audit">Merge Field Audit</a>
+    <a href="#inconsistencies">Inconsistencies Found</a>
+    <a href="#action-checklist">Action Checklist</a>
+    <a href="#how-it-should-work">How It Should Work</a>
+  </nav>
+</div>
+
+<div class="main">
+  <div class="doc-header">
+    <div class="meta">
+      <strong>Client:</strong> Noon Shop (Anna Park MD) &nbsp;&middot;&nbsp; <strong>Location ID:</strong> 70CEJtz1p3pnSQVuGJgK<br>
+      <strong>Prepared by:</strong> HelloIT Pros &nbsp;&middot;&nbsp; <strong>Date:</strong> March 19, 2026<br>
+      <strong>Scope:</strong> Workflow configuration audit, email template merge field validation, From Name/Email testing<br>
+      <strong>Data Source:</strong> GHL API v2 (live queries) + manual browser testing
+    </div>
+  </div>
+
+  <!-- ============================================ -->
+  <!-- 1. EXECUTIVE SUMMARY                         -->
+  <!-- ============================================ -->
+  <section id="executive-summary" class="doc-section">
+    <h2>1. Executive Summary</h2>
+    <div class="stat-row">
+      <div class="stat-card">
+        <div class="stat-num">27</div>
+        <div class="stat-label">Total Workflows</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-num">10</div>
+        <div class="stat-label">Published</div>
+      </div>
+      <div class="stat-card warn">
+        <div class="stat-num">47</div>
+        <div class="stat-label">Email Actions Need Update</div>
+      </div>
+      <div class="stat-card fail">
+        <div class="stat-num">5</div>
+        <div class="stat-label">Inconsistencies Found</div>
+      </div>
+    </div>
+
+    <p>This audit covers all 27 GHL workflows in the Noon Shop tenant, with deep inspection of the 5 published workflows that send emails (&sim;47 email actions total). Each email template was scanned via API for merge field usage, and the results were cross-referenced against the intended sender (Rep vs. Anna) documented in the workflow design.</p>
+
+    <p><strong>Critical finding:</strong> The dedicated domain header had a static From Name ("Noon Shop") that overrode all workflow-level From settings, assigned user fallback, and merge field variables. This was identified, tested, and resolved on March 19, 2026. The From Name field in the dedicated header is now cleared, allowing the normal GHL sending priority to take effect.</p>
+
+    <p><strong>Remaining work:</strong> Each of the &sim;47 Send Email actions across 5 workflows needs its From Name field explicitly set &mdash; either to <code>{{user.name}}</code> (for rep-sent emails) or <code>"Anna Park"</code> (for founder emails).</p>
+  </section>
+
+  <!-- ============================================ -->
+  <!-- 2. FROM NAME TESTING                         -->
+  <!-- ============================================ -->
+  <section id="test-results" class="doc-section">
+    <h2>2. From Name Testing &mdash; Full Results</h2>
+    <p>A dedicated test workflow (<strong>"Test - From Name Validation"</strong>, v6) was created on March 19, 2026 to isolate and validate the From Name/Email behavior. The test used contact <code>noonshoptester@gmail.com</code> ("Noon Tester") assigned to <strong>Anna Park</strong>.</p>
+
+    <h3>2.1 Test Configuration</h3>
+    <div class="table-wrap"><table>
+    <thead><tr><th>Setting</th><th>Value</th></tr></thead>
+    <tbody>
+    <tr><td><strong>Test Contact</strong></td><td>Noon Tester &lt;noonshoptester@gmail.com&gt;</td></tr>
+    <tr><td><strong>Assigned To</strong></td><td>Anna Park (User ID: <code>J5G7jCf1tcIpBMbj8bDC</code>)</td></tr>
+    <tr><td><strong>Workflow Trigger</strong></td><td>Contact Tag Added: <code>test_from_email</code></td></tr>
+    <tr><td><strong>Dedicated Domain</strong></td><td>mail.noonshop.com (Mailgun)</td></tr>
+    </tbody></table></div>
+
+    <h3>2.2 Test Timeline</h3>
+    <div class="timeline">
+      <div class="tl-item">
+        <div class="tl-dot fail"></div>
+        <div class="tl-title">Test 1 &mdash; Blank From Fields + Dedicated Header Active</div>
+        <div class="tl-detail">
+          <strong>Setup:</strong> From Name and From Email left <em>empty</em> in the Send Email action. Dedicated header set to: Name = "Noon Shop", Email = hello@noonshop.com<br>
+          <strong>Expected (per GHL docs):</strong> Fall back to assigned user &rarr; <code>Anna Park &lt;annapark@noonshop.com&gt;</code><br>
+          <strong>Actual result:</strong> <code>Noon Shop &lt;hello@noonshop.com&gt;</code> &nbsp; <span class="badge badge-fail">FAIL</span><br>
+          <strong>Conclusion:</strong> Dedicated domain header overrides the assigned user fallback entirely.
+        </div>
+      </div>
+      <div class="tl-item">
+        <div class="tl-dot fail"></div>
+        <div class="tl-title">Test 2 &mdash; Explicit <code>{{user.name}}</code> + Dedicated Header Active</div>
+        <div class="tl-detail">
+          <strong>Setup:</strong> From Name set to <code>{{user.name}}</code>, From Email set to <code>{{user.email}}</code>. Dedicated header still active.<br>
+          <strong>Expected:</strong> Priority 1 (explicit workflow settings) &rarr; <code>Anna Park &lt;annapark@noonshop.com&gt;</code><br>
+          <strong>Actual result:</strong> <code>Noon Shop &lt;hello@noonshop.com&gt;</code> &nbsp; <span class="badge badge-fail">FAIL</span><br>
+          <strong>Conclusion:</strong> Dedicated header is a hard override &mdash; it overrides even explicit merge field values. No workflow-level setting can bypass it.
+        </div>
+      </div>
+      <div class="tl-item">
+        <div class="tl-dot fix"></div>
+        <div class="tl-title">Configuration Change &mdash; Clear Dedicated Header From Name</div>
+        <div class="tl-detail">
+          <strong>Action taken:</strong> Cleared the "From Name" field in Email Services &rarr; Dedicated Domains &rarr; mail.noonshop.com &rarr; Set Headers. Kept "From Email" as <code>hello@noonshop.com</code> (required field, good for deliverability).<br>
+          <strong>Header now shows:</strong> Name = <em>"Name not provided"</em>, Email = hello@noonshop.com
+        </div>
+      </div>
+      <div class="tl-item">
+        <div class="tl-dot ok"></div>
+        <div class="tl-title">Test 3 &mdash; Explicit <code>{{user.name}}</code> + Dedicated Header Name Cleared</div>
+        <div class="tl-detail">
+          <strong>Setup:</strong> From Name set to <code>{{user.name}}</code> in the Send Email action. Dedicated header From Name cleared.<br>
+          <strong>Actual result:</strong><br>
+        </div>
+      </div>
+    </div>
+
+    <div class="table-wrap"><table>
+    <thead><tr><th>Email Header</th><th>Value Received</th><th>Status</th></tr></thead>
+    <tbody>
+    <tr><td><strong>from</strong></td><td>Anna Park &lt;hello@noonshop.com&gt;</td><td><span class="badge badge-ok">PASS</span></td></tr>
+    <tr><td><strong>reply-to</strong></td><td>hello@mail.noonshop.com</td><td><span class="badge badge-ok">PASS</span></td></tr>
+    <tr><td><strong>mailed-by</strong></td><td>mail.noonshop.com</td><td><span class="badge badge-ok">PASS</span></td></tr>
+    <tr><td><strong>signed-by</strong></td><td>mail.noonshop.com</td><td><span class="badge badge-ok">PASS</span></td></tr>
+    </tbody></table></div>
+
+    <p><strong>Test 3 confirmed the fix:</strong> The display name correctly resolves to the assigned user (<strong>Anna Park</strong>), while the email address stays centralized on <code>hello@noonshop.com</code> for consistent deliverability. Domain authentication (SPF/DKIM/DMARC) remains intact via <code>mail.noonshop.com</code>.</p>
+
+    <h3>2.3 Root Cause</h3>
+    <p>The GHL dedicated domain header's "Set Headers" feature applies a <strong>hard override</strong> to all emails originating from that domain. The GHL UI itself states: <em>"The designated header will be applied to all emails originating from this domain."</em> When a static From Name was set ("Noon Shop"), it overwrote the workflow's From Name field, the assigned user fallback, and even explicit <code>{{user.name}}</code> merge field values.</p>
+    <p>This behavior differs from what the <a href="https://help.gohighlevel.com/support/solutions/articles/48000979925-sending-priority-from-name-address">official sending priority documentation</a> implies. There is a <a href="https://ideas.gohighlevel.com/lcemailsystem/p/leadconnector-email-system-option-to-override-only-email-id-and-not-name">community feature request</a> asking GHL to allow overriding only the email (not the name) in dedicated headers.</p>
+  </section>
+
+  <!-- ============================================ -->
+  <!-- 3. EMAIL SETTINGS                            -->
+  <!-- ============================================ -->
+  <section id="email-settings" class="doc-section">
+    <h2>3. Email Settings (Current State)</h2>
+    <div class="table-wrap"><table>
+    <thead><tr><th>Setting</th><th>Value</th><th>Notes</th></tr></thead>
+    <tbody>
+    <tr><td><strong>Location Name</strong></td><td>Noon Shop</td><td>Used as fallback From Name if no user assigned</td></tr>
+    <tr><td><strong>Location Email</strong></td><td>hello@noonshop.com</td><td>Primary business email</td></tr>
+    <tr><td><strong>Location Default Name</strong></td><td>David Cho</td><td>Location-level contact name</td></tr>
+    <tr><td><strong>Business Name</strong></td><td>Noon Shop</td><td>&mdash;</td></tr>
+    <tr><td><strong>Dedicated Domain</strong></td><td>mail.noonshop.com</td><td>Mailgun-authenticated sending domain</td></tr>
+    <tr><td><strong>Dedicated Header &mdash; From Name</strong></td><td><em>Cleared</em></td><td>Cleared Mar 19, 2026 (was "Noon Shop")</td></tr>
+    <tr><td><strong>Dedicated Header &mdash; From Email</strong></td><td>hello@noonshop.com</td><td>Required field &mdash; keeps deliverability centralized</td></tr>
+    </tbody></table></div>
+
+    <h3>3.1 How "From" Now Resolves</h3>
+    <div class="table-wrap"><table>
+    <thead><tr><th>Scenario</th><th>From Name Displays As</th><th>From Email</th></tr></thead>
+    <tbody>
+    <tr><td>Send Email action has <code>{{user.name}}</code></td><td>Assigned user (e.g. "Anna Park", "David Cho")</td><td>hello@noonshop.com</td></tr>
+    <tr><td>Send Email action has <code>"Anna Park"</code> (hard-coded)</td><td>Anna Park</td><td>hello@noonshop.com</td></tr>
+    <tr><td>Send Email action has From Name blank, contact assigned</td><td>Assigned user's name</td><td>hello@noonshop.com</td></tr>
+    <tr><td>Send Email action has From Name blank, contact unassigned</td><td>Noon Shop (location default)</td><td>hello@noonshop.com</td></tr>
+    </tbody></table></div>
+  </section>
+
+  <!-- ============================================ -->
+  <!-- 4. STAFF ROSTER                              -->
+  <!-- ============================================ -->
+  <section id="staff-roster" class="doc-section">
+    <h2>4. Staff Roster</h2>
+    <div class="table-wrap"><table>
+    <thead><tr><th>Name</th><th>Email</th><th>Role</th><th>User ID</th><th>Type</th></tr></thead>
+    <tbody>
+    <tr><td><strong>Anna Park</strong></td><td>annapark@noonshop.com</td><td>Admin</td><td><code>J5G7jCf1tcIpBMbj8bDC</code></td><td>Noon Shop staff</td></tr>
+    <tr><td><strong>David Cho</strong></td><td>david@noonshop.com</td><td>Admin</td><td><code>L3f2VQrDXW8Smp1Eyjju</code></td><td>Noon Shop staff</td></tr>
+    <tr><td><strong>Sandra Kim</strong></td><td>sandra@noonshop.com</td><td>Admin</td><td><code>2TuTRx4JyPpdKdeGDWJ3</code></td><td>Noon Shop staff</td></tr>
+    <tr><td><strong>Peter Chong</strong></td><td>peter@noonshop.com</td><td>User</td><td><code>cK0C2sJQVcQemfWeblsy</code></td><td>Noon Shop staff</td></tr>
+    <tr><td>Felipe Abarca</td><td>felipe@helloitpros.com</td><td>Admin</td><td><code>vQYx4zSfWVBxcQRXWMPA</code></td><td>HelloIT Pros</td></tr>
+    <tr><td>Prakash Karnani</td><td>prakash@helloitpros.com</td><td>Admin</td><td><code>AEL7kZ7oMmccKNvIuY7c</code></td><td>HelloIT Pros</td></tr>
+    <tr><td>Dev Test</td><td>developertester786@gmail.com</td><td>Admin</td><td><code>VpbRJit6WrugpJ4ctX6L</code></td><td>Test account</td></tr>
+    </tbody></table></div>
+    <p>The <code>{{user.*}}</code> merge fields in email templates resolve to whichever staff user is assigned to the contact. Contacts without an assigned user fall back to the location default.</p>
+  </section>
+
+  <!-- ============================================ -->
+  <!-- 5. FOLDER STRUCTURE                          -->
+  <!-- ============================================ -->
+  <section id="folder-structure" class="doc-section">
+    <h2>5. Workflow Folder Structure</h2>
+
+    <h3>5.1 GHL Workflow Folders</h3>
+    <pre class="code-block">
+Noon shop - CRM Flows &amp; Automation/
+├── Active Customer Journey        published  v24   16 emails   Updated Mar 17
+├── Controls/
+│   ├── Global - Real-Time Order Monitor      published  v21   No emails
+│   ├── QuickBooks Contact Identifier         published  v4    No emails
+│   ├── Shopify Contact Identifier            published  v3    No emails
+│   └── Post-Appointment Follow-up            published  v5    No emails
+├── First Order Journey            published  v21    8 emails   Updated Mar 5
+├── Holiday Greeting Journey       published  v6    19 emails   Updated Mar 5
+├── Prospect Journey               published  v52   10 emails   Updated Mar 17
+└── win back journey               published  v14   13 emails   Updated Mar 17
+
++ Test - From Name Validation      published  v6     1 email    Created Mar 19 (test only)
++ 17 draft workflows (inactive — legacy, test, or superseded)
+</pre>
+
+    <h3>5.2 Email Template Folders</h3>
+    <div class="table-wrap"><table>
+    <thead><tr><th>Folder</th><th>Templates</th><th>Used By Workflow</th><th>Audience</th></tr></thead>
+    <tbody>
+    <tr><td><strong>Prospect Journey V2</strong></td><td>10</td><td>WF - Prospect Journey</td><td>New B2B Prospects</td></tr>
+    <tr><td><strong>Noonshop First Order Journey</strong></td><td>8</td><td>First Order Journey</td><td>First-Time Customers</td></tr>
+    <tr><td><strong>Prospect Education Journey</strong></td><td>16</td><td>Active Customer Journey</td><td>Active/Repeat Customers</td></tr>
+    <tr><td><strong>Noonshop Win-Back Journey</strong></td><td>10 (of 13 documented)</td><td>Win-Back Journey</td><td>Inactive Customers</td></tr>
+    <tr><td><strong>Operations</strong></td><td>1</td><td>(System)</td><td>Payment reminders</td></tr>
+    </tbody></table></div>
+
+    <h3>5.3 Customer Lifecycle Flow</h3>
+    <div class="flow-row">
+      <div class="flow-box active">New Prospect</div>
+      <div class="flow-arrow">&rarr;</div>
+      <div class="flow-box active">Prospect Journey<br><span style="font-size:8.5pt;color:var(--ink-soft)">10 emails &middot; 150 days</span></div>
+      <div class="flow-arrow">&rarr;</div>
+      <div class="flow-box active">First Order Journey<br><span style="font-size:8.5pt;color:var(--ink-soft)">8 emails &middot; 72 days</span></div>
+      <div class="flow-arrow">&rarr;</div>
+      <div class="flow-box active">Active Customer<br><span style="font-size:8.5pt;color:var(--ink-soft)">16 emails &middot; 210 days</span></div>
+    </div>
+    <div class="flow-row" style="padding-left:60px;">
+      <div class="flow-arrow" style="transform:rotate(90deg)">&rarr;</div>
+    </div>
+    <div class="flow-row" style="padding-left:40px;">
+      <div class="flow-box active">Win-Back Journey<br><span style="font-size:8.5pt;color:var(--ink-soft)">13 emails &middot; 180 days</span></div>
+      <div class="flow-arrow">&larr;</div>
+      <div class="flow-box" style="border-color:var(--orange);background:#FFF9F0;">Inactive (90+ days no order)</div>
+    </div>
+    <p style="font-size:10.5pt;margin-top:10px;"><strong>Holiday Greeting Journey</strong> (19 emails/year) runs in parallel with all journeys. <strong>Controls</strong> folder handles Shopify/QB identification, order monitoring, and post-appointment follow-up.</p>
+  </section>
+
+  <!-- ============================================ -->
+  <!-- 6. PROSPECT JOURNEY                          -->
+  <!-- ============================================ -->
+  <section id="prospect-journey" class="doc-section">
+    <h2>6. Prospect Journey (Published, v52)</h2>
+    <p><strong>Purpose:</strong> Nurture new B2B prospects from intake to appointment booking.<br>
+    <strong>Trigger:</strong> Prospect enters CRM via Prospect Intake Form (tag: <code>prospect_new</code>).<br>
+    <strong>Duration:</strong> ~150 days (10 emails).<br>
+    <strong>Workflow ID:</strong> <code>f5e0305d-9330-4737-8b3e-4ac329535e2c</code><br>
+    <strong>Template Folder:</strong> Prospect Journey V2</p>
+
+    <div class="table-wrap"><table>
+    <thead><tr><th>Email</th><th>Day</th><th>Subject/Focus</th><th>Intended Sender</th><th>Merge Fields in Body</th><th>From Name Action</th></tr></thead>
+    <tbody>
+    <tr><td><strong>1</strong></td><td>1&ndash;3</td><td>Warm Introduction</td><td>Rep</td><td><code>{{user.fullname}}</code>, <code>{{user.email_signature}}</code>, <code>{{user.calendar_link}}</code></td><td><span class="badge badge-warn">Set <code>{{user.name}}</code></span></td></tr>
+    <tr><td><strong>2</strong></td><td>4&ndash;7</td><td>Value Proposition</td><td>Rep</td><td><code>{{user.fullname}}</code>, <code>{{ user.email_signature }}</code>, <code>{{user.calendar_link}}</code></td><td><span class="badge badge-warn">Set <code>{{user.name}}</code></span></td></tr>
+    <tr><td><strong>3</strong></td><td>10&ndash;14</td><td>Social Proof</td><td>Rep</td><td><code>{{user.fullname}}</code>, <code>{{ user.email_signature }}</code>, <code>{{user.calendar_link}}</code></td><td><span class="badge badge-warn">Set <code>{{user.name}}</code></span></td></tr>
+    <tr><td><strong>4</strong></td><td>18&ndash;21</td><td>Personalized Curation</td><td>Rep</td><td><code>{{user.fullname}}</code>, <code>{{ user.email_signature }}</code>, <code>{{user.calendar_link}}</code></td><td><span class="badge badge-warn">Set <code>{{user.name}}</code></span></td></tr>
+    <tr><td><strong>5</strong></td><td>24&ndash;27</td><td>Top Sellers</td><td>Rep</td><td><code>{{user.fullname}}</code>, <code>{{ user.email_signature }}</code>, <code>{{user.calendar_link}}</code></td><td><span class="badge badge-warn">Set <code>{{user.name}}</code></span></td></tr>
+    <tr><td><strong>6</strong></td><td>32&ndash;35</td><td>Founder Introduction</td><td>Anna</td><td><code>{{user.fullname}}</code>, <code>{{custom_values.anna_email_signature}}</code></td><td><span class="badge badge-fail">Set "Anna Park" + fix body</span></td></tr>
+    <tr><td><strong>7</strong></td><td>42&ndash;45</td><td>Reconnection</td><td>Rep</td><td><code>{{user.fullname}}</code>, <code>{{ user.email_signature }}</code>, <code>{{user.calendar_link}}</code></td><td><span class="badge badge-warn">Set <code>{{user.name}}</code></span></td></tr>
+    <tr><td><strong>8</strong></td><td>55&ndash;60</td><td>Timing Check</td><td>Rep</td><td><code>{{user.fullname}}</code>, <code>{{ user.email_signature }}</code>, <code>{{user.calendar_link}}</code></td><td><span class="badge badge-warn">Set <code>{{user.name}}</code></span></td></tr>
+    <tr><td><strong>9</strong></td><td>90</td><td>Founder Check-in</td><td>Anna</td><td><code>{{custom_values.anna_email_signature}}</code></td><td><span class="badge badge-fail">Set "Anna Park"</span></td></tr>
+    <tr><td><strong>10</strong></td><td>150</td><td>Final Touch</td><td>Anna</td><td><code>{{custom_values.anna_email_signature}}</code></td><td><span class="badge badge-fail">Set "Anna Park"</span></td></tr>
+    </tbody></table></div>
+    <p><strong>Issue &mdash; Email 6:</strong> Body uses <code>{{user.fullname}}</code> (resolves to assigned rep) but uses Anna's hard-coded signature. This creates a mismatch: the greeting says the rep's name, but the signature says Anna.</p>
+  </section>
+
+  <!-- ============================================ -->
+  <!-- 7. FIRST ORDER JOURNEY                       -->
+  <!-- ============================================ -->
+  <section id="first-order" class="doc-section">
+    <h2>7. First Order Journey (Published, v21)</h2>
+    <p><strong>Purpose:</strong> Onboard new customers after their first order, drive repeat purchase.<br>
+    <strong>Trigger:</strong> First Shopify order (<code>order.created</code> webhook &mdash; first order only).<br>
+    <strong>Duration:</strong> ~72 days post expected-reorder-date (8 emails).<br>
+    <strong>Workflow ID:</strong> <code>00df0118-0068-498d-bd8c-eda1285d4d7f</code><br>
+    <strong>Template Folder:</strong> Noonshop First Order Journey</p>
+
+    <div class="table-wrap"><table>
+    <thead><tr><th>Email</th><th>Timing</th><th>Subject/Focus</th><th>Intended Sender</th><th>Merge Fields in Body</th><th>From Name Action</th></tr></thead>
+    <tbody>
+    <tr><td><strong>1</strong></td><td>Day 0&ndash;1</td><td>Welcome &amp; Confirmation</td><td>Anna</td><td><code>{{user.name}}</code>, <code>{{custom_values.anna_email_signature}}</code></td><td><span class="badge badge-fail">Set "Anna Park" + fix body conflict</span></td></tr>
+    <tr><td><strong>2</strong></td><td>Day 3&ndash;5</td><td>Display &amp; Merchandising</td><td>Rep</td><td><code>{{user.fullname}}</code>, <code>{{ user.email_signature }}</code></td><td><span class="badge badge-warn">Set <code>{{user.name}}</code></span></td></tr>
+    <tr><td><strong>3</strong></td><td>Day 7&ndash;10</td><td>Brand Story</td><td>Anna</td><td><code>{{custom_values.anna_email_signature}}</code></td><td><span class="badge badge-fail">Set "Anna Park"</span></td></tr>
+    <tr><td><strong>4</strong></td><td>Day 14&ndash;17</td><td>First Impressions Check-in</td><td>Rep</td><td><code>{{user.fullname}}</code>, <code>{{ user.email_signature }}</code>, <code>{{user.calendar_link}}</code></td><td><span class="badge badge-warn">Set <code>{{user.name}}</code></span></td></tr>
+    <tr><td><strong>5</strong></td><td>Reorder-7d</td><td>Restock Awareness</td><td>Rep</td><td><code>{{user.fullname}}</code>, <code>{{ user.email_signature }}</code>, <code>{{user.calendar_link}}</code></td><td><span class="badge badge-warn">Set <code>{{user.name}}</code></span></td></tr>
+    <tr><td><strong>6</strong></td><td>Reorder+7d</td><td>Second Order Encouragement</td><td>Anna</td><td><code>{{custom_values.anna_email_signature}}</code></td><td><span class="badge badge-fail">Set "Anna Park"</span></td></tr>
+    <tr><td><strong>7</strong></td><td>Reorder+21d</td><td>Incentive Offer</td><td>Rep</td><td><code>{{user.fullname}}</code>, <code>{{ user.email_signature }}</code>, <code>{{user.calendar_link}}</code></td><td><span class="badge badge-warn">Set <code>{{user.name}}</code></span></td></tr>
+    <tr><td><strong>8</strong></td><td>Reorder+42d</td><td>Final Re-engagement</td><td>Anna?</td><td><code>{{user.fullname}}</code>, <code>{{ user.email_signature }}</code></td><td><span class="badge badge-fail">Decision needed: Rep or Anna?</span></td></tr>
+    </tbody></table></div>
+    <p><strong>Issue &mdash; Email 1:</strong> Body references <code>{{user.name}}</code> (assigned rep) but signature uses <code>{{custom_values.anna_email_signature}}</code> (Anna). The greeting will say the rep's name but sign off as Anna.</p>
+    <p><strong>Issue &mdash; Email 8:</strong> Body uses <code>{{user.fullname}}</code> and <code>{{ user.email_signature }}</code> (both resolve to the rep), but the original design doc says sender is "Anna". Decide which is correct.</p>
+  </section>
+
+  <!-- ============================================ -->
+  <!-- 8. ACTIVE CUSTOMER JOURNEY                   -->
+  <!-- ============================================ -->
+  <section id="active-customer" class="doc-section">
+    <h2>8. Active Customer Journey (Published, v24)</h2>
+    <p><strong>Purpose:</strong> Keep repeat customers engaged and ordering regularly.<br>
+    <strong>Trigger:</strong> New order placed (non-first order). Restarts on every new order.<br>
+    <strong>Duration:</strong> ~210 days (16 emails).<br>
+    <strong>Workflow ID:</strong> <code>851d142a-08d2-4b9b-a06d-c3ea1e3a52b6</code><br>
+    <strong>Template Folder:</strong> Prospect Education Journey (10 of 16 found)</p>
+
+    <div class="table-wrap"><table>
+    <thead><tr><th>Email</th><th>Day</th><th>Subject/Focus</th><th>Intended Sender</th><th>Merge Fields in Body</th><th>From Name Action</th></tr></thead>
+    <tbody>
+    <tr><td><strong>1</strong></td><td>0</td><td>Fit &amp; Conversion</td><td>Rep</td><td><code>{{user.fullname}}</code>, <code>{{ user.email_signature }}</code>, <code>{{user.calendar_link}}</code></td><td><span class="badge badge-warn">Set <code>{{user.name}}</code></span></td></tr>
+    <tr><td><strong>2</strong></td><td>3&ndash;5</td><td>Facial Diversity</td><td>Rep</td><td><code>{{user.fullname}}</code>, <code>{{ user.email_signature }}</code>, <code>{{user.calendar_link}}</code></td><td><span class="badge badge-warn">Set <code>{{user.name}}</code></span></td></tr>
+    <tr><td><strong>3</strong></td><td>10&ndash;14</td><td>Why Fit Matters</td><td>Anna</td><td><code>{{custom_values.anna_email_signature}}</code>, <code>{{user.calendar_link}}</code></td><td><span class="badge badge-fail">Set "Anna Park" + fix calendar link</span></td></tr>
+    <tr><td><strong>4</strong></td><td>21</td><td>Patient First Impressions</td><td>Rep</td><td><code>{{user.fullname}}</code>, <code>{{ user.email_signature }}</code>, <code>{{user.calendar_link}}</code></td><td><span class="badge badge-warn">Set <code>{{user.name}}</code></span></td></tr>
+    <tr><td><strong>5</strong></td><td>28</td><td>Increase Try-Ons</td><td>Rep</td><td><code>{{user.fullname}}</code>, <code>{{ user.email_signature }}</code>, <code>{{user.calendar_link}}</code></td><td><span class="badge badge-warn">Set <code>{{user.name}}</code></span></td></tr>
+    <tr><td><strong>6</strong></td><td>42</td><td>What's Selling</td><td>Rep</td><td><code>{{user.fullname}}</code>, <code>{{ user.email_signature }}</code>, <code>{{user.calendar_link}}</code></td><td><span class="badge badge-warn">Set <code>{{user.name}}</code></span></td></tr>
+    <tr><td><strong>7</strong></td><td>56</td><td>Patient Trends</td><td>Anna</td><td><code>{{custom_values.anna_email_signature}}</code></td><td><span class="badge badge-fail">Set "Anna Park"</span></td></tr>
+    <tr><td><strong>8</strong></td><td>63</td><td>Personalized Picks</td><td>Rep</td><td><code>{{user.fullname}}</code>, <code>{{ user.email_signature }}</code>, <code>{{user.calendar_link}}</code></td><td><span class="badge badge-warn">Set <code>{{user.name}}</code></span></td></tr>
+    <tr><td><strong>9</strong></td><td>70</td><td>Soft Check-in</td><td>Rep</td><td><code>{{user.fullname}}</code>, <code>{{ user.email_signature }}</code>, <code>{{user.calendar_link}}</code></td><td><span class="badge badge-warn">Set <code>{{user.name}}</code></span></td></tr>
+    <tr><td><strong>10</strong></td><td>84</td><td>New Styles</td><td>Rep</td><td><code>{{user.fullname}}</code>, <code>{{ user.email_signature }}</code>, <code>{{user.calendar_link}}</code></td><td><span class="badge badge-warn">Set <code>{{user.name}}</code></span></td></tr>
+    <tr><td><strong>11&ndash;16</strong></td><td>98&ndash;210</td><td>(6 additional emails)</td><td>Mix</td><td>Not scanned &mdash; templates not found in folder</td><td><span class="badge badge-info">Locate templates &amp; audit</span></td></tr>
+    </tbody></table></div>
+    <p><strong>Issue &mdash; Email 3:</strong> Uses Anna's signature but includes <code>{{user.calendar_link}}</code>, which resolves to the assigned rep's booking link. Should use Anna's specific booking link (<code>{{custom_values.anna_park_booking_link}}</code>) instead.</p>
+    <p><strong>Note:</strong> Only 10 of 16 templates were found in the "Prospect Education Journey" folder. The remaining 6 may be embedded directly in the workflow actions or located elsewhere.</p>
+  </section>
+
+  <!-- ============================================ -->
+  <!-- 9. WIN-BACK JOURNEY                          -->
+  <!-- ============================================ -->
+  <section id="win-back" class="doc-section">
+    <h2>9. Win-Back Journey (Published, v14)</h2>
+    <p><strong>Purpose:</strong> Re-engage inactive customers.<br>
+    <strong>Trigger:</strong> Customer becomes inactive (no order 90+ days or Expected Reorder Date + 72 days).<br>
+    <strong>Duration:</strong> ~180 days (13 emails documented, 10 templates found).<br>
+    <strong>Workflow ID:</strong> <code>7d5506aa-910e-4cd6-8531-412c6c15865f</code><br>
+    <strong>Template Folder:</strong> Noonshop Win-Back Journey</p>
+
+    <div class="table-wrap"><table>
+    <thead><tr><th>Email</th><th>Day</th><th>Subject/Focus</th><th>Intended Sender</th><th>Merge Fields in Body</th><th>From Name Action</th></tr></thead>
+    <tbody>
+    <tr><td><strong>1</strong></td><td>0&ndash;2</td><td>Warm Reconnection</td><td>Rep</td><td><code>{{user.fullname}}</code>, <code>{{ user.email_signature }}</code></td><td><span class="badge badge-warn">Set <code>{{user.name}}</code></span></td></tr>
+    <tr><td><strong>2</strong></td><td>12&ndash;15</td><td>New Frames Introduction</td><td>Rep</td><td><code>{{user.fullname}}</code>, <code>{{ user.email_signature }}</code></td><td><span class="badge badge-warn">Set <code>{{user.name}}</code></span></td></tr>
+    <tr><td><strong>3</strong></td><td>22&ndash;26</td><td>Brand Update</td><td>Anna</td><td><code>{{custom_values.anna_email_signature}}</code></td><td><span class="badge badge-fail">Set "Anna Park"</span></td></tr>
+    <tr><td><strong>4</strong></td><td>36&ndash;40</td><td>Value Delivery</td><td>Rep</td><td><code>{{user.fullname}}</code>, <code>{{ user.email_signature }}</code></td><td><span class="badge badge-warn">Set <code>{{user.name}}</code></span></td></tr>
+    <tr><td><strong>5</strong></td><td>50&ndash;54</td><td>Personalized Picks</td><td>Rep</td><td><code>{{user.fullname}}</code>, <code>{{ user.email_signature }}</code></td><td><span class="badge badge-warn">Set <code>{{user.name}}</code></span></td></tr>
+    <tr><td><strong>6</strong></td><td>64&ndash;68</td><td>Success Story</td><td>Rep</td><td><code>{{user.fullname}}</code>, <code>{{ user.email_signature }}</code></td><td><span class="badge badge-warn">Set <code>{{user.name}}</code></span></td></tr>
+    <tr><td><strong>7</strong></td><td>78&ndash;82</td><td>Industry Insights</td><td>Anna</td><td><code>{{custom_values.anna_email_signature}}</code></td><td><span class="badge badge-fail">Set "Anna Park"</span></td></tr>
+    <tr><td><strong>8</strong></td><td>92&ndash;96</td><td>Quick Tip</td><td>Rep</td><td><code>{{user.fullname}}</code>, <code>{{ user.email_signature }}</code></td><td><span class="badge badge-warn">Set <code>{{user.name}}</code></span></td></tr>
+    <tr><td><strong>9</strong></td><td>106&ndash;110</td><td>Direct Check-in</td><td>Rep</td><td><code>{{user.fullname}}</code>, <code>{{ user.email_signature }}</code>, <code>{{user.calendar_link}}</code></td><td><span class="badge badge-warn">Set <code>{{user.name}}</code></span></td></tr>
+    <tr><td><strong>10</strong></td><td>120&ndash;124</td><td>Exclusive Preview</td><td>Rep</td><td><code>{{user.fullname}}</code>, <code>{{ user.email_signature }}</code></td><td><span class="badge badge-warn">Set <code>{{user.name}}</code></span></td></tr>
+    <tr><td><strong>11</strong></td><td>134&ndash;138</td><td>Incentive Offer</td><td>Rep</td><td colspan="2"><span class="badge badge-info">Template not found in folder</span></td></tr>
+    <tr><td><strong>12</strong></td><td>155&ndash;159</td><td>Soft Hello</td><td>Rep</td><td colspan="2"><span class="badge badge-info">Template not found in folder</span></td></tr>
+    <tr><td><strong>13</strong></td><td>176&ndash;180</td><td>Final Value &amp; Door Open</td><td>Anna</td><td colspan="2"><span class="badge badge-info">Template not found in folder</span></td></tr>
+    </tbody></table></div>
+  </section>
+
+  <!-- ============================================ -->
+  <!-- 10. HOLIDAY GREETING JOURNEY                 -->
+  <!-- ============================================ -->
+  <section id="holiday-greeting" class="doc-section">
+    <h2>10. Holiday Greeting Journey (Published, v6)</h2>
+    <p><strong>Purpose:</strong> Seasonal greetings to all contacts.<br>
+    <strong>Trigger:</strong> System calendar (3&ndash;5 days before each holiday).<br>
+    <strong>Duration:</strong> Annual cycle (19 emails).<br>
+    <strong>Workflow ID:</strong> <code>20c0ff0c-e4af-47d7-8725-c2290b2dc5c8</code></p>
+
+    <div class="table-wrap"><table>
+    <thead><tr><th>#</th><th>Holiday</th><th>Month</th><th>Sender</th><th>From Name Action</th></tr></thead>
+    <tbody>
+    <tr><td>1</td><td>New Year</td><td>Jan</td><td>Rep</td><td><span class="badge badge-warn">Set <code>{{user.name}}</code></span></td></tr>
+    <tr><td>2</td><td>Valentine's Day</td><td>Feb</td><td>Rep</td><td><span class="badge badge-warn">Set <code>{{user.name}}</code></span></td></tr>
+    <tr><td>3</td><td>Spring Forward (DST)</td><td>Mar</td><td>Rep</td><td><span class="badge badge-warn">Set <code>{{user.name}}</code></span></td></tr>
+    <tr><td>4</td><td>Save Your Vision Month</td><td>Mar</td><td>Anna</td><td><span class="badge badge-fail">Set "Anna Park"</span></td></tr>
+    <tr><td>5</td><td>Memorial Day</td><td>May</td><td>Rep</td><td><span class="badge badge-warn">Set <code>{{user.name}}</code></span></td></tr>
+    <tr><td>6</td><td>First Day of Summer</td><td>Jun</td><td>Rep</td><td><span class="badge badge-warn">Set <code>{{user.name}}</code></span></td></tr>
+    <tr><td>7</td><td>National Sunglasses Day</td><td>Jun 27</td><td>Rep</td><td><span class="badge badge-warn">Set <code>{{user.name}}</code></span></td></tr>
+    <tr><td>8</td><td>Fourth of July</td><td>Jul 4</td><td>Rep</td><td><span class="badge badge-warn">Set <code>{{user.name}}</code></span></td></tr>
+    <tr><td>9</td><td>National Eye Exam Month</td><td>Aug</td><td>Anna</td><td><span class="badge badge-fail">Set "Anna Park"</span></td></tr>
+    <tr><td>10</td><td>National Relaxation Day</td><td>Aug 15</td><td>Rep</td><td><span class="badge badge-warn">Set <code>{{user.name}}</code></span></td></tr>
+    <tr><td>11</td><td>Labor Day</td><td>Sep</td><td>Rep</td><td><span class="badge badge-warn">Set <code>{{user.name}}</code></span></td></tr>
+    <tr><td>12</td><td>National Read a Book Day</td><td>Sep 6</td><td>Rep</td><td><span class="badge badge-warn">Set <code>{{user.name}}</code></span></td></tr>
+    <tr><td>13</td><td>First Day of Fall</td><td>Sep 22</td><td>Rep</td><td><span class="badge badge-warn">Set <code>{{user.name}}</code></span></td></tr>
+    <tr><td>14</td><td>National Coffee Day</td><td>Sep 29</td><td>Rep</td><td><span class="badge badge-warn">Set <code>{{user.name}}</code></span></td></tr>
+    <tr><td>15</td><td>World Sight Day</td><td>Oct</td><td>Anna</td><td><span class="badge badge-fail">Set "Anna Park"</span></td></tr>
+    <tr><td>16</td><td>Halloween</td><td>Oct 31</td><td>Rep</td><td><span class="badge badge-warn">Set <code>{{user.name}}</code></span></td></tr>
+    <tr><td>17</td><td>Fall Back (DST)</td><td>Nov</td><td>Rep</td><td><span class="badge badge-warn">Set <code>{{user.name}}</code></span></td></tr>
+    <tr><td>18</td><td>Thanksgiving</td><td>Nov</td><td>Rep</td><td><span class="badge badge-warn">Set <code>{{user.name}}</code></span></td></tr>
+    <tr><td>19</td><td>Christmas/Holidays</td><td>Dec</td><td>Anna</td><td><span class="badge badge-fail">Set "Anna Park"</span></td></tr>
+    </tbody></table></div>
+    <p><strong>Note:</strong> Holiday templates were not individually scanned for merge fields in this audit. Recommend a follow-up scan.</p>
+  </section>
+
+  <!-- ============================================ -->
+  <!-- 11. SUPPORT WORKFLOWS                        -->
+  <!-- ============================================ -->
+  <section id="support-workflows" class="doc-section">
+    <h2>11. Support / Integration Workflows</h2>
+    <div class="table-wrap"><table>
+    <thead><tr><th>Workflow</th><th>Version</th><th>Status</th><th>Sends Email?</th><th>Purpose</th></tr></thead>
+    <tbody>
+    <tr><td><strong>Global - Real-Time Order Monitor</strong></td><td>v21</td><td><span class="badge badge-ok">Published</span></td><td>No</td><td>Listens for Shopify <code>order.created</code>. Updates <code>last_order_date</code>, sets <code>customer_status</code>, calculates <code>expected_reorder_date</code>. Routes to First Order or Active Customer journeys.</td></tr>
+    <tr><td><strong>QuickBooks Contact Identifier</strong></td><td>v4</td><td><span class="badge badge-ok">Published</span></td><td>No</td><td>Tags and segments contacts imported from QuickBooks. Applies <code>customer_quickbooks</code> tag.</td></tr>
+    <tr><td><strong>Shopify Contact Identifier</strong></td><td>v3</td><td><span class="badge badge-ok">Published</span></td><td>No</td><td>Tags and segments contacts from Shopify events.</td></tr>
+    <tr><td><strong>Post-Appointment Follow-up</strong></td><td>v5</td><td><span class="badge badge-ok">Published</span></td><td>No</td><td>Fires on appointment complete. Checks for order &rarr; Active Customer Journey. No order &rarr; follow-up task.</td></tr>
+    <tr><td><strong>Test - From Name Validation</strong></td><td>v6</td><td><span class="badge badge-info">Published (test)</span></td><td>Yes</td><td>Created Mar 19, 2026 for testing. <strong>Should be unpublished or deleted.</strong></td></tr>
+    </tbody></table></div>
+  </section>
+
+  <!-- ============================================ -->
+  <!-- 12. DRAFT WORKFLOWS                          -->
+  <!-- ============================================ -->
+  <section id="draft-workflows" class="doc-section">
+    <h2>12. Draft Workflows (Inactive)</h2>
+    <p>17 draft workflows exist. These are legacy, test, or superseded &mdash; none are actively sending.</p>
+    <div class="table-wrap"><table>
+    <thead><tr><th>Workflow</th><th>Version</th><th>Notes</th></tr></thead>
+    <tbody>
+    <tr><td>5 Day Outreach: Email Opened</td><td>v10</td><td>Legacy &mdash; replaced by Prospect Journey</td></tr>
+    <tr><td>Appointment Cancelled+Showed</td><td>v5</td><td>Appointment status handler</td></tr>
+    <tr><td>Appointment Confirmed</td><td>v4</td><td>Confirmation flow</td></tr>
+    <tr><td>Landing Page Leads</td><td>v3</td><td>Landing page form submissions</td></tr>
+    <tr><td>Noon Shop Drip Campaign</td><td>v7</td><td>Legacy drip &mdash; superseded</td></tr>
+    <tr><td>Prospect: Responded to Email</td><td>v4</td><td>Email responder branch</td></tr>
+    <tr><td>Prospect: Response: NO</td><td>v3</td><td>Negative response branch</td></tr>
+    <tr><td>Prospect: Response: YES</td><td>v3</td><td>Positive response branch</td></tr>
+    <tr><td>Recipe - Appointment Confirmation + Reminder</td><td>v9</td><td>GHL recipe template</td></tr>
+    <tr><td>Responded Workflow</td><td>v4</td><td>General response handler</td></tr>
+    <tr><td>Social Media Ads Interactions</td><td>v9</td><td>Social ad lead routing</td></tr>
+    <tr><td>Unsubscribe</td><td>v6</td><td>Opt-out handler</td></tr>
+    <tr><td>Vision Expo 5 Day Outreach: Email Only</td><td>v22</td><td>Legacy event outreach</td></tr>
+    <tr><td>New Workflow : 1720192575592</td><td>v1</td><td>Untitled &mdash; test/abandoned</td></tr>
+    <tr><td>New Workflow : 1758498984484</td><td>v1</td><td>Untitled &mdash; test/abandoned</td></tr>
+    <tr><td>New Workflow : 1769645956420</td><td>v1</td><td>Untitled &mdash; test/abandoned</td></tr>
+    <tr><td>New Workflow : 1769774455145</td><td>v1</td><td>Untitled &mdash; test/abandoned</td></tr>
+    </tbody></table></div>
+  </section>
+
+  <!-- ============================================ -->
+  <!-- 13. MERGE FIELD AUDIT                        -->
+  <!-- ============================================ -->
+  <section id="merge-field-audit" class="doc-section">
+    <h2>13. Merge Field Audit</h2>
+    <p>Every email template in the 4 primary journey folders was scanned via API for merge field usage. The following fields were found:</p>
+
+    <h3>13.1 Fields Used Across Templates</h3>
+    <div class="table-wrap"><table>
+    <thead><tr><th>Merge Field</th><th>Resolves To</th><th>Used In</th><th>Count</th></tr></thead>
+    <tbody>
+    <tr><td><code>{{contact.first_name}}</code></td><td>Contact's first name</td><td>All folders</td><td>Most templates</td></tr>
+    <tr><td><code>{{contact.company_name}}</code></td><td>Contact's company</td><td>All folders</td><td>Most templates</td></tr>
+    <tr><td><code>{{user.fullname}}</code></td><td>Assigned user's full name</td><td>All folders</td><td>~25 templates</td></tr>
+    <tr><td><code>{{user.name}}</code></td><td>Assigned user's full name</td><td>First Order Email 1</td><td>1 template</td></tr>
+    <tr><td><code>{{ user.email_signature }}</code></td><td>Assigned user's email signature</td><td>Rep-sent emails</td><td>~25 templates</td></tr>
+    <tr><td><code>{{user.calendar_link}}</code></td><td>Assigned user's booking link</td><td>Prospect, Education, some others</td><td>~18 templates</td></tr>
+    <tr><td><code>{{custom_values.anna_email_signature}}</code></td><td>Anna Park's hard-coded HTML signature</td><td>Anna-specific emails</td><td>~12 templates</td></tr>
+    </tbody></table></div>
+
+    <h3>13.2 Custom Values Configured</h3>
+    <div class="table-wrap"><table>
+    <thead><tr><th>Custom Value</th><th>Content</th></tr></thead>
+    <tbody>
+    <tr><td><code>Anna Email Signature</code></td><td>HTML table with Anna Park's contact info, styling</td></tr>
+    <tr><td><code>Anna Park Booking Link</code></td><td>https://api.leadconnectorhq.com/widget/booking/Gg6B1Fzgz9jn03rr9ySM</td></tr>
+    <tr><td><code>David Cho Booking Link</code></td><td>https://api.leadconnectorhq.com/widget/booking/8k29ErfhWBl7naDAreUv</td></tr>
+    <tr><td><code>Peter Chong Booking Link</code></td><td>https://api.leadconnectorhq.com/widget/booking/Ir02J2yFu1zK3W9goBX6</td></tr>
+    <tr><td><code>Main Website</code></td><td>https://www.noonshop.com/</td></tr>
+    <tr><td><code>Unsubscribe Link</code></td><td>https://api.leadconnectorhq.com/widget/form/3SpmjF0zJOhFowNzwGRy</td></tr>
+    </tbody></table></div>
+  </section>
+
+  <!-- ============================================ -->
+  <!-- 14. INCONSISTENCIES                          -->
+  <!-- ============================================ -->
+  <section id="inconsistencies" class="doc-section">
+    <h2>14. Inconsistencies Found</h2>
+
+    <div class="table-wrap"><table>
+    <thead><tr><th>#</th><th>Issue</th><th>Templates Affected</th><th>Severity</th></tr></thead>
+    <tbody>
+    <tr>
+      <td>1</td>
+      <td><strong><code>{{user.fullname}}</code> vs <code>{{user.name}}</code></strong><br>Both are used across templates. In GHL, both resolve to the assigned user's full name, but <code>{{user.name}}</code> is the documented standard. Only First Order Email 1 uses <code>{{user.name}}</code>; all others use <code>{{user.fullname}}</code>.</td>
+      <td>All folders (~30 templates)</td>
+      <td><span class="badge badge-warn">Low</span></td>
+    </tr>
+    <tr>
+      <td>2</td>
+      <td><strong>Prospect Journey Email 6 &mdash; Sender/body mismatch</strong><br>Body uses <code>{{user.fullname}}</code> (assigned rep) but uses Anna's hard-coded signature <code>{{custom_values.anna_email_signature}}</code>. The greeting says the rep's name, the signature says Anna.</td>
+      <td>Prospect Journey V2: Email 6</td>
+      <td><span class="badge badge-fail">Medium</span></td>
+    </tr>
+    <tr>
+      <td>3</td>
+      <td><strong>First Order Email 1 &mdash; Sender/body mismatch</strong><br>Body references <code>{{user.name}}</code> (assigned rep) but signature uses <code>{{custom_values.anna_email_signature}}</code> (Anna). Same conflict as above.</td>
+      <td>First Order Journey: Email 1</td>
+      <td><span class="badge badge-fail">Medium</span></td>
+    </tr>
+    <tr>
+      <td>4</td>
+      <td><strong>First Order Email 8 &mdash; Ambiguous sender</strong><br>Body uses <code>{{user.fullname}}</code> and <code>{{ user.email_signature }}</code> (both resolve to rep), but documentation says sender should be "Anna". The template content contradicts the design intent.</td>
+      <td>First Order Journey: Email 8</td>
+      <td><span class="badge badge-fail">Medium</span></td>
+    </tr>
+    <tr>
+      <td>5</td>
+      <td><strong>Education Email 3 &mdash; Calendar link mismatch</strong><br>Uses Anna's signature but includes <code>{{user.calendar_link}}</code>, which resolves to the assigned rep's booking link. Should use Anna's specific booking link.</td>
+      <td>Prospect Education Journey: Email 3</td>
+      <td><span class="badge badge-fail">Medium</span></td>
+    </tr>
+    <tr>
+      <td>6</td>
+      <td><strong>Win-Back Emails 11&ndash;13 missing</strong><br>Documentation describes 13 emails, but only 10 templates exist in the Win-Back folder. Emails 11 (Incentive Offer), 12 (Soft Hello), and 13 (Final Value &amp; Door Open) are either embedded directly in the workflow or haven't been created yet.</td>
+      <td>Noonshop Win-Back Journey</td>
+      <td><span class="badge badge-warn">Medium</span></td>
+    </tr>
+    <tr>
+      <td>7</td>
+      <td><strong>Active Customer templates incomplete</strong><br>Documentation describes 16 emails, but only 10 templates found in the "Prospect Education Journey" folder. 6 templates unaccounted for.</td>
+      <td>Prospect Education Journey</td>
+      <td><span class="badge badge-warn">Medium</span></td>
+    </tr>
+    </tbody></table></div>
+  </section>
+
+  <!-- ============================================ -->
+  <!-- 15. ACTION CHECKLIST                         -->
+  <!-- ============================================ -->
+  <section id="action-checklist" class="doc-section">
+    <h2>15. Action Checklist</h2>
+
+    <h3 style="color:var(--red);">Critical Priority</h3>
+    <div class="table-wrap"><table>
+    <thead><tr><th>#</th><th>Action</th><th>Scope</th><th>Status</th></tr></thead>
+    <tbody>
+    <tr><td>1</td><td><strong>Confirm dedicated domain header From Name remains cleared</strong><br>Do not re-add "Noon Shop" to the dedicated header. This was the root cause of the override.</td><td>Email Services &rarr; Dedicated Domains &rarr; mail.noonshop.com &rarr; Set Headers</td><td><span class="badge badge-ok">Done (Mar 19)</span></td></tr>
+    <tr><td>2</td><td><strong>Set <code>From Name: {{user.name}}</code></strong> on all rep-sent Send Email actions across all 5 email-sending workflows.</td><td>~35 email actions</td><td><span class="badge badge-fail">Pending</span></td></tr>
+    <tr><td>3</td><td><strong>Set <code>From Name: Anna Park</code></strong> (hard-coded) on all Anna-specific Send Email actions.</td><td>~12 email actions</td><td><span class="badge badge-fail">Pending</span></td></tr>
+    </tbody></table></div>
+
+    <h3 style="color:var(--orange);">Medium Priority</h3>
+    <div class="table-wrap"><table>
+    <thead><tr><th>#</th><th>Action</th><th>Scope</th><th>Status</th></tr></thead>
+    <tbody>
+    <tr><td>4</td><td><strong>Fix Prospect Email 6 body</strong> &mdash; change <code>{{user.fullname}}</code> to "Anna" or remove it (Anna's signature already identifies her)</td><td>1 template</td><td><span class="badge badge-fail">Pending</span></td></tr>
+    <tr><td>5</td><td><strong>Fix First Order Email 1 body</strong> &mdash; change <code>{{user.name}}</code> to "Anna" (since this is Anna's welcome email)</td><td>1 template</td><td><span class="badge badge-fail">Pending</span></td></tr>
+    <tr><td>6</td><td><strong>Decide First Order Email 8 sender</strong> &mdash; should it be Rep or Anna? Update body merge fields accordingly.</td><td>1 template</td><td><span class="badge badge-fail">Pending</span></td></tr>
+    <tr><td>7</td><td><strong>Fix Education Email 3 calendar link</strong> &mdash; replace <code>{{user.calendar_link}}</code> with <code>{{custom_values.anna_park_booking_link}}</code></td><td>1 template</td><td><span class="badge badge-fail">Pending</span></td></tr>
+    <tr><td>8</td><td><strong>Locate or create Win-Back Emails 11&ndash;13</strong></td><td>3 templates</td><td><span class="badge badge-fail">Pending</span></td></tr>
+    <tr><td>9</td><td><strong>Locate or create Active Customer Emails 11&ndash;16</strong></td><td>6 templates</td><td><span class="badge badge-fail">Pending</span></td></tr>
+    </tbody></table></div>
+
+    <h3 style="color:var(--green);">Low Priority</h3>
+    <div class="table-wrap"><table>
+    <thead><tr><th>#</th><th>Action</th><th>Scope</th><th>Status</th></tr></thead>
+    <tbody>
+    <tr><td>10</td><td><strong>Standardize on <code>{{user.name}}</code></strong> instead of <code>{{user.fullname}}</code> across all templates</td><td>~30 templates</td><td><span class="badge badge-info">Informational</span></td></tr>
+    <tr><td>11</td><td><strong>Scan Holiday templates</strong> for merge field consistency</td><td>19 templates</td><td><span class="badge badge-fail">Pending</span></td></tr>
+    <tr><td>12</td><td><strong>Delete or unpublish "Test - From Name Validation"</strong> workflow</td><td>1 workflow</td><td><span class="badge badge-fail">Pending</span></td></tr>
+    <tr><td>13</td><td><strong>Clean up 4 untitled draft workflows</strong> ("New Workflow : ...") to reduce clutter</td><td>4 workflows</td><td><span class="badge badge-info">Informational</span></td></tr>
+    </tbody></table></div>
+  </section>
+
+  <!-- ============================================ -->
+  <!-- 16. HOW IT SHOULD WORK                       -->
+  <!-- ============================================ -->
+  <section id="how-it-should-work" class="doc-section">
+    <h2>16. How It Should Work</h2>
+    <p>Once all actions in the checklist are completed, here is the expected behavior for every email sent from GHL workflows:</p>
+
+    <h3>16.1 Rep-Sent Emails</h3>
+    <p>When a contact is assigned to a sales rep (Anna Park, David Cho, Sandra Kim, Peter Chong), workflow emails intended from the rep should display:</p>
+    <pre class="code-block">
+from:     David Cho &lt;hello@noonshop.com&gt;
+reply-to: hello@mail.noonshop.com
+to:       contact@example.com
+mailed-by: mail.noonshop.com
+signed-by: mail.noonshop.com</pre>
+    <p><strong>How it works:</strong></p>
+    <ul class="dash">
+      <li>The Send Email action's <strong>From Name</strong> is set to <code>{{user.name}}</code>, which resolves to the contact's assigned user (e.g. "David Cho").</li>
+      <li>The <strong>From Email</strong> defaults to <code>hello@noonshop.com</code> (from the dedicated domain header), keeping deliverability centralized.</li>
+      <li>The email <strong>body</strong> uses <code>{{user.fullname}}</code> for the greeting and <code>{{ user.email_signature }}</code> for the sign-off, both resolving to the assigned rep.</li>
+      <li>The <strong>calendar link</strong> uses <code>{{user.calendar_link}}</code>, pointing to the rep's specific booking page.</li>
+    </ul>
+
+    <h3>16.2 Anna-Specific (Founder) Emails</h3>
+    <p>Certain emails in each journey are intentionally from Anna Park as the founder. These should display:</p>
+    <pre class="code-block">
+from:     Anna Park &lt;hello@noonshop.com&gt;
+reply-to: hello@mail.noonshop.com
+to:       contact@example.com
+mailed-by: mail.noonshop.com
+signed-by: mail.noonshop.com</pre>
+    <p><strong>How it works:</strong></p>
+    <ul class="dash">
+      <li>The Send Email action's <strong>From Name</strong> is hard-coded to <code>Anna Park</code> (not a merge field &mdash; always shows Anna regardless of assigned rep).</li>
+      <li>The email <strong>body</strong> uses <code>{{custom_values.anna_email_signature}}</code> for the sign-off (Anna's specific HTML signature).</li>
+      <li>Any <strong>calendar link</strong> in these emails should use <code>{{custom_values.anna_park_booking_link}}</code> (not the rep's link).</li>
+    </ul>
+
+    <h3>16.3 Unassigned Contacts</h3>
+    <p>If a contact has no assigned user, the From Name will fall back to the location default:</p>
+    <pre class="code-block">
+from:     Noon Shop &lt;hello@noonshop.com&gt;</pre>
+    <p>This is acceptable as a fallback but should be rare &mdash; all active contacts should have a sales rep assigned.</p>
+
+    <h3>16.4 Configuration Rules (Do Not Change)</h3>
+    <div class="table-wrap"><table>
+    <thead><tr><th>Setting</th><th>Current Value</th><th>Why</th></tr></thead>
+    <tbody>
+    <tr><td>Dedicated Header &mdash; From Name</td><td><em>Cleared</em></td><td>Allows workflow-level <code>{{user.name}}</code> to take effect. <strong>Do not re-add a static name.</strong></td></tr>
+    <tr><td>Dedicated Header &mdash; From Email</td><td>hello@noonshop.com</td><td>Centralizes all outgoing email through a single authenticated address. Good for deliverability and domain warming.</td></tr>
+    <tr><td>Dedicated Domain</td><td>mail.noonshop.com</td><td>Mailgun-authenticated sending domain. SPF/DKIM/DMARC configured. Do not change.</td></tr>
+    </tbody></table></div>
+
+    <h3>16.5 Verification Checklist for Each Workflow</h3>
+    <p>When updating a workflow's Send Email actions, verify the following for each email:</p>
+    <div class="table-wrap"><table>
+    <thead><tr><th>Check</th><th>Rep Email</th><th>Anna Email</th></tr></thead>
+    <tbody>
+    <tr><td><strong>From Name</strong> field in Send Email action</td><td><code>{{user.name}}</code></td><td><code>Anna Park</code> (hard-coded)</td></tr>
+    <tr><td><strong>From Email</strong> field in Send Email action</td><td>Leave blank (uses dedicated header)</td><td>Leave blank (uses dedicated header)</td></tr>
+    <tr><td><strong>Body greeting</strong> uses correct name</td><td><code>{{user.fullname}}</code></td><td>Hard-coded "Anna" or no name</td></tr>
+    <tr><td><strong>Body signature</strong> uses correct signature</td><td><code>{{ user.email_signature }}</code></td><td><code>{{custom_values.anna_email_signature}}</code></td></tr>
+    <tr><td><strong>Calendar link</strong> (if present)</td><td><code>{{user.calendar_link}}</code></td><td><code>{{custom_values.anna_park_booking_link}}</code></td></tr>
+    </tbody></table></div>
+  </section>
+
+  <div class="doc-footer">
+    <div><span>HelloIT Pros</span> &middot; Workflow &amp; Email Audit Report</div>
+    <div>March 19, 2026 &middot; Noon Shop GHL Tenant</div>
+  </div>
+</div>
+</body>
+</html>

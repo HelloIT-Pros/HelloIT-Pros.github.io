@@ -110,6 +110,7 @@
     <a href="#15-data-flow-scenarios">15. Data Flow Scenarios</a>
     <a href="#16-gaps-open-items">16. Gaps &amp; Open Items</a>
     <a href="#17-meeting-notes-mar-17-2026">17. Meeting Notes (Mar 17, 2026)</a>
+    <a href="#18-workflow-validation-audit">18. Workflow Validation Audit (Mar 19)</a>
     <a href="#appendix">Appendix</a>
   </nav>
 </div>
@@ -120,7 +121,7 @@
       <strong>Address:</strong> 12123 Heritage Park Cir, Silver Spring, MD 20906<br>
       <strong>Phone:</strong> +1 (240) 599-3636 &nbsp;&middot;&nbsp; <strong>Email:</strong> hello@noonshop.com &nbsp;&middot;&nbsp; <strong>Website:</strong> noonshop.com<br>
       <strong>Contacts:</strong> 18,073 &nbsp;&middot;&nbsp; <strong>Conversations:</strong> 2,245 &nbsp;&middot;&nbsp; <strong>Products:</strong> 163 &nbsp;&middot;&nbsp; <strong>Users:</strong> 7<br>
-      <strong>Documented:</strong> March 16&ndash;17, 2026
+      <strong>Documented:</strong> March 16&ndash;19, 2026
     </div>
   </div>
 
@@ -3965,6 +3966,236 @@ SHOPIFY                          GHL                              QUICKBOOKS
 <li><strong>Project closure:</strong> Prakash indicated he would close out the current project contract in Outlook today.</li>
 <li><strong>Future work:</strong> Prakash indicated he'll come back with a separate project for new build work.</li>
 </ul>
+<hr>
+    </section>
+
+    <section id="18-workflow-validation-audit" class="doc-section">
+      <h2>18. Workflow Validation Audit (March 19, 2026)</h2>
+      <p>Full API-verified audit of all workflows, email templates, and From Name/Email configuration. Conducted via GHL API v2 against location <code>70CEJtz1p3pnSQVuGJgK</code>.</p>
+
+<h3 id="18-1-current-email-settings">18.1 Current Email Settings</h3>
+<div class="table-wrap"><table>
+<thead><tr><th>Setting</th><th>Value</th></tr></thead>
+<tbody>
+<tr><td><strong>Location Email</strong></td><td>hello@noonshop.com</td></tr>
+<tr><td><strong>Business Name</strong></td><td>Noon Shop</td></tr>
+<tr><td><strong>Dedicated Domain</strong></td><td>mail.noonshop.com (Mailgun)</td></tr>
+<tr><td><strong>Dedicated Header — From Name</strong></td><td><em>Cleared</em> (was "Noon Shop" — cleared during From Name fix on Mar 19, 2026)</td></tr>
+<tr><td><strong>Dedicated Header — From Email</strong></td><td>hello@noonshop.com</td></tr>
+</tbody></table></div>
+
+<p><strong>From Name Resolution (Verified):</strong> After clearing the dedicated domain header's From Name, the sending priority is:</p>
+<ol>
+<li class="ol-item"><span class="ol-num">1.</span> Workflow Send Email action's explicit <code>From Name</code> field (e.g. <code>{{user.name}}</code>)</li>
+<li class="ol-item"><span class="ol-num">2.</span> Assigned user's name (if From Name is blank)</li>
+<li class="ol-item"><span class="ol-num">3.</span> Location-level default ("Noon Shop")</li>
+</ol>
+<p><strong>From Email:</strong> Always <code>hello@noonshop.com</code> from the dedicated header (unless explicitly overridden in the Send Email action).</p>
+
+<h3 id="18-2-staff-roster">18.2 Staff Roster</h3>
+<div class="table-wrap"><table>
+<thead><tr><th>Name</th><th>Email</th><th>Role</th><th>User ID</th></tr></thead>
+<tbody>
+<tr><td><strong>Anna Park</strong></td><td>annapark@noonshop.com</td><td>Admin</td><td><code>J5G7jCf1tcIpBMbj8bDC</code></td></tr>
+<tr><td><strong>David Cho</strong></td><td>david@noonshop.com</td><td>Admin</td><td><code>L3f2VQrDXW8Smp1Eyjju</code></td></tr>
+<tr><td><strong>Sandra Kim</strong></td><td>sandra@noonshop.com</td><td>Admin</td><td><code>2TuTRx4JyPpdKdeGDWJ3</code></td></tr>
+<tr><td><strong>Peter Chong</strong></td><td>peter@noonshop.com</td><td>User</td><td><code>cK0C2sJQVcQemfWeblsy</code></td></tr>
+<tr><td>Felipe Abarca</td><td>felipe@helloitpros.com</td><td>Admin</td><td><code>vQYx4zSfWVBxcQRXWMPA</code></td></tr>
+<tr><td>Prakash Karnani</td><td>prakash@helloitpros.com</td><td>Admin</td><td><code>AEL7kZ7oMmccKNvIuY7c</code></td></tr>
+<tr><td>Dev Test</td><td>developertester786@gmail.com</td><td>Admin</td><td><code>VpbRJit6WrugpJ4ctX6L</code></td></tr>
+</tbody></table></div>
+
+<h3 id="18-3-folder-structure">18.3 GHL Workflow Folder Structure</h3>
+<pre class="code-block">
+Noon shop - CRM Flows &amp; Automation/
+├── Active Customer Journey       (published, v24)
+├── Controls/
+│   ├── Global - Real-Time Order Monitor    (published, v21)
+│   ├── QuickBooks Contact Identifier       (published, v4)
+│   ├── Shopify Contact Identifier          (published, v3)
+│   └── Post-Appointment Follow-up          (published, v5)
+├── First Order Journey           (published, v21)
+├── Holiday Greeting Journey      (published, v6)
+├── Prospect Journey              (published, v52) — API name: "WF - Prospect Journey"
+└── win back journey              (published, v14) — API name: "Win-Back Journey"
+</pre>
+
+<h3 id="18-4-published-workflow-audit">18.4 Published Workflow Audit — Email Sending Workflows</h3>
+<p>The following 5 published workflows send emails to contacts. Each is assessed for correct From Name configuration.</p>
+
+<h4>18.4.1 WF - Prospect Journey (v52) — 10 Emails</h4>
+<p><strong>Workflow ID:</strong> <code>f5e0305d-9330-4737-8b3e-4ac329535e2c</code><br>
+<strong>Paired Template Folder:</strong> Prospect Journey V2 (10 templates)<br>
+<strong>Last Updated:</strong> Mar 17, 2026</p>
+<div class="table-wrap"><table>
+<thead><tr><th>Template</th><th>Intended Sender</th><th>Merge Fields Used</th><th>From Name Fix Needed?</th></tr></thead>
+<tbody>
+<tr><td>Email 1 — Warm Introduction</td><td>Rep</td><td><code>{{user.fullname}}</code>, <code>{{user.email_signature}}</code>, <code>{{user.calendar_link}}</code></td><td style="color:#2E7D32;font-weight:600">Body OK — Set <code>{{user.name}}</code> in Send Email action</td></tr>
+<tr><td>Email 2 — Value Proposition</td><td>Rep</td><td><code>{{user.fullname}}</code>, <code>{{ user.email_signature }}</code>, <code>{{user.calendar_link}}</code></td><td style="color:#2E7D32;font-weight:600">Body OK — Set <code>{{user.name}}</code> in Send Email action</td></tr>
+<tr><td>Email 3 — Social Proof</td><td>Rep</td><td><code>{{user.fullname}}</code>, <code>{{ user.email_signature }}</code>, <code>{{user.calendar_link}}</code></td><td style="color:#2E7D32;font-weight:600">Body OK — Set <code>{{user.name}}</code> in Send Email action</td></tr>
+<tr><td>Email 4 — Personalized Curation</td><td>Rep</td><td><code>{{user.fullname}}</code>, <code>{{ user.email_signature }}</code>, <code>{{user.calendar_link}}</code></td><td style="color:#2E7D32;font-weight:600">Body OK — Set <code>{{user.name}}</code> in Send Email action</td></tr>
+<tr><td>Email 5 — Top Sellers</td><td>Rep</td><td><code>{{user.fullname}}</code>, <code>{{ user.email_signature }}</code>, <code>{{user.calendar_link}}</code></td><td style="color:#2E7D32;font-weight:600">Body OK — Set <code>{{user.name}}</code> in Send Email action</td></tr>
+<tr><td>Email 6 — Founder Introduction</td><td>Anna</td><td><code>{{user.fullname}}</code>, <code>{{custom_values.anna_email_signature}}</code></td><td style="color:#D97B4F;font-weight:600">ISSUE: Hard-coded Anna signature but uses <code>{{user.fullname}}</code> — will show assigned rep, not Anna</td></tr>
+<tr><td>Email 7 — Reconnection</td><td>Rep</td><td><code>{{user.fullname}}</code>, <code>{{ user.email_signature }}</code>, <code>{{user.calendar_link}}</code></td><td style="color:#2E7D32;font-weight:600">Body OK — Set <code>{{user.name}}</code> in Send Email action</td></tr>
+<tr><td>Email 8 — Timing Check</td><td>Rep</td><td><code>{{user.fullname}}</code>, <code>{{ user.email_signature }}</code>, <code>{{user.calendar_link}}</code></td><td style="color:#2E7D32;font-weight:600">Body OK — Set <code>{{user.name}}</code> in Send Email action</td></tr>
+<tr><td>Email 9 — Founder Check-in</td><td>Anna</td><td><code>{{custom_values.anna_email_signature}}</code></td><td style="color:#D97B4F;font-weight:600">ISSUE: Uses Anna signature but no <code>{{user.fullname}}</code> in body — From should be hard-coded "Anna Park"</td></tr>
+<tr><td>Email 10 — Final Touch</td><td>Anna</td><td><code>{{custom_values.anna_email_signature}}</code></td><td style="color:#D97B4F;font-weight:600">ISSUE: Same as Email 9 — hard-code "Anna Park" in From Name</td></tr>
+</tbody></table></div>
+<p><strong>Action Required:</strong></p>
+<ul class="dash">
+<li>Emails 1–5, 7–8: Set From Name to <code>{{user.name}}</code> in each Send Email action (resolves to assigned rep).</li>
+<li>Emails 6, 9, 10 (Anna's emails): Set From Name to <strong>"Anna Park"</strong> (hard-coded) in each Send Email action since these intentionally come from the founder.</li>
+</ul>
+
+<h4>18.4.2 First Order Journey (v21) — 8 Emails</h4>
+<p><strong>Workflow ID:</strong> <code>00df0118-0068-498d-bd8c-eda1285d4d7f</code><br>
+<strong>Paired Template Folder:</strong> Noonshop First Order Journey (8 templates)<br>
+<strong>Last Updated:</strong> Mar 5, 2026</p>
+<div class="table-wrap"><table>
+<thead><tr><th>Template</th><th>Intended Sender</th><th>Merge Fields Used</th><th>From Name Fix Needed?</th></tr></thead>
+<tbody>
+<tr><td>Email 1 — Welcome &amp; Confirmation</td><td>Anna</td><td><code>{{user.name}}</code>, <code>{{custom_values.anna_email_signature}}</code></td><td style="color:#D97B4F;font-weight:600">ISSUE: Body says <code>{{user.name}}</code> (resolves to rep) but signature is Anna's. Set From = "Anna Park"</td></tr>
+<tr><td>Email 2 — Display &amp; Merchandising</td><td>Rep</td><td><code>{{user.fullname}}</code>, <code>{{ user.email_signature }}</code></td><td style="color:#2E7D32;font-weight:600">Body OK — Set <code>{{user.name}}</code> in Send Email action</td></tr>
+<tr><td>Email 3 — Brand Story</td><td>Anna</td><td><code>{{custom_values.anna_email_signature}}</code></td><td style="color:#D97B4F;font-weight:600">ISSUE: Hard-code "Anna Park" in From Name</td></tr>
+<tr><td>Email 4 — First Impressions Check-in</td><td>Rep</td><td><code>{{user.fullname}}</code>, <code>{{ user.email_signature }}</code>, <code>{{user.calendar_link}}</code></td><td style="color:#2E7D32;font-weight:600">Body OK — Set <code>{{user.name}}</code> in Send Email action</td></tr>
+<tr><td>Email 5 — Restock Awareness</td><td>Rep</td><td><code>{{user.fullname}}</code>, <code>{{ user.email_signature }}</code>, <code>{{user.calendar_link}}</code></td><td style="color:#2E7D32;font-weight:600">Body OK — Set <code>{{user.name}}</code> in Send Email action</td></tr>
+<tr><td>Email 6 — Second Order Encouragement</td><td>Anna</td><td><code>{{custom_values.anna_email_signature}}</code></td><td style="color:#D97B4F;font-weight:600">ISSUE: Hard-code "Anna Park" in From Name</td></tr>
+<tr><td>Email 7 — Incentive Offer</td><td>Rep</td><td><code>{{user.fullname}}</code>, <code>{{ user.email_signature }}</code>, <code>{{user.calendar_link}}</code></td><td style="color:#2E7D32;font-weight:600">Body OK — Set <code>{{user.name}}</code> in Send Email action</td></tr>
+<tr><td>Email 8 — Final Re-engagement</td><td>Anna</td><td><code>{{user.fullname}}</code>, <code>{{ user.email_signature }}</code></td><td style="color:#D97B4F;font-weight:600">ISSUE: Body uses <code>{{user.fullname}}</code> (rep) but sender is Anna. Decide: rep or Anna?</td></tr>
+</tbody></table></div>
+<p><strong>Action Required:</strong></p>
+<ul class="dash">
+<li>Emails 2, 4, 5, 7: Set From Name to <code>{{user.name}}</code> in each Send Email action.</li>
+<li>Emails 1, 3, 6: Set From Name to <strong>"Anna Park"</strong> (hard-coded). Verify Email 1 body — it references <code>{{user.name}}</code> but uses Anna's signature (conflicting).</li>
+<li>Email 8: <strong>Decision needed</strong> — body uses <code>{{user.fullname}}</code> (rep name) but documentation says sender is Anna. Either change body to Anna-specific content, or change sender to Rep.</li>
+</ul>
+
+<h4>18.4.3 Active Customer Journey (v24) — 16 Emails</h4>
+<p><strong>Workflow ID:</strong> <code>851d142a-08d2-4b9b-a06d-c3ea1e3a52b6</code><br>
+<strong>Paired Template Folder:</strong> Prospect Education Journey (16 templates)<br>
+<strong>Last Updated:</strong> Mar 17, 2026</p>
+<div class="table-wrap"><table>
+<thead><tr><th>Template</th><th>Intended Sender</th><th>Merge Fields Used</th><th>From Name Fix Needed?</th></tr></thead>
+<tbody>
+<tr><td>Email 1 — Fit &amp; Conversion</td><td>Rep</td><td><code>{{user.fullname}}</code>, <code>{{ user.email_signature }}</code>, <code>{{user.calendar_link}}</code></td><td style="color:#2E7D32;font-weight:600">Body OK — Set <code>{{user.name}}</code> in Send Email action</td></tr>
+<tr><td>Email 2 — Facial Diversity</td><td>Rep</td><td><code>{{user.fullname}}</code>, <code>{{ user.email_signature }}</code>, <code>{{user.calendar_link}}</code></td><td style="color:#2E7D32;font-weight:600">Body OK</td></tr>
+<tr><td>Email 3 — Why Fit Matters</td><td>Anna</td><td><code>{{custom_values.anna_email_signature}}</code>, <code>{{user.calendar_link}}</code></td><td style="color:#D97B4F;font-weight:600">ISSUE: No <code>{{user.fullname}}</code> — uses Anna signature but <code>{{user.calendar_link}}</code> resolves to rep. Hard-code "Anna Park"</td></tr>
+<tr><td>Email 4 — Patient First Impressions</td><td>Rep</td><td><code>{{user.fullname}}</code>, <code>{{ user.email_signature }}</code>, <code>{{user.calendar_link}}</code></td><td style="color:#2E7D32;font-weight:600">Body OK</td></tr>
+<tr><td>Email 5 — Increase Try-Ons</td><td>Rep</td><td><code>{{user.fullname}}</code>, <code>{{ user.email_signature }}</code>, <code>{{user.calendar_link}}</code></td><td style="color:#2E7D32;font-weight:600">Body OK</td></tr>
+<tr><td>Email 6 — What's Selling</td><td>Rep</td><td><code>{{user.fullname}}</code>, <code>{{ user.email_signature }}</code>, <code>{{user.calendar_link}}</code></td><td style="color:#2E7D32;font-weight:600">Body OK</td></tr>
+<tr><td>Email 7 — Patient Trends</td><td>Anna</td><td><code>{{custom_values.anna_email_signature}}</code></td><td style="color:#D97B4F;font-weight:600">ISSUE: Hard-code "Anna Park" in From Name</td></tr>
+<tr><td>Email 8 — Personalized Picks</td><td>Rep</td><td><code>{{user.fullname}}</code>, <code>{{ user.email_signature }}</code>, <code>{{user.calendar_link}}</code></td><td style="color:#2E7D32;font-weight:600">Body OK</td></tr>
+<tr><td>Email 9 — Soft Check-in</td><td>Rep</td><td><code>{{user.fullname}}</code>, <code>{{ user.email_signature }}</code>, <code>{{user.calendar_link}}</code></td><td style="color:#2E7D32;font-weight:600">Body OK</td></tr>
+<tr><td>Email 10 — New Styles</td><td>Rep</td><td><code>{{user.fullname}}</code>, <code>{{ user.email_signature }}</code>, <code>{{user.calendar_link}}</code></td><td style="color:#2E7D32;font-weight:600">Body OK</td></tr>
+</tbody></table></div>
+<p><em>Note: Only 10 of 16 templates were in the Prospect Education Journey folder at time of audit. The remaining 6 may be embedded directly in the workflow or in a different folder.</em></p>
+<p><strong>Action Required:</strong></p>
+<ul class="dash">
+<li>Emails 1–2, 4–6, 8–10: Set From Name to <code>{{user.name}}</code> in each Send Email action.</li>
+<li>Emails 3, 7 (Anna's emails): Set From Name to <strong>"Anna Park"</strong> (hard-coded).</li>
+<li>Email 3: Also resolve conflicting <code>{{user.calendar_link}}</code> — if this is Anna's email, it should use Anna's specific booking link, not the rep's.</li>
+</ul>
+
+<h4>18.4.4 Win-Back Journey (v14) — 10 Emails (of 13 documented)</h4>
+<p><strong>Workflow ID:</strong> <code>7d5506aa-910e-4cd6-8531-412c6c15865f</code><br>
+<strong>Paired Template Folder:</strong> Noonshop Win-Back Journey (13 templates, 10 found via API)<br>
+<strong>Last Updated:</strong> Mar 17, 2026</p>
+<div class="table-wrap"><table>
+<thead><tr><th>Template</th><th>Intended Sender</th><th>Merge Fields Used</th><th>From Name Fix Needed?</th></tr></thead>
+<tbody>
+<tr><td>Email 1 — Warm Reconnection</td><td>Rep</td><td><code>{{user.fullname}}</code>, <code>{{ user.email_signature }}</code></td><td style="color:#2E7D32;font-weight:600">Body OK — Set <code>{{user.name}}</code> in Send Email action</td></tr>
+<tr><td>Email 2 — New Frames Introduction</td><td>Rep</td><td><code>{{user.fullname}}</code>, <code>{{ user.email_signature }}</code></td><td style="color:#2E7D32;font-weight:600">Body OK</td></tr>
+<tr><td>Email 3 — Brand Update</td><td>Anna</td><td><code>{{custom_values.anna_email_signature}}</code></td><td style="color:#D97B4F;font-weight:600">ISSUE: Hard-code "Anna Park" in From Name</td></tr>
+<tr><td>Email 4 — Value Delivery</td><td>Rep</td><td><code>{{user.fullname}}</code>, <code>{{ user.email_signature }}</code></td><td style="color:#2E7D32;font-weight:600">Body OK</td></tr>
+<tr><td>Email 5 — Personalized Picks</td><td>Rep</td><td><code>{{user.fullname}}</code>, <code>{{ user.email_signature }}</code></td><td style="color:#2E7D32;font-weight:600">Body OK</td></tr>
+<tr><td>Email 6 — Success Story</td><td>Rep</td><td><code>{{user.fullname}}</code>, <code>{{ user.email_signature }}</code></td><td style="color:#2E7D32;font-weight:600">Body OK</td></tr>
+<tr><td>Email 7 — Industry Insights</td><td>Anna</td><td><code>{{custom_values.anna_email_signature}}</code></td><td style="color:#D97B4F;font-weight:600">ISSUE: Hard-code "Anna Park" in From Name</td></tr>
+<tr><td>Email 8 — Quick Tip</td><td>Rep</td><td><code>{{user.fullname}}</code>, <code>{{ user.email_signature }}</code></td><td style="color:#2E7D32;font-weight:600">Body OK</td></tr>
+<tr><td>Email 9 — Direct Check-in</td><td>Rep</td><td><code>{{user.fullname}}</code>, <code>{{ user.email_signature }}</code>, <code>{{user.calendar_link}}</code></td><td style="color:#2E7D32;font-weight:600">Body OK</td></tr>
+<tr><td>Email 10 — Exclusive Preview</td><td>Rep</td><td><code>{{user.fullname}}</code>, <code>{{ user.email_signature }}</code></td><td style="color:#2E7D32;font-weight:600">Body OK</td></tr>
+</tbody></table></div>
+<p><em>Note: 3 templates (Emails 11–13) are documented in Section 6.4 but were not found in the template folder. They may be embedded in the workflow or pending creation.</em></p>
+<p><strong>Action Required:</strong></p>
+<ul class="dash">
+<li>Emails 1–2, 4–6, 8–10: Set From Name to <code>{{user.name}}</code> in each Send Email action.</li>
+<li>Emails 3, 7 (Anna's emails): Set From Name to <strong>"Anna Park"</strong> (hard-coded).</li>
+<li>Locate or create Emails 11–13 (Incentive Offer, Soft Hello, Final Value &amp; Door Open).</li>
+</ul>
+
+<h4>18.4.5 Holiday Greeting Journey (v6) — 19 Emails</h4>
+<p><strong>Workflow ID:</strong> <code>20c0ff0c-e4af-47d7-8725-c2290b2dc5c8</code><br>
+<strong>Paired Template Folder:</strong> Noonshop Holiday Campaign (19 templates — not scanned in this audit)<br>
+<strong>Last Updated:</strong> Mar 5, 2026</p>
+<p><strong>Action Required:</strong></p>
+<ul class="dash">
+<li>Rep-sent holidays (15 of 19): Set From Name to <code>{{user.name}}</code> in each Send Email action.</li>
+<li>Anna-sent holidays (4 of 19 — Save Your Vision, Eye Exam Month, World Sight Day, Christmas): Set From Name to <strong>"Anna Park"</strong>.</li>
+<li>Scan holiday templates for merge field consistency (not completed in this audit).</li>
+</ul>
+
+<h3 id="18-5-support-workflows">18.5 Support/Integration Workflows (No Email Sending)</h3>
+<div class="table-wrap"><table>
+<thead><tr><th>Workflow</th><th>Version</th><th>Status</th><th>Sends Email?</th><th>Notes</th></tr></thead>
+<tbody>
+<tr><td>Global - Real-Time Order Monitor</td><td>v21</td><td>Published</td><td>No</td><td>Data processing only — updates fields and triggers journeys</td></tr>
+<tr><td>QuickBooks Contact Identifier</td><td>v4</td><td>Published</td><td>No</td><td>Tagging/segmentation</td></tr>
+<tr><td>Shopify Contact Identifier</td><td>v3</td><td>Published</td><td>No</td><td>Tagging/segmentation</td></tr>
+<tr><td>Post-Appointment Follow-up</td><td>v5</td><td>Published</td><td>No</td><td>Task creation + routing</td></tr>
+<tr><td>Test - From Name Validation</td><td>v6</td><td>Published</td><td>Yes (test only)</td><td>Created Mar 19, 2026 to validate From Name fix. Should be unpublished/deleted after testing.</td></tr>
+</tbody></table></div>
+
+<h3 id="18-6-merge-field-inconsistencies">18.6 Merge Field Inconsistencies</h3>
+<p>The following inconsistencies were detected across all template folders:</p>
+<div class="table-wrap"><table>
+<thead><tr><th>#</th><th>Issue</th><th>Templates Affected</th><th>Risk</th></tr></thead>
+<tbody>
+<tr>
+<td>1</td>
+<td><strong><code>{{user.fullname}}</code> vs <code>{{user.name}}</code></strong> — Both are used interchangeably across templates. In GHL, both resolve to the assigned user's full name, but <code>{{user.name}}</code> is the documented standard.</td>
+<td>All folders — most use <code>{{user.fullname}}</code>, a few use <code>{{user.name}}</code></td>
+<td style="color:#D97B4F">Low — both work, but should standardize on <code>{{user.name}}</code></td>
+</tr>
+<tr>
+<td>2</td>
+<td><strong><code>{{ user.email_signature }}</code> vs <code>{{custom_values.anna_email_signature}}</code></strong> — Rep emails use the user's dynamic signature; Anna-specific emails use a hard-coded custom value.</td>
+<td>All folders — "Anna" emails use custom value, "Rep" emails use user variable</td>
+<td style="color:#2E7D32">Working as designed — each user should have their signature configured in their GHL profile</td>
+</tr>
+<tr>
+<td>3</td>
+<td><strong><code>{{user.calendar_link}}</code> on Anna-specific emails</strong> — Education Journey Email 3 uses Anna's signature but the rep's calendar link.</td>
+<td>Prospect Education Journey: Email 3 — Why Fit Matters</td>
+<td style="color:#D97B4F">Medium — will show rep's booking link on an email signed by Anna</td>
+</tr>
+<tr>
+<td>4</td>
+<td><strong>First Order Email 1 conflict</strong> — Body references <code>{{user.name}}</code> (assigned rep) but uses <code>{{custom_values.anna_email_signature}}</code> (Anna's signature).</td>
+<td>Noonshop First Order Journey: Email 1 — Welcome &amp; Confirmation</td>
+<td style="color:#D97B4F">Medium — email greets as rep but signs as Anna</td>
+</tr>
+<tr>
+<td>5</td>
+<td><strong>First Order Email 8 conflict</strong> — Body uses <code>{{user.fullname}}</code> (rep) but documentation says sender is Anna; uses <code>{{ user.email_signature }}</code> (rep's signature, not Anna's).</td>
+<td>Noonshop First Order Journey: Email 8 — Final Re-engagement</td>
+<td style="color:#D97B4F">Medium — decide if this should be rep or Anna</td>
+</tr>
+</tbody></table></div>
+
+<h3 id="18-7-summary-action-checklist">18.7 Summary Action Checklist</h3>
+<div class="table-wrap"><table>
+<thead><tr><th>#</th><th>Action</th><th>Scope</th><th>Priority</th></tr></thead>
+<tbody>
+<tr><td>1</td><td>Set <code>From Name: {{user.name}}</code> on all <strong>rep-sent</strong> Send Email actions across all 5 email-sending workflows</td><td>~35 email actions</td><td style="color:#C62828;font-weight:600">Critical</td></tr>
+<tr><td>2</td><td>Set <code>From Name: Anna Park</code> on all <strong>Anna-specific</strong> Send Email actions</td><td>~12 email actions</td><td style="color:#C62828;font-weight:600">Critical</td></tr>
+<tr><td>3</td><td>Resolve First Order Email 1 body conflict (<code>{{user.name}}</code> in body but Anna's signature)</td><td>1 template</td><td style="color:#D97B4F;font-weight:600">Medium</td></tr>
+<tr><td>4</td><td>Resolve First Order Email 8 sender ambiguity (rep body, Anna documentation)</td><td>1 template</td><td style="color:#D97B4F;font-weight:600">Medium</td></tr>
+<tr><td>5</td><td>Fix Education Email 3 calendar link (shows rep's link on Anna's email)</td><td>1 template</td><td style="color:#D97B4F;font-weight:600">Medium</td></tr>
+<tr><td>6</td><td>Standardize on <code>{{user.name}}</code> instead of <code>{{user.fullname}}</code> across all templates</td><td>~30 templates</td><td style="color:#3A9E5F;font-weight:600">Low</td></tr>
+<tr><td>7</td><td>Scan Holiday Greeting Journey templates for merge field consistency</td><td>19 templates</td><td style="color:#3A9E5F;font-weight:600">Low</td></tr>
+<tr><td>8</td><td>Create or locate Win-Back Emails 11–13 (missing from template folder)</td><td>3 templates</td><td style="color:#D97B4F;font-weight:600">Medium</td></tr>
+<tr><td>9</td><td>Delete or unpublish "Test - From Name Validation" workflow</td><td>1 workflow</td><td style="color:#3A9E5F;font-weight:600">Low</td></tr>
+<tr><td>10</td><td>Confirm dedicated domain header From Name remains <em>cleared</em> (do not re-add "Noon Shop")</td><td>Email Services setting</td><td style="color:#C62828;font-weight:600">Critical</td></tr>
+</tbody></table></div>
 <hr>
     </section>
 
