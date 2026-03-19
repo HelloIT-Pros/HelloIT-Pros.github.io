@@ -3984,13 +3984,23 @@ SHOPIFY                          GHL                              QUICKBOOKS
 <tr><td><strong>Dedicated Header — From Email</strong></td><td>hello@noonshop.com</td></tr>
 </tbody></table></div>
 
-<p><strong>From Name Resolution (Verified):</strong> After clearing the dedicated domain header's From Name, the sending priority is:</p>
+<p><strong>From Name Resolution (Verified via 4 live tests):</strong> After clearing the dedicated domain header's From Name, the sending priority is:</p>
 <ol>
 <li class="ol-item"><span class="ol-num">1.</span> Workflow Send Email action's explicit <code>From Name</code> field (e.g. <code>{{user.name}}</code>)</li>
 <li class="ol-item"><span class="ol-num">2.</span> Assigned user's name (if From Name is blank)</li>
 <li class="ol-item"><span class="ol-num">3.</span> Location-level default ("Noon Shop")</li>
 </ol>
 <p><strong>From Email:</strong> Always <code>hello@noonshop.com</code> from the dedicated header (unless explicitly overridden in the Send Email action).</p>
+
+<h4>Test Results Summary</h4>
+<div class="table-wrap"><table>
+<thead><tr><th>Test</th><th>Dedicated Header</th><th>From Name Field</th><th>Assigned User</th><th>Result</th></tr></thead>
+<tbody>
+<tr><td>Test 1</td><td>Name = "Noon Shop"</td><td><em>(empty)</em></td><td>Anna Park</td><td>Noon Shop &lt;hello@noonshop.com&gt; — <strong>dedicated header overrode assigned user</strong></td></tr>
+<tr><td>Test 2</td><td>Name = "Noon Shop"</td><td><code>{{user.name}}</code></td><td>Anna Park</td><td>Noon Shop &lt;hello@noonshop.com&gt; — <strong>dedicated header overrode even explicit merge field</strong></td></tr>
+<tr><td>Test 3</td><td>Name = <em>cleared</em></td><td><code>{{user.name}}</code></td><td>Anna Park</td><td>Anna Park &lt;hello@noonshop.com&gt; — <strong>correct: merge field resolved to assigned user</strong></td></tr>
+<tr><td>Test 4</td><td>Name = <em>cleared</em></td><td><code>{{user.name}}</code></td><td><em>None</em></td><td>Noon Shop &lt;hello@noonshop.com&gt; — <strong>correct: no user assigned, fell back to location default</strong></td></tr>
+</tbody></table></div>
 
 <h3 id="18-2-staff-roster">18.2 Staff Roster</h3>
 <div class="table-wrap"><table>

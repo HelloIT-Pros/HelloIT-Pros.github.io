@@ -227,7 +227,39 @@
 
     <p><strong>Test 3 confirmed the fix:</strong> The display name correctly resolves to the assigned user (<strong>Anna Park</strong>), while the email address stays centralized on <code>hello@noonshop.com</code> for consistent deliverability. Domain authentication (SPF/DKIM/DMARC) remains intact via <code>mail.noonshop.com</code>.</p>
 
-    <h3>2.3 Root Cause</h3>
+    <div class="timeline" style="margin-top:18px;">
+      <div class="tl-item">
+        <div class="tl-dot ok"></div>
+        <div class="tl-title">Test 4 &mdash; No Assigned User (Fallback Behavior)</div>
+        <div class="tl-detail">
+          <strong>Setup:</strong> Same workflow with <code>{{user.name}}</code> in From Name. Contact <strong>unassigned</strong> (no sales rep). Dedicated header From Name still cleared.<br>
+          <strong>Actual result:</strong>
+        </div>
+      </div>
+    </div>
+
+    <div class="table-wrap"><table>
+    <thead><tr><th>Email Header</th><th>Value Received</th><th>Status</th></tr></thead>
+    <tbody>
+    <tr><td><strong>from</strong></td><td>Noon Shop &lt;hello@noonshop.com&gt;</td><td><span class="badge badge-ok">EXPECTED</span></td></tr>
+    <tr><td><strong>reply-to</strong></td><td>hello@mail.noonshop.com</td><td><span class="badge badge-ok">PASS</span></td></tr>
+    <tr><td><strong>mailed-by</strong></td><td>mail.noonshop.com</td><td><span class="badge badge-ok">PASS</span></td></tr>
+    <tr><td><strong>signed-by</strong></td><td>mail.noonshop.com</td><td><span class="badge badge-ok">PASS</span></td></tr>
+    </tbody></table></div>
+
+    <p><strong>Test 4 confirmed the fallback:</strong> When no user is assigned, <code>{{user.name}}</code> resolves to empty and GHL falls back to the location default &mdash; "Noon Shop". This is safe fallback behavior: the email still sends under the business name rather than showing a blank From. However, this reinforces that <strong>every contact in active journeys must have a sales rep assigned</strong> for personalized From names to work.</p>
+
+    <h3>2.3 All Test Results</h3>
+    <div class="table-wrap"><table>
+    <thead><tr><th>Test</th><th>Dedicated Header</th><th>From Name Field</th><th>Assigned User</th><th>Result</th></tr></thead>
+    <tbody>
+    <tr><td><strong>1</strong></td><td>Name = "Noon Shop"</td><td><em>(empty)</em></td><td>Anna Park</td><td><span class="badge badge-fail">FAIL</span> Noon Shop &mdash; header overrode assigned user</td></tr>
+    <tr><td><strong>2</strong></td><td>Name = "Noon Shop"</td><td><code>{{user.name}}</code></td><td>Anna Park</td><td><span class="badge badge-fail">FAIL</span> Noon Shop &mdash; header overrode merge field</td></tr>
+    <tr><td><strong>3</strong></td><td>Name = <em>cleared</em></td><td><code>{{user.name}}</code></td><td>Anna Park</td><td><span class="badge badge-ok">PASS</span> Anna Park &mdash; merge field resolved correctly</td></tr>
+    <tr><td><strong>4</strong></td><td>Name = <em>cleared</em></td><td><code>{{user.name}}</code></td><td><em>None</em></td><td><span class="badge badge-ok">EXPECTED</span> Noon Shop &mdash; correct fallback to location</td></tr>
+    </tbody></table></div>
+
+    <h3>2.4 Root Cause</h3>
     <p>The GHL dedicated domain header's "Set Headers" feature applies a <strong>hard override</strong> to all emails originating from that domain. The GHL UI itself states: <em>"The designated header will be applied to all emails originating from this domain."</em> When a static From Name was set ("Noon Shop"), it overwrote the workflow's From Name field, the assigned user fallback, and even explicit <code>{{user.name}}</code> merge field values.</p>
     <p>This behavior differs from what the <a href="https://help.gohighlevel.com/support/solutions/articles/48000979925-sending-priority-from-name-address">official sending priority documentation</a> implies. There is a <a href="https://ideas.gohighlevel.com/lcemailsystem/p/leadconnector-email-system-option-to-override-only-email-id-and-not-name">community feature request</a> asking GHL to allow overriding only the email (not the name) in dedicated headers.</p>
   </section>
@@ -694,11 +726,11 @@ signed-by: mail.noonshop.com</pre>
       <li>Any <strong>calendar link</strong> in these emails should use <code>{{custom_values.anna_park_booking_link}}</code> (not the rep's link).</li>
     </ul>
 
-    <h3>16.3 Unassigned Contacts</h3>
-    <p>If a contact has no assigned user, the From Name will fall back to the location default:</p>
+    <h3>16.3 Unassigned Contacts (Verified &mdash; Test 4)</h3>
+    <p>If a contact has no assigned user, <code>{{user.name}}</code> resolves to empty and GHL falls back to the location default:</p>
     <pre class="code-block">
 from:     Noon Shop &lt;hello@noonshop.com&gt;</pre>
-    <p>This is acceptable as a fallback but should be rare &mdash; all active contacts should have a sales rep assigned.</p>
+    <p>This was <strong>confirmed via Test 4</strong> on March 19, 2026. The fallback is safe &mdash; the email sends under the business name rather than showing a blank From. However, all body merge fields (<code>{{user.fullname}}</code>, <code>{{ user.email_signature }}</code>, <code>{{user.calendar_link}}</code>) will also render blank, resulting in missing greetings, signatures, and booking links. <strong>Every contact in active journeys must have a sales rep assigned.</strong></p>
 
     <h3>16.4 Configuration Rules (Do Not Change)</h3>
     <div class="table-wrap"><table>
