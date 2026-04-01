@@ -1,0 +1,631 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>NFM &amp; Homespire — Migration Planning</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400;1,700&family=Outfit:wght@300;400;500;600&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --navy:#0D2137;--navy-2:#163350;--navy-3:#1E4A72;--navy-4:#266090;
+  --gold:#C9963A;--gold-2:#E8B84B;--gold-3:#F5D080;
+  --cream:#F7F3EC;--cream-2:#EDE7DA;--cream-3:#E0D8C8;
+  --ink:#1A1A2E;--ink-2:#3D3D5C;--ink-3:#6B6B8A;
+  --red:#C0392B;--red-soft:#FDF0EF;
+  --green:#1A6B3C;--green-soft:#EDF7F2;
+  --amber:#B8750A;--amber-soft:#FDF6E8;
+  --white:#fff;
+}
+html{scroll-behavior:smooth}
+body{font-family:'Outfit',sans-serif;background:var(--cream);color:var(--ink);font-size:17px;line-height:1.7;overflow-x:hidden;-webkit-font-smoothing:antialiased}
+#progress-bar{position:fixed;top:0;left:0;height:3px;z-index:9999;background:linear-gradient(90deg,var(--gold),var(--gold-2));width:0%;transition:width .1s linear}
+
+/* NAV */
+#nav{position:fixed;top:0;left:0;right:0;z-index:100;padding:20px 56px;display:flex;align-items:center;justify-content:space-between;transition:all .4s}
+#nav.scrolled{background:rgba(8,25,46,.93);backdrop-filter:blur(16px);padding:14px 56px}
+.nav-logo{font-family:'Space Mono',monospace;font-size:11px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--gold-3)}
+.nav-links{display:flex;gap:28px}
+.nav-link{font-size:13px;font-weight:500;letter-spacing:.3px;color:rgba(255,255,255,.45);text-decoration:none;transition:color .2s;cursor:pointer}
+.nav-link:hover{color:var(--gold-3)}
+.nav-badge{font-family:'Space Mono',monospace;font-size:9px;font-weight:700;background:rgba(201,150,58,.15);color:var(--gold-2);border:1px solid rgba(201,150,58,.3);padding:3px 12px;border-radius:20px;letter-spacing:1.5px}
+
+/* HERO */
+#hero{min-height:96vh;background:var(--navy);display:flex;flex-direction:column;justify-content:space-between;padding:96px 72px 64px;position:relative;overflow:hidden}
+.hero-glow{position:absolute;pointer-events:none;border-radius:50%}
+.hero-glow-1{top:-200px;right:-200px;width:800px;height:800px;background:radial-gradient(circle,rgba(201,150,58,.06) 0%,transparent 70%)}
+.hero-glow-2{bottom:-300px;left:-100px;width:600px;height:600px;background:radial-gradient(circle,rgba(30,82,128,.4) 0%,transparent 70%)}
+.hero-svg{position:absolute;top:0;left:0;width:100%;height:100%;pointer-events:none}
+.hero-tag{font-family:'Space Mono',monospace;font-size:10px;font-weight:700;letter-spacing:3px;text-transform:uppercase;color:var(--gold);margin-bottom:28px;opacity:0;animation:up .9s .1s cubic-bezier(.22,1,.36,1) forwards}
+.hero-h{font-family:'Playfair Display',serif;font-size:clamp(40px,6vw,80px);font-weight:900;color:#fff;line-height:1.02;letter-spacing:-2px;margin-bottom:28px;max-width:780px;opacity:0;animation:upBig 1.1s .25s cubic-bezier(.16,1,.3,1) forwards}
+.hero-h em{font-style:italic;color:var(--gold-2)}
+.hero-sub{font-size:17px;font-weight:300;color:rgba(255,255,255,.45);max-width:540px;line-height:1.75;margin-bottom:28px;opacity:0;animation:up .9s .55s cubic-bezier(.22,1,.36,1) forwards}
+.hero-meta{display:flex;gap:48px;flex-wrap:wrap;border-top:1px solid rgba(255,255,255,.07);padding-top:28px;opacity:0;animation:fadeIn 1.2s .8s cubic-bezier(.22,1,.36,1) forwards}
+.hm-label{font-family:'Space Mono',monospace;font-size:9px;letter-spacing:2px;text-transform:uppercase;color:rgba(255,255,255,.22);margin-bottom:5px}
+.hm-val{font-size:13.5px;font-weight:500;color:rgba(255,255,255,.65)}
+.hero-scroll{position:absolute;bottom:32px;right:72px;font-family:'Space Mono',monospace;font-size:9px;letter-spacing:2px;text-transform:uppercase;color:rgba(255,255,255,.18);display:flex;flex-direction:column;align-items:center;gap:8px;writing-mode:vertical-rl;opacity:0;animation:up .8s 1s ease forwards}
+.scroll-bar{width:1px;height:40px;background:linear-gradient(180deg,rgba(255,255,255,.3),transparent);animation:sb 1.8s 1.5s ease-in-out infinite}
+/* ── LUXURY ANIMATION KEYFRAMES ── */
+@keyframes up{from{opacity:0;transform:translateY(28px)}to{opacity:1;transform:translateY(0)}}
+@keyframes upBig{from{opacity:0;transform:translateY(48px)}to{opacity:1;transform:translateY(0)}}
+@keyframes fadeIn{from{opacity:0}to{opacity:1}}
+@keyframes sb{0%,100%{opacity:.3;transform:scaleY(1)}50%{opacity:1;transform:scaleY(1.4)}}
+@keyframes goldLine{from{opacity:0;transform:scaleX(0)}to{opacity:1;transform:scaleX(1)}}
+@keyframes numPop{0%{transform:scale(1)}60%{transform:scale(1.12)}100%{transform:scale(1)}}
+
+/* STAT STRIP */
+.stat-strip{background:var(--navy-2);padding:0}
+.stat-grid{display:grid;grid-template-columns:repeat(6,1fr);max-width:1400px;margin:0 auto}
+.stat-item{padding:64px 24px;border-right:1px solid rgba(255,255,255,.05);text-align:center}
+.stat-item:last-child{border-right:none}
+.stat-num{font-family:'Playfair Display',serif;font-size:44px;font-weight:900;color:var(--gold-2);line-height:1;margin-bottom:10px}
+.stat-lbl{font-family:'Space Mono',monospace;font-size:10px;letter-spacing:1.5px;text-transform:uppercase;color:rgba(255,255,255,.28);margin-bottom:6px}
+.stat-desc{font-size:14px;color:rgba(255,255,255,.38);line-height:1.5}
+
+/* SECTION SHELL */
+.pg{max-width:1200px;margin:0 auto;padding:0 72px}
+.sec{padding:120px 0}
+.sec-tag{font-family:'Space Mono',monospace;font-size:13px;font-weight:700;letter-spacing:2.5px;text-transform:uppercase;color:var(--gold);margin-bottom:20px;display:flex;align-items:center;gap:14px}
+.sec-tag::before{content:'';width:24px;height:1px;background:var(--gold);flex-shrink:0}
+.sec-h{font-family:'Playfair Display',serif;font-size:clamp(38px,4.5vw,62px);font-weight:900;line-height:1.1;letter-spacing:-.5px;margin-bottom:20px}
+.sec-h em{font-style:italic}
+.sec-lead{font-size:18px;font-weight:400;color:var(--ink-2);max-width:720px;line-height:1.8;margin-bottom:56px}
+
+/* REVEAL */
+.rv{opacity:0;transform:translateY(40px);transition:opacity .7s ease,transform .7s ease}
+.rv.on{opacity:1;transform:translateY(0)}
+.d1{transition-delay:.1s}.d2{transition-delay:.2s}.d3{transition-delay:.3s}.d4{transition-delay:.4s}.d5{transition-delay:.5s}
+
+/* SCENARIO TABS */
+.sc-section{background:#172B45;padding:120px 72px}
+.sc-tabs{max-width:1200px;margin:0 auto 0;display:flex;border-radius:14px 14px 0 0;overflow:hidden}
+.sc-tab{flex:1;padding:22px 28px;cursor:pointer;border:none;font-family:'Outfit',sans-serif;background:rgba(255,255,255,.06);border-bottom:3px solid transparent;color:rgba(255,255,255,.55);transition:all .3s;text-align:left}
+.sc-tab:hover{background:rgba(255,255,255,.1);color:rgba(255,255,255,.8)}
+.sc-tab .tl{font-family:'Space Mono',monospace;font-size:10px;letter-spacing:2px;text-transform:uppercase;display:block;margin-bottom:5px;opacity:.8}
+.sc-tab .tt{font-size:17px;font-weight:700;display:block}
+.sc-tab.ta{background:rgba(192,57,43,.18);border-bottom-color:#E57373;color:#FF8A80;border-bottom-width:3px}
+.sc-tab.tb{background:rgba(201,150,58,.18);border-bottom-color:var(--gold-2);color:var(--gold-3);border-bottom-width:3px}
+.sc-tab.tc{background:rgba(255,255,255,.1);border-bottom-color:rgba(255,255,255,.45);color:rgba(255,255,255,.75);border-bottom-width:3px}
+.sc-panel{max-width:1200px;margin:0 auto;background:rgba(255,255,255,.05);border-radius:0 0 14px 14px;overflow:hidden;display:none}
+.sc-panel.on{display:block}
+.ph{padding:52px 52px 36px;display:grid;grid-template-columns:1fr 340px;gap:44px}
+.ph-verdict{display:inline-flex;align-items:center;gap:8px;padding:7px 18px;border-radius:30px;font-family:'Space Mono',monospace;font-size:10px;font-weight:700;letter-spacing:.5px;margin-bottom:20px}
+.vb{background:rgba(192,57,43,.12);color:#EF9A9A;border:1px solid rgba(192,57,43,.25)}
+.vg{background:rgba(201,150,58,.12);color:var(--gold-2);border:1px solid rgba(201,150,58,.25)}
+.vn{background:rgba(255,255,255,.05);color:rgba(255,255,255,.45);border:1px solid rgba(255,255,255,.1)}
+.ph-h{font-family:'Playfair Display',serif;font-size:38px;font-weight:900;line-height:1.12;color:#fff;margin-bottom:16px;letter-spacing:-.5px}
+.ph-sub{font-size:17px;color:rgba(255,255,255,.65);line-height:1.75}
+.ph-metrics{background:rgba(0,0,0,.22);border-radius:12px;padding:28px;display:flex;flex-direction:column;gap:14px;align-self:start}
+.pm-lbl{font-family:'Space Mono',monospace;font-size:9px;letter-spacing:2px;text-transform:uppercase;color:rgba(255,255,255,.27);margin-bottom:3px}
+.pm-val{font-size:20px;font-weight:700;color:#fff;font-family:'Playfair Display',serif}
+.pm-desc{font-size:13.5px;color:rgba(255,255,255,.35);margin-top:2px}
+.pm-sep{height:1px;background:rgba(255,255,255,.06)}
+.pb{padding:0 52px 48px;display:grid;grid-template-columns:1fr 1fr;gap:18px}
+.ic{background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.1);border-radius:12px;padding:26px}
+.ic-h{font-size:13px;font-weight:600;color:rgba(255,255,255,.65);margin-bottom:14px}
+.ic-ul{list-style:none}
+.ic-li{font-size:15.5px;color:rgba(255,255,255,.65);padding:9px 0;border-bottom:1px solid rgba(255,255,255,.06);display:flex;gap:10px;align-items:flex-start;line-height:1.55}
+.ic-li:last-child{border-bottom:none}
+.dot-g{flex-shrink:0;margin-top:7px;width:5px;height:5px;border-radius:50%;background:#66BB6A}
+.dot-r{flex-shrink:0;margin-top:7px;width:5px;height:5px;border-radius:50%;background:#EF9A9A}
+.dot-b{flex-shrink:0;margin-top:7px;width:5px;height:5px;border-radius:50%;background:rgba(255,255,255,.25)}
+
+/* PROJECT MAP */
+.pm-section{background:#fff;padding:120px 72px}
+.pm-pg{max-width:1200px;margin:0 auto}
+.pm-intro{background:var(--navy);border-radius:16px;padding:40px 48px;margin-bottom:44px;display:grid;grid-template-columns:1fr auto;gap:32px;align-items:center}
+.pm-intro-text{font-size:19px;font-weight:400;color:rgba(255,255,255,.65);line-height:1.75;max-width:620px}
+.pm-intro-text strong{color:var(--gold-2);font-weight:600}
+.pm-counter{text-align:center;flex-shrink:0}
+.pm-counter-num{font-family:'Playfair Display',serif;font-size:72px;font-weight:900;color:var(--gold-2);line-height:1}
+.pm-counter-lbl{font-family:'Space Mono',monospace;font-size:9px;letter-spacing:2px;text-transform:uppercase;color:rgba(255,255,255,.3);margin-top:4px}
+
+
+/* ── ENHANCED TEXT ANIMATIONS ── */
+.rv-left{opacity:0;transform:translateX(-32px);transition:opacity .7s ease,transform .7s ease}
+.rv-left.on{opacity:1;transform:translateX(0)}
+.rv-right{opacity:0;transform:translateX(32px);transition:opacity .7s ease,transform .7s ease}
+.rv-right.on{opacity:1;transform:translateX(0)}
+.rv-scale{opacity:0;transform:scale(.94) translateY(16px);transition:opacity .75s cubic-bezier(.16,1,.3,1),transform .75s cubic-bezier(.16,1,.3,1)}
+.rv-scale.on{opacity:1;transform:scale(1) translateY(0)}
+.rv-fast{opacity:0;transform:translateY(20px);transition:opacity .45s ease,transform .45s ease}
+.rv-fast.on{opacity:1;transform:translateY(0)}
+/* Stagger helper — JS sets --i on each child */
+.stagger-children > *{opacity:0;transform:translateY(24px);transition:opacity .6s ease,transform .6s ease}
+.stagger-children.on > *{opacity:1;transform:translateY(0)}
+.stagger-children.on > *:nth-child(1){transition-delay:.05s}
+.stagger-children.on > *:nth-child(2){transition-delay:.15s}
+.stagger-children.on > *:nth-child(3){transition-delay:.25s}
+.stagger-children.on > *:nth-child(4){transition-delay:.35s}
+.stagger-children.on > *:nth-child(5){transition-delay:.45s}
+.stagger-children.on > *:nth-child(6){transition-delay:.55s}
+.stagger-children.on > *:nth-child(7){transition-delay:.65s}
+/* Number pulse on count-up complete */
+@keyframes numPop{0%{transform:scale(1)}50%{transform:scale(1.08)}100%{transform:scale(1)}}
+.num-pop{animation:numPop .4s ease}
+/* EFFORT BADGES */
+.eff-badge{display:inline-flex;align-items:center;gap:6px;padding:5px 14px;border-radius:20px;font-family:'Space Mono',monospace;font-size:10px;font-weight:700;letter-spacing:.5px}
+.eff-high{background:rgba(192,57,43,.12);color:#EF9A9A;border:1px solid rgba(192,57,43,.2)}
+.eff-very-high{background:rgba(192,57,43,.18);color:#FF6B6B;border:1px solid rgba(192,57,43,.3)}
+.eff-nfm-own{background:rgba(30,82,128,.2);color:#90CAF9;border:1px solid rgba(30,82,128,.3)}
+.eff-weeks{font-family:'Space Mono',monospace;font-size:11px;color:rgba(255,255,255,.3);letter-spacing:.5px;font-weight:400;text-align:right;display:block}
+.tracks{display:grid;gap:14px}
+.track{background:var(--cream-2);border:1px solid var(--cream-3);border-radius:12px;overflow:hidden;transition:transform .2s,box-shadow .2s;cursor:default}
+.track:hover{transform:translateY(-2px);box-shadow:0 8px 32px rgba(0,0,0,.07)}
+.th{padding:18px 22px;display:flex;align-items:center;gap:12px;border-bottom:1px solid rgba(0,0,0,.05);flex-wrap:wrap}
+.tn{width:30px;height:30px;border-radius:50%;background:var(--navy);color:var(--gold-2);font-family:'Space Mono',monospace;font-size:12px;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.ttl{font-size:17px;font-weight:700;color:var(--navy)}
+.tsub{font-size:14px;color:var(--ink-3);margin-top:2px}
+.tdur{margin-left:auto;flex-shrink:0;font-family:'Space Mono',monospace;font-size:11px;font-weight:700;padding:4px 12px;border-radius:20px}
+.dur-a{color:var(--amber);background:var(--amber-soft);border:1px solid rgba(184,117,10,.2)}
+.dur-r{color:var(--red);background:var(--red-soft);border:1px solid rgba(192,57,43,.2)}
+.tbar{height:4px;background:var(--cream-3)}
+.tfill{height:100%;border-radius:2px;background:linear-gradient(90deg,var(--navy-4),var(--gold));width:0%;transition:width 1.2s cubic-bezier(.22,1,.36,1)}
+.tbody{padding:16px 22px 0}
+.tt-tasks{}
+.tt-task{font-size:15.5px;color:var(--ink-2);padding:5px 0;border-bottom:1px solid rgba(0,0,0,.04);display:flex;gap:10px;line-height:1.55}
+.tt-task:last-child{border-bottom:none}
+.td{flex-shrink:0;margin-top:7px;width:5px;height:5px;border-radius:50%;background:var(--navy-4)}
+.tt-dep{display:inline-flex;align-items:center;gap:8px;padding:8px 16px 8px;margin:12px 22px 16px;border-top:1px solid rgba(0,0,0,.06);width:calc(100% - 44px)}
+.dep-lbl{font-family:'Space Mono',monospace;font-size:10px;letter-spacing:1px;text-transform:uppercase;color:var(--ink-3);white-space:nowrap;flex-shrink:0}
+.dep-val{font-size:13.5px;color:var(--ink-2);font-weight:600}
+.total-bar{margin-top:28px;padding:32px 40px;background:var(--navy);border-radius:12px;display:flex;align-items:center;justify-content:space-between;gap:32px}
+.tb-lbl{font-family:'Space Mono',monospace;font-size:9px;letter-spacing:2px;text-transform:uppercase;color:rgba(255,255,255,.3);margin-bottom:6px}
+.tb-val{font-family:'Playfair Display',serif;font-size:36px;font-weight:900;color:var(--gold-2)}
+.tb-note{font-size:15px;color:rgba(255,255,255,.4);max-width:460px;line-height:1.65}
+
+/* IMPACT TABLE */
+.imp-section{background:var(--cream);padding:120px 72px}
+.itbl{width:100%;border-collapse:collapse;background:#fff;border-radius:16px;overflow:hidden;box-shadow:0 2px 40px rgba(0,0,0,.06)}
+.itbl thead{background:var(--navy)}
+.itbl thead th{padding:18px 22px;font-family:'Space Mono',monospace;font-size:11px;letter-spacing:1.5px;text-transform:uppercase;font-weight:700;text-align:left;color:rgba(255,255,255,.5)}
+.itbl thead th:nth-child(2){color:rgba(192,57,43,.75)}
+.itbl thead th:nth-child(3){color:var(--gold-2)}
+.itbl thead th:nth-child(4){color:rgba(255,255,255,.28)}
+.itbl tbody tr{border-bottom:1px solid rgba(0,0,0,.04);transition:background .15s}
+.itbl tbody tr:last-child{border-bottom:none}
+.itbl tbody tr:hover{background:var(--cream)}
+.itbl td{padding:18px 24px;vertical-align:top;font-size:15px;line-height:1.55;color:var(--ink-2)}
+.ta-area{font-weight:700;color:var(--navy);font-size:15px}
+.ta-sub{font-size:13px;font-weight:400;color:var(--ink-3);margin-top:2px}
+.chip{display:inline-block;font-size:11px;font-weight:700;padding:2px 9px;border-radius:20px;margin-bottom:5px;font-family:'Space Mono',monospace;letter-spacing:.3px;white-space:nowrap}
+.cr{background:rgba(192,57,43,.09);color:var(--red)}
+.cg{background:rgba(26,107,60,.09);color:var(--green)}
+.cn{background:rgba(10,45,74,.06);color:var(--navy-4)}
+.ca{background:rgba(184,117,10,.09);color:var(--amber)}
+
+/* HYBRID SECTION */
+.hy-section{background:var(--navy-2);padding:120px 72px}
+.hy-cards{display:grid;grid-template-columns:1fr 1fr;gap:18px;margin-bottom:24px}
+.hy-card{background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.07);border-radius:14px;padding:30px}
+.hy-ch{font-size:13px;font-weight:600;color:rgba(255,255,255,.7);margin-bottom:16px}
+.hy-ul{list-style:none}
+.hy-li{font-size:15.5px;color:rgba(255,255,255,.45);padding:8px 0;border-bottom:1px solid rgba(255,255,255,.04);display:flex;gap:12px;align-items:flex-start;line-height:1.5}
+.hy-li:last-child{border-bottom:none}
+.ck{color:#66BB6A;flex-shrink:0;font-size:15px;margin-top:1px}
+.cx{color:#EF9A9A;flex-shrink:0;font-size:15px;margin-top:1px}
+.jt{background:rgba(0,0,0,.2);border-radius:14px;overflow:hidden}
+.jt-head{display:grid;grid-template-columns:1fr 1fr;background:rgba(0,0,0,.25)}
+.jth{padding:16px 28px;font-family:'Space Mono',monospace;font-size:10px;font-weight:700;letter-spacing:2px;text-transform:uppercase}
+.jth-h{color:var(--gold-2);border-right:1px solid rgba(255,255,255,.05)}
+.jth-n{color:rgba(255,255,255,.35)}
+.jr{display:grid;grid-template-columns:1fr 1fr;border-top:1px solid rgba(255,255,255,.04)}
+.jc{padding:18px 28px;font-size:15px;color:rgba(255,255,255,.45);display:flex;gap:10px;align-items:flex-start;line-height:1.55}
+.jc:first-child{border-right:1px solid rgba(255,255,255,.04)}
+.jd-g{flex-shrink:0;margin-top:7px;width:5px;height:5px;border-radius:50%;background:#66BB6A}
+.jd-b{flex-shrink:0;margin-top:7px;width:5px;height:5px;border-radius:50%;background:rgba(255,255,255,.25)}
+
+/* DATA CARDS */
+.data-sec{background:var(--cream-2);padding:80px 72px}
+.dg{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;max-width:1200px;margin:0 auto}
+.dc{background:#fff;border-radius:12px;padding:24px;border:1px solid var(--cream-3)}
+.dc-icon{font-size:22px;margin-bottom:12px}
+.dc-h{font-size:13.5px;font-weight:700;color:var(--navy);margin-bottom:10px}
+.dc-body{font-size:15px;color:var(--ink-2);line-height:1.65}
+.dc-note{font-size:12px;font-weight:600;font-family:'Space Mono',monospace;margin-top:10px;padding-top:10px;border-top:1px solid var(--cream-2)}
+.na{color:var(--amber)}.nr{color:var(--red)}.ng{color:var(--green)}
+
+/* DECISIONS */
+.dc2::before{content:'';position:absolute;top:0;left:0;right:0;height:3px}
+.urgent::before{background:var(--red)}
+.watch::before{background:var(--amber)}
+.joint::before{background:var(--navy-4)}
+.dt{font-family:'Space Mono',monospace;font-size:9px;letter-spacing:2px;text-transform:uppercase;margin-bottom:14px;display:flex;gap:8px;align-items:center}
+.dt.urgent{color:var(--red)}.dt.watch{color:var(--amber)}.dt.joint{color:var(--navy-4)}
+.dq{font-size:16px;font-weight:700;color:var(--navy);margin-bottom:10px;line-height:1.4}
+.db{font-size:15px;color:var(--ink-2);line-height:1.65}
+
+/* FOOTER */
+.footer{background:var(--navy);padding:44px 72px;display:flex;align-items:center;justify-content:space-between}
+.fl{font-family:'Playfair Display',serif;font-size:18px;color:rgba(255,255,255,.4);font-style:italic}
+.fline{width:1px;height:40px;background:rgba(255,255,255,.08)}
+.fr{font-family:'Space Mono',monospace;font-size:11px;letter-spacing:1px;color:rgba(255,255,255,.2);text-align:right;line-height:1.8}
+
+@media(max-width:900px){
+  #nav,#hero,.sc-section,.pm-section,.imp-section,.hy-section,.data-sec,.dec-sec,.footer{padding-left:24px;padding-right:24px}
+  .stat-grid{grid-template-columns:repeat(3,1fr)}
+  .ph{grid-template-columns:1fr}.pb{grid-template-columns:1fr}
+  .hy-cards{grid-template-columns:1fr}.dg{grid-template-columns:1fr 1fr}
+  .total-bar{flex-direction:column}.jr{grid-template-columns:1fr}.jt-head{grid-template-columns:1fr}
+}
+</style>
+</head>
+<body>
+<div id="progress-bar"></div>
+
+<nav id="nav">
+  <div class="nav-logo">NFM × Homespire</div>
+  <div class="nav-links">
+    <span class="nav-link" onclick="goto('overview')">Overview</span>
+    <span class="nav-link" onclick="goto('scenarios')">Scenarios</span>
+    <span class="nav-link" onclick="goto('scope')">Merger Scope</span>
+    <span class="nav-link" onclick="goto('impact')">Employee Impact</span>
+  </div>
+  <div class="nav-badge">Confidential</div>
+</nav>
+
+<!-- HERO -->
+<section id="hero">
+  <div class="hero-glow hero-glow-1"></div>
+  <div class="hero-glow hero-glow-2"></div>
+  <svg class="hero-svg" viewBox="0 0 1400 900" fill="none" preserveAspectRatio="xMidYMid slice">
+    <line x1="0" y1="600" x2="1400" y2="280" stroke="rgba(201,150,58,.04)" stroke-width="1"/>
+    <line x1="0" y1="720" x2="1400" y2="420" stroke="rgba(201,150,58,.025)" stroke-width="1"/>
+    <circle cx="1100" cy="180" r="300" stroke="rgba(201,150,58,.03)" stroke-width="1" fill="none"/>
+    <circle cx="1100" cy="180" r="200" stroke="rgba(201,150,58,.04)" stroke-width="1" fill="none"/>
+    <line x1="680" y1="0" x2="880" y2="900" stroke="rgba(255,255,255,.015)" stroke-width="1"/>
+  </svg>
+  <div>
+    <div class="hero-tag">Migration Planning &middot; April 2026</div>
+    <h1 class="hero-h">NFM &amp; Homespire<br><em>Migration Planning.</em></h1>
+    <p class="hero-sub">A structured planning brief for NFM Lending and Homespire Mortgage &mdash; what each migration path requires, who it affects, and what both organizations need to align on before moving forward.</p>
+    <!-- Decorative rule — directly under subtitle -->
+    <div style="margin-top:8px;opacity:0;animation:fadeIn .8s .7s cubic-bezier(.22,1,.36,1) forwards;">
+      <div style="display:flex;align-items:center;gap:14px;max-width:600px;">
+        <div style="height:1px;flex:1;background:linear-gradient(90deg,rgba(201,150,58,.55),transparent);transform-origin:left center;animation:goldLine 1s 1s cubic-bezier(.22,1,.36,1) forwards;opacity:0;"></div>
+        <div style="width:5px;height:5px;border-radius:50%;background:var(--gold);opacity:.65;flex-shrink:0;"></div>
+        <div style="width:3px;height:3px;border-radius:50%;background:var(--gold);opacity:.35;flex-shrink:0;"></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="hero-meta">
+    <div><div class="hm-label">Prepared by</div><div class="hm-val">Felipe Abarca &middot; Homespire Mortgage IT Lead</div></div>
+    <div><div class="hm-label">Data as of</div><div class="hm-val">March / April 2026 &mdash; Live system data</div></div>
+    <div><div class="hm-label">For</div><div class="hm-val">Joint Executive Review &mdash; NFM & Homespire Leadership</div></div>
+  </div>
+  <div class="hero-scroll"><div class="scroll-bar"></div>Scroll</div>
+</section>
+
+<!-- STAT STRIP -->
+<section id="overview" class="stat-strip">
+  <div class="stat-grid">
+    <div class="stat-item rv-scale"><div class="stat-num cu" data-t="99">0</div><div class="stat-lbl">Identities</div><div class="stat-desc">Active user accounts on Homespire systems</div></div>
+    <div class="stat-item rv-scale d1"><div class="stat-num cu" data-t="90">0</div><div class="stat-lbl">Managed Devices</div><div class="stat-desc">Company laptops &amp; desktops</div></div>
+    <div class="stat-item rv-scale d2"><div class="stat-num"><span class="cu" data-t="25">0</span><span style="font-size:0.65em;vertical-align:super;line-height:0;">+</span></div><div class="stat-lbl">Business Apps</div><div class="stat-desc">Software tied to Homespire identity</div></div>
+    <div class="stat-item rv-scale d3"><div class="stat-num">8.9<span style="font-size:22px;font-weight:400">TB</span></div><div class="stat-lbl">Data Stored</div><div class="stat-desc">Email, files &amp; shared drives in M365</div></div>
+    <div class="stat-item rv-scale d4"><div class="stat-num cu" data-t="5">0</div><div class="stat-lbl">Custom Apps</div><div class="stat-desc">Homespire-built tools &amp; platforms</div></div>
+    <div class="stat-item rv-scale d5"><div class="stat-num">3</div><div class="stat-lbl">Options Analyzed</div><div class="stat-desc">Each with different scope &amp; risk</div></div>
+  </div>
+</section>
+
+<!-- SCENARIOS -->
+<section id="scenarios" class="sc-section">
+  <div style="max-width:1200px;margin:0 auto 56px;" class="rv">
+    <div class="sec-tag" style="color:var(--gold);">Integration Options</div>
+    <h2 class="sec-h" style="color:#fff;">Three paths forward.<br>Very different journeys.</h2>
+    <p class="sec-lead" style="color:rgba(255,255,255,.6);margin-bottom:0;">Each option has been analyzed for what it means in practice &mdash; for employees, for operations, and for both organizations.</p>
+  </div>
+  <div class="sc-tabs rv">
+    <button class="sc-tab tb" id="tab-b" onclick="selSc('b')"><span class="tl">Frontrunner</span><span class="tt">Hybrid Migration</span></button>
+    <button class="sc-tab" id="tab-a" onclick="selSc('a')"><span class="tl">Multi-phase program</span><span class="tt">Full Migration</span></button>
+  </div>
+
+  <!-- Panel B -->
+  <div class="sc-panel on" id="panel-b">
+    <div class="ph">
+      <div>
+        <div class="ph-verdict vg">&starf; Recommended Path</div>
+        <div class="ph-h">NFM gains defined access.<br>Everything keeps running.</div>
+        <p class="ph-sub">NFM IT receives structured access to Homespire's Microsoft 365 environment, Azure infrastructure, and key applications. Homespire's systems, data, and operations remain exactly as they are — with both teams working under a clear shared agreement.</p>
+      </div>
+      <div class="ph-metrics">
+        <div><div class="pm-lbl">Time to operational</div><div class="pm-val" style="color:var(--gold-2);">6&ndash;8 weeks</div><div class="pm-desc">After governance agreement signed</div></div>
+        <div class="pm-sep"></div>
+        <div><div class="pm-lbl">Employee disruption</div><div class="pm-val" style="color:#66BB6A;font-size:18px;">None</div><div class="pm-desc">Zero changes to systems or sign-in</div></div>
+        <div class="pm-sep"></div>
+        <div><div class="pm-lbl">Data migration</div><div class="pm-val" style="color:#66BB6A;font-size:18px;">None</div><div class="pm-desc">8.87 TB stays exactly where it is</div></div>
+        <div class="pm-sep"></div>
+        <div><div class="pm-lbl">Compliance posture</div><div class="pm-val" style="color:#66BB6A;font-size:16px;">Unchanged</div><div class="pm-desc">Regulatory controls stay with Homespire</div></div>
+      </div>
+    </div>
+    <div class="pb stagger-children">
+      <div class="ic" style="background:rgba(102,187,106,.07);border:1px solid rgba(102,187,106,.15);border-left:3px solid #66BB6A;">
+        <div class="ic-h" style="font-size:16px;color:#66BB6A;margin-bottom:12px;">✓ Zero disruption to users and operations</div>
+        <ul class="ic-ul">
+          <li class="ic-li"><div class="dot-g"></div>Every employee signs in, works, and communicates exactly as they do today &mdash; no changes to any device, application, or workflow</li>
+          <li class="ic-li"><div class="dot-g"></div>All 8.87 TB of data &mdash; email, files, and shared drives &mdash; stays exactly where it is. Nothing moves, nothing breaks</li>
+          <li class="ic-li"><div class="dot-g"></div>All Homespire business applications and the Loan Officer Dashboard remain fully operational with no reconfiguration required</li>
+          <li class="ic-li"><div class="dot-g"></div>Email signatures and all required Loan Officer disclosures continue without interruption</li>
+        </ul>
+      </div>
+      <div class="ic" style="background:rgba(30,82,128,.08);border:1px solid rgba(30,82,128,.18);border-left:3px solid #5BA4CF;">
+        <div class="ic-h" style="font-size:16px;color:#90CAF9;margin-bottom:12px;">&#x1F510; What NFM obtains access to</div>
+        <ul class="ic-ul">
+          <li class="ic-li"><div class="dot-g"></div>Microsoft 365 access &mdash; scoped visibility into the Homespire tenant to support IT operations</li>
+          <li class="ic-li"><div class="dot-g"></div>Azure access &mdash; defined access to Homespire's Azure infrastructure within an agreed governance boundary</li>
+          <li class="ic-li"><div class="dot-g"></div>Custom tools &amp; applications &mdash; access to Homespire-built platforms needed to support employees effectively</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <!-- Panel A -->
+  <div class="sc-panel" id="panel-a">
+    <div class="ph">
+      <div>
+        <div class="ph-verdict vb">&#x1F534; Requires Seven Workstreams First</div>
+        <div class="ph-h">A full migration is a multi-phase program, not a quick switchover.</div>
+        <p class="ph-sub">Moving Homespire's entire IT environment into NFM's would require launching six separate project workstreams before a single user account could be moved.</p>
+      </div>
+      <div class="ph-metrics">
+        <div><div class="pm-lbl">Organizational effort</div><div class="pm-val" style="color:#EF9A9A;font-size:22px;line-height:1.2;">Multi-phase<br>Program</div><div class="pm-desc">Requires dedicated teams, executive sponsorship, and third-party tooling — not a side project</div></div>
+        <div class="pm-sep"></div>
+        <div><div class="pm-lbl">Separate project workstreams</div><div class="pm-val" style="color:var(--gold-2);">6</div><div class="pm-desc">Each a standalone project with its own scope</div></div>
+        <div class="pm-sep"></div>
+        <div><div class="pm-lbl">Employee disruption</div><div class="pm-val" style="color:#EF9A9A;font-size:16px;">Significant</div><div class="pm-desc">Every device reset &mdash; half-day per person</div></div>
+        <div class="pm-sep"></div>
+        <div><div class="pm-lbl">Data migration</div><div class="pm-val" style="color:#EF9A9A;">8.87 TB</div><div class="pm-desc">Full email, file &amp; drive migration required</div></div>
+      </div>
+    </div>
+    <div class="pb stagger-children">
+      <div class="ic"><div class="ic-h">&#x26A0;&#xFE0F; What employees experience</div><ul class="ic-ul">
+        <li class="ic-li"><div class="dot-r"></div>Every laptop and desktop wiped and reconfigured &mdash; a half-day per person, company-wide</li>
+        <li class="ic-li"><div class="dot-r"></div>All applications require re-sign-in; some require re-authorization by IT</li>
+        <li class="ic-li"><div class="dot-r"></div>Phone system changes &mdash; Vonage replaced by Teams calling; new workflow for all calls</li>
+        <li class="ic-li"><div class="dot-r"></div>Email signatures — including required Loan Officer disclosures — at risk during cutover window</li>
+      </ul></div>
+      <div class="ic"><div class="ic-h">&#x1F4CB; Workstreams that must launch first</div><ul class="ic-ul">
+        <li class="ic-li"><div class="dot-r"></div>Email signature system overhaul &mdash; NFM Marketing project (regulatory disclosure dependency)</li>
+        <li class="ic-li"><div class="dot-r"></div>Security and compliance alignment between both organizations</li>
+        <li class="ic-li"><div class="dot-r"></div>Employee authentication security upgrade at NFM</li>
+        <li class="ic-li"><div class="dot-r"></div>8.87 TB data migration &mdash; email, files, and personal drives</li>
+        <li class="ic-li"><div class="dot-r"></div>All 25 business applications re-registered and tested in NFM's environment</li>
+        <li class="ic-li"><div class="dot-r"></div>Azure cloud infrastructure and device fleet transition</li>
+        <li class="ic-li"><div class="dot-r"></div>On-premises Active Directory and file server separation</li>
+      </ul></div>
+    </div>
+  </div>
+</section>
+
+<!-- SCENARIO A — PROJECT MAP -->
+<section id="scope" class="pm-section">
+  <div class="pm-pg">
+    <div class="sec-tag rv" style="font-size:15px;letter-spacing:3px;">Full Migration &mdash; Scope</div>
+    <h2 class="sec-h rv" style="color:var(--navy);font-size:clamp(44px,5.5vw,72px);font-weight:900;">Full migration means launching<br><em>six projects simultaneously.</em></h2>
+    <p class="sec-lead rv" style="font-size:19px;font-weight:400;max-width:760px;">Before a single Homespire account could be moved to NFM's environment, all six of these workstreams would need to be underway. Each requires its own dedicated resources, timeline, and leadership ownership &mdash; and several involve departments beyond IT.</p>
+
+    <div class="pm-intro rv-scale">
+      <div class="pm-intro-text">This is not a technology migration. It is a <strong>program of work</strong> spanning compliance, legal, finance, operations, and IT across both organizations. Every project shown below must be resolved or actively in progress before any cutover can be attempted.</div>
+      <div class="pm-counter"><div class="pm-counter-num" id="ctr">0</div><div class="pm-counter-lbl">Required workstreams</div></div>
+    </div>
+
+    <div class="tracks">
+      <div class="track rv-left">
+        <div class="th"><div class="tn">1</div><div><div class="ttl">Email Signature System Overhaul</div><div class="tsub">NFM Marketing project &middot; Loan Officer disclosures</div></div><div style="margin-left:auto;display:flex;flex-direction:column;align-items:flex-end;gap:4px;flex-shrink:0;"><div class="tdur" style="color:var(--navy-4);background:var(--navy-light);border:1px solid rgba(30,82,128,.25);font-family:'Space Mono',monospace;font-size:11px;font-weight:700;padding:4px 12px;border-radius:20px;">NFM Marketing</div></div></div>
+        <div class="tbar"><div class="tfill" data-w="35" style="background:linear-gradient(90deg,var(--navy-4),#5BA4CF);"></div></div>
+        <div class="tbody"><div class="tt-tasks">
+          <div class="tt-task"><div class="td"></div>Homespire's signature platform must be migrated to a system independent of the on-premises server — ensuring Loan Officer disclosures continue on every outbound email without interruption.</div>
+        </div></div><div class="tt-dep"><div class="dep-lbl">Gate for migration</div><span style="color:var(--cream-3);font-size:14px;">—</span><div class="dep-val">Must complete before any user migration begins</div></div>
+      </div>
+
+
+      <div class="track rv-left d2">
+        <div class="th"><div class="tn">2</div><div><div class="ttl">Security Capability Upgrade at NFM</div><div class="tsub">Authentication standards &middot; Security policy alignment</div></div><div style="margin-left:auto;display:flex;flex-direction:column;align-items:flex-end;gap:4px;flex-shrink:0;"><div class="eff-badge eff-high">&#x25B2; High Effort</div><span class="eff-weeks">est. 6–8 wks*</span></div></div>
+        <div class="tbar"><div class="tfill" data-w="45"></div></div>
+        <div class="tbody"><div class="tt-tasks">
+          <div class="tt-task"><div class="td"></div>NFM must deploy secure sign-in standards currently in use at Homespire and align authentication policies before any employee accounts can be moved.</div>
+        </div></div><div class="tt-dep"><div class="dep-lbl">Gate for migration</div><span style="color:var(--cream-3);font-size:14px;">—</span><div class="dep-val">Must complete before any user migration begins</div></div>
+      </div>
+
+      <div class="track rv-right d3">
+        <div class="th"><div class="tn">3</div><div><div class="ttl">Data Migration &mdash; 8.87 TB</div><div class="tsub">Email &middot; SharePoint &middot; OneDrive &middot; Permissions</div></div><div style="margin-left:auto;display:flex;flex-direction:column;align-items:flex-end;gap:4px;flex-shrink:0;"><div class="eff-badge eff-very-high">&#x25B2;&#x25B2; Very High Effort</div><span class="eff-weeks">est. 12–16 wks*</span></div></div>
+        <div class="tbar"><div class="tfill" data-w="80"></div></div>
+        <div class="tbody"><div class="tt-tasks">
+          <div class="tt-task"><div class="td"></div>All 8.87 TB of email, shared files, and personal drives must be moved to NFM's environment — including permissions, folder structures, and archive content — using third-party migration tooling to minimize data loss risk.</div>
+        </div></div><div class="tt-dep"><div class="dep-lbl">Risk level</div><span style="color:var(--cream-3);font-size:14px;">—</span><div class="dep-val">High — requires third-party tooling</div></div>
+      </div>
+
+      <div class="track rv-left d4">
+        <div class="th"><div class="tn">4</div><div><div class="ttl">Business Application Re-Registration</div><div class="tsub">25+ applications &middot; Custom tools &middot; LO Dashboard</div></div><div style="margin-left:auto;display:flex;flex-direction:column;align-items:flex-end;gap:4px;flex-shrink:0;"><div class="eff-badge eff-high">&#x25B2; High Effort</div><span class="eff-weeks">est. 8–10 wks*</span></div></div>
+        <div class="tbar"><div class="tfill" data-w="60"></div></div>
+        <div class="tbody"><div class="tt-tasks">
+          <div class="tt-task"><div class="td"></div>Every business application — including the Loan Officer Dashboard and all custom-built tools — must be individually re-registered and tested against NFM's environment before employees can access them.</div>
+        </div></div><div class="tt-dep"><div class="dep-lbl">Involves</div><span style="color:var(--cream-3);font-size:14px;">—</span><div class="dep-val">IT, Vendors &amp; Operations</div></div>
+      </div>
+
+      <div class="track rv-right d5">
+        <div class="th"><div class="tn">5</div><div><div class="ttl">Device Reset &amp; Cloud Infrastructure Transition</div><div class="tsub">90 devices &middot; Azure resources &middot; Phone system</div></div><div style="margin-left:auto;display:flex;flex-direction:column;align-items:flex-end;gap:4px;flex-shrink:0;"><div class="eff-badge eff-very-high">&#x25B2;&#x25B2; Very High Effort</div><span class="eff-weeks">est. 8–12 wks*</span></div></div>
+        <div class="tbar"><div class="tfill" data-w="50"></div></div>
+        <div class="tbody"><div class="tt-tasks">
+          <div class="tt-task"><div class="td"></div>All 90 company devices must be fully reset and reconfigured — a half-day per employee — alongside a separate transition plan for Homespire's Azure cloud infrastructure and phone system.</div>
+        </div></div><div class="tt-dep"><div class="dep-lbl">Device impact</div><span style="color:var(--cream-3);font-size:14px;">—</span><div class="dep-val">Every employee — half-day each</div></div>
+      </div>
+
+
+      <div class="track rv-left d5">
+        <div class="th"><div class="tn">6</div><div><div class="ttl">On-Premises Active Directory &amp; File Server Transition</div><div class="tsub">AD separation &middot; File server &middot; Server ownership</div></div><div style="margin-left:auto;display:flex;flex-direction:column;align-items:flex-end;gap:4px;flex-shrink:0;"><div class="eff-badge eff-high">&#x25B2; High Effort</div><span class="eff-weeks">est. 8–10 wks*</span></div></div>
+        <div class="tbar"><div class="tfill" data-w="55"></div></div>
+        <div class="tbody"><div class="tt-tasks">
+          <div class="tt-task"><div class="td"></div>Homespire's on-premises directory environment — which is entirely separate from NFM's — requires a formal separation plan, server ownership transfer, and migration of all file server content before the transition can complete.</div>
+        </div></div><div class="tt-dep"><div class="dep-lbl">Involves</div><span style="color:var(--cream-3);font-size:14px;">—</span><div class="dep-val">Both IT teams &amp; Facilities</div></div>
+      </div>    </div>
+
+
+    <div style="font-family:'Space Mono',monospace;font-size:11px;color:var(--ink-3);padding:12px 4px 20px;letter-spacing:.3px;">
+      * Conservative estimates assume dedicated NFM IT staff allocation with Homespire integration as a primary priority. Actual timelines will vary based on NFM IT Department availability, workload, and competing organizational priorities at the time of execution.
+    </div>
+    <div class="total-bar rv">
+      <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:0;flex:1;border-radius:10px;overflow:hidden;border:1px solid rgba(255,255,255,.08);">
+        <div style="padding:24px 28px;border-right:1px solid rgba(255,255,255,.07);">
+          <div style="font-family:'Space Mono',monospace;font-size:9px;letter-spacing:2px;text-transform:uppercase;color:rgba(255,255,255,.3);margin-bottom:8px;">NFM IT Staff Required</div>
+          <div style="font-family:'Playfair Display',serif;font-size:32px;font-weight:900;color:#EF9A9A;line-height:1;">4&ndash;6</div>
+          <div style="font-size:13px;color:rgba(255,255,255,.4);margin-top:4px;">Dedicated staff, full-time allocation<br>likely including overtime</div>
+        </div>
+        <div style="padding:24px 28px;border-right:1px solid rgba(255,255,255,.07);">
+          <div style="font-family:'Space Mono',monospace;font-size:9px;letter-spacing:2px;text-transform:uppercase;color:rgba(255,255,255,.3);margin-bottom:8px;">Third-Party Tooling</div>
+          <div style="font-family:'Playfair Display',serif;font-size:32px;font-weight:900;color:var(--gold-2);line-height:1;">Required</div>
+          <div style="font-size:13px;color:rgba(255,255,255,.4);margin-top:4px;">Specialized migration platforms to move<br>8.87 TB safely with minimal risk</div>
+        </div>
+        <div style="padding:24px 28px;border-right:1px solid rgba(255,255,255,.07);">
+          <div style="font-family:'Space Mono',monospace;font-size:9px;letter-spacing:2px;text-transform:uppercase;color:rgba(255,255,255,.3);margin-bottom:8px;">Departments Involved</div>
+          <div style="font-family:'Playfair Display',serif;font-size:32px;font-weight:900;color:#EF9A9A;line-height:1;">7+</div>
+          <div style="font-size:13px;color:rgba(255,255,255,.4);margin-top:4px;">IT, Compliance, Legal, Finance,<br>Operations &amp; NFM Marketing</div>
+        </div>
+        <div style="padding:24px 28px;">
+          <div style="font-family:'Space Mono',monospace;font-size:9px;letter-spacing:2px;text-transform:uppercase;color:rgba(255,255,255,.3);margin-bottom:8px;">Execution Model</div>
+          <div style="font-family:'Playfair Display',serif;font-size:26px;font-weight:900;color:var(--gold-2);line-height:1.1;">Phased<br>Program</div>
+          <div style="font-size:13px;color:rgba(255,255,255,.4);margin-top:4px;">Not a single migration &mdash; a multi-phase<br>program with executive sponsorship</div>
+        </div>
+      </div>
+    </div>
+    <div style="margin-top:16px;background:var(--navy);border:1px solid rgba(201,150,58,.2);border-left:4px solid var(--gold);border-radius:10px;padding:24px 32px;font-size:15.5px;color:rgba(255,255,255,.75);line-height:1.75;max-width:1200px;margin-left:auto;margin-right:auto;">
+      &#x26A0;&#xFE0F; <strong style="color:#fff;">This is a program, not a project.</strong> Each workstream requires its own project manager, dedicated staff allocation, and executive sponsorship. Critically, <strong style="color:var(--gold-3);">all timelines are contingent on NFM IT's availability and priorities</strong> &mdash; if the NFM IT Department is engaged on other initiatives, these estimates will extend accordingly. The full program also requires third-party migration tooling, and the sustained involvement of both IT departments, NFM Marketing, Legal, Compliance, and Finance. <strong style="color:var(--gold-2);">Hybrid Migration achieves meaningful integration in 6&ndash;8 weeks with none of this overhead.</strong>
+    </div>
+  </div>
+</section>
+
+<!-- EMPLOYEE IMPACT -->
+<section id="impact" class="imp-section">
+  <div style="max-width:1200px;margin:0 auto;">
+    <div class="sec-tag rv-left">Employee Experience</div>
+    <h2 class="sec-h rv">What each option means<br><em>for the people who work here.</em></h2>
+    <p class="sec-lead rv">Written from the employee's perspective &mdash; not the IT team's. This is what people would actually experience under each path.</p>
+
+    <table class="itbl rv">
+      <thead><tr>
+        <th style="width:28%;">Area</th>
+        <th style="width:36%;">&#x1F534; Full Migration</th>
+        <th style="width:36%;">&#x1F7E1; Hybrid Migration</th>
+      </tr></thead>
+      <tbody>
+        <tr><td><div class="ta-area">Sign-in &amp; Security</div><div class="ta-sub">How employees authenticate</div></td>
+          <td><div class="chip cr">Changes for everyone</div><div>Employees re-register their login methods. Many temporarily lose their secure PIN sign-in until NFM configures it.</div></td>
+          <td><div class="chip cg">No change</div><div>Every employee signs in exactly as today. Nothing to install or re-register.</div></td>
+          </tr>
+        <tr><td><div class="ta-area">Laptops &amp; Computers</div><div class="ta-sub">Personal work devices</div></td>
+          <td><div class="chip cr">Full reset required</div><div>Every company device wiped and rebuilt. Each takes a half-day to full day. Employees are offline during the process.</div></td>
+          <td><div class="chip cg">No change</div><div>No device changes. Same experience, potentially faster support.</div></td>
+          </tr>
+        <tr><td><div class="ta-area">Email &amp; Mailbox</div><div class="ta-sub">History, folders, contacts</div></td>
+          <td><div class="chip cr">Full migration</div><div>All email history moves to a new home. Loan Officer disclosures in signatures at risk during cutover.</div></td>
+          <td><div class="chip cg">No change</div><div>Email, history, and signatures stay exactly as they are.</div></td>
+          </tr>
+        <tr><td><div class="ta-area">Files &amp; Shared Drives</div><div class="ta-sub">SharePoint, OneDrive</div></td>
+          <td><div class="chip cr">8.87 TB migrated</div><div>All shared drives, department folders, and personal files move to NFM's environment. Shared links may break. Permissions rebuilt.</div></td>
+          <td><div class="chip cg">No change</div><div>Every file, folder, and shared link stays in place. Nothing moves.</div></td>
+          </tr>
+        <tr><td><div class="ta-area">Phone System</div><div class="ta-sub">Daily calling &amp; voicemail</div></td>
+          <td><div class="chip ca">Replaced</div><div>Vonage would be replaced by Teams calling as part of the merger. Employees would need to learn a new calling workflow.</div></td>
+          <td><div class="chip ca">To be determined</div><div>Vonage continues as today. The timing of any transition to Teams calling would be determined separately.</div></td>
+          </tr>
+        <tr><td><div class="ta-area">LO Dashboard &amp; Tools</div><div class="ta-sub">Revenue-critical applications</div></td>
+          <td><div class="chip cr">Disruption risk</div><div>The primary daily tool for Loan Officers requires re-configuration. Any downtime has direct revenue impact.</div></td>
+          <td><div class="chip cg">No change</div><div>All Homespire-built tools remain fully operational.</div></td>
+          </tr>
+        <tr><td><div class="ta-area">IT Support</div><div class="ta-sub">Day-to-day IT support &amp; requests</div></td>
+          <td><div class="chip ca">Transfers to NFM</div><div>Employees submit requests through NFM's system. Response quality depends on NFM team capacity and Homespire knowledge.</div></td>
+          <td><div class="chip cg">NFM handles routine requests</div><div>Password resets, device help, software questions handled by NFM IT. Complex issues escalate to Homespire IT. Expanded capacity overall.</div></td>
+          </tr>
+        <tr><td><div class="ta-area">Compliance Controls</div><div class="ta-sub">Regulatory obligations &amp; licensing</div></td>
+          <td><div class="chip cr">Must be rebuilt</div><div>All regulatory IT controls need re-documentation with new named owners before the next audit. Risk of a compliance gap during transition.</div></td>
+          <td><div class="chip cg">Fully maintained</div><div>Homespire IT retains ownership. Nothing changes from a regulatory perspective.</div></td>
+          </tr>
+      </tbody>
+    </table>
+  </div>
+</section>
+
+<div class="footer">
+  <div class="fl">NFM &amp; Homespire &mdash; Migration Planning.</div>
+  <div class="fline"></div>
+  <div class="fr">NFM &times; Homespire IT Integration Assessment<br>Confidential &mdash; April 2026<br>Prepared by Felipe Abarca &middot; Homespire Mortgage IT Lead</div>
+</div>
+
+<script>
+// Progress bar
+window.addEventListener('scroll',()=>{
+  const p=(window.scrollY/(document.documentElement.scrollHeight-window.innerHeight))*100;
+  document.getElementById('progress-bar').style.width=p+'%';
+  document.getElementById('nav').classList.toggle('scrolled',window.scrollY>80);
+});
+
+// Scroll to
+function goto(id){const e=document.getElementById(id);if(e)e.scrollIntoView({behavior:'smooth',block:'start'})}
+
+// Scenario selector
+function selSc(id){
+  ['a','b'].forEach(s=>{
+    document.getElementById('tab-'+s).className='sc-tab';
+    const p=document.getElementById('panel-'+s);if(p)p.classList.remove('on');
+  });
+  document.getElementById('tab-'+id).classList.add('t'+id);
+  document.getElementById('panel-'+id).classList.add('on');
+}
+
+// Count animation
+function countUp(el,target,dur){
+  let c=0,step=Math.max(Math.round(dur/target),12);
+  const t=setInterval(()=>{
+    c+=Math.ceil(target/(dur/step));
+    if(c>=target){c=target;clearInterval(t);}
+    el.textContent=c;
+  },step);
+}
+
+// Intersection observer
+// Delay observer init so browser paints opacity:0 first
+requestAnimationFrame(()=>setTimeout(()=>{
+const io=new IntersectionObserver(entries=>{
+  entries.forEach(e=>{
+    if(e.isIntersecting){
+      e.target.classList.add('on');
+      // count-up
+      e.target.querySelectorAll('.cu').forEach(el=>countUp(el,+el.getAttribute('data-t'),1000));
+      // track bars
+      if(e.target.classList.contains('track')){
+        setTimeout(()=>{const f=e.target.querySelector('.tfill');if(f)f.style.width=f.getAttribute('data-w')+'%';},250);
+      }
+      // counter
+      if(e.target.classList.contains('pm-intro')){
+        setTimeout(()=>countUp(document.getElementById('ctr'),6,700),400);
+      }
+      io.unobserve(e.target);
+    }
+  });
+},{threshold:0.08,rootMargin:'0px 0px -40px 0px'});
+document.querySelectorAll('.rv,.rv-left,.rv-right,.rv-fast,.stagger-children,.track,.pm-intro').forEach(el=>io.observe(el));
+// rv-scale items NOT in stat-strip handled separately
+document.querySelectorAll('.rv-scale').forEach(el=>{
+  if(!el.closest('.stat-grid'))io.observe(el);
+});
+
+// Stat strip count-up
+const sio=new IntersectionObserver(entries=>{
+  entries.forEach(e=>{
+    if(e.isIntersecting){
+      e.target.querySelectorAll('.rv-scale').forEach((el,i)=>{
+        setTimeout(()=>el.classList.add('on'), i*80);
+      });
+      e.target.querySelectorAll('.cu').forEach(el=>countUp(el,+el.getAttribute('data-t'),1000));
+      sio.unobserve(e.target);
+    }
+  });
+},{threshold:0.15});
+const sg=document.querySelector('.stat-grid');if(sg)sio.observe(sg);
+},32)); // end RAF+timeout
+</script>
+</body>
+</html>
+
