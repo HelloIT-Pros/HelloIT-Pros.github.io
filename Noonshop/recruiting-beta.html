@@ -38,6 +38,17 @@ nav.scrolled{background:rgba(12,12,12,.6);backdrop-filter:blur(16px);-webkit-bac
 .nav-link::after{content:'';position:absolute;bottom:-2px;left:0;right:0;height:1px;background:#F7F6F3;transform:scaleX(0);transform-origin:right;transition:transform .4s cubic-bezier(.4,0,.2,1)}
 .nav-link:hover{color:#F7F6F3}
 .nav-link:hover::after{transform:scaleX(1);transform-origin:left}
+/* Hamburger */
+.nav-burger{display:none;flex-direction:column;justify-content:center;gap:5px;width:36px;height:36px;background:none;border:none;cursor:pointer;padding:4px;z-index:201}
+.nav-burger span{display:block;height:1.5px;background:#F7F6F3;border-radius:2px;transition:transform .35s cubic-bezier(.4,0,.2,1),opacity .25s}
+.nav-burger.open span:nth-child(1){transform:translateY(6.5px) rotate(45deg)}
+.nav-burger.open span:nth-child(2){opacity:0}
+.nav-burger.open span:nth-child(3){transform:translateY(-6.5px) rotate(-45deg)}
+/* Mobile overlay menu */
+.nav-overlay{display:none;position:fixed;inset:0;z-index:200;background:rgba(12,12,12,.97);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);flex-direction:column;justify-content:center;align-items:center;gap:40px;opacity:0;transition:opacity .35s cubic-bezier(.4,0,.2,1)}
+.nav-overlay.open{opacity:1}
+.nav-overlay .nav-link{font-size:13px;letter-spacing:.25em;color:rgba(247,246,243,.55)}
+.nav-overlay .nav-link:hover{color:#F7F6F3}
 
 /* Hero */
 .hero{min-height:100vh;background:var(--ink);display:flex;flex-direction:column;justify-content:flex-end;padding:0 60px 88px;position:relative;overflow:hidden}
@@ -313,7 +324,10 @@ footer{background:var(--ink);padding:56px 60px;display:flex;justify-content:spac
 /* Responsive */
 @media(max-width:900px){
   nav{padding:20px 24px}
-  .nav-links{gap:16px}
+  nav{padding:20px 24px}
+  .nav-links{display:none}
+  .nav-burger{display:flex}
+  .nav-overlay{display:flex}
   section,.quiz{padding:80px 24px}
   .hero{padding:0 24px 64px}
   .rule-d,.rule-l{margin:0 24px}
@@ -377,7 +391,16 @@ footer{background:var(--ink);padding:56px 60px;display:flex;justify-content:spac
     <a href="#tech" class="nav-link">Tech</a>
     <a href="#quiz" class="nav-link">Opportunity</a>
   </div>
+  <button class="nav-burger" id="navBurger" aria-label="Menu">
+    <span></span><span></span><span></span>
+  </button>
 </nav>
+<div class="nav-overlay" id="navOverlay">
+  <a href="#problem" class="nav-link nav-overlay-link">Product</a>
+  <a href="#territory" class="nav-link nav-overlay-link">Territory</a>
+  <a href="#tech" class="nav-link nav-overlay-link">Tech</a>
+  <a href="#quiz" class="nav-link nav-overlay-link">Opportunity</a>
+</div>
 
 <!-- HERO -->
 <section class="hero" id="top">
@@ -877,6 +900,19 @@ if(schedBtn){
     gsap.to(schedBtn, {x:0, y:0, duration:0.5, ease:'elastic.out(1, 0.4)'});
   });
 }
+
+/* ═══ HAMBURGER MENU ═══ */
+const navBurger = document.getElementById('navBurger');
+const navOverlay = document.getElementById('navOverlay');
+function toggleMenu(open){
+  navBurger.classList.toggle('open', open);
+  navOverlay.classList.toggle('open', open);
+  document.body.style.overflow = open ? 'hidden' : '';
+}
+navBurger.addEventListener('click', ()=> toggleMenu(!navBurger.classList.contains('open')));
+document.querySelectorAll('.nav-overlay-link').forEach(l=>{
+  l.addEventListener('click', ()=> toggleMenu(false));
+});
 
 /* ═══ SCROLL PROGRESS BAR ═══ */
 window.addEventListener('scroll', ()=>{
