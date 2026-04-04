@@ -1065,7 +1065,11 @@ function updateProgress(n){
 function goTo(n){
   document.querySelectorAll('.quiz-step').forEach(s=>s.classList.remove('active'));
   const t=document.querySelector(`.quiz-step[data-step="${n}"]`);
-  if(t){t.classList.add('active');updateProgress(n);}
+  if(t){
+    t.classList.add('active');
+    updateProgress(n);
+    document.getElementById('quiz').scrollIntoView({behavior:'smooth',block:'start'});
+  }
 }
 
 document.querySelectorAll('.qopts-list').forEach(g=>{
