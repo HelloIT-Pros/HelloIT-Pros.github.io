@@ -368,13 +368,10 @@ footer{background:var(--ink);padding:56px 60px;display:flex;justify-content:spac
 
   /* ── FRAMES: hide on mobile, show new mobile images instead ── */
   #territoryImg,#territoryImg2,#visionImg{display:none}
-  #territory{display:flex;flex-direction:column;overflow:hidden;position:relative}
-  #vision{display:flex;flex-direction:column;overflow:hidden;position:relative}
-  /* Mobile parallax images — full-width, absolute, behind content */
-  #territoryMobileImg{display:block;position:absolute;top:0;left:0;width:100%;height:100%;object-fit:cover;object-position:center top;z-index:0;opacity:0.35;will-change:transform}
-  #visionMobileImg{display:block;position:absolute;top:0;left:0;width:100%;height:100%;object-fit:cover;object-position:center top;z-index:0;opacity:0.35;will-change:transform}
-  #territory > *:not(#territoryMobileImg){position:relative;z-index:1}
-  #vision > *:not(#visionMobileImg){position:relative;z-index:1}
+  #territory{display:flex;flex-direction:column}
+  #vision{display:flex;flex-direction:column}
+  #territoryMobileImg{display:block;position:relative;width:100%;height:auto;order:-1;margin-bottom:16px}
+  #visionMobileImg{display:block;position:relative;width:100%;height:auto;order:-1;margin-bottom:16px}
 }
 </style>
 </head>
@@ -1215,19 +1212,6 @@ if (visionImg) {
   gsap.to(visionImg, {
     yPercent: 14,
     ease: 'none',
-    scrollTrigger: { trigger: '#vision', start: 'top bottom', end: 'bottom top', scrub: true }
-  });
-}
-// Mobile-only parallax images
-const territoryMobileImg = document.getElementById('territoryMobileImg');
-if (territoryMobileImg) {
-  gsap.to(territoryMobileImg, { yPercent: 18, ease: 'none',
-    scrollTrigger: { trigger: '#territory', start: 'top bottom', end: 'bottom top', scrub: true }
-  });
-}
-const visionMobileImg = document.getElementById('visionMobileImg');
-if (visionMobileImg) {
-  gsap.to(visionMobileImg, { yPercent: 18, ease: 'none',
     scrollTrigger: { trigger: '#vision', start: 'top bottom', end: 'bottom top', scrub: true }
   });
 }
