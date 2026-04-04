@@ -30,8 +30,9 @@ body{background:var(--ink);color:var(--white);font-family:var(--B);font-weight:3
 
 nav{position:fixed;top:0;left:0;right:0;z-index:100;display:flex;justify-content:space-between;align-items:center;padding:28px 60px;transition:background .4s,backdrop-filter .4s}
 nav.scrolled{background:rgba(12,12,12,.6);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px)}
-.nav-logo{font-family:var(--D);font-size:18px;letter-spacing:.14em;color:rgba(247,246,243,.6);text-decoration:none;transition:color .3s}
-.nav-logo:hover{color:#F7F6F3}
+.nav-logo{text-decoration:none;display:flex;align-items:center}
+.nav-logo img{height:36px;width:auto;display:block;filter:brightness(0) invert(1);opacity:0.75;transition:opacity .3s}
+.nav-logo:hover img{opacity:1}
 .nav-links{display:flex;gap:32px;align-items:center}
 .nav-link{font-family:var(--B);font-size:11px;font-weight:500;letter-spacing:.2em;text-transform:uppercase;color:rgba(247,246,243,.55);text-decoration:none;padding-bottom:2px;transition:color .3s;position:relative}
 .nav-link::after{content:'';position:absolute;bottom:-2px;left:0;right:0;height:1px;background:#F7F6F3;transform:scaleX(0);transform-origin:right;transition:transform .4s cubic-bezier(.4,0,.2,1)}
@@ -70,7 +71,7 @@ section{padding:136px 60px;position:relative}
 .tag-dark{color:var(--mid)}.tag-dark::before{background:var(--mid)}
 
 .dh{font-family:var(--D);font-size:clamp(64px,9.5vw,160px);line-height:.88;letter-spacing:.025em;margin-bottom:80px;padding-bottom:0.15em}
-.dh-sub{display:block;font-family:'Playfair Display',Georgia,serif;font-size:clamp(44px,7vw,112px);font-weight:400;font-style:italic;line-height:1.18;letter-spacing:-.01em;margin-top:8px;color:var(--mid)}
+.dh-sub{display:block;font-family:'Playfair Display',Georgia,serif;font-size:clamp(36px,5.5vw,96px);font-weight:400;font-style:italic;line-height:1.18;letter-spacing:-.01em;margin-top:8px;color:var(--mid)}
 .dh-sub-bright{color:rgba(247,246,243,.5)}
 
 .opp-icon{width:48px;height:48px;border:1px solid var(--border);border-radius:50%;display:flex;align-items:center;justify-content:center;margin-bottom:20px;color:var(--ink)}
@@ -78,7 +79,30 @@ section{padding:136px 60px;position:relative}
 .trait-icon{width:36px;height:36px;border:1px solid var(--border);border-radius:50%;display:flex;align-items:center;justify-content:center;flex-shrink:0;color:var(--ink)}
 
 /* Problem/dark */
-.dark{background:var(--ink)}
+.dark{background:var(--ink);position:relative;overflow:hidden}
+
+/* Parallax background layers */
+.parallax-layer{
+  position:absolute;top:-20%;left:0;right:0;bottom:-20%;
+  background-size:cover;background-position:center;
+  z-index:0;will-change:transform;pointer-events:none;
+}
+.parallax-layer::after{
+  content:'';position:absolute;inset:0;
+  background:rgba(12,12,12,0.65);
+}
+.dark > *:not(.parallax-layer){position:relative;z-index:1}
+
+/* Hero parallax image */
+#heroBg{
+  position:absolute;top:-20%;left:0;right:0;bottom:-20%;
+  background-size:cover;background-position:center top;
+  z-index:0;will-change:transform;pointer-events:none;
+}
+#heroBg::after{
+  content:'';position:absolute;inset:0;
+  background:rgba(12,12,12,0.52);
+}
 .prob-body{display:grid;grid-template-columns:1fr 1fr;gap:64px;max-width:960px}
 .prob-body p{font-size:17px;line-height:1.7;color:rgba(247,246,243,.52);margin-bottom:12px}
 .prob-body p:last-child{margin-bottom:0}
@@ -94,6 +118,13 @@ section{padding:136px 60px;position:relative}
 /* Opportunity cards with 3D tilt */
 .opp-intro p{font-size:18px;font-weight:300;line-height:1.8;color:var(--ink2);max-width:680px;margin-bottom:14px}
 .opp-intro{margin-bottom:80px}
+#territory{position:relative;overflow:hidden}
+#territoryImg{position:absolute;top:-5%;right:-2%;width:48%;z-index:0;pointer-events:none;will-change:transform;}
+#territory > *:not(#territoryImg):not(#territoryImg2){position:relative;z-index:1}
+#vision{position:relative;overflow:hidden}
+#visionImg{position:absolute;top:0%;right:0%;width:54%;z-index:0;pointer-events:none;will-change:transform;}
+#vision > *:not(#visionImg){position:relative;z-index:1}
+#territoryImg2{position:absolute;top:22%;right:-2%;width:48%;z-index:0;pointer-events:none;will-change:transform;}
 .opp-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:2px;background:var(--border)}
 .opp-card{padding:52px 48px;background:var(--white);transition:transform .45s cubic-bezier(.4,0,.2,1),box-shadow .45s ease,background .35s;position:relative}
 .opp-card:hover{background:#EDE9E2;transform:translateY(-4px);box-shadow:0 16px 40px rgba(0,0,0,.08)}
@@ -115,7 +146,7 @@ section{padding:136px 60px;position:relative}
 .tech-list li::before{content:'→';color:rgba(247,246,243,.28);flex-shrink:0}
 .tech-list li svg{opacity:0;transition:opacity .5s}
 .tech-col.in-view li svg{opacity:1}
-.tech-close{border:1px solid rgba(247,246,243,.12);padding:64px;max-width:900px;display:grid;grid-template-columns:1fr 1fr;gap:80px;align-items:center;margin-top:80px}
+.tech-close{max-width:900px;display:grid;grid-template-columns:1fr 1fr;gap:80px;align-items:center}
 .tech-close-h{font-family:var(--D);font-size:clamp(36px,3.8vw,60px);line-height:.9;letter-spacing:.025em;color:#F7F6F3}
 .tech-close-p{font-size:16px;font-weight:300;line-height:1.8;color:rgba(247,246,243,.48)}
 
@@ -182,7 +213,7 @@ section{padding:136px 60px;position:relative}
 .quiz-step{display:none}
 .quiz-step.active{display:block;animation:qIn .45s cubic-bezier(.4,0,.2,1) forwards}
 @keyframes qIn{from{opacity:0;transform:translateX(24px)}to{opacity:1;transform:translateX(0)}}
-.quiz-q{font-family:'Bebas Neue',sans-serif !important;font-size:clamp(64px,9.5vw,140px);line-height:.88;letter-spacing:.025em;color:var(--ink);margin-bottom:10px;font-weight:400;-webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility}
+.quiz-q{font-family:'Bebas Neue',sans-serif !important;font-size:clamp(64px,9.5vw,160px);line-height:.88;letter-spacing:.025em;color:var(--ink);margin-bottom:10px;font-weight:400;-webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility}
 .quiz-hint{font-size:13px;font-weight:300;color:var(--mid);letter-spacing:.04em;margin-bottom:40px}
 
 .qopts-list{display:flex;flex-direction:column;gap:2px}
@@ -263,7 +294,7 @@ section{padding:136px 60px;position:relative}
 #schedule{min-height:80vh;display:flex;align-items:center;justify-content:center;text-align:center;position:relative;overflow:hidden}
 #scheduleVideo{position:absolute;top:0;left:0;width:100%;height:100%;object-fit:cover;pointer-events:none;z-index:0;opacity:0}
 #scheduleCanvas{position:absolute;top:0;left:0;width:100%;height:100%;pointer-events:none;z-index:1}
-#schedule::before{content:'CALL';position:absolute;font-family:var(--D);font-size:clamp(180px,25vw,380px);color:rgba(247,246,243,.025);line-height:1;pointer-events:none;user-select:none;letter-spacing:.04em;z-index:1}
+#schedule::before{content:'';display:none}
 .schedule-inner{position:relative;z-index:2;display:flex;flex-direction:column;align-items:center}
 .schedule-tag{font-size:10px;font-weight:500;letter-spacing:.32em;text-transform:uppercase;color:rgba(247,246,243,.35);margin-bottom:32px}
 .schedule-headline{font-family:var(--D);font-size:clamp(80px,13vw,200px);line-height:.87;letter-spacing:.025em;color:#F7F6F3;margin-bottom:32px}
@@ -312,6 +343,17 @@ footer{background:var(--ink);padding:56px 60px;display:flex;justify-content:spac
   body{cursor:auto}
   .cur,.ring{display:none}
   .lens-bg{display:none}
+
+  /* ── PARALLAX IMAGES: show faces on mobile ── */
+  #heroBg{background-position:70% top !important}
+  #problem .parallax-layer{background-position:80% center !important}
+  #leverage .parallax-layer{background-position:72% top !important}
+  #schedule .parallax-layer{background-position:70% top !important}
+
+  /* ── FRAMES: reposition for mobile ── */
+  #territoryImg{width:100%;top:0;right:auto;left:0;opacity:0.5}
+  #territoryImg2{display:none}
+  #visionImg{width:100%;top:0;right:auto;left:0;opacity:0.5}
 }
 </style>
 </head>
@@ -324,23 +366,20 @@ footer{background:var(--ink);padding:56px 60px;display:flex;justify-content:spac
 <div class="ring" id="ring"></div>
 
 <nav id="mainNav">
-  <a href="#top" class="nav-logo">NOON SHOP</a>
+  <a href="#top" class="nav-logo"><img src="assets/NoonShopLogoEtsy.png" alt="Noon Shop" /></a>
   <div class="nav-links">
     <a href="#problem" class="nav-link">Product</a>
     <a href="#territory" class="nav-link">Territory</a>
     <a href="#tech" class="nav-link">Tech</a>
-    <a href="#quiz" class="nav-link">Apply</a>
+    <a href="#quiz" class="nav-link">Opportunity</a>
   </div>
 </nav>
 
 <!-- HERO -->
 <section class="hero" id="top">
-  <video id="heroVideo" autoplay muted loop playsinline>
-    <source src="assets/noon-hero.mp4?v=2" type="video/mp4">
-  </video>
-  <canvas id="heroCanvas"></canvas>
+  <div id="heroBg" style="background-image:url('assets/Noonshop1.png')"></div>
   <div class="hero-topline"></div>
-  <div class="hero-wm" id="heroWm">NOON</div>
+  <div class="hero-wm" id="heroWm"></div>
   <div class="hero-tag">Optical Sales · United States · Canada</div>
   <h1 class="hero-h1" id="heroH1">
     IMAGINE REPRESENTING<br>EYEWEAR THAT
@@ -353,7 +392,6 @@ footer{background:var(--ink);padding:56px 60px;display:flex;justify-content:spac
       <span class="hero-arrow"></span>
     </a>
   </div>
-  <div class="hero-scroll" id="heroScroll"><span>Scroll</span><div class="sline"></div></div>
 </section>
 
 <div class="rule-d"></div>
@@ -385,7 +423,8 @@ footer{background:var(--ink);padding:56px 60px;display:flex;justify-content:spac
 
 <!-- TERRITORY -->
 <section class="ls" id="territory">
-  <div class="noise"></div>
+  <img id="territoryImg" src="assets/Frames-transparent-1.png" alt="" />
+  <img id="territoryImg2" src="assets/Frames-transparent-1.png" alt="" />
   <div class="tag tag-dark">Picture Your Territory</div>
   <h2 class="dh" style="color:var(--ink)">
     NOW IMAGINE<br>BUILDING A TERRITORY
@@ -423,50 +462,7 @@ footer{background:var(--ink);padding:56px 60px;display:flex;justify-content:spac
 
 <!-- TECH — horizontal scroll -->
 <section class="dark" id="tech">
-  <div class="tag">The Modern Sales Advantage</div>
-  <h2 class="dh" style="color:#F7F6F3;">
-    WITH SALES TECH<br>TO FUEL YOUR GROWTH.
-    <span class="dh-sub dh-sub-bright">Meet your unfair advantage.</span>
-  </h2>
-  <div class="tech-hscroll-wrap">
-    <div class="tech-hscroll-pin" id="techPin">
-      <div class="tech-hscroll-track" id="techTrack">
-        <div class="tech-col">
-          <div class="tech-icon-svg"><svg width="36" height="36" viewBox="0 0 36 36" fill="none" stroke="rgba(247,246,243,.7)" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="4" width="28" height="28" rx="2"/><path d="M4 13h28"/><circle cx="11" cy="8.5" r="1.5" fill="rgba(247,246,243,.7)" stroke="none"/><circle cx="17" cy="8.5" r="1.5" fill="rgba(247,246,243,.7)" stroke="none"/><path d="M10 20h6M10 25h10"/></svg></div>
-          <div class="tech-col-title">CRM RELATIONSHIP<br>ENGINE</div>
-          <ul class="tech-list">
-            <li>Track every relationship with optical practices</li>
-            <li>Automated follow-ups that never miss</li>
-            <li>Full territory growth management tools</li>
-            <li>Accounts, pipeline, and opportunity tracking</li>
-            <li>Stay consistent — without the manual effort</li>
-          </ul>
-        </div>
-        <div class="tech-col">
-          <div class="tech-icon-svg"><svg width="36" height="36" viewBox="0 0 36 36" fill="none" stroke="rgba(247,246,243,.7)" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><circle cx="18" cy="18" r="6"/><path d="M18 4v4M18 28v4M4 18h4M28 18h4M7.76 7.76l2.83 2.83M25.41 25.41l2.83 2.83M7.76 28.24l2.83-2.83M25.41 10.59l2.83-2.83"/></svg></div>
-          <div class="tech-col-title">AI-POWERED<br>SALES SUPPORT</div>
-          <ul class="tech-list">
-            <li>Sales insights and client intelligence</li>
-            <li>Communication preparation and drafting</li>
-            <li>Real-time client and market research</li>
-            <li>Product explanation tools at your fingertips</li>
-            <li>Content creation built for optical sales</li>
-          </ul>
-        </div>
-        <div class="tech-col">
-          <div class="tech-icon-svg"><svg width="36" height="36" viewBox="0 0 36 36" fill="none" stroke="rgba(247,246,243,.7)" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><circle cx="28" cy="8" r="4"/><circle cx="8" cy="18" r="4"/><circle cx="28" cy="28" r="4"/><path d="M12 16l12-6M12 20l12 6"/></svg></div>
-          <div class="tech-col-title">SOCIAL &amp; BRAND<br>VISIBILITY</div>
-          <ul class="tech-list">
-            <li>Brand visibility across social platforms</li>
-            <li>Content that amplifies your outreach</li>
-            <li>Noon Shop story told on your behalf</li>
-            <li>Build your own professional presence</li>
-            <li>In today's world, visibility creates opportunity</li>
-          </ul>
-        </div>
-      </div>
-    </div>
-  </div>
+  <div class="parallax-layer" style="background-image:url('assets/Noonshop2.png');background-size:cover;background-position:right center"></div>
   <div class="tech-close">
     <div class="tech-close-h">YOU BRING THE<br>RELATIONSHIPS.<br>WE AMPLIFY THEM.</div>
     <p class="tech-close-p">The most successful salespeople don't rely on hustle alone. They use systems and technology that multiply their effort. Noon Shop provides the platform — you bring the drive.</p>
@@ -531,9 +527,11 @@ footer{background:var(--ink);padding:56px 60px;display:flex;justify-content:spac
 
 <!-- LEVERAGE — split viewport -->
 <section class="dark" id="leverage">
+  <div class="parallax-layer" style="background-image:url('assets/Noonshop3.png');background-size:cover;background-position:center top"></div>
   <div class="tag">The Leverage Behind the Opportunity</div>
-  <h2 class="dh" style="color:#F7F6F3;font-family:'Playfair Display',Georgia,serif;font-style:italic;font-weight:400;font-size:clamp(56px,8vw,130px);letter-spacing:-.01em;line-height:1.1;">
-    We go together.
+  <h2 class="dh" style="color:#F7F6F3;">
+    YOU'RE NOT ALONE.
+    <span class="dh-sub" style="color:rgba(247,246,243,.55);">Let's do this.</span>
   </h2>
   <div class="leverage-split">
     <div class="leverage-half">
@@ -556,10 +554,7 @@ footer{background:var(--ink);padding:56px 60px;display:flex;justify-content:spac
       </ul>
     </div>
   </div>
-  <div class="leverage-result-glass" id="leverageResult">
-    <div class="leverage-result-label">THE RESULT</div>
-    <div class="leverage-result-text">A modern sales platform built for growth.</div>
-  </div>
+
 </section>
 
 <!-- THRIVES -->
@@ -604,6 +599,7 @@ footer{background:var(--ink);padding:56px 60px;display:flex;justify-content:spac
 
 <!-- VISION — horizontal scroll -->
 <section class="ls2" id="vision">
+  <img id="visionImg" src="assets/Frames-transparent-2.png" alt="" />
   <div class="tag tag-dark">Where Noon Shop Is Going</div>
   <h2 class="dh" style="color:var(--ink)">
     GET IN EARLY ON
@@ -646,7 +642,7 @@ footer{background:var(--ink);padding:56px 60px;display:flex;justify-content:spac
   <div class="quiz-wrap">
 
     <div class="quiz-step active" data-step="1">
-      <div class="quiz-q" style="font-family:'Bebas Neue',sans-serif;">READY TO TAKE<br>THE NEXT STEP?<span style="display:block;font-family:'Playfair Display',Georgia,serif;font-style:italic;font-weight:400;font-size:clamp(40px,6vw,96px);line-height:1.05;letter-spacing:-.01em;color:var(--mid);margin-top:4px;">Tell us who you are.</span></div>
+      <div class="quiz-q" style="font-family:'Bebas Neue',sans-serif;">READY TO TAKE<br>THE NEXT STEP?<span style="display:block;font-family:'Playfair Display',Georgia,serif;font-style:italic;font-weight:400;font-size:clamp(36px,5.5vw,96px);line-height:1.18;letter-spacing:-.01em;color:var(--mid);margin-top:4px;">Tell us who you are.</span></div>
       <div class="quiz-hint" style="display:none;"></div>
       <div class="qopts-list">
         <div class="qrow" data-v="rookie"><div class="qrow-check">✓</div><div class="qrow-body"><div class="qrow-main">ROOKIE</div><div class="qrow-sub">Less than 2 years — hungry to prove myself</div></div></div>
@@ -760,9 +756,7 @@ footer{background:var(--ink);padding:56px 60px;display:flex;justify-content:spac
 
 <!-- SCHEDULE -->
 <section class="dark" id="schedule">
-  <video id="scheduleVideo" autoplay muted loop playsinline>
-    <source src="assets/noon-hero.mp4?v=2" type="video/mp4">
-  </video>
+  <div class="parallax-layer" style="background-image:url('assets/Noonshop4.png')"></div>
   <canvas id="scheduleCanvas"></canvas>
   <div class="schedule-inner">
     <div class="schedule-tag">Ready to Talk?</div>
@@ -780,82 +774,6 @@ footer{background:var(--ink);padding:56px 60px;display:flex;justify-content:spac
 <script type="importmap">{"imports":{"three":"https://esm.sh/three@0.170.0"}}</script>
 <script type="module">
 import * as THREE from 'three';
-
-/* ═══ THREE.JS HERO PARTICLES ═══ */
-(function initHeroCanvas(){
-  const canvas = document.getElementById('heroCanvas');
-  if(!canvas || window.innerWidth < 901) return;
-
-  const renderer = new THREE.WebGLRenderer({canvas, alpha:true, antialias:true});
-  renderer.setSize(canvas.clientWidth, canvas.clientHeight);
-  renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
-
-  const scene = new THREE.Scene();
-  const camera = new THREE.PerspectiveCamera(60, canvas.clientWidth/canvas.clientHeight, 0.1, 100);
-  camera.position.z = 4;
-
-  const count = 600;
-  const positions = new Float32Array(count * 3);
-  const velocities = new Float32Array(count * 3);
-  for(let i=0; i<count; i++){
-    const angle = Math.random() * Math.PI * 2;
-    const radius = 1.2 + Math.random() * 1.8;
-    positions[i*3] = Math.cos(angle) * radius;
-    positions[i*3+1] = (Math.random() - 0.5) * 3;
-    positions[i*3+2] = Math.sin(angle) * radius + (Math.random()-0.5)*1.5;
-    velocities[i*3] = (Math.random()-0.5)*0.002;
-    velocities[i*3+1] = (Math.random()-0.5)*0.002;
-    velocities[i*3+2] = (Math.random()-0.5)*0.002;
-  }
-
-  const geo = new THREE.BufferGeometry();
-  geo.setAttribute('position', new THREE.BufferAttribute(positions, 3));
-  const mat = new THREE.PointsMaterial({color:0xF7F6F3, size:0.02, transparent:true, opacity:0.5, sizeAttenuation:true});
-  const points = new THREE.Points(geo, mat);
-  scene.add(points);
-
-  const ringGeo = new THREE.RingGeometry(1.8, 1.82, 64);
-  const ringMat = new THREE.MeshBasicMaterial({color:0xF7F6F3, transparent:true, opacity:0.06, side:THREE.DoubleSide});
-  const ring = new THREE.Mesh(ringGeo, ringMat);
-  scene.add(ring);
-
-  const ring2Geo = new THREE.RingGeometry(2.4, 2.42, 64);
-  const ring2Mat = new THREE.MeshBasicMaterial({color:0xF7F6F3, transparent:true, opacity:0.03, side:THREE.DoubleSide});
-  const ring2 = new THREE.Mesh(ring2Geo, ring2Mat);
-  scene.add(ring2);
-
-  let mouseX=0, mouseY=0;
-  document.addEventListener('mousemove', e=>{
-    mouseX = (e.clientX/window.innerWidth - 0.5)*2;
-    mouseY = (e.clientY/window.innerHeight - 0.5)*2;
-  });
-
-  function animate(){
-    requestAnimationFrame(animate);
-    const pos = geo.attributes.position.array;
-    for(let i=0; i<count; i++){
-      pos[i*3] += velocities[i*3];
-      pos[i*3+1] += velocities[i*3+1];
-      pos[i*3+2] += velocities[i*3+2];
-    }
-    geo.attributes.position.needsUpdate = true;
-    points.rotation.y += 0.0008;
-    points.rotation.x += 0.0003;
-    ring.rotation.z += 0.001;
-    ring2.rotation.z -= 0.0007;
-    camera.position.x += (mouseX*0.3 - camera.position.x)*0.03;
-    camera.position.y += (-mouseY*0.2 - camera.position.y)*0.03;
-    camera.lookAt(0,0,0);
-    renderer.render(scene, camera);
-  }
-  animate();
-
-  window.addEventListener('resize', ()=>{
-    renderer.setSize(canvas.clientWidth, canvas.clientHeight);
-    camera.aspect = canvas.clientWidth/canvas.clientHeight;
-    camera.updateProjectionMatrix();
-  });
-})();
 
 /* ═══ THREE.JS SCHEDULE BG ═══ */
 (function initScheduleCanvas(){
@@ -984,8 +902,7 @@ document.querySelectorAll('video[autoplay]').forEach(v=>{
 const isMobile = window.matchMedia('(max-width:900px)').matches;
 heroPromise.then(()=>{
   const tl = gsap.timeline();
-  tl.fromTo('#heroVideo', {opacity:0}, {opacity:0.35, duration:1.8, ease:'power2.out'}, 0)
-    .to('#heroWm', {opacity:1, duration:2, ease:'power2.out'}, 0)
+  tl.to('#heroWm', {opacity:1, duration:2, ease:'power2.out'}, 0)
     .fromTo('.hero-tag', {opacity:0, y:16}, {opacity:1, y:0, duration:0.6, ease:'power2.out'}, 0.1);
   if(isMobile){
     tl.fromTo('#heroH1', {opacity:0, y:40}, {opacity:1, y:0, duration:1, ease:'power3.out'}, 0.3);
@@ -993,7 +910,7 @@ heroPromise.then(()=>{
     tl.fromTo('#heroH1', {clipPath:'inset(0 0 100% 0)', opacity:0}, {clipPath:'inset(0 0 0% 0)', opacity:1, duration:1.2, ease:'power3.out'}, 0.3);
   }
   tl.fromTo('#heroFoot', {opacity:0, y:30}, {opacity:1, y:0, duration:0.8, ease:'power2.out'}, 1.2)
-    .fromTo('#heroScroll', {opacity:0, y:20}, {opacity:1, y:0, duration:0.6, ease:'power2.out'}, 1.5);
+;
 });
 
 /* ═══ GSAP SCROLL REVEALS ═══ */
@@ -1039,27 +956,6 @@ gsap.utils.toArray('.opp-card').forEach((card,i)=>{
   });
 });
 
-/* ═══ TECH HORIZONTAL SCROLL ═══ */
-(function initTechHScroll(){
-  const track = document.getElementById('techTrack');
-  const pin = document.getElementById('techPin');
-  if(!track || !pin || window.innerWidth < 901) return;
-
-  const totalScroll = track.scrollWidth - pin.clientWidth;
-
-  gsap.to(track, {
-    x: -totalScroll,
-    ease:'none',
-    scrollTrigger:{
-      trigger:'#tech .tech-hscroll-wrap',
-      start:'top top',
-      end: ()=> '+=' + totalScroll,
-      pin: pin,
-      scrub:1,
-      invalidateOnRefresh:true
-    }
-  });
-})();
 
 /* ═══ MODEL VERTICAL TIMELINE ═══ */
 (function initModelTimeline(){
@@ -1102,10 +998,6 @@ gsap.utils.toArray('#leverageYou li, #leverageNoon li').forEach((li,i)=>{
     .to(li, {borderLeftWidth:'3px', paddingLeft:'14px', duration:0.4, ease:'power2.out'}, '-=0.2');
 });
 
-gsap.from('#leverageResult', {
-  scrollTrigger:{trigger:'#leverageResult', start:'top 85%'},
-  opacity:0, y:40, scale:0.95, duration:0.8, ease:'power2.out'
-});
 
 /* ═══ TRAITS REVEAL ═══ */
 gsap.utils.toArray('.trait').forEach((trait,i)=>{
@@ -1130,10 +1022,6 @@ gsap.utils.toArray('.vision-pt').forEach((pt,i)=>{
 });
 
 /* ═══ SCHEDULE REVEAL ═══ */
-gsap.fromTo('#scheduleVideo', {opacity:0}, {
-  opacity:0.15, duration:1.5, ease:'power2.out',
-  scrollTrigger:{trigger:'#schedule', start:'top 80%'}
-});
 gsap.from('.schedule-inner', {
   scrollTrigger:{trigger:'#schedule', start:'top 70%'},
   opacity:0, y:60, duration:1, ease:'power3.out'
@@ -1243,6 +1131,57 @@ document.getElementById('submitBtn').addEventListener('click',()=>{
 
   setTimeout(() => { cta.classList.add('visible'); }, 2400);
 });
+
+/* ═══ PARALLAX BACKGROUNDS ═══ */
+gsap.utils.toArray('.parallax-layer').forEach(layer => {
+  gsap.to(layer, {
+    yPercent: 18,
+    ease: 'none',
+    scrollTrigger: {
+      trigger: layer.parentElement,
+      start: 'top bottom',
+      end: 'bottom top',
+      scrub: true
+    }
+  });
+});
+const territoryImg = document.getElementById('territoryImg');
+if (territoryImg) {
+  gsap.to(territoryImg, {
+    yPercent: 14,
+    ease: 'none',
+    scrollTrigger: { trigger: '#territory', start: 'top bottom', end: 'bottom top', scrub: true }
+  });
+}
+const territoryImg2 = document.getElementById('territoryImg2');
+if (territoryImg2) {
+  gsap.to(territoryImg2, {
+    yPercent: 10,
+    ease: 'none',
+    scrollTrigger: { trigger: '#territory', start: 'top bottom', end: 'bottom top', scrub: true }
+  });
+}
+const visionImg = document.getElementById('visionImg');
+if (visionImg) {
+  gsap.to(visionImg, {
+    yPercent: 14,
+    ease: 'none',
+    scrollTrigger: { trigger: '#vision', start: 'top bottom', end: 'bottom top', scrub: true }
+  });
+}
+const heroBg = document.getElementById('heroBg');
+if (heroBg) {
+  gsap.to(heroBg, {
+    yPercent: 14,
+    ease: 'none',
+    scrollTrigger: {
+      trigger: '#top',
+      start: 'top top',
+      end: 'bottom top',
+      scrub: true
+    }
+  });
+}
 </script>
 </body>
 </html>
