@@ -350,10 +350,14 @@ footer{background:var(--ink);padding:56px 60px;display:flex;justify-content:spac
   #leverage .parallax-layer{background-position:72% top !important}
   #schedule .parallax-layer{background-position:70% top !important}
 
-  /* ── FRAMES: reposition for mobile ── */
-  #territoryImg{width:100%;top:0;right:auto;left:0;opacity:0.5}
+  /* ── FRAMES: stack above text on mobile ── */
+  #territory{display:flex;flex-direction:column;overflow:visible}
+  #territoryImg{position:relative;top:auto;right:auto;left:auto;width:85%;max-width:360px;margin:0 auto 8px;opacity:1;order:-1;will-change:unset}
   #territoryImg2{display:none}
-  #visionImg{width:100%;top:0;right:auto;left:0;opacity:0.5}
+  #territory > *:not(#territoryImg):not(#territoryImg2){position:relative;z-index:1}
+  #vision{display:flex;flex-direction:column;overflow:visible}
+  #visionImg{position:relative;top:auto;right:auto;left:auto;width:85%;max-width:360px;margin:0 auto 8px;opacity:1;order:-1;will-change:unset}
+  #vision > *:not(#visionImg){position:relative;z-index:1}
 }
 </style>
 </head>
