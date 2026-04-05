@@ -224,8 +224,8 @@ section{padding:136px 60px;position:relative}
 .qcounter{position:absolute;top:36px;right:60px;font-family:var(--D);font-size:clamp(48px,5vw,72px);line-height:1;letter-spacing:.04em;color:rgba(12,12,12,.07);pointer-events:none;user-select:none}
 .quiz-wrap{max-width:960px;position:relative;z-index:1}
 .quiz-step{display:none}
-.quiz-step.active{display:block;animation:qIn .45s cubic-bezier(.4,0,.2,1) forwards}
-@keyframes qIn{from{opacity:0;transform:translateX(24px)}to{opacity:1;transform:translateX(0)}}
+.quiz-step.active{display:block;animation:qIn .6s cubic-bezier(.25,0,.2,1) forwards}
+@keyframes qIn{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:translateY(0)}}
 .quiz-q{font-family:'Bebas Neue',sans-serif !important;font-size:clamp(64px,9.5vw,160px);line-height:.88;letter-spacing:.025em;color:var(--ink);margin-bottom:10px;font-weight:400;-webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility}
 .quiz-hint{font-size:13px;font-weight:300;color:var(--mid);letter-spacing:.04em;margin-bottom:40px}
 
@@ -734,7 +734,7 @@ footer{background:var(--ink);padding:56px 60px;display:flex;justify-content:spac
     </div>
 
     <div class="quiz-step" data-step="5">
-      <div class="quiz-q">WHAT WOULD EXCITE<br>YOU MOST ABOUT<br>A NEW OPPORTUNITY?</div>
+      <div class="quiz-q">WHAT WOULD EXCITE<br>YOU MOST?</div>
       <div class="quiz-hint">What drives you at work.</div>
       <div class="qopts-tiles cols2">
         <div class="qtile" data-v="believe"><div class="qtile-sel-badge">✓</div><span class="qtile-icon"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M9 12l2 2 4-4"/><path d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg></span><div class="qtile-main">A PRODUCT I<br>BELIEVE IN</div><div class="qtile-sub">Something I can stand behind completely</div></div>
