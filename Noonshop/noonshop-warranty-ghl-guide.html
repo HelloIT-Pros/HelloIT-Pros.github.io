@@ -318,6 +318,44 @@
     padding: 1px 6px; border-radius: 5px; color: var(--teal-dk);
   }
 
+  /* ─── COPY BUTTON ─── */
+  .info-head { display: flex; align-items: center; justify-content: space-between; gap: 8px; margin-bottom: 6px; }
+  .info-head .info-label { margin-bottom: 0; }
+  .copy-btn {
+    display: inline-flex; align-items: center; gap: 4px;
+    font-family: 'Outfit', sans-serif; font-size: 10px; font-weight: 600;
+    color: var(--ink-lt); background: var(--card-bg); border: 1px solid var(--border);
+    border-radius: 6px; padding: 3px 9px; cursor: pointer;
+    transition: all .15s; white-space: nowrap; flex-shrink: 0; letter-spacing: .3px;
+  }
+  .copy-btn:hover { background: var(--teal-lt); border-color: var(--teal-mid); color: var(--teal-dk); }
+  .copy-btn.copied { background: var(--teal-lt); border-color: var(--teal-mid); color: var(--teal-dk); }
+
+  /* ─── COMPLETION CHECKBOXES ─── */
+  .card-check {
+    width: 17px; height: 17px; border-radius: 5px;
+    border: 2px solid var(--gray-mid); background: var(--card-bg);
+    cursor: pointer; flex-shrink: 0; appearance: none; -webkit-appearance: none;
+    transition: all .15s; margin-top: 1px;
+  }
+  .card-check:checked {
+    background: var(--teal); border-color: var(--teal);
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 10 8' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M1 4l3 3 5-6' stroke='white' stroke-width='1.8' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+    background-repeat: no-repeat; background-position: center; background-size: 10px;
+  }
+  .card-check:hover:not(:checked) { border-color: var(--teal-mid); }
+  .card.done > .card-head .card-label { color: var(--ink-lt); text-decoration: line-through; }
+  .card.done > .card-head { opacity: .7; }
+
+  /* ─── TAB PROGRESS ─── */
+  .tab-prog {
+    font-size: 10px; font-weight: 700; letter-spacing: .2px;
+    background: rgba(0,0,0,.08); border-radius: 8px;
+    padding: 1px 6px; margin-left: 5px;
+  }
+  .phase-tab.active .tab-prog { background: rgba(255,255,255,.25); }
+  .tab-prog.complete { background: rgba(255,255,255,.35); }
+
   /* ─── PRINT ─── */
   @media print {
     .sticky-nav { position: static; backdrop-filter: none; }
@@ -412,6 +450,7 @@
 
     <div class="card open">
       <div class="card-head" onclick="toggle(this)">
+        <input type="checkbox" class="card-check" data-id="p0-c0" onclick="markDone(event,this)">
         <div class="card-icon" style="background:var(--teal-lt);color:var(--teal-dk)">→</div>
         <div class="card-label">Navigate to Custom Fields</div>
         <div class="card-badge" style="background:var(--teal-lt);color:var(--teal-dk)">Location</div>
@@ -434,6 +473,7 @@
 
     <div class="card">
       <div class="card-head" onclick="toggle(this)">
+        <input type="checkbox" class="card-check" data-id="p0-c1" onclick="markDone(event,this)">
         <div class="card-icon" style="background:var(--teal-lt);color:var(--teal-dk)">→</div>
         <div class="card-label">7 custom fields to create</div>
         <div class="card-badge" style="background:var(--coral-lt);color:var(--coral)">Custom</div>
@@ -482,6 +522,7 @@
 
     <div class="card open">
       <div class="card-head" onclick="toggle(this)">
+        <input type="checkbox" class="card-check" data-id="p1-c0" onclick="markDone(event,this)">
         <div class="card-icon" style="background:var(--amber-lt);color:var(--amber)">→</div>
         <div class="card-label">Create a new blank form</div>
         <div class="card-badge" style="background:var(--amber-lt);color:var(--amber)">Setup</div>
@@ -495,7 +536,10 @@
           <li>Add a <strong>Header / Description text block</strong> at the very top with the warranty policy below</li>
         </ul>
         <div class="info coral">
-          <div class="info-label">Paste this as the form header description</div>
+          <div class="info-head">
+            <div class="info-label">Paste this as the form header description</div>
+            <button class="copy-btn" onclick="copyText(this, `Warranty will cover ONLY manufacturer defect and not for damage due to lens insertion damage or customer mishandling. If damage is determined not to be a manufacturer defect, replacement frames will need to be purchased. Damaged frames MUST be returned for warranty. Any frame not returned within 14 days after receiving replacement WILL be processed as a new purchase.`)">Copy</button>
+          </div>
           Warranty will cover ONLY manufacturer defect and not for damage due to lens insertion damage or customer mishandling. If damage is determined not to be a manufacturer defect, replacement frames will need to be purchased. Damaged frames MUST be returned for warranty. Any frame not returned within 14 days after receiving replacement WILL be processed as a new purchase.
         </div>
       </div>
@@ -503,6 +547,7 @@
 
     <div class="card">
       <div class="card-head" onclick="toggle(this)">
+        <input type="checkbox" class="card-check" data-id="p1-c1" onclick="markDone(event,this)">
         <div class="card-icon" style="background:var(--amber-lt);color:var(--amber)">→</div>
         <div class="card-label">Add all 11 fields in exact order</div>
         <div class="card-badge" style="background:var(--amber-lt);color:var(--amber)">Fields</div>
@@ -534,7 +579,10 @@
           Add a static <strong>text block</strong> above the signature field with the exact text below, then place the Warranty Signature field directly below it labeled: <em>"Please sign name below."</em>
         </div>
         <div class="info coral">
-          <div class="info-label">Paste this as the field 11 agreement text block</div>
+          <div class="info-head">
+            <div class="info-label">Paste this as the field 11 agreement text block</div>
+            <button class="copy-btn" onclick="copyText(this, `Frames warranty valid ONLY for manufacturer defects and not for damage due to customer mishandling. If damage is determined not to be a manufacturer defect, replacement frames will need to be purchased. Damaged frames MUST be returned for warranty. Any frame not returned will be processed as a new purchase. Frames must be returned within 14 days of receiving the replacement frame (preprinted return labels included). By signing this form, you agree to the conditions of the warranty. If you have questions or if you need an extension, please email orders@noonshop.com. We will contact you once the form is submitted for further instructions. Please sign name below. Thank you.`)">Copy</button>
+          </div>
           Frames warranty valid ONLY for manufacturer defects and not for damage due to customer mishandling. If damage is determined not to be a manufacturer defect, replacement frames will need to be purchased. Damaged frames MUST be returned for warranty. Any frame not returned will be processed as a new purchase. Frames must be returned within 14 days of receiving the replacement frame (preprinted return labels included). By signing this form, you agree to the conditions of the warranty. If you have questions or if you need an extension, please email orders@noonshop.com. We will contact you once the form is submitted for further instructions. Please sign name below. Thank you.
         </div>
       </div>
@@ -542,6 +590,7 @@
 
     <div class="card">
       <div class="card-head" onclick="toggle(this)">
+        <input type="checkbox" class="card-check" data-id="p1-c2" onclick="markDone(event,this)">
         <div class="card-icon" style="background:var(--amber-lt);color:var(--amber)">→</div>
         <div class="card-label">Configure form settings</div>
         <div class="card-badge" style="background:var(--amber-lt);color:var(--amber)">Settings</div>
@@ -551,7 +600,7 @@
         <ul class="steps-list">
           <li><strong>Sticky Contact:</strong> Enable — pre-fills data for returning B2B contacts who have submitted before</li>
           <li><strong>On Submit action:</strong> Show inline confirmation message (or redirect to a thank-you page)</li>
-          <li><strong>Thank you message text:</strong> "Your warranty request has been received. We will contact you shortly with further instructions. If you have questions, email orders@noonshop.com."</li>
+          <li><strong>Thank you message text:</strong> "Your warranty request has been received. We will contact you shortly with further instructions. If you have questions, email orders@noonshop.com." <button class="copy-btn" style="vertical-align:middle;margin-left:6px" onclick="copyText(this,'Your warranty request has been received. We will contact you shortly with further instructions. If you have questions, email orders@noonshop.com.')">Copy</button></li>
           <li><strong>Disable form-level notifications</strong> — all notifications are handled by the workflow in Phase 3</li>
         </ul>
       </div>
@@ -572,6 +621,7 @@
 
     <div class="card open">
       <div class="card-head" onclick="toggle(this)">
+        <input type="checkbox" class="card-check" data-id="p2-c0" onclick="markDone(event,this)">
         <div class="card-icon" style="background:var(--purple-lt);color:var(--purple)">→</div>
         <div class="card-label">Create and configure the workflow</div>
         <div class="card-badge" style="background:var(--purple-lt);color:var(--purple)">Trigger</div>
@@ -594,6 +644,7 @@
 
     <div class="card">
       <div class="card-head" onclick="toggle(this)">
+        <input type="checkbox" class="card-check" data-id="p2-c1" onclick="markDone(event,this)">
         <div class="card-icon" style="background:var(--purple-lt);color:var(--purple)">→</div>
         <div class="card-label">Workflow action sequence</div>
         <div class="card-badge" style="background:var(--purple-lt);color:var(--purple)">Actions</div>
@@ -666,6 +717,7 @@
 
     <div class="card">
       <div class="card-head" onclick="toggle(this)">
+        <input type="checkbox" class="card-check" data-id="p2-c2" onclick="markDone(event,this)">
         <div class="card-icon" style="background:var(--purple-lt);color:var(--purple)">→</div>
         <div class="card-label">Create the Warranty Requests pipeline</div>
         <div class="card-badge" style="background:var(--purple-lt);color:var(--purple)">Pipeline</div>
@@ -728,6 +780,7 @@
 
     <div class="card open">
       <div class="card-head" onclick="toggle(this)">
+        <input type="checkbox" class="card-check" data-id="p3-c0" onclick="markDone(event,this)">
         <div class="card-icon" style="background:var(--coral-lt);color:var(--coral)">→</div>
         <div class="card-label">Internal notification to orders@noonshop.com</div>
         <div class="card-badge" style="background:var(--coral-lt);color:var(--coral)">Template 1</div>
@@ -739,9 +792,9 @@
             <div class="email-chrome-dots"><span></span><span></span><span></span></div>
             <div class="email-meta-row"><strong>To:</strong> orders@noonshop.com</div>
             <div class="email-meta-row"><strong>From:</strong> <span class="mtag">{{location.name}}</span> via GHL</div>
-            <div class="email-meta-row"><strong>Subject:</strong> [Warranty Request] <span class="mtag">{{contact.company_name}}</span> — <span class="mtag">{{contact.custom_field.frame_model_color_code}}</span></div>
+            <div class="email-meta-row"><strong>Subject:</strong> [Warranty Request] <span class="mtag">{{contact.company_name}}</span> — <span class="mtag">{{contact.custom_field.frame_model_color_code}}</span> <button class="copy-btn" style="margin-left:6px;vertical-align:middle" onclick="copyText(this,'[Warranty Request] {{contact.company_name}} — {{contact.custom_field.frame_model_color_code}}')">Copy subject</button></div>
           </div>
-          <div class="email-body">
+          <div class="email-body" id="email-body-1">
             <p>A new warranty replacement request has been submitted.</p>
             <div class="email-divider"></div>
             <div class="email-field"><div class="email-field-lbl">Request Date</div><div class="email-field-val"><span class="mtag">{{contact.custom_field.warranty_request_date}}</span></div></div>
@@ -759,6 +812,7 @@
             <div class="email-field"><div class="email-field-lbl">Agreement Signed By</div><div class="email-field-val"><span class="mtag">{{contact.custom_field.warranty_signature}}</span></div></div>
           </div>
         </div>
+        <button class="copy-btn" style="margin-top:8px" onclick="copyEmailBody('email-body-1')">Copy email body</button>
         <div class="info purple">
           <div class="info-label">Merge tag keys</div>
           The field key in <span class="mtag">{{contact.custom_field.key}}</span> is auto-generated from the field name you entered (lowercase with underscores). After creating the custom fields in Phase 1, verify the exact keys in <strong>Settings → Custom Fields</strong> by hovering over each field — GHL shows the key in a tooltip.
@@ -768,6 +822,7 @@
 
     <div class="card">
       <div class="card-head" onclick="toggle(this)">
+        <input type="checkbox" class="card-check" data-id="p3-c1" onclick="markDone(event,this)">
         <div class="card-icon" style="background:var(--coral-lt);color:var(--coral)">→</div>
         <div class="card-label">Confirmation email to the submitter</div>
         <div class="card-badge" style="background:var(--coral-lt);color:var(--coral)">Template 2</div>
@@ -779,9 +834,9 @@
             <div class="email-chrome-dots"><span></span><span></span><span></span></div>
             <div class="email-meta-row"><strong>To:</strong> <span class="mtag">{{contact.email}}</span></div>
             <div class="email-meta-row"><strong>From:</strong> Anna Park — orders@noonshop.com</div>
-            <div class="email-meta-row"><strong>Subject:</strong> Your warranty request has been received</div>
+            <div class="email-meta-row"><strong>Subject:</strong> Your warranty request has been received <button class="copy-btn" style="margin-left:6px;vertical-align:middle" onclick="copyText(this,'Your warranty request has been received')">Copy subject</button></div>
           </div>
-          <div class="email-body">
+          <div class="email-body" id="email-body-2">
             <p>Hi <span class="mtag">{{contact.first_name}}</span>,</p>
             <br>
             <p>Thank you for submitting your warranty replacement request for frame <span class="mtag">{{contact.custom_field.frame_model_color_code}}</span>. We have received your request and will be in touch shortly with further instructions.</p>
@@ -793,6 +848,7 @@
             <p>Thank you,<br>Anna Park<br>Noonshop</p>
           </div>
         </div>
+        <button class="copy-btn" style="margin-top:8px" onclick="copyEmailBody('email-body-2')">Copy email body</button>
       </div>
     </div>
   </div>
@@ -811,6 +867,7 @@
 
     <div class="card open">
       <div class="card-head" onclick="toggle(this)">
+        <input type="checkbox" class="card-check" data-id="p4-c0" onclick="markDone(event,this)">
         <div class="card-icon" style="background:var(--blue-lt);color:var(--blue)">→</div>
         <div class="card-label">Sharing options</div>
         <div class="card-badge" style="background:var(--blue-lt);color:var(--blue)">Share</div>
@@ -848,6 +905,7 @@
 
     <div class="card">
       <div class="card-head" onclick="toggle(this)">
+        <input type="checkbox" class="card-check" data-id="p4-c1" onclick="markDone(event,this)">
         <div class="card-icon" style="background:var(--blue-lt);color:var(--blue)">→</div>
         <div class="card-label">QA checklist before going live</div>
         <div class="card-badge" style="background:var(--blue-lt);color:var(--blue)">QA</div>
@@ -894,6 +952,57 @@
     card.closest('.phase').querySelectorAll('.card').forEach(c => c.classList.remove('open'));
     card.classList.add('open');
   }
+
+  // ─── COPY TO CLIPBOARD ───
+  function copyText(btn, text) {
+    navigator.clipboard.writeText(text.trim()).then(() => {
+      const orig = btn.textContent;
+      btn.textContent = '✓ Copied';
+      btn.classList.add('copied');
+      setTimeout(() => { btn.textContent = orig; btn.classList.remove('copied'); }, 2000);
+    });
+  }
+
+  function copyEmailBody(id) {
+    const el = document.getElementById(id);
+    const btn = el.closest('.email-wrap').nextElementSibling;
+    const lines = [];
+    el.querySelectorAll('p').forEach(p => lines.push(p.innerText));
+    copyText(btn, lines.join('\n\n'));
+  }
+
+  // ─── COMPLETION TRACKING ───
+  function markDone(e, cb) {
+    e.stopPropagation();
+    const card = cb.closest('.card');
+    card.classList.toggle('done', cb.checked);
+    const state = JSON.parse(localStorage.getItem('warranty-guide') || '{}');
+    state[cb.dataset.id] = cb.checked;
+    localStorage.setItem('warranty-guide', JSON.stringify(state));
+    updateProgress();
+  }
+
+  function updateProgress() {
+    document.querySelectorAll('.phase').forEach((phase, i) => {
+      const checks = phase.querySelectorAll('.card-check');
+      const done = phase.querySelectorAll('.card-check:checked').length;
+      const tab = document.querySelectorAll('.phase-tab')[i];
+      let prog = tab.querySelector('.tab-prog');
+      if (!prog) { prog = document.createElement('span'); prog.className = 'tab-prog'; tab.appendChild(prog); }
+      prog.textContent = done === checks.length ? '✓' : `${done}/${checks.length}`;
+      prog.classList.toggle('complete', done === checks.length && checks.length > 0);
+    });
+  }
+
+  function initProgress() {
+    const state = JSON.parse(localStorage.getItem('warranty-guide') || '{}');
+    document.querySelectorAll('.card-check').forEach(cb => {
+      if (state[cb.dataset.id]) { cb.checked = true; cb.closest('.card').classList.add('done'); }
+    });
+    updateProgress();
+  }
+
+  initProgress();
 </script>
 
 </body>
