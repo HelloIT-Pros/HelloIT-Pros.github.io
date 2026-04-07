@@ -1,0 +1,896 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Noonshop · Warranty Form — GHL Implementation Guide</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Mono:wght@400;500&family=Outfit:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --teal: #0F6E56;
+    --teal-mid: #1D9E75;
+    --teal-lt: #E1F5EE;
+    --teal-dk: #04342C;
+    --amber: #BA7517;
+    --amber-lt: #FAEEDA;
+    --coral: #993C1D;
+    --coral-lt: #FAECE7;
+    --purple: #534AB7;
+    --purple-lt: #EEEDFE;
+    --blue: #185FA5;
+    --blue-lt: #E6F1FB;
+    --gray-lt: #F7F6F2;
+    --gray-mid: #D3D1C7;
+    --ink: #1C1C1A;
+    --ink-mid: #4A4A45;
+    --ink-lt: #8A8A82;
+    --page-bg: #FAFAF8;
+    --card-bg: #FFFFFF;
+    --border: #E8E6DE;
+  }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    font-family: 'Outfit', sans-serif;
+    background: var(--page-bg);
+    color: var(--ink);
+    font-size: 15px;
+    line-height: 1.65;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  /* ─── LAYOUT ─── */
+  .page-wrap { max-width: 960px; margin: 0 auto; padding: 0 2rem 6rem; }
+
+  /* ─── HERO ─── */
+  .hero {
+    padding: 2.5rem 0 2.5rem;
+    border-bottom: 1px solid var(--border);
+    margin-bottom: 0;
+    position: relative;
+    overflow: hidden;
+  }
+  .hero::before {
+    content: '';
+    position: absolute;
+    top: -60px; right: -80px;
+    width: 400px; height: 400px;
+    background: radial-gradient(circle, rgba(29,158,117,.07) 0%, transparent 70%);
+    pointer-events: none;
+  }
+  .hero-eyebrow {
+    display: inline-flex; align-items: center; gap: 8px;
+    background: var(--teal-lt); color: var(--teal-dk);
+    font-size: 11px; font-weight: 600; letter-spacing: .8px; text-transform: uppercase;
+    padding: 5px 14px; border-radius: 20px; margin-bottom: 1.25rem;
+  }
+  .hero-eyebrow svg { width: 12px; height: 12px; }
+  .hero h1 {
+    font-family: 'DM Serif Display', serif;
+    font-size: clamp(2rem, 4vw, 3rem);
+    font-weight: 400; line-height: 1.15;
+    color: var(--ink); margin-bottom: 1rem;
+    max-width: 680px;
+  }
+  .hero h1 em { font-style: italic; color: var(--teal-mid); }
+  .hero-desc {
+    font-size: 16px; color: var(--ink-mid); max-width: 560px;
+    line-height: 1.7; margin-bottom: 2rem;
+  }
+  .hero-stats { display: flex; gap: 10px; flex-wrap: wrap; }
+  .stat {
+    background: var(--card-bg); border: 1px solid var(--border);
+    border-radius: 10px; padding: 10px 18px;
+    display: flex; flex-direction: column; gap: 2px;
+  }
+  .stat-val { font-size: 20px; font-weight: 600; color: var(--ink); line-height: 1; }
+  .stat-label { font-size: 11px; color: var(--ink-lt); font-weight: 500; letter-spacing: .3px; }
+
+  /* ─── PROGRESS + NAV ─── */
+  .sticky-nav {
+    position: sticky; top: 0; z-index: 100;
+    background: rgba(250,250,248,.92); backdrop-filter: blur(12px);
+    border-bottom: 1px solid var(--border);
+    padding: .75rem 0; margin-bottom: 2.5rem;
+  }
+  .sticky-nav-inner { max-width: 960px; margin: 0 auto; padding: 0 2rem; }
+  .progress-track {
+    height: 2px; background: var(--border); border-radius: 2px;
+    margin-bottom: .75rem; overflow: hidden;
+  }
+  .progress-fill {
+    height: 100%; background: linear-gradient(90deg, var(--teal-mid), var(--teal));
+    border-radius: 2px; transition: width .4s cubic-bezier(.4,0,.2,1);
+    width: 20%;
+  }
+  .phase-tabs { display: flex; gap: 6px; flex-wrap: wrap; }
+  .phase-tab {
+    border: 1px solid var(--border); background: transparent;
+    border-radius: 20px; padding: 5px 16px;
+    font-family: 'Outfit', sans-serif; font-size: 12px; font-weight: 500;
+    color: var(--ink-mid); cursor: pointer; transition: all .18s;
+  }
+  .phase-tab:hover { background: var(--gray-lt); border-color: var(--gray-mid); }
+  .phase-tab.active {
+    background: var(--teal); border-color: var(--teal);
+    color: #fff; font-weight: 600;
+  }
+
+  /* ─── PHASES ─── */
+  .phase { display: none; }
+  .phase.visible { display: block; }
+  .phase-header {
+    display: flex; align-items: center; gap: 14px; margin-bottom: 1.5rem;
+  }
+  .phase-badge {
+    width: 40px; height: 40px; border-radius: 12px;
+    display: flex; align-items: center; justify-content: center;
+    font-family: 'DM Serif Display', serif; font-size: 20px;
+    flex-shrink: 0;
+  }
+  .phase-title-group h2 {
+    font-family: 'DM Serif Display', serif; font-size: 1.6rem;
+    font-weight: 400; color: var(--ink); line-height: 1.2;
+  }
+  .phase-title-group p { font-size: 13px; color: var(--ink-lt); margin-top: 3px; }
+
+  /* ─── CARDS ─── */
+  .card {
+    background: var(--card-bg); border: 1px solid var(--border);
+    border-radius: 14px; overflow: hidden; margin-bottom: 14px;
+  }
+  .card-head {
+    display: flex; align-items: center; gap: 12px;
+    padding: 16px 20px; cursor: pointer; user-select: none;
+    transition: background .15s;
+  }
+  .card-head:hover { background: var(--gray-lt); }
+  .card-icon {
+    width: 28px; height: 28px; border-radius: 8px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 13px; flex-shrink: 0;
+  }
+  .card-label { flex: 1; font-size: 14px; font-weight: 600; color: var(--ink); }
+  .card-badge {
+    font-size: 10px; font-weight: 600; letter-spacing: .4px;
+    text-transform: uppercase; padding: 3px 10px; border-radius: 10px;
+  }
+  .card-chevron {
+    width: 18px; height: 18px; border-radius: 50%;
+    background: var(--gray-lt); display: flex; align-items: center; justify-content: center;
+    font-size: 9px; color: var(--ink-lt); transition: transform .2s; flex-shrink: 0;
+  }
+  .card.open .card-chevron { transform: rotate(180deg); }
+  .card-body {
+    display: none; padding: 0 20px 20px;
+    border-top: 1px solid var(--border);
+    animation: slideDown .2s ease;
+  }
+  .card.open .card-body { display: block; }
+  @keyframes slideDown { from { opacity:0; transform:translateY(-6px); } to { opacity:1; transform:translateY(0); } }
+
+  /* ─── INFO BLOCKS ─── */
+  .info {
+    border-radius: 10px; padding: 14px 16px; margin: 14px 0;
+    font-size: 13px; line-height: 1.65; border-left: 3px solid;
+  }
+  .info-label {
+    font-size: 10px; font-weight: 700; letter-spacing: .8px;
+    text-transform: uppercase; margin-bottom: 6px;
+  }
+  .info.teal { background: var(--teal-lt); border-color: var(--teal-mid); }
+  .info.teal .info-label { color: var(--teal-dk); }
+  .info.amber { background: var(--amber-lt); border-color: var(--amber); }
+  .info.amber .info-label { color: var(--amber); }
+  .info.coral { background: var(--coral-lt); border-color: var(--coral); }
+  .info.coral .info-label { color: var(--coral); }
+  .info.blue { background: var(--blue-lt); border-color: var(--blue); }
+  .info.blue .info-label { color: var(--blue); }
+  .info.purple { background: var(--purple-lt); border-color: var(--purple); }
+  .info.purple .info-label { color: var(--purple); }
+
+  /* ─── TABLES ─── */
+  .tbl-wrap { overflow-x: auto; margin: 14px 0; border-radius: 10px; border: 1px solid var(--border); }
+  table { width: 100%; border-collapse: collapse; font-size: 13px; }
+  thead tr { background: var(--gray-lt); }
+  th {
+    padding: 10px 14px; text-align: left;
+    font-size: 10px; font-weight: 700; letter-spacing: .6px;
+    text-transform: uppercase; color: var(--ink-lt);
+    border-bottom: 1px solid var(--border);
+  }
+  td {
+    padding: 10px 14px; border-bottom: 1px solid var(--border);
+    color: var(--ink); vertical-align: middle;
+  }
+  tr:last-child td { border-bottom: none; }
+  tr:hover td { background: var(--gray-lt); }
+
+  /* ─── BADGES ─── */
+  .badge {
+    display: inline-block; font-size: 10px; font-weight: 700;
+    letter-spacing: .3px; padding: 3px 8px; border-radius: 6px;
+  }
+  .badge-date   { background: var(--purple-lt); color: var(--purple); }
+  .badge-text   { background: var(--blue-lt); color: var(--blue); }
+  .badge-email  { background: var(--teal-lt); color: var(--teal-dk); }
+  .badge-long   { background: var(--amber-lt); color: var(--amber); }
+  .badge-builtin{ background: var(--gray-lt); color: var(--ink-mid); border: 1px solid var(--border); }
+  .badge-custom { background: var(--coral-lt); color: var(--coral); }
+  .req { color: var(--coral); font-weight: 700; font-size: 13px; }
+  .opt { color: var(--ink-lt); font-size: 12px; }
+
+  /* ─── STEP LIST ─── */
+  .steps-list { list-style: none; display: flex; flex-direction: column; gap: 8px; margin: 12px 0; }
+  .steps-list li {
+    display: flex; gap: 10px; font-size: 13px;
+    color: var(--ink); line-height: 1.6;
+  }
+  .steps-list li::before {
+    content: '';
+    width: 7px; height: 7px; border-radius: 50%;
+    background: var(--teal-mid); flex-shrink: 0; margin-top: 8px;
+  }
+
+  /* ─── WORKFLOW ─── */
+  .workflow { margin: 14px 0; }
+  .wf-node { display: flex; gap: 14px; }
+  .wf-spine { display: flex; flex-direction: column; align-items: center; width: 28px; flex-shrink: 0; }
+  .wf-dot {
+    width: 14px; height: 14px; border-radius: 50%; flex-shrink: 0;
+    border: 2px solid #fff; box-shadow: 0 0 0 2px currentColor;
+    margin-top: 3px;
+  }
+  .wf-line { flex: 1; width: 1.5px; background: var(--border); margin: 4px 0; min-height: 24px; }
+  .wf-content { flex: 1; padding-bottom: 22px; }
+  .wf-content h4 { font-size: 14px; font-weight: 600; color: var(--ink); margin-bottom: 4px; }
+  .wf-content p { font-size: 12px; color: var(--ink-lt); line-height: 1.55; }
+  .wf-node:last-child .wf-line { display: none; }
+
+  /* ─── PIPELINE ─── */
+  .pipeline-wrap { overflow-x: auto; padding-bottom: 4px; margin: 14px 0; }
+  .pipeline { display: flex; align-items: stretch; gap: 0; min-width: 600px; }
+  .pipe-stage {
+    flex: 1; background: var(--card-bg);
+    border: 1px solid var(--border); padding: 14px;
+    position: relative;
+  }
+  .pipe-stage:first-child { border-radius: 10px 0 0 10px; }
+  .pipe-stage:last-child  { border-radius: 0 10px 10px 0; }
+  .pipe-stage:not(:first-child) { border-left: none; }
+  .pipe-num { font-size: 10px; color: var(--ink-lt); font-weight: 600; letter-spacing: .3px; margin-bottom: 6px; }
+  .pipe-name { font-size: 13px; font-weight: 600; color: var(--ink); margin-bottom: 5px; }
+  .pipe-desc { font-size: 11px; color: var(--ink-lt); line-height: 1.45; }
+  .pipe-arrow {
+    display: flex; align-items: center; justify-content: center;
+    color: var(--gray-mid); font-size: 16px;
+    background: var(--gray-lt); padding: 0 6px; border-top: 1px solid var(--border); border-bottom: 1px solid var(--border);
+  }
+
+  /* ─── EMAIL PREVIEW ─── */
+  .email-wrap {
+    border: 1px solid var(--border); border-radius: 12px;
+    overflow: hidden; margin: 14px 0; font-size: 13px;
+  }
+  .email-chrome {
+    background: var(--gray-lt); padding: 10px 14px;
+    border-bottom: 1px solid var(--border);
+  }
+  .email-chrome-dots { display: flex; gap: 5px; margin-bottom: 8px; }
+  .email-chrome-dots span {
+    width: 10px; height: 10px; border-radius: 50%;
+    background: var(--border); display: block;
+  }
+  .email-meta-row { font-size: 12px; color: var(--ink-lt); line-height: 1.8; }
+  .email-meta-row strong { color: var(--ink); }
+  .email-body { background: var(--card-bg); padding: 18px 20px; line-height: 1.75; }
+  .email-divider { height: 1px; background: var(--border); margin: 12px 0; }
+  .email-field { display: flex; gap: 10px; margin: 5px 0; }
+  .email-field-lbl { font-size: 12px; color: var(--ink-lt); min-width: 160px; flex-shrink: 0; }
+  .email-field-val { font-size: 12px; color: var(--ink); }
+  .mtag {
+    display: inline; font-family: 'DM Mono', monospace;
+    font-size: 11px; background: var(--purple-lt);
+    color: var(--purple); padding: 1px 5px; border-radius: 4px;
+  }
+
+  /* ─── EMBED GRID ─── */
+  .embed-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin: 14px 0; }
+  .embed-card {
+    background: var(--card-bg); border: 1px solid var(--border);
+    border-radius: 12px; padding: 16px;
+  }
+  .embed-eyebrow {
+    font-size: 10px; font-weight: 700; letter-spacing: .5px;
+    text-transform: uppercase; padding: 3px 10px; border-radius: 8px;
+    display: inline-block; margin-bottom: 8px;
+  }
+  .embed-card h4 { font-size: 14px; font-weight: 600; color: var(--ink); margin-bottom: 6px; }
+  .embed-card p { font-size: 12px; color: var(--ink-lt); line-height: 1.55; }
+
+  /* ─── CODE ─── */
+  .code-tag {
+    font-family: 'DM Mono', monospace; font-size: 12px;
+    background: var(--gray-lt); border: 1px solid var(--border);
+    padding: 1px 6px; border-radius: 5px; color: var(--teal-dk);
+  }
+
+  /* ─── PRINT ─── */
+  @media print {
+    .sticky-nav { position: static; backdrop-filter: none; }
+    .phase { display: block !important; page-break-inside: avoid; }
+    .card-body { display: block !important; }
+    .card-chevron { display: none; }
+    .phase:not(:first-child) { margin-top: 2rem; }
+  }
+
+  /* ─── BREADCRUMB ─── */
+  .breadcrumb {
+    padding: 16px 0 0;
+    font-size: 13px;
+    color: var(--ink-lt);
+  }
+  .breadcrumb a {
+    color: var(--ink-lt);
+    text-decoration: none;
+    transition: color .15s;
+  }
+  .breadcrumb a:hover { color: var(--teal); }
+  .breadcrumb span { margin: 0 6px; }
+
+  @media (max-width: 600px) {
+    .hero h1 { font-size: 1.8rem; }
+    .embed-grid { grid-template-columns: 1fr; }
+    .hero-stats { gap: 8px; }
+  }
+</style>
+</head>
+<body>
+
+<div class="page-wrap" style="padding-bottom:0">
+
+  <!-- BREADCRUMB -->
+  <nav class="breadcrumb">
+    <a href="../">← HelloIT Pros</a>
+    <span>/</span>
+    <a href="./">Noonshop</a>
+    <span>/</span>
+    <strong style="color:var(--ink-mid)">Warranty Form Guide</strong>
+  </nav>
+
+  <!-- HERO -->
+  <div class="hero">
+    <div class="hero-eyebrow">
+      <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5">
+        <circle cx="8" cy="8" r="6.5"/><path d="M8 5v3.5l2 1.5" stroke-linecap="round"/>
+      </svg>
+      GoHighLevel · Implementation Guide
+    </div>
+    <h1>Noonshop <em>Warranty Replacement</em> Form</h1>
+    <p class="hero-desc">Step-by-step guide to migrating the Microsoft Forms warranty form into GHL — including custom fields, form builder, workflow automation, and email notifications.</p>
+    <div class="hero-stats">
+      <div class="stat"><div class="stat-val">5</div><div class="stat-label">Phases</div></div>
+      <div class="stat"><div class="stat-val">7</div><div class="stat-label">Custom fields</div></div>
+      <div class="stat"><div class="stat-val">11</div><div class="stat-label">Form fields</div></div>
+      <div class="stat"><div class="stat-val">5</div><div class="stat-label">Pipeline stages</div></div>
+      <div class="stat"><div class="stat-val">2</div><div class="stat-label">Email templates</div></div>
+    </div>
+  </div>
+
+</div><!-- end page-wrap for hero -->
+
+<!-- STICKY NAV -->
+<div class="sticky-nav">
+  <div class="sticky-nav-inner">
+    <div class="progress-track"><div class="progress-fill" id="prog"></div></div>
+    <div class="phase-tabs">
+      <button class="phase-tab active" onclick="go(0,this)">1 · Custom Fields</button>
+      <button class="phase-tab" onclick="go(1,this)">2 · Form Builder</button>
+      <button class="phase-tab" onclick="go(2,this)">3 · Workflow</button>
+      <button class="phase-tab" onclick="go(3,this)">4 · Email Templates</button>
+      <button class="phase-tab" onclick="go(4,this)">5 · Embed &amp; QA</button>
+    </div>
+  </div>
+</div>
+
+<div class="page-wrap">
+
+  <!-- ═══════════════════════════════════════════════════ -->
+  <!-- PHASE 1 -->
+  <!-- ═══════════════════════════════════════════════════ -->
+  <div class="phase visible" id="p0">
+    <div class="phase-header">
+      <div class="phase-badge" style="background:var(--teal-lt);color:var(--teal-dk)">1</div>
+      <div class="phase-title-group">
+        <h2>Create Custom Fields</h2>
+        <p>Do this before touching the form. Fields must exist first.</p>
+      </div>
+    </div>
+
+    <div class="card open">
+      <div class="card-head" onclick="toggle(this)">
+        <div class="card-icon" style="background:var(--teal-lt);color:var(--teal-dk)">→</div>
+        <div class="card-label">Navigate to Custom Fields</div>
+        <div class="card-badge" style="background:var(--teal-lt);color:var(--teal-dk)">Location</div>
+        <div class="card-chevron">▼</div>
+      </div>
+      <div class="card-body">
+        <ul class="steps-list">
+          <li>Open the <strong>Noonshop GHL sub-account</strong> (not the agency view)</li>
+          <li>Go to <strong>Settings</strong> in the left sidebar</li>
+          <li>Click <strong>Custom Fields</strong> under the Data section</li>
+          <li>Select the <strong>Contacts</strong> tab — not Opportunities or Companies</li>
+          <li>Click <strong>+ Add Field</strong> for each of the 7 fields listed below</li>
+        </ul>
+        <div class="info blue">
+          <div class="info-label">Path</div>
+          Settings → Custom Fields → Contacts → + Add Field
+        </div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-head" onclick="toggle(this)">
+        <div class="card-icon" style="background:var(--teal-lt);color:var(--teal-dk)">→</div>
+        <div class="card-label">7 custom fields to create</div>
+        <div class="card-badge" style="background:var(--coral-lt);color:var(--coral)">Custom</div>
+        <div class="card-chevron">▼</div>
+      </div>
+      <div class="card-body">
+        <div class="tbl-wrap">
+          <table>
+            <thead>
+              <tr><th>#</th><th>Field Name</th><th>Type</th><th>Notes</th></tr>
+            </thead>
+            <tbody>
+              <tr><td>1</td><td><strong>Warranty Request Date</strong></td><td><span class="badge badge-date">Date Picker</span></td><td>Maps to form field 1</td></tr>
+              <tr><td>2</td><td><strong>Date of Purchase</strong></td><td><span class="badge badge-text">Text</span></td><td>Optional on form. Text allows free format input.</td></tr>
+              <tr><td>3</td><td><strong>Frame Model &amp; Color Code</strong></td><td><span class="badge badge-text">Text</span></td><td>e.g. "DR23106 C02". Required.</td></tr>
+              <tr><td>4</td><td><strong>End Customer Name</strong></td><td><span class="badge badge-long">Large Text</span></td><td>"Name of customer if applicable"</td></tr>
+              <tr><td>5</td><td><strong>Damage Description</strong></td><td><span class="badge badge-long">Large Text</span></td><td>Required. Full multi-line description.</td></tr>
+              <tr><td>6</td><td><strong>Warranty Delivery Address</strong></td><td><span class="badge badge-long">Large Text</span></td><td>Full delivery address. Required.</td></tr>
+              <tr><td>7</td><td><strong>Warranty Signature</strong></td><td><span class="badge badge-text">Text</span></td><td>Typed name as agreement. Required.</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="info teal">
+          <div class="info-label">Do not create these — they already exist as built-in GHL fields</div>
+          <strong>Name</strong> → Full Name &nbsp;·&nbsp; <strong>Email</strong> → Email &nbsp;·&nbsp; <strong>Job Title</strong> → Position &nbsp;·&nbsp; <strong>Optical Store</strong> → Company Name
+        </div>
+        <div class="info amber">
+          <div class="info-label">QB Sync note</div>
+          Custom warranty fields are <strong>not touched</strong> by the QuickBooks sync — only standard contact fields (Name, Company, etc.) get overwritten. Your warranty data is safe.
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════════════════════════════ -->
+  <!-- PHASE 2 -->
+  <!-- ═══════════════════════════════════════════════════ -->
+  <div class="phase" id="p1">
+    <div class="phase-header">
+      <div class="phase-badge" style="background:var(--amber-lt);color:var(--amber)">2</div>
+      <div class="phase-title-group">
+        <h2>Build the Form</h2>
+        <p>Recreate the MS Forms layout inside GHL's Form Builder. Field order and labels must match the original.</p>
+      </div>
+    </div>
+
+    <div class="card open">
+      <div class="card-head" onclick="toggle(this)">
+        <div class="card-icon" style="background:var(--amber-lt);color:var(--amber)">→</div>
+        <div class="card-label">Create a new blank form</div>
+        <div class="card-badge" style="background:var(--amber-lt);color:var(--amber)">Setup</div>
+        <div class="card-chevron">▼</div>
+      </div>
+      <div class="card-body">
+        <ul class="steps-list">
+          <li>Go to <strong>Sites → Forms → + New Form</strong></li>
+          <li>Choose <strong>Blank Form</strong> (not a template)</li>
+          <li>Name it: <strong>Warranty Replacement Request</strong></li>
+          <li>Add a <strong>Header / Description text block</strong> at the very top with the warranty policy below</li>
+        </ul>
+        <div class="info coral">
+          <div class="info-label">Paste this as the form header description</div>
+          Warranty will cover ONLY manufacturer defect and not for damage due to lens insertion damage or customer mishandling. If damage is determined not to be a manufacturer defect, replacement frames will need to be purchased. Damaged frames MUST be returned for warranty. Any frame not returned within 14 days after receiving replacement WILL be processed as a new purchase.
+        </div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-head" onclick="toggle(this)">
+        <div class="card-icon" style="background:var(--amber-lt);color:var(--amber)">→</div>
+        <div class="card-label">Add all 11 fields in exact order</div>
+        <div class="card-badge" style="background:var(--amber-lt);color:var(--amber)">Fields</div>
+        <div class="card-chevron">▼</div>
+      </div>
+      <div class="card-body">
+        <div class="tbl-wrap">
+          <table>
+            <thead>
+              <tr><th>#</th><th>Original label</th><th>GHL field to use</th><th>Required</th></tr>
+            </thead>
+            <tbody>
+              <tr><td>1</td><td>Date of request</td><td><span class="badge badge-custom">Custom</span> Warranty Request Date</td><td><span class="req">★ Yes</span></td></tr>
+              <tr><td>2</td><td>Name</td><td><span class="badge badge-builtin">Built-in</span> Full Name</td><td><span class="req">★ Yes</span></td></tr>
+              <tr><td>3</td><td>Email</td><td><span class="badge badge-builtin">Built-in</span> Email</td><td><span class="req">★ Yes</span></td></tr>
+              <tr><td>4</td><td>Job title</td><td><span class="badge badge-builtin">Built-in</span> Position</td><td><span class="req">★ Yes</span></td></tr>
+              <tr><td>5</td><td>Optical store</td><td><span class="badge badge-builtin">Built-in</span> Company Name</td><td><span class="req">★ Yes</span></td></tr>
+              <tr><td>6</td><td>Date of Purchase</td><td><span class="badge badge-custom">Custom</span> Date of Purchase</td><td><span class="opt">Optional</span></td></tr>
+              <tr><td>7</td><td>Model name + color code</td><td><span class="badge badge-custom">Custom</span> Frame Model &amp; Color Code</td><td><span class="req">★ Yes</span></td></tr>
+              <tr><td>8</td><td>Name of customer if applicable</td><td><span class="badge badge-custom">Custom</span> End Customer Name</td><td><span class="opt">Optional</span></td></tr>
+              <tr><td>9</td><td>Describe damage</td><td><span class="badge badge-custom">Custom</span> Damage Description</td><td><span class="req">★ Yes</span></td></tr>
+              <tr><td>10</td><td>Address where frame delivered</td><td><span class="badge badge-custom">Custom</span> Warranty Delivery Address</td><td><span class="req">★ Yes</span></td></tr>
+              <tr><td>11</td><td>Agreement + signature</td><td><span class="badge badge-custom">Custom</span> Warranty Signature</td><td><span class="req">★ Yes</span></td></tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="info amber">
+          <div class="info-label">Field 11 — agreement setup</div>
+          Add a static <strong>text block</strong> above the signature field containing the full terms paragraph from the original form (including the orders@noonshop.com reference). Then place the Warranty Signature field directly below it, labeled: <em>"Sign your name below to agree to the warranty terms."</em>
+        </div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-head" onclick="toggle(this)">
+        <div class="card-icon" style="background:var(--amber-lt);color:var(--amber)">→</div>
+        <div class="card-label">Configure form settings</div>
+        <div class="card-badge" style="background:var(--amber-lt);color:var(--amber)">Settings</div>
+        <div class="card-chevron">▼</div>
+      </div>
+      <div class="card-body">
+        <ul class="steps-list">
+          <li><strong>Sticky Contact:</strong> Enable — pre-fills data for returning B2B contacts who have submitted before</li>
+          <li><strong>On Submit action:</strong> Show inline confirmation message (or redirect to a thank-you page)</li>
+          <li><strong>Thank you message text:</strong> "Your warranty request has been received. We will contact you shortly with further instructions. If you have questions, email orders@noonshop.com."</li>
+          <li><strong>Disable form-level notifications</strong> — all notifications are handled by the workflow in Phase 3</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════════════════════════════ -->
+  <!-- PHASE 3 -->
+  <!-- ═══════════════════════════════════════════════════ -->
+  <div class="phase" id="p2">
+    <div class="phase-header">
+      <div class="phase-badge" style="background:var(--purple-lt);color:var(--purple)">3</div>
+      <div class="phase-title-group">
+        <h2>Build the Workflow</h2>
+        <p>Fires on every warranty form submission — tags, notifies, and creates a trackable opportunity.</p>
+      </div>
+    </div>
+
+    <div class="card open">
+      <div class="card-head" onclick="toggle(this)">
+        <div class="card-icon" style="background:var(--purple-lt);color:var(--purple)">→</div>
+        <div class="card-label">Create and configure the workflow</div>
+        <div class="card-badge" style="background:var(--purple-lt);color:var(--purple)">Trigger</div>
+        <div class="card-chevron">▼</div>
+      </div>
+      <div class="card-body">
+        <ul class="steps-list">
+          <li>Go to <strong>Automation → Workflows → + New Workflow</strong></li>
+          <li>Name: <strong>Warranty Request — Form Submitted</strong></li>
+          <li>Trigger: <strong>Form Submitted</strong></li>
+          <li>Select form: <strong>Warranty Replacement Request</strong></li>
+          <li>Re-entry: <strong>Allow</strong> — a rep may submit multiple warranty claims over time</li>
+        </ul>
+        <div class="info amber">
+          <div class="info-label">Re-entry is critical</div>
+          The same optical store contact may submit multiple warranty claims. Re-entry must be enabled so each form submission fires the workflow independently and creates a separate opportunity.
+        </div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-head" onclick="toggle(this)">
+        <div class="card-icon" style="background:var(--purple-lt);color:var(--purple)">→</div>
+        <div class="card-label">Workflow action sequence</div>
+        <div class="card-badge" style="background:var(--purple-lt);color:var(--purple)">Actions</div>
+        <div class="card-chevron">▼</div>
+      </div>
+      <div class="card-body">
+        <div class="workflow">
+          <div class="wf-node">
+            <div class="wf-spine">
+              <div class="wf-dot" style="color:var(--teal-mid);background:var(--teal-mid)"></div>
+              <div class="wf-line"></div>
+            </div>
+            <div class="wf-content">
+              <h4>Trigger: Form Submitted</h4>
+              <p>Fires when the Warranty Replacement Request form is submitted by any contact</p>
+            </div>
+          </div>
+          <div class="wf-node">
+            <div class="wf-spine">
+              <div class="wf-dot" style="color:var(--amber);background:var(--amber)"></div>
+              <div class="wf-line"></div>
+            </div>
+            <div class="wf-content">
+              <h4>Add Tag: <span class="code-tag">warranty-request</span></h4>
+              <p>Tags the contact so all warranty submissions are filterable across the CRM</p>
+            </div>
+          </div>
+          <div class="wf-node">
+            <div class="wf-spine">
+              <div class="wf-dot" style="color:var(--amber);background:var(--amber)"></div>
+              <div class="wf-line"></div>
+            </div>
+            <div class="wf-content">
+              <h4>Send Internal Email Notification</h4>
+              <p>To: orders@noonshop.com. Includes all form field data via merge tags. See Phase 4 for the full template.</p>
+            </div>
+          </div>
+          <div class="wf-node">
+            <div class="wf-spine">
+              <div class="wf-dot" style="color:var(--amber);background:var(--amber)"></div>
+              <div class="wf-line"></div>
+            </div>
+            <div class="wf-content">
+              <h4>Send Confirmation Email to Submitter</h4>
+              <p>Sender: Anna Park via orders@noonshop.com. Acknowledges receipt and reiterates the 14-day return policy. See Phase 4.</p>
+            </div>
+          </div>
+          <div class="wf-node">
+            <div class="wf-spine">
+              <div class="wf-dot" style="color:var(--purple);background:var(--purple)"></div>
+              <div class="wf-line"></div>
+            </div>
+            <div class="wf-content">
+              <h4>Create Opportunity</h4>
+              <p>Pipeline: <em>Warranty Requests</em> · Stage: <em>New Request</em> · Name: <span class="code-tag">Warranty — {{contact.company_name}} — {{contact.custom_field.frame_model_color_code}}</span></p>
+            </div>
+          </div>
+          <div class="wf-node">
+            <div class="wf-spine">
+              <div class="wf-dot" style="color:var(--gray-mid);background:var(--gray-mid)"></div>
+            </div>
+            <div class="wf-content">
+              <h4>End</h4>
+              <p>All further follow-up is handled manually via the Warranty Requests pipeline</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-head" onclick="toggle(this)">
+        <div class="card-icon" style="background:var(--purple-lt);color:var(--purple)">→</div>
+        <div class="card-label">Create the Warranty Requests pipeline</div>
+        <div class="card-badge" style="background:var(--purple-lt);color:var(--purple)">Pipeline</div>
+        <div class="card-chevron">▼</div>
+      </div>
+      <div class="card-body">
+        <ul class="steps-list">
+          <li>Go to <strong>CRM → Pipelines → + New Pipeline</strong></li>
+          <li>Name it: <strong>Warranty Requests</strong></li>
+          <li>Add the 5 stages below in order</li>
+        </ul>
+        <div class="pipeline-wrap">
+          <div class="pipeline">
+            <div class="pipe-stage">
+              <div class="pipe-num">Stage 1</div>
+              <div class="pipe-name">New Request</div>
+              <div class="pipe-desc">Form just submitted, not yet reviewed by team</div>
+            </div>
+            <div class="pipe-arrow">›</div>
+            <div class="pipe-stage">
+              <div class="pipe-num">Stage 2</div>
+              <div class="pipe-name">Under Review</div>
+              <div class="pipe-desc">Team verifying if manufacturer defect applies</div>
+            </div>
+            <div class="pipe-arrow">›</div>
+            <div class="pipe-stage">
+              <div class="pipe-num">Stage 3</div>
+              <div class="pipe-name">Replacement Sent</div>
+              <div class="pipe-desc">Replacement frame shipped with return label</div>
+            </div>
+            <div class="pipe-arrow">›</div>
+            <div class="pipe-stage">
+              <div class="pipe-num">Stage 4</div>
+              <div class="pipe-name">Awaiting Return</div>
+              <div class="pipe-desc">Waiting on damaged frame back within 14 days</div>
+            </div>
+            <div class="pipe-arrow">›</div>
+            <div class="pipe-stage">
+              <div class="pipe-num">Stage 5</div>
+              <div class="pipe-name">Closed</div>
+              <div class="pipe-desc">Won: frame returned · Lost: converted to new purchase</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════════════════════════════ -->
+  <!-- PHASE 4 -->
+  <!-- ═══════════════════════════════════════════════════ -->
+  <div class="phase" id="p3">
+    <div class="phase-header">
+      <div class="phase-badge" style="background:var(--coral-lt);color:var(--coral)">4</div>
+      <div class="phase-title-group">
+        <h2>Email Templates</h2>
+        <p>Build these in GHL's Email Builder and reference them in the workflow actions.</p>
+      </div>
+    </div>
+
+    <div class="card open">
+      <div class="card-head" onclick="toggle(this)">
+        <div class="card-icon" style="background:var(--coral-lt);color:var(--coral)">→</div>
+        <div class="card-label">Internal notification to orders@noonshop.com</div>
+        <div class="card-badge" style="background:var(--coral-lt);color:var(--coral)">Template 1</div>
+        <div class="card-chevron">▼</div>
+      </div>
+      <div class="card-body">
+        <div class="email-wrap">
+          <div class="email-chrome">
+            <div class="email-chrome-dots"><span></span><span></span><span></span></div>
+            <div class="email-meta-row"><strong>To:</strong> orders@noonshop.com</div>
+            <div class="email-meta-row"><strong>From:</strong> <span class="mtag">{{location.name}}</span> via GHL</div>
+            <div class="email-meta-row"><strong>Subject:</strong> [Warranty Request] <span class="mtag">{{contact.company_name}}</span> — <span class="mtag">{{contact.custom_field.frame_model_color_code}}</span></div>
+          </div>
+          <div class="email-body">
+            <p>A new warranty replacement request has been submitted.</p>
+            <div class="email-divider"></div>
+            <div class="email-field"><div class="email-field-lbl">Request Date</div><div class="email-field-val"><span class="mtag">{{contact.custom_field.warranty_request_date}}</span></div></div>
+            <div class="email-field"><div class="email-field-lbl">Submitted By</div><div class="email-field-val"><span class="mtag">{{contact.full_name}}</span></div></div>
+            <div class="email-field"><div class="email-field-lbl">Email</div><div class="email-field-val"><span class="mtag">{{contact.email}}</span></div></div>
+            <div class="email-field"><div class="email-field-lbl">Job Title</div><div class="email-field-val"><span class="mtag">{{contact.position}}</span></div></div>
+            <div class="email-field"><div class="email-field-lbl">Optical Store</div><div class="email-field-val"><span class="mtag">{{contact.company_name}}</span></div></div>
+            <div class="email-field"><div class="email-field-lbl">Date of Purchase</div><div class="email-field-val"><span class="mtag">{{contact.custom_field.date_of_purchase}}</span></div></div>
+            <div class="email-field"><div class="email-field-lbl">Frame Model &amp; Color</div><div class="email-field-val"><span class="mtag">{{contact.custom_field.frame_model_color_code}}</span></div></div>
+            <div class="email-field"><div class="email-field-lbl">End Customer Name</div><div class="email-field-val"><span class="mtag">{{contact.custom_field.end_customer_name}}</span></div></div>
+            <div class="email-divider"></div>
+            <div class="email-field"><div class="email-field-lbl">Damage Description</div><div class="email-field-val"><span class="mtag">{{contact.custom_field.damage_description}}</span></div></div>
+            <div class="email-field"><div class="email-field-lbl">Delivery Address</div><div class="email-field-val"><span class="mtag">{{contact.custom_field.warranty_delivery_address}}</span></div></div>
+            <div class="email-divider"></div>
+            <div class="email-field"><div class="email-field-lbl">Agreement Signed By</div><div class="email-field-val"><span class="mtag">{{contact.custom_field.warranty_signature}}</span></div></div>
+          </div>
+        </div>
+        <div class="info purple">
+          <div class="info-label">Merge tag keys</div>
+          The field key in <span class="mtag">{{contact.custom_field.key}}</span> is auto-generated from the field name you entered (lowercase with underscores). After creating the custom fields in Phase 1, verify the exact keys in <strong>Settings → Custom Fields</strong> by hovering over each field — GHL shows the key in a tooltip.
+        </div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-head" onclick="toggle(this)">
+        <div class="card-icon" style="background:var(--coral-lt);color:var(--coral)">→</div>
+        <div class="card-label">Confirmation email to the submitter</div>
+        <div class="card-badge" style="background:var(--coral-lt);color:var(--coral)">Template 2</div>
+        <div class="card-chevron">▼</div>
+      </div>
+      <div class="card-body">
+        <div class="email-wrap">
+          <div class="email-chrome">
+            <div class="email-chrome-dots"><span></span><span></span><span></span></div>
+            <div class="email-meta-row"><strong>To:</strong> <span class="mtag">{{contact.email}}</span></div>
+            <div class="email-meta-row"><strong>From:</strong> Anna Park — orders@noonshop.com</div>
+            <div class="email-meta-row"><strong>Subject:</strong> Your warranty request has been received</div>
+          </div>
+          <div class="email-body">
+            <p>Hi <span class="mtag">{{contact.first_name}}</span>,</p>
+            <br>
+            <p>Thank you for submitting your warranty replacement request for frame <span class="mtag">{{contact.custom_field.frame_model_color_code}}</span>. We have received your request and will be in touch shortly with further instructions.</p>
+            <br>
+            <p>As a reminder, damaged frames must be returned within 14 days of receiving the replacement. Pre-printed return labels will be included with your shipment.</p>
+            <br>
+            <p>If you have any questions or need an extension, please email us at orders@noonshop.com.</p>
+            <br>
+            <p>Thank you,<br>Anna Park<br>Noonshop</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════════════════════════════ -->
+  <!-- PHASE 5 -->
+  <!-- ═══════════════════════════════════════════════════ -->
+  <div class="phase" id="p4">
+    <div class="phase-header">
+      <div class="phase-badge" style="background:var(--blue-lt);color:var(--blue)">5</div>
+      <div class="phase-title-group">
+        <h2>Embed, Share &amp; QA</h2>
+        <p>Once form and workflow are live, run the checklist before replacing the MS Forms link.</p>
+      </div>
+    </div>
+
+    <div class="card open">
+      <div class="card-head" onclick="toggle(this)">
+        <div class="card-icon" style="background:var(--blue-lt);color:var(--blue)">→</div>
+        <div class="card-label">Sharing options</div>
+        <div class="card-badge" style="background:var(--blue-lt);color:var(--blue)">Share</div>
+        <div class="card-chevron">▼</div>
+      </div>
+      <div class="card-body">
+        <div class="embed-grid">
+          <div class="embed-card">
+            <div class="embed-eyebrow" style="background:var(--teal-lt);color:var(--teal-dk)">Recommended now</div>
+            <h4>GHL Hosted Link</h4>
+            <p>Share the direct GHL-hosted URL with reps via email. No setup needed — works immediately after publishing the form.</p>
+          </div>
+          <div class="embed-card">
+            <div class="embed-eyebrow" style="background:var(--purple-lt);color:var(--purple)">After whitelabel</div>
+            <h4>Branded URL</h4>
+            <p>Once crmconnect.noonshop.com is live, the form will automatically use the branded domain without any changes needed.</p>
+          </div>
+          <div class="embed-card">
+            <div class="embed-eyebrow" style="background:var(--amber-lt);color:var(--amber)">Optional</div>
+            <h4>Website Embed</h4>
+            <p>Copy the iframe snippet from Sites → Forms → Share and paste it directly into the Noonshop website.</p>
+          </div>
+          <div class="embed-card">
+            <div class="embed-eyebrow" style="background:var(--blue-lt);color:var(--blue)">Optional</div>
+            <h4>QR Code</h4>
+            <p>Generate a QR code from the hosted URL for trade show materials, print catalogs, or rep onboarding packets.</p>
+          </div>
+        </div>
+        <div class="info amber">
+          <div class="info-label">Transition plan</div>
+          Keep the Microsoft Forms link active in parallel for <strong>2 weeks</strong> as a fallback during rollout. Once GHL form is confirmed working, replace all references to the MS Forms link in emails, rep onboarding docs, and the Noonshop website.
+        </div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-head" onclick="toggle(this)">
+        <div class="card-icon" style="background:var(--blue-lt);color:var(--blue)">→</div>
+        <div class="card-label">QA checklist before going live</div>
+        <div class="card-badge" style="background:var(--blue-lt);color:var(--blue)">QA</div>
+        <div class="card-chevron">▼</div>
+      </div>
+      <div class="card-body">
+        <ul class="steps-list">
+          <li>Submit a test form with Prakash using a <strong>test email address not already in GHL</strong></li>
+          <li>Verify a new contact was created in GHL with all 7 custom fields populated correctly</li>
+          <li>Verify the internal notification arrived at <strong>orders@noonshop.com</strong> with all merge tags resolved (no blank fields)</li>
+          <li>Verify the confirmation email arrived at the test email address</li>
+          <li>Verify an opportunity was created in the <strong>Warranty Requests</strong> pipeline at "New Request" stage</li>
+          <li>Verify the contact was tagged <span class="code-tag">warranty-request</span></li>
+          <li>Submit a <strong>second test from the same email</strong> to confirm re-entry fires correctly — a second opportunity should be created</li>
+          <li>Confirm tags are not duplicated on the second submission</li>
+        </ul>
+        <div class="info teal">
+          <div class="info-label">QB sync note</div>
+          If the test email matches an existing QuickBooks-synced contact, the QB sync will overwrite standard fields (Name, Company, etc.) within ~4 minutes. <strong>Custom warranty fields are not affected by QB</strong> — they are written by GHL and QB does not touch them.
+        </div>
+        <div class="info blue">
+          <div class="info-label">If merge tags show blank in the email</div>
+          Check that the custom field keys in Settings → Custom Fields exactly match what's in the email template. Keys are case-sensitive and auto-generated — copy them directly from the GHL field tooltip rather than typing by hand.
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div><!-- end page-wrap -->
+
+<script>
+  function go(idx, btn) {
+    document.querySelectorAll('.phase').forEach(p => p.classList.remove('visible'));
+    document.querySelectorAll('.phase-tab').forEach(b => b.classList.remove('active'));
+    document.getElementById('p' + idx).classList.add('visible');
+    btn.classList.add('active');
+    document.getElementById('prog').style.width = ((idx + 1) / 5 * 100) + '%';
+    document.querySelector('.sticky-nav').scrollIntoView({ behavior: 'smooth', block: 'start' });
+  }
+
+  function toggle(head) {
+    const card = head.closest('.card');
+    if (card.classList.contains('open')) return;
+    card.closest('.phase').querySelectorAll('.card').forEach(c => c.classList.remove('open'));
+    card.classList.add('open');
+  }
+</script>
+
+</body>
+</html>
