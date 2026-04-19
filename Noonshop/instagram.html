@@ -307,6 +307,76 @@ body {
   color: var(--gold);
 }
 
+/* ── MOBILE ── */
+@media (max-width: 640px) {
+  .ig-wrapper {
+    padding: 0 0 60px;
+  }
+
+  .pitch-banner {
+    margin: 0 0 3px;
+    padding: 14px 16px;
+    flex-direction: column;
+    gap: 4px;
+    align-items: flex-start;
+  }
+
+  .ig-profile {
+    padding: 20px 16px;
+    gap: 16px;
+    flex-wrap: wrap;
+  }
+
+  .ig-avatar {
+    width: 72px;
+    height: 72px;
+  }
+
+  .ig-handle {
+    font-size: 15px;
+  }
+
+  .ig-stats {
+    gap: 20px;
+  }
+
+  .ig-stat-num {
+    font-size: 14px;
+  }
+
+  .ig-stories {
+    padding: 0 16px 24px;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+  }
+
+  .ig-stories::-webkit-scrollbar {
+    display: none;
+  }
+
+  .story-ring {
+    width: 56px;
+    height: 56px;
+  }
+
+  .q-text {
+    font-size: clamp(13px, 3.8vw, 17px);
+  }
+
+  .q-eyebrow {
+    font-size: 8px;
+    margin-bottom: 8px;
+  }
+
+  .q-sub {
+    font-size: 8px;
+  }
+
+  .cell-quote {
+    padding: 14px 12px;
+  }
+}
 </style>
 </head>
 <body>
