@@ -230,18 +230,53 @@ footer { padding: 80px 60px; display: flex; justify-content: space-between; alig
 
 /* ── Mobile ── */
 @media (max-width: 900px) {
-  nav { padding: 20px 24px; }
-  .hero { padding: 0 24px 72px; }
-  section { padding: 88px 24px; }
+  nav { padding: 16px 20px; }
+  .nav-logo img { height: 28px; }
+  .nav-pill { font-size: 9px; padding: 5px 12px; }
+
+  .hero { padding: 0 24px 56px; }
+  .hero-foot { flex-direction: column; align-items: flex-start; gap: 32px; margin-top: 40px; }
+  .hero-foot > div:last-child { display: none; } /* hide scroll indicator */
+
+  section { padding: 72px 24px; }
+  .dh { margin-bottom: 48px; }
+  .tag { margin-bottom: 32px; }
+
   .rule-d, .rule-l, .rule-gold { margin: 0 24px; }
-  footer { padding: 56px 24px; flex-direction: column; align-items: flex-start; gap: 16px; }
+
   .palette-grid { grid-template-columns: repeat(2, 1fr); }
+  .swatch { aspect-ratio: auto; min-height: 140px; }
+
   .gold-row { grid-template-columns: 1fr; }
-  .logo-grid, .voice-grid, .do-dont { grid-template-columns: 1fr; }
-  .motion-grid { grid-template-columns: 1fr 1fr; }
+  .gold-feature { padding: 40px 28px; }
+  .gold-display { font-size: clamp(40px, 10vw, 64px); }
+
+  .type-meta { flex-direction: column; gap: 12px; margin-bottom: 20px; }
+  .type-meta > div { display: flex; gap: 8px; align-items: baseline; }
+  .type-label::after { content: ':'; }
+
+  .logo-grid { grid-template-columns: 1fr; }
+  .logo-cell { padding: 48px 32px; }
+
   .photo-hero { grid-template-columns: 1fr; }
+  .photo-hero .photo-wide { aspect-ratio: 4/3; }
+  .photo-hero .photo-tall { aspect-ratio: 4/3; }
+  .photo-row { grid-template-columns: 1fr 1fr; }
   .photo-row-4 { grid-template-columns: 1fr 1fr; }
-  .pull { padding: 48px 32px; margin-top: 48px; }
+
+  .voice-grid { grid-template-columns: 1fr; }
+  .voice-card { padding: 36px 28px; }
+
+  .do-dont { grid-template-columns: 1fr; }
+  .do-card, .dont-card { padding: 36px 28px; }
+
+  .motion-grid { grid-template-columns: 1fr; }
+  .motion-card { padding: 36px 28px; }
+
+  .pull { padding: 40px 28px; margin-top: 40px; }
+  .pull::before { width: 48px; }
+
+  footer { padding: 48px 24px; flex-direction: column; align-items: flex-start; gap: 12px; }
 }
 </style>
 </head>
