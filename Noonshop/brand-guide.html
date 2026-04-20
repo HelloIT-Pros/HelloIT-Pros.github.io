@@ -15,6 +15,9 @@
   --ink2: #1A1A1A;
   --mid: #888;
   --border: rgba(12,12,12,.10);
+  --gold: #C8B89A;
+  --gold-dark: #A89070;
+  --gold-light: #E8D8BE;
   --D: 'Bebas Neue', sans-serif;
   --B: 'Outfit', sans-serif;
 }
@@ -26,15 +29,13 @@ body { background: var(--ink); color: var(--white); font-family: var(--B); font-
 .loader {
   position: fixed; inset: 0; background: var(--ink);
   z-index: 10000; display: flex; flex-direction: column;
-  align-items: center; justify-content: center; gap: 20px;
-  pointer-events: none;
+  align-items: center; justify-content: center; gap: 20px; pointer-events: none;
 }
 .loader-brand {
   font-family: var(--D); font-size: clamp(28px, 3.6vw, 44px);
-  letter-spacing: .32em; color: var(--white);
-  opacity: 0; transform: translateY(8px);
+  letter-spacing: .32em; color: var(--white); opacity: 0; transform: translateY(8px);
 }
-.loader-line { width: 0; height: 1px; background: rgba(247,246,243,.35); }
+.loader-line { width: 0; height: 1px; background: var(--gold); }
 
 /* ── Cursor ── */
 .cur { position: fixed; width: 7px; height: 7px; background: var(--white); border-radius: 50%; pointer-events: none; z-index: 9999; mix-blend-mode: difference; }
@@ -44,12 +45,14 @@ body { background: var(--ink); color: var(--white); font-family: var(--B); font-
 nav {
   position: fixed; top: 0; left: 0; right: 0; z-index: 100;
   display: flex; justify-content: space-between; align-items: center;
-  padding: 28px 60px; transition: background .4s, backdrop-filter .4s;
+  padding: 20px 60px; transition: background .4s, backdrop-filter .4s;
 }
-nav.scrolled { background: rgba(12,12,12,.6); backdrop-filter: blur(16px); }
-.nav-logo { font-family: var(--D); font-size: 18px; letter-spacing: .14em; color: rgba(247,246,243,.6); text-decoration: none; transition: color .3s; }
-.nav-logo:hover { color: var(--white); }
-.nav-pill { font-family: var(--B); font-size: 10px; font-weight: 500; letter-spacing: .22em; text-transform: uppercase; color: rgba(247,246,243,.35); border: 1px solid rgba(247,246,243,.14); padding: 6px 16px; border-radius: 40px; }
+nav.scrolled { background: rgba(12,12,12,.75); backdrop-filter: blur(16px); }
+.nav-logo { display: flex; align-items: center; text-decoration: none; }
+.nav-logo img { height: 36px; width: auto; object-fit: contain; filter: brightness(0) invert(1); opacity: .7; transition: opacity .3s; }
+.nav-logo img:hover { opacity: 1; }
+.nav-logo-fallback { font-family: var(--D); font-size: 18px; letter-spacing: .14em; color: rgba(247,246,243,.6); }
+.nav-pill { font-family: var(--B); font-size: 10px; font-weight: 500; letter-spacing: .22em; text-transform: uppercase; color: var(--gold); border: 1px solid rgba(200,184,154,.35); padding: 6px 16px; border-radius: 40px; }
 
 /* ── Hero ── */
 .hero {
@@ -63,9 +66,13 @@ nav.scrolled { background: rgba(12,12,12,.6); backdrop-filter: blur(16px); }
   color: rgba(247,246,243,.038); line-height: 1;
   pointer-events: none; user-select: none; letter-spacing: .04em; z-index: 1;
 }
+.hero-gold-line {
+  position: absolute; top: 0; left: 0; right: 0; height: 2px;
+  background: linear-gradient(90deg, transparent, var(--gold), transparent); z-index: 2;
+}
 .hero-tag {
   font-size: 10px; font-weight: 400; letter-spacing: .36em; text-transform: uppercase;
-  color: rgba(247,246,243,.38); margin-bottom: 28px; position: relative; z-index: 2; opacity: 0;
+  color: var(--gold); margin-bottom: 28px; position: relative; z-index: 2; opacity: 0;
 }
 .hero-h1 {
   font-family: var(--D); font-size: clamp(56px, 9vw, 160px); line-height: .88;
@@ -75,16 +82,16 @@ nav.scrolled { background: rgba(12,12,12,.6); backdrop-filter: blur(16px); }
 .hero-h1-sub {
   display: block; font-family: 'Playfair Display', Georgia, serif;
   font-style: italic; font-weight: 400; font-size: clamp(36px, 5.5vw, 96px);
-  line-height: 1.18; letter-spacing: -.01em; color: rgba(247,246,243,.55); margin-top: 4px;
+  line-height: 1.18; letter-spacing: -.01em; color: rgba(200,184,154,.7); margin-top: 4px;
 }
 .hero-foot {
   display: flex; justify-content: space-between; align-items: flex-end;
   margin-top: 64px; position: relative; z-index: 2; opacity: 0;
 }
 .hero-sub { font-size: 16px; font-weight: 300; line-height: 1.78; color: rgba(247,246,243,.45); max-width: 420px; }
-.hero-desc { font-size: 11px; font-weight: 500; letter-spacing: .2em; text-transform: uppercase; color: rgba(247,246,243,.28); }
-.sline { width: 1px; height: 64px; background: rgba(247,246,243,.2); animation: pulse 2.5s 2s infinite; }
-@keyframes pulse { 0%, 100% { opacity: .1; transform: scaleY(.4); } 50% { opacity: .45; transform: scaleY(1); } }
+.hero-desc { font-size: 11px; font-weight: 500; letter-spacing: .2em; text-transform: uppercase; color: var(--gold); }
+.sline { width: 1px; height: 64px; background: var(--gold); opacity: .4; animation: pulse 2.5s 2s infinite; }
+@keyframes pulse { 0%, 100% { opacity: .1; transform: scaleY(.4); } 50% { opacity: .5; transform: scaleY(1); } }
 
 /* ── Shared ── */
 section { padding: 136px 60px; position: relative; }
@@ -92,15 +99,20 @@ section { padding: 136px 60px; position: relative; }
 .ls2 { background: var(--paper); color: var(--ink); }
 .rule-d { height: 1px; background: rgba(247,246,243,.08); margin: 0 60px; }
 .rule-l { height: 1px; background: var(--border); margin: 0 60px; }
+.rule-gold { height: 1px; background: linear-gradient(90deg, var(--gold), transparent); margin: 0 60px; }
+
 .tag {
   font-size: 10px; font-weight: 500; letter-spacing: .32em; text-transform: uppercase;
-  color: rgba(247,246,243,.35); margin-bottom: 52px; display: flex; align-items: center; gap: 16px;
+  color: var(--gold); margin-bottom: 52px; display: flex; align-items: center; gap: 16px;
 }
-.tag::before { content: ''; display: block; width: 36px; height: 1px; background: currentColor; }
-.tag-dark { color: var(--mid); }
-.tag-dark::before { background: var(--mid); }
+.tag::before { content: ''; display: block; width: 36px; height: 1px; background: var(--gold); }
+.tag-dark { color: var(--gold-dark); }
+.tag-dark::before { background: var(--gold-dark); }
+.tag-ink { color: rgba(12,12,12,.45); }
+.tag-ink::before { background: rgba(12,12,12,.3); }
+
 .dh { font-family: var(--D); font-size: clamp(64px, 9.5vw, 160px); line-height: .88; letter-spacing: .025em; margin-bottom: 80px; padding-bottom: .15em; }
-.dh-sub { display: block; font-family: 'Playfair Display', Georgia, serif; font-size: clamp(44px, 7vw, 112px); font-weight: 400; font-style: italic; line-height: 1.18; letter-spacing: -.01em; margin-top: 8px; color: var(--mid); }
+.dh-sub { display: block; font-family: 'Playfair Display', Georgia, serif; font-size: clamp(44px, 7vw, 112px); font-weight: 400; font-style: italic; line-height: 1.18; letter-spacing: -.01em; margin-top: 8px; color: var(--gold-dark); }
 
 /* ── Reveal ── */
 .rv { opacity: 0; transform: translateY(28px); transition: opacity .8s ease, transform .8s ease; }
@@ -108,28 +120,48 @@ section { padding: 136px 60px; position: relative; }
 .rv.d1 { transition-delay: .1s; } .rv.d2 { transition-delay: .2s; } .rv.d3 { transition-delay: .3s; }
 
 /* ── Colors ── */
-.palette-grid { display: grid; grid-template-columns: repeat(5, 1fr); gap: 2px; }
+.palette-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 2px; }
 .swatch {
   aspect-ratio: 1; display: flex; flex-direction: column;
-  justify-content: flex-end; padding: 16px; cursor: default;
-  transition: transform .3s;
+  justify-content: flex-end; padding: 16px; cursor: default; transition: transform .3s;
 }
 .swatch:hover { transform: scale(1.02); }
 .swatch-name { font-size: 10px; font-weight: 500; letter-spacing: .22em; text-transform: uppercase; margin-bottom: 4px; }
 .swatch-hex { font-family: var(--D); font-size: 18px; letter-spacing: .1em; }
-.swatch-desc { font-size: 11px; font-weight: 300; margin-top: 6px; opacity: .6; }
+.swatch-desc { font-size: 11px; font-weight: 300; margin-top: 6px; opacity: .7; }
+.swatch-badge {
+  display: inline-flex; align-items: center; margin-top: 10px;
+  font-size: 9px; font-weight: 500; letter-spacing: .2em; text-transform: uppercase;
+  color: var(--ink); background: var(--gold); padding: 4px 10px; border-radius: 20px;
+}
+
+/* ── Gold feature ── */
+.gold-row { display: grid; grid-template-columns: 2fr 1fr; gap: 2px; margin-top: 2px; }
+.gold-feature {
+  background: linear-gradient(135deg, #1a1610 0%, #0C0C0C 100%);
+  border: 1px solid rgba(200,184,154,.15);
+  padding: 56px 52px; display: flex; flex-direction: column; gap: 32px;
+}
+.gold-display {
+  font-family: var(--D); font-size: clamp(48px, 6vw, 96px); line-height: .88; letter-spacing: .025em;
+  background: linear-gradient(135deg, var(--gold-light), var(--gold), var(--gold-dark));
+  -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
+}
+.gold-samples { display: flex; flex-direction: column; gap: 2px; }
+.gold-sample { background: var(--ink2); padding: 28px 32px; display: flex; flex-direction: column; gap: 8px; }
+.gold-sample-lbl { font-size: 9px; font-weight: 500; letter-spacing: .22em; text-transform: uppercase; color: rgba(247,246,243,.3); }
+.gold-sample-val { font-family: var(--D); font-size: 22px; letter-spacing: .1em; }
 
 /* ── Typography ── */
 .type-stack { display: flex; flex-direction: column; gap: 64px; }
 .type-row { border-top: 1px solid var(--border); padding-top: 40px; }
-.type-meta { display: flex; gap: 40px; margin-bottom: 28px; }
+.type-meta { display: flex; gap: 40px; margin-bottom: 28px; flex-wrap: wrap; }
 .type-label { font-size: 10px; font-weight: 500; letter-spacing: .22em; text-transform: uppercase; color: var(--mid); }
 .type-value { font-size: 10px; font-weight: 300; color: var(--mid); }
 .type-sample-bebas { font-family: var(--D); font-size: clamp(48px, 7vw, 112px); line-height: .9; letter-spacing: .025em; color: var(--ink); }
 .type-sample-outfit { font-family: var(--B); font-size: 18px; font-weight: 300; line-height: 1.75; color: var(--ink2); max-width: 640px; }
-.type-sample-playfair { font-family: 'Playfair Display', Georgia, serif; font-style: italic; font-size: clamp(32px, 4vw, 64px); line-height: 1.2; letter-spacing: -.01em; color: var(--mid); }
-.type-size-row { display: flex; flex-direction: column; gap: 12px; margin-top: 28px; }
-.type-size-item { display: flex; align-items: baseline; gap: 24px; border-bottom: 1px solid var(--border); padding-bottom: 12px; }
+.type-sample-playfair { font-family: 'Playfair Display', Georgia, serif; font-style: italic; font-size: clamp(32px, 4vw, 64px); line-height: 1.2; letter-spacing: -.01em; color: var(--gold-dark); }
+.type-size-item { display: flex; align-items: baseline; gap: 24px; border-bottom: 1px solid var(--border); padding-bottom: 12px; margin-bottom: 12px; }
 .type-size-lbl { font-size: 9px; letter-spacing: .2em; text-transform: uppercase; color: var(--mid); width: 100px; flex-shrink: 0; }
 
 /* ── Logo ── */
@@ -137,59 +169,61 @@ section { padding: 136px 60px; position: relative; }
 .logo-cell {
   padding: 64px 48px; display: flex; flex-direction: column;
   align-items: flex-start; justify-content: center; gap: 24px;
-  position: relative;
 }
 .logo-cell.dark { background: var(--ink); }
 .logo-cell.light { background: var(--white); }
 .logo-cell.paper { background: var(--paper); }
-.logo-img { max-width: 180px; width: 100%; object-fit: contain; }
+.logo-cell.gold-bg { background: linear-gradient(135deg, #1a1610, #0C0C0C); border: 1px solid rgba(200,184,154,.15); }
+.logo-img { max-width: 200px; width: 100%; object-fit: contain; }
 .logo-label { font-size: 10px; font-weight: 500; letter-spacing: .22em; text-transform: uppercase; color: var(--mid); }
 
-/* ── Voice section ── */
+/* ── Voice ── */
 .voice-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 2px; }
 .voice-card { padding: 52px 48px; background: var(--white); }
 .voice-title { font-family: var(--D); font-size: clamp(26px, 2.6vw, 40px); line-height: .92; letter-spacing: .025em; margin-bottom: 16px; color: var(--ink); }
 .voice-text { font-size: 15px; font-weight: 300; line-height: 1.75; color: var(--mid); }
-.voice-ex { font-size: 13px; font-weight: 300; line-height: 1.7; color: rgba(12,12,12,.45); margin-top: 16px; font-style: italic; border-left: 2px solid var(--border); padding-left: 16px; }
-
-/* ── Spacing ── */
-.spacing-row { display: grid; grid-template-columns: 120px 1fr; gap: 40px; align-items: center; padding: 24px 0; border-bottom: 1px solid var(--border); }
-.spacing-lbl { font-size: 10px; font-weight: 500; letter-spacing: .22em; text-transform: uppercase; color: var(--mid); }
-.spacing-bar { height: 1px; background: var(--ink); position: relative; }
-.spacing-bar::after { content: attr(data-val); position: absolute; right: 0; top: -18px; font-size: 10px; color: var(--mid); font-family: var(--D); letter-spacing: .1em; }
-
-/* ── Motion ── */
-.motion-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 2px; }
-.motion-card { padding: 48px 40px; background: rgba(247,246,243,.03); border: 1px solid rgba(247,246,243,.07); }
-.motion-name { font-family: var(--D); font-size: 28px; letter-spacing: .04em; margin-bottom: 16px; }
-.motion-val { font-size: 13px; font-weight: 300; color: rgba(247,246,243,.55); line-height: 1.7; }
-.motion-demo { width: 40px; height: 1px; background: rgba(247,246,243,.4); margin-top: 24px; transition: width .4s; }
-.motion-card:hover .motion-demo { width: 80px; }
+.voice-ex { font-size: 13px; font-weight: 300; line-height: 1.7; color: rgba(12,12,12,.45); margin-top: 16px; font-style: italic; border-left: 2px solid var(--gold); padding-left: 16px; }
 
 /* ── Do/Don't ── */
 .do-dont { display: grid; grid-template-columns: 1fr 1fr; gap: 2px; }
 .do-card { padding: 48px; background: var(--paper); }
 .dont-card { padding: 48px; background: var(--white); }
-.do-lbl { font-size: 10px; font-weight: 500; letter-spacing: .22em; text-transform: uppercase; margin-bottom: 28px; color: var(--mid); }
-.do-list, .dont-list { list-style: none; display: flex; flex-direction: column; gap: 0; }
+.do-lbl { font-size: 10px; font-weight: 500; letter-spacing: .22em; text-transform: uppercase; margin-bottom: 28px; color: var(--gold-dark); }
+.do-list, .dont-list { list-style: none; }
 .do-list li, .dont-list li { font-size: 15px; font-weight: 300; line-height: 1.65; color: var(--ink2); padding: 14px 0; border-bottom: 1px solid var(--border); display: flex; gap: 12px; }
-.do-list li::before { content: '→'; color: var(--mid); flex-shrink: 0; }
+.do-list li::before { content: '→'; color: var(--gold-dark); flex-shrink: 0; }
 .dont-list li::before { content: '×'; color: rgba(12,12,12,.3); flex-shrink: 0; }
 
 /* ── Photography ── */
-.photo-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 2px; }
-.photo-cell { aspect-ratio: 1; overflow: hidden; background: var(--paper); }
-.photo-cell img { width: 100%; height: 100%; object-fit: cover; transition: transform .6s ease; }
+.photo-hero { display: grid; grid-template-columns: 2fr 1fr; gap: 2px; }
+.photo-row { display: grid; grid-template-columns: repeat(3, 1fr); gap: 2px; }
+.photo-row-4 { display: grid; grid-template-columns: repeat(4, 1fr); gap: 2px; }
+.photo-cell { overflow: hidden; background: var(--paper); }
+.photo-cell img { width: 100%; height: 100%; object-fit: cover; display: block; transition: transform .6s ease; }
 .photo-cell:hover img { transform: scale(1.04); }
+.photo-tall { aspect-ratio: 3/4; }
+.photo-sq { aspect-ratio: 1; }
+.photo-wide { aspect-ratio: 3/2; }
+
+/* ── Motion ── */
+.motion-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 2px; }
+.motion-card { padding: 48px 40px; background: rgba(247,246,243,.03); border: 1px solid rgba(247,246,243,.07); }
+.motion-name { font-family: var(--D); font-size: 28px; letter-spacing: .04em; margin-bottom: 16px; color: var(--gold); }
+.motion-val { font-size: 13px; font-weight: 300; color: rgba(247,246,243,.55); line-height: 1.7; }
+.motion-demo { width: 40px; height: 1px; background: var(--gold); opacity: .4; margin-top: 24px; transition: width .4s, opacity .4s; }
+.motion-card:hover .motion-demo { width: 80px; opacity: .9; }
 
 /* ── Pull quote ── */
-.pull { border: 1px solid rgba(247,246,243,.08); padding: 80px; max-width: 900px; margin: 80px 0 0; }
+.pull { border: 1px solid rgba(200,184,154,.2); padding: 80px; max-width: 900px; margin: 80px 0 0; position: relative; }
+.pull::before { content: ''; position: absolute; top: -1px; left: 0; width: 80px; height: 2px; background: var(--gold); }
 .pull-text { font-family: 'Playfair Display', Georgia, serif; font-style: italic; font-size: clamp(28px, 3vw, 52px); font-weight: 400; line-height: 1.3; letter-spacing: -.01em; color: var(--white); }
+.pull-text em { color: var(--gold); font-style: normal; }
 
 /* ── Footer ── */
-footer { padding: 80px 60px; display: flex; justify-content: space-between; align-items: center; border-top: 1px solid rgba(247,246,243,.08); }
-.footer-logo { font-family: var(--D); font-size: 24px; letter-spacing: .14em; color: rgba(247,246,243,.35); }
+footer { padding: 80px 60px; display: flex; justify-content: space-between; align-items: center; border-top: 1px solid rgba(200,184,154,.15); }
+.footer-logo img { height: 28px; width: auto; filter: brightness(0) invert(1); opacity: .3; }
 .footer-meta { font-size: 11px; font-weight: 300; color: rgba(247,246,243,.22); letter-spacing: .1em; }
+.footer-gold { font-size: 10px; font-weight: 500; letter-spacing: .22em; text-transform: uppercase; color: var(--gold); opacity: .6; }
 
 /* ── Noise ── */
 .noise { position: absolute; inset: 0; pointer-events: none; opacity: .03; z-index: 0; background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E"); background-size: 256px 256px; }
@@ -199,13 +233,15 @@ footer { padding: 80px 60px; display: flex; justify-content: space-between; alig
   nav { padding: 20px 24px; }
   .hero { padding: 0 24px 72px; }
   section { padding: 88px 24px; }
-  .rule-d, .rule-l { margin: 0 24px; }
+  .rule-d, .rule-l, .rule-gold { margin: 0 24px; }
   footer { padding: 56px 24px; flex-direction: column; align-items: flex-start; gap: 16px; }
-  .palette-grid { grid-template-columns: repeat(3, 1fr); }
+  .palette-grid { grid-template-columns: repeat(2, 1fr); }
+  .gold-row { grid-template-columns: 1fr; }
   .logo-grid, .voice-grid, .do-dont { grid-template-columns: 1fr; }
   .motion-grid { grid-template-columns: 1fr 1fr; }
-  .photo-grid { grid-template-columns: 1fr 1fr; }
-  .pull { padding: 48px 32px; }
+  .photo-hero { grid-template-columns: 1fr; }
+  .photo-row-4 { grid-template-columns: 1fr 1fr; }
+  .pull { padding: 48px 32px; margin-top: 48px; }
 }
 </style>
 </head>
@@ -223,13 +259,18 @@ footer { padding: 80px 60px; display: flex; justify-content: space-between; alig
 
 <!-- Nav -->
 <nav id="mainNav">
-  <a href="#" class="nav-logo">NOON SHOP</a>
+  <a href="#" class="nav-logo">
+    <img src="assets/logo.png" alt="Noon Shop"
+      onerror="this.style.display='none';this.nextElementSibling.style.display='block'">
+    <span class="nav-logo-fallback" style="display:none">NOON SHOP</span>
+  </a>
   <span class="nav-pill">Brand Guide</span>
 </nav>
 
 <!-- Hero -->
 <section class="hero" id="hero">
   <div class="noise"></div>
+  <div class="hero-gold-line"></div>
   <div class="hero-wm">NOON</div>
   <div class="hero-tag" id="hTag">Visual Identity System · 2025</div>
   <h1 class="hero-h1" id="hH1">
@@ -245,13 +286,14 @@ footer { padding: 80px 60px; display: flex; justify-content: space-between; alig
   </div>
 </section>
 
-<div class="rule-d"></div>
+<div class="rule-gold"></div>
 
 <!-- Colors -->
 <section class="dark" id="colors">
   <div class="noise"></div>
   <div class="tag rv">Color Palette</div>
   <h2 class="dh rv d1">OUR<br>COLORS.</h2>
+
   <div class="palette-grid rv d2">
     <div class="swatch" style="background:#0C0C0C;color:#F7F6F3">
       <div class="swatch-name">Ink</div>
@@ -278,9 +320,42 @@ footer { padding: 80px 60px; display: flex; justify-content: space-between; alig
       <div class="swatch-hex">#F7F6F3</div>
       <div class="swatch-desc">Primary light surface</div>
     </div>
+    <div class="swatch" style="background:linear-gradient(135deg,#E8D8BE,#C8B89A,#A89070);color:#0C0C0C">
+      <div class="swatch-name">Gold</div>
+      <div class="swatch-hex">#C8B89A</div>
+      <div class="swatch-desc">Brand accent &amp; warmth</div>
+      <div class="swatch-badge">Signature Accent</div>
+    </div>
   </div>
+
+  <!-- Gold feature panel -->
+  <div class="gold-row rv d3">
+    <div class="gold-feature">
+      <div style="font-size:10px;font-weight:500;letter-spacing:.32em;text-transform:uppercase;color:var(--gold)">Brand Accent · Gold</div>
+      <div class="gold-display">THE WARM<br>ACCENT</div>
+      <p style="font-size:15px;font-weight:300;line-height:1.75;color:rgba(247,246,243,.5);max-width:440px">Gold is the signature warmth of Noon Shop. It enters where precision meets craft — in type highlights, border accents, interactive states, and wherever the brand needs to feel considered rather than cold. The same tone as the polished gold-metal frames we make.</p>
+    </div>
+    <div class="gold-samples">
+      <div class="gold-sample">
+        <div class="gold-sample-lbl">Light</div>
+        <div class="gold-sample-val" style="color:#E8D8BE">#E8D8BE</div>
+        <div style="font-size:12px;font-weight:300;color:rgba(247,246,243,.35);margin-top:4px">Fine lines on dark</div>
+      </div>
+      <div class="gold-sample">
+        <div class="gold-sample-lbl">Primary</div>
+        <div class="gold-sample-val" style="color:#C8B89A">#C8B89A</div>
+        <div style="font-size:12px;font-weight:300;color:rgba(247,246,243,.35);margin-top:4px">Nav, tags, CTAs</div>
+      </div>
+      <div class="gold-sample">
+        <div class="gold-sample-lbl">Dark</div>
+        <div class="gold-sample-val" style="color:#A89070">#A89070</div>
+        <div style="font-size:12px;font-weight:300;color:rgba(247,246,243,.35);margin-top:4px">Borders, hover states</div>
+      </div>
+    </div>
+  </div>
+
   <div class="pull rv d3">
-    <p class="pull-text">Black and cream — the palette of clarity. Nothing decorative. Only essential contrast.</p>
+    <p class="pull-text">Black and cream — the palette of clarity. <em>Gold</em> for the moments worth noticing.</p>
   </div>
 </section>
 
@@ -288,7 +363,7 @@ footer { padding: 80px 60px; display: flex; justify-content: space-between; alig
 
 <!-- Typography -->
 <section class="ls" id="typography">
-  <div class="tag tag-dark rv">Typography</div>
+  <div class="tag tag-ink rv">Typography</div>
   <h2 class="dh rv d1" style="color:var(--ink)">TYPE<br>SYSTEM.</h2>
   <div class="type-stack rv d2">
     <div class="type-row">
@@ -298,7 +373,7 @@ footer { padding: 80px 60px; display: flex; justify-content: space-between; alig
         <div><div class="type-label">Weight</div><div class="type-value">Regular (single weight)</div></div>
       </div>
       <div class="type-sample-bebas">NOON SHOP<br>EYEWEAR</div>
-      <div class="type-size-row" style="margin-top:32px">
+      <div style="margin-top:32px">
         <div class="type-size-item">
           <span class="type-size-lbl">Hero</span>
           <span style="font-family:var(--D);font-size:clamp(48px,6vw,96px);line-height:.9;color:var(--ink)">HEADLINE</span>
@@ -311,9 +386,9 @@ footer { padding: 80px 60px; display: flex; justify-content: space-between; alig
           <span class="type-size-lbl">Card</span>
           <span style="font-family:var(--D);font-size:24px;line-height:.9;color:var(--ink)">HEADLINE</span>
         </div>
-        <div class="type-size-item">
+        <div class="type-size-item" style="border:none">
           <span class="type-size-lbl">Label</span>
-          <span style="font-family:var(--D);font-size:16px;line-height:.9;letter-spacing:.08em;color:var(--ink)">LABEL TEXT</span>
+          <span style="font-family:var(--D);font-size:16px;letter-spacing:.08em;color:var(--ink)">LABEL TEXT</span>
         </div>
       </div>
     </div>
@@ -340,48 +415,108 @@ footer { padding: 80px 60px; display: flex; justify-content: space-between; alig
 
 <!-- Logo -->
 <section class="ls2" id="logo">
-  <div class="tag tag-dark rv">Logo</div>
+  <div class="tag tag-ink rv">Logo</div>
   <h2 class="dh rv d1" style="color:var(--ink)">OUR<br>MARK.</h2>
   <div class="logo-grid rv d2">
     <div class="logo-cell dark">
-      <img class="logo-img" src="assets/NoonShopLogoEtsy.png" alt="Noon Shop logo on dark" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
+      <img class="logo-img" src="assets/logo.png" alt="Noon Shop logo on dark"
+        onerror="this.style.display='none';this.nextElementSibling.style.display='block'">
       <div style="display:none;font-family:var(--D);font-size:32px;letter-spacing:.2em;color:var(--white)">NOON SHOP</div>
-      <span class="logo-label">On dark / primary use</span>
+      <span class="logo-label" style="color:rgba(247,246,243,.35)">On dark · primary use</span>
     </div>
     <div class="logo-cell light">
-      <img class="logo-img" src="assets/NoonShopLogoEtsy.png" alt="Noon Shop logo on light" style="filter:invert(1)" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
+      <img class="logo-img" src="assets/logo.png" alt="Noon Shop logo on light" style="filter:invert(1)"
+        onerror="this.style.display='none';this.nextElementSibling.style.display='block'">
       <div style="display:none;font-family:var(--D);font-size:32px;letter-spacing:.2em;color:var(--ink)">NOON SHOP</div>
       <span class="logo-label">On light backgrounds</span>
     </div>
+    <div class="logo-cell gold-bg">
+      <img class="logo-img" src="assets/logo.png" alt="Noon Shop logo gold tint"
+        style="filter:brightness(0) saturate(100%) invert(76%) sepia(20%) saturate(500%) hue-rotate(5deg) brightness(95%)"
+        onerror="this.style.display='none';this.nextElementSibling.style.display='block'">
+      <div style="display:none;font-family:var(--D);font-size:32px;letter-spacing:.2em;color:var(--gold)">NOON SHOP</div>
+      <span class="logo-label" style="color:var(--gold-dark)">Gold tint · special use</span>
+    </div>
     <div class="logo-cell paper">
-      <div style="display:flex;flex-direction:column;gap:8px">
-        <div style="font-family:var(--D);font-size:10px;letter-spacing:.32em;text-transform:uppercase;color:var(--mid);margin-bottom:8px">Minimum clear space</div>
-        <div style="display:inline-flex;border:1px dashed rgba(12,12,12,.2);padding:24px">
-          <img class="logo-img" src="assets/NoonShopLogoEtsy.png" alt="Logo clearspace" style="max-width:120px" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
+      <div style="display:flex;flex-direction:column;gap:12px">
+        <div style="font-size:10px;font-weight:500;letter-spacing:.22em;text-transform:uppercase;color:var(--gold-dark);margin-bottom:4px">Clear space rule</div>
+        <div style="display:inline-flex;border:1px dashed rgba(168,144,112,.4);padding:24px">
+          <img class="logo-img" src="assets/logo.png" alt="Logo clearspace" style="max-width:120px;filter:invert(1)"
+            onerror="this.style.display='none';this.nextElementSibling.style.display='block'">
           <div style="display:none;font-family:var(--D);font-size:24px;letter-spacing:.2em;color:var(--ink)">NOON SHOP</div>
         </div>
-        <div style="font-size:12px;font-weight:300;color:var(--mid);margin-top:8px">Always maintain clear space equal to the height of the "N" around the mark.</div>
+        <p style="font-size:12px;font-weight:300;color:var(--mid)">Always maintain clear space equal to the height of the "N" on all sides.</p>
       </div>
-      <span class="logo-label">Clear space rule</span>
-    </div>
-    <div class="logo-cell dark" style="background:#1A1A1A">
-      <div style="display:flex;gap:32px;flex-wrap:wrap;align-items:center">
-        <img src="assets/NoonShopLogoEtsy.png" alt="Logo small" style="max-width:80px;object-fit:contain" onerror="this.style.display='none'">
-        <img src="assets/NoonShopLogoEtsy.png" alt="Logo medium" style="max-width:120px;object-fit:contain" onerror="this.style.display='none'">
-        <img src="assets/NoonShopLogoEtsy.png" alt="Logo large" style="max-width:180px;object-fit:contain" onerror="this.style.display='none'">
-      </div>
-      <span class="logo-label">Scale — never below 60px wide</span>
+      <span class="logo-label">Minimum clear space</span>
     </div>
   </div>
 </section>
 
 <div class="rule-l"></div>
 
+<!-- Photography -->
+<section class="ls" id="photography">
+  <div class="tag tag-ink rv">Photography</div>
+  <h2 class="dh rv d1" style="color:var(--ink)">IMAGE<br>DIRECTION.</h2>
+  <p class="rv d2" style="font-size:17px;font-weight:300;line-height:1.8;color:var(--ink2);max-width:640px;margin-bottom:64px">Product photography leads with material and craftsmanship. Clean backgrounds. Macro detail. The polished gold-tone metal in our frames connects directly to the brand accent color.</p>
+
+  <!-- Hero photo row -->
+  <div class="photo-hero rv d2">
+    <div class="photo-cell photo-wide">
+      <img src="assets/gold-round-1.png" alt="Gold round sunglasses" onerror="this.parentElement.style.background='#E8D8BE'">
+    </div>
+    <div class="photo-cell photo-tall">
+      <img src="assets/cat-eye.png" alt="Cat-eye sunglasses" onerror="this.parentElement.style.background='#DDDAD4'">
+    </div>
+  </div>
+
+  <!-- Second row -->
+  <div class="photo-row rv d3" style="margin-top:2px">
+    <div class="photo-cell photo-sq">
+      <img src="assets/classic-round.png" alt="Classic round frames" onerror="this.parentElement.style.background='#E5E2DC'">
+    </div>
+    <div class="photo-cell photo-sq">
+      <img src="assets/thin-rect.png" alt="Thin rectangular frames" onerror="this.parentElement.style.background='#EEECE7'">
+    </div>
+    <div class="photo-cell photo-sq">
+      <img src="assets/gold-round-2.png" alt="Gold round 2" onerror="this.parentElement.style.background='#E8D8BE'">
+    </div>
+  </div>
+
+  <!-- Caption strip -->
+  <div style="background:linear-gradient(135deg,#1a1610,#0C0C0C);border:1px solid rgba(200,184,154,.1);padding:28px 40px;display:flex;justify-content:space-between;align-items:center;margin-top:2px" class="rv d3">
+    <p style="font-size:13px;font-weight:300;line-height:1.7;color:rgba(247,246,243,.5);max-width:480px">Preferred: frames on pure white or paper. Material fills 60–80% of frame. No props, no lifestyle context. Gold-tone metal directly echoes the brand accent.</p>
+    <div style="font-family:var(--D);font-size:22px;letter-spacing:.08em;color:var(--gold);flex-shrink:0;margin-left:40px;text-align:right">FRAMES<br>ON WHITE</div>
+  </div>
+
+  <!-- Macro row -->
+  <div style="margin-top:56px" class="rv d3">
+    <div style="font-size:10px;font-weight:500;letter-spacing:.22em;text-transform:uppercase;color:var(--gold-dark);margin-bottom:16px;display:flex;align-items:center;gap:12px"><span style="display:block;width:24px;height:1px;background:var(--gold-dark)"></span>Detail &amp; Macro Photography</div>
+    <div class="photo-row-4">
+      <div class="photo-cell photo-sq">
+        <img src="assets/macro-hinge-1.png" alt="Hinge macro" onerror="this.parentElement.style.background='#E0DDD8'">
+      </div>
+      <div class="photo-cell photo-sq">
+        <img src="assets/macro-hinge-2.png" alt="Hinge macro 2" onerror="this.parentElement.style.background='#D8D4CE'">
+      </div>
+      <div class="photo-cell photo-sq">
+        <img src="assets/macro-detail.png" alt="Macro detail" onerror="this.parentElement.style.background='#E5E2DC'">
+      </div>
+      <div class="photo-cell photo-sq">
+        <img src="assets/thin-rect-2.png" alt="Thin rect 2" onerror="this.parentElement.style.background='#EEECE7'">
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="rule-gold"></div>
+
 <!-- Voice -->
-<section class="ls" id="voice">
-  <div class="tag tag-dark rv">Brand Voice</div>
-  <h2 class="dh rv d1" style="color:var(--ink)">HOW WE<br>SPEAK.</h2>
-  <div class="voice-grid rv d2">
+<section class="dark" id="voice">
+  <div class="noise"></div>
+  <div class="tag rv">Brand Voice</div>
+  <h2 class="dh rv d1">HOW WE<br>SPEAK.</h2>
+  <div class="voice-grid rv d2" style="background:rgba(247,246,243,.02)">
     <div class="voice-card">
       <div class="voice-title">DIRECT</div>
       <p class="voice-text">We say what we mean. No filler, no fluff. Our copy earns every word.</p>
@@ -410,17 +545,17 @@ footer { padding: 80px 60px; display: flex; justify-content: space-between; alig
         <li>Use Bebas Neue for all display type</li>
         <li>Pair headlines with Playfair italic subtitles</li>
         <li>Default to dark backgrounds (#0C0C0C)</li>
-        <li>Keep spacing generous and deliberate</li>
-        <li>Use photography that shows material and detail</li>
+        <li>Use gold as a deliberate accent — tags, borders, CTAs</li>
         <li>Let whitespace do the talking</li>
+        <li>Use product photography that shows material and metal</li>
       </ul>
     </div>
     <div class="dont-card">
-      <div class="do-lbl">Don't</div>
+      <div class="do-lbl" style="color:rgba(12,12,12,.4)">Don't</div>
       <ul class="dont-list">
         <li>Use decorative or script typefaces</li>
         <li>Add color accents beyond the core palette</li>
-        <li>Crowd layouts with multiple competing elements</li>
+        <li>Overuse gold — it's an accent, not a foundation</li>
         <li>Use bold weight in Outfit for body copy</li>
         <li>Place the logo on busy or patterned backgrounds</li>
         <li>Use exclamation marks in brand copy</li>
@@ -429,41 +564,7 @@ footer { padding: 80px 60px; display: flex; justify-content: space-between; alig
   </div>
 </section>
 
-<div class="rule-l"></div>
-
-<!-- Photography -->
-<section class="ls2" id="photography">
-  <div class="tag tag-dark rv">Photography</div>
-  <h2 class="dh rv d1" style="color:var(--ink)">IMAGE<br>DIRECTION.</h2>
-  <p class="rv d2" style="font-size:17px;font-weight:300;line-height:1.8;color:var(--ink2);max-width:640px;margin-bottom:64px">Product photography leads with material and craftsmanship. Frames on white or paper. Macro detail. No props, no lifestyle clutter — let the product carry the frame.</p>
-  <div class="photo-grid rv d3">
-    <div class="photo-cell">
-      <img src="assets/Frames on white-1.png" alt="Frames on white" onerror="this.parentElement.style.background='#DDDAD4'">
-    </div>
-    <div class="photo-cell">
-      <img src="assets/Frames on white-2.png" alt="Frames on white 2" onerror="this.parentElement.style.background='#E5E2DC'">
-    </div>
-    <div class="photo-cell">
-      <img src="assets/Frames-transparent-1.png" alt="Frames transparent" onerror="this.parentElement.style.background='#EEECE7'">
-    </div>
-  </div>
-  <div style="margin-top:2px;display:grid;grid-template-columns:repeat(3,1fr);gap:2px" class="rv d3">
-    <div style="padding:20px 24px;background:var(--paper);border-top:2px solid var(--ink)">
-      <div style="font-size:10px;font-weight:500;letter-spacing:.22em;text-transform:uppercase;color:var(--mid);margin-bottom:8px">Preferred</div>
-      <div style="font-size:13px;font-weight:300;color:var(--ink2)">Frames on pure white or paper background. Material visible. Frame fills 60–80% of frame.</div>
-    </div>
-    <div style="padding:20px 24px;background:var(--paper);border-top:2px solid var(--ink)">
-      <div style="font-size:10px;font-weight:500;letter-spacing:.22em;text-transform:uppercase;color:var(--mid);margin-bottom:8px">Acceptable</div>
-      <div style="font-size:13px;font-weight:300;color:var(--ink2)">Detail macro shots showing hinge, temple, nose pad. High contrast. Studio lit.</div>
-    </div>
-    <div style="padding:20px 24px;background:var(--paper);border-top:2px solid rgba(12,12,12,.2)">
-      <div style="font-size:10px;font-weight:500;letter-spacing:.22em;text-transform:uppercase;color:var(--mid);margin-bottom:8px">Avoid</div>
-      <div style="font-size:13px;font-weight:300;color:var(--ink2)">Lifestyle photography with people, outdoor settings, props, or anything that competes with the product.</div>
-    </div>
-  </div>
-</section>
-
-<div class="rule-l"></div>
+<div class="rule-d"></div>
 
 <!-- Motion -->
 <section class="dark" id="motion">
@@ -478,23 +579,26 @@ footer { padding: 80px 60px; display: flex; justify-content: space-between; alig
     </div>
     <div class="motion-card">
       <div class="motion-name">HOVER</div>
-      <p class="motion-val">Cards lift translateY(-4px). Links underline scales from right. Arrows extend width. Duration: 0.3–0.45s. Ease: cubic-bezier(0.4,0,0.2,1).</p>
+      <p class="motion-val">Cards lift translateY(-4px). Links underline scales from right. Gold accents brighten on interaction. Duration: 0.3–0.45s.</p>
       <div class="motion-demo"></div>
     </div>
     <div class="motion-card">
       <div class="motion-name">EXIT</div>
-      <p class="motion-val">Fade up and out (Y-12px). Duration: 0.4–0.6s. Ease: power2.in. Used in loader and transition states.</p>
+      <p class="motion-val">Fade up and out (Y-12px). Duration: 0.4–0.6s. Ease: power2.in. Used in the loader and page transition states.</p>
       <div class="motion-demo"></div>
     </div>
   </div>
   <div class="pull rv d3">
-    <p class="pull-text">Movement is calm and intentional. Never rapid, never decorative. Every animation earns its place.</p>
+    <p class="pull-text">Movement is calm and intentional. <em>Gold</em> catches the eye. Motion earns the moment.</p>
   </div>
 </section>
 
 <!-- Footer -->
 <footer>
-  <div class="footer-logo">NOON SHOP</div>
+  <div class="footer-logo">
+    <img src="assets/logo.png" alt="Noon Shop" onerror="this.style.display='none'">
+  </div>
+  <div class="footer-gold">Visual Identity System</div>
   <div class="footer-meta">Brand Guide · 2025 · Internal Use</div>
 </footer>
 
@@ -516,41 +620,33 @@ footer { padding: 80px 60px; display: flex; justify-content: space-between; alig
     }});
 })();
 
-/* ── Hero entrance ── */
 function heroIn() {
-  const tag = document.getElementById('hTag');
-  const h1 = document.getElementById('hH1');
-  const foot = document.getElementById('hFoot');
-  gsap.to(tag, { opacity: 1, y: 0, duration: 0.7, ease: 'power3.out', delay: 0.1 });
-  gsap.to(h1, { opacity: 1, y: 0, duration: 0.9, ease: 'power3.out', delay: 0.3 });
-  gsap.to(foot, { opacity: 1, y: 0, duration: 0.8, ease: 'power3.out', delay: 0.7 });
+  gsap.to(document.getElementById('hTag'), { opacity: 1, y: 0, duration: 0.7, ease: 'power3.out', delay: 0.1 });
+  gsap.to(document.getElementById('hH1'),  { opacity: 1, y: 0, duration: 0.9, ease: 'power3.out', delay: 0.3 });
+  gsap.to(document.getElementById('hFoot'),{ opacity: 1, y: 0, duration: 0.8, ease: 'power3.out', delay: 0.7 });
 }
 
 /* ── Cursor ── */
-const cur = document.getElementById('cur');
-const ring = document.getElementById('ring');
-let mx = 0, my = 0, cx = 0, cy = 0, rx = 0, ry = 0;
-document.addEventListener('mousemove', e => { mx = e.clientX; my = e.clientY; });
-(function cursorLoop() {
-  cx += (mx - cx) * 0.2; cy += (my - cy) * 0.2;
-  rx += (mx - rx) * 0.08; ry += (my - ry) * 0.08;
-  cur.style.transform = `translate(${cx - 3.5}px, ${cy - 3.5}px)`;
-  ring.style.transform = `translate(${rx - 16}px, ${ry - 16}px)`;
-  requestAnimationFrame(cursorLoop);
+const cur = document.getElementById('cur'), ring = document.getElementById('ring');
+let mx=0,my=0,cx=0,cy=0,rx=0,ry=0;
+document.addEventListener('mousemove', e => { mx=e.clientX; my=e.clientY; });
+(function loop() {
+  cx+=(mx-cx)*.2; cy+=(my-cy)*.2; rx+=(mx-rx)*.08; ry+=(my-ry)*.08;
+  cur.style.transform=`translate(${cx-3.5}px,${cy-3.5}px)`;
+  ring.style.transform=`translate(${rx-16}px,${ry-16}px)`;
+  requestAnimationFrame(loop);
 })();
 
 /* ── Nav ── */
-const nav = document.getElementById('mainNav');
 window.addEventListener('scroll', () => {
-  nav.classList.toggle('scrolled', window.scrollY > 60);
+  document.getElementById('mainNav').classList.toggle('scrolled', scrollY > 60);
 });
 
 /* ── Scroll reveal ── */
-const revealEls = document.querySelectorAll('.rv');
-const observer = new IntersectionObserver(entries => {
-  entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('in'); observer.unobserve(e.target); } });
-}, { threshold: 0.12 });
-revealEls.forEach(el => observer.observe(el));
+const obs = new IntersectionObserver(entries => {
+  entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('in'); obs.unobserve(e.target); } });
+}, { threshold: 0.1 });
+document.querySelectorAll('.rv').forEach(el => obs.observe(el));
 </script>
 </body>
 </html>
