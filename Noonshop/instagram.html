@@ -132,6 +132,37 @@ body {
   margin-top: 4px;
 }
 
+.cover-channels {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  margin-top: 28px;
+  position: relative;
+  z-index: 2;
+  opacity: 0;
+  transform: translateY(10px);
+}
+
+.cover-channel {
+  font-size: 10px;
+  letter-spacing: .22em;
+  text-transform: uppercase;
+  color: rgba(200,184,154,.38);
+  font-weight: 400;
+}
+
+.cover-channel.active {
+  color: var(--gold);
+}
+
+.cover-channel-dot {
+  width: 3px;
+  height: 3px;
+  border-radius: 50%;
+  background: rgba(200,184,154,.2);
+  flex-shrink: 0;
+}
+
 .cover-foot {
   display: flex;
   justify-content: space-between;
@@ -539,13 +570,24 @@ body {
 <section class="cover-hero">
   <div class="cover-gold-line"></div>
   <div class="cover-wm">NOON</div>
-  <div class="cover-tag" id="cvTag">Instagram Strategy · 2025</div>
+  <div class="cover-tag" id="cvTag">Social &amp; Digital Strategy · 2025</div>
   <h1 class="cover-h1" id="cvH1">
-    THE GRID
+    THE BRAND
     <span class="cover-h1-sub">how we show up.</span>
   </h1>
+  <div class="cover-channels" id="cvChannels">
+    <span class="cover-channel active">Instagram</span>
+    <span class="cover-channel-dot"></span>
+    <span class="cover-channel">TikTok</span>
+    <span class="cover-channel-dot"></span>
+    <span class="cover-channel">Pinterest</span>
+    <span class="cover-channel-dot"></span>
+    <span class="cover-channel">Facebook</span>
+    <span class="cover-channel-dot"></span>
+    <span class="cover-channel">LinkedIn</span>
+  </div>
   <div class="cover-foot" id="cvFoot">
-    <p class="cover-sub">A proposed Instagram content strategy for Noon Shop Eyewear — designed to grow brand presence, showcase product, and build a community around eyewear that actually fits.</p>
+    <p class="cover-sub">A proposed social media strategy for Noon Shop Eyewear — across Instagram, TikTok, Pinterest, and beyond. Designed to grow brand presence, showcase product, and build a community around eyewear that actually fits.</p>
     <div class="cover-scroll">
       <div class="cover-sline"></div>
       <span class="cover-sdesc">Scroll to explore</span>
@@ -796,9 +838,10 @@ body {
     .to(loader, { opacity: 0, duration: 0.6, ease: 'power2.inOut', onComplete: () => {
       loader.remove();
       // Animate cover hero after loader clears
-      gsap.to('#cvTag',  { opacity: 1, y: 0, duration: 0.7, ease: 'power3.out', delay: 0.1 });
-      gsap.to('#cvH1',   { opacity: 1, y: 0, duration: 0.9, ease: 'power3.out', delay: 0.3 });
-      gsap.to('#cvFoot', { opacity: 1, y: 0, duration: 0.8, ease: 'power3.out', delay: 0.7 });
+      gsap.to('#cvTag',      { opacity: 1, y: 0, duration: 0.7, ease: 'power3.out', delay: 0.1 });
+      gsap.to('#cvH1',       { opacity: 1, y: 0, duration: 0.9, ease: 'power3.out', delay: 0.3 });
+      gsap.to('#cvChannels', { opacity: 1, y: 0, duration: 0.7, ease: 'power3.out', delay: 0.6 });
+      gsap.to('#cvFoot',     { opacity: 1, y: 0, duration: 0.8, ease: 'power3.out', delay: 0.85 });
     }});
 })();
 </script>
