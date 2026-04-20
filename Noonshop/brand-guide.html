@@ -1,0 +1,556 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Noon Shop — Brand Guide</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Outfit:wght@100;200;300;400;500&family=Playfair+Display:ital,wght@0,400;0,700;1,400;1,700&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+<style>
+:root {
+  --white: #F7F6F3;
+  --paper: #EEECE7;
+  --ink: #0C0C0C;
+  --ink2: #1A1A1A;
+  --mid: #888;
+  --border: rgba(12,12,12,.10);
+  --D: 'Bebas Neue', sans-serif;
+  --B: 'Outfit', sans-serif;
+}
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+body { background: var(--ink); color: var(--white); font-family: var(--B); font-weight: 300; overflow-x: hidden; cursor: none; }
+
+/* ── Loader ── */
+.loader {
+  position: fixed; inset: 0; background: var(--ink);
+  z-index: 10000; display: flex; flex-direction: column;
+  align-items: center; justify-content: center; gap: 20px;
+  pointer-events: none;
+}
+.loader-brand {
+  font-family: var(--D); font-size: clamp(28px, 3.6vw, 44px);
+  letter-spacing: .32em; color: var(--white);
+  opacity: 0; transform: translateY(8px);
+}
+.loader-line { width: 0; height: 1px; background: rgba(247,246,243,.35); }
+
+/* ── Cursor ── */
+.cur { position: fixed; width: 7px; height: 7px; background: var(--white); border-radius: 50%; pointer-events: none; z-index: 9999; mix-blend-mode: difference; }
+.ring { position: fixed; width: 32px; height: 32px; border: 1px solid rgba(247,246,243,.35); border-radius: 50%; pointer-events: none; z-index: 9998; mix-blend-mode: difference; }
+
+/* ── Nav ── */
+nav {
+  position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+  display: flex; justify-content: space-between; align-items: center;
+  padding: 28px 60px; transition: background .4s, backdrop-filter .4s;
+}
+nav.scrolled { background: rgba(12,12,12,.6); backdrop-filter: blur(16px); }
+.nav-logo { font-family: var(--D); font-size: 18px; letter-spacing: .14em; color: rgba(247,246,243,.6); text-decoration: none; transition: color .3s; }
+.nav-logo:hover { color: var(--white); }
+.nav-pill { font-family: var(--B); font-size: 10px; font-weight: 500; letter-spacing: .22em; text-transform: uppercase; color: rgba(247,246,243,.35); border: 1px solid rgba(247,246,243,.14); padding: 6px 16px; border-radius: 40px; }
+
+/* ── Hero ── */
+.hero {
+  min-height: 100vh; background: var(--ink);
+  display: flex; flex-direction: column; justify-content: flex-end;
+  padding: 0 60px 88px; position: relative; overflow: hidden;
+}
+.hero-wm {
+  position: absolute; right: -30px; top: 50%; transform: translateY(-52%);
+  font-family: var(--D); font-size: clamp(240px, 32vw, 500px);
+  color: rgba(247,246,243,.038); line-height: 1;
+  pointer-events: none; user-select: none; letter-spacing: .04em; z-index: 1;
+}
+.hero-tag {
+  font-size: 10px; font-weight: 400; letter-spacing: .36em; text-transform: uppercase;
+  color: rgba(247,246,243,.38); margin-bottom: 28px; position: relative; z-index: 2; opacity: 0;
+}
+.hero-h1 {
+  font-family: var(--D); font-size: clamp(56px, 9vw, 160px); line-height: .88;
+  letter-spacing: .025em; color: var(--white); position: relative; z-index: 2;
+  opacity: 0; padding-bottom: .15em;
+}
+.hero-h1-sub {
+  display: block; font-family: 'Playfair Display', Georgia, serif;
+  font-style: italic; font-weight: 400; font-size: clamp(36px, 5.5vw, 96px);
+  line-height: 1.18; letter-spacing: -.01em; color: rgba(247,246,243,.55); margin-top: 4px;
+}
+.hero-foot {
+  display: flex; justify-content: space-between; align-items: flex-end;
+  margin-top: 64px; position: relative; z-index: 2; opacity: 0;
+}
+.hero-sub { font-size: 16px; font-weight: 300; line-height: 1.78; color: rgba(247,246,243,.45); max-width: 420px; }
+.hero-desc { font-size: 11px; font-weight: 500; letter-spacing: .2em; text-transform: uppercase; color: rgba(247,246,243,.28); }
+.sline { width: 1px; height: 64px; background: rgba(247,246,243,.2); animation: pulse 2.5s 2s infinite; }
+@keyframes pulse { 0%, 100% { opacity: .1; transform: scaleY(.4); } 50% { opacity: .45; transform: scaleY(1); } }
+
+/* ── Shared ── */
+section { padding: 136px 60px; position: relative; }
+.ls { background: var(--white); color: var(--ink); }
+.ls2 { background: var(--paper); color: var(--ink); }
+.rule-d { height: 1px; background: rgba(247,246,243,.08); margin: 0 60px; }
+.rule-l { height: 1px; background: var(--border); margin: 0 60px; }
+.tag {
+  font-size: 10px; font-weight: 500; letter-spacing: .32em; text-transform: uppercase;
+  color: rgba(247,246,243,.35); margin-bottom: 52px; display: flex; align-items: center; gap: 16px;
+}
+.tag::before { content: ''; display: block; width: 36px; height: 1px; background: currentColor; }
+.tag-dark { color: var(--mid); }
+.tag-dark::before { background: var(--mid); }
+.dh { font-family: var(--D); font-size: clamp(64px, 9.5vw, 160px); line-height: .88; letter-spacing: .025em; margin-bottom: 80px; padding-bottom: .15em; }
+.dh-sub { display: block; font-family: 'Playfair Display', Georgia, serif; font-size: clamp(44px, 7vw, 112px); font-weight: 400; font-style: italic; line-height: 1.18; letter-spacing: -.01em; margin-top: 8px; color: var(--mid); }
+
+/* ── Reveal ── */
+.rv { opacity: 0; transform: translateY(28px); transition: opacity .8s ease, transform .8s ease; }
+.rv.in { opacity: 1; transform: translateY(0); }
+.rv.d1 { transition-delay: .1s; } .rv.d2 { transition-delay: .2s; } .rv.d3 { transition-delay: .3s; }
+
+/* ── Colors ── */
+.palette-grid { display: grid; grid-template-columns: repeat(5, 1fr); gap: 2px; }
+.swatch {
+  aspect-ratio: 1; display: flex; flex-direction: column;
+  justify-content: flex-end; padding: 16px; cursor: default;
+  transition: transform .3s;
+}
+.swatch:hover { transform: scale(1.02); }
+.swatch-name { font-size: 10px; font-weight: 500; letter-spacing: .22em; text-transform: uppercase; margin-bottom: 4px; }
+.swatch-hex { font-family: var(--D); font-size: 18px; letter-spacing: .1em; }
+.swatch-desc { font-size: 11px; font-weight: 300; margin-top: 6px; opacity: .6; }
+
+/* ── Typography ── */
+.type-stack { display: flex; flex-direction: column; gap: 64px; }
+.type-row { border-top: 1px solid var(--border); padding-top: 40px; }
+.type-meta { display: flex; gap: 40px; margin-bottom: 28px; }
+.type-label { font-size: 10px; font-weight: 500; letter-spacing: .22em; text-transform: uppercase; color: var(--mid); }
+.type-value { font-size: 10px; font-weight: 300; color: var(--mid); }
+.type-sample-bebas { font-family: var(--D); font-size: clamp(48px, 7vw, 112px); line-height: .9; letter-spacing: .025em; color: var(--ink); }
+.type-sample-outfit { font-family: var(--B); font-size: 18px; font-weight: 300; line-height: 1.75; color: var(--ink2); max-width: 640px; }
+.type-sample-playfair { font-family: 'Playfair Display', Georgia, serif; font-style: italic; font-size: clamp(32px, 4vw, 64px); line-height: 1.2; letter-spacing: -.01em; color: var(--mid); }
+.type-size-row { display: flex; flex-direction: column; gap: 12px; margin-top: 28px; }
+.type-size-item { display: flex; align-items: baseline; gap: 24px; border-bottom: 1px solid var(--border); padding-bottom: 12px; }
+.type-size-lbl { font-size: 9px; letter-spacing: .2em; text-transform: uppercase; color: var(--mid); width: 100px; flex-shrink: 0; }
+
+/* ── Logo ── */
+.logo-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 2px; }
+.logo-cell {
+  padding: 64px 48px; display: flex; flex-direction: column;
+  align-items: flex-start; justify-content: center; gap: 24px;
+  position: relative;
+}
+.logo-cell.dark { background: var(--ink); }
+.logo-cell.light { background: var(--white); }
+.logo-cell.paper { background: var(--paper); }
+.logo-img { max-width: 180px; width: 100%; object-fit: contain; }
+.logo-label { font-size: 10px; font-weight: 500; letter-spacing: .22em; text-transform: uppercase; color: var(--mid); }
+
+/* ── Voice section ── */
+.voice-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 2px; }
+.voice-card { padding: 52px 48px; background: var(--white); }
+.voice-title { font-family: var(--D); font-size: clamp(26px, 2.6vw, 40px); line-height: .92; letter-spacing: .025em; margin-bottom: 16px; color: var(--ink); }
+.voice-text { font-size: 15px; font-weight: 300; line-height: 1.75; color: var(--mid); }
+.voice-ex { font-size: 13px; font-weight: 300; line-height: 1.7; color: rgba(12,12,12,.45); margin-top: 16px; font-style: italic; border-left: 2px solid var(--border); padding-left: 16px; }
+
+/* ── Spacing ── */
+.spacing-row { display: grid; grid-template-columns: 120px 1fr; gap: 40px; align-items: center; padding: 24px 0; border-bottom: 1px solid var(--border); }
+.spacing-lbl { font-size: 10px; font-weight: 500; letter-spacing: .22em; text-transform: uppercase; color: var(--mid); }
+.spacing-bar { height: 1px; background: var(--ink); position: relative; }
+.spacing-bar::after { content: attr(data-val); position: absolute; right: 0; top: -18px; font-size: 10px; color: var(--mid); font-family: var(--D); letter-spacing: .1em; }
+
+/* ── Motion ── */
+.motion-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 2px; }
+.motion-card { padding: 48px 40px; background: rgba(247,246,243,.03); border: 1px solid rgba(247,246,243,.07); }
+.motion-name { font-family: var(--D); font-size: 28px; letter-spacing: .04em; margin-bottom: 16px; }
+.motion-val { font-size: 13px; font-weight: 300; color: rgba(247,246,243,.55); line-height: 1.7; }
+.motion-demo { width: 40px; height: 1px; background: rgba(247,246,243,.4); margin-top: 24px; transition: width .4s; }
+.motion-card:hover .motion-demo { width: 80px; }
+
+/* ── Do/Don't ── */
+.do-dont { display: grid; grid-template-columns: 1fr 1fr; gap: 2px; }
+.do-card { padding: 48px; background: var(--paper); }
+.dont-card { padding: 48px; background: var(--white); }
+.do-lbl { font-size: 10px; font-weight: 500; letter-spacing: .22em; text-transform: uppercase; margin-bottom: 28px; color: var(--mid); }
+.do-list, .dont-list { list-style: none; display: flex; flex-direction: column; gap: 0; }
+.do-list li, .dont-list li { font-size: 15px; font-weight: 300; line-height: 1.65; color: var(--ink2); padding: 14px 0; border-bottom: 1px solid var(--border); display: flex; gap: 12px; }
+.do-list li::before { content: '→'; color: var(--mid); flex-shrink: 0; }
+.dont-list li::before { content: '×'; color: rgba(12,12,12,.3); flex-shrink: 0; }
+
+/* ── Photography ── */
+.photo-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 2px; }
+.photo-cell { aspect-ratio: 1; overflow: hidden; background: var(--paper); }
+.photo-cell img { width: 100%; height: 100%; object-fit: cover; transition: transform .6s ease; }
+.photo-cell:hover img { transform: scale(1.04); }
+
+/* ── Pull quote ── */
+.pull { border: 1px solid rgba(247,246,243,.08); padding: 80px; max-width: 900px; margin: 80px 0 0; }
+.pull-text { font-family: 'Playfair Display', Georgia, serif; font-style: italic; font-size: clamp(28px, 3vw, 52px); font-weight: 400; line-height: 1.3; letter-spacing: -.01em; color: var(--white); }
+
+/* ── Footer ── */
+footer { padding: 80px 60px; display: flex; justify-content: space-between; align-items: center; border-top: 1px solid rgba(247,246,243,.08); }
+.footer-logo { font-family: var(--D); font-size: 24px; letter-spacing: .14em; color: rgba(247,246,243,.35); }
+.footer-meta { font-size: 11px; font-weight: 300; color: rgba(247,246,243,.22); letter-spacing: .1em; }
+
+/* ── Noise ── */
+.noise { position: absolute; inset: 0; pointer-events: none; opacity: .03; z-index: 0; background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E"); background-size: 256px 256px; }
+
+/* ── Mobile ── */
+@media (max-width: 900px) {
+  nav { padding: 20px 24px; }
+  .hero { padding: 0 24px 72px; }
+  section { padding: 88px 24px; }
+  .rule-d, .rule-l { margin: 0 24px; }
+  footer { padding: 56px 24px; flex-direction: column; align-items: flex-start; gap: 16px; }
+  .palette-grid { grid-template-columns: repeat(3, 1fr); }
+  .logo-grid, .voice-grid, .do-dont { grid-template-columns: 1fr; }
+  .motion-grid { grid-template-columns: 1fr 1fr; }
+  .photo-grid { grid-template-columns: 1fr 1fr; }
+  .pull { padding: 48px 32px; }
+}
+</style>
+</head>
+<body>
+
+<!-- Loader -->
+<div class="loader" id="pageLoader">
+  <div class="loader-brand">NOON SHOP</div>
+  <div class="loader-line" id="loaderLine"></div>
+</div>
+
+<!-- Cursor -->
+<div class="cur" id="cur"></div>
+<div class="ring" id="ring"></div>
+
+<!-- Nav -->
+<nav id="mainNav">
+  <a href="#" class="nav-logo">NOON SHOP</a>
+  <span class="nav-pill">Brand Guide</span>
+</nav>
+
+<!-- Hero -->
+<section class="hero" id="hero">
+  <div class="noise"></div>
+  <div class="hero-wm">NOON</div>
+  <div class="hero-tag" id="hTag">Visual Identity System · 2025</div>
+  <h1 class="hero-h1" id="hH1">
+    THE BRAND
+    <span class="hero-h1-sub">what we look like.</span>
+  </h1>
+  <div class="hero-foot" id="hFoot">
+    <p class="hero-sub">A premium eyewear brand built around clarity — in vision, in product, and in how we present ourselves to the world.</p>
+    <div style="display:flex;flex-direction:column;align-items:center;gap:12px">
+      <div class="sline"></div>
+      <span class="hero-desc">Scroll to explore</span>
+    </div>
+  </div>
+</section>
+
+<div class="rule-d"></div>
+
+<!-- Colors -->
+<section class="dark" id="colors">
+  <div class="noise"></div>
+  <div class="tag rv">Color Palette</div>
+  <h2 class="dh rv d1">OUR<br>COLORS.</h2>
+  <div class="palette-grid rv d2">
+    <div class="swatch" style="background:#0C0C0C;color:#F7F6F3">
+      <div class="swatch-name">Ink</div>
+      <div class="swatch-hex">#0C0C0C</div>
+      <div class="swatch-desc">Primary background &amp; text</div>
+    </div>
+    <div class="swatch" style="background:#1A1A1A;color:#F7F6F3">
+      <div class="swatch-name">Ink 2</div>
+      <div class="swatch-hex">#1A1A1A</div>
+      <div class="swatch-desc">Depth &amp; layering</div>
+    </div>
+    <div class="swatch" style="background:#888;color:#F7F6F3">
+      <div class="swatch-name">Mid</div>
+      <div class="swatch-hex">#888888</div>
+      <div class="swatch-desc">Secondary text &amp; icons</div>
+    </div>
+    <div class="swatch" style="background:#EEECE7;color:#0C0C0C">
+      <div class="swatch-name">Paper</div>
+      <div class="swatch-hex">#EEECE7</div>
+      <div class="swatch-desc">Light section accent</div>
+    </div>
+    <div class="swatch" style="background:#F7F6F3;color:#0C0C0C">
+      <div class="swatch-name">White</div>
+      <div class="swatch-hex">#F7F6F3</div>
+      <div class="swatch-desc">Primary light surface</div>
+    </div>
+  </div>
+  <div class="pull rv d3">
+    <p class="pull-text">Black and cream — the palette of clarity. Nothing decorative. Only essential contrast.</p>
+  </div>
+</section>
+
+<div class="rule-d"></div>
+
+<!-- Typography -->
+<section class="ls" id="typography">
+  <div class="tag tag-dark rv">Typography</div>
+  <h2 class="dh rv d1" style="color:var(--ink)">TYPE<br>SYSTEM.</h2>
+  <div class="type-stack rv d2">
+    <div class="type-row">
+      <div class="type-meta">
+        <div><div class="type-label">Typeface</div><div class="type-value">Bebas Neue</div></div>
+        <div><div class="type-label">Role</div><div class="type-value">Display / Headlines</div></div>
+        <div><div class="type-label">Weight</div><div class="type-value">Regular (single weight)</div></div>
+      </div>
+      <div class="type-sample-bebas">NOON SHOP<br>EYEWEAR</div>
+      <div class="type-size-row" style="margin-top:32px">
+        <div class="type-size-item">
+          <span class="type-size-lbl">Hero</span>
+          <span style="font-family:var(--D);font-size:clamp(48px,6vw,96px);line-height:.9;color:var(--ink)">HEADLINE</span>
+        </div>
+        <div class="type-size-item">
+          <span class="type-size-lbl">Section</span>
+          <span style="font-family:var(--D);font-size:36px;line-height:.9;color:var(--ink)">HEADLINE</span>
+        </div>
+        <div class="type-size-item">
+          <span class="type-size-lbl">Card</span>
+          <span style="font-family:var(--D);font-size:24px;line-height:.9;color:var(--ink)">HEADLINE</span>
+        </div>
+        <div class="type-size-item">
+          <span class="type-size-lbl">Label</span>
+          <span style="font-family:var(--D);font-size:16px;line-height:.9;letter-spacing:.08em;color:var(--ink)">LABEL TEXT</span>
+        </div>
+      </div>
+    </div>
+    <div class="type-row">
+      <div class="type-meta">
+        <div><div class="type-label">Typeface</div><div class="type-value">Playfair Display</div></div>
+        <div><div class="type-label">Role</div><div class="type-value">Accent / Italic Subtitles</div></div>
+        <div><div class="type-label">Weights</div><div class="type-value">400, 700 — always italic</div></div>
+      </div>
+      <div class="type-sample-playfair">something worth seeing.</div>
+    </div>
+    <div class="type-row">
+      <div class="type-meta">
+        <div><div class="type-label">Typeface</div><div class="type-value">Outfit</div></div>
+        <div><div class="type-label">Role</div><div class="type-value">Body / Interface / Navigation</div></div>
+        <div><div class="type-label">Weights</div><div class="type-value">100–500 (prefer 300)</div></div>
+      </div>
+      <div class="type-sample-outfit">Noon Shop makes precisely fitted eyewear accessible — pairing craft-level quality with a modern buying experience. We believe the right pair of glasses changes how you see the world, and how the world sees you.</div>
+    </div>
+  </div>
+</section>
+
+<div class="rule-l"></div>
+
+<!-- Logo -->
+<section class="ls2" id="logo">
+  <div class="tag tag-dark rv">Logo</div>
+  <h2 class="dh rv d1" style="color:var(--ink)">OUR<br>MARK.</h2>
+  <div class="logo-grid rv d2">
+    <div class="logo-cell dark">
+      <img class="logo-img" src="assets/NoonShopLogoEtsy.png" alt="Noon Shop logo on dark" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
+      <div style="display:none;font-family:var(--D);font-size:32px;letter-spacing:.2em;color:var(--white)">NOON SHOP</div>
+      <span class="logo-label">On dark / primary use</span>
+    </div>
+    <div class="logo-cell light">
+      <img class="logo-img" src="assets/NoonShopLogoEtsy.png" alt="Noon Shop logo on light" style="filter:invert(1)" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
+      <div style="display:none;font-family:var(--D);font-size:32px;letter-spacing:.2em;color:var(--ink)">NOON SHOP</div>
+      <span class="logo-label">On light backgrounds</span>
+    </div>
+    <div class="logo-cell paper">
+      <div style="display:flex;flex-direction:column;gap:8px">
+        <div style="font-family:var(--D);font-size:10px;letter-spacing:.32em;text-transform:uppercase;color:var(--mid);margin-bottom:8px">Minimum clear space</div>
+        <div style="display:inline-flex;border:1px dashed rgba(12,12,12,.2);padding:24px">
+          <img class="logo-img" src="assets/NoonShopLogoEtsy.png" alt="Logo clearspace" style="max-width:120px" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
+          <div style="display:none;font-family:var(--D);font-size:24px;letter-spacing:.2em;color:var(--ink)">NOON SHOP</div>
+        </div>
+        <div style="font-size:12px;font-weight:300;color:var(--mid);margin-top:8px">Always maintain clear space equal to the height of the "N" around the mark.</div>
+      </div>
+      <span class="logo-label">Clear space rule</span>
+    </div>
+    <div class="logo-cell dark" style="background:#1A1A1A">
+      <div style="display:flex;gap:32px;flex-wrap:wrap;align-items:center">
+        <img src="assets/NoonShopLogoEtsy.png" alt="Logo small" style="max-width:80px;object-fit:contain" onerror="this.style.display='none'">
+        <img src="assets/NoonShopLogoEtsy.png" alt="Logo medium" style="max-width:120px;object-fit:contain" onerror="this.style.display='none'">
+        <img src="assets/NoonShopLogoEtsy.png" alt="Logo large" style="max-width:180px;object-fit:contain" onerror="this.style.display='none'">
+      </div>
+      <span class="logo-label">Scale — never below 60px wide</span>
+    </div>
+  </div>
+</section>
+
+<div class="rule-l"></div>
+
+<!-- Voice -->
+<section class="ls" id="voice">
+  <div class="tag tag-dark rv">Brand Voice</div>
+  <h2 class="dh rv d1" style="color:var(--ink)">HOW WE<br>SPEAK.</h2>
+  <div class="voice-grid rv d2">
+    <div class="voice-card">
+      <div class="voice-title">DIRECT</div>
+      <p class="voice-text">We say what we mean. No filler, no fluff. Our copy earns every word.</p>
+      <p class="voice-ex">"The right frame. Properly fitted. Guaranteed."</p>
+    </div>
+    <div class="voice-card">
+      <div class="voice-title">CONFIDENT</div>
+      <p class="voice-text">We believe in what we make. The brand speaks with quiet assurance, not loudness.</p>
+      <p class="voice-ex">"Noon Shop. For people who want to see clearly."</p>
+    </div>
+    <div class="voice-card">
+      <div class="voice-title">HUMAN</div>
+      <p class="voice-text">Behind the precision is warmth. We're solving a real problem for real people.</p>
+      <p class="voice-ex">"Born from the frustration of frames that never quite fit."</p>
+    </div>
+    <div class="voice-card">
+      <div class="voice-title">REFINED</div>
+      <p class="voice-text">We draw on craft, not trends. Language that ages well. Minimalist, considered phrasing.</p>
+      <p class="voice-ex">"Optical precision, without the prescription attitude."</p>
+    </div>
+  </div>
+  <div class="do-dont rv d3" style="margin-top:2px">
+    <div class="do-card">
+      <div class="do-lbl">Do</div>
+      <ul class="do-list">
+        <li>Use Bebas Neue for all display type</li>
+        <li>Pair headlines with Playfair italic subtitles</li>
+        <li>Default to dark backgrounds (#0C0C0C)</li>
+        <li>Keep spacing generous and deliberate</li>
+        <li>Use photography that shows material and detail</li>
+        <li>Let whitespace do the talking</li>
+      </ul>
+    </div>
+    <div class="dont-card">
+      <div class="do-lbl">Don't</div>
+      <ul class="dont-list">
+        <li>Use decorative or script typefaces</li>
+        <li>Add color accents beyond the core palette</li>
+        <li>Crowd layouts with multiple competing elements</li>
+        <li>Use bold weight in Outfit for body copy</li>
+        <li>Place the logo on busy or patterned backgrounds</li>
+        <li>Use exclamation marks in brand copy</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<div class="rule-l"></div>
+
+<!-- Photography -->
+<section class="ls2" id="photography">
+  <div class="tag tag-dark rv">Photography</div>
+  <h2 class="dh rv d1" style="color:var(--ink)">IMAGE<br>DIRECTION.</h2>
+  <p class="rv d2" style="font-size:17px;font-weight:300;line-height:1.8;color:var(--ink2);max-width:640px;margin-bottom:64px">Product photography leads with material and craftsmanship. Frames on white or paper. Macro detail. No props, no lifestyle clutter — let the product carry the frame.</p>
+  <div class="photo-grid rv d3">
+    <div class="photo-cell">
+      <img src="assets/Frames on white-1.png" alt="Frames on white" onerror="this.parentElement.style.background='#DDDAD4'">
+    </div>
+    <div class="photo-cell">
+      <img src="assets/Frames on white-2.png" alt="Frames on white 2" onerror="this.parentElement.style.background='#E5E2DC'">
+    </div>
+    <div class="photo-cell">
+      <img src="assets/Frames-transparent-1.png" alt="Frames transparent" onerror="this.parentElement.style.background='#EEECE7'">
+    </div>
+  </div>
+  <div style="margin-top:2px;display:grid;grid-template-columns:repeat(3,1fr);gap:2px" class="rv d3">
+    <div style="padding:20px 24px;background:var(--paper);border-top:2px solid var(--ink)">
+      <div style="font-size:10px;font-weight:500;letter-spacing:.22em;text-transform:uppercase;color:var(--mid);margin-bottom:8px">Preferred</div>
+      <div style="font-size:13px;font-weight:300;color:var(--ink2)">Frames on pure white or paper background. Material visible. Frame fills 60–80% of frame.</div>
+    </div>
+    <div style="padding:20px 24px;background:var(--paper);border-top:2px solid var(--ink)">
+      <div style="font-size:10px;font-weight:500;letter-spacing:.22em;text-transform:uppercase;color:var(--mid);margin-bottom:8px">Acceptable</div>
+      <div style="font-size:13px;font-weight:300;color:var(--ink2)">Detail macro shots showing hinge, temple, nose pad. High contrast. Studio lit.</div>
+    </div>
+    <div style="padding:20px 24px;background:var(--paper);border-top:2px solid rgba(12,12,12,.2)">
+      <div style="font-size:10px;font-weight:500;letter-spacing:.22em;text-transform:uppercase;color:var(--mid);margin-bottom:8px">Avoid</div>
+      <div style="font-size:13px;font-weight:300;color:var(--ink2)">Lifestyle photography with people, outdoor settings, props, or anything that competes with the product.</div>
+    </div>
+  </div>
+</section>
+
+<div class="rule-l"></div>
+
+<!-- Motion -->
+<section class="dark" id="motion">
+  <div class="noise"></div>
+  <div class="tag rv">Motion &amp; Interaction</div>
+  <h2 class="dh rv d1">HOW WE<br>MOVE.</h2>
+  <div class="motion-grid rv d2">
+    <div class="motion-card">
+      <div class="motion-name">ENTER</div>
+      <p class="motion-val">Elements fade in from below (Y+24–28px). Duration: 0.7–0.8s. Ease: power3.out. Stagger 100ms between children.</p>
+      <div class="motion-demo"></div>
+    </div>
+    <div class="motion-card">
+      <div class="motion-name">HOVER</div>
+      <p class="motion-val">Cards lift translateY(-4px). Links underline scales from right. Arrows extend width. Duration: 0.3–0.45s. Ease: cubic-bezier(0.4,0,0.2,1).</p>
+      <div class="motion-demo"></div>
+    </div>
+    <div class="motion-card">
+      <div class="motion-name">EXIT</div>
+      <p class="motion-val">Fade up and out (Y-12px). Duration: 0.4–0.6s. Ease: power2.in. Used in loader and transition states.</p>
+      <div class="motion-demo"></div>
+    </div>
+  </div>
+  <div class="pull rv d3">
+    <p class="pull-text">Movement is calm and intentional. Never rapid, never decorative. Every animation earns its place.</p>
+  </div>
+</section>
+
+<!-- Footer -->
+<footer>
+  <div class="footer-logo">NOON SHOP</div>
+  <div class="footer-meta">Brand Guide · 2025 · Internal Use</div>
+</footer>
+
+<script>
+/* ── Loader ── */
+(function initLoader() {
+  const loader = document.getElementById('pageLoader');
+  if (!loader) return;
+  const brand = loader.querySelector('.loader-brand');
+  const line = document.getElementById('loaderLine');
+  const tl = gsap.timeline();
+  tl.to(brand, { opacity: 1, y: 0, duration: 0.7, ease: 'power3.out' })
+    .to(line, { width: '120px', duration: 0.8, ease: 'power2.inOut' }, '-=0.3')
+    .to(brand, { opacity: 0, y: -12, duration: 0.5, delay: 0.6, ease: 'power2.in' })
+    .to(line, { opacity: 0, width: '180px', duration: 0.4, ease: 'power2.in' }, '-=0.4')
+    .to(loader, { opacity: 0, duration: 0.6, ease: 'power2.inOut', onComplete: () => {
+      loader.remove();
+      heroIn();
+    }});
+})();
+
+/* ── Hero entrance ── */
+function heroIn() {
+  const tag = document.getElementById('hTag');
+  const h1 = document.getElementById('hH1');
+  const foot = document.getElementById('hFoot');
+  gsap.to(tag, { opacity: 1, y: 0, duration: 0.7, ease: 'power3.out', delay: 0.1 });
+  gsap.to(h1, { opacity: 1, y: 0, duration: 0.9, ease: 'power3.out', delay: 0.3 });
+  gsap.to(foot, { opacity: 1, y: 0, duration: 0.8, ease: 'power3.out', delay: 0.7 });
+}
+
+/* ── Cursor ── */
+const cur = document.getElementById('cur');
+const ring = document.getElementById('ring');
+let mx = 0, my = 0, cx = 0, cy = 0, rx = 0, ry = 0;
+document.addEventListener('mousemove', e => { mx = e.clientX; my = e.clientY; });
+(function cursorLoop() {
+  cx += (mx - cx) * 0.2; cy += (my - cy) * 0.2;
+  rx += (mx - rx) * 0.08; ry += (my - ry) * 0.08;
+  cur.style.transform = `translate(${cx - 3.5}px, ${cy - 3.5}px)`;
+  ring.style.transform = `translate(${rx - 16}px, ${ry - 16}px)`;
+  requestAnimationFrame(cursorLoop);
+})();
+
+/* ── Nav ── */
+const nav = document.getElementById('mainNav');
+window.addEventListener('scroll', () => {
+  nav.classList.toggle('scrolled', window.scrollY > 60);
+});
+
+/* ── Scroll reveal ── */
+const revealEls = document.querySelectorAll('.rv');
+const observer = new IntersectionObserver(entries => {
+  entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('in'); observer.unobserve(e.target); } });
+}, { threshold: 0.12 });
+revealEls.forEach(el => observer.observe(el));
+</script>
+</body>
+</html>
