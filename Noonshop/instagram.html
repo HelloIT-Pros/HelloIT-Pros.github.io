@@ -4,7 +4,8 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Noon Shop — Social & Digital Vision</title>
-<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;1,400;1,500&family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;1,400;1,500&family=Inter:wght@300;400;500&family=Bebas+Neue&display=swap" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/gsap@3.12.7/dist/gsap.min.js"></script>
 <style>
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
@@ -21,6 +22,33 @@
   --white: #f5f0ea;
 }
 
+/* ── PAGE LOADER ── */
+.loader {
+  position: fixed;
+  inset: 0;
+  background: #080808;
+  z-index: 10000;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 20px;
+  pointer-events: none;
+}
+.loader-brand {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: clamp(28px, 3.6vw, 44px);
+  letter-spacing: 0.32em;
+  color: #f5f0ea;
+  opacity: 0;
+  transform: translateY(8px);
+}
+.loader-line {
+  width: 0;
+  height: 1px;
+  background: rgba(200, 184, 154, 0.45);
+}
+
 html { scroll-behavior: smooth; }
 
 body {
@@ -30,6 +58,125 @@ body {
   font-weight: 300;
   line-height: 1.6;
   overflow-x: hidden;
+}
+
+/* ── COVER HERO ── */
+.cover-hero {
+  min-height: 100vh;
+  background: var(--black);
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  padding: 0 60px 88px;
+  position: relative;
+  overflow: hidden;
+}
+
+.cover-gold-line {
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 2px;
+  background: linear-gradient(90deg, transparent, var(--gold), transparent);
+  z-index: 2;
+}
+
+.cover-wm {
+  position: absolute;
+  right: -20px; top: 50%;
+  transform: translateY(-52%);
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: clamp(200px, 30vw, 480px);
+  color: rgba(200,184,154,.04);
+  line-height: 1;
+  pointer-events: none;
+  user-select: none;
+  letter-spacing: .04em;
+  z-index: 1;
+}
+
+.cover-tag {
+  font-size: 10px;
+  font-weight: 400;
+  letter-spacing: .36em;
+  text-transform: uppercase;
+  color: var(--gold);
+  margin-bottom: 28px;
+  position: relative;
+  z-index: 2;
+  opacity: 0;
+  transform: translateY(10px);
+}
+
+.cover-h1 {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: clamp(56px, 9vw, 150px);
+  line-height: .88;
+  letter-spacing: .025em;
+  color: var(--white);
+  position: relative;
+  z-index: 2;
+  opacity: 0;
+  transform: translateY(10px);
+  padding-bottom: .15em;
+}
+
+.cover-h1-sub {
+  display: block;
+  font-family: 'Playfair Display', Georgia, serif;
+  font-style: italic;
+  font-weight: 400;
+  font-size: clamp(32px, 5vw, 88px);
+  line-height: 1.18;
+  letter-spacing: -.01em;
+  color: rgba(200,184,154,.7);
+  margin-top: 4px;
+}
+
+.cover-foot {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  margin-top: 56px;
+  position: relative;
+  z-index: 2;
+  opacity: 0;
+  transform: translateY(10px);
+}
+
+.cover-sub {
+  font-size: 15px;
+  font-weight: 300;
+  line-height: 1.78;
+  color: rgba(245,240,234,.45);
+  max-width: 400px;
+}
+
+.cover-scroll {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+}
+
+.cover-sline {
+  width: 1px;
+  height: 56px;
+  background: var(--gold);
+  opacity: .4;
+  animation: pulse 2.5s 2s infinite;
+}
+
+.cover-sdesc {
+  font-size: 10px;
+  font-weight: 500;
+  letter-spacing: .2em;
+  text-transform: uppercase;
+  color: var(--gold);
+}
+
+@keyframes pulse {
+  0%, 100% { opacity: .1; transform: scaleY(.4); }
+  50% { opacity: .5; transform: scaleY(1); }
 }
 
 /* ── GRID ── */
@@ -314,12 +461,14 @@ body {
     padding: 0 0 60px;
   }
 
-  .pitch-banner {
-    margin: 0 0 3px;
-    padding: 14px 16px;
+  .cover-hero {
+    padding: 0 24px 64px;
+  }
+
+  .cover-foot {
     flex-direction: column;
-    gap: 4px;
     align-items: flex-start;
+    gap: 32px;
   }
 
   .ig-profile {
@@ -382,12 +531,29 @@ body {
 </head>
 <body>
 
-<div class="ig-wrapper">
+<div class="loader" id="pageLoader">
+  <span class="loader-brand">NOON SHOP</span>
+  <div class="loader-line" id="loaderLine"></div>
+</div>
 
-  <div class="pitch-banner">
-    <div class="pitch-text">Proposed Instagram Strategy · <span>AI-Generated Content · HelloIT</span></div>
-    <div class="pitch-text"><span>noonshopeyewear</span> · 10.4K followers · 3 posts/week</div>
+<section class="cover-hero">
+  <div class="cover-gold-line"></div>
+  <div class="cover-wm">NOON</div>
+  <div class="cover-tag" id="cvTag">Instagram Strategy · 2025</div>
+  <h1 class="cover-h1" id="cvH1">
+    THE GRID
+    <span class="cover-h1-sub">how we show up.</span>
+  </h1>
+  <div class="cover-foot" id="cvFoot">
+    <p class="cover-sub">A proposed Instagram content strategy for Noon Shop Eyewear — designed to grow brand presence, showcase product, and build a community around eyewear that actually fits.</p>
+    <div class="cover-scroll">
+      <div class="cover-sline"></div>
+      <span class="cover-sdesc">Scroll to explore</span>
+    </div>
   </div>
+</section>
+
+<div class="ig-wrapper">
 
   <div class="ig-profile">
     <div class="ig-avatar" style="background: #c8b89a; padding: 6px;"><img src="data:image/avif;base64,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" alt="Noon Shop" style="width: 100%; height: 100%; object-fit: contain;"></div>
@@ -615,6 +781,27 @@ body {
   </div>
 </div>
 
+
+<script>
+(function initLoader() {
+  const loader = document.getElementById('pageLoader');
+  if (!loader) return;
+  const brand = loader.querySelector('.loader-brand');
+  const line = document.getElementById('loaderLine');
+  const tl = gsap.timeline();
+  tl.to(brand, { opacity: 1, y: 0, duration: 0.7, ease: 'power3.out' })
+    .to(line, { width: '120px', duration: 0.8, ease: 'power2.inOut' }, '-=0.3')
+    .to(brand, { opacity: 0, y: -12, duration: 0.5, delay: 0.6, ease: 'power2.in' })
+    .to(line, { opacity: 0, width: '180px', duration: 0.4, ease: 'power2.in' }, '-=0.4')
+    .to(loader, { opacity: 0, duration: 0.6, ease: 'power2.inOut', onComplete: () => {
+      loader.remove();
+      // Animate cover hero after loader clears
+      gsap.to('#cvTag',  { opacity: 1, y: 0, duration: 0.7, ease: 'power3.out', delay: 0.1 });
+      gsap.to('#cvH1',   { opacity: 1, y: 0, duration: 0.9, ease: 'power3.out', delay: 0.3 });
+      gsap.to('#cvFoot', { opacity: 1, y: 0, duration: 0.8, ease: 'power3.out', delay: 0.7 });
+    }});
+})();
+</script>
 
 </body>
 </html>
