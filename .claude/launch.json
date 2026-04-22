@@ -1,0 +1,31 @@
+{
+  "version": "0.0.1",
+  "configurations": [
+    {
+      "name": "Root Site",
+      "runtimeExecutable": "python3",
+      "runtimeArgs": ["-m", "http.server", "--directory", "."],
+      "port": 3000,
+      "autoPort": true
+    },
+    {
+      "name": "Noonshop CRM",
+      "runtimeExecutable": "sh",
+      "runtimeArgs": ["-c", "python3 -m http.server $PORT --directory Noonshop"],
+      "port": 3001,
+      "autoPort": true
+    },
+    {
+      "name": "Gateway",
+      "runtimeExecutable": "python3",
+      "runtimeArgs": ["-m", "http.server", "3002", "--directory", "Gateway"],
+      "port": 3002
+    },
+    {
+      "name": "Homespire",
+      "runtimeExecutable": "python3",
+      "runtimeArgs": ["-m", "http.server", "3003", "--directory", "homespire"],
+      "port": 3003
+    }
+  ]
+}
