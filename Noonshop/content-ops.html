@@ -1,0 +1,1325 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Noon Shop — Content Ops</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;1,400;1,500&family=Inter:wght@300;400;500&family=Bebas+Neue&display=swap" rel="stylesheet">
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+  --gold: #c8b89a;
+  --gold-dark: #a89070;
+  --black: #080808;
+  --near-black: #0d0d0d;
+  --dark: #111111;
+  --mid: #1a1a1a;
+  --border: #222222;
+  --muted: #555555;
+  --text: #e8e0d4;
+  --white: #f5f0ea;
+}
+
+html { scroll-behavior: smooth; }
+
+body {
+  background: var(--black);
+  color: var(--text);
+  font-family: 'Inter', sans-serif;
+  font-weight: 300;
+  line-height: 1.6;
+  overflow-x: hidden;
+}
+
+a { color: inherit; text-decoration: none; }
+
+/* ── COVER ── */
+.cover {
+  min-height: 82vh;
+  padding: 0 60px 88px;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  position: relative;
+  overflow: hidden;
+}
+
+.cover-line {
+  position: absolute; top: 0; left: 0; right: 0;
+  height: 2px;
+  background: linear-gradient(90deg, transparent, var(--gold), transparent);
+}
+
+.cover-wm {
+  position: absolute;
+  right: -20px; top: 50%;
+  transform: translateY(-52%);
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: clamp(180px, 26vw, 420px);
+  color: rgba(200,184,154,.04);
+  line-height: 1;
+  pointer-events: none;
+  letter-spacing: .04em;
+}
+
+.cover-tag {
+  font-size: 10px;
+  letter-spacing: .36em;
+  text-transform: uppercase;
+  color: var(--gold);
+  margin-bottom: 28px;
+}
+
+.cover-h1 {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: clamp(56px, 9vw, 140px);
+  line-height: .88;
+  letter-spacing: .025em;
+  color: var(--white);
+}
+
+.cover-h1-sub {
+  display: block;
+  font-family: 'Playfair Display', Georgia, serif;
+  font-style: italic;
+  font-size: clamp(28px, 4.5vw, 72px);
+  color: rgba(200,184,154,.7);
+  margin-top: 6px;
+}
+
+.cover-sub {
+  font-size: 15px;
+  line-height: 1.78;
+  color: rgba(245,240,234,.45);
+  max-width: 540px;
+  margin-top: 48px;
+}
+
+.cover-meta {
+  display: flex; gap: 32px; margin-top: 32px;
+  font-size: 10px;
+  letter-spacing: .22em;
+  text-transform: uppercase;
+  color: rgba(200,184,154,.5);
+}
+.cover-meta span b { color: var(--gold); font-weight: 500; margin-right: 8px; }
+
+/* ── SECTION ── */
+section { padding: 96px 60px; border-top: 0.5px solid var(--border); }
+
+.sec-eyebrow {
+  font-size: 10px;
+  letter-spacing: .32em;
+  text-transform: uppercase;
+  color: var(--gold);
+  margin-bottom: 16px;
+}
+
+.sec-h2 {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: clamp(36px, 5vw, 72px);
+  letter-spacing: .02em;
+  color: var(--white);
+  line-height: 1;
+  margin-bottom: 20px;
+}
+
+.sec-lede {
+  font-family: 'Playfair Display', serif;
+  font-style: italic;
+  font-size: 20px;
+  color: rgba(245,240,234,.62);
+  max-width: 720px;
+  margin-bottom: 56px;
+}
+
+/* ── PILLARS GRID ── */
+.pillars {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 1px;
+  background: var(--border);
+  border: 0.5px solid var(--border);
+}
+.pillar {
+  background: var(--near-black);
+  padding: 40px 32px;
+  min-height: 220px;
+  display: flex; flex-direction: column; justify-content: space-between;
+}
+.pillar-num {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 14px;
+  letter-spacing: .22em;
+  color: var(--gold);
+}
+.pillar-name {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 32px;
+  letter-spacing: .04em;
+  color: var(--white);
+  margin: 12px 0 16px;
+}
+.pillar-line {
+  font-family: 'Playfair Display', serif;
+  font-style: italic;
+  font-size: 15px;
+  color: rgba(245,240,234,.55);
+  line-height: 1.5;
+}
+
+/* ── CADENCE TABLE ── */
+.cadence {
+  display: grid;
+  grid-template-columns: 120px 1fr 1fr 1fr;
+  gap: 0;
+  border: 0.5px solid var(--border);
+}
+.cadence > div {
+  padding: 22px 24px;
+  border-right: 0.5px solid var(--border);
+  border-bottom: 0.5px solid var(--border);
+  font-size: 13px;
+}
+.cadence > div:nth-child(4n) { border-right: none; }
+.cadence-head {
+  background: var(--near-black);
+  font-size: 10px !important;
+  letter-spacing: .24em;
+  text-transform: uppercase;
+  color: var(--gold);
+}
+.cadence-day {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 18px !important;
+  letter-spacing: .14em;
+  color: var(--white);
+}
+.cadence-pillar { color: var(--gold); }
+.cadence-note { color: rgba(245,240,234,.45); }
+
+/* ── PROMPT CARDS ── */
+.prompts {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(340px, 1fr));
+  gap: 24px;
+}
+.prompt {
+  border: 0.5px solid var(--border);
+  background: var(--near-black);
+  padding: 32px;
+}
+.prompt-head {
+  display: flex; justify-content: space-between; align-items: baseline;
+  margin-bottom: 20px;
+  padding-bottom: 16px;
+  border-bottom: 0.5px solid var(--border);
+}
+.prompt-title {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 22px;
+  letter-spacing: .06em;
+  color: var(--white);
+}
+.prompt-tag {
+  font-size: 9px;
+  letter-spacing: .22em;
+  text-transform: uppercase;
+  color: var(--gold);
+}
+.prompt-body {
+  font-family: 'JetBrains Mono', ui-monospace, monospace;
+  font-size: 12px;
+  line-height: 1.75;
+  color: rgba(245,240,234,.72);
+  background: var(--black);
+  padding: 20px;
+  border-left: 2px solid var(--gold);
+  white-space: pre-wrap;
+}
+.prompt-note {
+  margin-top: 16px;
+  font-size: 12px;
+  color: rgba(245,240,234,.4);
+  line-height: 1.6;
+}
+
+/* ── WORKFLOW STEPS ── */
+.steps {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 1px;
+  background: var(--border);
+  border: 0.5px solid var(--border);
+}
+.step {
+  background: var(--near-black);
+  padding: 40px 28px;
+  min-height: 280px;
+  position: relative;
+}
+.step-num {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 56px;
+  color: rgba(200,184,154,.25);
+  line-height: 1;
+  margin-bottom: 20px;
+}
+.step-title {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 20px;
+  letter-spacing: .04em;
+  color: var(--white);
+  margin-bottom: 12px;
+}
+.step-time {
+  font-size: 10px;
+  letter-spacing: .22em;
+  text-transform: uppercase;
+  color: var(--gold);
+  margin-bottom: 18px;
+}
+.step-desc {
+  font-size: 13px;
+  color: rgba(245,240,234,.55);
+  line-height: 1.6;
+}
+
+/* ── INFLUENCER CARDS ── */
+.influencers {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1px;
+  background: var(--border);
+  border: 0.5px solid var(--border);
+}
+.influencer {
+  background: var(--near-black);
+  display: flex;
+  flex-direction: column;
+}
+.influencer-photo {
+  width: 100%;
+  aspect-ratio: 3/4;
+  object-fit: cover;
+  object-position: center top;
+  display: block;
+  filter: grayscale(18%) contrast(1.04);
+}
+.influencer-body {
+  padding: 28px;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}
+.influencer-name {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 42px;
+  letter-spacing: .06em;
+  color: var(--white);
+  line-height: 1;
+}
+.influencer-subtitle {
+  font-family: 'Playfair Display', serif;
+  font-style: italic;
+  font-size: 14px;
+  color: rgba(200,184,154,.7);
+  margin-top: 4px;
+}
+.influencer-table {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: 6px 14px;
+  font-size: 12px;
+}
+.influencer-table dt {
+  font-size: 9px;
+  letter-spacing: .22em;
+  text-transform: uppercase;
+  color: var(--gold);
+  padding-top: 2px;
+}
+.influencer-table dd {
+  color: rgba(245,240,234,.65);
+}
+.influencer-collections {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+.coll-tag {
+  font-size: 10px;
+  letter-spacing: .18em;
+  text-transform: uppercase;
+  padding: 5px 12px;
+  border: 0.5px solid var(--gold);
+  color: var(--gold);
+}
+
+/* ── INFLUENCER PROMPTS ── */
+.inf-prompts {
+  display: flex;
+  flex-direction: column;
+  gap: 48px;
+}
+.inf-prompt-block {
+  border: 0.5px solid var(--border);
+  background: var(--near-black);
+}
+.inf-prompt-header {
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  align-items: center;
+  gap: 24px;
+  padding: 24px 32px;
+  border-bottom: 0.5px solid var(--border);
+}
+.inf-prompt-who {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 28px;
+  letter-spacing: .06em;
+  color: var(--white);
+}
+.inf-prompt-who span {
+  font-family: 'Playfair Display', serif;
+  font-style: italic;
+  font-size: 14px;
+  color: rgba(200,184,154,.6);
+  font-weight: 400;
+  letter-spacing: 0;
+  margin-left: 10px;
+}
+.inf-prompt-coll {
+  display: flex;
+  gap: 8px;
+}
+.inf-prompt-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 1px;
+  background: var(--border);
+}
+.inf-prompt-item {
+  background: var(--near-black);
+  padding: 28px 32px;
+}
+.inf-prompt-format {
+  font-size: 9px;
+  letter-spacing: .24em;
+  text-transform: uppercase;
+  color: var(--gold);
+  margin-bottom: 12px;
+}
+.inf-prompt-text {
+  font-family: 'JetBrains Mono', ui-monospace, monospace;
+  font-size: 12px;
+  line-height: 1.8;
+  color: rgba(245,240,234,.72);
+  background: var(--black);
+  padding: 18px;
+  border-left: 2px solid var(--gold);
+  white-space: pre-wrap;
+}
+.inf-prompt-note {
+  margin-top: 14px;
+  font-size: 12px;
+  color: rgba(245,240,234,.38);
+  line-height: 1.6;
+}
+
+/* ── ASSET LIBRARY ── */
+.library {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 24px;
+}
+.lib-card {
+  border: 0.5px solid var(--border);
+  padding: 28px;
+  background: var(--near-black);
+}
+.lib-card h4 {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 18px;
+  letter-spacing: .06em;
+  color: var(--gold);
+  margin-bottom: 14px;
+}
+.lib-card ul { list-style: none; }
+.lib-card li {
+  font-size: 13px;
+  color: rgba(245,240,234,.6);
+  padding: 6px 0;
+  border-bottom: 0.5px dashed rgba(200,184,154,.15);
+}
+.lib-card li:last-child { border-bottom: none; }
+.lib-card li b { color: var(--white); font-weight: 500; margin-right: 8px; }
+
+/* ── CHECKLIST ── */
+.checklist {
+  max-width: 760px;
+  border: 0.5px solid var(--border);
+  padding: 40px;
+  background: var(--near-black);
+}
+.check-item {
+  display: flex;
+  gap: 18px;
+  padding: 16px 0;
+  border-bottom: 0.5px dashed rgba(200,184,154,.15);
+}
+.check-item:last-child { border-bottom: none; }
+.check-box {
+  width: 16px; height: 16px;
+  border: 1px solid var(--gold);
+  flex-shrink: 0;
+  margin-top: 3px;
+}
+.check-text {
+  font-size: 14px;
+  color: var(--text);
+}
+.check-text b { color: var(--white); font-weight: 500; }
+.check-text span { color: rgba(245,240,234,.45); font-size: 12px; display: block; margin-top: 4px; }
+
+/* ── FOOTER ── */
+footer {
+  padding: 48px 60px;
+  border-top: 0.5px solid var(--border);
+  display: flex; justify-content: space-between; align-items: center;
+  font-size: 10px;
+  letter-spacing: .22em;
+  text-transform: uppercase;
+  color: rgba(200,184,154,.4);
+}
+footer a { color: var(--gold); }
+
+@media (max-width: 880px) {
+  .cover, section, footer { padding-left: 24px; padding-right: 24px; }
+  .steps { grid-template-columns: 1fr 1fr; }
+  .cadence { grid-template-columns: 100px 1fr; }
+  .cadence > div:nth-child(4n) { border-right: 0.5px solid var(--border); }
+}
+</style>
+</head>
+<body>
+
+<!-- ── COVER ── -->
+<section class="cover">
+  <div class="cover-line"></div>
+  <div class="cover-wm">OPS</div>
+  <div class="cover-tag">Noon Shop · Content Operations</div>
+  <h1 class="cover-h1">
+    THE CONTENT<br>
+    ENGINE
+    <span class="cover-h1-sub">Sustainable social, built on GenAI.</span>
+  </h1>
+  <p class="cover-sub">
+    A single source of truth for how we plan, generate, and ship social content —
+    pairing the brand guide with a repeatable GenAI pipeline. Focus: static imagery
+    across Instagram, Pinterest, and Facebook. Video and audio are explicitly out of scope
+    for this phase.
+  </p>
+  <div class="cover-meta">
+    <span><b>Scope</b> Static only</span>
+    <span><b>Owners</b> Brand + Ops</span>
+    <span><b>Cadence</b> Weekly sprint</span>
+    <span><b>Version</b> v0.1 · Draft</span>
+  </div>
+</section>
+
+<!-- ── CONTENT PILLARS ── -->
+<section id="pillars">
+  <div class="sec-eyebrow">01 · Pillars</div>
+  <h2 class="sec-h2">Five themes. Nothing else.</h2>
+  <p class="sec-lede">Every post maps to one pillar. If it doesn't fit, it doesn't ship.</p>
+  <div class="pillars">
+    <div class="pillar">
+      <div><div class="pillar-num">01</div><div class="pillar-name">Comfort</div></div>
+      <div class="pillar-line">"The frame that stays where it belongs. All day. Every day."</div>
+    </div>
+    <div class="pillar">
+      <div><div class="pillar-num">02</div><div class="pillar-name">Fit</div></div>
+      <div class="pillar-line">"You were never hard to fit."</div>
+    </div>
+    <div class="pillar">
+      <div><div class="pillar-num">03</div><div class="pillar-name">Style</div></div>
+      <div class="pillar-line">"Fit is the feature."</div>
+    </div>
+    <div class="pillar">
+      <div><div class="pillar-num">04</div><div class="pillar-name">Engineered</div></div>
+      <div class="pillar-line">"Eyewear engineered for the way your face is actually shaped."</div>
+    </div>
+    <div class="pillar">
+      <div><div class="pillar-num">05</div><div class="pillar-name">Precision</div></div>
+      <div class="pillar-line">"Your face was never the problem."</div>
+    </div>
+  </div>
+</section>
+
+<!-- ── FIT NARRATIVE ── -->
+<section id="fit-narrative">
+  <div class="sec-eyebrow">02 · The Fit Narrative</div>
+  <h2 class="sec-h2">Why this brand exists.</h2>
+  <p class="sec-lede">Every post answers an unspoken question: will this fit my face? The content only works if this narrative is felt — not explained.</p>
+
+  <div style="display:grid;grid-template-columns:1fr 1fr;gap:1px;background:var(--border);border:0.5px solid var(--border);margin-bottom:24px;">
+    <div style="background:var(--near-black);padding:48px 40px;">
+      <div style="font-size:10px;letter-spacing:.28em;text-transform:uppercase;color:var(--gold);margin-bottom:20px;">The problem</div>
+      <p style="font-family:'Playfair Display',serif;font-style:italic;font-size:22px;line-height:1.5;color:var(--white);margin-bottom:20px;">"Born from the frustration of frames that never quite fit."</p>
+      <p style="font-size:14px;color:rgba(245,240,234,.5);line-height:1.75;">Standard eyewear is engineered around European facial geometry — higher nose bridges, narrower cheekbones. For faces with lower nose bridges or wider mid-face proportions, frames slip, gap, and press. The fit was never the person's fault.</p>
+    </div>
+    <div style="background:var(--near-black);padding:48px 40px;border-left:0.5px solid var(--border);">
+      <div style="font-size:10px;letter-spacing:.28em;text-transform:uppercase;color:var(--gold);margin-bottom:20px;">The answer</div>
+      <p style="font-family:'Playfair Display',serif;font-style:italic;font-size:22px;line-height:1.5;color:var(--white);margin-bottom:20px;">"You were never hard to fit. You were wearing the wrong brand."</p>
+      <p style="font-size:14px;color:rgba(245,240,234,.5);line-height:1.75;">Dormann, Steel Brown, and DeNova are engineered for lower nose bridges, higher cheekbones, and a wider mid-face — without sacrificing aesthetics. Beta-titanium temples, W-end pieces, and precise bridge geometry ensure the frame holds exactly where it belongs.</p>
+    </div>
+  </div>
+
+  <div style="background:var(--near-black);border:0.5px solid var(--border);padding:32px 40px;">
+    <div style="font-size:10px;letter-spacing:.28em;text-transform:uppercase;color:var(--gold);margin-bottom:20px;">How this reads in content</div>
+    <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:32px;">
+      <div>
+        <div style="font-family:'Bebas Neue',sans-serif;font-size:16px;letter-spacing:.08em;color:var(--white);margin-bottom:10px;">Influencers</div>
+        <p style="font-size:13px;color:rgba(245,240,234,.5);line-height:1.7;">Kai, Yuna, and Mei wear the frames correctly — nose pads flush, temples tucked, no slide. The fit is the visual proof. Never show a frame sliding down or sitting off-centre.</p>
+      </div>
+      <div>
+        <div style="font-family:'Bebas Neue',sans-serif;font-size:16px;letter-spacing:.08em;color:var(--white);margin-bottom:10px;">Captions</div>
+        <p style="font-size:13px;color:rgba(245,240,234,.5);line-height:1.7;">Captions reference fit implicitly — material, engineering, sizing — not style alone. "14 grams" says more than "beautiful." "54-19-150" is a fit statement. Let the spec carry the weight.</p>
+      </div>
+      <div>
+        <div style="font-family:'Bebas Neue',sans-serif;font-size:16px;letter-spacing:.08em;color:var(--white);margin-bottom:10px;">Product shots</div>
+        <p style="font-size:13px;color:rgba(245,240,234,.5);line-height:1.7;">Macro hinge details, nose pad close-ups, temple flexibility — these are fit proof points. Schedule at least one macro per two weeks that shows the engineering, not just the aesthetic.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── CONTENT RULES ── -->
+<section id="rules">
+  <div class="sec-eyebrow">03 · Content Rules</div>
+  <h2 class="sec-h2">Do. Don't. No exceptions.</h2>
+  <p class="sec-lede">Pulled directly from the brand guide, adapted for social. These are not suggestions.</p>
+  <div style="display:grid;grid-template-columns:1fr 1fr;gap:1px;background:var(--border);border:0.5px solid var(--border);">
+    <div style="background:var(--near-black);padding:40px 36px;">
+      <div style="font-size:10px;letter-spacing:.28em;text-transform:uppercase;color:var(--gold);margin-bottom:24px;">Do</div>
+      <ul style="list-style:none;display:flex;flex-direction:column;gap:0;">
+        <li style="font-size:14px;color:rgba(245,240,234,.7);padding:14px 0;border-bottom:0.5px dashed rgba(200,184,154,.15);display:flex;gap:14px;line-height:1.5;"><span style="color:var(--gold);flex-shrink:0;">→</span>Bebas Neue for all display type on graphics — headlines, collection names, labels</li>
+        <li style="font-size:14px;color:rgba(245,240,234,.7);padding:14px 0;border-bottom:0.5px dashed rgba(200,184,154,.15);display:flex;gap:14px;line-height:1.5;"><span style="color:var(--gold);flex-shrink:0;">→</span>Pair every Bebas headline with a Playfair Display italic subtitle on quote cards</li>
+        <li style="font-size:14px;color:rgba(245,240,234,.7);padding:14px 0;border-bottom:0.5px dashed rgba(200,184,154,.15);display:flex;gap:14px;line-height:1.5;"><span style="color:var(--gold);flex-shrink:0;">→</span>Default to dark backgrounds (#0C0C0C) — light (cream) is the exception, not the base</li>
+        <li style="font-size:14px;color:rgba(245,240,234,.7);padding:14px 0;border-bottom:0.5px dashed rgba(200,184,154,.15);display:flex;gap:14px;line-height:1.5;"><span style="color:var(--gold);flex-shrink:0;">→</span>Gold as a deliberate accent only — rules, tags, CTAs, one typographic highlight</li>
+        <li style="font-size:14px;color:rgba(245,240,234,.7);padding:14px 0;border-bottom:0.5px dashed rgba(200,184,154,.15);display:flex;gap:14px;line-height:1.5;"><span style="color:var(--gold);flex-shrink:0;">→</span>Product photography that shows material and metal — close-up beats lifestyle for trust</li>
+        <li style="font-size:14px;color:rgba(245,240,234,.7);padding:14px 0;border-bottom:0.5px dashed rgba(200,184,154,.15);display:flex;gap:14px;line-height:1.5;"><span style="color:var(--gold);flex-shrink:0;">→</span>Captions: one declarative line, one supporting line — then stop</li>
+        <li style="font-size:14px;color:rgba(245,240,234,.7);padding:14px 0;display:flex;gap:14px;line-height:1.5;"><span style="color:var(--gold);flex-shrink:0;">→</span>Write alt text for every image — describe objectively, do not use it as extra caption</li>
+      </ul>
+    </div>
+    <div style="background:var(--near-black);padding:40px 36px;border-left:0.5px solid var(--border);">
+      <div style="font-size:10px;letter-spacing:.28em;text-transform:uppercase;color:rgba(245,240,234,.3);margin-bottom:24px;">Don't</div>
+      <ul style="list-style:none;display:flex;flex-direction:column;gap:0;">
+        <li style="font-size:14px;color:rgba(245,240,234,.45);padding:14px 0;border-bottom:0.5px dashed rgba(200,184,154,.1);display:flex;gap:14px;line-height:1.5;"><span style="color:rgba(245,240,234,.2);flex-shrink:0;">×</span>Exclamation marks — anywhere, ever. Not in captions, not in Stories text, not in alt text</li>
+        <li style="font-size:14px;color:rgba(245,240,234,.45);padding:14px 0;border-bottom:0.5px dashed rgba(200,184,154,.1);display:flex;gap:14px;line-height:1.5;"><span style="color:rgba(245,240,234,.2);flex-shrink:0;">×</span>Colors outside the palette — no blues, reds, greens, or warm skin tones on graphics</li>
+        <li style="font-size:14px;color:rgba(245,240,234,.45);padding:14px 0;border-bottom:0.5px dashed rgba(200,184,154,.1);display:flex;gap:14px;line-height:1.5;"><span style="color:rgba(245,240,234,.2);flex-shrink:0;">×</span>Overuse gold — it loses value when it's everywhere. One gold element per graphic</li>
+        <li style="font-size:14px;color:rgba(245,240,234,.45);padding:14px 0;border-bottom:0.5px dashed rgba(200,184,154,.1);display:flex;gap:14px;line-height:1.5;"><span style="color:rgba(245,240,234,.2);flex-shrink:0;">×</span>Script, decorative, or serif typefaces on graphics — only Bebas, Playfair italic, or Outfit</li>
+        <li style="font-size:14px;color:rgba(245,240,234,.45);padding:14px 0;border-bottom:0.5px dashed rgba(200,184,154,.1);display:flex;gap:14px;line-height:1.5;"><span style="color:rgba(245,240,234,.2);flex-shrink:0;">×</span>Hashtag walls — 3 branded hashtags maximum, or none. Never topic-tag for reach</li>
+        <li style="font-size:14px;color:rgba(245,240,234,.45);padding:14px 0;border-bottom:0.5px dashed rgba(200,184,154,.1);display:flex;gap:14px;line-height:1.5;"><span style="color:rgba(245,240,234,.2);flex-shrink:0;">×</span>Props or lifestyle clutter in product shots — one frame, one surface, nothing else</li>
+        <li style="font-size:14px;color:rgba(245,240,234,.45);padding:14px 0;display:flex;gap:14px;line-height:1.5;"><span style="color:rgba(245,240,234,.2);flex-shrink:0;">×</span>Emoji — not in captions, not in Stories, not in bio. The brand does not perform warmth</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- ── DIGITAL INFLUENCERS ── -->
+<section id="influencers">
+  <div class="sec-eyebrow">04 · Digital Influencers</div>
+  <h2 class="sec-h2">Three faces. One brand.</h2>
+  <p class="sec-lede">Every image features one of these three. Always generate from the reference image. Never mix or improvise a new face.</p>
+  <div class="influencers">
+
+    <!-- KAI -->
+    <div class="influencer">
+      <img class="influencer-photo"
+           src="assets/The_same_Asian_man_from_the_reference_images_late-1776549774516.png"
+           alt="Kai — digital influencer">
+      <div class="influencer-body">
+        <div>
+          <div class="influencer-name">KAI</div>
+          <div class="influencer-subtitle">The Architect. Late 30s.</div>
+        </div>
+        <dl class="influencer-table">
+          <dt>Wardrobe</dt><dd>Camel overcoat, black turtleneck, leather holdall</dd>
+          <dt>Cities</dt><dd>Paris boulevard, NYC sidewalk, private study</dd>
+          <dt>Gaze</dt><dd>Forward, composed — quiet authority</dd>
+          <dt>Frames</dt><dd>Thin metal rectangular, occasionally round</dd>
+          <dt>Signature</dt><dd>Walks. Never poses. Always in motion or stillness between.</dd>
+        </dl>
+        <div class="influencer-collections">
+          <span class="coll-tag">DeNova</span>
+          <span class="coll-tag">Dormann</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- YUNA -->
+    <div class="influencer">
+      <img class="influencer-photo"
+           src="assets/Asian_woman_in_her_early_30s_with_long_straight_bl-1776518075803.png"
+           alt="Yuna — digital influencer">
+      <div class="influencer-body">
+        <div>
+          <div class="influencer-name">YUNA</div>
+          <div class="influencer-subtitle">The Editor. Early 30s.</div>
+        </div>
+        <dl class="influencer-table">
+          <dt>Wardrobe</dt><dd>Burgundy silk, layered gold necklaces, gold bangles</dd>
+          <dt>Cities</dt><dd>Private library, Paris boulevard, London interior</dd>
+          <dt>Gaze</dt><dd>Inward — reading, thinking, noticing</dd>
+          <dt>Frames</dt><dd>Thin gold cat-eye or slim rectangular metal</dd>
+          <dt>Signature</dt><dd>Hand touching the frame. Always deliberate. Never accidental.</dd>
+        </dl>
+        <div class="influencer-collections">
+          <span class="coll-tag">Steel Brown</span>
+          <span class="coll-tag">DeNova</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- MEI -->
+    <div class="influencer">
+      <img class="influencer-photo"
+           src="assets/Asian_woman_early_40s_with_short_wavy_auburn_bob_h-1776549696564.png"
+           alt="Mei — digital influencer">
+      <div class="influencer-body">
+        <div>
+          <div class="influencer-name">MEI</div>
+          <div class="influencer-subtitle">The Director. Early 40s.</div>
+        </div>
+        <dl class="influencer-table">
+          <dt>Wardrobe</dt><dd>Camel coat, cream turtleneck, minimal gold jewellery</dd>
+          <dt>Cities</dt><dd>NYC steps, London mews, museum exteriors</dd>
+          <dt>Gaze</dt><dd>Off-camera, slightly elevated — assured, unhurried</dd>
+          <dt>Frames</dt><dd>Thin oval or round wireframes — barely-there</dd>
+          <dt>Signature</dt><dd>Seated in open space. Architecture behind her, never around her.</dd>
+        </dl>
+        <div class="influencer-collections">
+          <span class="coll-tag">Dormann</span>
+          <span class="coll-tag">Steel Brown</span>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- ── THE FRAMES ── -->
+<section id="frames">
+  <div class="sec-eyebrow">05 · The Frames</div>
+  <h2 class="sec-h2">Three collections. Exact language.</h2>
+  <p class="sec-lede">These are the actual products. Every prompt must describe the frame precisely — shape, material, finish, lens. Vague frame descriptions produce wrong frames.</p>
+
+  <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(--border);border:0.5px solid var(--border);">
+
+    <!-- DORMANN -->
+    <div style="background:var(--near-black);display:flex;flex-direction:column;">
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:1px;background:var(--border);">
+        <img src="assets/gold-round-2.png" style="width:100%;aspect-ratio:1;object-fit:cover;display:block;">
+        <img src="assets/classic-round.png" style="width:100%;aspect-ratio:1;object-fit:cover;display:block;background:var(--mid);">
+      </div>
+      <div style="padding:28px 28px 32px;">
+        <div style="font-family:'Bebas Neue',sans-serif;font-size:32px;letter-spacing:.06em;color:var(--white);margin-bottom:4px;">Dormann</div>
+        <div style="font-family:'Playfair Display',serif;font-style:italic;font-size:13px;color:rgba(200,184,154,.65);margin-bottom:20px;">The library collection. · South Korea · $260–$320</div>
+        <dl style="display:grid;grid-template-columns:auto 1fr;gap:5px 14px;font-size:12px;margin-bottom:20px;">
+          <dt style="font-size:9px;letter-spacing:.22em;text-transform:uppercase;color:var(--gold);padding-top:2px;">Shape</dt>
+          <dd style="color:rgba(245,240,234,.65);">Round — balanced, slightly oval tension</dd>
+          <dt style="font-size:9px;letter-spacing:.22em;text-transform:uppercase;color:var(--gold);padding-top:2px;">Material</dt>
+          <dd style="color:rgba(245,240,234,.65);">TR90 frame body · beta-titanium temples · nickel hinges</dd>
+          <dt style="font-size:9px;letter-spacing:.22em;text-transform:uppercase;color:var(--gold);padding-top:2px;">Finish</dt>
+          <dd style="color:rgba(245,240,234,.65);">Warm gold metal rim · dark tortoise or matte black</dd>
+          <dt style="font-size:9px;letter-spacing:.22em;text-transform:uppercase;color:var(--gold);padding-top:2px;">Lens</dt>
+          <dd style="color:rgba(245,240,234,.65);">Brown gradient (sun) · clear prescription-ready (optical)</dd>
+          <dt style="font-size:9px;letter-spacing:.22em;text-transform:uppercase;color:var(--gold);padding-top:2px;">Size</dt>
+          <dd style="color:rgba(245,240,234,.65);">54-19-150 · engineered for Asian facial features</dd>
+          <dt style="font-size:9px;letter-spacing:.22em;text-transform:uppercase;color:var(--gold);padding-top:2px;">Edits</dt>
+          <dd style="color:rgba(245,240,234,.65);">Library, evening interior, NYC, London · FW 2025</dd>
+          <dt style="font-size:9px;letter-spacing:.22em;text-transform:uppercase;color:var(--gold);padding-top:2px;">Wears</dt>
+          <dd style="color:rgba(245,240,234,.65);">Kai (evening study), Yuna (close portrait), Mei (steps)</dd>
+        </dl>
+        <div style="font-size:10px;letter-spacing:.18em;text-transform:uppercase;color:var(--gold);margin-bottom:8px;">Prompt token</div>
+        <div style="font-family:'JetBrains Mono',ui-monospace,monospace;font-size:11px;line-height:1.7;color:rgba(245,240,234,.7);background:var(--black);padding:14px 16px;border-left:2px solid var(--gold);">Dormann round sunglasses — warm gold metal round frame, dark tortoise outer rim, brown gradient round lenses. Beta-titanium temples, slim profile. Frame sits perfectly centred — not sliding, nose pads visible.</div>
+      </div>
+    </div>
+
+    <!-- STEEL BROWN -->
+    <div style="background:var(--near-black);display:flex;flex-direction:column;">
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:1px;background:var(--border);">
+        <img src="assets/cat-eye.png" style="width:100%;aspect-ratio:1;object-fit:cover;display:block;">
+        <img src="assets/macro-detail.png" style="width:100%;aspect-ratio:1;object-fit:cover;display:block;">
+      </div>
+      <div style="padding:28px 28px 32px;">
+        <div style="font-family:'Bebas Neue',sans-serif;font-size:32px;letter-spacing:.06em;color:var(--white);margin-bottom:4px;">Steel Brown</div>
+        <div style="font-family:'Playfair Display',serif;font-style:italic;font-size:13px;color:rgba(200,184,154,.65);margin-bottom:20px;">Made in Germany · ZEISS lenses · $425–$500</div>
+        <dl style="display:grid;grid-template-columns:auto 1fr;gap:5px 14px;font-size:12px;margin-bottom:20px;">
+          <dt style="font-size:9px;letter-spacing:.22em;text-transform:uppercase;color:var(--gold);padding-top:2px;">Shape</dt>
+          <dd style="color:rgba(245,240,234,.65);">Panto with polygonal top — soft geometric lift</dd>
+          <dt style="font-size:9px;letter-spacing:.22em;text-transform:uppercase;color:var(--gold);padding-top:2px;">Material</dt>
+          <dd style="color:rgba(245,240,234,.65);">Medical-grade German stainless steel · wafer-thin</dd>
+          <dt style="font-size:9px;letter-spacing:.22em;text-transform:uppercase;color:var(--gold);padding-top:2px;">Lens</dt>
+          <dd style="color:rgba(245,240,234,.65);">ZEISS with anti-reflective coating · BR / GY / MB / MM</dd>
+          <dt style="font-size:9px;letter-spacing:.22em;text-transform:uppercase;color:var(--gold);padding-top:2px;">Weight</dt>
+          <dd style="color:rgba(245,240,234,.65);">14 grams · W-end piece for optimised fit</dd>
+          <dt style="font-size:9px;letter-spacing:.22em;text-transform:uppercase;color:var(--gold);padding-top:2px;">Size</dt>
+          <dd style="color:rgba(245,240,234,.65);">55-19-145</dd>
+          <dt style="font-size:9px;letter-spacing:.22em;text-transform:uppercase;color:var(--gold);padding-top:2px;">Edits</dt>
+          <dd style="color:rgba(245,240,234,.65);">Boulevard, morning ritual, weekend outdoor · warm light</dd>
+          <dt style="font-size:9px;letter-spacing:.22em;text-transform:uppercase;color:var(--gold);padding-top:2px;">Wears</dt>
+          <dd style="color:rgba(245,240,234,.65);">Yuna (hand-touch signature), Mei (street pause)</dd>
+        </dl>
+        <div style="font-size:10px;letter-spacing:.18em;text-transform:uppercase;color:var(--gold);margin-bottom:8px;">Prompt token</div>
+        <div style="font-family:'JetBrains Mono',ui-monospace,monospace;font-size:11px;line-height:1.7;color:rgba(245,240,234,.7);background:var(--black);padding:14px 16px;border-left:2px solid var(--gold);">Steel Brown sunglasses — wafer-thin German stainless steel, panto shape with subtle polygonal top edge, ZEISS brown-tinted lenses. Matte metal or warm brown colourway. Impossibly lightweight — worn effortlessly, not heavy on the face.</div>
+      </div>
+    </div>
+
+    <!-- DENOVA -->
+    <div style="background:var(--near-black);display:flex;flex-direction:column;">
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:1px;background:var(--border);">
+        <img src="assets/gold-round-1.png" style="width:100%;aspect-ratio:1;object-fit:cover;display:block;">
+        <div style="aspect-ratio:1;background:var(--mid);display:flex;align-items:center;justify-content:center;flex-direction:column;gap:8px;padding:16px;text-align:center;">
+          <div style="font-size:9px;letter-spacing:.22em;text-transform:uppercase;color:rgba(200,184,154,.4);">Product shoot</div>
+          <div style="font-size:11px;color:rgba(245,240,234,.3);line-height:1.5;">Add DeNova flat-lay reference image here</div>
+        </div>
+      </div>
+      <div style="padding:28px 28px 32px;">
+        <div style="font-family:'Bebas Neue',sans-serif;font-size:32px;letter-spacing:.06em;color:var(--white);margin-bottom:4px;">DeNova</div>
+        <div style="font-family:'Playfair Display',serif;font-style:italic;font-size:13px;color:rgba(200,184,154,.65);margin-bottom:20px;">Featherlight optical. · German stainless + beta-titanium</div>
+        <dl style="display:grid;grid-template-columns:auto 1fr;gap:5px 14px;font-size:12px;margin-bottom:20px;">
+          <dt style="font-size:9px;letter-spacing:.22em;text-transform:uppercase;color:var(--gold);padding-top:2px;">Shape</dt>
+          <dd style="color:rgba(245,240,234,.65);">Optical — 12 models, varied geometry (confirm per SKU)</dd>
+          <dt style="font-size:9px;letter-spacing:.22em;text-transform:uppercase;color:var(--gold);padding-top:2px;">Material</dt>
+          <dd style="color:rgba(245,240,234,.65);">Medical-grade German stainless steel + beta-titanium temples</dd>
+          <dt style="font-size:9px;letter-spacing:.22em;text-transform:uppercase;color:var(--gold);padding-top:2px;">Hinge</dt>
+          <dd style="color:rgba(245,240,234,.65);">Innovative hinge tech — bends, holds, disperses stress</dd>
+          <dt style="font-size:9px;letter-spacing:.22em;text-transform:uppercase;color:var(--gold);padding-top:2px;">Colors</dt>
+          <dd style="color:rgba(245,240,234,.65);">MB (Matte Black) · MM (Matte Metal) · PN (Pink) · VO (Violet)</dd>
+          <dt style="font-size:9px;letter-spacing:.22em;text-transform:uppercase;color:var(--gold);padding-top:2px;">Lens</dt>
+          <dd style="color:rgba(245,240,234,.65);">Clear optical · prescription-ready via lens partner</dd>
+          <dt style="font-size:9px;letter-spacing:.22em;text-transform:uppercase;color:var(--gold);padding-top:2px;">Edits</dt>
+          <dd style="color:rgba(245,240,234,.65);">Paris boulevard, city precision, formal interior · SS 2025</dd>
+          <dt style="font-size:9px;letter-spacing:.22em;text-transform:uppercase;color:var(--gold);padding-top:2px;">Wears</dt>
+          <dd style="color:rgba(245,240,234,.65);">Kai (Paris, café), Yuna (boulevard close-up)</dd>
+        </dl>
+        <div style="font-size:10px;letter-spacing:.18em;text-transform:uppercase;color:var(--gold);margin-bottom:8px;">Prompt token</div>
+        <div style="font-family:'JetBrains Mono',ui-monospace,monospace;font-size:11px;line-height:1.7;color:rgba(245,240,234,.7);background:var(--black);padding:14px 16px;border-left:2px solid var(--gold);">DeNova optical frames — ultra-thin German stainless steel, featherlight and barely-there on the face. Clear prescription lenses. Matte metal or matte black finish. Beta-titanium temples. Frame contours precisely to face — no gap at bridge, no slide at nose.</div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- Photography direction pulled from brand guide -->
+  <div style="margin-top:1px;background:var(--near-black);border:0.5px solid var(--border);padding:28px 32px;display:flex;gap:48px;align-items:flex-start;">
+    <div style="flex:1;">
+      <div style="font-size:10px;letter-spacing:.28em;text-transform:uppercase;color:var(--gold);margin-bottom:12px;">Product shot rule</div>
+      <p style="font-size:13px;color:rgba(245,240,234,.55);line-height:1.7;">Frames on pure white (#F7F6F3) or cream paper. Material fills 60–80% of frame. No props, no lifestyle context. Gold-tone metal directly echoes the brand accent. When held in hand — gold jewellery only, no coloured nails.</p>
+    </div>
+    <div style="flex:1;">
+      <div style="font-size:10px;letter-spacing:.28em;text-transform:uppercase;color:var(--gold);margin-bottom:12px;">Macro rule</div>
+      <p style="font-size:13px;color:rgba(245,240,234,.55);line-height:1.7;">Hinge, bridge, or temple tip only. Shot on dark slate or cream paper. 100mm macro equivalent. The gold of the hinge should read as the same gold as the brand accent (#C8B89A). No fingerprints.</p>
+    </div>
+    <div style="flex:1;">
+      <div style="font-size:10px;letter-spacing:.28em;text-transform:uppercase;color:var(--gold);margin-bottom:12px;">On-face rule</div>
+      <p style="font-size:13px;color:rgba(245,240,234,.55);line-height:1.7;">Frame must be sharp and centred on the face — not sliding down. Nose pads visible. Temple tucked behind ear. The fit narrative is everything: a slipping frame contradicts the brand's core claim.</p>
+    </div>
+  </div>
+
+</section>
+
+<!-- ── WEEKLY WORKFLOW ── -->
+<section id="workflow">
+  <div class="sec-eyebrow">06 · Workflow</div>
+  <h2 class="sec-h2">One afternoon. One week shipped.</h2>
+  <p class="sec-lede">Four stages. Human judgment at the edges, GenAI in the middle.</p>
+  <div class="steps">
+    <div class="step">
+      <div class="step-num">01</div>
+      <div class="step-time">Mon · 30 min</div>
+      <div class="step-title">Brief</div>
+      <div class="step-desc">Pick the week's pillar + one or two collections (Dormann, DeNova, Steel Brown) + one city edit. Pull 5 headlines from the brand guide. Human-only.</div>
+    </div>
+    <div class="step">
+      <div class="step-num">02</div>
+      <div class="step-time">Mon · 60 min</div>
+      <div class="step-title">Generate</div>
+      <div class="step-desc">Run the image prompts in Flow. Target 9–12 stills: 4 lifestyle, 4 product macro, 2–4 quote-card backgrounds. Same house model, same city.</div>
+    </div>
+    <div class="step">
+      <div class="step-num">03</div>
+      <div class="step-time">Tue · 45 min</div>
+      <div class="step-title">Curate</div>
+      <div class="step-desc">Reject anything off-brand: warm skin tones that aren't cream/gold, modern logos, busy backgrounds. Retouch hands, eyes, frame alignment.</div>
+    </div>
+    <div class="step">
+      <div class="step-num">04</div>
+      <div class="step-time">Tue · 45 min</div>
+      <div class="step-title">Ship</div>
+      <div class="step-desc">Compose quote cards, pair captions, schedule across IG / Pinterest / Facebook. Archive the week's brief + finals to the asset library.</div>
+    </div>
+  </div>
+</section>
+
+<!-- ── CADENCE ── -->
+<section id="cadence">
+  <div class="sec-eyebrow">07 · Weekly cadence</div>
+  <h2 class="sec-h2">Five posts. One voice.</h2>
+  <p class="sec-lede">A skeleton for a typical week. Rotate pillars monthly; never post the same pillar twice in a week.</p>
+  <div class="cadence">
+    <div class="cadence-head">Day</div>
+    <div class="cadence-head">Format</div>
+    <div class="cadence-head">Pillar</div>
+    <div class="cadence-head">Notes</div>
+
+    <div class="cadence-day">Mon</div>
+    <div>Lifestyle still</div>
+    <div class="cadence-pillar">Style</div>
+    <div class="cadence-note">Model + collection + city. Sets the week's aesthetic tone.</div>
+
+    <div class="cadence-day">Tue</div>
+    <div>Product macro</div>
+    <div class="cadence-pillar">Engineered</div>
+    <div class="cadence-note">Hinge, bridge, or material detail on cream paper.</div>
+
+    <div class="cadence-day">Wed</div>
+    <div>Quote card</div>
+    <div class="cadence-pillar">Fit</div>
+    <div class="cadence-note">Headline from brand guide. Black bg, gold rule, Playfair italic.</div>
+
+    <div class="cadence-day">Thu</div>
+    <div>Carousel (3–5)</div>
+    <div class="cadence-pillar">Comfort</div>
+    <div class="cadence-note">Mini editorial: morning ritual, café, commute.</div>
+
+    <div class="cadence-day">Fri</div>
+    <div>Lifestyle still</div>
+    <div class="cadence-pillar">Precision</div>
+    <div class="cadence-note">Close portrait. Eye-level. Frame must be in focus.</div>
+  </div>
+</section>
+
+<!-- ── GRID LOGIC ── -->
+<section id="grid">
+  <div class="sec-eyebrow">08 · Grid Logic</div>
+  <h2 class="sec-h2">Nine posts. One read.</h2>
+  <p class="sec-lede">The Instagram grid is read as a whole, not post by post. Every 9 posts is ~2 weeks. The pattern governs visual rhythm.</p>
+
+  <div style="display:grid;grid-template-columns:1fr auto;gap:48px;align-items:start;">
+    <div>
+      <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:3px;max-width:420px;margin-bottom:32px;">
+        <!-- Row 1 -->
+        <div style="aspect-ratio:1;background:var(--mid);display:flex;flex-direction:column;justify-content:flex-end;padding:10px;position:relative;">
+          <div style="font-size:8px;letter-spacing:.18em;text-transform:uppercase;color:rgba(245,240,234,.5);">Lifestyle</div>
+          <div style="font-size:10px;color:var(--gold);font-family:'Bebas Neue',sans-serif;letter-spacing:.08em;">L</div>
+        </div>
+        <div style="aspect-ratio:1;background:#2a2820;display:flex;flex-direction:column;justify-content:flex-end;padding:10px;">
+          <div style="font-size:8px;letter-spacing:.18em;text-transform:uppercase;color:rgba(245,240,234,.5);">Product</div>
+          <div style="font-size:10px;color:var(--white);font-family:'Bebas Neue',sans-serif;letter-spacing:.08em;">M</div>
+        </div>
+        <div style="aspect-ratio:1;background:var(--black);border:0.5px solid var(--border);display:flex;flex-direction:column;justify-content:center;padding:10px;gap:4px;">
+          <div style="height:1px;width:28px;background:var(--gold);opacity:.6;"></div>
+          <div style="font-size:8px;letter-spacing:.18em;text-transform:uppercase;color:rgba(200,184,154,.7);">Quote</div>
+          <div style="font-size:10px;color:var(--gold);font-family:'Bebas Neue',sans-serif;letter-spacing:.08em;">Q</div>
+        </div>
+        <!-- Row 2 -->
+        <div style="aspect-ratio:1;background:#2a2820;display:flex;flex-direction:column;justify-content:flex-end;padding:10px;">
+          <div style="font-size:8px;letter-spacing:.18em;text-transform:uppercase;color:rgba(245,240,234,.5);">Product</div>
+          <div style="font-size:10px;color:var(--white);font-family:'Bebas Neue',sans-serif;letter-spacing:.08em;">M</div>
+        </div>
+        <div style="aspect-ratio:1;background:var(--black);border:0.5px solid var(--border);display:flex;flex-direction:column;justify-content:center;padding:10px;gap:4px;">
+          <div style="height:1px;width:28px;background:var(--gold);opacity:.6;"></div>
+          <div style="font-size:8px;letter-spacing:.18em;text-transform:uppercase;color:rgba(200,184,154,.7);">Quote</div>
+          <div style="font-size:10px;color:var(--gold);font-family:'Bebas Neue',sans-serif;letter-spacing:.08em;">Q</div>
+        </div>
+        <div style="aspect-ratio:1;background:var(--mid);display:flex;flex-direction:column;justify-content:flex-end;padding:10px;">
+          <div style="font-size:8px;letter-spacing:.18em;text-transform:uppercase;color:rgba(245,240,234,.5);">Lifestyle</div>
+          <div style="font-size:10px;color:var(--gold);font-family:'Bebas Neue',sans-serif;letter-spacing:.08em;">L</div>
+        </div>
+        <!-- Row 3 -->
+        <div style="aspect-ratio:1;background:var(--black);border:0.5px solid var(--border);display:flex;flex-direction:column;justify-content:center;padding:10px;gap:4px;">
+          <div style="height:1px;width:28px;background:var(--gold);opacity:.6;"></div>
+          <div style="font-size:8px;letter-spacing:.18em;text-transform:uppercase;color:rgba(200,184,154,.7);">Quote</div>
+          <div style="font-size:10px;color:var(--gold);font-family:'Bebas Neue',sans-serif;letter-spacing:.08em;">Q</div>
+        </div>
+        <div style="aspect-ratio:1;background:var(--mid);display:flex;flex-direction:column;justify-content:flex-end;padding:10px;">
+          <div style="font-size:8px;letter-spacing:.18em;text-transform:uppercase;color:rgba(245,240,234,.5);">Lifestyle</div>
+          <div style="font-size:10px;color:var(--gold);font-family:'Bebas Neue',sans-serif;letter-spacing:.08em;">L</div>
+        </div>
+        <div style="aspect-ratio:1;background:#2a2820;display:flex;flex-direction:column;justify-content:flex-end;padding:10px;">
+          <div style="font-size:8px;letter-spacing:.18em;text-transform:uppercase;color:rgba(245,240,234,.5);">Product</div>
+          <div style="font-size:10px;color:var(--white);font-family:'Bebas Neue',sans-serif;letter-spacing:.08em;">M</div>
+        </div>
+      </div>
+      <div style="font-size:11px;color:rgba(245,240,234,.35);line-height:1.7;max-width:380px;">Pattern: L → M → Q rotates across each row, offset by one column per row. No two Q cells are ever adjacent. Grid reads as dark-mid-black across each row.</div>
+    </div>
+
+    <div style="display:flex;flex-direction:column;gap:1px;min-width:280px;">
+      <div style="background:var(--near-black);border:0.5px solid var(--border);padding:20px 24px;">
+        <div style="font-size:9px;letter-spacing:.24em;text-transform:uppercase;color:var(--gold);margin-bottom:8px;">L · Lifestyle still</div>
+        <p style="font-size:13px;color:rgba(245,240,234,.6);line-height:1.6;">Influencer + collection + city. Dark tonal backgrounds. Sets the editorial mood for the row.</p>
+      </div>
+      <div style="background:var(--near-black);border:0.5px solid var(--border);padding:20px 24px;">
+        <div style="font-size:9px;letter-spacing:.24em;text-transform:uppercase;color:var(--white);margin-bottom:8px;">M · Product macro</div>
+        <p style="font-size:13px;color:rgba(245,240,234,.6);line-height:1.6;">Frame detail on cream or dark slate. Mid-tone in the grid. Carries the engineering proof.</p>
+      </div>
+      <div style="background:var(--near-black);border:0.5px solid var(--border);padding:20px 24px;">
+        <div style="font-size:9px;letter-spacing:.24em;text-transform:uppercase;color:rgba(200,184,154,.7);margin-bottom:8px;">Q · Quote card</div>
+        <p style="font-size:13px;color:rgba(245,240,234,.6);line-height:1.6;">Black background, gold rule, Playfair italic. Darkest cell. Anchors each row's rhythm.</p>
+      </div>
+      <div style="background:var(--near-black);border:0.5px solid var(--border);padding:20px 24px;">
+        <div style="font-size:9px;letter-spacing:.24em;text-transform:uppercase;color:var(--gold);margin-bottom:8px;">Cycle = 9 posts ≈ 2 weeks</div>
+        <p style="font-size:13px;color:rgba(245,240,234,.6);line-height:1.6;">Rotate influencer each cycle. Rotate dominant collection each season (SS / FW).</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── CAPTION SYSTEM ── -->
+<section id="captions">
+  <div class="sec-eyebrow">09 · Caption System</div>
+  <h2 class="sec-h2">Voice, applied.</h2>
+  <p class="sec-lede">Every caption follows the same architecture. Pull the headline from the brand guide. Let the spec carry the proof. Stop before it becomes copy.</p>
+
+  <div style="display:grid;grid-template-columns:1fr 1fr;gap:1px;background:var(--border);border:0.5px solid var(--border);margin-bottom:24px;">
+    <div style="background:var(--near-black);padding:36px;">
+      <div style="font-size:10px;letter-spacing:.28em;text-transform:uppercase;color:var(--gold);margin-bottom:20px;">Structure</div>
+      <div style="display:flex;flex-direction:column;gap:12px;">
+        <div style="display:flex;gap:16px;align-items:flex-start;">
+          <div style="font-family:'Bebas Neue',sans-serif;font-size:13px;letter-spacing:.08em;color:var(--gold);width:24px;flex-shrink:0;padding-top:1px;">01</div>
+          <div>
+            <div style="font-size:13px;color:var(--white);margin-bottom:3px;">Brand headline</div>
+            <div style="font-size:12px;color:rgba(245,240,234,.45);">Pulled from brand guide verbatim, or written in same voice. Declarative. Present tense. No exclamation mark.</div>
+          </div>
+        </div>
+        <div style="height:0.5px;background:rgba(200,184,154,.1);"></div>
+        <div style="display:flex;gap:16px;align-items:flex-start;">
+          <div style="font-family:'Bebas Neue',sans-serif;font-size:13px;letter-spacing:.08em;color:var(--gold);width:24px;flex-shrink:0;padding-top:1px;">02</div>
+          <div>
+            <div style="font-size:13px;color:var(--white);margin-bottom:3px;">Spec line <span style="color:rgba(245,240,234,.35);font-size:11px;">optional</span></div>
+            <div style="font-size:12px;color:rgba(245,240,234,.45);">Collection · material or origin · one distinguishing fact. Never more than one line. The spec IS the supporting argument.</div>
+          </div>
+        </div>
+        <div style="height:0.5px;background:rgba(200,184,154,.1);"></div>
+        <div style="display:flex;gap:16px;align-items:flex-start;">
+          <div style="font-family:'Bebas Neue',sans-serif;font-size:13px;letter-spacing:.08em;color:var(--gold);width:24px;flex-shrink:0;padding-top:1px;">03</div>
+          <div>
+            <div style="font-size:13px;color:var(--white);margin-bottom:3px;">Tags <span style="color:rgba(245,240,234,.35);font-size:11px;">3 max or none</span></div>
+            <div style="font-size:12px;color:rgba(245,240,234,.45);">#NoonShop #TheRightFrame #[CollectionName] — branded only. Never topic tags for reach.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div style="background:var(--near-black);padding:36px;border-left:0.5px solid var(--border);">
+      <div style="font-size:10px;letter-spacing:.28em;text-transform:uppercase;color:var(--gold);margin-bottom:20px;">Rules</div>
+      <ul style="list-style:none;display:flex;flex-direction:column;gap:10px;">
+        <li style="font-size:13px;color:rgba(245,240,234,.6);display:flex;gap:12px;line-height:1.5;"><span style="color:var(--gold);flex-shrink:0;">—</span>No exclamation marks. Ever.</li>
+        <li style="font-size:13px;color:rgba(245,240,234,.6);display:flex;gap:12px;line-height:1.5;"><span style="color:var(--gold);flex-shrink:0;">—</span>No emoji in caption or first comment</li>
+        <li style="font-size:13px;color:rgba(245,240,234,.6);display:flex;gap:12px;line-height:1.5;"><span style="color:var(--gold);flex-shrink:0;">—</span>No questions addressed to the audience ("Which is your favourite?")</li>
+        <li style="font-size:13px;color:rgba(245,240,234,.6);display:flex;gap:12px;line-height:1.5;"><span style="color:var(--gold);flex-shrink:0;">—</span>No "Shop now" or "Link in bio" on editorial posts</li>
+        <li style="font-size:13px;color:rgba(245,240,234,.6);display:flex;gap:12px;line-height:1.5;"><span style="color:var(--gold);flex-shrink:0;">—</span>Pinterest: add a second line describing the image for SEO</li>
+        <li style="font-size:13px;color:rgba(245,240,234,.6);display:flex;gap:12px;line-height:1.5;"><span style="color:var(--gold);flex-shrink:0;">—</span>Alt text required — describe the image objectively, one sentence</li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- Caption examples by pillar -->
+  <div style="display:grid;grid-template-columns:repeat(5,1fr);gap:1px;background:var(--border);border:0.5px solid var(--border);">
+    <div style="background:var(--near-black);padding:24px 20px;">
+      <div style="font-size:9px;letter-spacing:.22em;text-transform:uppercase;color:var(--gold);margin-bottom:12px;">Comfort</div>
+      <p style="font-family:'Playfair Display',serif;font-style:italic;font-size:14px;color:var(--white);line-height:1.5;margin-bottom:10px;">"The frame that stays where it belongs. All day. Every day."</p>
+      <p style="font-size:11px;color:rgba(245,240,234,.4);line-height:1.6;">Dormann · beta-titanium temples · South Korea</p>
+    </div>
+    <div style="background:var(--near-black);padding:24px 20px;border-left:0.5px solid var(--border);">
+      <div style="font-size:9px;letter-spacing:.22em;text-transform:uppercase;color:var(--gold);margin-bottom:12px;">Fit</div>
+      <p style="font-family:'Playfair Display',serif;font-style:italic;font-size:14px;color:var(--white);line-height:1.5;margin-bottom:10px;">"You were never hard to fit."</p>
+      <p style="font-size:11px;color:rgba(245,240,234,.4);line-height:1.6;">DeNova · German stainless · featherlight optical</p>
+    </div>
+    <div style="background:var(--near-black);padding:24px 20px;border-left:0.5px solid var(--border);">
+      <div style="font-size:9px;letter-spacing:.22em;text-transform:uppercase;color:var(--gold);margin-bottom:12px;">Style</div>
+      <p style="font-family:'Playfair Display',serif;font-style:italic;font-size:14px;color:var(--white);line-height:1.5;margin-bottom:10px;">"Fit is the feature."</p>
+      <p style="font-size:11px;color:rgba(245,240,234,.4);line-height:1.6;">Steel Brown · Made in Germany · ZEISS</p>
+    </div>
+    <div style="background:var(--near-black);padding:24px 20px;border-left:0.5px solid var(--border);">
+      <div style="font-size:9px;letter-spacing:.22em;text-transform:uppercase;color:var(--gold);margin-bottom:12px;">Engineered</div>
+      <p style="font-family:'Playfair Display',serif;font-style:italic;font-size:14px;color:var(--white);line-height:1.5;margin-bottom:10px;">"Eyewear engineered for the way your face is actually shaped."</p>
+      <p style="font-size:11px;color:rgba(245,240,234,.4);line-height:1.6;">Dormann Sun · 54-19-150 · TR90 + beta-titanium</p>
+    </div>
+    <div style="background:var(--near-black);padding:24px 20px;border-left:0.5px solid var(--border);">
+      <div style="font-size:9px;letter-spacing:.22em;text-transform:uppercase;color:var(--gold);margin-bottom:12px;">Precision</div>
+      <p style="font-family:'Playfair Display',serif;font-style:italic;font-size:14px;color:var(--white);line-height:1.5;margin-bottom:10px;">"Your face was never the problem."</p>
+      <p style="font-size:11px;color:rgba(245,240,234,.4);line-height:1.6;">Steel Brown · 14g · W-end piece fit</p>
+    </div>
+  </div>
+</section>
+
+<!-- ── QUOTE CARD SPEC ── -->
+<section id="quotecard">
+  <div class="sec-eyebrow">10 · Quote Card Spec</div>
+  <h2 class="sec-h2">The typography system.</h2>
+  <p class="sec-lede">Quote cards are composited in post — never text-rendered inside the image model. This spec is the single source of truth for anyone building them.</p>
+
+  <div style="display:grid;grid-template-columns:auto 1fr;gap:1px;background:var(--border);border:0.5px solid var(--border);">
+    <!-- Live preview -->
+    <div style="background:#0C0C0C;width:280px;display:flex;flex-direction:column;justify-content:center;padding:48px 40px;gap:0;position:relative;">
+      <div style="position:absolute;top:0;left:0;right:0;height:1px;background:linear-gradient(90deg,transparent,rgba(200,184,154,.3),transparent);"></div>
+      <div style="font-size:9px;letter-spacing:.22em;text-transform:uppercase;color:rgba(200,184,154,.4);margin-bottom:32px;">Preview · dark bg</div>
+      <p style="font-family:'Playfair Display',serif;font-style:italic;font-size:26px;line-height:1.3;color:#F7F6F3;margin-bottom:16px;">The right frame. Properly fitted.</p>
+      <div style="height:1px;width:40px;background:#C8B89A;opacity:.6;margin-bottom:16px;"></div>
+      <p style="font-family:'Inter',sans-serif;font-size:12px;font-weight:300;color:rgba(245,240,234,.45);letter-spacing:.04em;">Dormann · South Korea</p>
+      <div style="position:absolute;bottom:24px;left:40px;font-family:'Bebas Neue',sans-serif;font-size:10px;letter-spacing:.18em;color:rgba(200,184,154,.3);">NOON SHOP</div>
+    </div>
+    <!-- Spec table -->
+    <div style="background:var(--near-black);padding:36px 40px;">
+      <div style="display:grid;grid-template-columns:160px 1fr;gap:0;">
+        <div style="font-size:9px;letter-spacing:.22em;text-transform:uppercase;color:var(--gold);padding:12px 0;border-bottom:0.5px dashed rgba(200,184,154,.15);">Canvas</div>
+        <div style="font-size:13px;color:rgba(245,240,234,.65);padding:12px 0 12px 16px;border-bottom:0.5px dashed rgba(200,184,154,.15);">1080 × 1080 (1:1) · 1080 × 1350 (4:5 portrait)</div>
+        <div style="font-size:9px;letter-spacing:.22em;text-transform:uppercase;color:var(--gold);padding:12px 0;border-bottom:0.5px dashed rgba(200,184,154,.15);">Background</div>
+        <div style="font-size:13px;color:rgba(245,240,234,.65);padding:12px 0 12px 16px;border-bottom:0.5px dashed rgba(200,184,154,.15);">#0C0C0C (default) · cream paper asset from /assets (alternate)</div>
+        <div style="font-size:9px;letter-spacing:.22em;text-transform:uppercase;color:var(--gold);padding:12px 0;border-bottom:0.5px dashed rgba(200,184,154,.15);">Headline</div>
+        <div style="font-size:13px;color:rgba(245,240,234,.65);padding:12px 0 12px 16px;border-bottom:0.5px dashed rgba(200,184,154,.15);">Playfair Display · Italic · 52–72px · #F7F6F3 on dark · #0C0C0C on cream</div>
+        <div style="font-size:9px;letter-spacing:.22em;text-transform:uppercase;color:var(--gold);padding:12px 0;border-bottom:0.5px dashed rgba(200,184,154,.15);">Gold rule</div>
+        <div style="font-size:13px;color:rgba(245,240,234,.65);padding:12px 0 12px 16px;border-bottom:0.5px dashed rgba(200,184,154,.15);">1px line · #C8B89A · 40px wide · 24px gap below headline · 60% opacity</div>
+        <div style="font-size:9px;letter-spacing:.22em;text-transform:uppercase;color:var(--gold);padding:12px 0;border-bottom:0.5px dashed rgba(200,184,154,.15);">Supporting line</div>
+        <div style="font-size:13px;color:rgba(245,240,234,.65);padding:12px 0 12px 16px;border-bottom:0.5px dashed rgba(200,184,154,.15);">Inter (Outfit) · 300 weight · 13px · rgba(245,240,234,0.45) · letter-spacing 0.04em</div>
+        <div style="font-size:9px;letter-spacing:.22em;text-transform:uppercase;color:var(--gold);padding:12px 0;border-bottom:0.5px dashed rgba(200,184,154,.15);">Collection tag</div>
+        <div style="font-size:13px;color:rgba(245,240,234,.65);padding:12px 0 12px 16px;border-bottom:0.5px dashed rgba(200,184,154,.15);">Bebas Neue · 11px · letter-spacing 0.22em · uppercase · #C8B89A · bottom-left</div>
+        <div style="font-size:9px;letter-spacing:.22em;text-transform:uppercase;color:var(--gold);padding:12px 0;border-bottom:0.5px dashed rgba(200,184,154,.15);">Logo</div>
+        <div style="font-size:13px;color:rgba(245,240,234,.65);padding:12px 0 12px 16px;border-bottom:0.5px dashed rgba(200,184,154,.15);">Bottom-right · 28px height · inverted white on dark · natural on cream · opacity 30%</div>
+        <div style="font-size:9px;letter-spacing:.22em;text-transform:uppercase;color:var(--gold);padding:12px 0;border-bottom:0.5px dashed rgba(200,184,154,.15);">Safe zone</div>
+        <div style="font-size:13px;color:rgba(245,240,234,.65);padding:12px 0 12px 16px;border-bottom:0.5px dashed rgba(200,184,154,.15);">80px padding all sides — nothing bleeds to edge</div>
+        <div style="font-size:9px;letter-spacing:.22em;text-transform:uppercase;color:var(--gold);padding:12px 0;">Never</div>
+        <div style="font-size:13px;color:rgba(245,240,234,.45);padding:12px 0 0 16px;">Render text inside image gen · use decorative fonts · place text over a face or frame</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── INFLUENCER PROMPTS ── -->
+<section id="prompts">
+  <div class="sec-eyebrow">11 · Prompt library</div>
+  <h2 class="sec-h2">Per influencer. Per format.</h2>
+  <p class="sec-lede">Every prompt is written for a specific face. Always attach that influencer's reference image in Flow before running. Frames are non-negotiable — every model shot includes glasses.</p>
+  <div class="inf-prompts">
+
+    <!-- KAI PROMPTS -->
+    <div class="inf-prompt-block">
+      <div class="inf-prompt-header">
+        <div class="inf-prompt-who">KAI <span>The Architect · Late 30s</span></div>
+        <div style="flex:1"></div>
+        <div class="inf-prompt-coll">
+          <span class="coll-tag">DeNova</span>
+          <span class="coll-tag">Dormann</span>
+        </div>
+      </div>
+      <div class="inf-prompt-grid">
+        <div class="inf-prompt-item">
+          <div class="inf-prompt-format">Lifestyle Still · 4:5</div>
+          <div class="inf-prompt-text">The same Asian man from the reference image, late 30s, wearing DeNova thin rectangular metal frames in silver-gold. Camel overcoat, black turtleneck. Standing on a quiet Haussmann boulevard in Paris, late afternoon. 35mm film, natural overcast light, muted palette of cream and warm charcoal. Shallow depth of field. He is mid-stride, not posed. No crowds, no modern signage.</div>
+          <div class="inf-prompt-note">Swap city for NYC or London. Keep him moving — static poses flatten Kai's energy.</div>
+        </div>
+        <div class="inf-prompt-item">
+          <div class="inf-prompt-format">Interior Study · 4:5</div>
+          <div class="inf-prompt-text">The same Asian man from the reference image, late 30s, seated in a dark leather chair in a private library. Wearing Dormann classic round acetate frames in dark tortoise. Navy turtleneck. Brass lamp at left. Warm ambient light, bookshelves behind. Medium close-up. Eyes slightly off-camera — reading or thinking. No laptop, no phone.</div>
+          <div class="inf-prompt-note">Best for Engineered and Precision pillars. The frames must be sharp and centred.</div>
+        </div>
+        <div class="inf-prompt-item">
+          <div class="inf-prompt-format">Café Window · 1:1</div>
+          <div class="inf-prompt-text">The same Asian man from the reference image, late 30s, standing outside a café storefront, coffee cup in hand. Wearing DeNova thin metal rectangular frames. Camel overcoat. NYC street reflected in the glass behind him. 35mm, natural light. Composed, looking slightly past the lens. Clean background — one architectural element only.</div>
+          <div class="inf-prompt-note">Works as a standalone or carousel opener. Avoid visible café branding.</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- YUNA PROMPTS -->
+    <div class="inf-prompt-block">
+      <div class="inf-prompt-header">
+        <div class="inf-prompt-who">YUNA <span>The Editor · Early 30s</span></div>
+        <div style="flex:1"></div>
+        <div class="inf-prompt-coll">
+          <span class="coll-tag">Steel Brown</span>
+          <span class="coll-tag">DeNova</span>
+        </div>
+      </div>
+      <div class="inf-prompt-grid">
+        <div class="inf-prompt-item">
+          <div class="inf-prompt-format">Frame Gesture · 4:5</div>
+          <div class="inf-prompt-text">The same Asian woman from the reference image, early 30s, long straight black hair. Seated in a warm leather armchair in a private library. Wearing Steel Brown thin gold cat-eye frames. Burgundy silk dress, layered fine gold necklaces, gold bangles. Right hand raised — fingertips lightly touching the temple of the frame. Warm lamp light at right. Soft gaze, slightly downward. Medium close-up.</div>
+          <div class="inf-prompt-note">The hand-on-frame is Yuna's signature. It must look effortless, not staged. Reject if the hand obscures the frame shape.</div>
+        </div>
+        <div class="inf-prompt-item">
+          <div class="inf-prompt-format">Boulevard · 4:5</div>
+          <div class="inf-prompt-text">The same Asian woman from the reference image, early 30s, long straight black hair. Walking along a wide Paris or London boulevard lined with plane trees. Wearing DeNova slim rectangular metal frames in gold. Deep burgundy wool coat, minimal gold jewellery. Film grain, overcast northern light. She is in motion, looking ahead — not at the camera. No crowds.</div>
+          <div class="inf-prompt-note">Contrast with Kai: Yuna moves through interiors and architecture as if she owns the space, not the city.</div>
+        </div>
+        <div class="inf-prompt-item">
+          <div class="inf-prompt-format">Close Portrait · 1:1</div>
+          <div class="inf-prompt-text">The same Asian woman from the reference image, early 30s, long straight black hair. Medium close-up portrait, eye-level. Wearing Steel Brown gold cat-eye frames — the frame is the focal point. Burgundy or deep cream top. Neutral interior background, warm lamp bokeh. Eyes directed at camera, calm and direct. No smile. No distracting jewellery in frame.</div>
+          <div class="inf-prompt-note">Primary format for quote-card pairing. Generate 3 colour-grade variants: warm, cool, neutral.</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- MEI PROMPTS -->
+    <div class="inf-prompt-block">
+      <div class="inf-prompt-header">
+        <div class="inf-prompt-who">MEI <span>The Director · Early 40s</span></div>
+        <div style="flex:1"></div>
+        <div class="inf-prompt-coll">
+          <span class="coll-tag">Dormann</span>
+          <span class="coll-tag">Steel Brown</span>
+        </div>
+      </div>
+      <div class="inf-prompt-grid">
+        <div class="inf-prompt-item">
+          <div class="inf-prompt-format">Architectural Seat · 4:5</div>
+          <div class="inf-prompt-text">The same Asian woman from the reference image, early 40s, short wavy auburn-caramel bob. Seated on wide stone steps of a neoclassical building — NYC museum or London institution. Wearing Dormann oval wireframes, barely-there. Camel coat over a cream turtleneck. Hands in lap, gaze slightly elevated and off-camera. Open space around her — architecture in the background, not enclosing. Overcast daylight, no harsh shadows.</div>
+          <div class="inf-prompt-note">Mei's signature: seated, open, with room around her. Never crop tight — the space is part of the read.</div>
+        </div>
+        <div class="inf-prompt-item">
+          <div class="inf-prompt-format">Street Pause · 4:5</div>
+          <div class="inf-prompt-text">The same Asian woman from the reference image, early 40s, short wavy auburn-caramel bob. Standing on a quiet London mews or NYC side street, paused — not walking. Wearing Steel Brown slim oval frames in warm gold-steel. Camel coat, cream or ivory top beneath. 35mm, soft overcast light. She is looking slightly past the lens, unhurried. Clean background — one door or facade behind her.</div>
+          <div class="inf-prompt-note">Works for Comfort and Fit pillars. Frames must be clearly visible — not obscured by coat collar.</div>
+        </div>
+        <div class="inf-prompt-item">
+          <div class="inf-prompt-format">Product · Shared format</div>
+          <div class="inf-prompt-text">Macro detail of the Dormann oval frame, temple hinge, in brushed gold metal. Shot on cream textured paper (#F7F6F3), soft side-light from the left, 100mm macro, f/5.6. Single hero object, centred. No fingerprints, no dust. Deep black shadow at lower edge. Palette: cream, warm gold (#C8B89A), near-black.</div>
+          <div class="inf-prompt-note">Product macros are not influencer-specific — use this template for all three collections, swapping frame name and finish. No model present.</div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- ── ASSET LIBRARY ── -->
+<section id="library">
+  <div class="sec-eyebrow">12 · Asset tokens</div>
+  <h2 class="sec-h2">The constants.</h2>
+  <p class="sec-lede">Collections, cities, and palette — referenced by name in every prompt.</p>
+  <div class="library">
+    <div class="lib-card">
+      <h4>Collections</h4>
+      <ul>
+        <li><b>Dormann</b> Acetate, classic round/oval — Kai, Mei</li>
+        <li><b>DeNova</b> Metal, modern rectangular — Kai, Yuna</li>
+        <li><b>Steel Brown</b> Steel, warm tortoise/cat-eye — Yuna, Mei</li>
+      </ul>
+    </div>
+    <div class="lib-card">
+      <h4>Cities / Edits</h4>
+      <ul>
+        <li><b>Paris</b> Kai (boulevard), Yuna (interior, boulevard)</li>
+        <li><b>NYC</b> Kai (café), Mei (steps, street)</li>
+        <li><b>London</b> Yuna (boulevard), Mei (mews, street)</li>
+      </ul>
+    </div>
+    <div class="lib-card">
+      <h4>Palette Tokens</h4>
+      <ul>
+        <li><b>#0C0C0C</b> Black</li>
+        <li><b>#F7F6F3</b> Cream (paper, backgrounds)</li>
+        <li><b>#C8B89A</b> Gold accent (frames, rules)</li>
+        <li><b>#A89070</b> Gold dark (shadows, details)</li>
+      </ul>
+    </div>
+    <div class="lib-card">
+      <h4>Reference Files</h4>
+      <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-bottom:12px;">
+        <div style="text-align:center;">
+          <img src="assets/The_same_Asian_man_from_the_reference_images_late-1776549774516.png" style="width:100%;aspect-ratio:1;object-fit:cover;object-position:center top;filter:grayscale(18%);">
+          <div style="font-size:10px;letter-spacing:.18em;text-transform:uppercase;color:var(--gold);margin-top:6px;">Kai</div>
+        </div>
+        <div style="text-align:center;">
+          <img src="assets/Asian_woman_in_her_early_30s_with_long_straight_bl-1776518075803.png" style="width:100%;aspect-ratio:1;object-fit:cover;object-position:center top;filter:grayscale(18%);">
+          <div style="font-size:10px;letter-spacing:.18em;text-transform:uppercase;color:var(--gold);margin-top:6px;">Yuna</div>
+        </div>
+        <div style="text-align:center;">
+          <img src="assets/Asian_woman_early_40s_with_short_wavy_auburn_bob_h-1776549696564.png" style="width:100%;aspect-ratio:1;object-fit:cover;object-position:center top;filter:grayscale(18%);">
+          <div style="font-size:10px;letter-spacing:.18em;text-transform:uppercase;color:var(--gold);margin-top:6px;">Mei</div>
+        </div>
+      </div>
+      <div style="font-size:11px;color:rgba(245,240,234,.3);">Stored in /assets — always attach as reference in Flow before generating.</div>
+    </div>
+  </div>
+</section>
+
+<!-- ── QUALITY CHECK ── -->
+<section id="qa">
+  <div class="sec-eyebrow">13 · Before it ships</div>
+  <h2 class="sec-h2">The brand check.</h2>
+  <p class="sec-lede">If any of these fails, the post doesn't go. No exceptions.</p>
+  <div class="checklist">
+    <div class="check-item">
+      <div class="check-box"></div>
+      <div class="check-text"><b>Voice</b><span>Reads as Direct, Confident, Human, Refined. No hype, no emoji clusters, no exclamation marks.</span></div>
+    </div>
+    <div class="check-item">
+      <div class="check-box"></div>
+      <div class="check-text"><b>Palette</b><span>Cream, black, gold. No warm skin tones, no saturated backgrounds, no competing colors.</span></div>
+    </div>
+    <div class="check-item">
+      <div class="check-box"></div>
+      <div class="check-text"><b>Frame in focus</b><span>For any shot featuring a model: the frame is sharp and well-aligned on the face.</span></div>
+    </div>
+    <div class="check-item">
+      <div class="check-box"></div>
+      <div class="check-text"><b>No AI tells</b><span>Hands, ears, logos, text, and background signage all read as real.</span></div>
+    </div>
+    <div class="check-item">
+      <div class="check-box"></div>
+      <div class="check-text"><b>Pillar tagged</b><span>The post is tagged to exactly one pillar and one collection in the asset archive.</span></div>
+    </div>
+    <div class="check-item">
+      <div class="check-box"></div>
+      <div class="check-text"><b>Caption sourced</b><span>Headline pulled from the brand guide, not freestyle. Alt text written for accessibility.</span></div>
+    </div>
+  </div>
+</section>
+
+<!-- ── OUT OF SCOPE ── -->
+<section id="scope">
+  <div class="sec-eyebrow">14 · Explicitly out of scope</div>
+  <h2 class="sec-h2">For now.</h2>
+  <p class="sec-lede">We're going narrow on purpose. These are logged and will return in later phases.</p>
+  <div class="library">
+    <div class="lib-card">
+      <h4>Video</h4>
+      <ul>
+        <li>Reels, TikTok, Pinterest Idea Pins</li>
+        <li>Campaign films, BTS, product motion</li>
+        <li class="cadence-note" style="font-size:11px;padding-top:12px;color:rgba(245,240,234,.3)">Revisit once static cadence is stable for 8 weeks.</li>
+      </ul>
+    </div>
+    <div class="lib-card">
+      <h4>Audio</h4>
+      <ul>
+        <li>ElevenLabs voiceover</li>
+        <li>Brand sonic identity</li>
+        <li>Ambient city beds</li>
+        <li class="cadence-note" style="font-size:11px;padding-top:12px;color:rgba(245,240,234,.3)">Paired with video phase.</li>
+      </ul>
+    </div>
+    <div class="lib-card">
+      <h4>UGC / Influencer</h4>
+      <ul>
+        <li>Creator partnerships</li>
+        <li>Customer photography</li>
+        <li>Testimonial formats</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <span>Noon Shop · Content Ops v0.1</span>
+  <span><a href="index.html">← Back to Noonshop</a></span>
+</footer>
+
+</body>
+</html>
