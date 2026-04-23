@@ -1,0 +1,1092 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Noon Shop — The Collections</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Outfit:wght@100;200;300;400;500&family=Playfair+Display:ital,wght@0,400;0,700;1,400;1,700&display=swap" rel="stylesheet">
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+  --gold: #c8b89a;
+  --gold-dark: #a89070;
+  --gold-light: #e8d8be;
+  --black: #080808;
+  --near-black: #0d0d0d;
+  --dark: #111111;
+  --mid: #1a1a1a;
+  --border: #1e1e1e;
+  --border-soft: rgba(200,184,154,.12);
+  --muted: #555555;
+  --text: #e8e0d4;
+  --white: #f5f0ea;
+  --D: 'Bebas Neue', sans-serif;
+  --B: 'Outfit', sans-serif;
+  --P: 'Playfair Display', Georgia, serif;
+}
+
+html { scroll-behavior: smooth; }
+
+body {
+  background: var(--black);
+  color: var(--text);
+  font-family: var(--B);
+  font-weight: 300;
+  line-height: 1.6;
+  overflow-x: hidden;
+}
+
+a { color: inherit; text-decoration: none; }
+
+/* ── NAV ── */
+nav {
+  position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+  display: flex; justify-content: space-between; align-items: center;
+  padding: 22px 60px;
+  transition: background .4s, backdrop-filter .4s;
+}
+nav.scrolled { background: rgba(8,8,8,.8); backdrop-filter: blur(18px); }
+.nav-logo {
+  font-family: var(--D); font-size: 17px; letter-spacing: .16em;
+  color: rgba(245,240,234,.65); display: flex; align-items: center; gap: 10px;
+}
+.nav-logo img { height: 32px; filter: brightness(0) invert(1); opacity: .65; }
+.nav-links {
+  display: flex; gap: 32px; align-items: center;
+  font-size: 10px; letter-spacing: .2em; text-transform: uppercase;
+  color: rgba(245,240,234,.4);
+}
+.nav-links a:hover { color: var(--gold); transition: color .2s; }
+.nav-cta {
+  font-size: 9px; letter-spacing: .22em; text-transform: uppercase;
+  color: var(--gold); border: 0.5px solid rgba(200,184,154,.35);
+  padding: 7px 18px; border-radius: 40px;
+}
+
+/* ── COVER ── */
+.cover {
+  min-height: 100vh;
+  padding: 0 60px 100px;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  position: relative;
+  overflow: hidden;
+}
+
+.cover-gold-line {
+  position: absolute; top: 0; left: 0; right: 0;
+  height: 2px;
+  background: linear-gradient(90deg, transparent, var(--gold), transparent);
+  z-index: 2;
+}
+
+.cover-wm {
+  position: absolute;
+  right: -20px; top: 50%;
+  transform: translateY(-52%);
+  font-family: var(--D);
+  font-size: clamp(200px, 28vw, 480px);
+  color: rgba(200,184,154,.035);
+  line-height: 1;
+  pointer-events: none;
+  letter-spacing: .04em;
+}
+
+.cover-tag {
+  font-size: 10px;
+  letter-spacing: .36em;
+  text-transform: uppercase;
+  color: var(--gold);
+  margin-bottom: 30px;
+  position: relative; z-index: 2;
+}
+
+.cover-h1 {
+  font-family: var(--D);
+  font-size: clamp(64px, 10vw, 168px);
+  line-height: .88;
+  letter-spacing: .025em;
+  color: var(--white);
+  position: relative; z-index: 2;
+  padding-bottom: .12em;
+}
+
+.cover-h1-sub {
+  display: block;
+  font-family: var(--P);
+  font-style: italic;
+  font-weight: 400;
+  font-size: clamp(28px, 4.5vw, 78px);
+  line-height: 1.2;
+  color: rgba(200,184,154,.65);
+  margin-top: 6px;
+}
+
+.cover-foot {
+  display: flex; justify-content: space-between; align-items: flex-end;
+  margin-top: 72px; position: relative; z-index: 2;
+}
+
+.cover-desc {
+  font-size: 15px; font-weight: 300; line-height: 1.8;
+  color: rgba(245,240,234,.42); max-width: 480px;
+}
+
+.cover-meta {
+  display: flex; gap: 0; flex-direction: column; align-items: flex-end;
+}
+.cover-meta-item {
+  font-size: 10px; letter-spacing: .22em; text-transform: uppercase;
+  color: rgba(200,184,154,.4); padding: 4px 0;
+}
+.cover-meta-item b { color: var(--gold); font-weight: 400; margin-right: 8px; }
+
+/* ── SHARED SECTION ── */
+section { padding: 104px 60px; position: relative; }
+.section-rule { border-top: 0.5px solid var(--border); }
+
+.eyebrow {
+  font-size: 10px;
+  letter-spacing: .32em;
+  text-transform: uppercase;
+  color: var(--gold);
+  margin-bottom: 16px;
+}
+
+.sec-h2 {
+  font-family: var(--D);
+  font-size: clamp(40px, 5.5vw, 80px);
+  letter-spacing: .02em;
+  color: var(--white);
+  line-height: .92;
+  margin-bottom: 20px;
+}
+
+.sec-lede {
+  font-family: var(--P);
+  font-style: italic;
+  font-size: 19px;
+  color: rgba(245,240,234,.55);
+  max-width: 700px;
+  margin-bottom: 64px;
+  line-height: 1.65;
+}
+
+/* ── FOUNDER STORY ── */
+.founder-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1px;
+  background: var(--border);
+  border: 0.5px solid var(--border);
+  margin-bottom: 1px;
+}
+.founder-block {
+  background: var(--near-black);
+  padding: 52px 48px;
+}
+.founder-block.accent { background: var(--dark); }
+.founder-label {
+  font-size: 9px; letter-spacing: .3em; text-transform: uppercase;
+  color: var(--gold); margin-bottom: 22px;
+}
+.founder-pull {
+  font-family: var(--P);
+  font-style: italic;
+  font-size: clamp(22px, 2.4vw, 30px);
+  line-height: 1.45;
+  color: var(--white);
+  margin-bottom: 24px;
+}
+.founder-body {
+  font-size: 14px;
+  line-height: 1.82;
+  color: rgba(245,240,234,.5);
+}
+.founder-body b { color: rgba(245,240,234,.8); font-weight: 400; }
+
+.founder-quote {
+  background: var(--near-black);
+  border: 0.5px solid var(--border);
+  border-top: none;
+  padding: 40px 48px;
+  display: flex; align-items: center; gap: 48px;
+}
+.founder-quote-mark {
+  font-family: var(--D);
+  font-size: 120px;
+  line-height: 1;
+  color: rgba(200,184,154,.1);
+  flex-shrink: 0;
+  margin-top: -20px;
+}
+.founder-quote-text {
+  font-family: var(--P);
+  font-style: italic;
+  font-size: 24px;
+  line-height: 1.5;
+  color: rgba(245,240,234,.8);
+}
+.founder-quote-attr {
+  margin-top: 16px;
+  font-size: 10px; letter-spacing: .24em; text-transform: uppercase;
+  color: var(--gold);
+}
+
+/* ── COLLECTION HERO ── */
+.coll-intro {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: 80px;
+  align-items: end;
+  margin-bottom: 64px;
+}
+.coll-name {
+  font-family: var(--D);
+  font-size: clamp(72px, 10vw, 160px);
+  letter-spacing: .025em;
+  color: var(--white);
+  line-height: .9;
+}
+.coll-name-italic {
+  display: block;
+  font-family: var(--P);
+  font-style: italic;
+  font-weight: 400;
+  font-size: clamp(20px, 2.5vw, 36px);
+  color: rgba(200,184,154,.6);
+  margin-top: 6px;
+  letter-spacing: 0;
+}
+.coll-tagline-block { text-align: right; }
+.coll-tagline {
+  font-size: 11px; letter-spacing: .24em; text-transform: uppercase;
+  color: rgba(245,240,234,.4); max-width: 280px; text-align: right;
+  line-height: 1.8;
+}
+
+/* ── COLLECTION LAYOUT ── */
+.coll-body {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1px;
+  background: var(--border);
+  border: 0.5px solid var(--border);
+  margin-bottom: 1px;
+}
+.coll-image-block {
+  background: var(--near-black);
+  position: relative;
+  overflow: hidden;
+  min-height: 540px;
+  display: flex; align-items: center; justify-content: center;
+}
+.coll-image-block img {
+  width: 100%; height: 100%;
+  object-fit: cover;
+  object-position: center;
+  display: block;
+  mix-blend-mode: lighten;
+  opacity: .92;
+}
+.coll-image-block.dark-bg { background: #0a0a0a; }
+.coll-image-bg-text {
+  position: absolute;
+  font-family: var(--D);
+  font-size: 200px;
+  color: rgba(200,184,154,.04);
+  pointer-events: none;
+  letter-spacing: .04em;
+  line-height: 1;
+}
+.coll-detail {
+  background: var(--near-black);
+  padding: 52px 48px;
+  display: flex; flex-direction: column; justify-content: space-between;
+}
+.coll-detail-label {
+  font-size: 9px; letter-spacing: .3em; text-transform: uppercase;
+  color: var(--gold); margin-bottom: 8px;
+}
+.coll-detail-desc {
+  font-size: 15px; line-height: 1.82;
+  color: rgba(245,240,234,.52);
+  margin-bottom: 48px;
+  max-width: 420px;
+}
+
+/* ── SPEC TABLE ── */
+.spec-table {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: 0;
+  border: 0.5px solid var(--border-soft);
+  margin-bottom: 32px;
+}
+.spec-row {
+  display: contents;
+}
+.spec-key, .spec-val {
+  padding: 12px 18px;
+  font-size: 12px;
+  border-bottom: 0.5px solid rgba(200,184,154,.08);
+}
+.spec-key {
+  font-size: 9px; letter-spacing: .22em; text-transform: uppercase;
+  color: var(--gold); background: rgba(200,184,154,.04);
+  white-space: nowrap;
+}
+.spec-val { color: rgba(245,240,234,.65); }
+.spec-key:last-of-type, .spec-val:last-of-type { border-bottom: none; }
+
+/* ── COLLECTION TAGS ── */
+.coll-tags {
+  display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 28px;
+}
+.tag {
+  font-size: 9px; letter-spacing: .2em; text-transform: uppercase;
+  color: var(--gold); border: 0.5px solid rgba(200,184,154,.3);
+  padding: 5px 14px;
+}
+
+.coll-cta {
+  display: inline-flex; align-items: center; gap: 12px;
+  font-size: 10px; letter-spacing: .22em; text-transform: uppercase;
+  color: var(--gold); border-bottom: 0.5px solid rgba(200,184,154,.3);
+  padding-bottom: 6px;
+}
+.coll-cta::after { content: '→'; }
+
+/* ── MODEL CARDS ── */
+.model-cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: 1px;
+  background: var(--border);
+  border: 0.5px solid var(--border);
+}
+.model-card {
+  background: var(--near-black);
+  padding: 36px 32px;
+}
+.model-card-num {
+  font-family: var(--D);
+  font-size: 13px; letter-spacing: .18em;
+  color: var(--gold); margin-bottom: 8px;
+}
+.model-card-name {
+  font-family: var(--D);
+  font-size: 28px; letter-spacing: .04em;
+  color: var(--white); line-height: 1;
+  margin-bottom: 4px;
+}
+.model-card-subtitle {
+  font-family: var(--P);
+  font-style: italic; font-size: 13px;
+  color: rgba(200,184,154,.55);
+  margin-bottom: 20px;
+}
+.model-card-dim {
+  font-size: 11px; letter-spacing: .12em;
+  color: rgba(245,240,234,.35);
+  font-family: 'Courier New', monospace;
+  margin-bottom: 16px;
+}
+.model-card-detail {
+  font-size: 12px; line-height: 1.7;
+  color: rgba(245,240,234,.45);
+}
+
+/* ── FIT ARCHITECTURE ── */
+.fit-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1px;
+  background: var(--border);
+  border: 0.5px solid var(--border);
+  margin-bottom: 1px;
+}
+.fit-block {
+  background: var(--near-black);
+  padding: 40px 32px;
+  min-height: 260px;
+  display: flex; flex-direction: column; justify-content: space-between;
+}
+.fit-block-num {
+  font-family: var(--D);
+  font-size: 56px; color: rgba(200,184,154,.2);
+  line-height: 1; margin-bottom: 20px;
+}
+.fit-block-title {
+  font-family: var(--D);
+  font-size: 22px; letter-spacing: .06em;
+  color: var(--white); margin-bottom: 10px;
+}
+.fit-block-body {
+  font-size: 13px; line-height: 1.72;
+  color: rgba(245,240,234,.48);
+}
+
+.fit-statement {
+  background: var(--dark);
+  border: 0.5px solid var(--border);
+  border-top: none;
+  padding: 56px 60px;
+  display: flex; align-items: center; gap: 80px;
+}
+.fit-statement-line {
+  width: 1px; height: 120px; background: var(--gold); opacity: .3; flex-shrink: 0;
+}
+.fit-statement-text {
+  font-family: var(--P);
+  font-style: italic; font-size: clamp(24px, 2.8vw, 36px);
+  line-height: 1.45; color: rgba(245,240,234,.78);
+  flex: 1;
+}
+.fit-statement-attr {
+  font-size: 10px; letter-spacing: .24em; text-transform: uppercase;
+  color: var(--gold); flex-shrink: 0;
+}
+
+/* ── QUOTE CARDS ── */
+.quotes-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1px;
+  background: var(--border);
+  border: 0.5px solid var(--border);
+}
+.quote-card {
+  background: var(--near-black);
+  padding: 52px 48px;
+}
+.quote-card.alt { background: var(--dark); }
+.quote-mark {
+  font-family: var(--D);
+  font-size: 72px;
+  color: rgba(200,184,154,.15);
+  line-height: 1;
+  margin-bottom: 8px;
+}
+.quote-text {
+  font-family: var(--P);
+  font-style: italic; font-size: 22px;
+  line-height: 1.55; color: var(--white);
+  margin-bottom: 28px;
+}
+.quote-attr-name {
+  font-family: var(--D); font-size: 15px; letter-spacing: .1em;
+  color: var(--gold); margin-bottom: 2px;
+}
+.quote-attr-title {
+  font-size: 11px; letter-spacing: .18em; text-transform: uppercase;
+  color: rgba(245,240,234,.35);
+}
+
+/* ── PHILOSOPHY STRIP ── */
+.philosophy {
+  background: var(--near-black);
+  border: 0.5px solid var(--border);
+  border-top: none;
+  padding: 80px 60px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+}
+.philosophy-eyebrow {
+  font-size: 9px; letter-spacing: .38em; text-transform: uppercase;
+  color: var(--gold); margin-bottom: 28px;
+}
+.philosophy-statement {
+  font-family: var(--D);
+  font-size: clamp(52px, 7vw, 110px);
+  letter-spacing: .02em;
+  color: var(--white);
+  line-height: .92;
+  margin-bottom: 8px;
+}
+.philosophy-statement em {
+  font-family: var(--P);
+  font-style: italic;
+  font-size: clamp(32px, 4.5vw, 68px);
+  color: rgba(200,184,154,.6);
+  display: block;
+  letter-spacing: 0;
+  line-height: 1.2;
+  margin-top: 4px;
+}
+.philosophy-desc {
+  font-size: 15px; line-height: 1.78; color: rgba(245,240,234,.42);
+  max-width: 560px; margin-top: 40px;
+}
+
+/* ── FOOTER ── */
+footer {
+  padding: 52px 60px;
+  border-top: 0.5px solid var(--border);
+  display: flex; justify-content: space-between; align-items: center;
+}
+.footer-logo {
+  font-family: var(--D); font-size: 15px; letter-spacing: .14em;
+  color: rgba(245,240,234,.3);
+}
+.footer-links {
+  display: flex; gap: 32px;
+  font-size: 10px; letter-spacing: .2em; text-transform: uppercase;
+  color: rgba(245,240,234,.3);
+}
+.footer-links a:hover { color: var(--gold); transition: color .2s; }
+.footer-legal {
+  font-size: 10px; letter-spacing: .14em; text-transform: uppercase;
+  color: rgba(245,240,234,.2);
+}
+
+/* ── DIVIDER ── */
+.rule { height: 0.5px; background: var(--border); margin: 0 60px; }
+
+@media (max-width: 960px) {
+  nav { padding: 18px 24px; }
+  .nav-links { display: none; }
+  .cover, section, footer { padding-left: 24px; padding-right: 24px; }
+  .coll-body { grid-template-columns: 1fr; }
+  .coll-intro { grid-template-columns: 1fr; gap: 24px; }
+  .coll-tagline-block { text-align: left; }
+  .coll-tagline { text-align: left; max-width: 100%; }
+  .founder-grid { grid-template-columns: 1fr; }
+  .fit-grid { grid-template-columns: 1fr; }
+  .quotes-grid { grid-template-columns: 1fr; }
+  .fit-statement { flex-direction: column; gap: 32px; }
+  .fit-statement-line { width: 80px; height: 1px; }
+  .rule { margin: 0 24px; }
+}
+</style>
+</head>
+<body>
+
+<!-- ── NAV ── -->
+<nav id="nav">
+  <div class="nav-logo">
+    <img src="assets/logo.png" alt="Noon Shop" onerror="this.style.display='none'">
+    NOON SHOP
+  </div>
+  <div class="nav-links">
+    <a href="#dormann">Dormann</a>
+    <a href="#steel-brown">Steel Brown</a>
+    <a href="#denova">DeNova</a>
+    <a href="#fit">Fit Architecture</a>
+  </div>
+  <a href="https://www.noonshop.com/collections/all" class="nav-links nav-cta" target="_blank">Shop Now</a>
+</nav>
+
+<!-- ── COVER ── -->
+<section class="cover">
+  <div class="cover-gold-line"></div>
+  <div class="cover-wm">FRAMES</div>
+  <div class="cover-tag">Noon Shop · The Collections</div>
+  <h1 class="cover-h1">
+    THREE<br>
+    COLLECTIONS
+    <span class="cover-h1-sub">Built on fit. Measured in millimetres.</span>
+  </h1>
+  <div class="cover-foot">
+    <p class="cover-desc">
+      Dormann. Steel Brown. DeNova. Each collection engineered from a single truth —
+      that the face was never the problem. Precision materials, exact geometry,
+      and a founder's obsession with fit that begins at the nose bridge and ends
+      at nothing less than perfect.
+    </p>
+    <div class="cover-meta">
+      <div class="cover-meta-item"><b>Collections</b> 3</div>
+      <div class="cover-meta-item"><b>Models</b> 60+</div>
+      <div class="cover-meta-item"><b>Origin</b> Seoul, Korea</div>
+      <div class="cover-meta-item"><b>Units Sold</b> 80,000+</div>
+    </div>
+  </div>
+</section>
+
+<div class="rule"></div>
+
+<!-- ── FOUNDER NARRATIVE ── -->
+<section class="section-rule" id="founder">
+  <div class="eyebrow">01 · The Origin</div>
+  <h2 class="sec-h2">A doctor's<br>diagnosis.</h2>
+  <p class="sec-lede">Dr. Anna Park didn't start an eyewear brand. She solved a medical problem that optical shops had ignored for decades.</p>
+
+  <div class="founder-grid">
+    <div class="founder-block">
+      <div class="founder-label">The Moment</div>
+      <p class="founder-pull">"Three optical shops. Three failed fittings. One child who couldn't see clearly because no frame was built for his face."</p>
+      <p class="founder-body">
+        As an ophthalmologist, Dr. Anna Park understood vision correction with clinical precision. But when she took her son to be fitted for glasses, the system failed him — not once, but three times. Shop after shop, the response was the same: <b>the frames just don't fit faces like his.</b>
+        <br><br>
+        For an MD who had spent years treating patients with similar low-bridge, wider-set facial geometry — predominantly of East Asian descent — this wasn't an inconvenience. It was a diagnosis. The problem wasn't her son's face. The problem was an industry that had never bothered to engineer for it.
+      </p>
+    </div>
+    <div class="founder-block accent">
+      <div class="founder-label">The Insight</div>
+      <p class="founder-pull">"Fit is not an aesthetic preference. It is a functional requirement. A frame that slides cannot correct vision."</p>
+      <p class="founder-body">
+        Standard eyewear is calibrated around European facial geometry — higher nose bridges, narrower cheekbones, more angular profiles. For the estimated <b>1.5 billion people</b> with low-bridge anatomy, this means frames that gap, slide, fog, and press — compromising both comfort and optical performance.
+        <br><br>
+        Noon Shop was founded on a medical insight: <b>a frame that doesn't fit is a frame that doesn't work.</b> Every collection — Dormann, Steel Brown, and DeNova — was engineered backward from that principle. Nose bridge geometry first. Temple flex second. Material weight third. Aesthetics last, but never compromised.
+      </p>
+    </div>
+  </div>
+
+  <div class="founder-quote">
+    <div class="founder-quote-mark">"</div>
+    <div>
+      <p class="founder-quote-text">
+        Fit is fundamental. It is the single variable that determines whether eyewear functions as a medical device or merely a fashion accessory. We chose to build for function first — and discovered that precision engineering is, by nature, beautiful.
+      </p>
+      <p class="founder-quote-attr">Dr. Anna Park MD — Founder &amp; Chief Designer, Noon Shop</p>
+    </div>
+  </div>
+</section>
+
+<div class="rule"></div>
+
+<!-- ── DORMANN COLLECTION ── -->
+<section class="section-rule" id="dormann">
+  <div class="coll-intro">
+    <div>
+      <div class="eyebrow">02 · Collection One</div>
+      <div class="coll-name">
+        DORMANN
+        <span class="coll-name-italic">The art of staying light.</span>
+      </div>
+    </div>
+    <div class="coll-tagline-block">
+      <p class="coll-tagline">
+        TR90 frame body<br>
+        Beta-titanium temples<br>
+        Round &amp; modified-oval silhouette<br>
+        From 49 mm lens width
+      </p>
+    </div>
+  </div>
+
+  <div class="coll-body">
+    <div class="coll-image-block dark-bg">
+      <div class="coll-image-bg-text">DR</div>
+      <img src="assets/gold-round-1.png" alt="Dormann gold round frames on white background">
+    </div>
+    <div class="coll-detail">
+      <div>
+        <div class="coll-detail-label">About the Collection</div>
+        <p class="coll-detail-desc">
+          Dormann begins where most frames end — with the question of weight. At its lightest, a Dormann frame is almost imperceptible. TR90, the aerospace-grade thermoplastic polymer used in the frame body, is structurally rigid yet weighs almost nothing. Beta-titanium temples add responsive memory flex that the nose bridge and ear hooks hold without spring tension.
+          <br><br>
+          The result is a round-to-oval silhouette that stays flush against a low-bridge face without nose pads digging in, without temple pressure, without the constant micro-adjustment that tells you your frames were designed for someone else.
+        </p>
+
+        <div class="coll-tags">
+          <span class="tag">TR90 Frame</span>
+          <span class="tag">Beta-Titanium Temples</span>
+          <span class="tag">Round Silhouette</span>
+          <span class="tag">Low Bridge Fit</span>
+          <span class="tag">Sunglasses</span>
+        </div>
+
+        <div class="spec-table">
+          <span class="spec-key">Frame Material</span>
+          <span class="spec-val">TR90 thermoplastic polymer — flexible, impact-resistant, nickel-free contact zones</span>
+          <span class="spec-key">Temples</span>
+          <span class="spec-val">Beta-titanium — shape memory alloy, returns to original form after flex</span>
+          <span class="spec-key">Hinge</span>
+          <span class="spec-val">Precision stainless steel hinge with nickel content (no skin contact)</span>
+          <span class="spec-key">Lens Width</span>
+          <span class="spec-val">49 mm – 53 mm depending on model</span>
+          <span class="spec-key">Bridge</span>
+          <span class="spec-val">20 mm – 21 mm, low-bridge geometry</span>
+          <span class="spec-key">Temple Length</span>
+          <span class="spec-val">145 mm – 150 mm</span>
+          <span class="spec-key">Silhouette</span>
+          <span class="spec-val">Round to modified-oval; playful, structurally minimal</span>
+          <span class="spec-key">Finish</span>
+          <span class="spec-val">Multi-layer coat + dry finish; CE &amp; UV protection</span>
+        </div>
+
+        <a href="https://www.noonshop.com/collections/dormann" class="coll-cta" target="_blank">Browse Dormann Collection</a>
+      </div>
+    </div>
+  </div>
+
+  <!-- Dormann Model Cards -->
+  <div class="model-cards">
+    <div class="model-card">
+      <div class="model-card-num">DR25201 Series</div>
+      <div class="model-card-name">DORMANN<br>2025</div>
+      <div class="model-card-subtitle">Latest release — five colourways</div>
+      <div class="model-card-dim">50 □ 20 – 150</div>
+      <p class="model-card-detail">Flagship 2025 silhouette. Refined oval lens with the widest TR90 frame body in the collection. Available in five curated colourways — from tortoise-tinted to matte ink.</p>
+    </div>
+    <div class="model-card">
+      <div class="model-card-num">DR25101 Series</div>
+      <div class="model-card-name">DORMANN<br>25 SLIM</div>
+      <div class="model-card-subtitle">Narrower profile — eight colourways</div>
+      <div class="model-card-dim">49 □ 21 – 150</div>
+      <p class="model-card-detail">The slim-oval variant of the 2025 range. A 1 mm tighter bridge and slightly narrower lens — ideal for a more precise, graphic look. Most versatile model for daily wear.</p>
+    </div>
+    <div class="model-card">
+      <div class="model-card-num">DR24100 Series</div>
+      <div class="model-card-name">DORMANN<br>2024</div>
+      <div class="model-card-subtitle">Seven colourways — prior season</div>
+      <div class="model-card-dim">49 □ 21 – 150</div>
+      <p class="model-card-detail">The model that established the round Dormann language. Rounder, slightly softer lens geometry than the 2025 update. Still the most requested silhouette in the archive.</p>
+    </div>
+    <div class="model-card">
+      <div class="model-card-num">DR23000 Series</div>
+      <div class="model-card-name">DORMANN<br>ORIGIN</div>
+      <div class="model-card-subtitle">Foundation model — two colourways</div>
+      <div class="model-card-dim">50 □ 20 – 145</div>
+      <p class="model-card-detail">Where the collection began. The original Dormann proportion — the first frame Dr. Park engineered specifically for lower nose bridges. Legacy model; limited availability.</p>
+    </div>
+  </div>
+</section>
+
+<div class="rule"></div>
+
+<!-- ── STEEL BROWN COLLECTION ── -->
+<section class="section-rule" id="steel-brown">
+  <div class="coll-intro">
+    <div>
+      <div class="eyebrow">03 · Collection Two</div>
+      <div class="coll-name">
+        STEEL<br>BROWN
+        <span class="coll-name-italic">German precision. Korean fit.</span>
+      </div>
+    </div>
+    <div class="coll-tagline-block">
+      <p class="coll-tagline">
+        Medical-grade German stainless steel<br>
+        Italian Mazzucchelli acetate<br>
+        Designed with Wolfgang Proksch<br>
+        From 49 mm lens width
+      </p>
+    </div>
+  </div>
+
+  <div class="coll-body">
+    <div class="coll-detail" style="border-right: 0.5px solid var(--border);">
+      <div>
+        <div class="coll-detail-label">About the Collection</div>
+        <p class="coll-detail-desc">
+          Steel Brown represents Noon Shop's collaboration with the European eyewear tradition — partnered with Wolfgang Proksch, the German designer behind several international award-winning optical brands.
+          <br><br>
+          The frame body is wafer-thin German medical-grade stainless steel — the same material classification used in surgical instruments. Italian acetate accents by Mazzucchelli add warmth and tactile depth. The panto and polygonal top-bar silhouettes are architecturally bold while remaining rooted in the same fit-first engineering: a lower bridge profile, wider mid-frame geometry, and temples calibrated for faces that standard luxury frames have historically excluded.
+        </p>
+
+        <div class="coll-tags">
+          <span class="tag">German Stainless Steel</span>
+          <span class="tag">Mazzucchelli Acetate</span>
+          <span class="tag">Panto Silhouette</span>
+          <span class="tag">Wolfgang Proksch</span>
+          <span class="tag">Award-Winning Design</span>
+        </div>
+
+        <div class="spec-table">
+          <span class="spec-key">Frame Material</span>
+          <span class="spec-val">Medical-grade German stainless steel — wafer-thin, hypoallergenic</span>
+          <span class="spec-key">Acetate Accents</span>
+          <span class="spec-val">Italian Mazzucchelli acetate — cellulose acetate, highest industry standard</span>
+          <span class="spec-key">Design Partner</span>
+          <span class="spec-val">Wolfgang Proksch — international award-winning German eyeglass designer</span>
+          <span class="spec-key">Lens Width</span>
+          <span class="spec-val">49 mm (primary); varies by silhouette series</span>
+          <span class="spec-key">Bridge</span>
+          <span class="spec-val">21 mm low-bridge fit geometry</span>
+          <span class="spec-key">Temple Length</span>
+          <span class="spec-val">145 mm</span>
+          <span class="spec-key">Weight</span>
+          <span class="spec-val">Approximately 14 g — significantly below category average</span>
+          <span class="spec-key">Silhouette</span>
+          <span class="spec-val">Panto; polygonal top-bar; geometric-contemporary</span>
+        </div>
+
+        <a href="https://www.noonshop.com/collections/steel-brown" class="coll-cta" target="_blank">Browse Steel Brown Collection</a>
+      </div>
+    </div>
+    <div class="coll-image-block dark-bg">
+      <div class="coll-image-bg-text">SB</div>
+      <img src="assets/thin-rect.png" alt="Steel Brown thin rectangular frame on white background">
+    </div>
+  </div>
+
+  <!-- Steel Brown Model Cards -->
+  <div class="model-cards">
+    <div class="model-card">
+      <div class="model-card-num">SB82514 Series</div>
+      <div class="model-card-name">PROKSCH<br>SLIM</div>
+      <div class="model-card-subtitle">Flagship slim panto — three colourways</div>
+      <div class="model-card-dim">49 □ 21 – 145</div>
+      <p class="model-card-detail">The defining Steel Brown silhouette. Proksch's signature panto form in medical stainless — the thinnest metal rim in the collection. GY, MB, MM colourways.</p>
+    </div>
+    <div class="model-card">
+      <div class="model-card-num">SB82400 Series</div>
+      <div class="model-card-name">PROKSCH<br>ARCH</div>
+      <div class="model-card-subtitle">Polygonal top bar — five colourways</div>
+      <div class="model-card-dim">49 □ 21 – 145</div>
+      <p class="model-card-detail">Top-bar geometric variant with an angular crown line that creates a strong brow profile. Acetate accents in the temple arm add tactile warmth to the steel construction.</p>
+    </div>
+    <div class="model-card">
+      <div class="model-card-num">SB82300 Series</div>
+      <div class="model-card-name">PROKSCH<br>CLASSIC</div>
+      <div class="model-card-subtitle">Rounded panto — three colourways</div>
+      <div class="model-card-dim">49 □ 21 – 145</div>
+      <p class="model-card-detail">A softer take on the panto form. Rounder lower lens edge, less angular crown. The most approachable entry into the Steel Brown family — versatile across occasions.</p>
+    </div>
+    <div class="model-card">
+      <div class="model-card-num">SB82110</div>
+      <div class="model-card-name">PROKSCH<br>ONE</div>
+      <div class="model-card-subtitle">Original model — five colourways</div>
+      <div class="model-card-dim">49 □ 21 – 145</div>
+      <p class="model-card-detail">The original Steel Brown frame — the model that introduced Wolfgang Proksch's design language to the Noon Shop fit system. Foundation piece; BP, BR, GY, MB, MM.</p>
+    </div>
+  </div>
+</section>
+
+<div class="rule"></div>
+
+<!-- ── DENOVA COLLECTION ── -->
+<section class="section-rule" id="denova">
+  <div class="coll-intro">
+    <div>
+      <div class="eyebrow">04 · Collection Three</div>
+      <div class="coll-name">
+        DeNOVA
+        <span class="coll-name-italic">Featherlight. Engineered to hold.</span>
+      </div>
+    </div>
+    <div class="coll-tagline-block">
+      <p class="coll-tagline">
+        Medical-grade German stainless steel<br>
+        Beta-titanium temples<br>
+        Innovative dual-material hinge<br>
+        From 50 mm lens width
+      </p>
+    </div>
+  </div>
+
+  <div class="coll-body">
+    <div class="coll-image-block dark-bg">
+      <div class="coll-image-bg-text">DN</div>
+      <img src="assets/classic-round.png" alt="DeNova frames on white background">
+    </div>
+    <div class="coll-detail">
+      <div>
+        <div class="coll-detail-label">About the Collection</div>
+        <p class="coll-detail-desc">
+          DeNova solves an engineering problem that most eyewear brands don't acknowledge: the hinge. Every frame flexes. Most hinges are a single material — which means they either resist flex (stiff, uncomfortable) or allow too much (frames that lose their shape). DeNova bridges both with a patented dual-material hinge that joins German medical stainless steel to beta-titanium in a single integrated mechanism.
+          <br><br>
+          The stainless steel frame body provides the structural rigidity and corrosion resistance required for daily wear. The beta-titanium temples provide memory flex — press them flat and they return to their original geometry within seconds. The hinge translates between the two without stress fractures, fatigue, or play. At 50 grams or under, DeNova is the most technically ambitious frame in the Noon Shop line.
+        </p>
+
+        <div class="coll-tags">
+          <span class="tag">German Stainless Steel</span>
+          <span class="tag">Beta-Titanium Temples</span>
+          <span class="tag">Dual-Material Hinge</span>
+          <span class="tag">Featherlight</span>
+          <span class="tag">Optical &amp; Sun</span>
+        </div>
+
+        <div class="spec-table">
+          <span class="spec-key">Frame Material</span>
+          <span class="spec-val">Medical-grade German stainless steel — hypoallergenic, corrosion-resistant</span>
+          <span class="spec-key">Temples</span>
+          <span class="spec-val">Beta-titanium — shape-memory alloy, responds to body temperature</span>
+          <span class="spec-key">Hinge Technology</span>
+          <span class="spec-val">Integrated dual-material hinge — proprietary steel-to-titanium joint</span>
+          <span class="spec-key">Lens Width</span>
+          <span class="spec-val">50 mm – 53 mm depending on model</span>
+          <span class="spec-key">Bridge</span>
+          <span class="spec-val">20 mm low-bridge geometry</span>
+          <span class="spec-key">Temple Length</span>
+          <span class="spec-val">145 mm</span>
+          <span class="spec-key">Weight</span>
+          <span class="spec-val">Featherlight — below 20 g for most models</span>
+          <span class="spec-key">Availability</span>
+          <span class="spec-val">Optical (prescription-ready) and sunglass variants</span>
+        </div>
+
+        <a href="https://www.noonshop.com/collections/denova" class="coll-cta" target="_blank">Browse DeNova Collection</a>
+      </div>
+    </div>
+  </div>
+
+  <!-- DeNova Model Cards -->
+  <div class="model-cards">
+    <div class="model-card">
+      <div class="model-card-num">DO12500 Series</div>
+      <div class="model-card-name">DeNOVA<br>OPTICAL</div>
+      <div class="model-card-subtitle">Prescription-ready — four colourways</div>
+      <div class="model-card-dim">53 □ 20 – 145</div>
+      <p class="model-card-detail">The widest lens in the DeNova optical range. Designed for prescription wearers who require precise vertex distance. DU, GY, MB, MM colourways. Contact for Rx fitting.</p>
+    </div>
+    <div class="model-card">
+      <div class="model-card-num">DO12400 Series</div>
+      <div class="model-card-name">DeNOVA<br>URBAN</div>
+      <div class="model-card-subtitle">Daily wear — five colourways</div>
+      <div class="model-card-dim">50 □ 20 – 145</div>
+      <p class="model-card-detail">The everyday DeNova. Slightly rounder than the Optical series with the same dual-hinge architecture. Five finishes from matte graphite to warm tortoise.</p>
+    </div>
+    <div class="model-card">
+      <div class="model-card-num">DO12017</div>
+      <div class="model-card-name">DeNOVA<br>ORIGIN</div>
+      <div class="model-card-subtitle">Foundational model — single colourway</div>
+      <div class="model-card-dim">50 □ 20 – 145</div>
+      <p class="model-card-detail">The frame that defined the DeNova system. Original hinge prototype geometry, now in production finish. TPE-PO colourway — a warm, translucent honey acetate accent on steel.</p>
+    </div>
+    <div class="model-card">
+      <div class="model-card-num">DO12510 Series</div>
+      <div class="model-card-name">DeNOVA<br>SPORT</div>
+      <div class="model-card-subtitle">Sun variant — three colourways</div>
+      <div class="model-card-dim">50 □ 20 – 145</div>
+      <p class="model-card-detail">The sport-ready DeNova. Increased temple grip angle and wider nose bridge clearance for active wear. CE-certified lenses. Sits flush through movement.</p>
+    </div>
+  </div>
+</section>
+
+<div class="rule"></div>
+
+<!-- ── FIT ARCHITECTURE ── -->
+<section class="section-rule" id="fit">
+  <div class="eyebrow">05 · Fit Architecture</div>
+  <h2 class="sec-h2">The engineering<br>behind the feel.</h2>
+  <p class="sec-lede">Three contact points determine whether eyewear fits. Noon Shop engineers all three with clinical precision — and nothing else.</p>
+
+  <div class="fit-grid">
+    <div class="fit-block">
+      <div class="fit-block-num">01</div>
+      <div>
+        <div class="fit-block-title">NOSE BRIDGE</div>
+        <p class="fit-block-body">
+          Standard frame bridges are set at 22–24 mm for European anatomy. Noon Shop bridges sit at 20–21 mm — matching the narrower nasal geometry common in East Asian, Southeast Asian, and many Latin American facial structures. A correctly-set bridge means the frame sits flat, not angled; flush, not floating.
+        </p>
+      </div>
+    </div>
+    <div class="fit-block">
+      <div class="fit-block-num">02</div>
+      <div>
+        <div class="fit-block-title">TEMPLE FLEX</div>
+        <p class="fit-block-body">
+          Beta-titanium is a shape-memory alloy — it returns to its programmed geometry after flexing up to 40° without fatigue or deformation. Noon Shop temples are pre-set for a wider cranial profile (cheekbone-to-cheekbone), meaning they hold without squeezing. No headache. No pressure marks. Just the frame sitting where it belongs.
+        </p>
+      </div>
+    </div>
+    <div class="fit-block">
+      <div class="fit-block-num">03</div>
+      <div>
+        <div class="fit-block-title">FRAME WEIGHT</div>
+        <p class="fit-block-body">
+          A 30-gram frame exerts ~6g of downward force on the nose bridge per hour of wear. Noon Shop frames, at 14–20g, reduce that load by 40–50%. On a face with a lower nose bridge — where the contact area is smaller — weight is not a comfort issue. It is a medical one. TR90 and stainless steel were chosen for their weight-to-rigidity ratios, not their marketing appeal.
+        </p>
+      </div>
+    </div>
+  </div>
+
+  <div class="fit-statement">
+    <div class="fit-statement-line"></div>
+    <p class="fit-statement-text">
+      Every specification in our line — lens width, bridge measurement, temple length, material choice — is a fit decision before it is a style decision. The aesthetics follow the engineering. They always have.
+    </p>
+    <p class="fit-statement-attr">Noon Shop<br>Design Principle</p>
+  </div>
+</section>
+
+<div class="rule"></div>
+
+<!-- ── QUOTES ── -->
+<section class="section-rule" id="quotes">
+  <div class="eyebrow">06 · In Her Words</div>
+  <h2 class="sec-h2">Dr. Anna Park.</h2>
+  <p class="sec-lede">Founder. Ophthalmologist. The person who decided that 1.5 billion people deserved better than the frames that existed.</p>
+
+  <div class="quotes-grid">
+    <div class="quote-card">
+      <div class="quote-mark">"</div>
+      <p class="quote-text">
+        When my son couldn't find a frame that fit, I didn't blame the opticians. I blamed the system. Standard eyewear has been built on one set of measurements for a hundred years. That's not a design constraint. That's a choice — and a wrong one.
+      </p>
+      <div>
+        <div class="quote-attr-name">Dr. Anna Park MD</div>
+        <div class="quote-attr-title">Founder · Noon Shop</div>
+      </div>
+    </div>
+    <div class="quote-card alt">
+      <div class="quote-mark">"</div>
+      <p class="quote-text">
+        My patients wear frames every waking hour. An ill-fitting frame creates pressure, headaches, and asymmetric visual correction. From a clinical standpoint, fit is not a luxury feature. It is a prerequisite for the product to function at all.
+      </p>
+      <div>
+        <div class="quote-attr-name">Dr. Anna Park MD</div>
+        <div class="quote-attr-title">Ophthalmologist · Noon Shop</div>
+      </div>
+    </div>
+    <div class="quote-card alt">
+      <div class="quote-mark">"</div>
+      <p class="quote-text">
+        The materials are chosen because they solve a physical problem. TR90 is nearly weightless. Beta-titanium remembers its shape. Medical stainless won't react with skin. Everything that sounds like a feature is actually an engineering solution to a fit problem.
+      </p>
+      <div>
+        <div class="quote-attr-name">Dr. Anna Park MD</div>
+        <div class="quote-attr-title">Chief Designer · Noon Shop</div>
+      </div>
+    </div>
+    <div class="quote-card">
+      <div class="quote-mark">"</div>
+      <p class="quote-text">
+        Eighty thousand pairs sold in Korea before we launched internationally. Every one of those customers was someone who had been told, in different words, that their face was the problem. We needed them to know it wasn't. It never was.
+      </p>
+      <div>
+        <div class="quote-attr-name">Dr. Anna Park MD</div>
+        <div class="quote-attr-title">Founder · Noon Shop Korea</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="rule"></div>
+
+<!-- ── PHILOSOPHY ── -->
+<section class="section-rule" style="padding: 0;">
+  <div class="philosophy">
+    <div class="philosophy-eyebrow">Noon Shop · Core Belief</div>
+    <div class="philosophy-statement">
+      FIT IS
+      <em>fundamental.</em>
+    </div>
+    <p class="philosophy-desc">
+      You were never hard to fit. You were wearing the wrong brand.
+      Dormann, Steel Brown, and DeNova exist because precision engineering and
+      low-bridge fit geometry are not opposing forces — they are the same thing.
+    </p>
+  </div>
+</section>
+
+<!-- ── FOOTER ── -->
+<footer>
+  <div class="footer-logo">NOON SHOP</div>
+  <div class="footer-links">
+    <a href="https://www.noonshop.com/collections/dormann" target="_blank">Dormann</a>
+    <a href="https://www.noonshop.com/collections/steel-brown" target="_blank">Steel Brown</a>
+    <a href="https://www.noonshop.com/collections/denova" target="_blank">DeNova</a>
+    <a href="mailto:hello@noonshop.com">Contact</a>
+  </div>
+  <div class="footer-legal">© 2025 Noon Shop · hello@noonshop.com</div>
+</footer>
+
+<script>
+// Nav scroll behaviour
+const nav = document.getElementById('nav');
+window.addEventListener('scroll', () => {
+  nav.classList.toggle('scrolled', window.scrollY > 60);
+});
+</script>
+
+</body>
+</html>
