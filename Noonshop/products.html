@@ -400,6 +400,21 @@ section { padding: 104px 60px; position: relative; }
   font-size: 12px; line-height: 1.7;
   color: rgba(245,240,234,.45);
 }
+a.model-card {
+  text-decoration: none; color: inherit; display: block;
+  transition: background .18s;
+}
+a.model-card:hover { background: rgba(200,184,154,.06); }
+a.model-card::after {
+  content: 'View frame →';
+  display: block; margin-top: 16px;
+  font-size: 9px; letter-spacing: .22em; text-transform: uppercase;
+  color: rgba(200,184,154,.4); transition: color .18s;
+}
+a.model-card:hover::after { color: var(--gold); }
+[data-theme="light"] a.model-card:hover { background: rgba(100,70,20,.06); }
+[data-theme="light"] a.model-card::after { color: rgba(100,70,20,.4); }
+[data-theme="light"] a.model-card:hover::after { color: #9A7840; }
 
 /* ── FIT ARCHITECTURE ── */
 .fit-grid {
@@ -643,6 +658,7 @@ footer {
     <a href="#fit">Fit Architecture</a>
   </div>
   <div style="display:flex;align-items:center;gap:12px;">
+    <a href="index.html" class="nav-links" style="font-size:10px;letter-spacing:.18em;opacity:.5;">← Hub</a>
     <a href="https://www.noonshop.com/collections/all" class="nav-links nav-cta" target="_blank">Shop Now</a>
     <button class="theme-toggle" id="themeToggle" aria-label="Toggle theme">
       <svg class="icon-moon" xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
@@ -787,34 +803,34 @@ footer {
 
   <!-- Dormann Model Cards -->
   <div class="model-cards">
-    <div class="model-card">
+    <a href="product-dr25201.html" class="model-card">
       <div class="model-card-num">DR25201 Series</div>
       <div class="model-card-name">DORMANN<br>2025</div>
       <div class="model-card-subtitle">Latest release — five colourways</div>
       <div class="model-card-dim">50 □ 20 – 150</div>
       <p class="model-card-detail">Flagship 2025 silhouette. Refined oval lens with the widest TR90 frame body in the collection. Available in five curated colourways — from tortoise-tinted to matte ink.</p>
-    </div>
-    <div class="model-card">
+    </a>
+    <a href="https://www.noonshop.com/products/dr25101" class="model-card" target="_blank">
       <div class="model-card-num">DR25101 Series</div>
       <div class="model-card-name">DORMANN<br>25 SLIM</div>
       <div class="model-card-subtitle">Narrower profile — eight colourways</div>
       <div class="model-card-dim">49 □ 21 – 150</div>
       <p class="model-card-detail">The slim-oval variant of the 2025 range. A 1 mm tighter bridge and slightly narrower lens — ideal for a more precise, graphic look. Most versatile model for daily wear.</p>
-    </div>
-    <div class="model-card">
+    </a>
+    <a href="https://www.noonshop.com/products/dr24101" class="model-card" target="_blank">
       <div class="model-card-num">DR24100 Series</div>
       <div class="model-card-name">DORMANN<br>2024</div>
       <div class="model-card-subtitle">Seven colourways — prior season</div>
       <div class="model-card-dim">49 □ 21 – 150</div>
       <p class="model-card-detail">The model that established the round Dormann language. Rounder, slightly softer lens geometry than the 2025 update. Still the most requested silhouette in the archive.</p>
-    </div>
-    <div class="model-card">
+    </a>
+    <a href="https://www.noonshop.com/products/dr23202" class="model-card" target="_blank">
       <div class="model-card-num">DR23000 Series</div>
       <div class="model-card-name">DORMANN<br>ORIGIN</div>
       <div class="model-card-subtitle">Foundation model — two colourways</div>
       <div class="model-card-dim">50 □ 20 – 145</div>
       <p class="model-card-detail">Where the collection began. The original Dormann proportion — the first frame Dr. Park engineered specifically for lower nose bridges. Legacy model; limited availability.</p>
-    </div>
+    </a>
   </div>
 </section>
 
@@ -888,34 +904,34 @@ footer {
 
   <!-- Steel Brown Model Cards -->
   <div class="model-cards">
-    <div class="model-card">
+    <a href="product-sb82514.html" class="model-card">
       <div class="model-card-num">SB82514 Series</div>
       <div class="model-card-name">PROKSCH<br>SLIM</div>
       <div class="model-card-subtitle">Flagship slim panto — three colourways</div>
       <div class="model-card-dim">49 □ 21 – 145</div>
       <p class="model-card-detail">The defining Steel Brown silhouette. Proksch's signature panto form in medical stainless — the thinnest metal rim in the collection. GY, MB, MM colourways.</p>
-    </div>
-    <div class="model-card">
+    </a>
+    <a href="https://www.noonshop.com/products/sb82408" class="model-card" target="_blank">
       <div class="model-card-num">SB82400 Series</div>
       <div class="model-card-name">PROKSCH<br>ARCH</div>
       <div class="model-card-subtitle">Polygonal top bar — five colourways</div>
       <div class="model-card-dim">49 □ 21 – 145</div>
       <p class="model-card-detail">Top-bar geometric variant with an angular crown line that creates a strong brow profile. Acetate accents in the temple arm add tactile warmth to the steel construction.</p>
-    </div>
-    <div class="model-card">
+    </a>
+    <a href="https://www.noonshop.com/products/sb82305" class="model-card" target="_blank">
       <div class="model-card-num">SB82300 Series</div>
       <div class="model-card-name">PROKSCH<br>CLASSIC</div>
       <div class="model-card-subtitle">Rounded panto — three colourways</div>
       <div class="model-card-dim">49 □ 21 – 145</div>
       <p class="model-card-detail">A softer take on the panto form. Rounder lower lens edge, less angular crown. The most approachable entry into the Steel Brown family — versatile across occasions.</p>
-    </div>
-    <div class="model-card">
+    </a>
+    <a href="https://www.noonshop.com/products/sb82110" class="model-card" target="_blank">
       <div class="model-card-num">SB82110</div>
       <div class="model-card-name">PROKSCH<br>ONE</div>
       <div class="model-card-subtitle">Original model — five colourways</div>
       <div class="model-card-dim">49 □ 21 – 145</div>
       <p class="model-card-detail">The original Steel Brown frame — the model that introduced Wolfgang Proksch's design language to the Noon Shop fit system. Foundation piece; BP, BR, GY, MB, MM.</p>
-    </div>
+    </a>
   </div>
 </section>
 
@@ -989,34 +1005,34 @@ footer {
 
   <!-- DeNova Model Cards -->
   <div class="model-cards">
-    <div class="model-card">
+    <a href="https://www.noonshop.com/products/do12505" class="model-card" target="_blank">
       <div class="model-card-num">DO12500 Series</div>
       <div class="model-card-name">DeNOVA<br>OPTICAL</div>
       <div class="model-card-subtitle">Prescription-ready — four colourways</div>
       <div class="model-card-dim">53 □ 20 – 145</div>
       <p class="model-card-detail">The widest lens in the DeNova optical range. Designed for prescription wearers who require precise vertex distance. DU, GY, MB, MM colourways. Contact for Rx fitting.</p>
-    </div>
-    <div class="model-card">
+    </a>
+    <a href="https://www.noonshop.com/products/do12406" class="model-card" target="_blank">
       <div class="model-card-num">DO12400 Series</div>
       <div class="model-card-name">DeNOVA<br>URBAN</div>
       <div class="model-card-subtitle">Daily wear — five colourways</div>
       <div class="model-card-dim">50 □ 20 – 145</div>
       <p class="model-card-detail">The everyday DeNova. Slightly rounder than the Optical series with the same dual-hinge architecture. Five finishes from matte graphite to warm tortoise.</p>
-    </div>
-    <div class="model-card">
+    </a>
+    <a href="https://www.noonshop.com/products/do12017" class="model-card" target="_blank">
       <div class="model-card-num">DO12017</div>
       <div class="model-card-name">DeNOVA<br>ORIGIN</div>
       <div class="model-card-subtitle">Foundational model — single colourway</div>
       <div class="model-card-dim">50 □ 20 – 145</div>
       <p class="model-card-detail">The frame that defined the DeNova system. Original hinge prototype geometry, now in production finish. TPE-PO colourway — a warm, translucent honey acetate accent on steel.</p>
-    </div>
-    <div class="model-card">
+    </a>
+    <a href="https://www.noonshop.com/products/do12511" class="model-card" target="_blank">
       <div class="model-card-num">DO12510 Series</div>
       <div class="model-card-name">DeNOVA<br>SPORT</div>
       <div class="model-card-subtitle">Sun variant — three colourways</div>
       <div class="model-card-dim">50 □ 20 – 145</div>
       <p class="model-card-detail">The sport-ready DeNova. Increased temple grip angle and wider nose bridge clearance for active wear. CE-certified lenses. Sits flush through movement.</p>
-    </div>
+    </a>
   </div>
 </section>
 
@@ -1141,6 +1157,7 @@ footer {
 <footer>
   <div class="footer-logo">NOON SHOP</div>
   <div class="footer-links">
+    <a href="index.html">← Hub</a>
     <a href="https://www.noonshop.com/collections/dormann" target="_blank">Dormann</a>
     <a href="https://www.noonshop.com/collections/steel-brown" target="_blank">Steel Brown</a>
     <a href="https://www.noonshop.com/collections/denova" target="_blank">DeNova</a>
