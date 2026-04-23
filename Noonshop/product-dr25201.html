@@ -4,6 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>DR25201 — Dormann Collection · Noon Shop</title>
+<script>try{document.documentElement.setAttribute('data-theme',localStorage.getItem('noonshop-theme')||'dark')}catch(e){}</script>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Outfit:wght@100;200;300;400;500&family=Playfair+Display:ital,wght@0,400;0,700;1,400;1,700&display=swap" rel="stylesheet">
 <style>
@@ -365,6 +366,58 @@ footer a { color: var(--gold); }
   .related-grid { grid-template-columns: 1fr 1fr; }
   footer { padding: 40px 24px; flex-direction: column; gap: 16px; text-align: center; }
 }
+
+/* ── THEME TOGGLE ── */
+.theme-toggle {
+  width: 34px; height: 34px; border-radius: 50%;
+  border: 0.5px solid rgba(200,184,154,.35); background: transparent;
+  color: var(--gold); cursor: pointer; flex-shrink: 0;
+  display: flex; align-items: center; justify-content: center;
+  transition: border-color .2s, background .2s;
+}
+.theme-toggle:hover { border-color: var(--gold); background: rgba(200,184,154,.1); }
+.icon-sun { display: none; }
+.icon-moon { display: block; }
+[data-theme="light"] .icon-sun { display: block; }
+[data-theme="light"] .icon-moon { display: none; }
+[data-theme="light"] .theme-toggle { border-color: rgba(120,90,40,.3); color: #9A7840; }
+
+/* ── LIGHT MODE ── */
+[data-theme="light"] {
+  --black: #F7F4EE; --near-black: #EFECE5; --dark: #E6E2DA;
+  --border: #D0CAC0; --text: #1E1A14; --white: #0C0A08;
+  --gold: #9A7840; --gold-dark: #7A5820;
+}
+[data-theme="light"] body { background: #F7F4EE; color: #1E1A14; }
+[data-theme="light"] nav.scrolled { background: rgba(247,244,238,.88); }
+[data-theme="light"] .nav-logo { color: rgba(12,10,8,.6); }
+[data-theme="light"] .nav-back { color: rgba(100,70,20,.6); }
+[data-theme="light"] .product-visual { background: #EFECE5; }
+[data-theme="light"] .product-visual-gold-line { background: linear-gradient(90deg,transparent,#9A7840,transparent); }
+[data-theme="light"] .product-visual-bg { color: rgba(12,10,8,.06); mix-blend-mode: multiply; }
+[data-theme="light"] .product-name { color: rgba(100,70,20,.6); }
+[data-theme="light"] .product-price-note { color: rgba(12,10,8,.38); }
+[data-theme="light"] .product-short-desc { color: rgba(12,10,8,.55); border-left-color: rgba(100,70,20,.25); }
+[data-theme="light"] .size-badge { background: rgba(100,70,20,.06); border-color: rgba(100,70,20,.2); color: rgba(12,10,8,.65); }
+[data-theme="light"] .quick-spec-value { color: #0C0A08; }
+[data-theme="light"] .btn-secondary { color: #9A7840; border-color: rgba(100,70,20,.35); }
+[data-theme="light"] .prescription-note { color: rgba(12,10,8,.32); }
+[data-theme="light"] .prescription-note a { color: #9A7840; border-bottom-color: rgba(100,70,20,.3); }
+[data-theme="light"] .desc-body { color: rgba(12,10,8,.52); }
+[data-theme="light"] .desc-body b { color: rgba(12,10,8,.85); }
+[data-theme="light"] .spec-k { color: #9A7840; background: rgba(100,70,20,.03); border-right-color: #D0CAC0; }
+[data-theme="light"] .spec-v { color: rgba(12,10,8,.65); }
+[data-theme="light"] .spec-v b { color: rgba(12,10,8,.88); }
+[data-theme="light"] .spec-row-full { border-bottom-color: #D0CAC0; }
+[data-theme="light"] .spec-table-full { border-color: #D0CAC0; }
+[data-theme="light"] .fit-note-icon { color: rgba(100,70,20,.18); }
+[data-theme="light"] .fit-note-text { color: rgba(12,10,8,.72); }
+[data-theme="light"] .related-model { color: #9A7840; }
+[data-theme="light"] .related-sub { color: rgba(100,70,20,.5); }
+[data-theme="light"] .related-dim { color: rgba(12,10,8,.32); }
+[data-theme="light"] .related-link { color: rgba(100,70,20,.5); }
+[data-theme="light"] footer { color: rgba(12,10,8,.28); }
+[data-theme="light"] footer a { color: #9A7840; }
 </style>
 </head>
 <body>
@@ -373,7 +426,13 @@ footer a { color: var(--gold); }
 <nav id="nav">
   <a href="products.html" class="nav-back">All Collections</a>
   <div class="nav-logo">NOON SHOP</div>
-  <a href="https://www.noonshop.com/products/dr25201" class="nav-cta" target="_blank">Buy on Noonshop.com</a>
+  <div style="display:flex;align-items:center;gap:12px;">
+    <a href="https://www.noonshop.com/products/dr25201" class="nav-cta" target="_blank">Buy on Noonshop.com</a>
+    <button class="theme-toggle" id="themeToggle" aria-label="Toggle theme">
+      <svg class="icon-moon" xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+      <svg class="icon-sun" xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>
+    </button>
+  </div>
 </nav>
 
 <!-- ── PRODUCT HERO ── -->
@@ -577,6 +636,11 @@ footer a { color: var(--gold); }
 const nav = document.getElementById('nav');
 window.addEventListener('scroll', () => {
   nav.classList.toggle('scrolled', window.scrollY > 60);
+});
+document.getElementById('themeToggle').addEventListener('click', () => {
+  const next = document.documentElement.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
+  document.documentElement.setAttribute('data-theme', next);
+  try { localStorage.setItem('noonshop-theme', next); } catch(e) {}
 });
 </script>
 
