@@ -1,0 +1,560 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SB82514 — Steel Brown Collection · Noon Shop</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Outfit:wght@100;200;300;400;500&family=Playfair+Display:ital,wght@0,400;0,700;1,400;1,700&display=swap" rel="stylesheet">
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+  --gold: #c8b89a;
+  --gold-dark: #a89070;
+  --black: #080808;
+  --near-black: #0d0d0d;
+  --dark: #111111;
+  --border: #1e1e1e;
+  --text: #e8e0d4;
+  --white: #f5f0ea;
+  --D: 'Bebas Neue', sans-serif;
+  --B: 'Outfit', sans-serif;
+  --P: 'Playfair Display', Georgia, serif;
+}
+
+html { scroll-behavior: smooth; }
+body {
+  background: var(--black);
+  color: var(--text);
+  font-family: var(--B);
+  font-weight: 300;
+  line-height: 1.6;
+  overflow-x: hidden;
+}
+a { color: inherit; text-decoration: none; }
+
+/* ── NAV ── */
+nav {
+  position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+  display: flex; justify-content: space-between; align-items: center;
+  padding: 22px 60px;
+}
+nav.scrolled { background: rgba(8,8,8,.85); backdrop-filter: blur(18px); }
+.nav-logo { font-family: var(--D); font-size: 16px; letter-spacing: .16em; color: rgba(245,240,234,.55); }
+.nav-back {
+  display: flex; align-items: center; gap: 10px;
+  font-size: 10px; letter-spacing: .22em; text-transform: uppercase;
+  color: rgba(200,184,154,.6);
+}
+.nav-back::before { content: '←'; font-size: 14px; }
+.nav-back:hover { color: var(--gold); transition: color .2s; }
+.nav-cta {
+  font-size: 9px; letter-spacing: .22em; text-transform: uppercase;
+  color: var(--gold); border: 0.5px solid rgba(200,184,154,.35);
+  padding: 7px 18px; border-radius: 40px;
+}
+
+/* ── PRODUCT HERO ── */
+.product-hero {
+  min-height: 100vh;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  padding-top: 80px;
+}
+.product-visual {
+  background: var(--near-black);
+  position: relative; overflow: hidden;
+  display: flex; align-items: center; justify-content: center;
+  min-height: 100vh;
+  border-right: 0.5px solid var(--border);
+}
+.product-visual-bg {
+  position: absolute;
+  font-family: var(--D);
+  font-size: 280px;
+  color: rgba(200,184,154,.12);
+  pointer-events: none; letter-spacing: .04em; line-height: 1;
+  z-index: 2;
+  mix-blend-mode: overlay;
+}
+.designer-badge { z-index: 3; }
+.color-selector { z-index: 3; }
+.product-visual-gold-line { z-index: 3; }
+.product-visual img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+  z-index: 1;
+}
+.product-visual-gold-line {
+  position: absolute; top: 0; left: 0; right: 0;
+  height: 2px;
+  background: linear-gradient(90deg, transparent, var(--gold), transparent);
+}
+.designer-badge {
+  position: absolute; bottom: 40px; right: 40px;
+  background: rgba(12,12,12,.7); backdrop-filter: blur(12px);
+  border: 0.5px solid rgba(200,184,154,.2);
+  padding: 14px 20px;
+  z-index: 2;
+}
+.designer-badge-label {
+  font-size: 8px; letter-spacing: .28em; text-transform: uppercase;
+  color: var(--gold); margin-bottom: 4px;
+}
+.designer-badge-name {
+  font-family: var(--D); font-size: 18px; letter-spacing: .06em;
+  color: var(--white); line-height: 1;
+}
+.designer-badge-sub {
+  font-family: var(--P); font-style: italic; font-size: 11px;
+  color: rgba(245,240,234,.4); margin-top: 2px;
+}
+.color-selector {
+  position: absolute; bottom: 40px; left: 50%; transform: translateX(-50%);
+  display: flex; gap: 12px; z-index: 2;
+}
+.color-dot {
+  width: 10px; height: 10px; border-radius: 50%;
+  cursor: pointer; transition: transform .2s, box-shadow .2s;
+}
+.color-dot.active { transform: scale(1.4); box-shadow: 0 0 0 2px rgba(200,184,154,.5); }
+
+/* ── PRODUCT INFO PANEL ── */
+.product-info {
+  padding: 100px 60px 80px;
+  display: flex; flex-direction: column; justify-content: center;
+}
+.product-collection {
+  font-size: 9px; letter-spacing: .38em; text-transform: uppercase;
+  color: var(--gold); margin-bottom: 12px;
+}
+.product-model {
+  font-family: var(--D);
+  font-size: clamp(56px, 7vw, 96px);
+  letter-spacing: .02em; color: var(--white);
+  line-height: .9; margin-bottom: 6px;
+}
+.product-name {
+  font-family: var(--P); font-style: italic; font-size: 20px;
+  color: rgba(200,184,154,.6); margin-bottom: 32px;
+}
+.product-price {
+  display: flex; align-items: baseline; gap: 16px; margin-bottom: 36px;
+}
+.product-price-amount {
+  font-family: var(--D); font-size: 40px; letter-spacing: .04em; color: var(--white);
+}
+.product-price-note {
+  font-size: 11px; letter-spacing: .16em; text-transform: uppercase;
+  color: rgba(245,240,234,.35);
+}
+.product-short-desc {
+  font-size: 15px; line-height: 1.82; color: rgba(245,240,234,.52);
+  max-width: 440px; margin-bottom: 40px;
+  border-left: 2px solid rgba(200,184,154,.25); padding-left: 20px;
+}
+.size-badge {
+  display: inline-flex; align-items: center; gap: 8px;
+  background: rgba(200,184,154,.06); border: 0.5px solid rgba(200,184,154,.2);
+  padding: 10px 18px; font-size: 12px; letter-spacing: .14em;
+  color: rgba(245,240,234,.6); margin-bottom: 36px;
+  font-family: 'Courier New', monospace;
+}
+.size-badge span {
+  color: var(--gold); font-size: 9px; letter-spacing: .28em;
+  text-transform: uppercase; font-family: var(--B);
+}
+.quick-specs {
+  display: grid; grid-template-columns: 1fr 1fr;
+  gap: 1px; background: var(--border); border: 0.5px solid var(--border);
+  margin-bottom: 36px;
+}
+.quick-spec { background: var(--near-black); padding: 16px 20px; }
+.quick-spec-label {
+  font-size: 9px; letter-spacing: .24em; text-transform: uppercase;
+  color: var(--gold); margin-bottom: 4px;
+}
+.quick-spec-value { font-size: 14px; color: var(--white); font-family: 'Courier New', monospace; }
+.product-cta-row { display: flex; gap: 12px; margin-bottom: 32px; }
+.btn-primary {
+  flex: 1; padding: 16px 28px; background: var(--gold); color: var(--black);
+  font-size: 10px; letter-spacing: .26em; text-transform: uppercase;
+  font-weight: 500; font-family: var(--B); border: none; cursor: pointer;
+  display: flex; align-items: center; justify-content: center; gap: 10px;
+}
+.btn-secondary {
+  padding: 16px 24px; background: transparent; color: var(--gold);
+  font-size: 10px; letter-spacing: .22em; text-transform: uppercase;
+  font-family: var(--B); border: 0.5px solid rgba(200,184,154,.35); cursor: pointer;
+}
+.prescription-note {
+  font-size: 11px; color: rgba(245,240,234,.3); letter-spacing: .06em; line-height: 1.7;
+}
+.prescription-note a { color: var(--gold); border-bottom: 0.5px solid rgba(200,184,154,.3); }
+
+/* ── DESCRIPTION ── */
+.product-description-section {
+  padding: 96px 60px;
+  border-top: 0.5px solid var(--border);
+  display: grid; grid-template-columns: 1fr 1fr; gap: 80px;
+}
+.desc-col-label {
+  font-size: 9px; letter-spacing: .34em; text-transform: uppercase;
+  color: var(--gold); margin-bottom: 20px;
+}
+.desc-headline {
+  font-family: var(--D);
+  font-size: clamp(36px, 4vw, 56px);
+  letter-spacing: .02em; color: var(--white);
+  line-height: .92; margin-bottom: 24px;
+}
+.desc-body { font-size: 15px; line-height: 1.85; color: rgba(245,240,234,.5); }
+.desc-body b { color: rgba(245,240,234,.8); font-weight: 400; }
+.desc-body p + p { margin-top: 18px; }
+
+/* ── COLLABORATION STRIP ── */
+.collab-strip {
+  margin: 1px 0;
+  background: var(--near-black);
+  border-top: 0.5px solid var(--border);
+  border-bottom: 0.5px solid var(--border);
+  padding: 56px 60px;
+  display: grid; grid-template-columns: auto 1fr; gap: 60px; align-items: center;
+}
+.collab-initial {
+  font-family: var(--D); font-size: 120px; line-height: 1;
+  color: rgba(200,184,154,.12); letter-spacing: -.02em;
+}
+.collab-text { max-width: 640px; }
+.collab-eyebrow {
+  font-size: 9px; letter-spacing: .34em; text-transform: uppercase;
+  color: var(--gold); margin-bottom: 14px;
+}
+.collab-quote {
+  font-family: var(--P); font-style: italic; font-size: 22px;
+  line-height: 1.5; color: var(--white); margin-bottom: 16px;
+}
+.collab-desc { font-size: 14px; line-height: 1.8; color: rgba(245,240,234,.45); }
+
+/* ── SPEC TABLE ── */
+.spec-section { padding: 0 60px 96px; border-top: 0.5px solid var(--border); }
+.spec-section-inner { padding-top: 64px; }
+.spec-table-full { border: 0.5px solid var(--border); margin-top: 40px; }
+.spec-row-full {
+  display: grid; grid-template-columns: 200px 1fr;
+  border-bottom: 0.5px solid var(--border);
+}
+.spec-row-full:last-child { border-bottom: none; }
+.spec-k {
+  padding: 18px 24px;
+  font-size: 9px; letter-spacing: .24em; text-transform: uppercase;
+  color: var(--gold); background: rgba(200,184,154,.03);
+  border-right: 0.5px solid var(--border);
+  display: flex; align-items: center;
+}
+.spec-v {
+  padding: 18px 28px; font-size: 13px; line-height: 1.65;
+  color: rgba(245,240,234,.62);
+}
+.spec-v b { color: rgba(245,240,234,.85); font-weight: 400; }
+
+.fit-note {
+  background: var(--near-black); border: 0.5px solid var(--border);
+  padding: 40px 48px; margin-top: 1px;
+  display: grid; grid-template-columns: auto 1fr; gap: 40px; align-items: center;
+}
+.fit-note-icon {
+  font-family: var(--D); font-size: 64px; color: rgba(200,184,154,.18); line-height: 1;
+}
+.fit-note-text {
+  font-family: var(--P); font-style: italic; font-size: 20px;
+  line-height: 1.55; color: rgba(245,240,234,.7);
+}
+.fit-note-attr {
+  margin-top: 14px; font-size: 10px; letter-spacing: .24em;
+  text-transform: uppercase; color: var(--gold);
+}
+
+/* ── RELATED ── */
+.related-section { padding: 80px 60px; border-top: 0.5px solid var(--border); }
+.related-grid {
+  display: grid; grid-template-columns: repeat(3, 1fr);
+  gap: 1px; background: var(--border); border: 0.5px solid var(--border);
+  margin-top: 48px;
+}
+.related-card {
+  background: var(--near-black); padding: 32px 28px;
+  display: flex; flex-direction: column; gap: 10px;
+}
+.related-card:hover { background: var(--dark); transition: background .2s; }
+.related-model { font-family: var(--D); font-size: 11px; letter-spacing: .18em; color: var(--gold); }
+.related-name { font-family: var(--D); font-size: 24px; letter-spacing: .04em; color: var(--white); line-height: 1; }
+.related-sub { font-family: var(--P); font-style: italic; font-size: 12px; color: rgba(200,184,154,.5); }
+.related-dim { font-size: 11px; letter-spacing: .1em; color: rgba(245,240,234,.3); font-family: 'Courier New', monospace; margin-top: 4px; }
+.related-link { margin-top: auto; font-size: 9px; letter-spacing: .22em; text-transform: uppercase; color: rgba(200,184,154,.5); display: flex; align-items: center; gap: 8px; }
+.related-link::after { content: '→'; }
+
+footer {
+  padding: 48px 60px; border-top: 0.5px solid var(--border);
+  display: flex; justify-content: space-between; align-items: center;
+  font-size: 10px; letter-spacing: .2em; text-transform: uppercase;
+  color: rgba(245,240,234,.25);
+}
+footer a { color: var(--gold); }
+
+@media (max-width: 960px) {
+  nav { padding: 18px 24px; }
+  .product-hero { grid-template-columns: 1fr; }
+  .product-visual { min-height: 60vw; }
+  .product-info { padding: 48px 24px; }
+  .product-description-section { grid-template-columns: 1fr; gap: 48px; padding: 64px 24px; }
+  .collab-strip { grid-template-columns: 1fr; gap: 24px; padding: 48px 24px; }
+  .spec-section { padding: 0 24px 64px; }
+  .related-section { padding: 64px 24px; }
+  .related-grid { grid-template-columns: 1fr 1fr; }
+  footer { padding: 40px 24px; flex-direction: column; gap: 16px; text-align: center; }
+}
+</style>
+</head>
+<body>
+
+<!-- ── NAV ── -->
+<nav id="nav">
+  <a href="products.html" class="nav-back">All Collections</a>
+  <div class="nav-logo">NOON SHOP</div>
+  <a href="https://www.noonshop.com/products/sb82514" class="nav-cta" target="_blank">Buy on Noonshop.com</a>
+</nav>
+
+<!-- ── PRODUCT HERO ── -->
+<div class="product-hero">
+
+  <!-- LEFT: Visual -->
+  <div class="product-visual">
+    <div class="product-visual-gold-line"></div>
+    <div class="product-visual-bg">SB</div>
+    <img src="assets/thin-rect.png" alt="Noon Shop SB82514 Steel Brown panto frame — Proksch Slim">
+
+    <div class="designer-badge">
+      <div class="designer-badge-label">Design Partner</div>
+      <div class="designer-badge-name">W. Proksch</div>
+      <div class="designer-badge-sub">Award-winning German optical design</div>
+    </div>
+
+    <div class="color-selector">
+      <div class="color-dot active" style="background:#9aacb8;" title="GY – Gunmetal Grey"></div>
+      <div class="color-dot" style="background:#2a2c2e;" title="MB – Matte Black"></div>
+      <div class="color-dot" style="background:#3a3a3a;" title="MM – Matt Metal"></div>
+    </div>
+  </div>
+
+  <!-- RIGHT: Info -->
+  <div class="product-info">
+    <div class="product-collection">Steel Brown Collection · Proksch Series</div>
+    <div class="product-model">SB82514</div>
+    <div class="product-name">Proksch Slim — Panto Flagship</div>
+
+    <div class="product-price">
+      <div class="product-price-amount">$465</div>
+      <div class="product-price-note">Sunglass · CE UV400</div>
+    </div>
+
+    <p class="product-short-desc">
+      Wafer-thin German medical stainless steel, shaped by an award-winning German designer, engineered for a face that luxury eyewear forgot. The SB82514 is what happens when you hand a precision manufacturing problem to the person who has spent a career solving precision manufacturing problems.
+    </p>
+
+    <div class="size-badge">
+      <span>Size</span>
+      49 □ 21 – 145 mm
+    </div>
+
+    <div class="quick-specs">
+      <div class="quick-spec">
+        <div class="quick-spec-label">Frame</div>
+        <div class="quick-spec-value">Stainless</div>
+      </div>
+      <div class="quick-spec">
+        <div class="quick-spec-label">Weight</div>
+        <div class="quick-spec-value">~14 g</div>
+      </div>
+      <div class="quick-spec">
+        <div class="quick-spec-label">Lens Width</div>
+        <div class="quick-spec-value">49 mm</div>
+      </div>
+      <div class="quick-spec">
+        <div class="quick-spec-label">Bridge</div>
+        <div class="quick-spec-value">21 mm</div>
+      </div>
+    </div>
+
+    <div class="product-cta-row">
+      <a href="https://www.noonshop.com/products/sb82514" class="btn-primary" target="_blank">
+        Shop on Noonshop.com →
+      </a>
+      <button class="btn-secondary">Find My Fit</button>
+    </div>
+
+    <p class="prescription-note">
+      Need prescription lenses? <a href="mailto:hello@noonshop.com">Contact us</a> — we work with a certified optical partner to cut and fit your Rx into any Steel Brown frame.
+    </p>
+  </div>
+</div>
+
+<!-- ── LONG DESCRIPTION ── -->
+<div class="product-description-section">
+  <div>
+    <div class="desc-col-label">The Frame</div>
+    <h2 class="desc-headline">GERMAN<br>STEEL,<br>KOREAN FIT</h2>
+    <div class="desc-body">
+      <p>The SB82514 begins with a contradiction: a frame this thin has no right to be this strong. <b>Medical-grade German stainless steel</b> — the same material classification used in surgical instruments and implant hardware — is drawn to a wall thickness that most optical manufacturers don't attempt. The result is a rim that reads as almost two-dimensional from the front, but holds its geometry under daily wear without deformation.</p>
+      <p>The panto silhouette — that classic rounded lower lens, slightly flatter top — was chosen by Wolfgang Proksch specifically for its ability to <b>complement a wider mid-face</b>. The rounded lower edge softens the jawline optically. The flatter crown creates a brow line without competing with the forehead. It's a shape that has a century of optical history behind it, redrawn for a face geometry it was never originally calibrated for.</p>
+      <p>Three colourways: <b>Gunmetal Grey (GY)</b> — the steel colour, barely treated, letting the material speak. <b>Matte Black (MB)</b> — the stealth option, disappears against almost every complexion. <b>Matt Metal (MM)</b> — a raw, uncoated steel finish that develops a subtle patina with wear.</p>
+    </div>
+  </div>
+  <div>
+    <div class="desc-col-label">The Fit Engineering</div>
+    <h2 class="desc-headline">49 MM.<br>21 MM.<br>145 MM.</h2>
+    <div class="desc-body">
+      <p>Those three numbers — lens width, bridge, temple length — are a fit statement. The <b>49 mm lens width</b> is narrower than the Dormann oval, making it the choice for someone who wants a more graphic, structured look without the frame overshooting the face width. The <b>21 mm bridge</b> is the lowest in the Steel Brown line — set for a nose bridge that sits at or below the standard European reference point.</p>
+      <p>The temple length of <b>145 mm</b> is calibrated for a shorter ear-to-bridge distance — a common proportion in the faces Noon Shop was built for. A 150 mm temple on a shorter face creates pressure just behind the ear, even if the front fit looks perfect. 145 mm closes that gap precisely.</p>
+      <p>There are no spring hinges. The stainless frame is set and stays set. This is deliberate: spring hinges accommodate misfit — they allow a too-wide temple to flex to a wider face, masking a fit problem rather than solving it. The SB82514 doesn't need to accommodate. It fits correctly from the first wear.</p>
+    </div>
+  </div>
+</div>
+
+<!-- ── COLLABORATION STRIP ── -->
+<div class="collab-strip">
+  <div class="collab-initial">WP</div>
+  <div class="collab-text">
+    <div class="collab-eyebrow">Design Partnership</div>
+    <p class="collab-quote">"Eyewear that fits is not a niche product. It is what every frame should be. The question is whether the manufacturer is willing to do the engineering."</p>
+    <p class="collab-desc">
+      Wolfgang Proksch is a German optical designer whose work has received multiple international industry awards. The Steel Brown collaboration began when Dr. Park sought a design partner who understood that engineering and aesthetics are the same problem — not two separate ones. The Proksch series translates his geometric precision into a low-bridge fit system without compromise on either side.
+    </p>
+  </div>
+</div>
+
+<!-- ── FULL SPEC TABLE ── -->
+<div class="spec-section">
+  <div class="spec-section-inner">
+    <div style="font-size:9px;letter-spacing:.34em;text-transform:uppercase;color:var(--gold);margin-bottom:8px;">Technical Specifications</div>
+    <h2 style="font-family:var(--D);font-size:clamp(32px,4vw,52px);letter-spacing:.02em;color:var(--white);line-height:.92;">SB82514 — FULL SPEC</h2>
+
+    <div class="spec-table-full">
+      <div class="spec-row-full">
+        <div class="spec-k">Model Number</div>
+        <div class="spec-v"><b>SB82514</b> · Steel Brown Collection, Proksch Series 800, 2025 variant</div>
+      </div>
+      <div class="spec-row-full">
+        <div class="spec-k">Frame Shape</div>
+        <div class="spec-v">Panto — rounded lower lens, marginally flatter top edge. Proksch's classic silhouette adapted for low-bridge geometry.</div>
+      </div>
+      <div class="spec-row-full">
+        <div class="spec-k">Frame Material</div>
+        <div class="spec-v"><b>Medical-grade German stainless steel</b> — hypoallergenic, corrosion-resistant, drawn to wafer-thin wall thickness without sacrificing structural integrity.</div>
+      </div>
+      <div class="spec-row-full">
+        <div class="spec-k">Acetate Accents</div>
+        <div class="spec-v"><b>Mazzucchelli Italian acetate</b> — cellulose acetate by Italy's foremost acetate manufacturer, used at the temple arm for tactile warmth and visual depth.</div>
+      </div>
+      <div class="spec-row-full">
+        <div class="spec-k">Design</div>
+        <div class="spec-v">Wolfgang Proksch, Germany — international award-winning eyeglass designer. Steel Brown is his exclusive collaboration with Noon Shop.</div>
+      </div>
+      <div class="spec-row-full">
+        <div class="spec-k">Dimensions</div>
+        <div class="spec-v"><b>49 □ 21 – 145</b> · Lens width: 49 mm · Bridge: 21 mm · Temple length: 145 mm</div>
+      </div>
+      <div class="spec-row-full">
+        <div class="spec-k">Bridge Fit</div>
+        <div class="spec-v">Low-bridge geometry — 21 mm saddle bridge, designed for nasal profiles below the European standard reference. No separate nose pads.</div>
+      </div>
+      <div class="spec-row-full">
+        <div class="spec-k">Weight</div>
+        <div class="spec-v">Approximately <b>14 grams</b> — approximately 50% lighter than a standard stainless steel frame at equivalent lens size.</div>
+      </div>
+      <div class="spec-row-full">
+        <div class="spec-k">Hinge</div>
+        <div class="spec-v">Fixed barrel hinge — no spring mechanism. Pre-set geometry, no accommodation for misfit. Holds exact calibration.</div>
+      </div>
+      <div class="spec-row-full">
+        <div class="spec-k">Lens Type</div>
+        <div class="spec-v">Sunglass. CE-certified · UV400 protection · Polycarbonate lens substrate</div>
+      </div>
+      <div class="spec-row-full">
+        <div class="spec-k">Colourways</div>
+        <div class="spec-v">GY Gunmetal Grey · MB Matte Black · MM Matt Metal (raw steel finish)</div>
+      </div>
+      <div class="spec-row-full">
+        <div class="spec-k">Finish</div>
+        <div class="spec-v">PVD (Physical Vapour Deposition) coating for GY and MB. MM variant is uncoated raw steel — develops natural micro-patina with wear.</div>
+      </div>
+      <div class="spec-row-full">
+        <div class="spec-k">Prescription</div>
+        <div class="spec-v">Available via Noon Shop optical partner — contact <b>hello@noonshop.com</b> with your Rx. The Proksch panto shape accommodates most standard Rx progressives.</div>
+      </div>
+      <div class="spec-row-full">
+        <div class="spec-k">Origin</div>
+        <div class="spec-v">Designed in Germany (Proksch Studio) · Engineered for fit in Seoul (Noon Shop) · Manufactured to ISO 12870</div>
+      </div>
+    </div>
+
+    <div class="fit-note">
+      <div class="fit-note-icon">14g</div>
+      <div>
+        <p class="fit-note-text">"Fourteen grams is not a marketing number. It is the load that this frame places on the nose bridge per hour of wear. On a face with a lower bridge — where the contact area is smaller — the difference between 14 grams and 28 grams is the difference between wearing glasses and noticing that you're wearing glasses."</p>
+        <p class="fit-note-attr">Dr. Anna Park MD · Founder, Noon Shop</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ── RELATED MODELS ── -->
+<div class="related-section">
+  <div style="font-size:9px;letter-spacing:.34em;text-transform:uppercase;color:var(--gold);margin-bottom:8px;">From the Steel Brown Collection</div>
+  <h2 style="font-family:var(--D);font-size:clamp(36px,4.5vw,60px);letter-spacing:.02em;color:var(--white);line-height:.92;">More Steel Brown</h2>
+
+  <div class="related-grid">
+    <a href="product-dr25201.html" class="related-card">
+      <div class="related-model">DR25201</div>
+      <div class="related-name">DORMANN<br>OVAL</div>
+      <div class="related-sub">TR90 · Flagship 2025 round</div>
+      <div class="related-dim">50 □ 20 – 150</div>
+      <div class="related-link">View Frame</div>
+    </a>
+    <a href="products.html#steel-brown" class="related-card">
+      <div class="related-model">SB82503</div>
+      <div class="related-name">PROKSCH<br>CLASSIC</div>
+      <div class="related-sub">Rounded panto · 3 colourways</div>
+      <div class="related-dim">49 □ 21 – 145</div>
+      <div class="related-link">View Frame</div>
+    </a>
+    <a href="products.html" class="related-card">
+      <div class="related-model">SB82110</div>
+      <div class="related-name">PROKSCH<br>ONE</div>
+      <div class="related-sub">Original model · 5 colourways</div>
+      <div class="related-dim">49 □ 21 – 145</div>
+      <div class="related-link">View All Collections</div>
+    </a>
+  </div>
+</div>
+
+<!-- ── FOOTER ── -->
+<footer>
+  <div>© 2025 Noon Shop</div>
+  <div><a href="products.html">← All Collections</a></div>
+  <div><a href="mailto:hello@noonshop.com">hello@noonshop.com</a></div>
+</footer>
+
+<script>
+const nav = document.getElementById('nav');
+window.addEventListener('scroll', () => {
+  nav.classList.toggle('scrolled', window.scrollY > 60);
+});
+</script>
+</body>
+</html>
