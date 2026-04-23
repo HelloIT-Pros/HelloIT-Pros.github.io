@@ -4,6 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Noon Shop — Content Ops</title>
+<script>try{document.documentElement.setAttribute('data-theme',localStorage.getItem('noonshop-theme')||'dark')}catch(e){}</script>
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;1,400;1,500&family=Inter:wght@300;400;500&family=Bebas+Neue&display=swap" rel="stylesheet">
 <style>
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
@@ -502,9 +503,72 @@ footer a { color: var(--gold); }
   .cadence { grid-template-columns: 100px 1fr; }
   .cadence > div:nth-child(4n) { border-right: 0.5px solid var(--border); }
 }
+
+/* ── THEME TOGGLE ── */
+.theme-toggle {
+  position: fixed; top: 20px; right: 24px; z-index: 200;
+  width: 36px; height: 36px; border-radius: 50%;
+  border: 0.5px solid rgba(200,184,154,.35); background: rgba(13,13,13,.6);
+  backdrop-filter: blur(10px); color: var(--gold);
+  cursor: pointer; display: flex; align-items: center; justify-content: center;
+  transition: border-color .2s, background .2s;
+}
+.theme-toggle:hover { border-color: var(--gold); }
+.icon-sun { display: none; }
+.icon-moon { display: block; }
+[data-theme="light"] .icon-sun { display: block; }
+[data-theme="light"] .icon-moon { display: none; }
+[data-theme="light"] .theme-toggle { background: rgba(240,236,228,.85); border-color: rgba(120,90,40,.3); color: #9A7840; }
+
+/* ── LIGHT MODE ── */
+[data-theme="light"] {
+  --gold: #9A7840; --gold-dark: #7A5820;
+  --black: #F7F4EE; --near-black: #EFECE5; --dark: #E6E2DA;
+  --border: #D0CAC0; --text: #1E1A14; --white: #0C0A08;
+  --muted: #888;
+}
+[data-theme="light"] body { background: #F7F4EE; color: #1E1A14; }
+[data-theme="light"] .cover-line { background: linear-gradient(90deg,transparent,#9A7840,transparent); }
+[data-theme="light"] .cover-wm { color: rgba(12,10,8,.04); }
+[data-theme="light"] .cover-tag { color: #9A7840; }
+[data-theme="light"] .cover-sub { color: rgba(12,10,8,.45); }
+[data-theme="light"] .cover-meta span { color: rgba(80,60,20,.5); }
+[data-theme="light"] .cover-meta span b { color: #9A7840; }
+[data-theme="light"] .sec-eyebrow { color: #9A7840; }
+[data-theme="light"] .sec-lede { color: rgba(12,10,8,.55); }
+[data-theme="light"] .pillar-line { color: rgba(12,10,8,.5); }
+[data-theme="light"] .pillar-num { color: #9A7840; }
+[data-theme="light"] .cadence-head { color: #9A7840; }
+[data-theme="light"] .cadence-pillar { color: #9A7840; }
+[data-theme="light"] .cadence-note { color: rgba(12,10,8,.42); }
+[data-theme="light"] .prompt-tag { color: #9A7840; }
+[data-theme="light"] .prompt-body { color: rgba(12,10,8,.72); background: #EDE9E2; border-left-color: #9A7840; }
+[data-theme="light"] .prompt-note { color: rgba(12,10,8,.42); }
+[data-theme="light"] .step-num { color: rgba(12,10,8,.16); }
+[data-theme="light"] .step-time { color: #9A7840; }
+[data-theme="light"] .step-desc { color: rgba(12,10,8,.52); }
+[data-theme="light"] .influencer-subtitle { color: rgba(100,70,20,.7); }
+[data-theme="light"] .influencer-table dt { color: #9A7840; }
+[data-theme="light"] .influencer-table dd { color: rgba(12,10,8,.65); }
+[data-theme="light"] .coll-tag { color: #9A7840; border-color: rgba(100,70,20,.3); }
+[data-theme="light"] .inf-prompt-text { color: rgba(12,10,8,.72); background: #EDE9E2; }
+[data-theme="light"] .inf-prompt-note { color: rgba(12,10,8,.38); }
+[data-theme="light"] .lib-card h4 { color: #9A7840; }
+[data-theme="light"] .lib-card li { color: rgba(12,10,8,.6); }
+[data-theme="light"] .lib-card li b { color: #0C0A08; }
+[data-theme="light"] .check-box { border-color: #9A7840; }
+[data-theme="light"] .check-text span { color: rgba(12,10,8,.42); }
+[data-theme="light"] footer { color: rgba(80,60,20,.4); }
+[data-theme="light"] footer a { color: #9A7840; }
 </style>
 </head>
 <body>
+
+<!-- ── THEME TOGGLE (fixed) ── -->
+<button class="theme-toggle" id="themeToggle" aria-label="Toggle theme">
+  <svg class="icon-moon" xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+  <svg class="icon-sun" xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>
+</button>
 
 <!-- ── COVER ── -->
 <section class="cover">
@@ -1321,5 +1385,12 @@ footer a { color: var(--gold); }
   <span><a href="index.html">← Back to Noonshop</a></span>
 </footer>
 
+<script>
+document.getElementById('themeToggle').addEventListener('click', () => {
+  const next = document.documentElement.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
+  document.documentElement.setAttribute('data-theme', next);
+  try { localStorage.setItem('noonshop-theme', next); } catch(e) {}
+});
+</script>
 </body>
 </html>

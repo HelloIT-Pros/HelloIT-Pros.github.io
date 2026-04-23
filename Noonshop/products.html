@@ -4,6 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Noon Shop — The Collections</title>
+<script>try{document.documentElement.setAttribute('data-theme',localStorage.getItem('noonshop-theme')||'dark')}catch(e){}</script>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Outfit:wght@100;200;300;400;500&family=Playfair+Display:ital,wght@0,400;0,700;1,400;1,700&display=swap" rel="stylesheet">
 <style>
@@ -548,6 +549,68 @@ footer {
 /* ── DIVIDER ── */
 .rule { height: 0.5px; background: var(--border); margin: 0 60px; }
 
+/* ── THEME TOGGLE ── */
+.theme-toggle {
+  width: 34px; height: 34px; border-radius: 50%;
+  border: 0.5px solid rgba(200,184,154,.35); background: transparent;
+  color: var(--gold); cursor: pointer; flex-shrink: 0;
+  display: flex; align-items: center; justify-content: center;
+  transition: border-color .2s, background .2s;
+}
+.theme-toggle:hover { border-color: var(--gold); background: rgba(200,184,154,.1); }
+.icon-sun { display: none; }
+.icon-moon { display: block; }
+[data-theme="light"] .icon-sun { display: block; }
+[data-theme="light"] .icon-moon { display: none; }
+[data-theme="light"] .theme-toggle { border-color: rgba(120,90,40,.3); color: #9A7840; }
+
+/* ── LIGHT MODE ── */
+[data-theme="light"] {
+  --black: #F7F4EE; --near-black: #EFECE5; --dark: #E6E2DA;
+  --border: #D0CAC0; --text: #1E1A14; --white: #0C0A08;
+  --gold: #9A7840; --gold-dark: #7A5820; --gold-light: #C8A060;
+}
+[data-theme="light"] body { background: #F7F4EE; color: #1E1A14; }
+[data-theme="light"] nav.scrolled { background: rgba(247,244,238,.88); }
+[data-theme="light"] .nav-logo { color: rgba(12,10,8,.65); }
+[data-theme="light"] .nav-links { color: rgba(12,10,8,.45); }
+[data-theme="light"] .nav-logo img { filter: none; opacity: .6; }
+[data-theme="light"] .cover-gold-line { background: linear-gradient(90deg,transparent,#9A7840,transparent); }
+[data-theme="light"] .cover-wm { color: rgba(12,10,8,.04); }
+[data-theme="light"] .cover-desc { color: rgba(12,10,8,.48); }
+[data-theme="light"] .cover-meta-item { color: rgba(80,60,20,.5); }
+[data-theme="light"] .cover-meta-item b { color: #9A7840; }
+[data-theme="light"] .sec-lede { color: rgba(12,10,8,.55); }
+[data-theme="light"] .founder-body { color: rgba(12,10,8,.55); }
+[data-theme="light"] .founder-body b { color: rgba(12,10,8,.85); }
+[data-theme="light"] .founder-pull { color: #0C0A08; }
+[data-theme="light"] .founder-quote-mark { color: rgba(100,70,20,.1); }
+[data-theme="light"] .founder-quote-text { color: rgba(12,10,8,.8); }
+[data-theme="light"] .coll-detail-desc { color: rgba(12,10,8,.55); }
+[data-theme="light"] .coll-tagline { color: rgba(12,10,8,.45); }
+[data-theme="light"] .coll-name-italic { color: rgba(100,70,20,.6); }
+[data-theme="light"] .coll-image-bg-text { color: rgba(12,10,8,.06); }
+[data-theme="light"] .model-card-detail { color: rgba(12,10,8,.5); }
+[data-theme="light"] .model-card-dim { color: rgba(12,10,8,.35); }
+[data-theme="light"] .model-card-subtitle { color: rgba(100,70,20,.55); }
+[data-theme="light"] .fit-block-body { color: rgba(12,10,8,.52); }
+[data-theme="light"] .fit-block-num { color: rgba(12,10,8,.14); }
+[data-theme="light"] .fit-statement-text { color: rgba(12,10,8,.75); }
+[data-theme="light"] .fit-statement-attr { color: #9A7840; }
+[data-theme="light"] .fit-statement-line { background: #9A7840; opacity: .3; }
+[data-theme="light"] .quote-text { color: rgba(12,10,8,.8); }
+[data-theme="light"] .quote-mark { color: rgba(100,70,20,.14); }
+[data-theme="light"] .quote-attr-title { color: rgba(12,10,8,.38); }
+[data-theme="light"] .philosophy-desc { color: rgba(12,10,8,.5); }
+[data-theme="light"] .philosophy-statement { color: #0C0A08; }
+[data-theme="light"] .philosophy-statement em { color: rgba(100,70,20,.65); }
+[data-theme="light"] .spec-key { color: #9A7840; background: rgba(100,70,20,.04); }
+[data-theme="light"] .spec-val { color: rgba(12,10,8,.65); }
+[data-theme="light"] .footer-logo { color: rgba(12,10,8,.3); }
+[data-theme="light"] .footer-links { color: rgba(12,10,8,.3); }
+[data-theme="light"] .footer-legal { color: rgba(12,10,8,.22); }
+[data-theme="light"] .rule { background: rgba(12,10,8,.08); }
+
 @media (max-width: 960px) {
   nav { padding: 18px 24px; }
   .nav-links { display: none; }
@@ -579,7 +642,13 @@ footer {
     <a href="#denova">DeNova</a>
     <a href="#fit">Fit Architecture</a>
   </div>
-  <a href="https://www.noonshop.com/collections/all" class="nav-links nav-cta" target="_blank">Shop Now</a>
+  <div style="display:flex;align-items:center;gap:12px;">
+    <a href="https://www.noonshop.com/collections/all" class="nav-links nav-cta" target="_blank">Shop Now</a>
+    <button class="theme-toggle" id="themeToggle" aria-label="Toggle theme">
+      <svg class="icon-moon" xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+      <svg class="icon-sun" xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>
+    </button>
+  </div>
 </nav>
 
 <!-- ── COVER ── -->
@@ -1085,6 +1154,12 @@ footer {
 const nav = document.getElementById('nav');
 window.addEventListener('scroll', () => {
   nav.classList.toggle('scrolled', window.scrollY > 60);
+});
+// Theme toggle
+document.getElementById('themeToggle').addEventListener('click', () => {
+  const next = document.documentElement.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
+  document.documentElement.setAttribute('data-theme', next);
+  try { localStorage.setItem('noonshop-theme', next); } catch(e) {}
 });
 </script>
 
