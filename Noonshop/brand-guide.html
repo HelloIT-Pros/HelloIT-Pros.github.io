@@ -206,6 +206,14 @@ section { padding: 136px 60px; position: relative; }
 .photo-sq { aspect-ratio: 1; }
 .photo-wide { aspect-ratio: 3/2; }
 
+/* ── Story grid ── */
+.story-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 80px; align-items: start; }
+.story-stat { background: rgba(200,184,154,.06); border: 1px solid rgba(200,184,154,.12); padding: 40px 36px; }
+.story-stat-num { font-family: var(--D); font-size: clamp(52px, 7vw, 88px); line-height: .88; letter-spacing: .02em; }
+.story-stat-desc { font-size: 13px; font-weight: 300; color: rgba(247,246,243,.5); margin-top: 12px; line-height: 1.7; }
+.story-panel { background: rgba(247,246,243,.02); border: 1px solid rgba(247,246,243,.06); padding: 40px 36px; }
+.story-collections { background: rgba(247,246,243,.02); border: 1px solid rgba(247,246,243,.06); padding: 32px 36px; }
+
 /* ── Motion ── */
 .motion-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 2px; }
 .motion-card { padding: 48px 40px; background: rgba(247,246,243,.03); border: 1px solid rgba(247,246,243,.07); }
@@ -288,7 +296,7 @@ footer { padding: 80px 60px; display: flex; justify-content: space-between; alig
 
   .hero { padding: 0 24px 56px; }
   .hero-foot { flex-direction: column; align-items: flex-start; gap: 32px; margin-top: 40px; }
-  .hero-foot > div:last-child { display: none; } /* hide scroll indicator */
+  .hero-foot > div:last-child { display: none; }
 
   section { padding: 72px 24px; }
   .dh { margin-bottom: 48px; }
@@ -328,6 +336,8 @@ footer { padding: 80px 60px; display: flex; justify-content: space-between; alig
   .pull { padding: 40px 28px; margin-top: 40px; }
   .pull::before { width: 48px; }
 
+  .story-grid { grid-template-columns: 1fr; gap: 40px; }
+
   footer { padding: 48px 24px; flex-direction: column; align-items: flex-start; gap: 12px; }
 }
 </style>
@@ -365,13 +375,13 @@ footer { padding: 80px 60px; display: flex; justify-content: space-between; alig
   <div class="noise"></div>
   <div class="hero-gold-line"></div>
   <div class="hero-wm">NOON</div>
-  <div class="hero-tag" id="hTag">Visual Identity System · 2025</div>
+  <div class="hero-tag" id="hTag">Founded by Dr. Anna Park, MD · Visual Identity 2025</div>
   <h1 class="hero-h1" id="hH1">
-    THE BRAND
-    <span class="hero-h1-sub">what we look like.</span>
+    FIT IS
+    <span class="hero-h1-sub">fundamental.</span>
   </h1>
   <div class="hero-foot" id="hFoot">
-    <p class="hero-sub">A premium eyewear brand built on fit. The right frame, for the face it belongs on. Clarity in everything we do.</p>
+    <p class="hero-sub">Noon Shop was founded on a clinical observation: for too long, the eyewear industry had overlooked a vast range of facial structures. Every face deserves a frame that was designed for it.</p>
     <div style="display:flex;flex-direction:column;align-items:center;gap:12px">
       <div class="sline"></div>
       <span class="hero-desc">Scroll to explore</span>
@@ -380,6 +390,58 @@ footer { padding: 80px 60px; display: flex; justify-content: space-between; alig
 </section>
 
 <div class="rule-gold"></div>
+
+<!-- Brand Story -->
+<section style="background:var(--ink2)" id="story">
+  <div class="noise"></div>
+  <div class="tag rv">The Founding Story</div>
+  <h2 class="dh rv d1">THE FIT<br><span class="dh-sub">they were missing.</span></h2>
+
+  <div class="story-grid rv d2">
+    <div>
+      <p style="font-size:17px;font-weight:300;line-height:1.9;color:rgba(247,246,243,.65);margin-bottom:32px">Dr. Anna Park, MD, practiced ophthalmology for years before she noticed what the industry refused to address: most eyewear was designed for one facial archetype. Narrow bridges. Low cheekbones. Faces that looked like the people who built the industry.</p>
+      <p style="font-size:17px;font-weight:300;line-height:1.9;color:rgba(247,246,243,.65);margin-bottom:32px">The turning point was personal. Searching for frames for her son, she found herself unable to locate a single pair that actually fit his face well. Not a style problem. A structure problem. And she knew, from clinical practice, that she was not alone.</p>
+      <p style="font-size:17px;font-weight:300;line-height:1.9;color:rgba(247,246,243,.65);margin-bottom:32px">Noon Shop was her answer. Frames engineered for low bridges, high cheekbones, wider faces, narrower faces. The full range of human structure the industry had quietly decided to ignore.</p>
+      <p style="font-size:17px;font-weight:300;line-height:1.9;color:rgba(247,246,243,.65)">Medical-grade materials throughout: titanium and stainless steel chosen for how they wear on the face, not how they photograph in a campaign. Quiet luxury with a clinical foundation.</p>
+    </div>
+    <div style="display:flex;flex-direction:column;gap:2px">
+      <div class="story-stat">
+        <div class="story-stat-num" style="color:var(--gold)">64%</div>
+        <div class="story-stat-desc">of U.S. adults wear prescription glasses. The vast majority in frames that were never designed for their face.</div>
+      </div>
+      <div class="story-panel">
+        <div class="story-stat-num" style="color:var(--white)">80K+</div>
+        <div class="story-stat-desc">units sold in Korea before U.S. launch. A celebrity and athlete following built on word of mouth and fit alone.</div>
+      </div>
+      <div class="story-collections">
+        <div style="font-size:10px;font-weight:500;letter-spacing:.22em;text-transform:uppercase;color:var(--gold);margin-bottom:20px">Collections</div>
+        <div style="display:flex;flex-direction:column;gap:12px">
+          <div style="display:flex;flex-direction:column;gap:4px">
+            <div style="font-family:var(--D);font-size:22px;letter-spacing:.08em;color:var(--white)">DORMANN</div>
+            <div style="font-size:11px;font-weight:300;color:rgba(247,246,243,.35);letter-spacing:.08em">Premium titanium</div>
+          </div>
+          <div style="height:1px;background:rgba(247,246,243,.06)"></div>
+          <div style="display:flex;flex-direction:column;gap:4px">
+            <div style="font-family:var(--D);font-size:22px;letter-spacing:.08em;color:var(--white)">STEEL BROWN</div>
+            <div style="font-size:11px;font-weight:300;color:rgba(247,246,243,.35);letter-spacing:.08em">Stainless steel</div>
+          </div>
+          <div style="height:1px;background:rgba(247,246,243,.06)"></div>
+          <div style="display:flex;flex-direction:column;gap:4px">
+            <div style="font-family:var(--D);font-size:22px;letter-spacing:.08em;color:var(--white)">DENOVA</div>
+            <div style="font-size:11px;font-weight:300;color:rgba(247,246,243,.35);letter-spacing:.08em">Everyday essentials</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="pull rv d3">
+    <p class="pull-text">"Seeing clearly shouldn't come at the expense of comfort. <em>Fit is fundamental</em> and it's time the industry treated it that way."</p>
+    <div style="margin-top:28px;font-size:11px;font-weight:500;letter-spacing:.18em;text-transform:uppercase;color:rgba(247,246,243,.35)">Dr. Anna Park, MD · Founder, Noon Shop</div>
+  </div>
+</section>
+
+<div class="rule-d"></div>
 
 <!-- Colors -->
 <section class="dark" id="colors">
@@ -426,7 +488,7 @@ footer { padding: 80px 60px; display: flex; justify-content: space-between; alig
     <div class="gold-feature">
       <div style="font-size:10px;font-weight:500;letter-spacing:.32em;text-transform:uppercase;color:var(--gold)">Brand Accent · Gold</div>
       <div class="gold-display">THE WARM<br>ACCENT</div>
-      <p style="font-size:15px;font-weight:300;line-height:1.75;color:rgba(247,246,243,.5);max-width:440px">Gold is the signature warmth of Noon Shop. It enters where precision meets craft: type highlights, border accents, interactive states, wherever the brand needs to feel considered rather than cold.</p>
+      <p style="font-size:15px;font-weight:300;line-height:1.75;color:rgba(247,246,243,.5);max-width:440px">Gold is the signature warmth of Noon Shop. It enters where precision meets craft: type highlights, border accents, interactive states, wherever the brand needs to feel considered rather than clinical.</p>
     </div>
     <div class="gold-samples">
       <div class="gold-sample">
@@ -448,7 +510,7 @@ footer { padding: 80px 60px; display: flex; justify-content: space-between; alig
   </div>
 
   <div class="pull rv d3">
-    <p class="pull-text">Black and cream. The palette of clarity. <em>Gold</em> for the moments worth noticing.</p>
+    <p class="pull-text">Precision in material. Warmth in accent. <em>Gold</em> for the moments that matter.</p>
   </div>
 </section>
 
@@ -465,7 +527,7 @@ footer { padding: 80px 60px; display: flex; justify-content: space-between; alig
         <div><div class="type-label">Role</div><div class="type-value">Display / Headlines</div></div>
         <div><div class="type-label">Weight</div><div class="type-value">Regular (single weight)</div></div>
       </div>
-      <div class="type-sample-bebas">THE RIGHT<br>FRAME.</div>
+      <div class="type-sample-bebas">FIT IS<br>FUNDAMENTAL.</div>
       <div style="margin-top:32px">
         <div class="type-size-item">
           <span class="type-size-lbl">Hero</span>
@@ -491,7 +553,7 @@ footer { padding: 80px 60px; display: flex; justify-content: space-between; alig
         <div><div class="type-label">Role</div><div class="type-value">Accent / Italic Subtitles</div></div>
         <div><div class="type-label">Weights</div><div class="type-value">400, 700, always italic</div></div>
       </div>
-      <div class="type-sample-playfair">something worth seeing.</div>
+      <div class="type-sample-playfair">the frame it belongs on.</div>
     </div>
     <div class="type-row">
       <div class="type-meta">
@@ -499,7 +561,7 @@ footer { padding: 80px 60px; display: flex; justify-content: space-between; alig
         <div><div class="type-label">Role</div><div class="type-value">Body / Interface / Navigation</div></div>
         <div><div class="type-label">Weights</div><div class="type-value">100–500 (prefer 300)</div></div>
       </div>
-      <div class="type-sample-outfit">Noon Shop offers precisely fitted eyewear, pairing craft-level quality with a modern buying experience. The right frame changes how you carry yourself. We help you find it.</div>
+      <div class="type-sample-outfit">Noon Shop offers eyewear engineered for the full range of facial structures. Founded by an ophthalmologist who understood that fit is not a detail. Titanium, stainless steel, and a clinical commitment to getting it right.</div>
     </div>
   </div>
 </section>
@@ -552,7 +614,7 @@ footer { padding: 80px 60px; display: flex; justify-content: space-between; alig
 <section class="ls" id="photography">
   <div class="tag tag-ink rv">Photography</div>
   <h2 class="dh rv d1" style="color:var(--ink)">IMAGE<br>DIRECTION.</h2>
-  <p class="rv d2" style="font-size:17px;font-weight:300;line-height:1.8;color:var(--ink2);max-width:640px;margin-bottom:64px">Product photography leads with material and craftsmanship. Clean backgrounds. Macro detail. The polished gold-tone metal in our frames connects directly to the brand accent color.</p>
+  <p class="rv d2" style="font-size:17px;font-weight:300;line-height:1.8;color:var(--ink2);max-width:640px;margin-bottom:64px">Product photography leads with material and fit. Clean backgrounds, direct light, no lifestyle staging. The gold-tone metal in our frames connects directly to the brand accent, reinforcing the link between craft and identity.</p>
 
   <!-- Hero photo row -->
   <div class="photo-hero rv d2">
@@ -579,7 +641,7 @@ footer { padding: 80px 60px; display: flex; justify-content: space-between; alig
 
   <!-- Caption strip -->
   <div style="background:linear-gradient(135deg,#1a1610,#0C0C0C);border:1px solid rgba(200,184,154,.1);padding:28px 40px;display:flex;justify-content:space-between;align-items:center;margin-top:2px" class="rv d3">
-    <p style="font-size:13px;font-weight:300;line-height:1.7;color:rgba(247,246,243,.5);max-width:480px">Preferred: frames on pure white or paper. Material fills 60–80% of frame. No props, no lifestyle context. Gold-tone metal directly echoes the brand accent.</p>
+    <p style="font-size:13px;font-weight:300;line-height:1.7;color:rgba(247,246,243,.5);max-width:480px">Preferred: frames on pure white or paper. Material fills 60–80% of frame. No props, no lifestyle context. The frame is the story. Gold-tone metal directly echoes the brand accent.</p>
   </div>
 
   <!-- Macro row -->
@@ -612,46 +674,46 @@ footer { padding: 80px 60px; display: flex; justify-content: space-between; alig
   <div class="voice-grid rv d2" style="background:rgba(247,246,243,.02)">
     <div class="voice-card">
       <div class="voice-title">DIRECT</div>
-      <p class="voice-text">We say what we mean. No filler, no fluff. Our copy earns every word.</p>
-      <p class="voice-ex">"The right frame. Properly fitted. Guaranteed."</p>
+      <p class="voice-text">We don't hide behind lifestyle imagery or trend language. Fit is either right or it isn't. We say so plainly, without softening the point.</p>
+      <p class="voice-ex">"The wrong frame will always feel like the wrong frame."</p>
     </div>
     <div class="voice-card">
       <div class="voice-title">CONFIDENT</div>
-      <p class="voice-text">We believe in what we offer. The brand speaks with quiet assurance, not loudness.</p>
-      <p class="voice-ex">"You weren't hard to fit. You were wearing the wrong brand."</p>
+      <p class="voice-text">We believe fit is fundamental. Not a bonus feature, not a premium upgrade. The brand speaks with quiet clinical assurance, never loudness.</p>
+      <p class="voice-ex">"You weren't hard to fit. The industry just wasn't trying."</p>
     </div>
     <div class="voice-card">
       <div class="voice-title">HUMAN</div>
-      <p class="voice-text">Behind the precision is warmth. We're solving a real problem for real people. The frame that finally feels right.</p>
-      <p class="voice-ex">"Born from the frustration of frames that never quite fit."</p>
+      <p class="voice-text">Behind the precision is warmth. Dr. Park built this for real faces, real people, the ones the industry had been quietly excluding for too long.</p>
+      <p class="voice-ex">"Born from the experience of searching for a frame that actually fits."</p>
     </div>
     <div class="voice-card">
       <div class="voice-title">REFINED</div>
-      <p class="voice-text">We draw on craft, not trends. Language that ages well. Minimalist, considered phrasing.</p>
-      <p class="voice-ex">"Crafted for the face it fits. Nothing more, nothing less."</p>
+      <p class="voice-text">Grounded in medicine. Expressed in craft. Titanium and stainless steel chosen for how they wear, not how they photograph. Language that ages well.</p>
+      <p class="voice-ex">"Medical-grade materials. Quiet luxury. The frame that belongs on your face."</p>
     </div>
   </div>
   <div class="do-dont rv d3" style="margin-top:2px">
     <div class="do-card">
       <div class="do-lbl">Do</div>
       <ul class="do-list">
+        <li>Lead with fit as the primary value, always</li>
+        <li>Reference the full range of facial structures we serve</li>
+        <li>Draw on Dr. Park's clinical credibility as the brand foundation</li>
+        <li>Name materials with specificity: titanium, stainless steel</li>
         <li>Use Bebas Neue for all display type</li>
-        <li>Pair headlines with Playfair italic subtitles</li>
-        <li>Default to dark backgrounds (#0C0C0C)</li>
         <li>Use gold as a deliberate accent: tags, borders, CTAs</li>
-        <li>Let whitespace do the talking</li>
-        <li>Use product photography that shows material and metal</li>
       </ul>
     </div>
     <div class="dont-card">
       <div class="do-lbl" style="color:rgba(12,12,12,.4)">Don't</div>
       <ul class="dont-list">
-        <li>Use decorative or script typefaces</li>
+        <li>Say "for everyone" (we're specific, not generic)</li>
+        <li>Describe frames by trend or season alone</li>
+        <li>Use exclamation marks or breathless superlatives</li>
+        <li>Reference "fashion" as the primary motivation</li>
         <li>Add color accents beyond the core palette</li>
-        <li>Overuse gold. It's an accent, not a foundation</li>
-        <li>Use bold weight in Outfit for body copy</li>
         <li>Place the logo on busy or patterned backgrounds</li>
-        <li>Use exclamation marks in brand copy</li>
       </ul>
     </div>
   </div>
