@@ -213,6 +213,18 @@ section { padding: 136px 60px; position: relative; }
 .story-panel { background: rgba(247,246,243,.02); border: 1px solid rgba(247,246,243,.06); padding: 40px 36px; }
 .story-collections { background: rgba(247,246,243,.02); border: 1px solid rgba(247,246,243,.06); padding: 32px 36px; }
 
+/* ── Core Belief ── */
+.core-belief {
+  padding: 140px 60px; text-align: center; position: relative;
+  background: linear-gradient(160deg, #1a1610 0%, #0c0c0c 100%);
+}
+.core-belief-inner { max-width: 760px; margin: 0 auto; }
+.core-belief-tag { font-size: 10px; font-weight: 500; letter-spacing: .32em; text-transform: uppercase; color: rgba(200,184,154,.5); margin-bottom: 52px; }
+.core-belief-h { font-family: var(--D); font-size: clamp(72px, 13vw, 200px); line-height: .88; letter-spacing: .025em; color: var(--white); }
+.core-belief-sub { font-family: 'Playfair Display', Georgia, serif; font-style: italic; font-size: clamp(48px, 9vw, 136px); line-height: 1.1; letter-spacing: -.01em; color: rgba(200,184,154,.7); margin-top: 4px; margin-bottom: 52px; display: block; }
+.core-belief-rule { width: 48px; height: 1px; background: var(--gold); margin: 0 auto 48px; opacity: .4; }
+.core-belief-body { font-size: 17px; font-weight: 300; line-height: 1.9; color: rgba(247,246,243,.45); max-width: 580px; margin: 0 auto; }
+
 /* ── Model grid ── */
 .model-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 2px; }
 .model-panel { background: rgba(247,246,243,.03); border: 1px solid rgba(247,246,243,.07); padding: 32px 28px; }
@@ -290,6 +302,7 @@ footer { padding: 80px 60px; display: flex; justify-content: space-between; alig
   .pull { padding: 40px 28px; margin-top: 40px; }
   .pull::before { width: 48px; }
 
+  .core-belief { padding: 80px 24px; }
   .story-grid { grid-template-columns: 1fr; gap: 40px; }
 
   footer { padding: 48px 24px; flex-direction: column; align-items: flex-start; gap: 12px; }
@@ -335,6 +348,20 @@ footer { padding: 80px 60px; display: flex; justify-content: space-between; alig
       <span class="hero-desc">Scroll to explore</span>
     </div>
   </div>
+</section>
+
+<!-- Core Belief (opening) -->
+<section class="core-belief" id="core-belief">
+  <div class="noise"></div>
+  <div style="position:absolute;top:0;left:0;right:0;height:1px;background:linear-gradient(90deg,transparent,var(--gold),transparent)"></div>
+  <div class="core-belief-inner rv">
+    <div class="core-belief-tag">Noon Shop · Core Belief</div>
+    <div class="core-belief-h">FIT IS</div>
+    <span class="core-belief-sub">fundamental.</span>
+    <div class="core-belief-rule"></div>
+    <p class="core-belief-body">You were never hard to fit. You were wearing the wrong brand. Dormann, Steel Brown, and DeNova exist because precision engineering and low-bridge fit geometry are not opposing forces — they are the same thing.</p>
+  </div>
+  <div style="position:absolute;bottom:0;left:0;right:0;height:1px;background:linear-gradient(90deg,transparent,var(--gold),transparent)"></div>
 </section>
 
 <div class="rule-gold"></div>
@@ -811,6 +838,20 @@ footer { padding: 80px 60px; display: flex; justify-content: space-between; alig
   <div class="pull rv d3">
     <p class="pull-text">Calm, considered, never hurried. The brand moves the way it speaks.</p>
   </div>
+</section>
+
+<!-- Core Belief (closing) -->
+<section class="core-belief">
+  <div class="noise"></div>
+  <div style="position:absolute;top:0;left:0;right:0;height:1px;background:linear-gradient(90deg,transparent,var(--gold),transparent)"></div>
+  <div class="core-belief-inner rv">
+    <div class="core-belief-tag">Noon Shop · Core Belief</div>
+    <div class="core-belief-h">FIT IS</div>
+    <span class="core-belief-sub">fundamental.</span>
+    <div class="core-belief-rule"></div>
+    <p class="core-belief-body">You were never hard to fit. You were wearing the wrong brand. Dormann, Steel Brown, and DeNova exist because precision engineering and low-bridge fit geometry are not opposing forces — they are the same thing.</p>
+  </div>
+  <div style="position:absolute;bottom:0;left:0;right:0;height:1px;background:linear-gradient(90deg,transparent,var(--gold),transparent)"></div>
 </section>
 
 <!-- Footer -->
