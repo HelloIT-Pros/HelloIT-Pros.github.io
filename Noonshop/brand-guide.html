@@ -4,7 +4,6 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Noon Shop: Brand Guide</title>
-<script>try{document.documentElement.setAttribute('data-theme',localStorage.getItem('noonshop-theme')||'dark')}catch(e){}</script>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Outfit:wght@100;200;300;400;500&family=Playfair+Display:ital,wght@0,400;0,700;1,400;1,700&display=swap" rel="stylesheet">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
@@ -180,15 +179,15 @@ section { padding: 136px 60px; position: relative; }
 
 /* ── Voice ── */
 .voice-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 2px; }
-.voice-card { padding: 52px 48px; background: var(--white); }
+.voice-card { padding: 52px 48px; background: var(--white); color: var(--ink); }
 .voice-title { font-family: var(--D); font-size: clamp(26px, 2.6vw, 40px); line-height: .92; letter-spacing: .025em; margin-bottom: 16px; color: var(--ink); }
 .voice-text { font-size: 15px; font-weight: 300; line-height: 1.75; color: var(--mid); }
 .voice-ex { font-size: 13px; font-weight: 300; line-height: 1.7; color: rgba(12,12,12,.45); margin-top: 16px; font-style: italic; border-left: 2px solid var(--gold); padding-left: 16px; }
 
 /* ── Do/Don't ── */
 .do-dont { display: grid; grid-template-columns: 1fr 1fr; gap: 2px; }
-.do-card { padding: 48px; background: var(--paper); }
-.dont-card { padding: 48px; background: var(--white); }
+.do-card { padding: 48px; background: var(--paper); color: var(--ink); }
+.dont-card { padding: 48px; background: var(--white); color: var(--ink); }
 .do-lbl { font-size: 10px; font-weight: 500; letter-spacing: .22em; text-transform: uppercase; margin-bottom: 28px; color: var(--gold-dark); }
 .do-list, .dont-list { list-style: none; }
 .do-list li, .dont-list li { font-size: 15px; font-weight: 300; line-height: 1.65; color: var(--ink2); padding: 14px 0; border-bottom: 1px solid var(--border); display: flex; gap: 12px; }
@@ -236,57 +235,6 @@ footer { padding: 80px 60px; display: flex; justify-content: space-between; alig
 
 /* ── Noise ── */
 .noise { position: absolute; inset: 0; pointer-events: none; opacity: .03; z-index: 0; background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E"); background-size: 256px 256px; }
-
-/* ── THEME TOGGLE ── */
-.theme-toggle {
-  width: 34px; height: 34px; border-radius: 50%;
-  border: 0.5px solid rgba(200,184,154,.35); background: transparent;
-  color: var(--gold); cursor: pointer; flex-shrink: 0;
-  display: flex; align-items: center; justify-content: center;
-  transition: border-color .2s, background .2s;
-}
-.theme-toggle:hover { border-color: var(--gold); background: rgba(200,184,154,.1); }
-.icon-sun { display: none; }
-.icon-moon { display: block; }
-[data-theme="light"] .icon-sun { display: block; }
-[data-theme="light"] .icon-moon { display: none; }
-[data-theme="light"] .theme-toggle { border-color: rgba(120,90,40,.3); color: #9A7840; }
-
-/* ── LIGHT MODE ── */
-[data-theme="light"] {
-  --ink: #F7F4EE; --ink2: #EFECE5; --paper: #E8E3DA;
-  --white: #1E1A14; --border: rgba(26,18,8,.1);
-  --gold: #9A7840; --gold-dark: #7A5820; --gold-light: #C8A060; --mid: #888;
-}
-[data-theme="light"] body { background: #F7F4EE; color: #1E1A14; }
-/* Light sections flip — they become slightly darker cream */
-[data-theme="light"] .ls { background: #EFECE5; color: #1E1A14; }
-[data-theme="light"] .ls2 { background: #E8E3DA; color: #1E1A14; }
-/* Dark sections stay dark in light mode (they're intentional contrast areas) */
-[data-theme="light"] .dark { background: #1E1A14; }
-[data-theme="light"] nav.scrolled { background: rgba(247,244,238,.82); }
-[data-theme="light"] .nav-logo img { filter: brightness(0); opacity: .55; }
-[data-theme="light"] .nav-logo-fallback { color: rgba(12,10,8,.55); }
-[data-theme="light"] .hero-gold-line { background: linear-gradient(90deg,transparent,#9A7840,transparent); }
-[data-theme="light"] .hero-wm { color: rgba(12,10,8,.03); }
-[data-theme="light"] .hero-tag { color: #9A7840; }
-[data-theme="light"] .hero-sub { color: rgba(12,10,8,.45); }
-[data-theme="light"] .hero-desc { color: #9A7840; }
-[data-theme="light"] .sline { background: #9A7840; }
-[data-theme="light"] .rule-d { background: rgba(12,10,8,.08); }
-[data-theme="light"] .rule-l { background: rgba(12,10,8,.06); }
-[data-theme="light"] .tag { color: #9A7840; border-color: rgba(100,70,20,.25); }
-[data-theme="light"] .tag.rv { color: #9A7840; }
-[data-theme="light"] .do-card { background: #EFECE5; border-color: rgba(12,10,8,.08); }
-[data-theme="light"] .do-lbl { color: rgba(12,10,8,.45) !important; }
-[data-theme="light"] .do-list li,
-[data-theme="light"] .dont-list li { color: rgba(12,10,8,.65); border-bottom-color: rgba(12,10,8,.07); }
-[data-theme="light"] .motion-card { background: #EFECE5; border-color: rgba(12,10,8,.08); }
-[data-theme="light"] .motion-val { color: rgba(12,10,8,.55); }
-[data-theme="light"] .motion-demo { background: rgba(12,10,8,.06); }
-[data-theme="light"] .swatch-label { color: rgba(12,10,8,.45); }
-[data-theme="light"] .footer-meta { color: rgba(12,10,8,.22); }
-[data-theme="light"] .footer-gold { color: #9A7840; }
 
 /* ── Mobile ── */
 @media (max-width: 900px) {
@@ -361,13 +309,7 @@ footer { padding: 80px 60px; display: flex; justify-content: space-between; alig
       onerror="this.style.display='none';this.nextElementSibling.style.display='block'">
     <span class="nav-logo-fallback" style="display:none">NOON SHOP</span>
   </a>
-  <div style="display:flex;align-items:center;gap:12px;">
-    <span class="nav-pill">Brand Guide</span>
-    <button class="theme-toggle" id="themeToggle" aria-label="Toggle theme">
-      <svg class="icon-moon" xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
-      <svg class="icon-sun" xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>
-    </button>
-  </div>
+  <span class="nav-pill">Brand Guide</span>
 </nav>
 
 <!-- Hero -->
@@ -795,12 +737,6 @@ document.addEventListener('mousemove', e => { mx=e.clientX; my=e.clientY; });
 /* ── Nav ── */
 window.addEventListener('scroll', () => {
   document.getElementById('mainNav').classList.toggle('scrolled', scrollY > 60);
-});
-/* ── Theme toggle ── */
-document.getElementById('themeToggle').addEventListener('click', () => {
-  const next = document.documentElement.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
-  document.documentElement.setAttribute('data-theme', next);
-  try { localStorage.setItem('noonshop-theme', next); } catch(e) {}
 });
 
 /* ── Scroll reveal ── */
