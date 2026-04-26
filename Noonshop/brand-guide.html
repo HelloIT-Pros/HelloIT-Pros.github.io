@@ -213,6 +213,10 @@ section { padding: 136px 60px; position: relative; }
 .story-panel { background: rgba(247,246,243,.02); border: 1px solid rgba(247,246,243,.06); padding: 40px 36px; }
 .story-collections { background: rgba(247,246,243,.02); border: 1px solid rgba(247,246,243,.06); padding: 32px 36px; }
 
+/* ── Model grid ── */
+.model-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 2px; }
+.model-panel { background: rgba(247,246,243,.03); border: 1px solid rgba(247,246,243,.07); padding: 32px 28px; }
+
 /* ── Motion ── */
 .motion-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 2px; }
 .motion-card { padding: 48px 40px; background: rgba(247,246,243,.03); border: 1px solid rgba(247,246,243,.07); }
@@ -278,6 +282,8 @@ footer { padding: 80px 60px; display: flex; justify-content: space-between; alig
   .do-dont { grid-template-columns: 1fr; }
   .do-card, .dont-card { padding: 36px 28px; }
 
+  .model-grid { grid-template-columns: 1fr; }
+  .model-panel { padding: 28px 24px; }
   .motion-grid { grid-template-columns: 1fr; }
   .motion-card { padding: 36px 28px; }
 
@@ -612,6 +618,124 @@ footer { padding: 80px 60px; display: flex; justify-content: space-between; alig
   <!-- Photography pull quote -->
   <div style="border-left:2px solid var(--gold-dark);padding:28px 32px;margin-top:56px;max-width:720px" class="rv d3">
     <p style="font-family:'Playfair Display',Georgia,serif;font-style:italic;font-size:clamp(18px,2vw,24px);line-height:1.65;color:var(--ink2)">"In an industry where style has long dominated the conversation, Noon Shop is reframing the narrative — bringing function, inclusivity, and medical precision back into focus."</p>
+  </div>
+</section>
+
+<div class="rule-d"></div>
+
+<!-- Model Direction -->
+<section style="background:var(--ink)" id="model-direction">
+  <div class="noise"></div>
+  <div class="tag rv">Model &amp; Image Direction</div>
+  <h2 class="dh rv d1">THE FACE<br><span class="dh-sub">that wears it.</span></h2>
+
+  <p class="rv" style="font-size:17px;font-weight:300;line-height:1.85;color:rgba(247,246,243,.55);max-width:640px;margin-bottom:80px">Our visual direction is an extension of the brand's core promise. A genuine range of facial structures, diverse ethnic backgrounds, and faces that represent the people the industry has underserved. Beautiful — but not a single archetype of beautiful. The price point demands polish. The mission demands range. Both must show up in the same image.</p>
+
+  <!-- Facial structures -->
+  <div class="rv d1" style="margin-bottom:64px">
+    <div style="font-size:10px;font-weight:500;letter-spacing:.22em;text-transform:uppercase;color:var(--gold);margin-bottom:24px;display:flex;align-items:center;gap:12px">
+      <span style="display:block;width:24px;height:1px;background:var(--gold)"></span>Facial Structures to Represent
+    </div>
+    <div class="model-grid">
+      <div class="model-panel">
+        <div style="font-family:var(--D);font-size:20px;letter-spacing:.06em;color:var(--gold);margin-bottom:12px">LOW BRIDGE</div>
+        <p style="font-size:13px;font-weight:300;line-height:1.75;color:rgba(247,246,243,.45)">East Asian, Southeast Asian, Black, and Latinx facial structures. Flatter nasal bridges where standard frames slip forward. The face this brand was explicitly built to serve.</p>
+      </div>
+      <div class="model-panel">
+        <div style="font-family:var(--D);font-size:20px;letter-spacing:.06em;color:var(--gold);margin-bottom:12px">HIGH CHEEKBONES</div>
+        <p style="font-size:13px;font-weight:300;line-height:1.75;color:rgba(247,246,243,.45)">Frames that press on or ride over prominent cheekbones are a persistent, ignored discomfort. Show faces where the frame clears correctly — visibly settled, not fighting the face.</p>
+      </div>
+      <div class="model-panel">
+        <div style="font-family:var(--D);font-size:20px;letter-spacing:.06em;color:var(--gold);margin-bottom:12px">WIDER &amp; NARROWER</div>
+        <p style="font-size:13px;font-weight:300;line-height:1.75;color:rgba(247,246,243,.45)">Both ends of the face-width spectrum, underserved by standard sizing. Temples that sit flush, without squeeze or gap. The frame disappears into the face because it belongs there.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Shot types -->
+  <div class="rv d2" style="margin-bottom:64px">
+    <div style="font-size:10px;font-weight:500;letter-spacing:.22em;text-transform:uppercase;color:var(--gold);margin-bottom:24px;display:flex;align-items:center;gap:12px">
+      <span style="display:block;width:24px;height:1px;background:var(--gold)"></span>Shot Types
+    </div>
+    <div class="model-grid">
+      <div class="model-panel">
+        <div style="font-family:var(--D);font-size:20px;letter-spacing:.06em;color:var(--white);margin-bottom:8px">CLOSE<br>PORTRAIT</div>
+        <div style="width:24px;height:1px;background:var(--gold);margin:12px 0;opacity:.5"></div>
+        <p style="font-size:13px;font-weight:300;line-height:1.75;color:rgba(247,246,243,.45)">Chest to crown. Direct eye contact or 15° turn. Shows how the frame sits on the bridge and against the cheekbones. Primary commercial shot — this is the one that sells.</p>
+      </div>
+      <div class="model-panel">
+        <div style="font-family:var(--D);font-size:20px;letter-spacing:.06em;color:var(--white);margin-bottom:8px">THREE-<br>QUARTER</div>
+        <div style="width:24px;height:1px;background:var(--gold);margin:12px 0;opacity:.5"></div>
+        <p style="font-size:13px;font-weight:300;line-height:1.75;color:rgba(247,246,243,.45)">45° angle. Reveals the temple arm and how the frame wraps the ear. Best for showing fit quality and frame depth — the shot that builds trust.</p>
+      </div>
+      <div class="model-panel">
+        <div style="font-family:var(--D);font-size:20px;letter-spacing:.06em;color:var(--white);margin-bottom:8px">PROFILE</div>
+        <div style="width:24px;height:1px;background:var(--gold);margin:12px 0;opacity:.5"></div>
+        <p style="font-size:13px;font-weight:300;line-height:1.75;color:rgba(247,246,243,.45)">Pure side view. Shows frame depth, temple angle, and lens position against the cheekbone. The fit shot — nothing hides here.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Lighting & styling panels -->
+  <div class="story-grid rv d2" style="margin-bottom:2px">
+    <div style="background:rgba(247,246,243,.02);border:1px solid rgba(247,246,243,.06);padding:40px 36px">
+      <div style="font-size:10px;font-weight:500;letter-spacing:.22em;text-transform:uppercase;color:var(--gold);margin-bottom:20px">Light &amp; Background</div>
+      <ul style="list-style:none;display:flex;flex-direction:column">
+        <li style="font-size:14px;font-weight:300;line-height:1.65;color:rgba(247,246,243,.5);border-bottom:1px solid rgba(247,246,243,.06);padding:14px 0;display:flex;gap:12px"><span style="color:var(--gold);flex-shrink:0">→</span>Soft directional natural light or controlled studio. Even, not dramatic.</li>
+        <li style="font-size:14px;font-weight:300;line-height:1.65;color:rgba(247,246,243,.5);border-bottom:1px solid rgba(247,246,243,.06);padding:14px 0;display:flex;gap:12px"><span style="color:var(--gold);flex-shrink:0">→</span>Background: off-white (#F7F6F3) or paper (#EEECE7). On-brand, never distracting.</li>
+        <li style="font-size:14px;font-weight:300;line-height:1.65;color:rgba(247,246,243,.5);border-bottom:1px solid rgba(247,246,243,.06);padding:14px 0;display:flex;gap:12px"><span style="color:var(--gold);flex-shrink:0">→</span>No harsh shadows. Light should reveal the facial structure — not flatten or obscure it.</li>
+        <li style="font-size:14px;font-weight:300;line-height:1.65;color:rgba(247,246,243,.5);padding-top:14px;display:flex;gap:12px"><span style="color:var(--gold);flex-shrink:0">→</span>Skin tones rendered accurately and warmly across all ethnicities. No whitening or homogenizing.</li>
+      </ul>
+    </div>
+    <div style="background:rgba(247,246,243,.02);border:1px solid rgba(247,246,243,.06);padding:40px 36px">
+      <div style="font-size:10px;font-weight:500;letter-spacing:.22em;text-transform:uppercase;color:var(--gold);margin-bottom:20px">Expression &amp; Styling</div>
+      <ul style="list-style:none;display:flex;flex-direction:column">
+        <li style="font-size:14px;font-weight:300;line-height:1.65;color:rgba(247,246,243,.5);border-bottom:1px solid rgba(247,246,243,.06);padding:14px 0;display:flex;gap:12px"><span style="color:var(--gold);flex-shrink:0">→</span>Calm and composed. No broad smiles or extreme editorial expressions. Serene, assured.</li>
+        <li style="font-size:14px;font-weight:300;line-height:1.65;color:rgba(247,246,243,.5);border-bottom:1px solid rgba(247,246,243,.06);padding:14px 0;display:flex;gap:12px"><span style="color:var(--gold);flex-shrink:0">→</span>Clothing neutral or out of frame. The face and frame are the only subjects.</li>
+        <li style="font-size:14px;font-weight:300;line-height:1.65;color:rgba(247,246,243,.5);border-bottom:1px solid rgba(247,246,243,.06);padding:14px 0;display:flex;gap:12px"><span style="color:var(--gold);flex-shrink:0">→</span>Natural makeup. Present but not dominant. The face at its best, not its most transformed.</li>
+        <li style="font-size:14px;font-weight:300;line-height:1.65;color:rgba(247,246,243,.5);padding-top:14px;display:flex;gap:12px"><span style="color:var(--gold);flex-shrink:0">→</span>Ages 25–50. The premium buyer — not exclusively young, not uniformly aspirational.</li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- Nano Banana prompt -->
+  <div class="rv d3" style="background:rgba(200,184,154,.06);border:1px solid rgba(200,184,154,.12);padding:48px;margin-top:2px">
+    <div style="font-size:10px;font-weight:500;letter-spacing:.22em;text-transform:uppercase;color:var(--gold);margin-bottom:16px">Nano Banana · Prompt Template</div>
+    <p style="font-size:14px;font-weight:300;line-height:1.75;color:rgba(247,246,243,.45);margin-bottom:24px">Use this as your base prompt. Swap the bracketed variables across your set to build range — facial structure, ethnicity, angle, and frame style should all vary.</p>
+    <div style="background:rgba(12,12,12,.5);border:1px solid rgba(247,246,243,.07);padding:28px 32px">
+      <p style="font-family:monospace;font-size:13px;line-height:2.1;color:rgba(247,246,243,.72)">Portrait of a <span style="color:var(--gold)">[East Asian / Southeast Asian / South Asian / Black / Latinx / Middle Eastern]</span> person, <span style="color:var(--gold)">[mid-20s / early 30s / mid-40s]</span>, wearing <span style="color:var(--gold)">[thin titanium / stainless steel]</span> eyewear. <span style="color:var(--gold)">[Low-bridge fit / wide-face fit / high-cheekbone clearance]</span>. <span style="color:var(--gold)">[Direct eye contact / 15° angle turn / pure profile]</span>. Soft natural directional light. Off-white neutral background. Calm, composed expression. Shoulder-to-crown crop. Quiet luxury editorial. High resolution, photorealistic. Skin texture preserved, minimal retouching.</p>
+    </div>
+    <p style="font-size:11px;font-weight:300;color:rgba(247,246,243,.28);margin-top:16px;line-height:1.65">Avoid generating uniformly Westernized or symmetrically idealized features. The brand's point of difference is fit for underrepresented facial structures — that difference should be visible in the imagery.</p>
+  </div>
+
+  <!-- Do/Don't -->
+  <div class="do-dont rv d3" style="margin-top:2px">
+    <div class="do-card">
+      <div class="do-lbl">Do</div>
+      <ul class="do-list">
+        <li>Cast a genuine range of ethnicities and facial structures</li>
+        <li>Show the frame fitting correctly — settled, not slipping or pinching</li>
+        <li>Use calm, composed expressions that convey quiet confidence</li>
+        <li>Keep backgrounds on-brand: white or paper, no lifestyle staging</li>
+        <li>Vary angles across portrait, three-quarter, and profile within a set</li>
+        <li>Keep styling minimal — the face and frame are the only subject</li>
+      </ul>
+    </div>
+    <div class="dont-card">
+      <div class="do-lbl" style="color:rgba(12,12,12,.4)">Don't</div>
+      <ul class="dont-list">
+        <li>Cast exclusively high-fashion or Westernized facial types</li>
+        <li>Use lifestyle backgrounds, props, or active/movement shots</li>
+        <li>Generate over-smoothed, AI-homogenized skin — preserve texture</li>
+        <li>Use dramatic lighting that hides how the frame actually sits</li>
+        <li>Apply heavy makeup or styling that competes with the frame</li>
+        <li>Show frames sitting off-center, tilted, or appearing to slip</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="pull rv d3">
+    <p class="pull-text">Diverse by design. <em>Every face</em> is a face Noon Shop was built for.</p>
   </div>
 </section>
 
