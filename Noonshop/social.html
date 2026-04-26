@@ -327,11 +327,116 @@ body {
   color: var(--muted);
 }
 
+/* ── STYLE TOGGLE ── */
+.style-toggle-wrap {
+  padding: 0 40px;
+  margin-bottom: 0;
+}
+
+.style-toggle {
+  display: flex;
+  border-bottom: 0.5px solid var(--border);
+}
+
+.style-btn {
+  flex: 1;
+  background: none;
+  border: none;
+  border-bottom: 2px solid transparent;
+  padding: 18px 8px 16px;
+  cursor: pointer;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 5px;
+  margin-bottom: -1px;
+  transition: border-color 0.25s;
+}
+
+.style-btn.active {
+  border-bottom-color: var(--gold);
+}
+
+.style-btn-name {
+  font-size: 10px;
+  letter-spacing: .28em;
+  text-transform: uppercase;
+  color: var(--muted);
+  font-weight: 500;
+  transition: color 0.25s;
+}
+
+.style-btn.active .style-btn-name {
+  color: var(--white);
+}
+
+.style-btn-desc {
+  font-size: 9px;
+  letter-spacing: .08em;
+  color: rgba(85,85,85,.7);
+  transition: color 0.25s;
+}
+
+.style-btn.active .style-btn-desc {
+  color: rgba(200,184,154,.5);
+}
+
+/* Brand story bar */
+.style-story {
+  padding: 20px 40px;
+  border-bottom: 0.5px solid var(--border);
+  margin-bottom: 3px;
+  display: flex;
+  align-items: baseline;
+  gap: 20px;
+  min-height: 60px;
+}
+
+.style-story-label {
+  font-size: 9px;
+  letter-spacing: .3em;
+  text-transform: uppercase;
+  color: var(--gold);
+  flex-shrink: 0;
+  padding-top: 2px;
+}
+
+.style-story-text {
+  font-size: 13px;
+  font-weight: 300;
+  color: rgba(245,240,234,.45);
+  line-height: 1.65;
+  font-style: italic;
+  transition: opacity 0.3s;
+}
+
 /* THE GRID */
 .ig-grid {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   gap: 3px;
+  transition: opacity 0.3s ease;
+}
+
+.ig-grid.fading {
+  opacity: 0;
+}
+
+/* ── STYLE FILTER TREATMENTS ──
+   Placeholder visual tones until real style photos are provided.
+   Each .cell img gets a filter based on the active grid style. ── */
+.ig-grid[data-style="authentic"] .cell img {
+  filter: brightness(0.93) saturate(1.06) contrast(0.97);
+}
+.ig-grid[data-style="refined"] .cell img {
+  filter: brightness(1.1) contrast(1.06) saturate(0.8);
+}
+.ig-grid[data-style="editorial"] .cell img {
+  filter: contrast(1.2) brightness(0.88) saturate(1.2) hue-rotate(-4deg);
+}
+.ig-grid[data-style="luxury"] .cell img {
+  filter: brightness(1.12) contrast(0.88) saturate(0.38) sepia(0.14);
 }
 
 .cell {
@@ -502,6 +607,29 @@ body {
     gap: 32px;
   }
 
+  .style-toggle-wrap {
+    padding: 0 16px;
+  }
+
+  .style-btn {
+    padding: 14px 4px 12px;
+  }
+
+  .style-btn-name {
+    font-size: 8px;
+    letter-spacing: .18em;
+  }
+
+  .style-btn-desc {
+    display: none;
+  }
+
+  .style-story {
+    padding: 14px 16px;
+    flex-direction: column;
+    gap: 6px;
+  }
+
   .ig-profile {
     padding: 20px 16px;
     gap: 16px;
@@ -638,8 +766,36 @@ body {
     </div>
   </div>
 
+  <!-- STYLE TOGGLE -->
+  <div class="style-toggle-wrap">
+    <div class="style-toggle">
+      <button class="style-btn active" data-style="authentic">
+        <span class="style-btn-name">Authentic</span>
+        <span class="style-btn-desc">Real · Unfiltered</span>
+      </button>
+      <button class="style-btn" data-style="refined">
+        <span class="style-btn-name">Refined</span>
+        <span class="style-btn-desc">Clean · Polished</span>
+      </button>
+      <button class="style-btn" data-style="editorial">
+        <span class="style-btn-name">Editorial</span>
+        <span class="style-btn-desc">Bold · Fashion-forward</span>
+      </button>
+      <button class="style-btn" data-style="luxury">
+        <span class="style-btn-name">Luxury</span>
+        <span class="style-btn-desc">Premium · Aspirational</span>
+      </button>
+    </div>
+  </div>
+
+  <!-- BRAND STORY BAR -->
+  <div class="style-story">
+    <span class="style-story-label" id="storyLabel">Authentic</span>
+    <span class="style-story-text" id="storyText">Real people, real faces, real light. This feed says: we fit everyone — and we mean it.</span>
+  </div>
+
   <!-- THE GRID -->
-  <div class="ig-grid">
+  <div class="ig-grid" data-style="authentic">
 
     <!-- ROW 1: Warm indoor -->
     <div class="cell">
@@ -825,6 +981,40 @@ body {
 
 
 <script>
+/* ── STYLE TOGGLE ── */
+const styleStories = {
+  authentic:  'Real people, real faces, real light. This feed says: we fit everyone — and we mean it.',
+  refined:    'Same faces, elevated treatment. Clean light, polished skin, intentional framing. Approachable but aspirational.',
+  editorial:  'Fashion-forward energy. High contrast, confident posture, bold placement. Eyewear as a statement.',
+  luxury:     'Quiet luxury. Muted tones, restrained palette, deliberate space. The product speaks — nothing else needs to.',
+};
+
+const grid       = document.querySelector('.ig-grid');
+const storyText  = document.getElementById('storyText');
+const storyLabel = document.getElementById('storyLabel');
+
+document.querySelectorAll('.style-btn').forEach(btn => {
+  btn.addEventListener('click', () => {
+    const style = btn.dataset.style;
+    if (grid.dataset.style === style) return;
+
+    // Update active button
+    document.querySelectorAll('.style-btn').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+
+    // Fade grid → swap → fade back
+    grid.classList.add('fading');
+    storyText.style.opacity = '0';
+    setTimeout(() => {
+      grid.dataset.style = style;
+      storyText.textContent  = styleStories[style];
+      storyLabel.textContent = btn.querySelector('.style-btn-name').textContent;
+      grid.classList.remove('fading');
+      storyText.style.opacity = '1';
+    }, 300);
+  });
+});
+
 (function initLoader() {
   const loader = document.getElementById('pageLoader');
   if (!loader) return;
