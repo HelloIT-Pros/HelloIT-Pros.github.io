@@ -117,7 +117,7 @@ section { padding: 136px 60px; position: relative; }
 /* ── Reveal ── */
 .rv { opacity: 0; transform: translateY(28px); transition: opacity .8s ease, transform .8s ease; }
 .rv.in { opacity: 1; transform: translateY(0); }
-.rv.d1 { transition-delay: .1s; } .rv.d2 { transition-delay: .2s; } .rv.d3 { transition-delay: .3s; }
+.rv.d1 { transition-delay: .1s; } .rv.d2 { transition-delay: .2s; } .rv.d3 { transition-delay: .3s; } .rv.d4 { transition-delay: .4s; }
 
 /* ── Colors ── */
 .palette-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 2px; }
@@ -229,6 +229,16 @@ section { padding: 136px 60px; position: relative; }
 .model-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 2px; }
 .model-panel { background: rgba(247,246,243,.03); border: 1px solid rgba(247,246,243,.07); padding: 32px 28px; }
 
+/* ── AI System ── */
+.governs-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 2px; }
+.governs-panel { background: rgba(247,246,243,.03); border: 1px solid rgba(247,246,243,.07); padding: 32px 28px; }
+.governs-title { font-family: var(--D); font-size: 18px; letter-spacing: .06em; color: var(--gold); margin-bottom: 12px; }
+.governs-body { font-size: 13px; font-weight: 300; line-height: 1.75; color: rgba(247,246,243,.45); }
+.ai-checklist { list-style: none; padding: 0; margin: 0; border-top: 1px solid rgba(247,246,243,.08); }
+.ai-checklist li { font-size: 14px; font-weight: 300; line-height: 1.65; color: rgba(247,246,243,.5); border-bottom: 1px solid rgba(247,246,243,.06); padding: 16px 0; display: flex; gap: 12px; }
+.ai-checklist li:last-child { border-bottom: none; }
+.ai-checklist li span { color: var(--gold); flex-shrink: 0; }
+
 /* ── Motion ── */
 .motion-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 2px; }
 .motion-card { padding: 48px 40px; background: rgba(247,246,243,.03); border: 1px solid rgba(247,246,243,.07); }
@@ -268,43 +278,55 @@ footer { padding: 80px 60px; display: flex; justify-content: space-between; alig
 
   .rule-d, .rule-l, .rule-gold { margin: 0 24px; }
 
+  /* Colors */
   .palette-grid { grid-template-columns: repeat(2, 1fr); }
   .swatch { aspect-ratio: auto; min-height: 140px; }
-
   .gold-row { grid-template-columns: 1fr; }
   .gold-feature { padding: 40px 28px; }
   .gold-display { font-size: clamp(40px, 10vw, 64px); }
 
+  /* Typography */
   .type-meta { flex-direction: column; gap: 12px; margin-bottom: 20px; }
   .type-meta > div { display: flex; gap: 8px; align-items: baseline; }
   .type-label::after { content: ':'; }
+  .type-size-item { gap: 12px; }
+  .type-size-lbl { width: 72px; }
 
+  /* Logo */
   .logo-grid { grid-template-columns: 1fr; }
   .logo-cell { padding: 48px 32px; }
 
+  /* Photography */
   .photo-hero { grid-template-columns: 1fr; }
   .photo-hero .photo-wide { aspect-ratio: 4/3; }
   .photo-hero .photo-tall { aspect-ratio: 4/3; }
   .photo-row { grid-template-columns: 1fr 1fr; }
   .photo-row-4 { grid-template-columns: 1fr 1fr; }
 
+  /* Voice & Do/Don't */
   .voice-grid { grid-template-columns: 1fr; }
   .voice-card { padding: 36px 28px; }
-
   .do-dont { grid-template-columns: 1fr; }
   .do-card, .dont-card { padding: 36px 28px; }
 
+  /* Model & Motion */
   .model-grid { grid-template-columns: 1fr; }
   .model-panel { padding: 28px 24px; }
   .motion-grid { grid-template-columns: 1fr; }
   .motion-card { padding: 36px 28px; }
 
+  /* AI System */
+  .governs-grid { grid-template-columns: 1fr; }
+  .governs-panel { padding: 24px 20px; }
+
+  /* Pull & Core Belief */
   .pull { padding: 40px 28px; margin-top: 40px; }
   .pull::before { width: 48px; }
-
   .core-belief { padding: 80px 24px; }
-  .story-grid { grid-template-columns: 1fr; gap: 40px; }
+  .core-belief-body { font-size: 15px; }
 
+  /* Story & Footer */
+  .story-grid { grid-template-columns: 1fr; gap: 40px; }
   footer { padding: 48px 24px; flex-direction: column; align-items: flex-start; gap: 12px; }
 }
 </style>
@@ -784,38 +806,38 @@ footer { padding: 80px 60px; display: flex; justify-content: space-between; alig
     <div style="font-size:10px;font-weight:500;letter-spacing:.22em;text-transform:uppercase;color:var(--gold);margin-bottom:32px;display:flex;align-items:center;gap:12px">
       <span style="display:block;width:24px;height:1px;background:var(--gold)"></span>What the System Governs
     </div>
-    <div style="display:grid;grid-template-columns:repeat(2,1fr);gap:2px">
-      <div style="background:rgba(247,246,243,.03);border:1px solid rgba(247,246,243,.07);padding:32px 28px">
-        <div style="font-family:var(--D);font-size:18px;letter-spacing:.06em;color:var(--gold);margin-bottom:12px">PRODUCT COPY</div>
-        <p style="font-size:13px;font-weight:300;line-height:1.75;color:rgba(247,246,243,.45)">Product descriptions, frame specifications, collection introductions, and fit language. Every word written about a Noon Shop frame begins with fit as the primary value. Materials are named with specificity, titanium, stainless steel, never described by trend or season alone.</p>
+    <div class="governs-grid">
+      <div class="governs-panel">
+        <div class="governs-title">PRODUCT COPY</div>
+        <p class="governs-body">Product descriptions, frame specifications, collection introductions, and fit language. Every word written about a Noon Shop frame begins with fit as the primary value. Materials are named with specificity, titanium, stainless steel, never described by trend or season alone.</p>
       </div>
-      <div style="background:rgba(247,246,243,.03);border:1px solid rgba(247,246,243,.07);padding:32px 28px">
-        <div style="font-family:var(--D);font-size:18px;letter-spacing:.06em;color:var(--gold);margin-bottom:12px">STUDIO MODEL PHOTOGRAPHY</div>
-        <p style="font-size:13px;font-weight:300;line-height:1.75;color:rgba(247,246,243,.45)">AI-generated model imagery for commercial, editorial, and social use. The locked scene spec defined in the Photography section is the only accepted input. Background, light source, color temperature, expression, clothing, and crop are fixed. The face and frame are the only variables.</p>
+      <div class="governs-panel">
+        <div class="governs-title">STUDIO MODEL PHOTOGRAPHY</div>
+        <p class="governs-body">AI-generated model imagery for commercial, editorial, and social use. The locked scene spec defined in the Photography section is the only accepted input. Background, light source, color temperature, expression, clothing, and crop are fixed. The face and frame are the only variables.</p>
       </div>
-      <div style="background:rgba(247,246,243,.03);border:1px solid rgba(247,246,243,.07);padding:32px 28px">
-        <div style="font-family:var(--D);font-size:18px;letter-spacing:.06em;color:var(--gold);margin-bottom:12px">PRODUCT PHOTOGRAPHY</div>
-        <p style="font-size:13px;font-weight:300;line-height:1.75;color:rgba(247,246,243,.45)">AI-generated product detail and flat lay imagery. Frames on white or paper. Material fills the frame. No props, no lifestyle staging. The gold-tone metal of the frame connects directly to the brand accent. The frame is the story.</p>
+      <div class="governs-panel">
+        <div class="governs-title">PRODUCT PHOTOGRAPHY</div>
+        <p class="governs-body">AI-generated product detail and flat lay imagery. Frames on white or paper. Material fills the frame. No props, no lifestyle staging. The gold-tone metal of the frame connects directly to the brand accent. The frame is the story.</p>
       </div>
-      <div style="background:rgba(247,246,243,.03);border:1px solid rgba(247,246,243,.07);padding:32px 28px">
-        <div style="font-family:var(--D);font-size:18px;letter-spacing:.06em;color:var(--gold);margin-bottom:12px">EMAIL MARKETING</div>
-        <p style="font-size:13px;font-weight:300;line-height:1.75;color:rgba(247,246,243,.45)">Campaign and transactional email copy. Brand voice applies in full: direct, confident, human, refined. Subject lines lead with fit or a specific clinical truth. No breathless superlatives, no exclamation marks, no fashion-first language.</p>
+      <div class="governs-panel">
+        <div class="governs-title">EMAIL MARKETING</div>
+        <p class="governs-body">Campaign and transactional email copy. Brand voice applies in full: direct, confident, human, refined. Subject lines lead with fit or a specific clinical truth. No breathless superlatives, no exclamation marks, no fashion-first language.</p>
       </div>
-      <div style="background:rgba(247,246,243,.03);border:1px solid rgba(247,246,243,.07);padding:32px 28px">
-        <div style="font-family:var(--D);font-size:18px;letter-spacing:.06em;color:var(--gold);margin-bottom:12px">WEB DESIGN &amp; LANDING PAGES</div>
-        <p style="font-size:13px;font-weight:300;line-height:1.75;color:rgba(247,246,243,.45)">Page layouts, section hierarchy, CTA copy, and interaction patterns follow the motion and typography principles defined here. Bebas Neue for all display. Playfair Display italic for accent. Outfit 300 for body. Gold is a deliberate accent, never decorative.</p>
+      <div class="governs-panel">
+        <div class="governs-title">WEB DESIGN &amp; LANDING PAGES</div>
+        <p class="governs-body">Page layouts, section hierarchy, CTA copy, and interaction patterns follow the motion and typography principles defined here. Bebas Neue for all display. Playfair Display italic for accent. Outfit 300 for body. Gold is a deliberate accent, never decorative.</p>
       </div>
-      <div style="background:rgba(247,246,243,.03);border:1px solid rgba(247,246,243,.07);padding:32px 28px">
-        <div style="font-family:var(--D);font-size:18px;letter-spacing:.06em;color:var(--gold);margin-bottom:12px">GOOGLE &amp; META ADS</div>
-        <p style="font-size:13px;font-weight:300;line-height:1.75;color:rgba(247,246,243,.45)">Paid search and social ad copy generated from the approved voice pillars: Direct, Confident, Human, Refined. Headlines lead with the fit problem or the fit solution. No generic eyewear language. No fashion trend references. The brand does not compete on price or style. It competes on precision.</p>
+      <div class="governs-panel">
+        <div class="governs-title">GOOGLE &amp; META ADS</div>
+        <p class="governs-body">Paid search and social ad copy generated from the approved voice pillars: Direct, Confident, Human, Refined. Headlines lead with the fit problem or the fit solution. No generic eyewear language. No fashion trend references. The brand does not compete on price or style. It competes on precision.</p>
       </div>
-      <div style="background:rgba(247,246,243,.03);border:1px solid rgba(247,246,243,.07);padding:32px 28px">
-        <div style="font-family:var(--D);font-size:18px;letter-spacing:.06em;color:var(--gold);margin-bottom:12px">INSTAGRAM &amp; SOCIAL CONTENT</div>
-        <p style="font-size:13px;font-weight:300;line-height:1.75;color:rgba(247,246,243,.45)">Grid tiles, story cards, and caption copy generated to the locked visual system. Three content types only: model portrait, product flat, brand statement tile. All three share the same background, light, and typographic treatment. Consistency is not optional. It is the brand signal.</p>
+      <div class="governs-panel">
+        <div class="governs-title">INSTAGRAM &amp; SOCIAL CONTENT</div>
+        <p class="governs-body">Grid tiles, story cards, and caption copy generated to the locked visual system. Three content types only: model portrait, product flat, brand statement tile. All three share the same background, light, and typographic treatment. Consistency is not optional. It is the brand signal.</p>
       </div>
-      <div style="background:rgba(247,246,243,.03);border:1px solid rgba(247,246,243,.07);padding:32px 28px">
-        <div style="font-family:var(--D);font-size:18px;letter-spacing:.06em;color:var(--gold);margin-bottom:12px">MARKETING GRAPHICS</div>
-        <p style="font-size:13px;font-weight:300;line-height:1.75;color:rgba(247,246,243,.45)">Campaign banners, event materials, and branded assets. Color palette, typography, and spacing rules are non-negotiable. Gold enters only where precision meets craft. Never as decoration.</p>
+      <div class="governs-panel">
+        <div class="governs-title">MARKETING GRAPHICS</div>
+        <p class="governs-body">Campaign banners, event materials, and branded assets. Color palette, typography, and spacing rules are non-negotiable. Gold enters only where precision meets craft. Never as decoration.</p>
       </div>
     </div>
   </div>
@@ -826,14 +848,14 @@ footer { padding: 80px 60px; display: flex; justify-content: space-between; alig
       <span style="display:block;width:24px;height:1px;background:var(--gold)"></span>How the System Uses This Document
     </div>
     <p style="font-size:16px;font-weight:300;line-height:1.9;color:rgba(247,246,243,.55);margin-bottom:32px">Before generating any output, the AI references this document to confirm:</p>
-    <ul style="list-style:none;padding:0;margin:0;border-top:1px solid rgba(247,246,243,.08)">
-      <li style="font-size:14px;font-weight:300;line-height:1.65;color:rgba(247,246,243,.5);border-bottom:1px solid rgba(247,246,243,.06);padding:16px 0;display:flex;gap:12px"><span style="color:var(--gold);flex-shrink:0">→</span>Is the primary value fit, not style?</li>
-      <li style="font-size:14px;font-weight:300;line-height:1.65;color:rgba(247,246,243,.5);border-bottom:1px solid rgba(247,246,243,.06);padding:16px 0;display:flex;gap:12px"><span style="color:var(--gold);flex-shrink:0">→</span>Does the visual follow the locked scene spec?</li>
-      <li style="font-size:14px;font-weight:300;line-height:1.65;color:rgba(247,246,243,.5);border-bottom:1px solid rgba(247,246,243,.06);padding:16px 0;display:flex;gap:12px"><span style="color:var(--gold);flex-shrink:0">→</span>Is the typography Bebas Neue, Playfair Display italic, or Outfit 300?</li>
-      <li style="font-size:14px;font-weight:300;line-height:1.65;color:rgba(247,246,243,.5);border-bottom:1px solid rgba(247,246,243,.06);padding:16px 0;display:flex;gap:12px"><span style="color:var(--gold);flex-shrink:0">→</span>Is gold used as a deliberate accent, not a decoration?</li>
-      <li style="font-size:14px;font-weight:300;line-height:1.65;color:rgba(247,246,243,.5);border-bottom:1px solid rgba(247,246,243,.06);padding:16px 0;display:flex;gap:12px"><span style="color:var(--gold);flex-shrink:0">→</span>Does the model casting reflect the full range of facial structures this brand was built to serve?</li>
-      <li style="font-size:14px;font-weight:300;line-height:1.65;color:rgba(247,246,243,.5);border-bottom:1px solid rgba(247,246,243,.06);padding:16px 0;display:flex;gap:12px"><span style="color:var(--gold);flex-shrink:0">→</span>Does the copy lead with clinical credibility, not fashion aspiration?</li>
-      <li style="font-size:14px;font-weight:300;line-height:1.65;color:rgba(247,246,243,.5);padding:16px 0;display:flex;gap:12px"><span style="color:var(--gold);flex-shrink:0">→</span>Is the brand voice Direct, Confident, Human, Refined, in that order?</li>
+    <ul class="ai-checklist">
+      <li><span>→</span>Is the primary value fit, not style?</li>
+      <li><span>→</span>Does the visual follow the locked scene spec?</li>
+      <li><span>→</span>Is the typography Bebas Neue, Playfair Display italic, or Outfit 300?</li>
+      <li><span>→</span>Is gold used as a deliberate accent, not a decoration?</li>
+      <li><span>→</span>Does the model casting reflect the full range of facial structures this brand was built to serve?</li>
+      <li><span>→</span>Does the copy lead with clinical credibility, not fashion aspiration?</li>
+      <li><span>→</span>Is the brand voice Direct, Confident, Human, Refined, in that order?</li>
     </ul>
     <p style="font-size:14px;font-weight:300;line-height:1.65;color:rgba(247,246,243,.3);margin-top:32px;font-style:italic">If any output deviates from these checks, it does not represent the brand.</p>
   </div>
