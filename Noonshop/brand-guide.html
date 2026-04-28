@@ -229,6 +229,26 @@ section { padding: 136px 60px; position: relative; }
 .model-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 2px; }
 .model-panel { background: rgba(247,246,243,.03); border: 1px solid rgba(247,246,243,.07); padding: 32px 28px; }
 
+/* ── Collections ── */
+.collections-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 2px; }
+.collection-panel { padding: 64px 52px; display: flex; flex-direction: column; gap: 0; position: relative; overflow: hidden; }
+.collection-panel.dormann { background: var(--ink); border: 1px solid rgba(247,246,243,.06); }
+.collection-panel.steel-brown { background: linear-gradient(160deg, #1a1610 0%, #0c0c0c 100%); border: 1px solid rgba(200,184,154,.1); }
+.collection-name { font-family: var(--D); font-size: clamp(52px, 6vw, 88px); line-height: .88; letter-spacing: .025em; margin-bottom: 8px; }
+.collection-tagline { font-family: 'Playfair Display', Georgia, serif; font-style: italic; font-size: clamp(18px, 2vw, 26px); line-height: 1.3; letter-spacing: -.01em; color: rgba(200,184,154,.65); margin-bottom: 48px; }
+.collection-rule { width: 36px; height: 1px; background: var(--gold); opacity: .4; margin-bottom: 40px; }
+.collection-body { font-size: 15px; font-weight: 300; line-height: 1.85; color: rgba(247,246,243,.55); margin-bottom: 40px; }
+.collection-specs { display: flex; flex-direction: column; gap: 2px; margin-bottom: 40px; }
+.collection-spec { display: flex; gap: 0; }
+.collection-spec-lbl { font-size: 9px; font-weight: 500; letter-spacing: .22em; text-transform: uppercase; color: rgba(200,184,154,.5); width: 88px; flex-shrink: 0; padding: 12px 0; border-bottom: 1px solid rgba(247,246,243,.05); }
+.collection-spec-val { font-size: 13px; font-weight: 300; color: rgba(247,246,243,.6); padding: 12px 0 12px 16px; border-bottom: 1px solid rgba(247,246,243,.05); flex: 1; line-height: 1.5; }
+.collection-serve { background: rgba(200,184,154,.05); border: 1px solid rgba(200,184,154,.1); padding: 24px 28px; margin-top: auto; }
+.collection-serve-lbl { font-size: 9px; font-weight: 500; letter-spacing: .22em; text-transform: uppercase; color: var(--gold); margin-bottom: 10px; }
+.collection-serve-text { font-size: 13px; font-weight: 300; line-height: 1.7; color: rgba(247,246,243,.5); }
+.collection-flag { background: rgba(200,184,154,.04); border-left: 2px solid rgba(200,184,154,.3); padding: 16px 20px; margin-top: 24px; }
+.collection-flag-lbl { font-size: 9px; font-weight: 500; letter-spacing: .2em; text-transform: uppercase; color: rgba(200,184,154,.45); margin-bottom: 6px; }
+.collection-flag-text { font-size: 12px; font-weight: 300; line-height: 1.65; color: rgba(247,246,243,.35); font-style: italic; }
+
 /* ── AI System ── */
 .governs-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 2px; }
 .governs-panel { background: rgba(247,246,243,.03); border: 1px solid rgba(247,246,243,.07); padding: 32px 28px; }
@@ -314,6 +334,11 @@ footer { padding: 80px 60px; display: flex; justify-content: space-between; alig
   .model-panel { padding: 28px 24px; }
   .motion-grid { grid-template-columns: 1fr; }
   .motion-card { padding: 36px 28px; }
+
+  /* Collections */
+  .collections-grid { grid-template-columns: 1fr; }
+  .collection-panel { padding: 48px 28px; }
+  .collection-spec-lbl { width: 72px; }
 
   /* AI System */
   .governs-grid { grid-template-columns: 1fr; }
@@ -440,6 +465,99 @@ footer { padding: 80px 60px; display: flex; justify-content: space-between; alig
   <div class="pull rv d3">
     <p class="pull-text">"Seeing clearly shouldn't come at the expense of comfort. <em>Fit is fundamental</em> and it's time the industry treated it that way."</p>
     <div style="margin-top:28px;font-size:11px;font-weight:500;letter-spacing:.18em;text-transform:uppercase;color:rgba(247,246,243,.35)">Dr. Anna Park, MD · Founder, Noon Shop</div>
+  </div>
+</section>
+
+<div class="rule-gold"></div>
+
+<!-- Collections -->
+<section style="background:var(--ink);padding-bottom:0" id="collections">
+  <div class="noise"></div>
+  <div class="tag rv">The Collections</div>
+  <h2 class="dh rv d1">THE<br><span class="dh-sub">two lines.</span></h2>
+
+  <p class="rv d2" style="font-size:17px;font-weight:300;line-height:1.9;color:rgba(247,246,243,.5);max-width:640px;margin-bottom:80px">Noon Shop carries two distinct lines, each engineered around a different philosophy of precision. Both begin with fit. Both refuse to compromise on material. And both exist because Dr. Park believed the industry was capable of far more than it was offering.</p>
+
+  <div class="collections-grid rv d2">
+
+    <!-- Dormann -->
+    <div class="collection-panel dormann">
+      <div style="font-size:9px;font-weight:500;letter-spacing:.28em;text-transform:uppercase;color:rgba(200,184,154,.45);margin-bottom:20px">Collection 01</div>
+      <div class="collection-name" style="color:var(--white)">DORMANN</div>
+      <div class="collection-tagline">The frame you forget you're wearing.</div>
+      <div class="collection-rule"></div>
+      <p class="collection-body">Born in South Korea, Dormann is built around a single conviction: the best-engineered frame is the one that disappears. Screwless. Pressureless. Playful without being loud. The patented snap hinge and beta-titanium construction eliminate the accumulated discomfort of a full day's wear, leaving only the design. Dormann moves from a Tuesday meeting to a Saturday afternoon without announcing itself either time.</p>
+      <div class="collection-specs">
+        <div class="collection-spec">
+          <div class="collection-spec-lbl">Material</div>
+          <div class="collection-spec-val">Beta-titanium temples · TR90 thermoplastic front</div>
+        </div>
+        <div class="collection-spec">
+          <div class="collection-spec-lbl">Hinge</div>
+          <div class="collection-spec-val">Patented screwless snap hinge — no loose parts, no maintenance</div>
+        </div>
+        <div class="collection-spec">
+          <div class="collection-spec-lbl">Origin</div>
+          <div class="collection-spec-val">Designed and manufactured in South Korea</div>
+        </div>
+        <div class="collection-spec">
+          <div class="collection-spec-lbl">Fit</div>
+          <div class="collection-spec-val">Low-bridge geometry · wide and narrow face widths · high cheekbone clearance</div>
+        </div>
+        <div class="collection-spec">
+          <div class="collection-spec-lbl">Price</div>
+          <div class="collection-spec-val">From $260 USD</div>
+        </div>
+      </div>
+      <div class="collection-serve">
+        <div class="collection-serve-lbl">Who Dormann Serves</div>
+        <div class="collection-serve-text">The person who has worn glasses their whole life and never found a pair that felt right. They want something distinctive but not costumed. They switch contexts all day and need a frame that keeps up without making them conscious of it. Comfort and design, fully resolved.</div>
+      </div>
+    </div>
+
+    <!-- Steel Brown -->
+    <div class="collection-panel steel-brown">
+      <div style="font-size:9px;font-weight:500;letter-spacing:.28em;text-transform:uppercase;color:rgba(200,184,154,.45);margin-bottom:20px">Collection 02</div>
+      <div class="collection-name" style="color:var(--gold)">STEEL BROWN</div>
+      <div class="collection-tagline">Where precision meets quietly confident style.</div>
+      <div class="collection-rule"></div>
+      <p class="collection-body">Steel Brown is what happens when an engineer's obsession and a stylist's discipline share the same brief. German stainless steel, wafer-thin and permanent. Mazzucchelli Italian acetate, one of the most respected materials in the category. A collaboration with international award-winning German designer Wolfgang Proksch. No-screw silicone nose pads built for low-bridge fit. The result is eyewear that earns its place at the highest levels of professional life and stays there without asking for attention.</p>
+      <div class="collection-specs">
+        <div class="collection-spec">
+          <div class="collection-spec-lbl">Material</div>
+          <div class="collection-spec-val">Medical-grade German stainless steel · Mazzucchelli Italian acetate</div>
+        </div>
+        <div class="collection-spec">
+          <div class="collection-spec-lbl">Nose pads</div>
+          <div class="collection-spec-val">No-screw silicone, optimized for low-bridge fit</div>
+        </div>
+        <div class="collection-spec">
+          <div class="collection-spec-lbl">Design</div>
+          <div class="collection-spec-val">Wolfgang Proksch · international award-winning German eyewear designer</div>
+        </div>
+        <div class="collection-spec">
+          <div class="collection-spec-lbl">Fit</div>
+          <div class="collection-spec-val">Low-bridge geometry · precision temple angle · silicone grip retention</div>
+        </div>
+        <div class="collection-spec">
+          <div class="collection-spec-lbl">Aesthetic</div>
+          <div class="collection-spec-val">Refined daily eyewear — boardroom to everything else</div>
+        </div>
+      </div>
+      <div class="collection-serve">
+        <div class="collection-serve-lbl">Who Steel Brown Serves</div>
+        <div class="collection-serve-text">Professionals, executives, and leaders who have earned the right to demand more from their eyewear. The frame is part of the uniform of someone who operates at a high level and knows it. Steel Brown has earned real traction among figures in government and institutional leadership, drawn to the credibility of the materials and the restraint of the design. Sophisticated enough for the room. Durable enough for everything that follows.</div>
+      </div>
+      <div class="collection-flag">
+        <div class="collection-flag-lbl">Internal Production Note</div>
+        <div class="collection-flag-text">Steel Brown's leadership and government following is a genuine differentiator — lean into this positioning in copy targeting that audience. Current lifestyle photography skews younger. Align imagery to the 38–55 professional before this copy goes live in paid or editorial contexts.</div>
+      </div>
+    </div>
+
+  </div>
+
+  <div class="pull rv d3" style="margin-bottom:136px">
+    <p class="pull-text">Two lines. One standard: <em>the frame that belongs on your face.</em></p>
   </div>
 </section>
 
