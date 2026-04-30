@@ -1,3 +1,7 @@
 # Internal documentation (reports, screenshots, feedback)
 **/feedback-screenshots/
 **/change-reports/
+
+# Encrypted framework — keep editable source local only
+Noonshop/content-framework.source.html
+.DS_Store
