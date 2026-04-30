@@ -1,10 +1,10 @@
 # QA Gate
 
-A 6-point binary checklist. Apply to every generation **before** filing it. Fail any one → name the variable → apply the lesson → regenerate. Never iterate blindly.
+A 7-point binary checklist. Apply to every generation **before** filing it. Fail any one → name the variable → apply the lesson → regenerate. Never iterate blindly.
 
 ---
 
-## The 6 checks
+## The 7 checks
 
 ### 1. Identity holds
 - Does the face match the model's anchor?
@@ -28,22 +28,30 @@ A 6-point binary checklist. Apply to every generation **before** filing it. Fail
 - Eyes fully visible, fully in focus, no blur from lens refraction
 - **If fail:** apply L6 — add "Clear lenses — eyes fully sharp and in focus, no refraction blur."
 
-### 5. Skin reads natural
-- Visible pore detail, slight surface variation
-- NOT plastic, NOT airbrushed, NOT AI-smooth
-- Documentary skin rendering
-- **If fail:** verify SKIN block is present. Anchor stage requires temperature 1.3.
+### 5. Skin texture reads as real (L12)
+- Visible pores across cheeks, forehead, nose
+- Fine skin lines around the eyes
+- Real human imperfection, micro-variation in tone
+- NOT plastic, NOT airbrushed, NOT poreless, NOT AI-smooth
+- **If fail:** add positive texture markers, not just negatives. Stack: "visible pores ... fine skin lines ... real human imperfection — NOT smoothed, NOT airbrushed, no AI-smooth pass." Negatives alone aren't enough — the model needs a positive target. See L12.
 
-### 6. Scene matches archetype
+### 6. White balance is neutral (L12)
+- Skin colour matches the descriptor only — no extra warmth from lighting or grading
+- NOT bronze, NOT golden-hour, NOT teal-and-orange
+- If the image looks like it has a warm filter, it fails — even if everything else is right
+- **If fail:** remove every "warm" instruction from lighting and grading. Replace "warm window light" with "soft north-facing daylight." Add explicit WB block: "Neutral daylight white balance (5500K), accurate skin tone with NO warm/orange filter cast, NOT bronze-graded." See L12.
+
+### 7. Scene matches archetype
 - Setting, light, lens, palette, motion all match the archetype spec
 - 4:5 aspect ratio
+- **Note:** Archetype-scoped warmth (Boulevard, Interior Warm, Quote Card) is intentional and does not fail check 6. The neutralisation only applies to anchor + sheet + Studio + Architectural + Macro.
 - **If fail:** check archetype prompt block. Recheck aspect ratio is set to 4:5 in AI Studio settings.
 
 ---
 
 ## Pass / Fail decision
 
-- **All 6 pass** → save as `[archetype]_[collection]_v[N].png`. Increment version.
+- **All 7 pass** → save as `[archetype]_[collection]_v[N].png`. Increment version.
 - **Any fail** → name the failed point, apply the matching lesson, retry. Do not "save and fix later."
 
 ## Special cases

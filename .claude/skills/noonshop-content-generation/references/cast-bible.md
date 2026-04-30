@@ -75,6 +75,32 @@ When onboarding a new model:
 
 ---
 
+## Texture & white balance discipline (L12)
+
+The descriptor names a skin tone (e.g. Sofia's "warm olive-caramel"). That is the **only** place warmth is allowed to appear in the prompt. Do not repeat warmth in lighting or grading instructions — Nano Banana already biases warm by default, and repeated warmth instructions stack into a bronze cast.
+
+**Anchor + sheet prompts must include both blocks:**
+
+```
+SKIN TEXTURE: visible pores across the cheeks, forehead and nose;
+fine skin lines around the eyes; subtle skin micro-variation;
+real human imperfection — NOT retouched, NOT smoothed, NOT polished,
+NOT airbrushed, no AI-smooth pass, no skin filter,
+zero beauty retouching.
+
+WHITE BALANCE & GRADING: neutral daylight white balance (5500K),
+accurate skin tone with NO warm/orange filter cast,
+NOT bronze-graded, NOT golden-hour, NOT teal-and-orange.
+Skin colour faithful to the descriptor only — no additional
+warmth from lighting or post-processing.
+```
+
+**Lighting language:** Use `"Soft north-facing daylight from front-left"` — specific, neutral, not warm. Do NOT use `"warm window light"`, `"warm fill"`, or any phrasing that implies a warm light source for anchor and sheet stage.
+
+**Archetype-scoped warmth is fine.** Boulevard's cream/terracotta palette, Interior Warm's tungsten fill, and Quote Card's warm chiaroscuro are intentional scene grading and stay as-is. The neutralisation only applies to anchor + sheet + Studio + Architectural + Macro.
+
+---
+
 ## Why fluid heritage is the canon
 
 The pilot tested two anchor strategies:
