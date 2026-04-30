@@ -3,10 +3,9 @@
   "configurations": [
     {
       "name": "Root Site",
-      "runtimeExecutable": "python3",
-      "runtimeArgs": ["-m", "http.server", "--directory", "."],
-      "port": 3000,
-      "autoPort": true
+      "runtimeExecutable": "sh",
+      "runtimeArgs": ["-c", "python3 -m http.server $PORT --directory ."],
+      "port": 4000
     },
     {
       "name": "Noonshop CRM",
