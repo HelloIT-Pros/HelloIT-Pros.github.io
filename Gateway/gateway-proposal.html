@@ -6,66 +6,75 @@
     <title>Gateway AI Assistant Proposal</title>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
-        
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-        
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
         body {
             font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
             line-height: 1.6;
             color: #1a1a1a;
             background: #f5f5f5;
         }
-        
+
         .container {
             max-width: 900px;
             margin: 0 auto;
             background: white;
             box-shadow: 0 0 20px rgba(0,0,0,0.1);
         }
-        
+
         .logo-banner {
             background: white;
             padding: 30px 50px;
             border-bottom: 1px solid #e0e0e0;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
         }
-        
-        .logo-banner img {
-            height: 50px;
-            display: block;
+
+        .logo-banner img { height: 50px; display: block; }
+
+        .delivered-badge {
+            background: #000;
+            color: white;
+            font-size: 12px;
+            font-weight: 700;
+            padding: 6px 14px;
+            border-radius: 4px;
+            text-transform: uppercase;
+            letter-spacing: 0.8px;
         }
-        
+
         .header {
             background: #000000;
             color: white;
             padding: 60px 50px;
-            position: relative;
         }
-        
+
         .header h1 {
             font-size: 42px;
             font-weight: 700;
             margin-bottom: 10px;
             letter-spacing: -0.5px;
         }
-        
+
         .header .subtitle {
             font-size: 20px;
             opacity: 0.95;
             font-weight: 300;
         }
-        
-        .content {
-            padding: 50px;
+
+        .header .meta {
+            margin-top: 24px;
+            font-size: 13px;
+            opacity: 0.6;
+            font-weight: 400;
         }
-        
-        .section {
-            margin-bottom: 50px;
-        }
-        
+
+        .content { padding: 50px; }
+
+        .section { margin-bottom: 50px; }
+
         .section h2 {
             color: #000000;
             font-size: 28px;
@@ -74,7 +83,7 @@
             border-bottom: 3px solid #000000;
             font-weight: 600;
         }
-        
+
         .section h3 {
             color: #444;
             font-size: 20px;
@@ -82,26 +91,23 @@
             margin-bottom: 15px;
             font-weight: 600;
         }
-        
+
         .section p {
             margin-bottom: 15px;
             font-size: 16px;
             line-height: 1.7;
             color: #555;
         }
-        
-        .benefits-list {
-            list-style: none;
-            margin: 20px 0;
-        }
-        
+
+        .benefits-list { list-style: none; margin: 20px 0; }
+
         .benefits-list li {
             padding: 12px 0 12px 35px;
             position: relative;
             font-size: 16px;
             color: #555;
         }
-        
+
         .benefits-list li:before {
             content: "✓";
             position: absolute;
@@ -110,38 +116,32 @@
             font-weight: bold;
             font-size: 20px;
         }
-        
+
         .features-grid {
             display: grid;
             grid-template-columns: 1fr;
             gap: 25px;
             margin-top: 20px;
         }
-        
+
         .feature-card {
             background: #f8f8f8;
             padding: 25px;
             border-radius: 8px;
             border-left: 4px solid #00aeee;
         }
-        
-        .feature-card h3 {
-            margin-top: 0;
-            color: #000000;
-        }
-        
-        .feature-card ul {
-            list-style: none;
-            margin-top: 15px;
-        }
-        
+
+        .feature-card h3 { margin-top: 0; color: #000000; }
+
+        .feature-card ul { list-style: none; margin-top: 15px; }
+
         .feature-card li {
             padding: 8px 0 8px 25px;
             position: relative;
             color: #555;
             font-size: 15px;
         }
-        
+
         .feature-card li:before {
             content: "•";
             position: absolute;
@@ -150,14 +150,14 @@
             font-size: 20px;
             line-height: 1;
         }
-        
+
         .investment-table {
             width: 100%;
             margin-top: 20px;
             border-collapse: collapse;
             box-shadow: 0 2px 8px rgba(0,0,0,0.1);
         }
-        
+
         .investment-table th {
             background: #000000;
             color: white;
@@ -166,42 +166,44 @@
             font-weight: 600;
             font-size: 16px;
         }
-        
+
         .investment-table td {
             padding: 18px;
             border-bottom: 1px solid #e0e0e0;
             font-size: 15px;
         }
-        
-        .investment-table tr:last-child td {
-            border-bottom: none;
-        }
-        
-        .investment-table tr:nth-child(even) {
-            background: #f8f8f8;
-        }
-        
+
+        .investment-table tr:last-child td { border-bottom: none; }
+        .investment-table tr:nth-child(even) { background: #f8f8f8; }
+
         .price {
             font-size: 24px;
             font-weight: 700;
             color: #000000;
         }
-        
+
+        .delivered-note {
+            background: #f0f0f0;
+            border-left: 4px solid #000;
+            border-radius: 0 8px 8px 0;
+            padding: 18px 22px;
+            margin-bottom: 30px;
+            font-size: 14px;
+            color: #444;
+        }
+
         .footer {
             background: #f8f8f8;
             padding: 30px 50px;
             text-align: center;
             color: #666;
             font-size: 14px;
+            border-top: 1px solid #e0e0e0;
         }
-        
+
         @media print {
-            body {
-                background: white;
-            }
-            .container {
-                box-shadow: none;
-            }
+            body { background: white; }
+            .container { box-shadow: none; }
         }
     </style>
 </head>
@@ -209,72 +211,82 @@
     <div class="container">
         <div class="logo-banner">
             <img src="https://framerusercontent.com/images/N2Kik9IzLpZkJPIbcdGehAoVIfc.png?scale-down-to=512" alt="HelloIT Logo">
+            <span class="delivered-badge">Delivered</span>
         </div>
+
         <div class="header">
             <h1>Gateway AI Assistant</h1>
             <div class="subtitle">An AI-Powered Knowledge Platform for Gateway Management</div>
+            <div class="meta">Originally proposed October 5, 2025 &nbsp;·&nbsp; System live December 2025 &nbsp;·&nbsp; Updated May 2026</div>
         </div>
-        
+
         <div class="content">
+
+            <div class="delivered-note">
+                This document has been updated to reflect the system as delivered and currently in production. For a full view of the live environment, features, and ongoing work, see the <a href="gateway-current-state.html" style="color:#000; font-weight:600;">Current State document</a>.
+            </div>
+
             <div class="section">
                 <h2>Business Value to Gateway Management</h2>
-                <p>The Gateway AI Assistant delivers a ChatGPT-like experience tailored specifically for your property management operations. This intelligent platform will be continuously enriched with your company data, enabling staff across all departments (HR, Operations, Maintenance, Leasing, and Accounting) to access critical information instantly and make better decisions, faster.</p>
-                
-                <p>Built on secure cloud infrastructure and powered by AI, this solution transforms how your team works by reducing response times, improving accuracy, and ensuring everyone has the right information at their fingertips, exactly when they need it.</p>
-                
+                <p>The Gateway AI Assistant delivers a ChatGPT-like experience tailored specifically for your property management operations. Continuously enriched with your company's contracts, policies, and reference documents, it enables staff across all departments to access critical information instantly — without hunting through filing systems or waiting for someone to look something up.</p>
+
+                <p>Built on secure cloud infrastructure and powered by OpenAI, the Assistant lets your team search vendor contracts, reference the Employee Handbook, draft tenant communications, and review policies — all from one interface, accessible from any device.</p>
+
                 <ul class="benefits-list">
-                    <li>Centralized knowledge hub accessible across all Gateway departments</li>
-                    <li>ChatGPT-style interface that learns and grows with your company data</li>
-                    <li>Faster and more accurate responses to employee and resident requests</li>
-                    <li>Dramatic reduction in time spent searching for information</li>
-                    <li>Improved efficiency and reduced onboarding/training time for new staff</li>
-                    <li>Consistent answers across HR, Operations, Maintenance, and all property management functions</li>
-                    <li>Scalable foundation for future AI initiatives across your portfolio</li>
+                    <li>Centralized knowledge hub for vendor contracts, policies, and operational documents</li>
+                    <li>Conversational interface — ask questions in plain English, get accurate answers with source citations</li>
+                    <li>Faster contract review — find terms, pricing, and expiry dates without reading every page</li>
+                    <li>Consistent policy answers across all properties and departments</li>
+                    <li>Prompt library for recurring tasks — tenant notice drafting, contract summaries</li>
+                    <li>Reduced onboarding time — new staff can self-serve answers from day one</li>
+                    <li>Scalable foundation for future AI initiatives across the portfolio</li>
                 </ul>
             </div>
-            
+
             <div class="section">
                 <h2>Key Features</h2>
-                
+
                 <div class="features-grid">
                     <div class="feature-card">
                         <h3>Front-End (User Experience)</h3>
                         <ul>
-                            <li>Clean, intuitive chat interface based on Open-WebUI</li>
-                            <li>New and saved conversations with quick navigation</li>
-                            <li>Context display to review past exchanges</li>
-                            <li>Responsive design for desktop and mobile use</li>
-                            <li>Branded styling to reflect Gateway's identity</li>
+                            <li>Clean, intuitive chat interface powered by OpenWebUI</li>
+                            <li>New and saved conversations with full history</li>
+                            <li>Knowledge collection search — attach contract or policy collections to any chat</li>
+                            <li>Prompt library with slash commands (e.g. /contract-summary, /tenant-notice)</li>
+                            <li>Responsive design for desktop and mobile</li>
+                            <li>Branded as Gateway AI Assistant at ai.gwaffordable.com</li>
                         </ul>
                     </div>
-                    
+
                     <div class="feature-card">
-                        <h3>Back-End (Data & Intelligence)</h3>
+                        <h3>Back-End (Data &amp; Intelligence)</h3>
                         <ul>
-                            <li>Secure authentication and role management</li>
-                            <li>Retrieval-Augmented Generation (RAG) for accurate, context-aware responses</li>
-                            <li>Vector search for keyword and topic lookup</li>
-                            <li>Secure database for chats, messages, and embeddings</li>
-                            <li>Logging, monitoring, and error handling</li>
-                            <li>Built-in security (token verification, rate limiting)</li>
+                            <li>Secure authentication — admin-approved accounts only, no open registration</li>
+                            <li>Retrieval-Augmented Generation (RAG) — answers grounded in your documents, with source citations</li>
+                            <li>Hybrid search (BM25 keyword + vector semantic) for accurate contract term retrieval</li>
+                            <li>PostgreSQL database for chats, embeddings, and knowledge collections</li>
+                            <li>OpenAI embeddings (text-embedding-3-small) for document indexing</li>
+                            <li>Stable session management and secure cookie handling</li>
                         </ul>
                     </div>
-                    
+
                     <div class="feature-card">
-                        <h3>Integration & Deployment</h3>
+                        <h3>Infrastructure &amp; Deployment</h3>
                         <ul>
-                            <li>Seamless connection between front-end, back-end, and Azure Cognitive Search</li>
-                            <li>Containerized deployment (Docker) for scalability</li>
-                            <li>Hosting on Azure (App Service, storage, and networking)</li>
-                            <li>Full end-to-end testing for accuracy and reliability</li>
+                            <li>Containerized deployment via Docker Compose for reliability and easy updates</li>
+                            <li>Hosted on dedicated VPS — isolated, single-tenant environment for Gateway</li>
+                            <li>Caddy reverse proxy with automatic TLS (HTTPS) via Let's Encrypt</li>
+                            <li>Hostinger daily automatic backups (4 snapshots retained)</li>
+                            <li>HelloIT Pros manages all updates, monitoring, and document ingestion</li>
                         </ul>
                     </div>
                 </div>
             </div>
-            
+
             <div class="section">
                 <h2>Investment</h2>
-                
+
                 <table class="investment-table">
                     <thead>
                         <tr>
@@ -286,41 +298,41 @@
                     <tbody>
                         <tr>
                             <td><strong>One-Time Project Implementation</strong></td>
-                            <td>Full design, development, testing, and deployment of Gateway GPT Assistant</td>
+                            <td>Full design, development, testing, and deployment of Gateway AI Assistant — including infrastructure setup, OpenWebUI configuration, knowledge base ingestion, and pilot launch</td>
                             <td><span class="price">$9,975</span></td>
                         </tr>
                         <tr>
                             <td><strong>HelloIT Management Bundle</strong></td>
                             <td>
                                 Comprehensive managed service including:<br><br>
-                                • <strong>AI Model (OpenAI GPT-4o-mini)</strong> optimized for approximately 100 queries/day (approximately 3,000 tokens each)<br>
-                                • <strong>Azure Cognitive Search</strong> production-grade vector search with SLA<br>
-                                • <strong>Document Embeddings</strong> new and updated documents embedded into the knowledge base (unlimited uploads)<br>
-                                • <strong>Hosting</strong> managed Azure environment with app service, storage, and networking<br>
-                                • Continuous monitoring, updates, and support
+                                • <strong>AI Model (OpenAI GPT-4.1-mini / GPT-4.1)</strong> — conversational AI for all staff queries<br>
+                                • <strong>Document Embeddings</strong> — new and updated documents embedded into the knowledge base (unlimited uploads)<br>
+                                • <strong>Hosting</strong> — dedicated VPS with automated backups, TLS, and uptime monitoring<br>
+                                • <strong>Knowledge Base Management</strong> — HelloIT Pros handles ingestion, quality checks, and collection maintenance<br>
+                                • Continuous platform updates, security patches, and support
                             </td>
                             <td><span class="price">$295</span> / month</td>
                         </tr>
                     </tbody>
                 </table>
             </div>
-            
+
             <div class="section">
-                <h2>Next Steps</h2>
-                
+                <h2>Project Status</h2>
+
                 <div class="feature-card">
-                    <p>We're excited about the opportunity to partner with Gateway Management and bring transformative AI technology to your team. This solution will give staff instant access to the knowledge they need to serve residents better and operate more efficiently.</p>
-                    
-                    <p>At HelloIT, we're committed to serving you with the same care and expertise we bring to all our partnerships. We believe that once launched, the AI Assistant will become an indispensable tool for your entire organization.</p>
-                    
-                    <p><strong>Next Step:</strong> Let's schedule a brief call to review this proposal together, discuss the scope in detail, and answer any questions before moving forward with implementation.</p>
+                    <p>The Gateway AI Assistant is <strong>live and in active pilot</strong> as of December 2025. Five pilot users — Mike Severe, Lester Severe, Amanda Crookshanks, Chrissy Tharp, and Sherita Cottom — have access to the system with vendor contracts and the Employee Handbook already indexed and searchable.</p>
+
+                    <p>The Policy &amp; Procedures manual is in progress and will be added to the knowledge base upon completion. Model presets tailored to specific roles (Contract Reviewer, Policy Assistant, Tenant Letter Writer) will follow.</p>
+
+                    <p>For a full breakdown of what is live, what's indexed, and what's coming next, see the <a href="gateway-current-state.html" style="color:#000; font-weight:600;">Current State document →</a></p>
                 </div>
             </div>
         </div>
-        
+
         <div class="footer">
-            <p>This proposal outlines the implementation and ongoing management of your Gateway AI Assistant solution.</p>
-            <p style="margin-top: 10px; font-weight: 500;">October 5, 2025</p>
+            <p>HelloIT Pros · Managed IT Services for Gateway Management</p>
+            <p style="margin-top: 10px; color: #999;">Originally proposed October 5, 2025 · Updated May 2026</p>
         </div>
     </div>
 </body>
