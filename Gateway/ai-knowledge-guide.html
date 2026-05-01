@@ -1,0 +1,517 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Assistant — Sharing Documents | Gateway Management</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            line-height: 1.6;
+            color: #1a1a1a;
+            background: linear-gradient(135deg, #f5f5f5 0%, #e8e8e8 100%);
+            min-height: 100vh;
+            padding: 40px 20px;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.1);
+            overflow: hidden;
+        }
+
+        .breadcrumb {
+            padding: 20px 40px;
+            background: #f8f8f8;
+            border-bottom: 1px solid #e0e0e0;
+            font-size: 14px;
+        }
+        .breadcrumb a { color: #666; text-decoration: none; }
+        .breadcrumb a:hover { color: #000; }
+        .breadcrumb span { margin: 0 8px; color: #999; }
+
+        .header {
+            background: #000;
+            color: white;
+            padding: 50px 40px;
+            text-align: center;
+        }
+        .header h1 { font-size: 34px; font-weight: 700; margin-bottom: 10px; }
+        .header p { font-size: 17px; opacity: 0.85; font-weight: 300; }
+
+        .content { padding: 50px 40px; }
+
+        .section-title {
+            font-size: 22px;
+            font-weight: 600;
+            margin: 45px 0 18px;
+            color: #000;
+            border-bottom: 3px solid #000;
+            padding-bottom: 10px;
+        }
+        .section-title:first-child { margin-top: 0; }
+
+        p { color: #444; margin-bottom: 16px; font-size: 15px; }
+
+        .intro-box {
+            background: #f0f0f0;
+            border-left: 4px solid #000;
+            border-radius: 0 8px 8px 0;
+            padding: 22px 25px;
+            margin-bottom: 35px;
+            font-size: 15px;
+            color: #333;
+        }
+        .intro-box strong { color: #000; }
+
+        /* Step cards */
+        .steps { display: grid; gap: 18px; margin-top: 10px; }
+        .step {
+            display: flex;
+            gap: 20px;
+            background: #f8f8f8;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px;
+            padding: 24px;
+            align-items: flex-start;
+        }
+        .step-number {
+            background: #000;
+            color: white;
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            font-size: 15px;
+            flex-shrink: 0;
+            margin-top: 2px;
+        }
+        .step-body h3 { font-size: 16px; font-weight: 600; margin-bottom: 6px; color: #000; }
+        .step-body p { margin-bottom: 0; font-size: 14px; color: #555; }
+
+        /* Two-column format table */
+        .format-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 16px;
+            margin-top: 12px;
+        }
+        .format-card {
+            border-radius: 8px;
+            padding: 20px 22px;
+            border: 2px solid;
+        }
+        .format-card.good { border-color: #2d7d46; background: #f0faf4; }
+        .format-card.avoid { border-color: #c0392b; background: #fdf3f2; }
+        .format-card h4 {
+            font-size: 13px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: 12px;
+        }
+        .format-card.good h4 { color: #2d7d46; }
+        .format-card.avoid h4 { color: #c0392b; }
+        .format-card ul { list-style: none; padding: 0; }
+        .format-card ul li {
+            font-size: 14px;
+            color: #444;
+            padding: 5px 0;
+            border-bottom: 1px solid rgba(0,0,0,0.06);
+            display: flex;
+            align-items: baseline;
+            gap: 8px;
+        }
+        .format-card ul li:last-child { border-bottom: none; }
+        .format-card ul li::before { font-size: 12px; flex-shrink: 0; }
+        .format-card.good ul li::before { content: "✓"; color: #2d7d46; }
+        .format-card.avoid ul li::before { content: "✗"; color: #c0392b; }
+        .format-card ul li span { font-size: 12px; color: #888; }
+
+        /* Naming examples */
+        .example-block {
+            background: #f8f8f8;
+            border: 1px solid #e0e0e0;
+            border-radius: 6px;
+            padding: 18px 22px;
+            margin: 14px 0;
+        }
+        .example-label {
+            font-size: 11px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.8px;
+            color: #999;
+            margin-bottom: 10px;
+        }
+        .example-good { color: #2d7d46; font-family: monospace; font-size: 14px; line-height: 2; }
+        .example-bad  { color: #c0392b; font-family: monospace; font-size: 14px; line-height: 2; text-decoration: line-through; }
+
+        /* Privacy warning */
+        .warning-box {
+            background: #fff8e1;
+            border: 2px solid #f9a825;
+            border-radius: 8px;
+            padding: 22px 25px;
+            margin-top: 12px;
+        }
+        .warning-box h4 {
+            font-size: 15px;
+            font-weight: 700;
+            color: #b7791f;
+            margin-bottom: 12px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .warning-box ul { padding-left: 20px; }
+        .warning-box ul li { font-size: 14px; color: #555; margin-bottom: 6px; }
+
+        /* Timeline */
+        .timeline { margin-top: 12px; }
+        .timeline-item {
+            display: flex;
+            gap: 18px;
+            align-items: flex-start;
+            padding: 16px 0;
+            border-bottom: 1px solid #eee;
+        }
+        .timeline-item:last-child { border-bottom: none; }
+        .timeline-tag {
+            background: #000;
+            color: white;
+            font-size: 11px;
+            font-weight: 600;
+            padding: 4px 10px;
+            border-radius: 4px;
+            white-space: nowrap;
+            flex-shrink: 0;
+            margin-top: 2px;
+        }
+        .timeline-item p { margin: 0; font-size: 14px; color: #555; }
+
+        /* CTA */
+        .cta-box {
+            background: #000;
+            color: white;
+            border-radius: 8px;
+            padding: 30px;
+            margin-top: 20px;
+            text-align: center;
+        }
+        .cta-box h3 { font-size: 20px; margin-bottom: 10px; }
+        .cta-box p { color: rgba(255,255,255,0.8); font-size: 14px; margin-bottom: 18px; }
+        .cta-email {
+            display: inline-block;
+            background: white;
+            color: #000;
+            font-weight: 700;
+            padding: 12px 28px;
+            border-radius: 6px;
+            text-decoration: none;
+            font-size: 15px;
+            letter-spacing: 0.3px;
+        }
+        .cta-email:hover { background: #f0f0f0; }
+
+        .footer {
+            background: #f8f8f8;
+            padding: 30px 40px;
+            text-align: center;
+            color: #666;
+            font-size: 14px;
+            border-top: 1px solid #e0e0e0;
+        }
+
+        @media (max-width: 768px) {
+            .header h1 { font-size: 26px; }
+            .content { padding: 30px 25px; }
+            .format-grid { grid-template-columns: 1fr; }
+            .breadcrumb { padding: 15px 25px; }
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+
+    <div class="breadcrumb">
+        <a href="../">HelloIT Pros</a>
+        <span>/</span>
+        <a href="./">Gateway Management</a>
+        <span>/</span>
+        <strong>AI Assistant — Sharing Documents</strong>
+    </div>
+
+    <div class="header">
+        <h1>Gateway AI Assistant</h1>
+        <p>How to share documents with your AI knowledge base</p>
+    </div>
+
+    <div class="content">
+
+        <div class="intro-box">
+            The Gateway AI Assistant can answer questions directly from your company's documents — contracts, policies, handbooks, and more. To keep it accurate and current, HelloIT Pros manages what gets added to the system. This guide explains <strong>what to send us, how to send it, and what to keep out</strong>.
+        </div>
+
+        <!-- WHAT TO SEND -->
+        <h2 class="section-title">What You Can Share</h2>
+        <p>Any document that staff regularly reference or need to search through is a good candidate. <strong>Contracts are the primary use case</strong> — the AI is built specifically to let you search, compare, and ask questions across all of your agreements without hunting through file folders.</p>
+
+        <div class="format-card good" style="margin: 16px 0 8px; border-radius: 8px;">
+            <h4 style="margin-bottom: 14px;">Contracts &amp; Agreements — the core use case</h4>
+            <ul>
+                <li>Vendor service contracts <span style="color:#555;">(landscaping, snow removal, pest control, elevators, fire monitoring…)</span></li>
+                <li>Renewal quotes &amp; proposals</li>
+                <li>Amendments or addenda to existing contracts</li>
+                <li>Lease templates <span style="color:#555;">(blank/standard form — see note on executed leases below)</span></li>
+                <li>Management agreements</li>
+                <li>Insurance certificates &amp; coverage summaries</li>
+                <li>Utility &amp; service agreements</li>
+            </ul>
+        </div>
+
+        <div class="format-card good" style="margin: 8px 0 20px; border-radius: 8px;">
+            <h4 style="margin-bottom: 14px;">Policies &amp; Reference Documents</h4>
+            <ul>
+                <li>Employee handbook &amp; HR policies</li>
+                <li>Policy &amp; Procedures manual</li>
+                <li>Site manager reference guides</li>
+                <li>Property-specific operating procedures</li>
+                <li>Approved compliance checklists</li>
+                <li>Vendor contact sheets (text-based)</li>
+            </ul>
+        </div>
+
+        <div class="format-grid">
+            <div class="format-card avoid">
+                <h4>Do not share</h4>
+                <ul>
+                    <li>Executed tenant leases <span>(contain SSNs, income data — use the blank template instead)</span></li>
+                    <li>Tenant applications or screening reports <span>(contains PII)</span></li>
+                    <li>Bank statements or payment records <span>(financial data)</span></li>
+                    <li>HUD / LIHTC inspection reports with unit-level data <span>(protected)</span></li>
+                    <li>Password lists or login credentials <span>(security risk)</span></li>
+                    <li>Any document still in draft <span>(wait for final)</span></li>
+                    <li>Personal correspondence or emails</li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- FILE FORMATS -->
+        <h2 class="section-title">File Formats</h2>
+        <p>The format of a document affects how well the AI can read it. Use the best format available.</p>
+
+        <div class="format-grid">
+            <div class="format-card good">
+                <h4>Works well</h4>
+                <ul>
+                    <li>Word documents <span>(.docx)</span></li>
+                    <li>Digitally-created PDFs <span>(exported from Word or Google Docs)</span></li>
+                    <li>Plain text files <span>(.txt)</span></li>
+                    <li>Scanned PDFs <span>(readable scans — we handle OCR)</span></li>
+                </ul>
+            </div>
+            <div class="format-card avoid">
+                <h4>Avoid or convert first</h4>
+                <ul>
+                    <li>Excel spreadsheets <span>(.xlsx) — export to text list instead</span></li>
+                    <li>Photos of documents <span>(.jpg, .png) — send the original file</span></li>
+                    <li>Password-protected PDFs <span>— remove protection first</span></li>
+                    <li>Very low-quality scans <span>— text won't extract reliably</span></li>
+                </ul>
+            </div>
+        </div>
+
+        <p style="margin-top: 18px; font-size: 14px; color: #666;">
+            <strong>Note on scanned documents:</strong> If you only have a scanned PDF (like a signed contract), send it — we can work with it. Just know that poor-quality or handwritten scans may need cleanup before they're fully searchable.
+        </p>
+
+        <!-- NAMING -->
+        <h2 class="section-title">How to Name Your Files</h2>
+        <p>The filename becomes part of how the AI cites its sources. A clear name helps both us and the AI know exactly what a document is.</p>
+
+        <p><strong>Suggested pattern:</strong> <code style="background:#f0f0f0; padding:2px 6px; border-radius:3px; font-size:14px;">Vendor_Property_Type_Year.pdf</code></p>
+
+        <div class="example-block">
+            <div class="example-label">Good names</div>
+            <div class="example-good">
+                Otis_Elevator_AllProperties_Agreement_2025.pdf<br>
+                Enviro_PestControl_SpringManor_Contract_2025.pdf<br>
+                Gateway_Employee_Handbook_2024.pdf<br>
+                LangsonLane_Landscape_Contract_2025.pdf<br>
+                Gateway_Policy_Procedures_Manual_2026.pdf
+            </div>
+        </div>
+
+        <div class="example-block">
+            <div class="example-label">Avoid these</div>
+            <div class="example-bad">
+                Contract.pdf<br>
+                scan0042.pdf<br>
+                Final v2 (Mike's edits).docx<br>
+                Copy of Contract (1).pdf
+            </div>
+        </div>
+
+        <!-- HOW TO SEND -->
+        <h2 class="section-title">How to Send Documents to Us</h2>
+        <p>You have two options — use whichever is most convenient.</p>
+
+        <div class="steps">
+            <div class="step">
+                <div class="step-number">A</div>
+                <div class="step-body">
+                    <h3>Shared Google Drive folder</h3>
+                    <p>Drop files into the <strong>Gateway AI — Document Submissions</strong> shared folder in Google Drive. HelloIT Pros monitors this folder and will process new files within 1–2 business days. This is the preferred method for batches of documents.</p>
+                </div>
+            </div>
+            <div class="step">
+                <div class="step-number">B</div>
+                <div class="step-body">
+                    <h3>Email to helpdesk</h3>
+                    <p>Send an email to <strong>helloit@gwaffordable.com</strong> with the document attached. Include a brief note: what it is, which property it applies to (if applicable), and whether it replaces an existing document in the system.</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- WHAT TO INCLUDE IN YOUR REQUEST -->
+        <h2 class="section-title">What to Include When You Send a Document</h2>
+        <p>A quick note with the document saves time and prevents mistakes. Include:</p>
+
+        <div class="steps">
+            <div class="step">
+                <div class="step-number">1</div>
+                <div class="step-body">
+                    <h3>What the document is</h3>
+                    <p>e.g., "This is the renewed pest control contract for Spring Manor, covering 2025–2026."</p>
+                </div>
+            </div>
+            <div class="step">
+                <div class="step-number">2</div>
+                <div class="step-body">
+                    <h3>Which property (if applicable)</h3>
+                    <p>e.g., "Langston Lane only" or "All properties." Helps us add it to the right collection.</p>
+                </div>
+            </div>
+            <div class="step">
+                <div class="step-number">3</div>
+                <div class="step-body">
+                    <h3>Whether it replaces something</h3>
+                    <p>e.g., "This replaces the 2024 version already in the system." We'll remove the old one so the AI doesn't give conflicting answers.</p>
+                </div>
+            </div>
+            <div class="step">
+                <div class="step-number">4</div>
+                <div class="step-body">
+                    <h3>Any expiry or effective date</h3>
+                    <p>e.g., "Contract runs through October 2026." We'll schedule a reminder to remove or update it when it expires.</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- PRIVACY -->
+        <h2 class="section-title">Privacy &amp; What Stays Out</h2>
+        <p>The AI Assistant is designed for operational documents — things your staff needs to look up when doing their jobs. Certain categories of information must never be added:</p>
+
+        <div class="warning-box">
+            <h4>⚠ Never share these with us for AI ingestion</h4>
+            <ul>
+                <li><strong>Tenant personal information</strong> — names, Social Security numbers, income verifications, lease applications, background checks</li>
+                <li><strong>Financial account data</strong> — bank account numbers, routing numbers, payment card details</li>
+                <li><strong>HUD or LIHTC reports</strong> that include individual unit or household data</li>
+                <li><strong>Login credentials</strong> or passwords of any kind</li>
+                <li><strong>Anything marked confidential</strong> that only specific individuals should see</li>
+            </ul>
+        </div>
+
+        <p style="margin-top: 16px; font-size: 14px; color: #666;">
+            If you're not sure whether a document is appropriate to share, email us first and we'll advise.
+        </p>
+
+        <!-- KEEPING IT CURRENT -->
+        <h2 class="section-title">Keeping the Knowledge Base Current</h2>
+        <p>The AI is only as accurate as the documents in it. Here are a few situations where you should notify us:</p>
+
+        <div class="timeline">
+            <div class="timeline-item">
+                <div class="timeline-tag">Contract renews</div>
+                <p>Send us the new contract. We'll replace the old one so the AI reflects the current terms, pricing, and expiry.</p>
+            </div>
+            <div class="timeline-item">
+                <div class="timeline-tag">Contract expires</div>
+                <p>Let us know if a vendor relationship ends. We'll remove the document so the AI doesn't quote terms from a contract that no longer applies.</p>
+            </div>
+            <div class="timeline-item">
+                <div class="timeline-tag">Policy changes</div>
+                <p>If a section of the Employee Handbook or P&P manual is updated, send the revised document (or just the revised section) and indicate what changed.</p>
+            </div>
+            <div class="timeline-item">
+                <div class="timeline-tag">New property</div>
+                <p>When a property is added to the portfolio, include any property-specific vendor contracts or operating procedures in your onboarding handoff.</p>
+            </div>
+            <div class="timeline-item">
+                <div class="timeline-tag">Property closes</div>
+                <p>Notify us so we can remove or archive that property's documents. Stale data produces wrong answers.</p>
+            </div>
+        </div>
+
+        <!-- TIMELINE -->
+        <h2 class="section-title">What to Expect After You Send a Document</h2>
+
+        <div class="steps">
+            <div class="step">
+                <div class="step-number">1</div>
+                <div class="step-body">
+                    <h3>We receive and review</h3>
+                    <p>HelloIT Pros checks the document for format, quality, and content suitability. We'll reach out if anything needs to be adjusted.</p>
+                </div>
+            </div>
+            <div class="step">
+                <div class="step-number">2</div>
+                <div class="step-body">
+                    <h3>We prepare and upload</h3>
+                    <p>We rename the file if needed, remove the old version if applicable, and upload it to the appropriate collection in the AI Assistant.</p>
+                </div>
+            </div>
+            <div class="step">
+                <div class="step-number">3</div>
+                <div class="step-body">
+                    <h3>We verify it's working</h3>
+                    <p>We run a quick test query to confirm the AI can find and cite information from the new document accurately.</p>
+                </div>
+            </div>
+            <div class="step">
+                <div class="step-number">4</div>
+                <div class="step-body">
+                    <h3>It's live</h3>
+                    <p>Staff can query the document in the AI Assistant. If you run a test and something doesn't look right, let us know and we'll investigate.</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- CTA -->
+        <div class="cta-box">
+            <h3>Ready to add a document?</h3>
+            <p>Email us the file with a brief description, or drop it in the shared Google Drive folder.</p>
+            <a href="mailto:helloit@gwaffordable.com" class="cta-email">helloit@gwaffordable.com</a>
+        </div>
+
+    </div><!-- /content -->
+
+    <div class="footer">
+        <p>HelloIT Pros · Managed IT Services for Gateway Management · <a href="mailto:helloit@gwaffordable.com" style="color:#666;">helloit@gwaffordable.com</a></p>
+    </div>
+
+</div>
+</body>
+</html>
