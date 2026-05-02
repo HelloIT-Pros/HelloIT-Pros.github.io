@@ -1,0 +1,634 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Steel Brown Thin Rect — Noon Shop</title>
+<meta name="description" content="German stainless steel. Mazzucchelli Italian acetate. Designed by Wolfgang Proksch. Low-bridge geometry, high-cheekbone clearance. Virtual try-on available.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Outfit:wght@100;200;300;400;500&family=Playfair+Display:ital,wght@0,400;0,700;1,400;1,700&display=swap" rel="stylesheet">
+<style>
+:root {
+  --ink: #0C0C0C; --ink2: #1A1A1A; --mid: #888;
+  --paper: #EEECE7; --white: #F7F6F3;
+  --border-d: rgba(247,246,243,.07); --border-l: rgba(12,12,12,.10);
+  --gold: #C8B89A; --gold-dark: #A89070; --gold-light: #E8D8BE;
+  --D: 'Bebas Neue', sans-serif; --B: 'Outfit', sans-serif;
+  --P: 'Playfair Display', Georgia, serif;
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+html{scroll-behavior:smooth;}
+body{background:var(--ink);color:var(--white);font-family:var(--B);font-weight:300;overflow-x:hidden;cursor:none;}
+a{color:inherit;text-decoration:none;}
+img{display:block;max-width:100%;}
+button{font-family:var(--B);cursor:none;}
+
+/* ── CURSOR ── */
+.cur{position:fixed;width:7px;height:7px;background:var(--white);border-radius:50%;pointer-events:none;z-index:9999;mix-blend-mode:difference;transform:translate(-50%,-50%);}
+.ring{position:fixed;width:32px;height:32px;border:1px solid rgba(247,246,243,.35);border-radius:50%;pointer-events:none;z-index:9998;mix-blend-mode:difference;transform:translate(-50%,-50%);transition:width .2s,height .2s;}
+
+/* ── NAV ── */
+nav{position:fixed;top:0;left:0;right:0;z-index:200;display:flex;justify-content:space-between;align-items:center;padding:22px 60px;background:rgba(12,12,12,.9);backdrop-filter:blur(18px);}
+.nav-logo img{height:32px;filter:brightness(0) invert(1);opacity:.75;}
+.nav-logo-text{font-family:var(--D);font-size:17px;letter-spacing:.18em;color:rgba(247,246,243,.7);}
+.nav-links{display:flex;gap:36px;}
+.nav-link{font-size:10px;letter-spacing:.22em;text-transform:uppercase;color:rgba(247,246,243,.4);transition:color .25s;}
+.nav-link:hover{color:var(--gold);}
+.nav-cart{font-size:10px;letter-spacing:.18em;text-transform:uppercase;color:rgba(247,246,243,.4);display:flex;align-items:center;gap:8px;}
+.cart-count{font-family:var(--D);font-size:12px;color:var(--gold);}
+
+/* ── BREADCRUMB ── */
+.breadcrumb-bar{padding:100px 60px 0;background:var(--ink);}
+.breadcrumb{font-size:10px;letter-spacing:.18em;text-transform:uppercase;color:rgba(247,246,243,.22);display:flex;align-items:center;gap:10px;}
+.breadcrumb a:hover{color:var(--gold);transition:color .2s;}
+.breadcrumb span{color:rgba(247,246,243,.1);}
+
+/* ── PDP LAYOUT ── */
+.pdp{display:grid;grid-template-columns:1fr 1fr;gap:0;min-height:90vh;padding:40px 60px 80px;}
+
+/* ── GALLERY ── */
+.gallery{position:sticky;top:88px;height:calc(100vh - 108px);display:flex;flex-direction:column;gap:2px;padding-right:40px;}
+.gallery-main{flex:1;overflow:hidden;background:var(--paper);position:relative;}
+.gallery-main img{width:100%;height:100%;object-fit:contain;padding:48px;transition:opacity .4s;}
+.gallery-main.model img{object-fit:cover;padding:0;object-position:center top;}
+.gallery-thumbs{display:flex;gap:2px;height:76px;flex-shrink:0;}
+.thumb{width:76px;height:76px;overflow:hidden;background:var(--paper);cursor:none;border:2px solid transparent;transition:border-color .25s;flex-shrink:0;}
+.thumb.active{border-color:var(--gold);}
+.thumb img{width:100%;height:100%;object-fit:cover;object-position:center top;transition:transform .4s;}
+.thumb:not(.model-thumb) img{object-fit:contain;padding:8px;}
+.thumb:hover img{transform:scale(1.06);}
+
+/* ── PRODUCT INFO ── */
+.product-info{padding-left:40px;padding-top:8px;}
+.product-coll{font-size:9px;letter-spacing:.28em;text-transform:uppercase;color:var(--gold);margin-bottom:12px;}
+.product-name{font-family:var(--D);font-size:clamp(40px,4.5vw,64px);letter-spacing:.025em;line-height:.9;color:var(--white);margin-bottom:8px;}
+.product-tagline{font-family:var(--P);font-style:italic;font-size:clamp(16px,1.6vw,20px);color:rgba(200,184,154,.55);margin-bottom:28px;line-height:1.4;}
+.product-price-block{display:flex;align-items:baseline;gap:10px;margin-bottom:24px;}
+.product-price{font-family:var(--D);font-size:36px;letter-spacing:.04em;color:var(--white);}
+.product-price-note{font-size:11px;font-weight:300;color:rgba(247,246,243,.3);}
+
+/* ── FIT TAGS ── */
+.fit-tags-row{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:28px;}
+.fit-tag{font-size:9px;letter-spacing:.16em;text-transform:uppercase;padding:5px 12px;border:1px solid rgba(200,184,154,.25);color:rgba(200,184,154,.7);border-radius:40px;}
+
+/* ── MEASUREMENTS ── */
+.measurements{display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:var(--border-d);margin-bottom:28px;}
+.measure-item{background:var(--ink2);padding:14px 16px;}
+.measure-val{font-family:var(--D);font-size:20px;letter-spacing:.06em;color:var(--white);}
+.measure-lbl{font-size:9px;letter-spacing:.16em;text-transform:uppercase;color:rgba(247,246,243,.25);margin-top:4px;}
+
+/* ── COLOR SWATCHES ── */
+.color-section{margin-bottom:28px;}
+.color-label{font-size:10px;letter-spacing:.2em;text-transform:uppercase;color:rgba(247,246,243,.3);margin-bottom:12px;}
+.color-swatches{display:flex;gap:8px;}
+.color-swatch{width:28px;height:28px;border-radius:50%;border:2px solid transparent;cursor:none;transition:transform .2s,border-color .2s;}
+.color-swatch.active{border-color:var(--gold);transform:scale(1.15);}
+.color-swatch:hover{transform:scale(1.1);}
+
+/* ── CTAs ── */
+.cta-block{display:flex;flex-direction:column;gap:10px;margin-bottom:32px;}
+.btn-try-on{font-size:11px;letter-spacing:.2em;text-transform:uppercase;font-weight:500;background:var(--gold);color:var(--ink);padding:16px 28px;border-radius:40px;border:none;transition:background .25s,transform .2s;display:flex;align-items:center;justify-content:center;gap:10px;}
+.btn-try-on:hover{background:var(--gold-light);transform:translateY(-1px);}
+.btn-try-on-icon{font-size:14px;}
+.btn-add-cart{font-size:11px;letter-spacing:.2em;text-transform:uppercase;font-weight:400;background:transparent;color:rgba(247,246,243,.7);padding:15px 28px;border-radius:40px;border:1px solid rgba(247,246,243,.2);transition:border-color .25s,color .25s;}
+.btn-add-cart:hover{border-color:var(--gold);color:var(--white);}
+.btn-fit-guide{font-size:10px;letter-spacing:.18em;text-transform:uppercase;color:rgba(200,184,154,.5);background:none;border:none;padding:8px 0;text-align:left;display:flex;align-items:center;gap:8px;transition:color .25s;}
+.btn-fit-guide:hover{color:var(--gold);}
+.btn-fit-guide::after{content:'→';}
+
+/* ── DR. PARK NOTE ── */
+.park-note{border-left:2px solid rgba(200,184,154,.3);padding:16px 20px;background:rgba(200,184,154,.04);margin-bottom:28px;}
+.park-note-label{font-size:9px;letter-spacing:.22em;text-transform:uppercase;color:var(--gold);margin-bottom:8px;}
+.park-note-text{font-family:var(--P);font-style:italic;font-size:14px;line-height:1.7;color:rgba(247,246,243,.6);}
+.park-note-attr{font-size:9px;letter-spacing:.16em;text-transform:uppercase;color:rgba(247,246,243,.25);margin-top:8px;}
+
+/* ── ACCORDION ── */
+.accordion{border-top:1px solid var(--border-d);margin-bottom:32px;}
+.acc-item{border-bottom:1px solid var(--border-d);}
+.acc-trigger{width:100%;display:flex;justify-content:space-between;align-items:center;padding:16px 0;background:none;border:none;color:var(--white);font-size:11px;letter-spacing:.2em;text-transform:uppercase;font-weight:400;cursor:none;transition:color .25s;}
+.acc-trigger:hover{color:var(--gold);}
+.acc-arrow{font-size:14px;color:rgba(200,184,154,.4);transition:transform .3s;}
+.acc-item.open .acc-arrow{transform:rotate(180deg);}
+.acc-body{max-height:0;overflow:hidden;transition:max-height .4s ease;}
+.acc-item.open .acc-body{max-height:400px;}
+.acc-content{padding:0 0 20px;}
+.spec-row{display:flex;border-bottom:1px solid rgba(247,246,243,.04);padding:10px 0;}
+.spec-k{font-size:9px;letter-spacing:.18em;text-transform:uppercase;color:rgba(200,184,154,.4);width:100px;flex-shrink:0;}
+.spec-v{font-size:13px;font-weight:300;color:rgba(247,246,243,.55);flex:1;line-height:1.6;}
+
+/* ── WHO THIS IS FOR ── */
+.for-section{background:rgba(247,246,243,.02);border:1px solid rgba(247,246,243,.06);padding:28px 28px;margin-bottom:32px;}
+.for-label{font-size:9px;letter-spacing:.22em;text-transform:uppercase;color:var(--gold);margin-bottom:12px;}
+.for-text{font-size:14px;font-weight:300;line-height:1.85;color:rgba(247,246,243,.5);}
+
+/* ── REVIEWS SECTION ── */
+.reviews-section{padding:80px 60px;background:var(--paper);}
+.reviews-header{display:flex;justify-content:space-between;align-items:flex-end;margin-bottom:48px;}
+.reviews-h{font-family:var(--D);font-size:clamp(36px,4.5vw,64px);letter-spacing:.025em;line-height:.9;color:var(--ink);}
+.reviews-avg{text-align:right;}
+.reviews-avg-num{font-family:var(--D);font-size:48px;letter-spacing:.04em;color:var(--ink);}
+.reviews-avg-label{font-size:10px;letter-spacing:.18em;text-transform:uppercase;color:var(--gold-dark);margin-top:4px;}
+.fit-rating-summary{display:flex;flex-direction:column;gap:8px;margin-bottom:40px;padding:28px;background:var(--white);border:1px solid var(--border-l);}
+.fit-rating-summary-label{font-size:9px;letter-spacing:.22em;text-transform:uppercase;color:var(--gold-dark);margin-bottom:16px;}
+.rating-bar-row{display:flex;align-items:center;gap:14px;margin-bottom:8px;}
+.rating-bar-label{font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:rgba(12,12,12,.4);width:130px;flex-shrink:0;}
+.rating-bar-track{flex:1;height:3px;background:rgba(12,12,12,.1);border-radius:2px;overflow:hidden;}
+.rating-bar-fill{height:100%;background:var(--gold-dark);border-radius:2px;}
+.rating-bar-val{font-family:var(--D);font-size:14px;color:var(--gold-dark);width:32px;text-align:right;}
+.review-list{display:flex;flex-direction:column;gap:2px;}
+.review-item{background:var(--white);padding:36px 32px;}
+.review-item-head{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:16px;}
+.review-face-tags{display:flex;gap:6px;flex-wrap:wrap;}
+.face-tag-sm{font-size:8px;letter-spacing:.14em;text-transform:uppercase;background:rgba(168,144,112,.1);color:var(--gold-dark);padding:3px 8px;border-radius:20px;}
+.review-dots{display:flex;gap:3px;}
+.dot-sm{width:5px;height:5px;border-radius:50%;background:rgba(12,12,12,.1);}
+.dot-sm.f{background:var(--gold-dark);}
+.review-item-quote{font-family:var(--P);font-style:italic;font-size:16px;line-height:1.7;color:rgba(12,12,12,.7);margin-bottom:20px;}
+.review-item-meta{display:flex;align-items:center;gap:14px;}
+.review-avatar-sm{width:36px;height:36px;border-radius:50%;overflow:hidden;background:var(--paper);flex-shrink:0;}
+.review-avatar-sm img{width:100%;height:100%;object-fit:cover;object-position:center top;}
+.review-name-sm{font-size:12px;font-weight:400;color:var(--ink);}
+.review-frame-sm{font-size:10px;font-weight:300;color:var(--mid);margin-top:2px;}
+.write-review{margin-top:24px;font-size:11px;letter-spacing:.18em;text-transform:uppercase;color:var(--gold-dark);display:flex;align-items:center;gap:8px;}
+.write-review::after{content:'→';}
+
+/* ── RECOMMENDATIONS ── */
+.recs-section{padding:80px 60px;background:var(--ink2);}
+.recs-label{font-size:10px;letter-spacing:.28em;text-transform:uppercase;color:var(--gold);margin-bottom:8px;display:flex;align-items:center;gap:14px;}
+.recs-label::before{content:'';display:block;width:28px;height:1px;background:var(--gold);}
+.recs-h{font-family:var(--D);font-size:clamp(32px,4vw,52px);letter-spacing:.025em;line-height:.9;color:var(--white);margin-bottom:8px;}
+.recs-sub{font-family:var(--P);font-style:italic;font-size:16px;color:rgba(200,184,154,.5);margin-bottom:40px;}
+.recs-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:2px;}
+.rec-card{background:rgba(247,246,243,.03);border:1px solid rgba(247,246,243,.06);overflow:hidden;cursor:none;transition:background .3s;}
+.rec-card:hover{background:rgba(247,246,243,.05);}
+.rec-card-img{aspect-ratio:4/3;overflow:hidden;background:var(--paper);}
+.rec-card-img img{width:100%;height:100%;object-fit:contain;padding:20px;transition:transform .5s;}
+.rec-card:hover .rec-card-img img{transform:scale(1.05);}
+.rec-card-body{padding:16px 18px 20px;}
+.rec-card-fit{font-size:9px;letter-spacing:.16em;text-transform:uppercase;color:rgba(200,184,154,.5);margin-bottom:6px;}
+.rec-card-name{font-family:var(--D);font-size:20px;letter-spacing:.04em;color:var(--white);margin-bottom:8px;}
+.rec-card-price{font-family:var(--D);font-size:16px;color:var(--gold);}
+
+/* ── GOLD RULE ── */
+.gold-rule{height:1px;background:linear-gradient(90deg,transparent,var(--gold),transparent);}
+
+/* ── FOOTER ── */
+footer{padding:48px 60px;background:var(--ink);border-top:1px solid rgba(200,184,154,.1);}
+.footer-bottom{display:flex;justify-content:space-between;align-items:center;}
+.footer-logo img{height:24px;filter:brightness(0) invert(1);opacity:.3;}
+.footer-logo-text{font-family:var(--D);font-size:16px;letter-spacing:.2em;color:rgba(247,246,243,.25);}
+.footer-copy{font-size:11px;color:rgba(247,246,243,.18);letter-spacing:.08em;}
+
+/* ── TRY ON MODAL ── */
+.try-on-modal{display:none;position:fixed;inset:0;background:rgba(12,12,12,.92);z-index:500;align-items:center;justify-content:center;backdrop-filter:blur(16px);}
+.try-on-modal.open{display:flex;}
+.try-on-inner{background:var(--ink2);border:1px solid rgba(200,184,154,.15);max-width:520px;width:90%;padding:48px;position:relative;}
+.modal-close{position:absolute;top:18px;right:22px;background:none;border:none;font-size:10px;letter-spacing:.2em;text-transform:uppercase;color:rgba(247,246,243,.3);cursor:none;}
+
+/* ── MOBILE ── */
+@media(max-width:960px){
+  nav{padding:16px 24px;}
+  .nav-links{display:none;}
+  .breadcrumb-bar{padding:80px 24px 0;}
+  .pdp{grid-template-columns:1fr;padding:24px 24px 60px;}
+  .gallery{position:static;height:auto;}
+  .gallery-main{aspect-ratio:4/3;}
+  .product-info{padding-left:0;padding-top:32px;}
+  .measurements{grid-template-columns:repeat(2,1fr);}
+  .reviews-section,.recs-section{padding:60px 24px;}
+  .recs-grid{grid-template-columns:1fr 1fr;}
+  footer{padding:40px 24px;}
+  .footer-bottom{flex-direction:column;align-items:flex-start;gap:12px;}
+  .cur,.ring{display:none;}
+  body{cursor:auto;}
+}
+@media(max-width:600px){
+  .recs-grid{grid-template-columns:1fr;}
+}
+</style>
+</head>
+<body>
+
+<div class="cur"  id="cur"></div>
+<div class="ring" id="ring"></div>
+
+<!-- Nav -->
+<nav>
+  <a href="index.html" class="nav-logo">
+    <img src="assets/logo.png" alt="Noon Shop"
+      onerror="this.style.display='none';this.nextElementSibling.style.display='block'">
+    <span class="nav-logo-text" style="display:none">NOON SHOP</span>
+  </a>
+  <div class="nav-links">
+    <a href="shop.html" class="nav-link">Shop</a>
+    <a href="fit-guide.html" class="nav-link">Fit Guide</a>
+    <a href="story.html" class="nav-link">Our Story</a>
+  </div>
+  <a href="#" class="nav-cart">
+    <span>Cart</span><span class="cart-count">0</span>
+  </a>
+</nav>
+
+<!-- Breadcrumb -->
+<div class="breadcrumb-bar">
+  <div class="breadcrumb">
+    <a href="index.html">Home</a><span>/</span>
+    <a href="shop.html">Shop</a><span>/</span>
+    <a href="shop.html?collection=steel-brown">Steel Brown</a><span>/</span>
+    <span>Thin Rect</span>
+  </div>
+</div>
+
+<!-- PDP -->
+<div class="pdp">
+
+  <!-- Gallery -->
+  <div class="gallery">
+    <div class="gallery-main" id="galleryMain">
+      <img id="mainImg" src="assets/product/thin-rect.png" alt="Steel Brown Thin Rect">
+    </div>
+    <div class="gallery-thumbs">
+      <div class="thumb active" onclick="setThumb(this,'assets/product/thin-rect.png','flat')">
+        <img src="assets/product/thin-rect.png" alt="Front">
+      </div>
+      <div class="thumb" onclick="setThumb(this,'assets/product/thin-rect-2.png','flat')">
+        <img src="assets/product/thin-rect-2.png" alt="Angle">
+      </div>
+      <div class="thumb" onclick="setThumb(this,'assets/product/macro-hinge-1.png','flat')">
+        <img src="assets/product/macro-hinge-1.png" alt="Macro hinge">
+      </div>
+      <div class="thumb model-thumb" onclick="setThumb(this,'assets/refined/woman-front-1.png','model')">
+        <img src="assets/refined/woman-front-1.png" alt="Model front">
+      </div>
+      <div class="thumb model-thumb" onclick="setThumb(this,'assets/refined/three-quarter-refined-1.png','model')">
+        <img src="assets/refined/three-quarter-refined-1.png" alt="Model 3/4">
+      </div>
+      <div class="thumb model-thumb" onclick="setThumb(this,'assets/faces/profile-1.png','model')">
+        <img src="assets/faces/profile-1.png" alt="Model profile">
+      </div>
+    </div>
+  </div>
+
+  <!-- Product Info -->
+  <div class="product-info">
+    <div class="product-coll">Steel Brown · Collection 02</div>
+    <h1 class="product-name">THIN RECT</h1>
+    <div class="product-tagline">Where precision meets quietly confident style.</div>
+
+    <div class="product-price-block">
+      <span class="product-price">$340</span>
+      <span class="product-price-note">Frames only · Lenses from $95</span>
+    </div>
+
+    <!-- Colors -->
+    <div class="color-section">
+      <div class="color-label">Color: <span id="colorName" style="color:rgba(247,246,243,.6)">Gunmetal Black</span></div>
+      <div class="color-swatches">
+        <div class="color-swatch active" style="background:#2c2c2c" onclick="setColor(this,'Gunmetal Black')" title="Gunmetal Black"></div>
+        <div class="color-swatch" style="background:#8B7355" onclick="setColor(this,'Warm Brown')" title="Warm Brown"></div>
+        <div class="color-swatch" style="background:#C8B89A" onclick="setColor(this,'Gold')" title="Gold"></div>
+        <div class="color-swatch" style="background:#4a4a4a" onclick="setColor(this,'Matte Graphite')" title="Matte Graphite"></div>
+      </div>
+    </div>
+
+    <!-- Fit Tags -->
+    <div class="fit-tags-row">
+      <span class="fit-tag">Low Bridge</span>
+      <span class="fit-tag">High Cheekbone</span>
+      <span class="fit-tag">Wider Face</span>
+    </div>
+
+    <!-- Measurements -->
+    <div class="measurements">
+      <div class="measure-item">
+        <div class="measure-val">52</div>
+        <div class="measure-lbl">Lens mm</div>
+      </div>
+      <div class="measure-item">
+        <div class="measure-val">16</div>
+        <div class="measure-lbl">Bridge mm</div>
+      </div>
+      <div class="measure-item">
+        <div class="measure-val">144</div>
+        <div class="measure-lbl">Temple mm</div>
+      </div>
+      <div class="measure-item">
+        <div class="measure-val">136</div>
+        <div class="measure-lbl">Frame Width mm</div>
+      </div>
+    </div>
+
+    <!-- Dr. Park Note -->
+    <div class="park-note">
+      <div class="park-note-label">Ophthalmologist Note — Dr. Anna Park, MD</div>
+      <div class="park-note-text">"The 16mm bridge and silicone grip nose pads make this the correct choice for a low-bridge fit. The frame sits where it should — not where gravity takes it. Cheekbone clearance is built in."</div>
+      <div class="park-note-attr">Dr. Anna Park, MD · Founder, Noon Shop</div>
+    </div>
+
+    <!-- CTAs -->
+    <div class="cta-block">
+      <button class="btn-try-on" onclick="openTryOn()">
+        <span class="btn-try-on-icon">◎</span>
+        Try It On
+      </button>
+      <button class="btn-add-cart">Add to Cart</button>
+      <button class="btn-fit-guide" onclick="window.location.href='fit-guide.html'">Not sure about your fit? See the Fit Guide</button>
+    </div>
+
+    <!-- Specs Accordion -->
+    <div class="accordion">
+      <div class="acc-item open">
+        <button class="acc-trigger" onclick="toggleAcc(this)">
+          Frame Specifications <span class="acc-arrow">↓</span>
+        </button>
+        <div class="acc-body">
+          <div class="acc-content">
+            <div class="spec-row"><div class="spec-k">Material</div><div class="spec-v">Medical-grade German stainless steel · Mazzucchelli Italian acetate</div></div>
+            <div class="spec-row"><div class="spec-k">Nose pads</div><div class="spec-v">No-screw silicone, optimized for low-bridge fit</div></div>
+            <div class="spec-row"><div class="spec-k">Design</div><div class="spec-v">Wolfgang Proksch · International award-winning German eyewear designer</div></div>
+            <div class="spec-row"><div class="spec-k">Fit</div><div class="spec-v">Low-bridge geometry · Precision temple angle · Silicone grip retention</div></div>
+            <div class="spec-row"><div class="spec-k">Hinges</div><div class="spec-v">Barrel hinge · Standard spring mechanism</div></div>
+            <div class="spec-row"><div class="spec-k">Lens compat.</div><div class="spec-v">Single vision · Progressive · Flat lenses</div></div>
+          </div>
+        </div>
+      </div>
+      <div class="acc-item">
+        <button class="acc-trigger" onclick="toggleAcc(this)">
+          Shipping & Returns <span class="acc-arrow">↓</span>
+        </button>
+        <div class="acc-body">
+          <div class="acc-content" style="font-size:13px;font-weight:300;line-height:1.8;color:rgba(247,246,243,.45);padding-top:8px">
+            <p>Free standard shipping on all orders over $200. Express shipping available at checkout.</p>
+            <p style="margin-top:12px">30-day fit guarantee. If the frame does not fit correctly, we'll exchange it — no questions asked. Fit is fundamental, and we mean it.</p>
+          </div>
+        </div>
+      </div>
+      <div class="acc-item">
+        <button class="acc-trigger" onclick="toggleAcc(this)">
+          Lens Options <span class="acc-arrow">↓</span>
+        </button>
+        <div class="acc-body">
+          <div class="acc-content" style="font-size:13px;font-weight:300;line-height:1.8;color:rgba(247,246,243,.45);padding-top:8px">
+            <p>Single vision from $95 · Progressive from $175 · Blue light filtering from $120</p>
+            <p style="margin-top:12px">Anti-reflective coating included on all Noon Shop lenses. Compatible with your existing prescription — upload at checkout or we'll contact your optometrist directly.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Who this is for -->
+    <div class="for-section">
+      <div class="for-label">Who This Frame Is For</div>
+      <div class="for-text">Professionals, executives, and leaders who have earned the right to demand more from their eyewear. Steel Brown has real traction among figures in government and institutional leadership, drawn to the credibility of the materials and the restraint of the design. The Thin Rect works particularly well on lower bridges and wider faces where the frame geometry creates proper clearance without the visual weight of a thicker frame. Sophisticated enough for the room. Durable enough for everything that follows.</div>
+    </div>
+
+  </div>
+</div>
+
+<div class="gold-rule"></div>
+
+<!-- Fit-First Reviews -->
+<div class="reviews-section" id="reviews">
+  <div class="reviews-header">
+    <div>
+      <div style="font-size:10px;letter-spacing:.28em;text-transform:uppercase;color:var(--gold-dark);margin-bottom:12px;display:flex;align-items:center;gap:14px"><span style="display:block;width:28px;height:1px;background:var(--gold-dark)"></span>Fit Reviews</div>
+      <div class="reviews-h">WORN &<br><span style="font-family:var(--P);font-style:italic;font-weight:400;font-size:clamp(24px,3vw,44px);color:var(--gold-dark)">trusted.</span></div>
+    </div>
+    <div class="reviews-avg">
+      <div class="reviews-avg-num">4.9</div>
+      <div class="reviews-avg-label">Overall Fit Score</div>
+      <div style="font-size:11px;font-weight:300;color:var(--mid);margin-top:4px">Based on 47 reviews</div>
+    </div>
+  </div>
+
+  <!-- Aggregate fit ratings -->
+  <div class="fit-rating-summary">
+    <div class="fit-rating-summary-label">Fit Rating Summary — Steel Brown Thin Rect</div>
+    <div class="rating-bar-row">
+      <span class="rating-bar-label">Bridge Fit</span>
+      <div class="rating-bar-track"><div class="rating-bar-fill" style="width:96%"></div></div>
+      <span class="rating-bar-val">4.8</span>
+    </div>
+    <div class="rating-bar-row">
+      <span class="rating-bar-label">Temple Comfort</span>
+      <div class="rating-bar-track"><div class="rating-bar-fill" style="width:94%"></div></div>
+      <span class="rating-bar-val">4.7</span>
+    </div>
+    <div class="rating-bar-row">
+      <span class="rating-bar-label">Cheekbone Clear</span>
+      <div class="rating-bar-track"><div class="rating-bar-fill" style="width:100%"></div></div>
+      <span class="rating-bar-val">5.0</span>
+    </div>
+    <div class="rating-bar-row">
+      <span class="rating-bar-label">All-Day Wear</span>
+      <div class="rating-bar-track"><div class="rating-bar-fill" style="width:98%"></div></div>
+      <span class="rating-bar-val">4.9</span>
+    </div>
+  </div>
+
+  <div class="review-list">
+    <!-- Review 1 -->
+    <div class="review-item">
+      <div class="review-item-head">
+        <div class="review-face-tags">
+          <span class="face-tag-sm">Low Bridge</span>
+          <span class="face-tag-sm">East Asian</span>
+          <span class="face-tag-sm">Wider Face</span>
+        </div>
+        <div class="review-dots">
+          <span class="dot-sm f"></span><span class="dot-sm f"></span><span class="dot-sm f"></span><span class="dot-sm f"></span><span class="dot-sm f"></span>
+        </div>
+      </div>
+      <p class="review-item-quote">"My optometrist actually commented on how well these frames fit. First pair I've owned where the nose pads don't leave marks by the end of the day. The bridge doesn't budge. It just stays."</p>
+      <div class="review-item-meta">
+        <div class="review-avatar-sm">
+          <img src="assets/refined/asian-man-front.png" alt=""
+            onerror="this.parentElement.style.background='#ddd'">
+        </div>
+        <div>
+          <div class="review-name-sm">Ravi T.</div>
+          <div class="review-frame-sm">Steel Brown Thin Rect · Gunmetal Black · Portland, OR</div>
+        </div>
+      </div>
+    </div>
+    <!-- Review 2 -->
+    <div class="review-item">
+      <div class="review-item-head">
+        <div class="review-face-tags">
+          <span class="face-tag-sm">High Cheekbones</span>
+          <span class="face-tag-sm">Caucasian</span>
+          <span class="face-tag-sm">Standard Width</span>
+        </div>
+        <div class="review-dots">
+          <span class="dot-sm f"></span><span class="dot-sm f"></span><span class="dot-sm f"></span><span class="dot-sm f"></span><span class="dot-sm f"></span>
+        </div>
+      </div>
+      <p class="review-item-quote">"I've had frames pressing on my cheekbones my whole life. It's so normalized I didn't realize it was wrong until these. They clear my cheekbones completely. I wore them through an 11-hour conference day and never once adjusted them."</p>
+      <div class="review-item-meta">
+        <div class="review-avatar-sm">
+          <img src="assets/refined/woman-front-1.png" alt=""
+            onerror="this.parentElement.style.background='#ddd'">
+        </div>
+        <div>
+          <div class="review-name-sm">Sarah M.</div>
+          <div class="review-frame-sm">Steel Brown Thin Rect · Gold · Seattle, WA</div>
+        </div>
+      </div>
+    </div>
+    <!-- Review 3 -->
+    <div class="review-item">
+      <div class="review-item-head">
+        <div class="review-face-tags">
+          <span class="face-tag-sm">Low Bridge</span>
+          <span class="face-tag-sm">South Asian</span>
+          <span class="face-tag-sm">High Cheekbones</span>
+        </div>
+        <div class="review-dots">
+          <span class="dot-sm f"></span><span class="dot-sm f"></span><span class="dot-sm f"></span><span class="dot-sm f"></span><span class="dot-sm"></span>
+        </div>
+      </div>
+      <p class="review-item-quote">"The German stainless steel is real. These feel like they cost twice what I paid. The silicone nose pads grip without pressure. Temple angle is precise. Nothing I've worn from any other brand has felt like this."</p>
+      <div class="review-item-meta">
+        <div class="review-avatar-sm">
+          <img src="assets/faces/caucasian-man.png" alt=""
+            onerror="this.parentElement.style.background='#ddd'">
+        </div>
+        <div>
+          <div class="review-name-sm">Arjun P.</div>
+          <div class="review-frame-sm">Steel Brown Thin Rect · Warm Brown · San Francisco, CA</div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <a href="#" class="write-review" style="display:inline-flex;align-items:center;gap:8px;margin-top:32px;font-size:10px;letter-spacing:.2em;text-transform:uppercase;color:var(--gold-dark)">Write a Fit Review</a>
+</div>
+
+<!-- For Your Fit Recommendations -->
+<div class="recs-section">
+  <div class="recs-label">Matched to Your Fit</div>
+  <div class="recs-h">FOR YOUR<br>FIT PROFILE</div>
+  <div class="recs-sub">Customers with similar fit profiles also chose</div>
+
+  <div class="recs-grid">
+    <a href="product.html" class="rec-card">
+      <div class="rec-card-img">
+        <img src="assets/product/thin-rect-2.png" alt="Thin Rect II"
+          onerror="this.parentElement.style.background='#1a1a1a'">
+      </div>
+      <div class="rec-card-body">
+        <div class="rec-card-fit">Low Bridge · Wide Face</div>
+        <div class="rec-card-name">THIN RECT II</div>
+        <div class="rec-card-price">$360</div>
+      </div>
+    </a>
+    <a href="product.html" class="rec-card">
+      <div class="rec-card-img" style="background:#f0ece5">
+        <img src="assets/product/gold-round-1.png" alt="Gold Round"
+          onerror="this.parentElement.style.background='#1a1a1a'">
+      </div>
+      <div class="rec-card-body">
+        <div class="rec-card-fit">Low Bridge · High Cheekbone</div>
+        <div class="rec-card-name">GOLD ROUND</div>
+        <div class="rec-card-price">$380</div>
+      </div>
+    </a>
+    <a href="product.html" class="rec-card">
+      <div class="rec-card-img">
+        <img src="assets/product/dormann-panto.png" alt="Dormann Soft Panto"
+          onerror="this.parentElement.style.background='#1a1a1a'">
+      </div>
+      <div class="rec-card-body">
+        <div class="rec-card-fit">Low Bridge · Narrow Face · Dormann</div>
+        <div class="rec-card-name">SOFT PANTO</div>
+        <div class="rec-card-price">$275</div>
+      </div>
+    </a>
+  </div>
+</div>
+
+<div class="gold-rule"></div>
+<footer>
+  <div class="footer-bottom">
+    <div class="footer-logo">
+      <img src="assets/logo.png" alt="Noon Shop"
+        onerror="this.style.display='none';this.nextElementSibling.style.display='block'">
+      <div class="footer-logo-text" style="display:none">NOON SHOP</div>
+    </div>
+    <div style="font-size:11px;color:rgba(247,246,243,.18);letter-spacing:.08em">© 2026 Noon Shop · Founded by Dr. Anna Park, MD</div>
+  </div>
+</footer>
+
+<!-- Try-On Modal -->
+<div class="try-on-modal" id="tryOnModal">
+  <div class="try-on-inner">
+    <button class="modal-close" onclick="closeTryOn()">Close ×</button>
+    <div style="font-size:9px;letter-spacing:.28em;text-transform:uppercase;color:rgba(200,184,154,.45);margin-bottom:14px">Virtual Try-On · Powered by Auglio</div>
+    <div style="font-family:var(--D);font-size:32px;letter-spacing:.04em;color:var(--white);margin-bottom:6px">STEEL BROWN</div>
+    <div style="font-family:var(--D);font-size:20px;letter-spacing:.06em;color:var(--gold);margin-bottom:6px">THIN RECT</div>
+    <div style="font-family:var(--P);font-style:italic;font-size:14px;color:rgba(200,184,154,.5);margin-bottom:28px">See it on your face</div>
+    <div style="background:rgba(247,246,243,.03);border:1px solid rgba(247,246,243,.07);padding:28px;text-align:center;margin-bottom:24px">
+      <div style="font-size:13px;font-weight:300;color:rgba(247,246,243,.35);line-height:1.9">The Auglio virtual try-on widget loads here.<br>Camera activates · Frame renders on your face in real time.<br>No app. No download. No guesswork.</div>
+      <div style="margin-top:16px;font-size:9px;letter-spacing:.18em;text-transform:uppercase;color:rgba(200,184,154,.25)">auglio.com · enterprise integration</div>
+    </div>
+    <a href="https://auglio.com/en/products/eyewear-virtual-try-on" target="_blank" style="display:inline-block;font-size:10px;letter-spacing:.2em;text-transform:uppercase;background:var(--gold);color:var(--ink);padding:12px 24px;border-radius:40px;font-family:var(--B);font-weight:500">Learn About Try-On →</a>
+  </div>
+</div>
+
+<script>
+/* ── CURSOR ── */
+const cur=document.getElementById('cur'),ring=document.getElementById('ring');
+if(cur&&ring){
+  let mx=0,my=0,cx=0,cy=0,rx=0,ry=0;
+  document.addEventListener('mousemove',e=>{mx=e.clientX;my=e.clientY;});
+  (function tick(){
+    cx+=(mx-cx)*.22;cy+=(my-cy)*.22;rx+=(mx-rx)*.1;ry+=(my-ry)*.1;
+    cur.style.left=cx+'px';cur.style.top=cy+'px';
+    ring.style.left=rx+'px';ring.style.top=ry+'px';
+    requestAnimationFrame(tick);
+  })();
+}
+
+/* ── GALLERY ── */
+function setThumb(thumb, src, type){
+  document.querySelectorAll('.thumb').forEach(t=>t.classList.remove('active'));
+  thumb.classList.add('active');
+  const main   = document.getElementById('galleryMain');
+  const mainImg= document.getElementById('mainImg');
+  mainImg.style.opacity = '0';
+  setTimeout(()=>{
+    mainImg.src = src;
+    main.classList.toggle('model', type==='model');
+    mainImg.style.opacity = '1';
+  }, 200);
+}
+
+/* ── COLOR ── */
+function setColor(swatch, name){
+  document.querySelectorAll('.color-swatch').forEach(s=>s.classList.remove('active'));
+  swatch.classList.add('active');
+  document.getElementById('colorName').textContent = name;
+}
+
+/* ── ACCORDION ── */
+function toggleAcc(trigger){
+  const item = trigger.closest('.acc-item');
+  const wasOpen = item.classList.contains('open');
+  document.querySelectorAll('.acc-item').forEach(i=>i.classList.remove('open'));
+  if(!wasOpen) item.classList.add('open');
+}
+
+/* ── TRY ON ── */
+function openTryOn(){
+  document.getElementById('tryOnModal').classList.add('open');
+  document.body.style.overflow='hidden';
+}
+function closeTryOn(){
+  document.getElementById('tryOnModal').classList.remove('open');
+  document.body.style.overflow='';
+}
+document.getElementById('tryOnModal').addEventListener('click',function(e){
+  if(e.target===this) closeTryOn();
+});
+</script>
+</body>
+</html>

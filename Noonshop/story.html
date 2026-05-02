@@ -1,0 +1,827 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Our Story — Noon Shop</title>
+<meta name="description" content="Dr. Anna Park, MD — ophthalmologist, founder, and the reason Noon Shop exists. Two decades of watching patients struggle with frames that weren't made for their faces.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Outfit:wght@100;200;300;400;500&family=Playfair+Display:ital,wght@0,400;0,700;1,400;1,700&display=swap" rel="stylesheet">
+<style>
+:root {
+  --ink:        #0C0C0C;
+  --ink2:       #1A1A1A;
+  --mid:        #888;
+  --paper:      #EEECE7;
+  --white:      #F7F6F3;
+  --border-d:   rgba(247,246,243,.07);
+  --border-l:   rgba(12,12,12,.10);
+  --gold:       #C8B89A;
+  --gold-dark:  #A89070;
+  --gold-light: #E8D8BE;
+  --D: 'Bebas Neue', sans-serif;
+  --B: 'Outfit', sans-serif;
+  --P: 'Playfair Display', Georgia, serif;
+}
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+body { background: var(--ink); color: var(--white); font-family: var(--B); font-weight: 300; overflow-x: hidden; cursor: none; }
+a { color: inherit; text-decoration: none; }
+img { display: block; max-width: 100%; }
+
+/* ── CURSOR ── */
+.cur  { position: fixed; width: 7px; height: 7px; background: var(--white); border-radius: 50%; pointer-events: none; z-index: 9999; mix-blend-mode: difference; transform: translate(-50%,-50%); }
+.ring { position: fixed; width: 32px; height: 32px; border: 1px solid rgba(247,246,243,.35); border-radius: 50%; pointer-events: none; z-index: 9998; mix-blend-mode: difference; transform: translate(-50%,-50%); transition: width .2s, height .2s, border-color .2s; }
+body:has(a:hover) .ring, body:has(button:hover) .ring { width: 48px; height: 48px; border-color: var(--gold); }
+
+/* ── NAV ── */
+nav {
+  position: fixed; top: 0; left: 0; right: 0; z-index: 200;
+  display: flex; justify-content: space-between; align-items: center;
+  padding: 22px 60px;
+  transition: background .4s, backdrop-filter .4s, padding .3s;
+}
+nav.scrolled { background: rgba(12,12,12,.82); backdrop-filter: blur(18px); padding: 16px 60px; }
+.nav-logo { display: flex; align-items: center; }
+.nav-logo img { height: 32px; width: auto; filter: brightness(0) invert(1); opacity: .75; transition: opacity .3s; }
+.nav-logo img:hover { opacity: 1; }
+.nav-logo-text { font-family: var(--D); font-size: 17px; letter-spacing: .18em; color: rgba(247,246,243,.7); }
+.nav-links { display: flex; gap: 36px; align-items: center; }
+.nav-link { font-size: 10px; letter-spacing: .22em; text-transform: uppercase; color: rgba(247,246,243,.45); transition: color .25s; }
+.nav-link:hover, .nav-link.active { color: var(--gold); }
+.nav-link.has-drop { display: flex; align-items: center; gap: 6px; }
+.nav-link.has-drop::after { content: '↓'; font-size: 9px; color: rgba(200,184,154,.5); }
+.nav-right { display: flex; align-items: center; gap: 24px; }
+.nav-cart { font-size: 10px; letter-spacing: .18em; text-transform: uppercase; color: rgba(247,246,243,.4); transition: color .25s; display: flex; align-items: center; gap: 8px; }
+.nav-cart:hover { color: var(--white); }
+.cart-count { font-family: var(--D); font-size: 12px; color: var(--gold); }
+
+/* ── DROPDOWN ── */
+.nav-drop {
+  position: fixed; top: 0; left: 0; right: 0;
+  background: rgba(12,12,12,.96); backdrop-filter: blur(24px);
+  padding: 100px 60px 60px;
+  transform: translateY(-100%); transition: transform .45s cubic-bezier(.4,0,.2,1);
+  z-index: 190;
+}
+.nav-drop.open { transform: translateY(0); }
+.drop-inner { display: grid; grid-template-columns: repeat(4, 1fr); gap: 2px; max-width: 900px; }
+.drop-item { padding: 32px 28px; border: 1px solid rgba(247,246,243,.06); transition: background .3s; cursor: pointer; }
+.drop-item:hover { background: rgba(247,246,243,.03); }
+.drop-item-label { font-size: 9px; letter-spacing: .28em; text-transform: uppercase; color: rgba(200,184,154,.45); margin-bottom: 10px; }
+.drop-item-name { font-family: var(--D); font-size: 28px; letter-spacing: .06em; color: var(--white); line-height: .9; margin-bottom: 8px; }
+.drop-item-sub { font-family: var(--P); font-style: italic; font-size: 12px; color: rgba(200,184,154,.55); }
+.drop-close { position: absolute; top: 28px; right: 60px; font-size: 10px; letter-spacing: .22em; text-transform: uppercase; color: rgba(247,246,243,.3); cursor: pointer; transition: color .25s; }
+.drop-close:hover { color: var(--gold); }
+
+/* ── SCROLL REVEAL ── */
+.rv { opacity: 0; transform: translateY(32px); transition: opacity .85s ease, transform .85s ease; }
+.rv.in { opacity: 1; transform: translateY(0); }
+.rv.d1 { transition-delay: .12s; } .rv.d2 { transition-delay: .24s; } .rv.d3 { transition-delay: .36s; } .rv.d4 { transition-delay: .48s; }
+
+/* ── SHARED ── */
+.section-tag { font-size: 10px; font-weight: 500; letter-spacing: .32em; text-transform: uppercase; color: var(--gold); margin-bottom: 48px; display: flex; align-items: center; gap: 16px; }
+.section-tag::before { content: ''; display: block; width: 32px; height: 1px; background: var(--gold); }
+.gold-rule { height: 1px; background: linear-gradient(90deg, transparent, var(--gold), transparent); }
+.dark-rule  { height: 1px; background: var(--border-d); margin: 0 60px; }
+.link-arrow { font-size: 10px; letter-spacing: .22em; text-transform: uppercase; color: var(--gold); display: inline-flex; align-items: center; gap: 10px; transition: gap .25s; }
+.link-arrow::after { content: '→'; }
+.link-arrow:hover { gap: 16px; }
+
+/* ── HERO ── */
+.story-hero {
+  min-height: 100vh; position: relative; overflow: hidden;
+  background: var(--ink); display: flex; flex-direction: column;
+  justify-content: flex-end; padding: 0 60px 100px;
+}
+.story-hero-bg {
+  position: absolute; inset: 0;
+}
+.story-hero-bg img {
+  width: 100%; height: 100%; object-fit: cover; object-position: center 20%;
+  opacity: .28;
+}
+.story-hero-bg::after {
+  content: ''; position: absolute; inset: 0;
+  background: linear-gradient(180deg, rgba(12,12,12,.2) 0%, var(--ink) 80%);
+}
+.hero-wm {
+  position: absolute; right: 40px; bottom: 60px;
+  font-family: var(--D); font-size: clamp(100px, 18vw, 280px);
+  letter-spacing: -.02em; color: rgba(200,184,154,.04);
+  pointer-events: none; z-index: 0; line-height: 1;
+}
+.story-hero-content { position: relative; z-index: 1; max-width: 800px; }
+.story-hero-tag { font-size: 10px; letter-spacing: .32em; text-transform: uppercase; color: var(--gold); margin-bottom: 24px; display: flex; align-items: center; gap: 16px; }
+.story-hero-tag::before { content: ''; display: block; width: 32px; height: 1px; background: var(--gold); }
+.story-hero h1 {
+  font-family: var(--D); font-size: clamp(56px, 10vw, 148px);
+  letter-spacing: .02em; line-height: .88; color: var(--white);
+  margin-bottom: 36px;
+}
+.story-hero-sub {
+  font-family: var(--P); font-style: italic;
+  font-size: clamp(16px, 1.8vw, 22px); color: rgba(200,184,154,.65);
+  max-width: 560px; line-height: 1.65;
+}
+
+/* ── STATS BAR ── */
+.stats-bar {
+  display: grid; grid-template-columns: repeat(4, 1fr);
+  border-top: 1px solid var(--border-d);
+}
+.stat {
+  padding: 48px 40px; border-right: 1px solid var(--border-d);
+  transition: background .3s;
+}
+.stat:last-child { border-right: none; }
+.stat:hover { background: rgba(200,184,154,.03); }
+.stat-num {
+  font-family: var(--D); font-size: clamp(40px, 5vw, 72px);
+  letter-spacing: .02em; color: var(--white); line-height: 1; margin-bottom: 8px;
+}
+.stat-num span { color: var(--gold); }
+.stat-label { font-size: 11px; letter-spacing: .18em; text-transform: uppercase; color: rgba(247,246,243,.35); }
+
+/* ── FOUNDING NARRATIVE ── */
+.founding {
+  display: grid; grid-template-columns: 1fr 1fr; gap: 0;
+  align-items: stretch;
+}
+.founding-img {
+  position: relative; min-height: 680px; overflow: hidden;
+}
+.founding-img img {
+  width: 100%; height: 100%; object-fit: cover; object-position: center top;
+}
+.founding-img::after {
+  content: ''; position: absolute; inset: 0;
+  background: linear-gradient(to right, transparent 60%, var(--ink2) 100%);
+}
+.founding-text {
+  background: var(--ink2); padding: 100px 72px 100px 60px;
+  display: flex; flex-direction: column; justify-content: center;
+}
+.founding-pull {
+  font-family: var(--P); font-style: italic;
+  font-size: clamp(22px, 2.8vw, 32px); line-height: 1.45;
+  color: var(--white); margin-bottom: 36px;
+}
+.founding-pull em { color: var(--gold); }
+.founding-pull-attr {
+  font-size: 10px; letter-spacing: .2em; text-transform: uppercase;
+  color: rgba(247,246,243,.3); margin-bottom: 48px;
+  display: flex; align-items: center; gap: 12px;
+}
+.founding-pull-attr::before { content: ''; display: block; width: 24px; height: 1px; background: rgba(247,246,243,.2); }
+.founding-body {
+  font-size: 15px; line-height: 1.88; color: rgba(247,246,243,.55);
+  display: flex; flex-direction: column; gap: 20px;
+}
+.founding-body strong { color: var(--white); font-weight: 400; }
+
+/* ── TIMELINE ── */
+.timeline-section {
+  padding: 120px 60px;
+  background: var(--ink);
+}
+.timeline {
+  margin-top: 72px; position: relative;
+  padding-left: 40px; border-left: 1px solid var(--border-d);
+  display: flex; flex-direction: column; gap: 0;
+}
+.timeline-item {
+  padding: 0 0 72px 60px; position: relative;
+}
+.timeline-item:last-child { padding-bottom: 0; }
+.timeline-dot {
+  position: absolute; left: -5px; top: 6px;
+  width: 10px; height: 10px; border-radius: 50%;
+  background: var(--ink); border: 1px solid rgba(200,184,154,.35);
+  transition: border-color .3s, background .3s;
+}
+.timeline-item:hover .timeline-dot { background: var(--gold); border-color: var(--gold); }
+.timeline-year {
+  font-family: var(--D); font-size: 13px; letter-spacing: .18em;
+  color: var(--gold); margin-bottom: 10px;
+}
+.timeline-h {
+  font-family: var(--D); font-size: clamp(22px, 3vw, 36px);
+  letter-spacing: .04em; color: var(--white); line-height: .95; margin-bottom: 16px;
+}
+.timeline-body {
+  font-size: 14px; line-height: 1.8; color: rgba(247,246,243,.5);
+  max-width: 600px;
+}
+.timeline-body strong { color: var(--white); font-weight: 400; }
+
+/* ── COLLECTIONS ORIGIN ── */
+.collections-section {
+  padding: 120px 60px;
+  background: var(--ink2);
+}
+.collections-grid {
+  display: grid; grid-template-columns: 1fr 1fr; gap: 2px; margin-top: 72px;
+}
+.col-card {
+  position: relative; overflow: hidden; min-height: 560px;
+  display: flex; flex-direction: column; justify-content: flex-end;
+  padding: 52px 48px;
+}
+.col-card-bg {
+  position: absolute; inset: 0; z-index: 0;
+}
+.col-card-bg img {
+  width: 100%; height: 100%; object-fit: cover; transition: transform .7s ease;
+}
+.col-card:hover .col-card-bg img { transform: scale(1.04); }
+.col-card-bg::after {
+  content: ''; position: absolute; inset: 0;
+  background: linear-gradient(0deg, rgba(12,12,12,.92) 0%, rgba(12,12,12,.3) 60%, transparent 100%);
+}
+.col-card-content { position: relative; z-index: 1; }
+.col-card-label { font-size: 9px; letter-spacing: .32em; text-transform: uppercase; color: var(--gold); margin-bottom: 12px; }
+.col-card-name { font-family: var(--D); font-size: clamp(36px, 5vw, 68px); letter-spacing: .04em; color: var(--white); line-height: .9; margin-bottom: 16px; }
+.col-card-sub { font-family: var(--P); font-style: italic; font-size: 14px; color: rgba(200,184,154,.65); margin-bottom: 20px; line-height: 1.55; }
+.col-card-origin { font-size: 11px; letter-spacing: .15em; text-transform: uppercase; color: rgba(247,246,243,.3); margin-bottom: 28px; }
+.col-card-specs {
+  display: flex; gap: 12px; flex-wrap: wrap; margin-bottom: 32px;
+}
+.col-spec {
+  padding: 4px 10px; background: rgba(200,184,154,.08); border: 1px solid rgba(200,184,154,.15);
+  font-size: 9px; letter-spacing: .16em; text-transform: uppercase; color: var(--gold-light);
+}
+
+/* ── DR PARK PROFILE ── */
+.founder-section {
+  padding: 120px 60px;
+  background: var(--paper);
+  color: var(--ink);
+}
+.founder-section .section-tag { color: var(--gold-dark); }
+.founder-section .section-tag::before { background: var(--gold-dark); }
+.founder-grid {
+  display: grid; grid-template-columns: 380px 1fr; gap: 80px; align-items: start; margin-top: 60px;
+}
+.founder-img {
+  position: sticky; top: 100px;
+}
+.founder-img-wrap {
+  aspect-ratio: 3/4; overflow: hidden; margin-bottom: 24px;
+}
+.founder-img-wrap img { width: 100%; height: 100%; object-fit: cover; object-position: center top; }
+.founder-img-cap {
+  font-size: 11px; letter-spacing: .16em; text-transform: uppercase;
+  color: rgba(12,12,12,.4); line-height: 1.6;
+}
+.founder-body { padding-top: 8px; }
+.founder-name {
+  font-family: var(--D); font-size: clamp(40px, 6vw, 88px);
+  letter-spacing: .03em; color: var(--ink); line-height: .9; margin-bottom: 8px;
+}
+.founder-title {
+  font-family: var(--P); font-style: italic; font-size: 16px;
+  color: var(--gold-dark); margin-bottom: 52px;
+}
+.founder-para {
+  font-size: 15px; line-height: 1.88; color: rgba(12,12,12,.6);
+  margin-bottom: 24px;
+}
+.founder-para strong { color: var(--ink); font-weight: 400; }
+.founder-credentials {
+  margin-top: 52px; display: flex; flex-direction: column; gap: 0;
+  border-top: 1px solid rgba(12,12,12,.1);
+}
+.founder-cred {
+  padding: 20px 0; border-bottom: 1px solid rgba(12,12,12,.07);
+  display: grid; grid-template-columns: 100px 1fr; gap: 20px; align-items: baseline;
+}
+.cred-year { font-family: var(--D); font-size: 14px; letter-spacing: .08em; color: var(--gold-dark); }
+.cred-text { font-size: 13px; color: rgba(12,12,12,.55); }
+.cred-text strong { color: var(--ink); font-weight: 400; }
+
+/* ── CRAFT STRIP ── */
+.craft-strip {
+  padding: 100px 60px;
+  background: var(--ink);
+  display: grid; grid-template-columns: 1fr 2fr; gap: 80px; align-items: start;
+}
+.craft-eyebrow { font-size: 10px; letter-spacing: .3em; text-transform: uppercase; color: var(--gold); margin-bottom: 20px; display: flex; align-items: center; gap: 12px; }
+.craft-eyebrow::before { content: ''; display: block; width: 24px; height: 1px; background: var(--gold); }
+.craft-h { font-family: var(--D); font-size: clamp(36px, 5vw, 68px); letter-spacing: .04em; line-height: .9; color: var(--white); }
+.craft-items { display: flex; flex-direction: column; gap: 0; }
+.craft-item {
+  display: grid; grid-template-columns: 60px 1fr; gap: 24px;
+  padding: 36px 0; border-bottom: 1px solid var(--border-d); align-items: start;
+}
+.craft-item:first-child { border-top: 1px solid var(--border-d); }
+.craft-num { font-family: var(--D); font-size: 18px; letter-spacing: .08em; color: rgba(200,184,154,.3); }
+.craft-item-h { font-size: 12px; letter-spacing: .16em; text-transform: uppercase; color: var(--white); margin-bottom: 8px; }
+.craft-item-body { font-size: 13px; line-height: 1.72; color: rgba(247,246,243,.45); }
+
+/* ── MANIFESTO ── */
+.manifesto {
+  padding: 140px 60px;
+  background: var(--ink2);
+  text-align: center;
+}
+.manifesto-rule { height: 1px; background: linear-gradient(90deg, transparent, var(--gold), transparent); margin-bottom: 64px; }
+.manifesto-pull {
+  font-family: var(--P); font-style: italic;
+  font-size: clamp(22px, 3.5vw, 48px); line-height: 1.4;
+  color: var(--white); max-width: 900px; margin: 0 auto 48px;
+}
+.manifesto-pull em { color: var(--gold); }
+.manifesto-attr { font-size: 10px; letter-spacing: .3em; text-transform: uppercase; color: rgba(247,246,243,.25); margin-bottom: 72px; }
+.manifesto-ctas { display: flex; gap: 20px; justify-content: center; flex-wrap: wrap; }
+.btn-primary {
+  padding: 16px 44px; background: var(--white); color: var(--ink);
+  font-family: var(--B); font-size: 11px; letter-spacing: .22em; text-transform: uppercase;
+  transition: background .25s; display: inline-block;
+}
+.btn-primary:hover { background: var(--gold-light); }
+.btn-ghost {
+  padding: 16px 44px; border: 1px solid rgba(247,246,243,.2); color: var(--white);
+  font-family: var(--B); font-size: 11px; letter-spacing: .22em; text-transform: uppercase;
+  transition: border-color .25s, color .25s; display: inline-block;
+}
+.btn-ghost:hover { border-color: var(--gold); color: var(--gold); }
+
+/* ── FOOTER ── */
+footer {
+  background: var(--ink2); padding: 80px 60px 40px;
+  border-top: 1px solid var(--border-d);
+}
+.footer-top { margin-bottom: 60px; }
+.footer-logo { display: flex; align-items: center; gap: 12px; margin-bottom: 12px; }
+.footer-logo img { height: 28px; filter: brightness(0) invert(1); opacity: .4; }
+.footer-logo-text { font-family: var(--D); font-size: 15px; letter-spacing: .18em; color: rgba(247,246,243,.35); }
+.footer-tagline { font-family: var(--P); font-style: italic; font-size: 13px; color: rgba(200,184,154,.3); }
+.footer-cols { display: grid; grid-template-columns: repeat(4, 1fr); gap: 40px; margin-bottom: 60px; }
+.footer-col-h { font-size: 9px; letter-spacing: .28em; text-transform: uppercase; color: rgba(247,246,243,.25); margin-bottom: 20px; }
+.footer-links { list-style: none; display: flex; flex-direction: column; gap: 12px; }
+.footer-links a { font-size: 13px; color: rgba(247,246,243,.4); transition: color .25s; }
+.footer-links a:hover { color: var(--white); }
+.footer-bottom { display: flex; justify-content: space-between; align-items: center; padding-top: 32px; border-top: 1px solid var(--border-d); }
+.footer-copy { font-size: 11px; color: rgba(247,246,243,.2); }
+.footer-founder { font-family: var(--P); font-style: italic; font-size: 12px; color: rgba(200,184,154,.25); }
+
+/* ── RESPONSIVE ── */
+@media (max-width: 900px) {
+  nav { padding: 18px 24px; }
+  nav.scrolled { padding: 14px 24px; }
+  .nav-links { display: none; }
+  .story-hero { padding: 140px 24px 72px; }
+  .stats-bar { grid-template-columns: 1fr 1fr; }
+  .founding { grid-template-columns: 1fr; }
+  .founding-img { min-height: 400px; }
+  .founding-text { padding: 60px 24px; }
+  .timeline-section, .collections-section, .founder-section, .craft-strip, .manifesto { padding: 72px 24px; }
+  .collections-grid { grid-template-columns: 1fr; }
+  .founder-grid { grid-template-columns: 1fr; }
+  .founder-img { position: static; }
+  .craft-strip { grid-template-columns: 1fr; gap: 40px; }
+  .footer-cols { grid-template-columns: 1fr 1fr; }
+  .cur, .ring { display: none; }
+  body { cursor: auto; }
+}
+</style>
+</head>
+<body>
+
+<div class="cur" id="cur"></div>
+<div class="ring" id="ring"></div>
+
+<!-- ── NAV ── -->
+<nav id="mainNav">
+  <a href="index.html" class="nav-logo">
+    <img src="assets/logo.png" alt="Noon Shop"
+      onerror="this.style.display='none';this.nextElementSibling.style.display='block'">
+    <span class="nav-logo-text" style="display:none">NOON SHOP</span>
+  </a>
+  <div class="nav-links">
+    <span class="nav-link has-drop" id="shopDrop">Shop</span>
+    <a href="fit-guide.html" class="nav-link">Fit Guide</a>
+    <a href="story.html" class="nav-link active">Our Story</a>
+  </div>
+  <div class="nav-right">
+    <a href="#" class="nav-cart">Cart <span class="cart-count">0</span></a>
+  </div>
+</nav>
+
+<div class="nav-drop" id="navDrop">
+  <div class="drop-inner">
+    <a href="shop.html?collection=dormann" class="drop-item">
+      <div class="drop-item-label">Collection 01</div>
+      <div class="drop-item-name">DORMANN</div>
+      <div class="drop-item-sub">Beta-titanium · South Korea</div>
+    </a>
+    <a href="shop.html?collection=steel-brown" class="drop-item">
+      <div class="drop-item-label">Collection 02</div>
+      <div class="drop-item-name">STEEL BROWN</div>
+      <div class="drop-item-sub">German stainless · Wolfgang Proksch</div>
+    </a>
+    <a href="shop.html" class="drop-item">
+      <div class="drop-item-label">View All</div>
+      <div class="drop-item-name">ALL FRAMES</div>
+      <div class="drop-item-sub">Every shape, every fit</div>
+    </a>
+    <a href="fit-guide.html#finder" class="drop-item">
+      <div class="drop-item-label">Find My Fit</div>
+      <div class="drop-item-name">FIT FINDER</div>
+      <div class="drop-item-sub">60 seconds to your frame</div>
+    </a>
+  </div>
+  <div class="drop-close" id="dropClose">Close ✕</div>
+</div>
+
+<!-- ── HERO ── -->
+<section class="story-hero">
+  <div class="story-hero-bg">
+    <img src="assets/editorial/platon-1.png" alt="Noon Shop story"
+      onerror="this.parentElement.style.background='#0a0a0a'">
+  </div>
+  <div class="hero-wm">STORY</div>
+  <div class="story-hero-content">
+    <div class="story-hero-tag">Noon Shop · Our Story</div>
+    <h1>FOUNDED<br>ON FIT</h1>
+    <p class="story-hero-sub">
+      Two decades in ophthalmology. Thousands of patients. One observation
+      that wouldn't go away — the frame was failing the prescription.
+      Dr. Anna Park, MD built Noon Shop to fix that.
+    </p>
+  </div>
+</section>
+
+<!-- ── STATS ── -->
+<div class="stats-bar">
+  <div class="stat rv">
+    <div class="stat-num">20<span>+</span></div>
+    <div class="stat-label">Years in Ophthalmology</div>
+  </div>
+  <div class="stat rv d1">
+    <div class="stat-num">3</div>
+    <div class="stat-label">Fit Dimensions Engineered</div>
+  </div>
+  <div class="stat rv d2">
+    <div class="stat-num">2</div>
+    <div class="stat-label">Purpose-Built Collections</div>
+  </div>
+  <div class="stat rv d3">
+    <div class="stat-num">1</div>
+    <div class="stat-label">Rule: Fit First</div>
+  </div>
+</div>
+
+<div class="gold-rule"></div>
+
+<!-- ── FOUNDING NARRATIVE ── -->
+<div class="founding" id="founder">
+  <div class="founding-img rv">
+    <img src="assets/editorial/editorial-2a.png" alt="Dr. Anna Park, MD"
+      onerror="this.parentElement.style.background='#111'">
+  </div>
+  <div class="founding-text">
+    <div class="section-tag rv">The Beginning</div>
+    <p class="founding-pull rv d1">
+      "I watched patient after patient leave my clinic with a perfect prescription —
+      and a frame that <em>negated half of it</em> by sliding off their nose."
+    </p>
+    <div class="founding-pull-attr rv d1">Dr. Anna Park, MD · Founder</div>
+    <div class="founding-body rv d2">
+      <p>
+        The pattern was impossible to ignore. Patients with East Asian, Latin, and Black facial structures — a significant share of any ophthalmology practice in any major American city — were consistently underserved by the eyewear available to them. <strong>Not because the optics were wrong. Because the fit was.</strong>
+      </p>
+      <p>
+        Standard frames are engineered around a narrow range of facial geometries. Low bridge, high cheekbones, wider face widths — these aren't edge cases. For most of the world, they are the norm. Yet the industry had built its entire sizing system around the exception.
+      </p>
+      <p>
+        Dr. Park started sketching frame specifications on prescription pads between patients. What began as a clinical complaint became an engineering problem. And an engineering problem, it turned out, had a solution.
+      </p>
+      <p>
+        <strong>Noon Shop launched with a single principle:</strong> the frame is part of the prescription. Not an accessory. Not an afterthought. A medical instrument that either works — or doesn't.
+      </p>
+    </div>
+  </div>
+</div>
+
+<div class="dark-rule"></div>
+
+<!-- ── TIMELINE ── -->
+<section class="timeline-section">
+  <div class="section-tag rv">The Journey</div>
+  <h2 class="rv d1" style="font-family:var(--D);font-size:clamp(36px,6vw,80px);letter-spacing:.04em;line-height:.9;margin-bottom:0">HOW WE<br>GOT HERE</h2>
+
+  <div class="timeline">
+    <div class="timeline-item rv">
+      <div class="timeline-dot"></div>
+      <div class="timeline-year">Early Career</div>
+      <div class="timeline-h">THE CLINICAL OBSERVATION</div>
+      <p class="timeline-body">
+        During residency and the early years of her ophthalmology practice, Dr. Park begins tracking a pattern: patients are returning for adjustments not because the prescription changed, but because the frame doesn't fit. <strong>The complaint is always the same — the frame slides.</strong> The cause is almost always the same too: bridge geometry.
+      </p>
+    </div>
+    <div class="timeline-item rv">
+      <div class="timeline-dot"></div>
+      <div class="timeline-year">Research Phase</div>
+      <div class="timeline-h">TWO YEARS OF MEASUREMENTS</div>
+      <p class="timeline-body">
+        Dr. Park begins measuring facial geometry across her patient base — bridge height, zygomatic arch position, temporal width. She cross-references against the frame specifications her patients are wearing. The mismatch is systematic and consistent. <strong>She begins working with an industrial designer to translate her clinical data into frame specifications.</strong>
+      </p>
+    </div>
+    <div class="timeline-item rv">
+      <div class="timeline-dot"></div>
+      <div class="timeline-year">Prototyping</div>
+      <div class="timeline-h">THE FIRST FRAMES</div>
+      <p class="timeline-body">
+        First prototypes are tested with volunteer patients in the clinic. The feedback is immediate and consistent: frames that don't slide, lenses that don't fog, temples that don't press. <strong>What felt like an engineering challenge turns out to be a solved problem</strong> — one the industry simply hadn't chosen to solve.
+      </p>
+    </div>
+    <div class="timeline-item rv">
+      <div class="timeline-dot"></div>
+      <div class="timeline-year">Dormann Launch</div>
+      <div class="timeline-h">COLLECTION ONE</div>
+      <p class="timeline-body">
+        The Dormann collection launches — named for the engineering principle behind its snap hinge. Beta-titanium temples, TR90 fronts, South Korean manufacturing. Every specification tied to a fit rationale. Bridge widths from 14–16mm. <strong>The frame that finally fits the face that was never designed for.</strong>
+      </p>
+    </div>
+    <div class="timeline-item rv">
+      <div class="timeline-dot"></div>
+      <div class="timeline-year">Steel Brown Launch</div>
+      <div class="timeline-h">COLLECTION TWO</div>
+      <p class="timeline-body">
+        In collaboration with designer <strong>Wolfgang Proksch</strong>, the Steel Brown collection brings German stainless steel construction and Mazzucchelli Italian acetate to the same fit-first brief. Where Dormann is technical, Steel Brown is architectural. Both share the same clinical backbone.
+      </p>
+    </div>
+    <div class="timeline-item rv">
+      <div class="timeline-dot"></div>
+      <div class="timeline-year">Now</div>
+      <div class="timeline-h">NOON SHOP TODAY</div>
+      <p class="timeline-body">
+        Every frame in the Noon Shop catalog ships with a fit card. Every product page carries a clinical note from Dr. Park. Every collection is rated on three fit dimensions — bridge, cheekbone clearance, face width. <strong>Fit is not a filter. It is the foundation.</strong>
+      </p>
+    </div>
+  </div>
+</section>
+
+<div class="gold-rule"></div>
+
+<!-- ── COLLECTIONS ── -->
+<section class="collections-section" id="collections">
+  <div class="section-tag rv">Our Collections</div>
+  <h2 class="rv d1" style="font-family:var(--D);font-size:clamp(36px,6vw,80px);letter-spacing:.04em;line-height:.9;max-width:600px">TWO COLLECTIONS.<br>ONE STANDARD.</h2>
+
+  <div class="collections-grid">
+    <a href="shop.html?collection=dormann" class="col-card rv">
+      <div class="col-card-bg">
+        <img src="assets/editorial/editorial-1a.png" alt="Dormann Collection"
+          onerror="this.parentElement.style.background='#111'">
+      </div>
+      <div class="col-card-content">
+        <div class="col-card-label">Collection 01</div>
+        <div class="col-card-name">DORMANN</div>
+        <div class="col-card-sub">
+          Named for the snap-hinge mechanism that keeps every frame in position
+          regardless of face geometry. Engineered in South Korea with beta-titanium
+          temples and TR90 fronts.
+        </div>
+        <div class="col-card-origin">South Korea · Beta-Titanium · TR90</div>
+        <div class="col-card-specs">
+          <span class="col-spec">Snap Hinge</span>
+          <span class="col-spec">Low-Bridge Fit</span>
+          <span class="col-spec">From $260</span>
+        </div>
+        <span class="link-arrow" style="color:var(--gold);font-size:10px">Shop Dormann</span>
+      </div>
+    </a>
+
+    <a href="shop.html?collection=steel-brown" class="col-card rv d1">
+      <div class="col-card-bg">
+        <img src="assets/editorial/editorial-2a.png" alt="Steel Brown Collection"
+          onerror="this.parentElement.style.background='#111'">
+      </div>
+      <div class="col-card-content">
+        <div class="col-card-label">Collection 02</div>
+        <div class="col-card-name">STEEL BROWN</div>
+        <div class="col-card-sub">
+          Designed in collaboration with Wolfgang Proksch. German stainless steel
+          construction with Mazzucchelli Italian acetate. Architectural forms,
+          clinical specifications.
+        </div>
+        <div class="col-card-origin">Germany · German Stainless · Mazzucchelli Acetate</div>
+        <div class="col-card-specs">
+          <span class="col-spec">Wolfgang Proksch</span>
+          <span class="col-spec">Cheekbone Clear</span>
+          <span class="col-spec">From $340</span>
+        </div>
+        <span class="link-arrow" style="color:var(--gold);font-size:10px">Shop Steel Brown</span>
+      </div>
+    </a>
+  </div>
+</section>
+
+<div class="dark-rule"></div>
+
+<!-- ── FOUNDER PROFILE ── -->
+<section class="founder-section">
+  <div class="section-tag">The Founder</div>
+  <div class="founder-grid">
+    <div class="founder-img rv">
+      <div class="founder-img-wrap">
+        <img src="assets/refined/east-asian-close.png" alt="Dr. Anna Park, MD"
+          onerror="this.parentElement.style.background='#ccc'">
+      </div>
+      <div class="founder-img-cap">
+        Dr. Anna Park, MD<br>
+        Ophthalmologist · Founder<br>
+        Noon Shop
+      </div>
+    </div>
+    <div class="founder-body rv d1">
+      <div class="founder-name">DR.<br>ANNA<br>PARK</div>
+      <div class="founder-title">MD · Ophthalmologist · Founder, Noon Shop</div>
+
+      <p class="founder-para">
+        Dr. Anna Park completed her ophthalmology residency and subspecialty training in anterior segment disease before joining a private practice in Los Angeles, where she built a patient base that reflected the city's demographic diversity.
+      </p>
+      <p class="founder-para">
+        <strong>That diversity made the problem impossible to ignore.</strong> A majority of her patients had facial structures — low bridge, high cheekbones, wider face widths — that standard eyewear wasn't designed for. Adjustments were temporary. The underlying fit never changed.
+      </p>
+      <p class="founder-para">
+        Dr. Park began approaching the problem as a clinician: measure, document, hypothesize, test. After two years of facial measurement data and six months of prototype iterations, she had a frame specification that actually worked. Noon Shop was the company built to bring it to market.
+      </p>
+      <p class="founder-para">
+        She continues to practice ophthalmology. Every Noon Shop product page carries a clinical note written by Dr. Park — not as branding, but because <strong>she believes the ophthalmologist's perspective belongs at the point of purchase.</strong>
+      </p>
+
+      <div class="founder-credentials">
+        <div class="founder-cred">
+          <div class="cred-year">MD</div>
+          <div class="cred-text"><strong>Doctor of Medicine</strong> · Board Certified Ophthalmologist</div>
+        </div>
+        <div class="founder-cred">
+          <div class="cred-year">20+ yrs</div>
+          <div class="cred-text"><strong>Clinical Practice</strong> · Anterior Segment, Private Practice, Los Angeles</div>
+        </div>
+        <div class="founder-cred">
+          <div class="cred-year">Research</div>
+          <div class="cred-text"><strong>Facial Biometrics Study</strong> · 2-year measurement dataset across 400+ patients</div>
+        </div>
+        <div class="founder-cred">
+          <div class="cred-year">2020</div>
+          <div class="cred-text"><strong>Noon Shop Founded</strong> · First frames shipped to clinical trial participants</div>
+        </div>
+        <div class="founder-cred">
+          <div class="cred-year">Today</div>
+          <div class="cred-text"><strong>Active Practice + Brand</strong> · Clinical notes on every PDP · Fit science at the core</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="gold-rule"></div>
+
+<!-- ── CRAFT ── -->
+<section class="craft-strip">
+  <div>
+    <div class="craft-eyebrow rv">How We Build</div>
+    <h2 class="craft-h rv d1">THE<br>CRAFT<br>BEHIND<br>THE FIT</h2>
+  </div>
+  <div class="craft-items">
+    <div class="craft-item rv">
+      <div class="craft-num">01</div>
+      <div>
+        <div class="craft-item-h">Clinical Specification First</div>
+        <p class="craft-item-body">Every frame starts as a clinical specification, not a sketch. Bridge width, nose pad angle, lens height, temple tension — all derived from Dr. Park's patient measurement data before a single design decision is made.</p>
+      </div>
+    </div>
+    <div class="craft-item rv">
+      <div class="craft-num">02</div>
+      <div>
+        <div class="craft-item-h">Material for Function</div>
+        <p class="craft-item-body">Beta-titanium temples because they flex without fatiguing. TR90 fronts because they're lightweight without being fragile. German stainless because it holds tolerance. Materials are chosen for what they do, not what they cost.</p>
+      </div>
+    </div>
+    <div class="craft-item rv">
+      <div class="craft-num">03</div>
+      <div>
+        <div class="craft-item-h">Manufacturing Partnerships</div>
+        <p class="craft-item-body">Dormann is manufactured in South Korea with a facility that specializes in titanium eyewear tolerances. Steel Brown is produced in Germany in collaboration with Wolfgang Proksch's atelier. Both relationships are long-term and exclusive.</p>
+      </div>
+    </div>
+    <div class="craft-item rv">
+      <div class="craft-num">04</div>
+      <div>
+        <div class="craft-item-h">The Fit Card</div>
+        <p class="craft-item-body">Every frame ships with a fit card: bridge specification, cheekbone clearance rating, face width range, and a clinical note from Dr. Park. Because the person who buys the frame deserves to know exactly what it was designed for.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── MANIFESTO ── -->
+<section class="manifesto">
+  <div class="manifesto-rule rv"></div>
+  <p class="manifesto-pull rv d1">
+    "We did not build Noon Shop to disrupt eyewear.
+    We built it because <em>a frame that doesn't fit is a prescription that doesn't work</em> —
+    and that is a clinical problem that deserved a clinical answer."
+  </p>
+  <div class="manifesto-attr rv d2">Dr. Anna Park, MD · Noon Shop</div>
+  <div class="manifesto-ctas rv d3">
+    <a href="shop.html" class="btn-primary">Shop the Collection</a>
+    <a href="fit-guide.html#finder" class="btn-ghost">Find Your Fit</a>
+  </div>
+</section>
+
+<!-- ── FOOTER ── -->
+<footer>
+  <div class="footer-top">
+    <div>
+      <div class="footer-logo">
+        <img src="assets/logo.png" alt="Noon Shop"
+          onerror="this.style.display='none';this.nextElementSibling.style.display='block'">
+        <div class="footer-logo-text" style="display:none">NOON SHOP</div>
+      </div>
+      <div class="footer-tagline">"The frame that belongs on your face."</div>
+    </div>
+  </div>
+  <div class="footer-cols">
+    <div>
+      <div class="footer-col-h">Shop</div>
+      <ul class="footer-links">
+        <li><a href="shop.html">All Frames</a></li>
+        <li><a href="shop.html?collection=dormann">Dormann</a></li>
+        <li><a href="shop.html?collection=steel-brown">Steel Brown</a></li>
+      </ul>
+    </div>
+    <div>
+      <div class="footer-col-h">Learn</div>
+      <ul class="footer-links">
+        <li><a href="fit-guide.html">Fit Guide</a></li>
+        <li><a href="fit-guide.html#measure">How to Measure</a></li>
+        <li><a href="fit-guide.html#finder">Fit Finder</a></li>
+      </ul>
+    </div>
+    <div>
+      <div class="footer-col-h">Brand</div>
+      <ul class="footer-links">
+        <li><a href="story.html">Our Story</a></li>
+        <li><a href="story.html#founder">Dr. Anna Park, MD</a></li>
+        <li><a href="story.html#collections">Collections</a></li>
+      </ul>
+    </div>
+    <div>
+      <div class="footer-col-h">Support</div>
+      <ul class="footer-links">
+        <li><a href="#">Returns & Exchanges</a></li>
+        <li><a href="#">Shipping</a></li>
+        <li><a href="#">Contact</a></li>
+        <li><a href="https://www.noonshop.com" target="_blank">noonshop.com</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <div class="footer-copy">© 2026 Noon Shop · All rights reserved</div>
+    <div class="footer-founder">Founded by Dr. Anna Park, MD · Ophthalmologist</div>
+  </div>
+</footer>
+
+<script>
+/* ── CURSOR ── */
+const cur  = document.getElementById('cur');
+const ring = document.getElementById('ring');
+if (cur && ring) {
+  document.addEventListener('mousemove', e => {
+    cur.style.left  = e.clientX + 'px';
+    cur.style.top   = e.clientY + 'px';
+    ring.style.left = e.clientX + 'px';
+    ring.style.top  = e.clientY + 'px';
+  });
+}
+
+/* ── NAV SCROLL ── */
+const nav = document.getElementById('mainNav');
+window.addEventListener('scroll', () => {
+  nav.classList.toggle('scrolled', window.scrollY > 40);
+}, { passive: true });
+
+/* ── DROPDOWN ── */
+const shopDrop  = document.getElementById('shopDrop');
+const navDrop   = document.getElementById('navDrop');
+const dropClose = document.getElementById('dropClose');
+if (shopDrop) shopDrop.addEventListener('click', () => navDrop.classList.add('open'));
+if (dropClose) dropClose.addEventListener('click', () => navDrop.classList.remove('open'));
+document.addEventListener('click', e => {
+  if (!navDrop.contains(e.target) && e.target !== shopDrop) navDrop.classList.remove('open');
+});
+
+/* ── SCROLL REVEAL ── */
+const observer = new IntersectionObserver(entries => {
+  entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('in'); observer.unobserve(e.target); } });
+}, { threshold: 0.1 });
+document.querySelectorAll('.rv').forEach(el => observer.observe(el));
+</script>
+</body>
+</html>

@@ -1,0 +1,1189 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Fit Guide — Noon Shop</title>
+<meta name="description" content="Learn how eyewear fit really works. Low-bridge anatomy, high-cheekbone clearance, face width — and find your fit in 60 seconds.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Outfit:wght@100;200;300;400;500&family=Playfair+Display:ital,wght@0,400;0,700;1,400;1,700&display=swap" rel="stylesheet">
+<style>
+/* ── TOKENS ── */
+:root {
+  --ink:        #0C0C0C;
+  --ink2:       #1A1A1A;
+  --mid:        #888;
+  --paper:      #EEECE7;
+  --white:      #F7F6F3;
+  --border-d:   rgba(247,246,243,.07);
+  --border-l:   rgba(12,12,12,.10);
+  --gold:       #C8B89A;
+  --gold-dark:  #A89070;
+  --gold-light: #E8D8BE;
+  --D: 'Bebas Neue', sans-serif;
+  --B: 'Outfit', sans-serif;
+  --P: 'Playfair Display', Georgia, serif;
+}
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+body { background: var(--ink); color: var(--white); font-family: var(--B); font-weight: 300; overflow-x: hidden; cursor: none; }
+a { color: inherit; text-decoration: none; }
+img { display: block; max-width: 100%; }
+
+/* ── CURSOR ── */
+.cur  { position: fixed; width: 7px; height: 7px; background: var(--white); border-radius: 50%; pointer-events: none; z-index: 9999; mix-blend-mode: difference; transform: translate(-50%,-50%); }
+.ring { position: fixed; width: 32px; height: 32px; border: 1px solid rgba(247,246,243,.35); border-radius: 50%; pointer-events: none; z-index: 9998; mix-blend-mode: difference; transform: translate(-50%,-50%); transition: width .2s, height .2s, border-color .2s; }
+body:has(a:hover) .ring, body:has(button:hover) .ring { width: 48px; height: 48px; border-color: var(--gold); }
+
+/* ── NAV ── */
+nav {
+  position: fixed; top: 0; left: 0; right: 0; z-index: 200;
+  display: flex; justify-content: space-between; align-items: center;
+  padding: 22px 60px;
+  transition: background .4s, backdrop-filter .4s, padding .3s;
+}
+nav.scrolled { background: rgba(12,12,12,.82); backdrop-filter: blur(18px); padding: 16px 60px; }
+.nav-logo { display: flex; align-items: center; }
+.nav-logo img { height: 32px; width: auto; filter: brightness(0) invert(1); opacity: .75; transition: opacity .3s; }
+.nav-logo img:hover { opacity: 1; }
+.nav-logo-text { font-family: var(--D); font-size: 17px; letter-spacing: .18em; color: rgba(247,246,243,.7); }
+.nav-links { display: flex; gap: 36px; align-items: center; }
+.nav-link {
+  font-size: 10px; letter-spacing: .22em; text-transform: uppercase;
+  color: rgba(247,246,243,.45); transition: color .25s; position: relative;
+}
+.nav-link:hover, .nav-link.active { color: var(--gold); }
+.nav-link.has-drop { display: flex; align-items: center; gap: 6px; }
+.nav-link.has-drop::after { content: '↓'; font-size: 9px; color: rgba(200,184,154,.5); }
+.nav-right { display: flex; align-items: center; gap: 24px; }
+.nav-cart { font-size: 10px; letter-spacing: .18em; text-transform: uppercase; color: rgba(247,246,243,.4); transition: color .25s; display: flex; align-items: center; gap: 8px; }
+.nav-cart:hover { color: var(--white); }
+.cart-count { font-family: var(--D); font-size: 12px; color: var(--gold); }
+
+/* ── DROPDOWN ── */
+.nav-drop {
+  position: fixed; top: 0; left: 0; right: 0;
+  background: rgba(12,12,12,.96); backdrop-filter: blur(24px);
+  padding: 100px 60px 60px;
+  transform: translateY(-100%); transition: transform .45s cubic-bezier(.4,0,.2,1);
+  z-index: 190;
+}
+.nav-drop.open { transform: translateY(0); }
+.drop-inner { display: grid; grid-template-columns: repeat(4, 1fr); gap: 2px; max-width: 900px; }
+.drop-item { padding: 32px 28px; border: 1px solid rgba(247,246,243,.06); transition: background .3s; cursor: pointer; }
+.drop-item:hover { background: rgba(247,246,243,.03); }
+.drop-item-label { font-size: 9px; letter-spacing: .28em; text-transform: uppercase; color: rgba(200,184,154,.45); margin-bottom: 10px; }
+.drop-item-name { font-family: var(--D); font-size: 28px; letter-spacing: .06em; color: var(--white); line-height: .9; margin-bottom: 8px; }
+.drop-item-sub { font-family: var(--P); font-style: italic; font-size: 12px; color: rgba(200,184,154,.55); }
+.drop-close { position: absolute; top: 28px; right: 60px; font-size: 10px; letter-spacing: .22em; text-transform: uppercase; color: rgba(247,246,243,.3); cursor: pointer; transition: color .25s; }
+.drop-close:hover { color: var(--gold); }
+
+/* ── SCROLL REVEAL ── */
+.rv { opacity: 0; transform: translateY(32px); transition: opacity .85s ease, transform .85s ease; }
+.rv.in { opacity: 1; transform: translateY(0); }
+.rv.d1 { transition-delay: .12s; } .rv.d2 { transition-delay: .24s; } .rv.d3 { transition-delay: .36s; } .rv.d4 { transition-delay: .48s; }
+
+/* ── SHARED ── */
+.section-tag {
+  font-size: 10px; font-weight: 500; letter-spacing: .32em; text-transform: uppercase;
+  color: var(--gold); margin-bottom: 48px; display: flex; align-items: center; gap: 16px;
+}
+.section-tag::before { content: ''; display: block; width: 32px; height: 1px; background: var(--gold); }
+.section-tag.dark-tag { color: var(--gold-dark); }
+.section-tag.dark-tag::before { background: var(--gold-dark); }
+.gold-rule { height: 1px; background: linear-gradient(90deg, transparent, var(--gold), transparent); }
+.dark-rule  { height: 1px; background: var(--border-d); margin: 0 60px; }
+.link-arrow { font-size: 10px; letter-spacing: .22em; text-transform: uppercase; color: var(--gold); display: inline-flex; align-items: center; gap: 10px; transition: gap .25s; }
+.link-arrow::after { content: '→'; }
+.link-arrow:hover { gap: 16px; }
+
+/* ── PAGE HERO ── */
+.page-hero {
+  min-height: 56vh;
+  background: var(--ink);
+  display: flex; flex-direction: column; justify-content: flex-end;
+  padding: 0 60px 80px;
+  position: relative; overflow: hidden;
+}
+.page-hero-bg {
+  position: absolute; inset: 0; pointer-events: none;
+}
+.page-hero-bg img {
+  width: 100%; height: 100%; object-fit: cover; object-position: center 30%;
+  opacity: .22;
+}
+.page-hero-bg::after {
+  content: ''; position: absolute; inset: 0;
+  background: linear-gradient(180deg, transparent 30%, var(--ink) 100%);
+}
+.page-hero-wm {
+  position: absolute; right: 60px; top: 50%; transform: translateY(-50%);
+  font-family: var(--D); font-size: clamp(80px, 12vw, 180px);
+  letter-spacing: -.02em; color: rgba(200,184,154,.04);
+  white-space: nowrap; pointer-events: none; z-index: 0; line-height: 1;
+}
+.page-hero-content { position: relative; z-index: 1; max-width: 720px; }
+.page-hero-tag { font-size: 10px; letter-spacing: .32em; text-transform: uppercase; color: var(--gold); margin-bottom: 20px; display: flex; align-items: center; gap: 16px; }
+.page-hero-tag::before { content: ''; display: block; width: 32px; height: 1px; background: var(--gold); }
+.page-hero h1 {
+  font-family: var(--D); font-size: clamp(52px, 8vw, 112px);
+  letter-spacing: .03em; line-height: .9;
+  color: var(--white); margin-bottom: 28px;
+}
+.page-hero-sub {
+  font-family: var(--P); font-style: italic;
+  font-size: clamp(15px, 1.6vw, 18px); color: rgba(200,184,154,.75);
+  max-width: 520px; line-height: 1.65;
+}
+.hero-anchor-row {
+  display: flex; gap: 32px; margin-top: 44px; flex-wrap: wrap;
+}
+.hero-anchor {
+  font-size: 9px; letter-spacing: .3em; text-transform: uppercase;
+  color: rgba(247,246,243,.35); transition: color .25s; padding-bottom: 8px;
+  border-bottom: 1px solid rgba(200,184,154,.12);
+}
+.hero-anchor:hover { color: var(--gold); border-bottom-color: var(--gold); }
+
+/* ── DIMENSIONS EXPLAINER ── */
+.dimensions-section {
+  padding: 120px 60px;
+  background: var(--ink);
+}
+.dimensions-intro {
+  display: grid; grid-template-columns: 1fr 1fr; gap: 80px; align-items: start; margin-bottom: 100px;
+}
+.dimensions-intro-h {
+  font-family: var(--D); font-size: clamp(36px, 5vw, 64px);
+  letter-spacing: .04em; line-height: .92;
+}
+.dimensions-intro-body {
+  font-size: 15px; line-height: 1.85; color: rgba(247,246,243,.6);
+  padding-top: 12px;
+}
+.dimensions-intro-body strong { color: var(--white); font-weight: 400; }
+
+/* ── FIT PILLARS ── */
+.fit-pillars {
+  display: grid; grid-template-columns: repeat(3, 1fr); gap: 2px;
+}
+.pillar {
+  padding: 52px 44px;
+  border: 1px solid var(--border-d);
+  transition: background .35s;
+  position: relative; overflow: hidden;
+}
+.pillar:hover { background: rgba(200,184,154,.04); }
+.pillar-num {
+  font-family: var(--D); font-size: 64px; letter-spacing: .02em;
+  color: rgba(200,184,154,.1); line-height: 1;
+  position: absolute; top: 20px; right: 28px;
+}
+.pillar-icon { font-size: 28px; margin-bottom: 24px; opacity: .7; }
+.pillar-label { font-size: 9px; letter-spacing: .3em; text-transform: uppercase; color: var(--gold); margin-bottom: 16px; }
+.pillar-h { font-family: var(--D); font-size: 28px; letter-spacing: .06em; color: var(--white); margin-bottom: 16px; line-height: .95; }
+.pillar-body { font-size: 13px; line-height: 1.75; color: rgba(247,246,243,.55); }
+.pillar-note {
+  margin-top: 24px; padding: 16px 20px;
+  background: rgba(200,184,154,.06); border-left: 2px solid var(--gold);
+  font-family: var(--P); font-style: italic; font-size: 13px;
+  color: rgba(200,184,154,.75);
+}
+
+/* ── MEASUREMENT GUIDE ── */
+.measure-section {
+  padding: 120px 60px;
+  background: var(--ink2);
+}
+.measure-grid {
+  display: grid; grid-template-columns: 1fr 1fr; gap: 80px; align-items: center; margin-top: 60px;
+}
+.measure-diagram {
+  position: relative; aspect-ratio: 4/3;
+  background: rgba(247,246,243,.02); border: 1px solid var(--border-d);
+  overflow: hidden;
+}
+.measure-diagram img {
+  width: 100%; height: 100%; object-fit: cover; object-position: center;
+  opacity: .75;
+}
+.measure-diagram-overlay {
+  position: absolute; inset: 0;
+  background: linear-gradient(135deg, rgba(12,12,12,.3) 0%, transparent 60%);
+}
+.measure-placeholder {
+  width: 100%; height: 100%;
+  display: flex; flex-direction: column; align-items: center; justify-content: center;
+  gap: 20px;
+}
+.measure-frame-svg {
+  width: 72%; opacity: .55;
+}
+.measure-label-line {
+  position: absolute; font-size: 9px; letter-spacing: .2em; text-transform: uppercase;
+  color: var(--gold); display: flex; align-items: center; gap: 8px;
+}
+.measure-label-line::before { content: ''; display: block; width: 20px; height: 1px; background: var(--gold); }
+.ml-lens-width  { top: 42%; left: 12%; }
+.ml-bridge      { top: 55%; left: 36%; }
+.ml-temple      { top: 28%; right: 8%; }
+.ml-lens-height { bottom: 22%; left: 60%; }
+
+.measure-steps { display: flex; flex-direction: column; gap: 32px; }
+.measure-step  { display: flex; gap: 24px; align-items: flex-start; }
+.step-num {
+  flex-shrink: 0; width: 40px; height: 40px;
+  border: 1px solid rgba(200,184,154,.25); border-radius: 50%;
+  font-family: var(--D); font-size: 18px; color: var(--gold);
+  display: flex; align-items: center; justify-content: center;
+}
+.step-body h4 { font-size: 13px; letter-spacing: .1em; text-transform: uppercase; color: var(--white); margin-bottom: 6px; }
+.step-body p  { font-size: 13px; line-height: 1.7; color: rgba(247,246,243,.5); }
+.step-body .step-tag {
+  display: inline-block; margin-top: 10px; padding: 4px 10px;
+  background: rgba(200,184,154,.1); border: 1px solid rgba(200,184,154,.2);
+  font-size: 10px; letter-spacing: .16em; text-transform: uppercase; color: var(--gold);
+}
+
+/* ── SIZE REFERENCE TABLE ── */
+.size-table-section {
+  padding: 0 60px 100px;
+  background: var(--ink2);
+}
+.size-table-wrap { overflow-x: auto; margin-top: 48px; }
+table.size-table {
+  width: 100%; border-collapse: collapse;
+  font-size: 13px;
+}
+table.size-table thead { border-bottom: 1px solid rgba(200,184,154,.2); }
+table.size-table th {
+  font-size: 9px; letter-spacing: .25em; text-transform: uppercase;
+  color: var(--gold); font-weight: 400;
+  padding: 0 20px 16px; text-align: left;
+}
+table.size-table td {
+  padding: 18px 20px;
+  border-bottom: 1px solid var(--border-d);
+  color: rgba(247,246,243,.6);
+  vertical-align: top;
+  line-height: 1.5;
+}
+table.size-table td:first-child { color: var(--white); font-weight: 400; }
+table.size-table tr:hover td { background: rgba(200,184,154,.03); }
+.size-tag {
+  display: inline-block; padding: 2px 8px;
+  background: rgba(200,184,154,.08); border: 1px solid rgba(200,184,154,.18);
+  font-size: 9px; letter-spacing: .18em; text-transform: uppercase; color: var(--gold);
+}
+
+/* ── FIT PROFILES ── */
+.profiles-section {
+  padding: 120px 60px;
+  background: var(--ink);
+}
+.profiles-grid {
+  display: grid; grid-template-columns: repeat(3, 1fr); gap: 2px; margin-top: 60px;
+}
+.profile-card {
+  padding: 48px 40px;
+  border: 1px solid var(--border-d);
+  transition: border-color .3s, background .3s;
+  position: relative;
+}
+.profile-card:hover { border-color: rgba(200,184,154,.2); background: rgba(200,184,154,.03); }
+.profile-card.featured { border-color: rgba(200,184,154,.25); background: rgba(200,184,154,.04); }
+.profile-card.featured::before {
+  content: 'Most Common'; position: absolute; top: -1px; right: 28px;
+  background: var(--gold); color: var(--ink);
+  font-size: 8px; letter-spacing: .25em; text-transform: uppercase;
+  padding: 5px 12px; font-weight: 500;
+}
+.profile-img {
+  width: 80px; height: 80px; border-radius: 50%;
+  overflow: hidden; margin-bottom: 28px;
+  border: 1px solid rgba(200,184,154,.15);
+  background: rgba(247,246,243,.05);
+}
+.profile-img img { width: 100%; height: 100%; object-fit: cover; }
+.profile-name { font-family: var(--D); font-size: 26px; letter-spacing: .06em; color: var(--white); margin-bottom: 8px; line-height: 1; }
+.profile-sub { font-family: var(--P); font-style: italic; font-size: 12px; color: var(--gold); margin-bottom: 20px; }
+.profile-traits { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 20px; }
+.profile-trait {
+  padding: 4px 10px;
+  background: rgba(200,184,154,.07); border: 1px solid rgba(200,184,154,.15);
+  font-size: 9px; letter-spacing: .16em; text-transform: uppercase; color: var(--gold-light);
+}
+.profile-body { font-size: 13px; line-height: 1.72; color: rgba(247,246,243,.52); }
+.profile-cta { margin-top: 28px; }
+
+/* ── FIT FINDER QUIZ ── */
+.finder-section {
+  padding: 120px 60px;
+  background: var(--paper);
+  color: var(--ink);
+}
+.finder-section .section-tag { color: var(--gold-dark); }
+.finder-section .section-tag::before { background: var(--gold-dark); }
+.finder-section .link-arrow { color: var(--gold-dark); }
+.quiz-wrap {
+  max-width: 760px; margin: 0 auto; margin-top: 60px;
+}
+.quiz-progress {
+  display: flex; gap: 4px; margin-bottom: 52px;
+}
+.quiz-prog-step {
+  flex: 1; height: 2px;
+  background: rgba(12,12,12,.15);
+  transition: background .4s;
+}
+.quiz-prog-step.active { background: var(--gold-dark); }
+.quiz-step { display: none; }
+.quiz-step.visible { display: block; }
+.quiz-q {
+  font-family: var(--D); font-size: clamp(28px, 4vw, 48px);
+  letter-spacing: .04em; color: var(--ink); margin-bottom: 8px; line-height: .95;
+}
+.quiz-hint {
+  font-size: 13px; color: rgba(12,12,12,.45); margin-bottom: 36px;
+  font-style: italic; font-family: var(--P);
+}
+.quiz-options {
+  display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px;
+  margin-bottom: 40px;
+}
+.quiz-opt {
+  padding: 28px 20px; border: 1px solid rgba(12,12,12,.15);
+  background: transparent; cursor: pointer; text-align: left;
+  transition: border-color .25s, background .25s;
+  display: flex; flex-direction: column; gap: 8px;
+  font-family: var(--B);
+}
+.quiz-opt:hover { border-color: var(--gold-dark); background: rgba(168,144,112,.06); }
+.quiz-opt.selected { border-color: var(--gold-dark); background: rgba(168,144,112,.1); }
+.quiz-opt-icon { font-size: 22px; }
+.quiz-opt-label {
+  font-size: 11px; letter-spacing: .18em; text-transform: uppercase;
+  color: var(--ink); font-weight: 500;
+}
+.quiz-opt-sub {
+  font-size: 12px; line-height: 1.55; color: rgba(12,12,12,.5);
+}
+.quiz-nav {
+  display: flex; justify-content: space-between; align-items: center;
+  border-top: 1px solid rgba(12,12,12,.1); padding-top: 28px;
+}
+.quiz-nav-step { font-size: 10px; letter-spacing: .2em; text-transform: uppercase; color: rgba(12,12,12,.35); }
+.quiz-btn {
+  padding: 14px 36px; border: none; cursor: pointer;
+  font-family: var(--B); font-size: 11px; letter-spacing: .2em; text-transform: uppercase;
+  transition: background .25s, color .25s;
+}
+.quiz-btn-next { background: var(--ink); color: var(--white); }
+.quiz-btn-next:hover { background: var(--ink2); }
+.quiz-btn-back { background: transparent; color: rgba(12,12,12,.4); padding-left: 0; }
+.quiz-btn-back:hover { color: var(--ink); }
+.quiz-result { display: none; }
+.quiz-result.visible { display: block; }
+.result-header {
+  text-align: center; padding: 52px 0 48px;
+  border-bottom: 1px solid rgba(12,12,12,.1);
+  margin-bottom: 48px;
+}
+.result-eyebrow { font-size: 10px; letter-spacing: .32em; text-transform: uppercase; color: var(--gold-dark); margin-bottom: 16px; display: flex; align-items: center; justify-content: center; gap: 12px; }
+.result-eyebrow::before, .result-eyebrow::after { content: ''; display: block; width: 24px; height: 1px; background: var(--gold-dark); }
+.result-name { font-family: var(--D); font-size: clamp(40px, 6vw, 80px); letter-spacing: .04em; color: var(--ink); line-height: .9; margin-bottom: 16px; }
+.result-desc { font-family: var(--P); font-style: italic; font-size: 16px; color: rgba(12,12,12,.55); max-width: 480px; margin: 0 auto; line-height: 1.65; }
+.result-frames {
+  display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; margin-bottom: 40px;
+}
+.result-frame-card {
+  border: 1px solid rgba(12,12,12,.1); padding: 24px 20px; text-align: center;
+  transition: border-color .25s; cursor: pointer; background: transparent;
+}
+.result-frame-card:hover { border-color: var(--gold-dark); }
+.result-frame-img {
+  height: 100px; display: flex; align-items: center; justify-content: center;
+  margin-bottom: 16px; overflow: hidden;
+}
+.result-frame-img img { max-height: 80px; object-fit: contain; }
+.result-frame-name { font-family: var(--D); font-size: 15px; letter-spacing: .08em; color: var(--ink); margin-bottom: 4px; }
+.result-frame-sub { font-size: 11px; color: rgba(12,12,12,.4); }
+.result-frame-fit { margin-top: 10px; font-size: 9px; letter-spacing: .16em; text-transform: uppercase; color: var(--gold-dark); }
+.result-cta-row { display: flex; gap: 16px; justify-content: center; }
+.result-btn {
+  padding: 14px 36px; font-family: var(--B); font-size: 11px; letter-spacing: .2em; text-transform: uppercase; cursor: pointer; border: none; transition: background .25s;
+}
+.result-btn-primary { background: var(--ink); color: var(--white); }
+.result-btn-primary:hover { background: #222; }
+.result-btn-ghost { background: transparent; border: 1px solid rgba(12,12,12,.25); color: var(--ink); }
+.result-btn-ghost:hover { border-color: var(--ink); }
+
+/* ── DR PARK SECTION ── */
+.park-section {
+  padding: 120px 60px;
+  background: var(--ink);
+  display: grid; grid-template-columns: 1fr 1fr; gap: 80px; align-items: center;
+}
+.park-img { position: relative; aspect-ratio: 3/4; overflow: hidden; }
+.park-img img { width: 100%; height: 100%; object-fit: cover; object-position: center top; }
+.park-img::after {
+  content: ''; position: absolute; inset: 0;
+  background: linear-gradient(to right, transparent 70%, var(--ink) 100%);
+}
+.park-content {}
+.park-quote {
+  font-family: var(--P); font-style: italic;
+  font-size: clamp(20px, 2.5vw, 28px); line-height: 1.5;
+  color: var(--white); margin-bottom: 32px;
+}
+.park-quote em { color: var(--gold); }
+.park-attr { font-size: 10px; letter-spacing: .2em; text-transform: uppercase; color: rgba(247,246,243,.35); margin-bottom: 40px; }
+.park-body { font-size: 14px; line-height: 1.85; color: rgba(247,246,243,.55); margin-bottom: 36px; }
+
+/* ── FOOTER ── */
+footer {
+  background: var(--ink2); padding: 80px 60px 40px;
+  border-top: 1px solid var(--border-d);
+}
+.footer-top { margin-bottom: 60px; }
+.footer-logo { display: flex; align-items: center; gap: 12px; margin-bottom: 12px; }
+.footer-logo img { height: 28px; filter: brightness(0) invert(1); opacity: .4; }
+.footer-logo-text { font-family: var(--D); font-size: 15px; letter-spacing: .18em; color: rgba(247,246,243,.35); }
+.footer-tagline { font-family: var(--P); font-style: italic; font-size: 13px; color: rgba(200,184,154,.3); }
+.footer-cols { display: grid; grid-template-columns: repeat(4, 1fr); gap: 40px; margin-bottom: 60px; }
+.footer-col-h { font-size: 9px; letter-spacing: .28em; text-transform: uppercase; color: rgba(247,246,243,.25); margin-bottom: 20px; }
+.footer-links { list-style: none; display: flex; flex-direction: column; gap: 12px; }
+.footer-links a { font-size: 13px; color: rgba(247,246,243,.4); transition: color .25s; }
+.footer-links a:hover { color: var(--white); }
+.footer-bottom { display: flex; justify-content: space-between; align-items: center; padding-top: 32px; border-top: 1px solid var(--border-d); }
+.footer-copy { font-size: 11px; color: rgba(247,246,243,.2); }
+.footer-founder { font-family: var(--P); font-style: italic; font-size: 12px; color: rgba(200,184,154,.25); }
+
+/* ── RESPONSIVE ── */
+@media (max-width: 900px) {
+  nav { padding: 18px 24px; }
+  nav.scrolled { padding: 14px 24px; }
+  .nav-links { display: none; }
+  .page-hero { padding: 0 24px 60px; min-height: 50vh; }
+  .dimensions-section, .measure-section, .size-table-section, .profiles-section, .finder-section, .park-section { padding: 72px 24px; }
+  .dimensions-intro { grid-template-columns: 1fr; gap: 32px; }
+  .fit-pillars { grid-template-columns: 1fr; }
+  .measure-grid { grid-template-columns: 1fr; gap: 40px; }
+  .profiles-grid { grid-template-columns: 1fr; }
+  .quiz-options { grid-template-columns: 1fr; }
+  .result-frames { grid-template-columns: 1fr 1fr; }
+  .park-section { grid-template-columns: 1fr; }
+  .park-img { aspect-ratio: 4/3; }
+  .footer-cols { grid-template-columns: 1fr 1fr; }
+  .cur, .ring { display: none; }
+  body { cursor: auto; }
+}
+</style>
+</head>
+<body>
+
+<!-- ── CURSOR ── -->
+<div class="cur" id="cur"></div>
+<div class="ring" id="ring"></div>
+
+<!-- ── NAV ── -->
+<nav id="mainNav">
+  <a href="index.html" class="nav-logo">
+    <img src="assets/logo.png" alt="Noon Shop"
+      onerror="this.style.display='none';this.nextElementSibling.style.display='block'">
+    <span class="nav-logo-text" style="display:none">NOON SHOP</span>
+  </a>
+  <div class="nav-links">
+    <span class="nav-link has-drop" id="shopDrop">Shop</span>
+    <a href="fit-guide.html" class="nav-link active">Fit Guide</a>
+    <a href="story.html" class="nav-link">Our Story</a>
+  </div>
+  <div class="nav-right">
+    <a href="#" class="nav-cart">Cart <span class="cart-count">0</span></a>
+  </div>
+</nav>
+
+<!-- ── DROPDOWN ── -->
+<div class="nav-drop" id="navDrop">
+  <div class="drop-inner">
+    <a href="shop.html?collection=dormann" class="drop-item">
+      <div class="drop-item-label">Collection 01</div>
+      <div class="drop-item-name">DORMANN</div>
+      <div class="drop-item-sub">Beta-titanium · South Korea</div>
+    </a>
+    <a href="shop.html?collection=steel-brown" class="drop-item">
+      <div class="drop-item-label">Collection 02</div>
+      <div class="drop-item-name">STEEL BROWN</div>
+      <div class="drop-item-sub">German stainless · Wolfgang Proksch</div>
+    </a>
+    <a href="shop.html" class="drop-item">
+      <div class="drop-item-label">View All</div>
+      <div class="drop-item-name">ALL FRAMES</div>
+      <div class="drop-item-sub">Every shape, every fit</div>
+    </a>
+    <a href="fit-guide.html#finder" class="drop-item">
+      <div class="drop-item-label">Find My Fit</div>
+      <div class="drop-item-name">FIT FINDER</div>
+      <div class="drop-item-sub">60 seconds to your frame</div>
+    </a>
+  </div>
+  <div class="drop-close" id="dropClose">Close ✕</div>
+</div>
+
+<!-- ── PAGE HERO ── -->
+<section class="page-hero" style="padding-top: 140px;">
+  <div class="page-hero-bg">
+    <img src="assets/editorial/editorial-1a.png" alt=""
+      onerror="this.parentElement.style.background='#111'">
+  </div>
+  <div class="page-hero-wm">FIT</div>
+  <div class="page-hero-content">
+    <div class="page-hero-tag">Noon Shop · Fit Guide</div>
+    <h1>THE SCIENCE<br>OF FIT</h1>
+    <p class="page-hero-sub">
+      Eyewear has a fit problem. Most frames are designed for one face.
+      Dr. Anna Park spent two decades in ophthalmology watching patients
+      struggle with frames that slid, pinched, and fogged. This is her answer.
+    </p>
+    <div class="hero-anchor-row">
+      <a href="#pillars" class="hero-anchor">Fit Pillars</a>
+      <a href="#measure" class="hero-anchor">How to Measure</a>
+      <a href="#profiles" class="hero-anchor">Face Profiles</a>
+      <a href="#finder" class="hero-anchor">Fit Finder</a>
+    </div>
+  </div>
+</section>
+
+<div class="gold-rule"></div>
+
+<!-- ── FIT PILLARS ── -->
+<section class="dimensions-section" id="pillars">
+  <div class="dimensions-intro">
+    <div>
+      <div class="section-tag rv">The Three Pillars</div>
+      <h2 class="dimensions-intro-h rv d1">WHAT FITTING<br>ACTUALLY<br>MEANS</h2>
+    </div>
+    <div class="dimensions-intro-body rv d2">
+      Standard eyewear sizing was built around a narrow set of facial geometries.
+      <strong>Low bridge. High cheekbones. Wider or narrower face.</strong>
+      These are not edge cases — they describe the majority of wearers globally.
+      Noon Shop frames are engineered around three measurable fit dimensions.
+      Each frame in our catalog is rated on all three.
+    </div>
+  </div>
+
+  <div class="fit-pillars">
+    <!-- Pillar 1 -->
+    <div class="pillar rv">
+      <div class="pillar-num">01</div>
+      <div class="pillar-icon">⌇</div>
+      <div class="pillar-label">Bridge Fit</div>
+      <h3 class="pillar-h">LOW BRIDGE<br>ANATOMY</h3>
+      <p class="pillar-body">
+        The bridge sits at the top of your nose. A low bridge means the nose doesn't protrude as far from the face — standard frames slide down because the bridge sits too high and lacks nose pad grip.
+        Low-bridge frames feature a lower nose pad position, wider nose pad angle, and sometimes a keyhole or saddle bridge to distribute weight without relying on protrusion.
+      </p>
+      <div class="pillar-note">
+        "The single most common complaint I hear is frames sliding down by midday.
+        In 90% of cases, it's a bridge fit issue — not the temple, not the weight."
+        <br><span style="display:block;margin-top:8px;font-style:normal;font-size:11px;color:rgba(200,184,154,.5);">— Dr. Anna Park, MD</span>
+      </div>
+    </div>
+
+    <!-- Pillar 2 -->
+    <div class="pillar rv d1">
+      <div class="pillar-num">02</div>
+      <div class="pillar-icon">◠</div>
+      <div class="pillar-label">Cheekbone Clearance</div>
+      <h3 class="pillar-h">HIGH CHEEKBONE<br>CLEARANCE</h3>
+      <p class="pillar-body">
+        High cheekbones push the bottom rim of frames upward when you smile or speak — causing fogging, smearing, and constant micro-adjustment.
+        Noon Shop frames with high-cheekbone clearance have a reduced vertical lens height or a lifted frame silhouette that maintains gap between the lower rim and cheek surface.
+      </p>
+      <div class="pillar-note">
+        "If your lenses fog every time you exhale — or your frames smear with blush — you almost certainly need more cheekbone clearance."
+        <br><span style="display:block;margin-top:8px;font-style:normal;font-size:11px;color:rgba(200,184,154,.5);">— Dr. Anna Park, MD</span>
+      </div>
+    </div>
+
+    <!-- Pillar 3 -->
+    <div class="pillar rv d2">
+      <div class="pillar-num">03</div>
+      <div class="pillar-icon">↔</div>
+      <div class="pillar-label">Face Width</div>
+      <h3 class="pillar-h">FACE WIDTH<br>ALIGNMENT</h3>
+      <p class="pillar-body">
+        Frame width should match your face width — measured temple-to-temple at the widest point. When frames are too narrow, temple pressure builds throughout the day. Too wide, and they slide laterally.
+        Total frame width = lens width × 2 + bridge. A well-fitting frame sits symmetrically, with temples just touching (not pressing) above the ears.
+      </p>
+      <div class="pillar-note">
+        "People often size up in frame width to solve bridge problems. That just trades one discomfort for another. Solve the bridge first."
+        <br><span style="display:block;margin-top:8px;font-style:normal;font-size:11px;color:rgba(200,184,154,.5);">— Dr. Anna Park, MD</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="dark-rule"></div>
+
+<!-- ── MEASUREMENT GUIDE ── -->
+<section class="measure-section" id="measure">
+  <div class="section-tag rv">How to Measure</div>
+  <h2 class="rv d1" style="font-family:var(--D);font-size:clamp(32px,5vw,60px);letter-spacing:.04em;line-height:.9;margin-bottom:0">READING YOUR<br>FRAME NUMBERS</h2>
+  <div class="measure-grid">
+    <!-- Diagram -->
+    <div class="measure-diagram rv">
+      <img src="assets/product/thin-rect.png" alt="Frame measurement diagram"
+        onerror="this.parentElement.style.background='#111'; this.style.display='none'">
+      <!-- Measurement labels -->
+      <div class="measure-label-line ml-lens-width">Lens Width</div>
+      <div class="measure-label-line ml-bridge">Bridge</div>
+      <div class="measure-label-line ml-temple">Temple Length</div>
+      <div class="measure-label-line ml-lens-height">Lens Height</div>
+    </div>
+
+    <!-- Steps -->
+    <div class="measure-steps">
+      <div class="measure-step rv">
+        <div class="step-num">1</div>
+        <div class="step-body">
+          <h4>Lens Width (Eye Size)</h4>
+          <p>The horizontal width of a single lens, measured at its widest point. Most Noon Shop lenses range 48–56mm. This number alone doesn't tell you total frame width.</p>
+          <span class="step-tag">Example: 52□</span>
+        </div>
+      </div>
+      <div class="measure-step rv d1">
+        <div class="step-num">2</div>
+        <div class="step-body">
+          <h4>Bridge Width</h4>
+          <p>The gap between the two lenses, measured at the narrowest point across the nose. Lower-bridge frames typically use 14–18mm. This is the most critical measurement for bridge fit.</p>
+          <span class="step-tag">Example: □16</span>
+        </div>
+      </div>
+      <div class="measure-step rv d2">
+        <div class="step-num">3</div>
+        <div class="step-body">
+          <h4>Temple Length</h4>
+          <p>The arm that runs from hinge to ear tip. Most adults fit in 135–150mm. Longer temples accommodate wider heads; shorter ones reduce side pressure.</p>
+          <span class="step-tag">Example: □□ 144</span>
+        </div>
+      </div>
+      <div class="measure-step rv d3">
+        <div class="step-num">4</div>
+        <div class="step-body">
+          <h4>Lens Height</h4>
+          <p>Vertical lens depth. Taller lenses give more visual field; shallower lenses improve cheekbone clearance. Rimless or semi-rimless frames can be custom-cut for your exact height.</p>
+          <span class="step-tag">Example: □□ 36mm tall</span>
+        </div>
+      </div>
+      <div class="measure-step rv d4">
+        <div class="step-num">5</div>
+        <div class="step-body">
+          <h4>Total Frame Width</h4>
+          <p>The full span of the frame. Calculate as: (lens width × 2) + bridge. Should match your face width, measured ear-to-ear at the temples, ±3mm.</p>
+          <span class="step-tag">52 + 52 + 16 = 120mm total</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── SIZE TABLE ── -->
+<section class="size-table-section" id="sizes">
+  <div class="section-tag rv">Reference Table</div>
+  <h2 class="rv d1" style="font-family:var(--D);font-size:clamp(28px,4vw,52px);letter-spacing:.04em;line-height:.9;margin-bottom:0">SIZE AT A GLANCE</h2>
+  <div class="size-table-wrap rv d2">
+    <table class="size-table">
+      <thead>
+        <tr>
+          <th>Fit Dimension</th>
+          <th>Narrow / Low</th>
+          <th>Standard</th>
+          <th>Wide / High</th>
+          <th>Noon Shop Range</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Lens Width</td>
+          <td>44–48mm</td>
+          <td>49–53mm</td>
+          <td>54–58mm</td>
+          <td>48–56mm</td>
+        </tr>
+        <tr>
+          <td>Bridge Width</td>
+          <td>12–14mm <span class="size-tag">Low Bridge</span></td>
+          <td>15–17mm</td>
+          <td>18–22mm</td>
+          <td>14–20mm</td>
+        </tr>
+        <tr>
+          <td>Temple Length</td>
+          <td>130–136mm</td>
+          <td>137–142mm</td>
+          <td>143–150mm</td>
+          <td>136–148mm</td>
+        </tr>
+        <tr>
+          <td>Lens Height</td>
+          <td>28–32mm <span class="size-tag">Cheekbone Clear</span></td>
+          <td>33–38mm</td>
+          <td>39–46mm</td>
+          <td>30–44mm</td>
+        </tr>
+        <tr>
+          <td>Total Frame Width</td>
+          <td>108–116mm</td>
+          <td>117–126mm</td>
+          <td>127–136mm</td>
+          <td>112–132mm</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</section>
+
+<div class="gold-rule"></div>
+
+<!-- ── FACE PROFILES ── -->
+<section class="profiles-section" id="profiles">
+  <div class="section-tag rv">Face Profiles</div>
+  <h2 class="rv d1" style="font-family:var(--D);font-size:clamp(36px,6vw,80px);letter-spacing:.04em;line-height:.9;max-width:600px">YOUR FACE IS<br>NOT ONE SIZE</h2>
+  <div class="profiles-grid">
+
+    <div class="profile-card featured rv">
+      <div class="profile-img">
+        <img src="assets/faces/east-asian-man-front.png" alt="Low bridge profile"
+          onerror="this.parentElement.style.background='#2a2a2a'">
+      </div>
+      <div class="profile-name">LOW BRIDGE</div>
+      <div class="profile-sub">Flat nasal bridge, common in East & Southeast Asian, Latin, and Black facial structures</div>
+      <div class="profile-traits">
+        <span class="profile-trait">Flat Bridge</span>
+        <span class="profile-trait">Nose Pad Critical</span>
+        <span class="profile-trait">Frames Slide</span>
+      </div>
+      <p class="profile-body">
+        The nose bridge doesn't protrude enough to hold a standard frame in position. Frames slide forward and downward throughout the day. Look for frames with low-set silicone nose pads, a keyhole bridge, or a saddle-style bridge.
+        Bridge width: 14–16mm. Nose pad angle: 20–30°.
+      </p>
+      <div class="profile-cta">
+        <a href="shop.html?bridge=flat" class="link-arrow" style="color:var(--gold);font-size:10px">Shop Low-Bridge Frames</a>
+      </div>
+    </div>
+
+    <div class="profile-card rv d1">
+      <div class="profile-img">
+        <img src="assets/faces/caucasian-woman-front.png" alt="High cheekbone profile"
+          onerror="this.parentElement.style.background='#2a2a2a'">
+      </div>
+      <div class="profile-name">HIGH CHEEKBONES</div>
+      <div class="profile-sub">Prominent zygomatic arch that interferes with lower frame rim</div>
+      <div class="profile-traits">
+        <span class="profile-trait">High Zygomatic</span>
+        <span class="profile-trait">Lens Fogging</span>
+        <span class="profile-trait">Lower Rim Lift</span>
+      </div>
+      <p class="profile-body">
+        High cheekbones cause the lower rim to make contact with the cheek during facial movement — smiling, speaking, looking down. This leads to smearing, fogging, and constant repositioning.
+        Shallow lens height (30–34mm) and an elevated frame silhouette solve this without sacrificing optics.
+      </p>
+      <div class="profile-cta">
+        <a href="shop.html?cheekbone=prominent" class="link-arrow" style="color:var(--gold);font-size:10px">Shop Cheekbone-Clear Frames</a>
+      </div>
+    </div>
+
+    <div class="profile-card rv d2">
+      <div class="profile-img">
+        <img src="assets/faces/east-asian-man-front.png" alt="Wide face profile"
+          onerror="this.parentElement.style.background='#2a2a2a'">
+      </div>
+      <div class="profile-name">WIDER FACE</div>
+      <div class="profile-sub">Temporal face width above 138mm, common across many ethnicities</div>
+      <div class="profile-traits">
+        <span class="profile-trait">Wide Temporal</span>
+        <span class="profile-trait">Temple Pressure</span>
+        <span class="profile-trait">Wider Frame</span>
+      </div>
+      <p class="profile-body">
+        When frame width is too narrow, the temples press inward against the skull — causing headaches and leave marks above the ears. Total frame width should match or slightly exceed face width. Look for frames with total width of 126–134mm and flexible hinges.
+      </p>
+      <div class="profile-cta">
+        <a href="shop.html?width=wider" class="link-arrow" style="color:var(--gold);font-size:10px">Shop Wider Frames</a>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<div class="dark-rule"></div>
+
+<!-- ── FIT FINDER QUIZ ── -->
+<section class="finder-section" id="finder">
+  <div class="section-tag">Fit Finder</div>
+  <h2 style="font-family:var(--D);font-size:clamp(36px,6vw,80px);letter-spacing:.04em;color:var(--ink);line-height:.9;max-width:600px">FIND YOUR<br>FIT IN 60<br>SECONDS</h2>
+
+  <div class="quiz-wrap">
+    <div class="quiz-progress">
+      <div class="quiz-prog-step active" id="prog1"></div>
+      <div class="quiz-prog-step" id="prog2"></div>
+      <div class="quiz-prog-step" id="prog3"></div>
+    </div>
+
+    <!-- Step 1: Bridge -->
+    <div class="quiz-step visible" id="qStep1">
+      <div class="quiz-q">HOW DOES YOUR<br>NOSE BRIDGE SIT?</div>
+      <div class="quiz-hint">Looking straight ahead, does your bridge protrude clearly from your face?</div>
+      <div class="quiz-options">
+        <button class="quiz-opt" data-val="flat" onclick="selectOpt(this,1)">
+          <span class="quiz-opt-icon">—</span>
+          <span class="quiz-opt-label">Flat / Low</span>
+          <span class="quiz-opt-sub">Frames tend to slide down. Nose pads don't grip well.</span>
+        </button>
+        <button class="quiz-opt" data-val="medium" onclick="selectOpt(this,1)">
+          <span class="quiz-opt-icon">△</span>
+          <span class="quiz-opt-label">Medium</span>
+          <span class="quiz-opt-sub">Some sliding, mostly okay with heavier frames.</span>
+        </button>
+        <button class="quiz-opt" data-val="high" onclick="selectOpt(this,1)">
+          <span class="quiz-opt-icon">▲</span>
+          <span class="quiz-opt-label">High / Prominent</span>
+          <span class="quiz-opt-sub">Most standard frames fit well on the bridge.</span>
+        </button>
+      </div>
+      <div class="quiz-nav">
+        <span class="quiz-nav-step">Step 1 of 3</span>
+        <button class="quiz-btn quiz-btn-next" onclick="nextStep(1)">Next →</button>
+      </div>
+    </div>
+
+    <!-- Step 2: Cheekbones -->
+    <div class="quiz-step" id="qStep2">
+      <div class="quiz-q">HOW ARE YOUR<br>CHEEKBONES?</div>
+      <div class="quiz-hint">When you smile, do your frames smear, fog, or press against your cheeks?</div>
+      <div class="quiz-options">
+        <button class="quiz-opt" data-val="prominent" onclick="selectOpt(this,2)">
+          <span class="quiz-opt-icon">◠</span>
+          <span class="quiz-opt-label">High / Prominent</span>
+          <span class="quiz-opt-sub">Lenses fog when I exhale. Frames smear my skin.</span>
+        </button>
+        <button class="quiz-opt" data-val="medium" onclick="selectOpt(this,2)">
+          <span class="quiz-opt-icon">◡</span>
+          <span class="quiz-opt-label">Medium</span>
+          <span class="quiz-opt-sub">Occasional contact, mainly when smiling broadly.</span>
+        </button>
+        <button class="quiz-opt" data-val="low" onclick="selectOpt(this,2)">
+          <span class="quiz-opt-icon">⌣</span>
+          <span class="quiz-opt-label">Low / Flat</span>
+          <span class="quiz-opt-sub">No contact issues. Any frame height works.</span>
+        </button>
+      </div>
+      <div class="quiz-nav">
+        <button class="quiz-btn quiz-btn-back" onclick="prevStep(2)">← Back</button>
+        <span class="quiz-nav-step">Step 2 of 3</span>
+        <button class="quiz-btn quiz-btn-next" onclick="nextStep(2)">Next →</button>
+      </div>
+    </div>
+
+    <!-- Step 3: Face Width -->
+    <div class="quiz-step" id="qStep3">
+      <div class="quiz-q">HOW WIDE IS<br>YOUR FACE?</div>
+      <div class="quiz-hint">Do standard frames feel tight at the temples, or do they tend to sit loose?</div>
+      <div class="quiz-options">
+        <button class="quiz-opt" data-val="narrow" onclick="selectOpt(this,3)">
+          <span class="quiz-opt-icon">||</span>
+          <span class="quiz-opt-label">Narrower</span>
+          <span class="quiz-opt-sub">Standard frames feel too wide. Temples stick out.</span>
+        </button>
+        <button class="quiz-opt" data-val="medium" onclick="selectOpt(this,3)">
+          <span class="quiz-opt-icon">| |</span>
+          <span class="quiz-opt-label">Medium</span>
+          <span class="quiz-opt-sub">Standard sizing usually works fine.</span>
+        </button>
+        <button class="quiz-opt" data-val="wider" onclick="selectOpt(this,3)">
+          <span class="quiz-opt-icon">|&nbsp;&nbsp;&nbsp;|</span>
+          <span class="quiz-opt-label">Wider</span>
+          <span class="quiz-opt-sub">Frames press tight. I get temple headaches.</span>
+        </button>
+      </div>
+      <div class="quiz-nav">
+        <button class="quiz-btn quiz-btn-back" onclick="prevStep(3)">← Back</button>
+        <span class="quiz-nav-step">Step 3 of 3</span>
+        <button class="quiz-btn quiz-btn-next" onclick="showResult()">See My Frames →</button>
+      </div>
+    </div>
+
+    <!-- Result -->
+    <div class="quiz-result" id="quizResult">
+      <div class="result-header">
+        <div class="result-eyebrow">Your Fit Profile</div>
+        <div class="result-name" id="resultName">LOW BRIDGE<br>WIDE FIT</div>
+        <p class="result-desc" id="resultDesc">Based on your responses, we've matched you to frames engineered for your exact face geometry.</p>
+      </div>
+      <div class="result-frames" id="resultFrames">
+        <a href="product.html" class="result-frame-card">
+          <div class="result-frame-img">
+            <img src="assets/product/thin-rect.png" alt="Steel Brown Thin Rect"
+              onerror="this.parentElement.style.background='#eee'">
+          </div>
+          <div class="result-frame-name">THIN RECT</div>
+          <div class="result-frame-sub">Steel Brown Collection</div>
+          <div class="result-frame-fit">✓ Bridge 16mm · Low-bridge fit</div>
+        </a>
+        <a href="shop.html?collection=dormann" class="result-frame-card">
+          <div class="result-frame-img">
+            <img src="assets/product/dormann-panto.png" alt="Dormann Panto"
+              onerror="this.parentElement.style.background='#eee'">
+          </div>
+          <div class="result-frame-name">DORMANN PANTO</div>
+          <div class="result-frame-sub">Dormann Collection</div>
+          <div class="result-frame-fit">✓ Snap hinge · Adjustable nose pads</div>
+        </a>
+        <a href="shop.html" class="result-frame-card">
+          <div class="result-frame-img" style="align-items:center;justify-content:center;">
+            <div style="font-family:var(--D);font-size:14px;letter-spacing:.1em;color:#aaa;">VIEW ALL →</div>
+          </div>
+          <div class="result-frame-name">ALL MATCHES</div>
+          <div class="result-frame-sub">Filtered to your profile</div>
+          <div class="result-frame-fit">Full collection</div>
+        </a>
+      </div>
+      <div class="result-cta-row">
+        <a href="#" id="shopResultBtn" class="result-btn result-btn-primary">Shop My Frames</a>
+        <button class="result-btn result-btn-ghost" onclick="resetQuiz()">Retake Quiz</button>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<div class="gold-rule"></div>
+
+<!-- ── DR PARK ── -->
+<section class="park-section">
+  <div class="park-img rv">
+    <img src="assets/editorial/editorial-2a.png" alt="Dr. Anna Park, MD"
+      onerror="this.parentElement.style.background='#111'">
+  </div>
+  <div class="park-content">
+    <div class="section-tag rv">From the Founder</div>
+    <p class="park-quote rv d1">
+      "Fit is <em>clinical</em>. A frame that slides is not a style problem —
+      it is a prescription delivery problem."
+    </p>
+    <div class="park-attr rv d1">Dr. Anna Park, MD · Ophthalmologist · Founder, Noon Shop</div>
+    <p class="park-body rv d2">
+      After more than two decades treating patients whose visual outcomes were compromised by ill-fitting frames, Dr. Park founded Noon Shop with a single clinical principle: the frame is part of the prescription. Fit is not optional, and it is not one size.
+    </p>
+    <p class="park-body rv d2" style="margin-top:0">
+      Every Noon Shop frame ships with a fit card specifying which facial structures it was designed for — bridge height, cheekbone clearance, face width. Not as a marketing claim. As a clinical specification.
+    </p>
+    <a href="story.html" class="link-arrow rv d3">Our Full Story</a>
+  </div>
+</section>
+
+<div class="gold-rule"></div>
+
+<!-- ── FOOTER ── -->
+<footer>
+  <div class="footer-top">
+    <div>
+      <div class="footer-logo">
+        <img src="assets/logo.png" alt="Noon Shop"
+          onerror="this.style.display='none';this.nextElementSibling.style.display='block'">
+        <div class="footer-logo-text" style="display:none">NOON SHOP</div>
+      </div>
+      <div class="footer-tagline">"The frame that belongs on your face."</div>
+    </div>
+  </div>
+  <div class="footer-cols">
+    <div>
+      <div class="footer-col-h">Shop</div>
+      <ul class="footer-links">
+        <li><a href="shop.html">All Frames</a></li>
+        <li><a href="shop.html?collection=dormann">Dormann</a></li>
+        <li><a href="shop.html?collection=steel-brown">Steel Brown</a></li>
+      </ul>
+    </div>
+    <div>
+      <div class="footer-col-h">Learn</div>
+      <ul class="footer-links">
+        <li><a href="fit-guide.html">Fit Guide</a></li>
+        <li><a href="fit-guide.html#measure">How to Measure</a></li>
+        <li><a href="fit-guide.html#finder">Fit Finder</a></li>
+      </ul>
+    </div>
+    <div>
+      <div class="footer-col-h">Brand</div>
+      <ul class="footer-links">
+        <li><a href="story.html">Our Story</a></li>
+        <li><a href="story.html#founder">Dr. Anna Park, MD</a></li>
+        <li><a href="story.html#collections">Collections</a></li>
+      </ul>
+    </div>
+    <div>
+      <div class="footer-col-h">Support</div>
+      <ul class="footer-links">
+        <li><a href="#">Returns & Exchanges</a></li>
+        <li><a href="#">Shipping</a></li>
+        <li><a href="#">Contact</a></li>
+        <li><a href="https://www.noonshop.com" target="_blank">noonshop.com</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <div class="footer-copy">© 2026 Noon Shop · All rights reserved</div>
+    <div class="footer-founder">Founded by Dr. Anna Park, MD · Ophthalmologist</div>
+  </div>
+</footer>
+
+<script>
+/* ── CURSOR ── */
+const cur  = document.getElementById('cur');
+const ring = document.getElementById('ring');
+if (cur && ring) {
+  document.addEventListener('mousemove', e => {
+    cur.style.left  = e.clientX + 'px';
+    cur.style.top   = e.clientY + 'px';
+    ring.style.left = e.clientX + 'px';
+    ring.style.top  = e.clientY + 'px';
+  });
+}
+
+/* ── NAV SCROLL ── */
+const nav = document.getElementById('mainNav');
+window.addEventListener('scroll', () => {
+  nav.classList.toggle('scrolled', window.scrollY > 40);
+}, { passive: true });
+
+/* ── DROPDOWN ── */
+const shopDrop  = document.getElementById('shopDrop');
+const navDrop   = document.getElementById('navDrop');
+const dropClose = document.getElementById('dropClose');
+if (shopDrop) shopDrop.addEventListener('click', () => navDrop.classList.add('open'));
+if (dropClose) dropClose.addEventListener('click', () => navDrop.classList.remove('open'));
+document.addEventListener('click', e => {
+  if (!navDrop.contains(e.target) && e.target !== shopDrop) navDrop.classList.remove('open');
+});
+
+/* ── SCROLL REVEAL ── */
+const observer = new IntersectionObserver(entries => {
+  entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('in'); observer.unobserve(e.target); } });
+}, { threshold: 0.1 });
+document.querySelectorAll('.rv').forEach(el => observer.observe(el));
+
+/* ── QUIZ ── */
+const quizState = { bridge: null, cheekbone: null, width: null };
+
+function selectOpt(btn, step) {
+  const parent = btn.closest('.quiz-options');
+  parent.querySelectorAll('.quiz-opt').forEach(b => b.classList.remove('selected'));
+  btn.classList.add('selected');
+  const key = ['bridge','cheekbone','width'][step-1];
+  quizState[key] = btn.dataset.val;
+}
+
+function nextStep(current) {
+  const keys = ['bridge','cheekbone','width'];
+  if (!quizState[keys[current-1]]) {
+    const opts = document.querySelectorAll(`#qStep${current} .quiz-opt`);
+    opts.forEach(o => { o.style.borderColor = 'rgba(168,144,112,.45)'; });
+    setTimeout(() => opts.forEach(o => { o.style.borderColor = ''; }), 800);
+    return;
+  }
+  document.getElementById('qStep' + current).classList.remove('visible');
+  document.getElementById('qStep' + (current+1)).classList.add('visible');
+  document.getElementById('prog' + (current+1)).classList.add('active');
+}
+
+function prevStep(current) {
+  document.getElementById('qStep' + current).classList.remove('visible');
+  document.getElementById('qStep' + (current-1)).classList.add('visible');
+}
+
+function showResult() {
+  if (!quizState.width) {
+    const opts = document.querySelectorAll('#qStep3 .quiz-opt');
+    opts.forEach(o => { o.style.borderColor = 'rgba(168,144,112,.45)'; });
+    setTimeout(() => opts.forEach(o => { o.style.borderColor = ''; }), 800);
+    return;
+  }
+
+  document.getElementById('qStep3').classList.remove('visible');
+
+  const nameEl = document.getElementById('resultName');
+  const descEl = document.getElementById('resultDesc');
+  const shopBtn = document.getElementById('shopResultBtn');
+
+  const bridgeLabel    = { flat: 'LOW BRIDGE', medium: 'MEDIUM BRIDGE', high: 'STANDARD BRIDGE' };
+  const cheekLabel     = { prominent: 'HIGH CHEEKBONE', medium: 'MEDIUM CHEEKBONE', low: 'STANDARD CHEEKBONE' };
+  const widthLabel     = { narrow: 'NARROW FIT', medium: 'STANDARD FIT', wider: 'WIDE FIT' };
+
+  const parts = [];
+  if (quizState.bridge !== 'high')   parts.push(bridgeLabel[quizState.bridge]);
+  if (quizState.cheekbone !== 'low') parts.push(cheekLabel[quizState.cheekbone]);
+  if (quizState.width !== 'medium')  parts.push(widthLabel[quizState.width]);
+  if (!parts.length) parts.push('STANDARD FIT');
+
+  nameEl.innerHTML = parts.join('<br>');
+
+  const descs = {
+    flat: 'Low-bridge frames with silicone grip nose pads and a lower-set bridge. ',
+    medium: 'Mid-bridge frames — most frame widths work well. ',
+    high: 'Standard-bridge frames. '
+  };
+  const wDescs = {
+    narrow: 'Narrower total width (112–118mm) with shorter temples. ',
+    medium: '',
+    wider: 'Wider frames (124–132mm) with flexible-hinge temples. '
+  };
+  const cDescs = {
+    prominent: 'Reduced lens height for cheekbone clearance.',
+    medium: '',
+    low: ''
+  };
+
+  descEl.textContent = (descs[quizState.bridge] || '') + (wDescs[quizState.width] || '') + (cDescs[quizState.cheekbone] || '') || 'We\'ve matched frames to your measurements.';
+
+  const params = new URLSearchParams();
+  if (quizState.bridge !== 'high')   params.set('bridge', quizState.bridge);
+  if (quizState.cheekbone !== 'low') params.set('cheekbone', quizState.cheekbone);
+  if (quizState.width !== 'medium')  params.set('width', quizState.width);
+  shopBtn.href = 'shop.html' + (params.toString() ? '?' + params.toString() : '');
+
+  sessionStorage.setItem('fitBridge',    quizState.bridge    || '');
+  sessionStorage.setItem('fitCheekbone', quizState.cheekbone || '');
+  sessionStorage.setItem('fitWidth',     quizState.width     || '');
+
+  document.getElementById('quizResult').classList.add('visible');
+  document.getElementById('quizResult').scrollIntoView({ behavior: 'smooth', block: 'start' });
+}
+
+function resetQuiz() {
+  quizState.bridge = null; quizState.cheekbone = null; quizState.width = null;
+  ['qStep1','qStep2','qStep3'].forEach((id, i) => {
+    const el = document.getElementById(id);
+    if (i === 0) el.classList.add('visible'); else el.classList.remove('visible');
+    el.querySelectorAll('.quiz-opt').forEach(o => o.classList.remove('selected'));
+  });
+  document.getElementById('quizResult').classList.remove('visible');
+  document.querySelectorAll('.quiz-prog-step').forEach((el, i) => {
+    if (i === 0) el.classList.add('active'); else el.classList.remove('active');
+  });
+  document.getElementById('finder').scrollIntoView({ behavior: 'smooth' });
+}
+
+/* ── URL PARAM: pre-fill quiz if coming from homepage ── */
+(function() {
+  const p = new URLSearchParams(location.search);
+  if (p.has('bridge'))    quizState.bridge    = p.get('bridge');
+  if (p.has('cheekbone')) quizState.cheekbone = p.get('cheekbone');
+  if (p.has('width'))     quizState.width     = p.get('width');
+  if (p.has('bridge') || p.has('cheekbone') || p.has('width')) {
+    setTimeout(showResult, 300);
+  }
+})();
+</script>
+</body>
+</html>
