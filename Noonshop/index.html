@@ -1,974 +1,289 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Noon Shop — The Frame That Belongs on Your Face</title>
-<meta name="description" content="Eyewear engineered for every face. Founded by Dr. Anna Park, MD. Low-bridge fit, high-cheekbone clearance, wide and narrow face widths. Finally.">
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Outfit:wght@100;200;300;400;500&family=Playfair+Display:ital,wght@0,400;0,700;1,400;1,700&display=swap" rel="stylesheet">
-<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
-<style>
-/* ── TOKENS ── */
-:root {
-  --ink:        #0C0C0C;
-  --ink2:       #1A1A1A;
-  --mid:        #888;
-  --paper:      #EEECE7;
-  --white:      #F7F6F3;
-  --border-d:   rgba(247,246,243,.07);
-  --border-l:   rgba(12,12,12,.10);
-  --gold:       #C8B89A;
-  --gold-dark:  #A89070;
-  --gold-light: #E8D8BE;
-  --D: 'Bebas Neue', sans-serif;
-  --B: 'Outfit', sans-serif;
-  --P: 'Playfair Display', Georgia, serif;
-}
-*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-html { scroll-behavior: smooth; }
-body { background: var(--paper); color: var(--ink); font-family: var(--B); font-weight: 300; overflow-x: hidden; cursor: none; }
-a { color: inherit; text-decoration: none; }
-img { display: block; max-width: 100%; }
-
-/* ── LOADER ── */
-.loader {
-  position: fixed; inset: 0; background: var(--ink);
-  z-index: 10000; display: flex; flex-direction: column;
-  align-items: center; justify-content: center; gap: 20px; pointer-events: none;
-}
-.loader-brand { font-family: var(--D); font-size: clamp(24px, 3vw, 40px); letter-spacing: .36em; color: var(--white); opacity: 0; transform: translateY(8px); }
-.loader-line { width: 0; height: 1px; background: var(--gold); }
-
-/* ── CURSOR ── */
-.cur  { position: fixed; width: 7px; height: 7px; background: var(--white); border-radius: 50%; pointer-events: none; z-index: 9999; mix-blend-mode: difference; transform: translate(-50%,-50%); }
-.ring { position: fixed; width: 32px; height: 32px; border: 1px solid rgba(247,246,243,.35); border-radius: 50%; pointer-events: none; z-index: 9998; mix-blend-mode: difference; transform: translate(-50%,-50%); transition: width .2s, height .2s, border-color .2s; }
-body:has(a:hover) .ring, body:has(button:hover) .ring { width: 48px; height: 48px; border-color: var(--gold); }
-
-/* ── NAV ── */
-nav {
-  position: fixed; top: 0; left: 0; right: 0; z-index: 200;
-  display: flex; justify-content: space-between; align-items: center;
-  padding: 22px 60px;
-  transition: background .4s, backdrop-filter .4s, padding .3s;
-}
-nav.scrolled { background: rgba(238,236,231,.94); backdrop-filter: blur(18px); padding: 16px 60px; }
-nav.scrolled .nav-link { color: rgba(12,12,12,.5); }
-nav.scrolled .nav-link:hover { color: var(--gold-dark); }
-nav.scrolled .nav-link.has-drop::after { color: rgba(168,144,112,.45); }
-nav.scrolled .nav-cart { color: rgba(12,12,12,.4); }
-nav.scrolled .nav-cart:hover { color: var(--ink); }
-nav.scrolled .nav-logo img { filter: none; opacity: .8; }
-nav.scrolled .nav-logo-text { color: rgba(12,12,12,.65); }
-.nav-logo { display: flex; align-items: center; }
-.nav-logo img { height: 32px; width: auto; filter: brightness(0) invert(1); opacity: .75; transition: opacity .3s; }
-.nav-logo img:hover { opacity: 1; }
-.nav-logo-text { font-family: var(--D); font-size: 17px; letter-spacing: .18em; color: rgba(247,246,243,.7); }
-.nav-links { display: flex; gap: 36px; align-items: center; }
-.nav-link {
-  font-size: 10px; letter-spacing: .22em; text-transform: uppercase;
-  color: rgba(247,246,243,.45); transition: color .25s; position: relative;
-}
-.nav-link:hover { color: var(--gold); }
-.nav-link.has-drop { display: flex; align-items: center; gap: 6px; }
-.nav-link.has-drop::after { content: '↓'; font-size: 9px; color: rgba(200,184,154,.5); }
-.nav-right { display: flex; align-items: center; gap: 24px; }
-.nav-cart { font-size: 10px; letter-spacing: .18em; text-transform: uppercase; color: rgba(247,246,243,.4); transition: color .25s; display: flex; align-items: center; gap: 8px; }
-.nav-cart:hover { color: var(--white); }
-.cart-count { font-family: var(--D); font-size: 12px; color: var(--gold); }
-
-/* ── DROPDOWN ── */
-.nav-drop {
-  position: fixed; top: 0; left: 0; right: 0;
-  background: rgba(12,12,12,.96); backdrop-filter: blur(24px);
-  padding: 100px 60px 60px;
-  transform: translateY(-100%); transition: transform .45s cubic-bezier(.4,0,.2,1);
-  z-index: 190;
-}
-.nav-drop.open { transform: translateY(0); }
-.drop-inner { display: grid; grid-template-columns: repeat(4, 1fr); gap: 2px; max-width: 900px; }
-.drop-item { padding: 32px 28px; border: 1px solid rgba(247,246,243,.06); transition: background .3s; cursor: pointer; }
-.drop-item:hover { background: rgba(247,246,243,.03); }
-.drop-item-label { font-size: 9px; letter-spacing: .28em; text-transform: uppercase; color: rgba(200,184,154,.45); margin-bottom: 10px; }
-.drop-item-name { font-family: var(--D); font-size: 28px; letter-spacing: .06em; color: var(--white); line-height: .9; margin-bottom: 8px; }
-.drop-item-sub { font-family: var(--P); font-style: italic; font-size: 12px; color: rgba(200,184,154,.55); }
-.drop-close { position: absolute; top: 28px; right: 60px; font-size: 10px; letter-spacing: .22em; text-transform: uppercase; color: rgba(247,246,243,.3); cursor: pointer; transition: color .25s; }
-.drop-close:hover { color: var(--gold); }
-
-/* ── SCROLL REVEAL ── */
-.rv { opacity: 0; transform: translateY(32px); transition: opacity .85s ease, transform .85s ease; }
-.rv.in { opacity: 1; transform: translateY(0); }
-.rv.d1 { transition-delay: .12s; } .rv.d2 { transition-delay: .24s; } .rv.d3 { transition-delay: .36s; } .rv.d4 { transition-delay: .48s; }
-
-/* ── SHARED ── */
-.section-tag {
-  font-size: 10px; font-weight: 500; letter-spacing: .32em; text-transform: uppercase;
-  color: var(--gold-dark); margin-bottom: 48px; display: flex; align-items: center; gap: 16px;
-}
-.section-tag::before { content: ''; display: block; width: 32px; height: 1px; background: var(--gold-dark); }
-.section-tag.light-tag { color: var(--gold); }
-.section-tag.light-tag::before { background: var(--gold); }
-
-.gold-rule { height: 1px; background: linear-gradient(90deg, transparent, var(--gold), transparent); }
-.dark-rule  { height: 1px; background: rgba(12,12,12,.09); margin: 0 60px; }
-
-/* ── HERO ── */
-.hero {
-  min-height: 100vh; position: relative; overflow: hidden;
-  background: var(--ink); display: flex; flex-direction: column;
-  justify-content: flex-end; padding: 0 60px 88px;
-}
-.hero-img {
-  position: absolute; top: 0; right: 0; bottom: 0; width: 58%;
-  pointer-events: none;
-}
-.hero-img img { width: 100%; height: 100%; object-fit: cover; object-position: center top; }
-.hero-img::before {
-  content: ''; position: absolute; inset: 0; z-index: 1;
-  background: linear-gradient(90deg, var(--ink) 0%, var(--ink) 15%, rgba(12,12,12,.7) 45%, rgba(12,12,12,.15) 100%);
-}
-.hero-img::after {
-  content: ''; position: absolute; bottom: 0; left: 0; right: 0; height: 40%; z-index: 1;
-  background: linear-gradient(0deg, var(--ink) 0%, transparent 100%);
-}
-.hero-gold-line { position: absolute; top: 0; left: 0; right: 0; height: 2px; background: linear-gradient(90deg, transparent, var(--gold), transparent); z-index: 3; }
-.hero-wm {
-  position: absolute; left: -20px; top: 50%; transform: translateY(-54%);
-  font-family: var(--D); font-size: clamp(200px, 28vw, 440px);
-  color: rgba(247,246,243,.03); line-height: 1; pointer-events: none; z-index: 0; letter-spacing: .04em;
-}
-.hero-content { position: relative; z-index: 2; }
-.hero-tag { font-size: 10px; font-weight: 400; letter-spacing: .36em; text-transform: uppercase; color: var(--gold); margin-bottom: 24px; opacity: 0; }
-.hero-h1 { font-family: var(--D); font-size: clamp(64px, 10vw, 160px); line-height: .87; letter-spacing: .025em; color: var(--white); opacity: 0; padding-bottom: .12em; }
-.hero-h1-sub { display: block; font-family: var(--P); font-style: italic; font-weight: 400; font-size: clamp(40px, 6.5vw, 108px); line-height: 1.15; letter-spacing: -.015em; color: rgba(200,184,154,.72); margin-top: 4px; }
-.hero-foot { display: flex; justify-content: space-between; align-items: flex-end; margin-top: 60px; opacity: 0; }
-.hero-sub { font-size: 15px; font-weight: 300; line-height: 1.8; color: rgba(247,246,243,.42); max-width: 400px; }
-.hero-ctas { display: flex; gap: 12px; align-items: center; }
-.btn-gold { font-size: 10px; font-weight: 500; letter-spacing: .2em; text-transform: uppercase; background: var(--gold); color: var(--ink); padding: 13px 28px; border-radius: 40px; transition: background .25s, transform .2s; border: none; cursor: none; }
-.btn-gold:hover { background: var(--gold-light); transform: translateY(-1px); }
-.btn-ghost { font-size: 10px; font-weight: 500; letter-spacing: .2em; text-transform: uppercase; color: rgba(247,246,243,.6); border: 1px solid rgba(247,246,243,.2); padding: 12px 28px; border-radius: 40px; transition: border-color .25s, color .25s; }
-.btn-ghost:hover { border-color: var(--gold); color: var(--gold); }
-.hero-scroll { display: flex; flex-direction: column; align-items: center; gap: 10px; }
-.sline { width: 1px; height: 56px; background: var(--gold); opacity: .4; animation: pulse 2.8s 1s infinite; }
-.hero-scroll-lbl { font-size: 9px; letter-spacing: .22em; text-transform: uppercase; color: rgba(200,184,154,.4); }
-@keyframes pulse { 0%,100%{opacity:.1;transform:scaleY(.3)} 50%{opacity:.5;transform:scaleY(1)} }
-
-/* ── FIT DIFFERENCE ── */
-.fit-diff { background: var(--paper); padding: 120px 60px; }
-.fit-diff-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 2px; margin-top: 64px; }
-.fit-col { background: var(--white); overflow: hidden; }
-.fit-col-img { aspect-ratio: 3/4; overflow: hidden; }
-.fit-col-img img { width: 100%; height: 100%; object-fit: cover; object-position: center top; transition: transform .7s ease; }
-.fit-col:hover .fit-col-img img { transform: scale(1.04); }
-.fit-col-body { padding: 32px 28px 36px; }
-.fit-col-label { font-family: var(--D); font-size: 22px; letter-spacing: .06em; color: var(--ink); margin-bottom: 12px; }
-.fit-col-rule { width: 24px; height: 1px; background: var(--gold-dark); margin-bottom: 16px; }
-.fit-col-text { font-size: 14px; font-weight: 300; line-height: 1.75; color: rgba(12,12,12,.55); }
-.fit-diff-cta { margin-top: 48px; display: flex; align-items: center; gap: 16px; }
-.link-arrow { font-size: 11px; font-weight: 400; letter-spacing: .2em; text-transform: uppercase; color: var(--gold-dark); display: flex; align-items: center; gap: 10px; transition: gap .25s, color .25s; }
-.link-arrow::after { content: '→'; transition: transform .25s; }
-.link-arrow:hover { color: var(--ink); gap: 14px; }
-.link-arrow:hover::after { transform: translateX(4px); }
-
-/* ── COLLECTIONS ── */
-.collections { padding: 0; display: grid; grid-template-columns: 1fr 1fr; }
-.coll-panel { padding: 88px 64px 80px; min-height: 80vh; display: flex; flex-direction: column; position: relative; overflow: hidden; }
-.coll-panel.dormann { background: var(--ink2); }
-.coll-panel.steel-brown { background: linear-gradient(160deg, #1a1610 0%, #0c0c0c 100%); }
-.coll-panel::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 1px; background: linear-gradient(90deg, var(--gold), transparent); opacity: .25; }
-.coll-num { font-size: 9px; letter-spacing: .3em; text-transform: uppercase; color: rgba(200,184,154,.35); margin-bottom: 20px; }
-.coll-name { font-family: var(--D); font-size: clamp(48px, 5.5vw, 80px); letter-spacing: .025em; line-height: .88; margin-bottom: 12px; }
-.coll-name.gold { color: var(--gold); }
-.coll-name.white { color: var(--white); }
-.coll-tagline { font-family: var(--P); font-style: italic; font-size: clamp(16px, 1.8vw, 22px); color: rgba(200,184,154,.6); margin-bottom: 40px; line-height: 1.4; }
-.coll-rule { width: 32px; height: 1px; background: var(--gold); opacity: .5; margin-bottom: 32px; }
-.coll-body { font-size: 14px; font-weight: 300; line-height: 1.85; color: rgba(247,246,243,.48); max-width: 400px; margin-bottom: 40px; }
-.coll-specs { display: flex; flex-direction: column; gap: 0; margin-bottom: 48px; }
-.coll-spec { display: flex; border-bottom: 1px solid rgba(247,246,243,.05); }
-.coll-spec-k { font-size: 9px; letter-spacing: .2em; text-transform: uppercase; color: rgba(200,184,154,.4); width: 80px; flex-shrink: 0; padding: 11px 0; }
-.coll-spec-v { font-size: 12px; font-weight: 300; color: rgba(247,246,243,.5); padding: 11px 0 11px 16px; flex: 1; line-height: 1.5; }
-.coll-img { margin-top: auto; padding-top: 40px; }
-.coll-img img { width: 100%; max-width: 320px; object-fit: contain; filter: drop-shadow(0 24px 48px rgba(0,0,0,.5)); transition: transform .6s ease; }
-.coll-panel:hover .coll-img img { transform: translateY(-6px); }
-
-/* ── EDITORIAL STRIP ── */
-.editorial-strip { display: grid; grid-template-columns: 2fr 1fr 1fr 2fr; gap: 2px; background: var(--ink); }
-.edit-cell { overflow: hidden; position: relative; }
-.edit-cell img { width: 100%; height: 100%; object-fit: cover; transition: transform .8s ease; display: block; }
-.edit-cell:hover img { transform: scale(1.04); }
-.edit-tall { aspect-ratio: 3/4; }
-.edit-wide { aspect-ratio: 3/2; }
-.edit-strip-label {
-  position: absolute; bottom: 20px; left: 20px;
-  font-size: 9px; letter-spacing: .22em; text-transform: uppercase;
-  color: rgba(247,246,243,.35); z-index: 2;
-}
-
-/* ── FIT PROFILE ── */
-.fit-profile { padding: 120px 60px; background: var(--white); position: relative; overflow: hidden; }
-.fit-profile::before { content: 'FIT'; position: absolute; right: -40px; top: 50%; transform: translateY(-50%); font-family: var(--D); font-size: clamp(200px, 22vw, 360px); color: rgba(12,12,12,.03); line-height: 1; pointer-events: none; }
-.fit-profile-inner { max-width: 800px; position: relative; z-index: 1; }
-.fit-h { font-family: var(--D); font-size: clamp(40px, 5.5vw, 72px); letter-spacing: .025em; line-height: .9; color: var(--ink); margin-bottom: 12px; }
-.fit-h-sub { font-family: var(--P); font-style: italic; font-size: clamp(20px, 2.5vw, 32px); color: var(--gold-dark); display: block; margin-bottom: 20px; }
-.fit-intro { font-size: 15px; font-weight: 300; line-height: 1.8; color: rgba(12,12,12,.5); max-width: 540px; margin-bottom: 56px; }
-.fit-quiz { display: flex; flex-direction: column; gap: 36px; }
-.quiz-step { }
-.quiz-step-num { font-size: 9px; letter-spacing: .28em; text-transform: uppercase; color: rgba(12,12,12,.35); margin-bottom: 10px; }
-.quiz-step-q { font-size: 14px; font-weight: 400; letter-spacing: .04em; color: rgba(12,12,12,.65); margin-bottom: 16px; }
-.quiz-options { display: flex; gap: 8px; flex-wrap: wrap; }
-.quiz-opt {
-  font-size: 11px; letter-spacing: .16em; text-transform: uppercase; font-weight: 400;
-  padding: 10px 20px; border: 1px solid rgba(12,12,12,.14); color: rgba(12,12,12,.45);
-  cursor: none; transition: all .25s; border-radius: 40px; background: transparent;
-  font-family: var(--B);
-}
-.quiz-opt:hover { border-color: var(--gold-dark); color: var(--gold-dark); }
-.quiz-opt.selected { border-color: var(--gold-dark); color: var(--gold-dark); background: rgba(168,144,112,.08); }
-.fit-quiz-cta { margin-top: 48px; display: flex; align-items: center; gap: 20px; }
-.fit-note { font-size: 11px; font-weight: 300; color: rgba(12,12,12,.28); }
-
-/* ── TRY ON FEATURE ── */
-.try-on-feature { padding: 100px 60px; background: var(--paper); position: relative; overflow: hidden; }
-.try-on-feature::before { content: ''; position: absolute; inset: 0; background: url('assets/product/macro-detail.png') center / cover no-repeat; opacity: .04; }
-.try-on-inner { position: relative; z-index: 1; display: grid; grid-template-columns: 1fr 1fr; gap: 80px; align-items: center; }
-.try-on-h { font-family: var(--D); font-size: clamp(44px, 6vw, 88px); letter-spacing: .025em; line-height: .88; color: var(--ink); margin-bottom: 16px; }
-.try-on-sub { font-family: var(--P); font-style: italic; font-size: clamp(18px, 2vw, 26px); color: var(--gold-dark); margin-bottom: 28px; display: block; }
-.try-on-body { font-size: 15px; font-weight: 300; line-height: 1.8; color: rgba(12,12,12,.52); margin-bottom: 40px; max-width: 440px; }
-.try-on-powered { font-size: 9px; letter-spacing: .2em; text-transform: uppercase; color: rgba(12,12,12,.3); margin-top: 20px; }
-.try-on-visual { display: grid; grid-template-columns: 1fr 1fr; gap: 2px; }
-.try-on-img { overflow: hidden; }
-.try-on-img img { width: 100%; height: 100%; object-fit: cover; aspect-ratio: 3/4; }
-.try-on-img.wide { grid-column: span 2; }
-.try-on-img.wide img { aspect-ratio: 2/1; }
-
-/* ── REVIEWS ── */
-.reviews { background: var(--paper); padding: 120px 60px; }
-.reviews-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 2px; margin-top: 64px; }
-.review-card { background: var(--white); padding: 40px 36px; display: flex; flex-direction: column; }
-.review-face-tags { display: flex; gap: 6px; flex-wrap: wrap; margin-bottom: 20px; }
-.face-tag { font-size: 9px; letter-spacing: .18em; text-transform: uppercase; background: rgba(168,144,112,.12); color: var(--gold-dark); padding: 4px 10px; border-radius: 20px; }
-.review-ratings { display: flex; flex-direction: column; gap: 8px; margin-bottom: 24px; padding-bottom: 24px; border-bottom: 1px solid var(--border-l); }
-.rating-row { display: flex; align-items: center; gap: 12px; }
-.rating-label { font-size: 9px; letter-spacing: .18em; text-transform: uppercase; color: rgba(12,12,12,.35); width: 110px; flex-shrink: 0; }
-.rating-dots { display: flex; gap: 3px; }
-.dot { width: 6px; height: 6px; border-radius: 50%; background: rgba(12,12,12,.12); }
-.dot.filled { background: var(--gold-dark); }
-.review-quote { font-family: var(--P); font-style: italic; font-size: 16px; line-height: 1.65; color: rgba(12,12,12,.7); flex: 1; margin-bottom: 28px; }
-.review-meta { display: flex; align-items: center; gap: 14px; }
-.review-avatar { width: 40px; height: 40px; border-radius: 50%; overflow: hidden; flex-shrink: 0; background: var(--paper); }
-.review-avatar img { width: 100%; height: 100%; object-fit: cover; object-position: center top; }
-.review-name { font-size: 12px; font-weight: 400; color: var(--ink); letter-spacing: .04em; }
-.review-frame { font-size: 10px; font-weight: 300; color: var(--mid); margin-top: 2px; }
-
-/* ── BRAND BELIEF ── */
-.brand-belief {
-  padding: 0; display: grid; grid-template-columns: 1fr 1fr;
-  min-height: 70vh;
-}
-.belief-img { overflow: hidden; position: relative; }
-.belief-img img { width: 100%; height: 100%; object-fit: cover; object-position: center top; }
-.belief-img::after { content: ''; position: absolute; inset: 0; background: linear-gradient(90deg, transparent 70%, rgba(12,12,12,.6) 100%); }
-.belief-content { background: linear-gradient(160deg, #1a1610 0%, #0c0c0c 100%); padding: 88px 72px; display: flex; flex-direction: column; justify-content: center; position: relative; }
-.belief-content::before { content: ''; position: absolute; top: 0; left: 0; bottom: 0; width: 1px; background: linear-gradient(180deg, transparent, var(--gold), transparent); opacity: .2; }
-.belief-pull { font-family: var(--P); font-style: italic; font-size: clamp(24px, 2.8vw, 40px); line-height: 1.35; color: var(--white); margin-bottom: 40px; letter-spacing: -.01em; }
-.belief-pull em { color: var(--gold); font-style: normal; }
-.belief-attr { font-size: 10px; letter-spacing: .2em; text-transform: uppercase; color: rgba(247,246,243,.3); margin-bottom: 48px; }
-.belief-rule { width: 40px; height: 1px; background: var(--gold); opacity: .4; margin-bottom: 40px; }
-.belief-body { font-size: 14px; font-weight: 300; line-height: 1.85; color: rgba(247,246,243,.42); max-width: 380px; margin-bottom: 36px; }
-
-/* ── FOOTER ── */
-footer { padding: 72px 60px 56px; background: var(--ink); border-top: 1px solid rgba(200,184,154,.1); }
-.footer-top { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 56px; }
-.footer-logo img { height: 28px; filter: brightness(0) invert(1); opacity: .35; }
-.footer-logo-text { font-family: var(--D); font-size: 20px; letter-spacing: .2em; color: rgba(247,246,243,.3); }
-.footer-tagline { font-family: var(--P); font-style: italic; font-size: 13px; color: rgba(200,184,154,.35); margin-top: 12px; }
-.footer-cols { display: grid; grid-template-columns: repeat(4, 1fr); gap: 40px; }
-.footer-col-h { font-size: 10px; letter-spacing: .24em; text-transform: uppercase; color: rgba(200,184,154,.5); margin-bottom: 20px; }
-.footer-links { list-style: none; display: flex; flex-direction: column; gap: 10px; }
-.footer-links a { font-size: 13px; font-weight: 300; color: rgba(247,246,243,.3); transition: color .25s; }
-.footer-links a:hover { color: var(--gold); }
-.footer-bottom { display: flex; justify-content: space-between; align-items: center; padding-top: 40px; border-top: 1px solid rgba(247,246,243,.05); }
-.footer-copy { font-size: 11px; font-weight: 300; color: rgba(247,246,243,.18); letter-spacing: .08em; }
-.footer-founder { font-size: 11px; font-weight: 300; color: rgba(200,184,154,.3); font-style: italic; }
-
-/* ── MOBILE ── */
-@media (max-width: 960px) {
-  nav { padding: 16px 24px; }
-  nav.scrolled { padding: 14px 24px; }
-  .nav-links { display: none; }
-  .nav-drop { padding: 80px 24px 48px; }
-  .drop-inner { grid-template-columns: 1fr 1fr; }
-
-  .hero { padding: 0 24px 64px; }
-  .hero-img { width: 100%; opacity: .35; }
-  .hero-img::before { background: linear-gradient(180deg, rgba(12,12,12,.3) 0%, rgba(12,12,12,.95) 75%); }
-  .hero-foot { flex-direction: column; align-items: flex-start; gap: 28px; }
-  .hero-scroll { display: none; }
-
-  .fit-diff { padding: 80px 24px; }
-  .fit-diff-grid { grid-template-columns: 1fr; }
-  .fit-col-img { aspect-ratio: 4/3; }
-
-  .collections { grid-template-columns: 1fr; }
-  .coll-panel { padding: 60px 32px 56px; min-height: auto; }
-
-  .editorial-strip { grid-template-columns: 1fr 1fr; }
-  .edit-cell:nth-child(3), .edit-cell:nth-child(4) { display: none; }
-
-  .fit-profile { padding: 80px 24px; }
-  .try-on-feature { padding: 80px 24px; }
-  .try-on-inner { grid-template-columns: 1fr; gap: 48px; }
-  .try-on-visual { display: none; }
-
-  .reviews { padding: 80px 24px; }
-  .reviews-grid { grid-template-columns: 1fr; }
-
-  .brand-belief { grid-template-columns: 1fr; }
-  .belief-img { aspect-ratio: 4/3; }
-  .belief-content { padding: 60px 32px; }
-
-  footer { padding: 56px 24px 40px; }
-  .footer-top { flex-direction: column; gap: 24px; }
-  .footer-cols { grid-template-columns: 1fr 1fr; gap: 32px; }
-  .footer-bottom { flex-direction: column; align-items: flex-start; gap: 8px; }
-
-  .cur, .ring { display: none; }
-  body { cursor: auto; }
-}
-
-@media (max-width: 600px) {
-  .drop-inner { grid-template-columns: 1fr; }
-  .footer-cols { grid-template-columns: 1fr; }
-  .editorial-strip { grid-template-columns: 1fr; }
-  .edit-cell:nth-child(2) { display: none; }
-  .quiz-options { flex-direction: column; }
-  .hero-ctas { flex-direction: column; align-items: flex-start; }
-}
-
-/* ── NOISE OVERLAY ── */
-.noise { position: absolute; inset: 0; pointer-events: none; opacity: .025; z-index: 0; background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E"); background-size: 256px 256px; }
-</style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Noonshop - HelloIT Pros</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            line-height: 1.6;
+            color: #1a1a1a;
+            background: linear-gradient(135deg, #f5f5f5 0%, #e8e8e8 100%);
+            min-height: 100vh;
+            padding: 40px 20px;
+        }
+        
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.1);
+            overflow: hidden;
+        }
+        
+        .breadcrumb {
+            padding: 20px 40px;
+            background: #f8f8f8;
+            border-bottom: 1px solid #e0e0e0;
+            font-size: 14px;
+        }
+        
+        .breadcrumb a {
+            color: #666;
+            text-decoration: none;
+        }
+        
+        .breadcrumb a:hover {
+            color: #000000;
+        }
+        
+        .breadcrumb span {
+            margin: 0 8px;
+            color: #999;
+        }
+        
+        .header {
+            background: #000000;
+            color: white;
+            padding: 50px 40px;
+            text-align: center;
+        }
+        
+        .header h1 {
+            font-size: 36px;
+            font-weight: 700;
+            margin-bottom: 10px;
+        }
+        
+        .header p {
+            font-size: 18px;
+            opacity: 0.9;
+            font-weight: 300;
+        }
+        
+        .content {
+            padding: 50px 40px;
+        }
+        
+        .section-title {
+            font-size: 24px;
+            font-weight: 600;
+            margin-bottom: 25px;
+            color: #000000;
+            border-bottom: 3px solid #000000;
+            padding-bottom: 10px;
+        }
+        
+        .resources-grid {
+            display: grid;
+            gap: 25px;
+            margin-top: 30px;
+        }
+        
+        .resource-card {
+            background: #f8f8f8;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px;
+            padding: 30px;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            color: inherit;
+            display: block;
+        }
+        
+        .resource-card:hover {
+            border-color: #000000;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+            transform: translateY(-2px);
+        }
+        
+        .resource-card h3 {
+            font-size: 22px;
+            font-weight: 600;
+            color: #000000;
+            margin-bottom: 12px;
+        }
+        
+        .resource-card p {
+            color: #666;
+            font-size: 15px;
+            line-height: 1.6;
+            margin-bottom: 15px;
+        }
+        
+        .resource-tag {
+            display: inline-block;
+            background: #000000;
+            color: white;
+            padding: 5px 12px;
+            border-radius: 4px;
+            font-size: 12px;
+            font-weight: 500;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        
+        .resource-tag.featured {
+            background: linear-gradient(135deg, #C9A84C, #E8C97A);
+        }
+        
+        .view-link {
+            color: #000000;
+            font-weight: 600;
+            margin-top: 15px;
+            display: inline-block;
+            font-size: 15px;
+        }
+        
+        .view-link:after {
+            content: " →";
+        }
+        
+        .footer {
+            background: #f8f8f8;
+            padding: 30px 40px;
+            text-align: center;
+            color: #666;
+            font-size: 14px;
+            border-top: 1px solid #e0e0e0;
+        }
+        
+        @media (max-width: 768px) {
+            .header h1 {
+                font-size: 28px;
+            }
+            
+            .content {
+                padding: 30px 25px;
+            }
+        }
+    </style>
 </head>
 <body>
-
-<!-- Loader -->
-<div class="loader" id="pageLoader">
-  <div class="loader-brand" id="loaderBrand">NOON SHOP</div>
-  <div class="loader-line" id="loaderLine"></div>
-</div>
-
-<!-- Cursor -->
-<div class="cur"  id="cur"></div>
-<div class="ring" id="ring"></div>
-
-<!-- Shop Dropdown -->
-<div class="nav-drop" id="navDrop">
-  <div class="drop-close" id="dropClose">Close ×</div>
-  <div class="drop-inner">
-    <a href="shop.html" class="drop-item">
-      <div class="drop-item-label">Browse</div>
-      <div class="drop-item-name">ALL<br>FRAMES</div>
-      <div class="drop-item-sub">Every collection</div>
-    </a>
-    <a href="shop.html?collection=dormann" class="drop-item">
-      <div class="drop-item-label">Collection 01</div>
-      <div class="drop-item-name">DORM<br>ANN</div>
-      <div class="drop-item-sub">From $260 · Beta-titanium</div>
-    </a>
-    <a href="shop.html?collection=steel-brown" class="drop-item">
-      <div class="drop-item-label">Collection 02</div>
-      <div class="drop-item-name">STEEL<br>BROWN</div>
-      <div class="drop-item-sub">German stainless steel</div>
-    </a>
-    <a href="shop.html?collection=denova" class="drop-item">
-      <div class="drop-item-label">Collection 03</div>
-      <div class="drop-item-name">DE<br>NOVA</div>
-      <div class="drop-item-sub">Everyday essentials</div>
-    </a>
-  </div>
-</div>
-
-<!-- Nav -->
-<nav id="mainNav">
-  <a href="index.html" class="nav-logo">
-    <img src="assets/logo.png" alt="Noon Shop"
-      onerror="this.style.display='none';this.nextElementSibling.style.display='block'">
-    <span class="nav-logo-text" style="display:none">NOON SHOP</span>
-  </a>
-  <div class="nav-links">
-    <span class="nav-link has-drop" id="shopTrigger">Shop</span>
-    <a href="fit-guide.html" class="nav-link">Fit Guide</a>
-    <a href="story.html" class="nav-link">Our Story</a>
-  </div>
-  <div class="nav-right">
-    <a href="shop.html" class="nav-cart">
-      <span>Cart</span>
-      <span class="cart-count">0</span>
-    </a>
-  </div>
-</nav>
-
-<!-- ── HERO ── -->
-<section class="hero" id="hero">
-  <div class="noise"></div>
-  <div class="hero-gold-line"></div>
-  <div class="hero-wm">NOON</div>
-
-  <div class="hero-img">
-    <img src="assets/editorial/platon-1.png" alt="Noon Shop editorial"
-      onerror="this.parentElement.style.background='#1a1a1a'">
-  </div>
-
-  <div class="hero-content">
-    <div class="hero-tag" id="hTag">Founded by Dr. Anna Park, MD · Ophthalmologist</div>
-    <h1 class="hero-h1" id="hH1">
-      FIT IS
-      <span class="hero-h1-sub">fundamental.</span>
-    </h1>
-    <div class="hero-foot" id="hFoot">
-      <div>
-        <p class="hero-sub">Eyewear engineered for the full range of facial structures. Because you were never hard to fit — the industry just wasn't trying.</p>
-        <div class="hero-ctas" style="margin-top:32px">
-          <a href="shop.html" class="btn-gold">Shop Frames</a>
-          <a href="fit-guide.html" class="btn-ghost">Find My Fit</a>
+    <div class="container">
+        <div class="breadcrumb">
+            <a href="../">← HelloIT Pros</a>
+            <span>/</span>
+            <strong>Noonshop</strong>
         </div>
-      </div>
-      <div class="hero-scroll">
-        <div class="sline"></div>
-        <span class="hero-scroll-lbl">Scroll</span>
-      </div>
+        
+        <div class="header">
+            <h1>Noonshop</h1>
+            <p>Brand, CRM & Content Operations</p>
+        </div>
+
+        <div class="content">
+            <h2 class="section-title">Resources</h2>
+            
+            <div class="resources-grid">
+                <a href="crm-summary.html" class="resource-card">
+                    <span class="resource-tag featured">Summary</span>
+                    <h3>CRM Build Summary</h3>
+                    <p>Updated overview of the Noon Shop CRM build — campaign strategy, integrations, sales infrastructure, and project status. Includes live API audit findings.</p>
+                    <span class="view-link">View Summary</span>
+                </a>
+                
+                <a href="tenant-documentation.html" class="resource-card">
+                    <span class="resource-tag featured">Documentation</span>
+                    <h3>Full Tenant Documentation</h3>
+                    <p>Complete GHL tenant documentation — 18 sections covering system architecture, contact field mapping, workflows, email templates, cross-system attribute mapping (Shopify/QuickBooks/GHL), product catalog, payments, and full API audit.</p>
+                    <span class="view-link">View Documentation</span>
+                </a>
+                
+                <a href="noonshop-warranty-ghl-guide.html" class="resource-card">
+                    <span class="resource-tag">Guide</span>
+                    <h3>Warranty Form — GHL Implementation Guide</h3>
+                    <p>Step-by-step GHL implementation guide for the Noonshop warranty form — covering form setup, field mapping, workflow triggers, and customer journey phases.</p>
+                    <span class="view-link">View Guide</span>
+                </a>
+
+                <a href="campaigns/" class="resource-card">
+                    <span class="resource-tag">Email Campaigns</span>
+                    <h3>Email Campaign Library</h3>
+                    <p>Browse all email campaign templates including prospect journeys, first order sequences, active customer communications, winback campaigns, and holiday promotions.</p>
+                    <span class="view-link">View Campaigns</span>
+                </a>
+                
+                <a href="Flows/" class="resource-card">
+                    <span class="resource-tag">Workflows</span>
+                    <h3>CRM Flows & Automation</h3>
+                    <p>Complete CRM workflow documentation with real-time order monitoring, automated sequences, and Shopify/QuickBooks integration strategies.</p>
+                    <span class="view-link">View Flows</span>
+                </a>
+                
+                <a href="recruiting.html" class="resource-card">
+                    <span class="resource-tag">Recruiting</span>
+                    <h3>Sales Opportunity — Recruiting Page</h3>
+                    <p>Candidate-facing sales opportunity page for Noon Shop optical sales reps. Covers product belief, territory building, tech stack, compensation model, and includes an interactive qualification quiz.</p>
+                    <span class="view-link">View Page</span>
+                </a>
+                
+                <a href="recruiting-beta.html" class="resource-card" style="border-style:dashed">
+                    <span class="resource-tag" style="background:linear-gradient(135deg,#333,#555)">Beta</span>
+                    <h3>Sales Opportunity — Beta Redesign</h3>
+                    <p>Cinematic redesign with Three.js particle effects, GSAP scroll animations, hero video background, horizontal scroll sections, and interactive 3D card tilts.</p>
+                    <span class="view-link">Preview Beta</span>
+                </a>
+
+                <div style="border-top: 2px solid #000; padding-top: 8px; margin-top: 8px;">
+                    <span style="font-size:11px;font-weight:600;letter-spacing:.14em;text-transform:uppercase;color:#999;">Brand &amp; Content</span>
+                </div>
+
+                <a href="brand-guide.html" class="resource-card">
+                    <span class="resource-tag featured">Brand</span>
+                    <h3>Brand Guide</h3>
+                    <p>Noon Shop brand identity guide — covering voice, typography, color palette, logo usage, and product photography direction.</p>
+                    <span class="view-link">View Brand Guide</span>
+                </a>
+
+                <a href="social.html" class="resource-card">
+                    <span class="resource-tag">Social</span>
+                    <h3>Social Media</h3>
+                    <p>Social channel content and Instagram grid layout — including quote tiles, product imagery, and brand-aligned copy across channels.</p>
+                    <span class="view-link">View Social</span>
+                </a>
+
+                <a href="content-ops.html" class="resource-card">
+                    <span class="resource-tag featured">Ops</span>
+                    <h3>Content Ops</h3>
+                    <p>Full social content playbook — fit narrative, digital influencers (Kai, Yuna, Mei), frame specs from noonshop.com, grid logic, caption system, quote card spec, prompt library, and QA gate. 14 sections.</p>
+                    <span class="view-link">View Content Ops</span>
+                </a>
+
+                <a href="products.html" class="resource-card">
+                    <span class="resource-tag featured">Products</span>
+                    <h3>The Collections</h3>
+                    <p>All three Noonshop collections — Dormann, Steel Brown, DeNova — with full frame specs, founder narrative, fit architecture breakdown, Dr. Anna Park quotes, and model-level detail cards.</p>
+                    <span class="view-link">View Collections</span>
+                </a>
+                <a href="visuals/xp.html" class="resource-card">
+                    <span class="resource-tag featured">Campaign</span>
+                    <h3>XP Health × Noon Shop</h3>
+                    <p>Hero concept exploration for the XP Health partnership — Dormann and Steel Brown campaign concepts with copy and art direction variants (1A, 1B, 2A, 2B).</p>
+                    <span class="view-link">View Campaign Concepts</span>
+                </a>
+                <a href="content-framework.html" class="resource-card">
+                    <span class="resource-tag featured">Ops · Internal 🔒</span>
+                    <h3>Content Generation Framework</h3>
+                    <p>Internal playbook for Nano Banana — 6-layer system, Sofia × Dormann pilot (complete), production archetypes, QA gate, and 10 documented lessons. Password-protected; share access via 1Password.</p>
+                    <span class="view-link">View Framework</span>
+                </a>
+            </div>
+        </div>
+        
+        <div class="footer">
+            <p>HelloIT Pros - Professional IT Solutions & Strategic Consulting</p>
+        </div>
     </div>
-  </div>
-</section>
-
-<div class="gold-rule"></div>
-
-<!-- ── FIT DIFFERENCE ── -->
-<section class="fit-diff" id="fit-diff">
-  <div class="section-tag rv">Why Noon Shop Exists</div>
-  <h2 class="rv d1" style="font-family:var(--D);font-size:clamp(48px,6.5vw,96px);letter-spacing:.025em;line-height:.9;color:var(--ink);margin-bottom:0">THE FIT<br><span style="font-family:var(--P);font-style:italic;font-weight:400;font-size:clamp(32px,4.5vw,64px);color:var(--gold-dark);line-height:1.2">that was missing.</span></h2>
-
-  <div class="fit-diff-grid rv d2">
-    <div class="fit-col">
-      <div class="fit-col-img">
-        <img src="assets/faces/east-asian-man-front.png" alt="Low bridge fit"
-          onerror="this.parentElement.style.background='#dddad4'">
-      </div>
-      <div class="fit-col-body">
-        <div class="fit-col-label">LOW BRIDGE</div>
-        <div class="fit-col-rule"></div>
-        <p class="fit-col-text">East Asian, Southeast Asian, Black, and Latinx facial structures. Flat nasal bridges where standard frames slide forward all day. Noon Shop was explicitly built to serve this face.</p>
-      </div>
-    </div>
-    <div class="fit-col">
-      <div class="fit-col-img">
-        <img src="assets/faces/caucasian-woman-front.png" alt="High cheekbone fit"
-          onerror="this.parentElement.style.background='#e5e2dc'">
-      </div>
-      <div class="fit-col-body">
-        <div class="fit-col-label">HIGH CHEEKBONES</div>
-        <div class="fit-col-rule"></div>
-        <p class="fit-col-text">Frames that press on prominent cheekbones are a persistent, ignored discomfort. High-cheekbone clearance is built in — not adjusted for. The frame clears correctly, settled and still.</p>
-      </div>
-    </div>
-    <div class="fit-col">
-      <div class="fit-col-img">
-        <img src="assets/faces/ambiguous-man.png" alt="Wide and narrow face fit"
-          onerror="this.parentElement.style.background='#e8e4de'">
-      </div>
-      <div class="fit-col-body">
-        <div class="fit-col-label">WIDE & NARROW</div>
-        <div class="fit-col-rule"></div>
-        <p class="fit-col-text">Both ends of the face-width spectrum, underserved by standard sizing. Temples that sit flush — no squeeze, no gap. The frame disappears into the face because it belongs there.</p>
-      </div>
-    </div>
-  </div>
-
-  <div class="fit-diff-cta rv d3">
-    <a href="fit-guide.html" class="link-arrow">See the Fit Guide</a>
-    <span style="width:1px;height:16px;background:var(--gold-dark);opacity:.3"></span>
-    <a href="story.html" class="link-arrow">Our Story</a>
-  </div>
-</section>
-
-<div class="gold-rule"></div>
-
-<!-- ── COLLECTIONS ── -->
-<section style="padding:0" id="collections">
-  <div class="collections">
-
-    <!-- Dormann -->
-    <div class="coll-panel dormann rv">
-      <div class="noise"></div>
-      <div style="position:relative;z-index:1">
-        <div class="coll-num">Collection 01</div>
-        <div class="coll-name white">DORMANN</div>
-        <div class="coll-tagline">Playful. Minimal. Correctly fitting — every time.</div>
-        <div class="coll-rule"></div>
-        <p class="coll-body">Beta-titanium temples. TR90 thermoplastic front. The patented screwless snap hinge means no pressure points, no slipping, no adjusting. Vibrant colors, shapes, and sizes — because fit and personality are not a trade-off.</p>
-        <div class="coll-specs">
-          <div class="coll-spec">
-            <div class="coll-spec-k">Material</div>
-            <div class="coll-spec-v">Beta-titanium temples · TR90 front</div>
-          </div>
-          <div class="coll-spec">
-            <div class="coll-spec-k">Hinge</div>
-            <div class="coll-spec-v">Patented screwless snap — no loose parts</div>
-          </div>
-          <div class="coll-spec">
-            <div class="coll-spec-k">Origin</div>
-            <div class="coll-spec-v">South Korea</div>
-          </div>
-          <div class="coll-spec">
-            <div class="coll-spec-k">From</div>
-            <div class="coll-spec-v">$260 USD</div>
-          </div>
-        </div>
-        <a href="shop.html?collection=dormann" class="btn-ghost" style="display:inline-block">Shop Dormann →</a>
-        <div class="coll-img">
-          <img src="assets/product/dormann-panto.png" alt="Dormann collection"
-            onerror="this.style.display='none'">
-        </div>
-      </div>
-    </div>
-
-    <!-- Steel Brown -->
-    <div class="coll-panel steel-brown rv d1">
-      <div class="noise"></div>
-      <div style="position:relative;z-index:1">
-        <div class="coll-num">Collection 02</div>
-        <div class="coll-name gold">STEEL BROWN</div>
-        <div class="coll-tagline">Where precision meets quietly confident style.</div>
-        <div class="coll-rule"></div>
-        <p class="coll-body">Medical-grade German stainless steel. Mazzucchelli Italian acetate. A collaboration with award-winning German designer Wolfgang Proksch. Eyewear that earns its place at the highest levels of professional life.</p>
-        <div class="coll-specs">
-          <div class="coll-spec">
-            <div class="coll-spec-k">Material</div>
-            <div class="coll-spec-v">German stainless steel · Mazzucchelli acetate</div>
-          </div>
-          <div class="coll-spec">
-            <div class="coll-spec-k">Design</div>
-            <div class="coll-spec-v">Wolfgang Proksch · Award-winning German designer</div>
-          </div>
-          <div class="coll-spec">
-            <div class="coll-spec-k">Nose pads</div>
-            <div class="coll-spec-v">No-screw silicone, low-bridge optimized</div>
-          </div>
-          <div class="coll-spec">
-            <div class="coll-spec-k">Aesthetic</div>
-            <div class="coll-spec-v">Boardroom to everything else</div>
-          </div>
-        </div>
-        <a href="shop.html?collection=steel-brown" class="btn-gold" style="display:inline-block">Shop Steel Brown →</a>
-        <div class="coll-img">
-          <img src="assets/product/steel-brown-rect.png" alt="Steel Brown collection"
-            onerror="this.style.display='none'">
-        </div>
-      </div>
-    </div>
-
-  </div>
-</section>
-
-<!-- ── EDITORIAL STRIP ── -->
-<div class="editorial-strip">
-  <div class="edit-cell edit-wide">
-    <img src="assets/editorial/editorial-1a.png" alt="Noon Shop editorial"
-      onerror="this.parentElement.style.background='#111'">
-    <span class="edit-strip-label">Noon Shop · 2026</span>
-  </div>
-  <div class="edit-cell edit-tall">
-    <img src="assets/editorial/editorial-1b.png" alt="Noon Shop editorial"
-      onerror="this.parentElement.style.background='#0d0d0d'">
-  </div>
-  <div class="edit-cell edit-tall">
-    <img src="assets/editorial/editorial-2a.png" alt="Noon Shop editorial"
-      onerror="this.parentElement.style.background='#151515'">
-  </div>
-  <div class="edit-cell edit-wide">
-    <img src="assets/editorial/annie-1.png" alt="Noon Shop editorial"
-      onerror="this.parentElement.style.background='#0c0c0c'">
-  </div>
-</div>
-
-<div class="dark-rule"></div>
-
-<!-- ── FIT PROFILE ── -->
-<section class="fit-profile" id="fit-profile">
-  <div class="fit-profile-inner">
-    <div class="section-tag rv">Find Your Fit</div>
-    <div class="fit-h rv d1">
-      YOUR FACE IS
-      <span class="fit-h-sub">not the problem.</span>
-    </div>
-    <p class="fit-intro rv d2">Answer three questions. We'll show you the frames that were built for your face — not just the ones that are popular.</p>
-
-    <div class="fit-quiz rv d2" id="fitQuiz">
-      <div class="quiz-step">
-        <div class="quiz-step-num">Step 01 of 03</div>
-        <div class="quiz-step-q">How would you describe your nasal bridge?</div>
-        <div class="quiz-options" data-group="bridge">
-          <button class="quiz-opt" data-val="flat">Flat / Low</button>
-          <button class="quiz-opt" data-val="medium">Medium</button>
-          <button class="quiz-opt" data-val="high">High / Prominent</button>
-        </div>
-      </div>
-      <div class="quiz-step">
-        <div class="quiz-step-num">Step 02 of 03</div>
-        <div class="quiz-step-q">How would you describe your face width?</div>
-        <div class="quiz-options" data-group="width">
-          <button class="quiz-opt" data-val="narrow">Narrower than average</button>
-          <button class="quiz-opt" data-val="standard">Standard</button>
-          <button class="quiz-opt" data-val="wide">Wider than average</button>
-        </div>
-      </div>
-      <div class="quiz-step">
-        <div class="quiz-step-num">Step 03 of 03</div>
-        <div class="quiz-step-q">How prominent are your cheekbones?</div>
-        <div class="quiz-options" data-group="cheekbone">
-          <button class="quiz-opt" data-val="prominent">Prominent — frames often rest on them</button>
-          <button class="quiz-opt" data-val="moderate">Moderate</button>
-          <button class="quiz-opt" data-val="low">Low / Flat</button>
-        </div>
-      </div>
-    </div>
-
-    <div class="fit-quiz-cta rv d3">
-      <button class="btn-gold" id="fitShowFrames" onclick="submitFitProfile()">Show My Frames →</button>
-      <span class="fit-note">Your profile is saved for this session</span>
-    </div>
-  </div>
-</section>
-
-<div class="gold-rule"></div>
-
-<!-- ── VIRTUAL TRY-ON FEATURE ── -->
-<section class="try-on-feature" id="try-on">
-  <div class="try-on-inner">
-    <div class="rv">
-      <div class="section-tag">Virtual Try-On</div>
-      <div class="try-on-h">SEE IT</div>
-      <span class="try-on-sub">on your face. Before it's on your face.</span>
-      <p class="try-on-body">Every frame in our collection has a virtual try-on button. One click activates your camera and places the frame on your face in real time — no app, no download, no guesswork.</p>
-      <a href="shop.html" class="btn-gold">Browse Frames</a>
-      <div class="try-on-powered">Virtual try-on powered by Auglio · Available on every product</div>
-    </div>
-    <div class="rv d1">
-      <div class="try-on-visual">
-        <div class="try-on-img wide">
-          <img src="assets/refined/woman-front-1.png" alt="Virtual try-on"
-            onerror="this.parentElement.style.background='#1a1a1a'">
-        </div>
-        <div class="try-on-img">
-          <img src="assets/product/thin-rect.png" alt="Frame"
-            onerror="this.parentElement.style.background='#222'">
-        </div>
-        <div class="try-on-img">
-          <img src="assets/product/macro-hinge-1.png" alt="Frame detail"
-            onerror="this.parentElement.style.background='#1c1c1c'">
-        </div>
-      </div>
-    </div>
-  </div>
-</section>
-
-<div class="dark-rule"></div>
-
-<!-- ── FIT-FIRST REVIEWS ── -->
-<section class="reviews" id="reviews">
-  <div class="section-tag rv">Fit Reviews</div>
-  <h2 class="rv d1" style="font-family:var(--D);font-size:clamp(44px,6vw,88px);letter-spacing:.025em;line-height:.9;color:var(--ink)">WORN &amp;<br><span style="font-family:var(--P);font-style:italic;font-weight:400;font-size:clamp(28px,4vw,60px);color:var(--gold-dark)">trusted.</span></h2>
-
-  <div class="reviews-grid rv d2">
-
-    <!-- Review 1 -->
-    <div class="review-card">
-      <div class="review-face-tags">
-        <span class="face-tag">Low Bridge</span>
-        <span class="face-tag">East Asian</span>
-        <span class="face-tag">Oval Face</span>
-      </div>
-      <div class="review-ratings">
-        <div class="rating-row">
-          <span class="rating-label">Bridge Fit</span>
-          <div class="rating-dots">
-            <span class="dot filled"></span><span class="dot filled"></span><span class="dot filled"></span><span class="dot filled"></span><span class="dot filled"></span>
-          </div>
-        </div>
-        <div class="rating-row">
-          <span class="rating-label">Temple Comfort</span>
-          <div class="rating-dots">
-            <span class="dot filled"></span><span class="dot filled"></span><span class="dot filled"></span><span class="dot filled"></span><span class="dot filled"></span>
-          </div>
-        </div>
-        <div class="rating-row">
-          <span class="rating-label">All-day Wear</span>
-          <div class="rating-dots">
-            <span class="dot filled"></span><span class="dot filled"></span><span class="dot filled"></span><span class="dot filled"></span><span class="dot"></span>
-          </div>
-        </div>
-      </div>
-      <p class="review-quote">"Finally a frame that doesn't slide down by noon. I've tried everything. The snap hinge stays exactly where I put it. This is the first pair I've forgotten I'm wearing."</p>
-      <div class="review-meta">
-        <div class="review-avatar">
-          <img src="assets/faces/east-asian-man-front.png" alt="Reviewer"
-            onerror="this.parentElement.style.background='#ddd'">
-        </div>
-        <div>
-          <div class="review-name">David K.</div>
-          <div class="review-frame">Dormann · Classic Round · San Francisco</div>
-        </div>
-      </div>
-    </div>
-
-    <!-- Review 2 -->
-    <div class="review-card">
-      <div class="review-face-tags">
-        <span class="face-tag">High Cheekbones</span>
-        <span class="face-tag">Caucasian</span>
-        <span class="face-tag">Wider Face</span>
-      </div>
-      <div class="review-ratings">
-        <div class="rating-row">
-          <span class="rating-label">Bridge Fit</span>
-          <div class="rating-dots">
-            <span class="dot filled"></span><span class="dot filled"></span><span class="dot filled"></span><span class="dot filled"></span><span class="dot"></span>
-          </div>
-        </div>
-        <div class="rating-row">
-          <span class="rating-label">Cheekbone Clear</span>
-          <div class="rating-dots">
-            <span class="dot filled"></span><span class="dot filled"></span><span class="dot filled"></span><span class="dot filled"></span><span class="dot filled"></span>
-          </div>
-        </div>
-        <div class="rating-row">
-          <span class="rating-label">All-day Wear</span>
-          <div class="rating-dots">
-            <span class="dot filled"></span><span class="dot filled"></span><span class="dot filled"></span><span class="dot filled"></span><span class="dot filled"></span>
-          </div>
-        </div>
-      </div>
-      <p class="review-quote">"My optometrist actually commented on how well these frames fit. The cheekbone clearance is real — I wore them through an 11-hour day in meetings and never once adjusted them."</p>
-      <div class="review-meta">
-        <div class="review-avatar">
-          <img src="assets/faces/caucasian-woman-front.png" alt="Reviewer"
-            onerror="this.parentElement.style.background='#ddd'">
-        </div>
-        <div>
-          <div class="review-name">Sarah M.</div>
-          <div class="review-frame">Steel Brown · Thin Rect · Seattle</div>
-        </div>
-      </div>
-    </div>
-
-    <!-- Review 3 -->
-    <div class="review-card">
-      <div class="review-face-tags">
-        <span class="face-tag">Low Bridge</span>
-        <span class="face-tag">High Cheekbones</span>
-        <span class="face-tag">South Asian</span>
-      </div>
-      <div class="review-ratings">
-        <div class="rating-row">
-          <span class="rating-label">Bridge Fit</span>
-          <div class="rating-dots">
-            <span class="dot filled"></span><span class="dot filled"></span><span class="dot filled"></span><span class="dot filled"></span><span class="dot filled"></span>
-          </div>
-        </div>
-        <div class="rating-row">
-          <span class="rating-label">Temple Comfort</span>
-          <div class="rating-dots">
-            <span class="dot filled"></span><span class="dot filled"></span><span class="dot filled"></span><span class="dot filled"></span><span class="dot"></span>
-          </div>
-        </div>
-        <div class="rating-row">
-          <span class="rating-label">Cheekbone Clear</span>
-          <div class="rating-dots">
-            <span class="dot filled"></span><span class="dot filled"></span><span class="dot filled"></span><span class="dot filled"></span><span class="dot filled"></span>
-          </div>
-        </div>
-      </div>
-      <p class="review-quote">"I've had glasses my whole life and these are the first pair I've looked forward to putting on. My optician said the fit is exceptional. Dr. Park built something genuinely different here."</p>
-      <div class="review-meta">
-        <div class="review-avatar">
-          <img src="assets/refined/asian-man-front.png" alt="Reviewer"
-            onerror="this.parentElement.style.background='#ddd'">
-        </div>
-        <div>
-          <div class="review-name">Ravi T.</div>
-          <div class="review-frame">Steel Brown · Round · Portland</div>
-        </div>
-      </div>
-    </div>
-
-  </div>
-
-  <div style="margin-top:48px" class="rv d3">
-    <a href="shop.html#reviews" class="link-arrow">Read All Reviews</a>
-  </div>
-</section>
-
-<!-- ── BRAND BELIEF ── -->
-<section style="padding:0" id="belief">
-  <div class="brand-belief">
-    <div class="belief-img">
-      <img src="assets/refined/east-asian-close.png" alt="Noon Shop"
-        onerror="this.parentElement.style.background='#111'">
-    </div>
-    <div class="belief-content">
-      <div class="noise"></div>
-      <div style="position:relative;z-index:1">
-        <div class="section-tag light-tag rv" style="margin-bottom:36px">Noon Shop · Core Belief</div>
-        <div class="belief-rule rv d1"></div>
-        <p class="belief-pull rv d1">
-          "Seeing clearly shouldn't come at the expense of comfort.
-          <em>Fit is fundamental</em> — and it's time the industry treated it that way."
-        </p>
-        <div class="belief-attr rv d2">Dr. Anna Park, MD · Founder, Noon Shop</div>
-        <p class="belief-body rv d2">Founded on a clinical observation after more than two decades in ophthalmology. For too long, the industry overlooked a vast range of facial structures. Noon Shop exists because every face deserves a frame that was designed for it.</p>
-        <a href="story.html" class="link-arrow rv d3" style="color:var(--gold)">Our Story</a>
-      </div>
-    </div>
-  </div>
-</section>
-
-<div class="gold-rule"></div>
-
-<!-- ── FOOTER ── -->
-<footer>
-  <div class="footer-top">
-    <div>
-      <div class="footer-logo">
-        <img src="assets/logo.png" alt="Noon Shop"
-          onerror="this.style.display='none';this.nextElementSibling.style.display='block'">
-        <div class="footer-logo-text" style="display:none">NOON SHOP</div>
-      </div>
-      <div class="footer-tagline">"The frame that belongs on your face."</div>
-    </div>
-  </div>
-  <div class="footer-cols">
-    <div>
-      <div class="footer-col-h">Shop</div>
-      <ul class="footer-links">
-        <li><a href="shop.html">All Frames</a></li>
-        <li><a href="shop.html?collection=dormann">Dormann</a></li>
-        <li><a href="shop.html?collection=steel-brown">Steel Brown</a></li>
-        <li><a href="shop.html?collection=denova">Denova</a></li>
-      </ul>
-    </div>
-    <div>
-      <div class="footer-col-h">Learn</div>
-      <ul class="footer-links">
-        <li><a href="fit-guide.html">Fit Guide</a></li>
-        <li><a href="fit-guide.html#measure">How to Measure</a></li>
-        <li><a href="fit-guide.html#finder">Fit Finder</a></li>
-      </ul>
-    </div>
-    <div>
-      <div class="footer-col-h">Brand</div>
-      <ul class="footer-links">
-        <li><a href="story.html">Our Story</a></li>
-        <li><a href="story.html#founder">Dr. Anna Park, MD</a></li>
-        <li><a href="story.html#collections">Collections</a></li>
-      </ul>
-    </div>
-    <div>
-      <div class="footer-col-h">Support</div>
-      <ul class="footer-links">
-        <li><a href="#">Returns & Exchanges</a></li>
-        <li><a href="#">Shipping</a></li>
-        <li><a href="#">Contact</a></li>
-        <li><a href="https://www.noonshop.com" target="_blank">noonshop.com</a></li>
-      </ul>
-    </div>
-  </div>
-  <div class="footer-bottom">
-    <div class="footer-copy">© 2026 Noon Shop · All rights reserved</div>
-    <div class="footer-founder">Founded by Dr. Anna Park, MD · Ophthalmologist</div>
-  </div>
-</footer>
-
-<script>
-/* ── LOADER ── */
-(function() {
-  const loader = document.getElementById('pageLoader');
-  const brand  = document.getElementById('loaderBrand');
-  const line   = document.getElementById('loaderLine');
-  if (!loader) return;
-  const tl = gsap.timeline();
-  tl.to(brand, { opacity:1, y:0, duration:.7, ease:'power3.out' })
-    .to(line,  { width:'120px', duration:.8, ease:'power2.inOut' }, '-=.3')
-    .to(brand, { opacity:0, y:-12, duration:.45, delay:.55, ease:'power2.in' })
-    .to(line,  { opacity:0, width:'180px', duration:.35, ease:'power2.in' }, '-=.35')
-    .to(loader,{ opacity:0, duration:.5, ease:'power2.inOut',
-      onComplete: () => { loader.remove(); heroIn(); }
-    });
-})();
-
-function heroIn() {
-  gsap.to('#hTag',  { opacity:1, y:0, duration:.7,  ease:'power3.out', delay:.08 });
-  gsap.to('#hH1',   { opacity:1, y:0, duration:.9,  ease:'power3.out', delay:.28 });
-  gsap.to('#hFoot', { opacity:1, y:0, duration:.75, ease:'power3.out', delay:.65 });
-}
-
-/* ── CURSOR ── */
-const cur  = document.getElementById('cur');
-const ring = document.getElementById('ring');
-if (cur && ring) {
-  let mx=0,my=0,cx=0,cy=0,rx=0,ry=0;
-  document.addEventListener('mousemove', e => { mx=e.clientX; my=e.clientY; });
-  (function tick() {
-    cx += (mx-cx)*.22; cy += (my-cy)*.22;
-    rx += (mx-rx)*.1;  ry += (my-ry)*.1;
-    cur.style.left  = cx+'px'; cur.style.top  = cy+'px';
-    ring.style.left = rx+'px'; ring.style.top = ry+'px';
-    requestAnimationFrame(tick);
-  })();
-}
-
-/* ── NAV SCROLL ── */
-window.addEventListener('scroll', () => {
-  document.getElementById('mainNav').classList.toggle('scrolled', scrollY > 60);
-});
-
-/* ── SHOP DROPDOWN ── */
-const drop       = document.getElementById('navDrop');
-const shopTrigger= document.getElementById('shopTrigger');
-const dropClose  = document.getElementById('dropClose');
-if (shopTrigger) {
-  shopTrigger.addEventListener('click', () => drop.classList.toggle('open'));
-  dropClose.addEventListener('click',   () => drop.classList.remove('open'));
-  document.addEventListener('click', e => {
-    if (!drop.contains(e.target) && !shopTrigger.contains(e.target)) drop.classList.remove('open');
-  });
-}
-
-/* ── SCROLL REVEAL ── */
-const obs = new IntersectionObserver(entries => {
-  entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('in'); obs.unobserve(e.target); } });
-}, { threshold: 0.08 });
-document.querySelectorAll('.rv').forEach(el => obs.observe(el));
-
-/* ── FIT PROFILE QUIZ ── */
-document.querySelectorAll('.quiz-options').forEach(group => {
-  group.querySelectorAll('.quiz-opt').forEach(btn => {
-    btn.addEventListener('click', () => {
-      group.querySelectorAll('.quiz-opt').forEach(b => b.classList.remove('selected'));
-      btn.classList.add('selected');
-    });
-  });
-});
-
-function submitFitProfile() {
-  const profile = {};
-  document.querySelectorAll('.quiz-options').forEach(group => {
-    const sel = group.querySelector('.selected');
-    if (sel) profile[group.dataset.group] = sel.dataset.val;
-  });
-  const q = new URLSearchParams(profile).toString();
-  sessionStorage.setItem('fitProfile', JSON.stringify(profile));
-  window.location.href = 'shop.html' + (q ? '?'+q : '');
-}
-</script>
 </body>
 </html>
