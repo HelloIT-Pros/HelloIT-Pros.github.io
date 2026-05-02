@@ -26,7 +26,7 @@
 }
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 html { scroll-behavior: smooth; }
-body { background: var(--ink); color: var(--white); font-family: var(--B); font-weight: 300; overflow-x: hidden; cursor: none; }
+body { background: var(--paper); color: var(--ink); font-family: var(--B); font-weight: 300; overflow-x: hidden; cursor: none; }
 a { color: inherit; text-decoration: none; }
 img { display: block; max-width: 100%; }
 
@@ -42,7 +42,13 @@ nav {
   padding: 22px 60px;
   transition: background .4s, backdrop-filter .4s, padding .3s;
 }
-nav.scrolled { background: rgba(12,12,12,.82); backdrop-filter: blur(18px); padding: 16px 60px; }
+nav.scrolled { background: rgba(238,236,231,.94); backdrop-filter: blur(18px); padding: 16px 60px; }
+nav.scrolled .nav-link { color: rgba(12,12,12,.5); }
+nav.scrolled .nav-link:hover, nav.scrolled .nav-link.active { color: var(--gold-dark); }
+nav.scrolled .nav-cart { color: rgba(12,12,12,.4); }
+nav.scrolled .nav-cart:hover { color: var(--ink); }
+nav.scrolled .nav-logo img { filter: none; opacity: .8; }
+nav.scrolled .nav-logo-text { color: rgba(12,12,12,.65); }
 .nav-logo { display: flex; align-items: center; }
 .nav-logo img { height: 32px; width: auto; filter: brightness(0) invert(1); opacity: .75; transition: opacity .3s; }
 .nav-logo img:hover { opacity: 1; }
@@ -86,13 +92,13 @@ nav.scrolled { background: rgba(12,12,12,.82); backdrop-filter: blur(18px); padd
 /* ── SHARED ── */
 .section-tag {
   font-size: 10px; font-weight: 500; letter-spacing: .32em; text-transform: uppercase;
-  color: var(--gold); margin-bottom: 48px; display: flex; align-items: center; gap: 16px;
+  color: var(--gold-dark); margin-bottom: 48px; display: flex; align-items: center; gap: 16px;
 }
-.section-tag::before { content: ''; display: block; width: 32px; height: 1px; background: var(--gold); }
-.section-tag.dark-tag { color: var(--gold-dark); }
-.section-tag.dark-tag::before { background: var(--gold-dark); }
+.section-tag::before { content: ''; display: block; width: 32px; height: 1px; background: var(--gold-dark); }
+.section-tag.light-tag { color: var(--gold); }
+.section-tag.light-tag::before { background: var(--gold); }
 .gold-rule { height: 1px; background: linear-gradient(90deg, transparent, var(--gold), transparent); }
-.dark-rule  { height: 1px; background: var(--border-d); margin: 0 60px; }
+.dark-rule  { height: 1px; background: rgba(12,12,12,.09); margin: 0 60px; }
 .link-arrow { font-size: 10px; letter-spacing: .22em; text-transform: uppercase; color: var(--gold); display: inline-flex; align-items: center; gap: 10px; transition: gap .25s; }
 .link-arrow::after { content: '→'; }
 .link-arrow:hover { gap: 16px; }
@@ -148,7 +154,7 @@ nav.scrolled { background: rgba(12,12,12,.82); backdrop-filter: blur(18px); padd
 /* ── DIMENSIONS EXPLAINER ── */
 .dimensions-section {
   padding: 120px 60px;
-  background: var(--ink);
+  background: var(--paper);
 }
 .dimensions-intro {
   display: grid; grid-template-columns: 1fr 1fr; gap: 80px; align-items: start; margin-bottom: 100px;
@@ -158,10 +164,10 @@ nav.scrolled { background: rgba(12,12,12,.82); backdrop-filter: blur(18px); padd
   letter-spacing: .04em; line-height: .92;
 }
 .dimensions-intro-body {
-  font-size: 15px; line-height: 1.85; color: rgba(247,246,243,.6);
+  font-size: 15px; line-height: 1.85; color: rgba(12,12,12,.55);
   padding-top: 12px;
 }
-.dimensions-intro-body strong { color: var(--white); font-weight: 400; }
+.dimensions-intro-body strong { color: var(--ink); font-weight: 400; }
 
 /* ── FIT PILLARS ── */
 .fit-pillars {
@@ -169,31 +175,32 @@ nav.scrolled { background: rgba(12,12,12,.82); backdrop-filter: blur(18px); padd
 }
 .pillar {
   padding: 52px 44px;
-  border: 1px solid var(--border-d);
+  border: 1px solid rgba(12,12,12,.09);
+  background: var(--white);
   transition: background .35s;
   position: relative; overflow: hidden;
 }
-.pillar:hover { background: rgba(200,184,154,.04); }
+.pillar:hover { background: var(--paper); }
 .pillar-num {
   font-family: var(--D); font-size: 64px; letter-spacing: .02em;
-  color: rgba(200,184,154,.1); line-height: 1;
+  color: rgba(12,12,12,.05); line-height: 1;
   position: absolute; top: 20px; right: 28px;
 }
-.pillar-icon { font-size: 28px; margin-bottom: 24px; opacity: .7; }
-.pillar-label { font-size: 9px; letter-spacing: .3em; text-transform: uppercase; color: var(--gold); margin-bottom: 16px; }
-.pillar-h { font-family: var(--D); font-size: 28px; letter-spacing: .06em; color: var(--white); margin-bottom: 16px; line-height: .95; }
-.pillar-body { font-size: 13px; line-height: 1.75; color: rgba(247,246,243,.55); }
+.pillar-icon { font-size: 28px; margin-bottom: 24px; opacity: .5; }
+.pillar-label { font-size: 9px; letter-spacing: .3em; text-transform: uppercase; color: var(--gold-dark); margin-bottom: 16px; }
+.pillar-h { font-family: var(--D); font-size: 28px; letter-spacing: .06em; color: var(--ink); margin-bottom: 16px; line-height: .95; }
+.pillar-body { font-size: 13px; line-height: 1.75; color: rgba(12,12,12,.55); }
 .pillar-note {
   margin-top: 24px; padding: 16px 20px;
-  background: rgba(200,184,154,.06); border-left: 2px solid var(--gold);
+  background: rgba(168,144,112,.07); border-left: 2px solid var(--gold-dark);
   font-family: var(--P); font-style: italic; font-size: 13px;
-  color: rgba(200,184,154,.75);
+  color: rgba(12,12,12,.55);
 }
 
 /* ── MEASUREMENT GUIDE ── */
 .measure-section {
   padding: 120px 60px;
-  background: var(--ink2);
+  background: var(--white);
 }
 .measure-grid {
   display: grid; grid-template-columns: 1fr 1fr; gap: 80px; align-items: center; margin-top: 60px;
@@ -237,64 +244,65 @@ nav.scrolled { background: rgba(12,12,12,.82); backdrop-filter: blur(18px); padd
   font-family: var(--D); font-size: 18px; color: var(--gold);
   display: flex; align-items: center; justify-content: center;
 }
-.step-body h4 { font-size: 13px; letter-spacing: .1em; text-transform: uppercase; color: var(--white); margin-bottom: 6px; }
-.step-body p  { font-size: 13px; line-height: 1.7; color: rgba(247,246,243,.5); }
+.step-body h4 { font-size: 13px; letter-spacing: .1em; text-transform: uppercase; color: var(--ink); margin-bottom: 6px; }
+.step-body p  { font-size: 13px; line-height: 1.7; color: rgba(12,12,12,.5); }
 .step-body .step-tag {
   display: inline-block; margin-top: 10px; padding: 4px 10px;
-  background: rgba(200,184,154,.1); border: 1px solid rgba(200,184,154,.2);
-  font-size: 10px; letter-spacing: .16em; text-transform: uppercase; color: var(--gold);
+  background: rgba(168,144,112,.08); border: 1px solid rgba(168,144,112,.25);
+  font-size: 10px; letter-spacing: .16em; text-transform: uppercase; color: var(--gold-dark);
 }
 
 /* ── SIZE REFERENCE TABLE ── */
 .size-table-section {
   padding: 0 60px 100px;
-  background: var(--ink2);
+  background: var(--white);
 }
 .size-table-wrap { overflow-x: auto; margin-top: 48px; }
 table.size-table {
   width: 100%; border-collapse: collapse;
   font-size: 13px;
 }
-table.size-table thead { border-bottom: 1px solid rgba(200,184,154,.2); }
+table.size-table thead { border-bottom: 1px solid rgba(12,12,12,.1); }
 table.size-table th {
   font-size: 9px; letter-spacing: .25em; text-transform: uppercase;
-  color: var(--gold); font-weight: 400;
+  color: var(--gold-dark); font-weight: 400;
   padding: 0 20px 16px; text-align: left;
 }
 table.size-table td {
   padding: 18px 20px;
-  border-bottom: 1px solid var(--border-d);
-  color: rgba(247,246,243,.6);
+  border-bottom: 1px solid rgba(12,12,12,.07);
+  color: rgba(12,12,12,.55);
   vertical-align: top;
   line-height: 1.5;
 }
-table.size-table td:first-child { color: var(--white); font-weight: 400; }
-table.size-table tr:hover td { background: rgba(200,184,154,.03); }
+table.size-table td:first-child { color: var(--ink); font-weight: 400; }
+table.size-table tr:hover td { background: rgba(12,12,12,.025); }
 .size-tag {
   display: inline-block; padding: 2px 8px;
-  background: rgba(200,184,154,.08); border: 1px solid rgba(200,184,154,.18);
-  font-size: 9px; letter-spacing: .18em; text-transform: uppercase; color: var(--gold);
+  background: rgba(168,144,112,.08); border: 1px solid rgba(168,144,112,.25);
+  font-size: 9px; letter-spacing: .18em; text-transform: uppercase; color: var(--gold-dark);
 }
 
 /* ── FIT PROFILES ── */
 .profiles-section {
   padding: 120px 60px;
-  background: var(--ink);
+  background: var(--paper);
 }
 .profiles-grid {
   display: grid; grid-template-columns: repeat(3, 1fr); gap: 2px; margin-top: 60px;
 }
 .profile-card {
   padding: 48px 40px;
-  border: 1px solid var(--border-d);
+  border: 1px solid rgba(12,12,12,.09);
+  background: var(--white);
   transition: border-color .3s, background .3s;
   position: relative;
 }
-.profile-card:hover { border-color: rgba(200,184,154,.2); background: rgba(200,184,154,.03); }
-.profile-card.featured { border-color: rgba(200,184,154,.25); background: rgba(200,184,154,.04); }
+.profile-card:hover { border-color: rgba(168,144,112,.3); background: var(--paper); }
+.profile-card.featured { border-color: rgba(168,144,112,.3); background: var(--paper); }
 .profile-card.featured::before {
   content: 'Most Common'; position: absolute; top: -1px; right: 28px;
-  background: var(--gold); color: var(--ink);
+  background: var(--gold-dark); color: var(--white);
   font-size: 8px; letter-spacing: .25em; text-transform: uppercase;
   padding: 5px 12px; font-weight: 500;
 }
@@ -305,15 +313,15 @@ table.size-table tr:hover td { background: rgba(200,184,154,.03); }
   background: rgba(247,246,243,.05);
 }
 .profile-img img { width: 100%; height: 100%; object-fit: cover; }
-.profile-name { font-family: var(--D); font-size: 26px; letter-spacing: .06em; color: var(--white); margin-bottom: 8px; line-height: 1; }
-.profile-sub { font-family: var(--P); font-style: italic; font-size: 12px; color: var(--gold); margin-bottom: 20px; }
+.profile-name { font-family: var(--D); font-size: 26px; letter-spacing: .06em; color: var(--ink); margin-bottom: 8px; line-height: 1; }
+.profile-sub { font-family: var(--P); font-style: italic; font-size: 12px; color: var(--gold-dark); margin-bottom: 20px; }
 .profile-traits { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 20px; }
 .profile-trait {
   padding: 4px 10px;
-  background: rgba(200,184,154,.07); border: 1px solid rgba(200,184,154,.15);
-  font-size: 9px; letter-spacing: .16em; text-transform: uppercase; color: var(--gold-light);
+  background: rgba(168,144,112,.08); border: 1px solid rgba(168,144,112,.22);
+  font-size: 9px; letter-spacing: .16em; text-transform: uppercase; color: var(--gold-dark);
 }
-.profile-body { font-size: 13px; line-height: 1.72; color: rgba(247,246,243,.52); }
+.profile-body { font-size: 13px; line-height: 1.72; color: rgba(12,12,12,.55); }
 .profile-cta { margin-top: 28px; }
 
 /* ── FIT FINDER QUIZ ── */
@@ -421,24 +429,24 @@ table.size-table tr:hover td { background: rgba(200,184,154,.03); }
 /* ── DR PARK SECTION ── */
 .park-section {
   padding: 120px 60px;
-  background: var(--ink);
+  background: var(--paper);
   display: grid; grid-template-columns: 1fr 1fr; gap: 80px; align-items: center;
 }
 .park-img { position: relative; aspect-ratio: 3/4; overflow: hidden; }
 .park-img img { width: 100%; height: 100%; object-fit: cover; object-position: center top; }
 .park-img::after {
   content: ''; position: absolute; inset: 0;
-  background: linear-gradient(to right, transparent 70%, var(--ink) 100%);
+  background: linear-gradient(to right, transparent 70%, var(--paper) 100%);
 }
 .park-content {}
 .park-quote {
   font-family: var(--P); font-style: italic;
   font-size: clamp(20px, 2.5vw, 28px); line-height: 1.5;
-  color: var(--white); margin-bottom: 32px;
+  color: var(--ink); margin-bottom: 32px;
 }
-.park-quote em { color: var(--gold); }
-.park-attr { font-size: 10px; letter-spacing: .2em; text-transform: uppercase; color: rgba(247,246,243,.35); margin-bottom: 40px; }
-.park-body { font-size: 14px; line-height: 1.85; color: rgba(247,246,243,.55); margin-bottom: 36px; }
+.park-quote em { color: var(--gold-dark); }
+.park-attr { font-size: 10px; letter-spacing: .2em; text-transform: uppercase; color: rgba(12,12,12,.38); margin-bottom: 40px; }
+.park-body { font-size: 14px; line-height: 1.85; color: rgba(12,12,12,.55); margin-bottom: 36px; }
 
 /* ── FOOTER ── */
 footer {
