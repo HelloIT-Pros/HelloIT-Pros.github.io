@@ -1,0 +1,1517 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Scope of Work — Noon Shop E-Commerce Website</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Outfit:wght@200;300;400;500&family=Playfair+Display:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
+<style>
+:root {
+  --ink:        #0C0C0C;
+  --ink2:       #1A1A1A;
+  --paper:      #EEECE7;
+  --white:      #F7F6F3;
+  --gold:       #C8B89A;
+  --gold-dark:  #A89070;
+  --gold-light: #E8D8BE;
+  --D: 'Bebas Neue', sans-serif;
+  --B: 'Outfit', sans-serif;
+  --P: 'Playfair Display', Georgia, serif;
+}
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+body { background: var(--paper); color: var(--ink); font-family: var(--B); font-weight: 300; }
+a { color: var(--gold-dark); text-decoration: none; }
+a:hover { color: var(--ink); }
+img { display: block; max-width: 100%; }
+
+/* ── PRINT ── */
+@media print {
+  .no-print { display: none !important; }
+  body { background: white; }
+  .cover { min-height: auto; padding: 60px 80px; }
+  section { break-inside: avoid; }
+}
+
+/* ── COVER ── */
+.cover {
+  min-height: 100vh;
+  background: var(--ink);
+  padding: 80px 80px 60px;
+  display: flex; flex-direction: column; justify-content: space-between;
+  position: relative; overflow: hidden;
+}
+.cover-wm {
+  position: absolute; right: -40px; top: 50%; transform: translateY(-50%);
+  font-family: var(--D); font-size: clamp(120px, 22vw, 340px);
+  color: rgba(200,184,154,.04); pointer-events: none; line-height: 1; letter-spacing: -.02em;
+}
+.cover-top { position: relative; z-index: 1; }
+.cover-label {
+  font-size: 10px; letter-spacing: .32em; text-transform: uppercase;
+  color: var(--gold); margin-bottom: 48px;
+  display: flex; align-items: center; gap: 16px;
+}
+.cover-label::before { content: ''; display: block; width: 32px; height: 1px; background: var(--gold); }
+.cover h1 {
+  font-family: var(--D); font-size: clamp(52px, 8vw, 120px);
+  letter-spacing: .03em; line-height: .88; color: var(--white);
+  margin-bottom: 28px;
+}
+.cover-sub {
+  font-family: var(--P); font-style: italic;
+  font-size: clamp(15px, 1.6vw, 20px); color: rgba(200,184,154,.6);
+  max-width: 560px; line-height: 1.65;
+}
+.cover-bottom {
+  position: relative; z-index: 1;
+  display: flex; justify-content: space-between; align-items: flex-end;
+  border-top: 1px solid rgba(247,246,243,.07); padding-top: 32px;
+}
+.cover-meta { display: flex; flex-direction: column; gap: 6px; }
+.cover-meta-line { font-size: 11px; letter-spacing: .14em; text-transform: uppercase; color: rgba(247,246,243,.3); }
+.cover-meta-line strong { color: rgba(247,246,243,.55); font-weight: 400; }
+.cover-version { font-family: var(--D); font-size: 48px; letter-spacing: .04em; color: rgba(200,184,154,.15); }
+
+/* ── LAYOUT ── */
+.page { max-width: 1080px; margin: 0 auto; padding: 80px 60px; }
+
+/* ── TOC ── */
+.toc-section { background: var(--white); padding: 72px 60px; }
+.toc-inner { max-width: 1080px; margin: 0 auto; }
+.toc-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 0; margin-top: 48px; }
+.toc-item {
+  padding: 20px 0; border-bottom: 1px solid rgba(12,12,12,.07);
+  display: grid; grid-template-columns: 40px 1fr auto; gap: 16px; align-items: baseline;
+}
+.toc-item:nth-child(odd) { padding-right: 48px; }
+.toc-item:nth-child(even) { padding-left: 48px; border-left: 1px solid rgba(12,12,12,.07); }
+.toc-num { font-family: var(--D); font-size: 13px; letter-spacing: .1em; color: var(--gold-dark); }
+.toc-name { font-size: 13px; color: var(--ink); letter-spacing: .04em; }
+.toc-pg { font-size: 11px; color: rgba(12,12,12,.3); }
+
+/* ── SECTION SHARED ── */
+.section-label {
+  font-size: 10px; letter-spacing: .32em; text-transform: uppercase;
+  color: var(--gold-dark); margin-bottom: 40px;
+  display: flex; align-items: center; gap: 14px;
+}
+.section-label::before { content: ''; display: block; width: 28px; height: 1px; background: var(--gold-dark); }
+.section-title {
+  font-family: var(--D); font-size: clamp(36px, 5vw, 72px);
+  letter-spacing: .03em; line-height: .9; color: var(--ink); margin-bottom: 32px;
+}
+.section-intro {
+  font-size: 15px; line-height: 1.88; color: rgba(12,12,12,.58);
+  max-width: 680px; margin-bottom: 56px;
+}
+.gold-rule { height: 1px; background: linear-gradient(90deg, transparent, var(--gold-dark), transparent); margin: 80px 0; }
+.ink-rule { height: 1px; background: rgba(12,12,12,.09); margin: 48px 0; }
+
+/* ── FEATURE BLOCKS ── */
+.feature-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 2px; margin-bottom: 40px; }
+.feature-card {
+  background: var(--white); padding: 36px 32px;
+  border: 1px solid rgba(12,12,12,.06);
+}
+.feature-card.span2 { grid-column: 1 / -1; }
+.feature-card-label {
+  font-size: 9px; letter-spacing: .26em; text-transform: uppercase;
+  color: var(--gold-dark); margin-bottom: 12px;
+}
+.feature-card-title {
+  font-family: var(--D); font-size: 26px; letter-spacing: .05em;
+  color: var(--ink); line-height: .95; margin-bottom: 16px;
+}
+.feature-card-body {
+  font-size: 13px; line-height: 1.78; color: rgba(12,12,12,.55);
+}
+.feature-card-body strong { color: var(--ink); font-weight: 400; }
+.feature-list {
+  list-style: none; display: flex; flex-direction: column; gap: 9px;
+  margin-top: 16px;
+}
+.feature-list li {
+  font-size: 13px; color: rgba(12,12,12,.58); padding-left: 20px; position: relative; line-height: 1.55;
+}
+.feature-list li::before { content: '—'; position: absolute; left: 0; color: var(--gold-dark); font-size: 11px; top: 1px; }
+.feature-list li strong { color: var(--ink); font-weight: 400; }
+
+/* ── PAGE ARCHITECTURE ── */
+.page-arch { display: flex; flex-direction: column; gap: 2px; margin-bottom: 40px; }
+.arch-row {
+  display: grid; grid-template-columns: 220px 1fr 160px;
+  background: var(--white); padding: 24px 28px;
+  border: 1px solid rgba(12,12,12,.06); align-items: baseline; gap: 24px;
+}
+.arch-row.header {
+  background: var(--ink); color: var(--white);
+  font-size: 9px; letter-spacing: .22em; text-transform: uppercase;
+}
+.arch-row.header .arch-url { color: rgba(247,246,243,.4); }
+.arch-row.header .arch-pri { color: rgba(247,246,243,.4); }
+.arch-page { font-size: 12px; letter-spacing: .08em; font-weight: 500; color: var(--ink); }
+.arch-desc { font-size: 12px; color: rgba(12,12,12,.55); line-height: 1.55; }
+.arch-url { font-size: 11px; color: var(--gold-dark); font-family: 'Courier New', monospace; }
+.arch-pri {
+  font-size: 9px; letter-spacing: .16em; text-transform: uppercase;
+  padding: 3px 8px; text-align: center;
+}
+.arch-pri.p1 { background: rgba(168,144,112,.12); color: var(--gold-dark); }
+.arch-pri.p2 { background: rgba(12,12,12,.05); color: rgba(12,12,12,.45); }
+
+/* ── CALLOUT BLOCKS ── */
+.callout {
+  padding: 28px 32px; margin: 32px 0;
+  border-left: 3px solid var(--gold-dark);
+  background: rgba(168,144,112,.06);
+  font-size: 13px; line-height: 1.75; color: rgba(12,12,12,.6);
+}
+.callout strong { color: var(--ink); font-weight: 400; display: block; margin-bottom: 6px; font-size: 12px; letter-spacing: .06em; }
+.callout.warn {
+  border-left-color: #b85c00;
+  background: rgba(184,92,0,.05);
+}
+.callout.warn strong { color: #8a4400; }
+.callout.info {
+  border-left-color: var(--ink);
+  background: rgba(12,12,12,.04);
+}
+.callout.info strong { color: var(--ink); }
+
+/* ── SHOPIFY FLAGS ── */
+.shopify-flags { display: flex; flex-direction: column; gap: 2px; }
+.flag-row {
+  display: grid; grid-template-columns: 32px 200px 1fr 100px;
+  background: var(--white); padding: 20px 24px;
+  border: 1px solid rgba(12,12,12,.06); gap: 20px; align-items: baseline;
+}
+.flag-row.flag-header {
+  background: var(--ink2); font-size: 9px; letter-spacing: .22em; text-transform: uppercase;
+  color: rgba(247,246,243,.4);
+}
+.flag-num { font-family: var(--D); font-size: 14px; color: var(--gold-dark); }
+.flag-topic { font-size: 12px; font-weight: 500; color: var(--ink); }
+.flag-detail { font-size: 12px; color: rgba(12,12,12,.55); line-height: 1.6; }
+.badge {
+  display: inline-block; padding: 3px 9px;
+  font-size: 9px; letter-spacing: .14em; text-transform: uppercase; text-align: center;
+}
+.badge.high { background: rgba(184,60,40,.1); color: #8a2c18; }
+.badge.med  { background: rgba(184,120,0,.1); color: #7a5000; }
+.badge.low  { background: rgba(60,120,40,.1); color: #2a5818; }
+.badge.plan { background: rgba(12,12,12,.07); color: rgba(12,12,12,.5); }
+
+/* ── DISCOVERY TABLE ── */
+.disc-table { display: flex; flex-direction: column; gap: 2px; }
+.disc-row {
+  display: grid; grid-template-columns: 240px 1fr 120px;
+  background: var(--white); padding: 22px 28px;
+  border: 1px solid rgba(12,12,12,.06); gap: 24px; align-items: baseline;
+}
+.disc-row.disc-header {
+  background: var(--ink); font-size: 9px; letter-spacing: .22em; text-transform: uppercase;
+  color: rgba(247,246,243,.4);
+}
+.disc-topic { font-size: 12px; font-weight: 500; color: var(--ink); }
+.disc-q { font-size: 12px; color: rgba(12,12,12,.55); line-height: 1.65; }
+.disc-owner {
+  font-size: 9px; letter-spacing: .12em; text-transform: uppercase;
+  padding: 3px 8px; text-align: center;
+}
+.disc-owner.client { background: rgba(168,144,112,.12); color: var(--gold-dark); }
+.disc-owner.team { background: rgba(12,12,12,.06); color: rgba(12,12,12,.5); }
+
+/* ── DELIVERABLES ── */
+.deliverables { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 2px; }
+.deliv-card {
+  background: var(--white); padding: 32px 28px;
+  border: 1px solid rgba(12,12,12,.06);
+}
+.deliv-phase {
+  font-size: 9px; letter-spacing: .24em; text-transform: uppercase;
+  color: var(--gold-dark); margin-bottom: 10px;
+}
+.deliv-title {
+  font-family: var(--D); font-size: 22px; letter-spacing: .05em;
+  color: var(--ink); margin-bottom: 14px;
+}
+.deliv-list { list-style: none; display: flex; flex-direction: column; gap: 7px; }
+.deliv-list li { font-size: 12px; color: rgba(12,12,12,.55); padding-left: 16px; position: relative; }
+.deliv-list li::before { content: '·'; position: absolute; left: 0; color: var(--gold-dark); }
+
+/* ── DARK SECTION ── */
+.dark-section { background: var(--ink); padding: 80px 60px; }
+.dark-section .section-label { color: var(--gold); }
+.dark-section .section-label::before { background: var(--gold); }
+.dark-section .section-title { color: var(--white); }
+.dark-section .section-intro { color: rgba(247,246,243,.45); }
+.dark-section .ink-rule { background: rgba(247,246,243,.07); }
+
+/* ── FOOTER ── */
+.sow-footer {
+  background: var(--ink2); padding: 60px 60px 40px;
+  border-top: 1px solid rgba(247,246,243,.07);
+}
+.sow-footer-inner { max-width: 1080px; margin: 0 auto; }
+.sow-footer-top {
+  display: flex; justify-content: space-between; align-items: flex-start;
+  margin-bottom: 48px;
+}
+.footer-brand { font-family: var(--D); font-size: 28px; letter-spacing: .12em; color: rgba(247,246,243,.2); }
+.footer-note { font-size: 12px; line-height: 1.7; color: rgba(247,246,243,.25); max-width: 480px; }
+.footer-copy { font-size: 11px; color: rgba(247,246,243,.15); padding-top: 28px; border-top: 1px solid rgba(247,246,243,.06); }
+
+/* ── RESPONSIVE ── */
+@media (max-width: 800px) {
+  .cover { padding: 48px 32px 40px; }
+  .page { padding: 60px 32px; }
+  .toc-section { padding: 60px 32px; }
+  .toc-grid { grid-template-columns: 1fr; }
+  .toc-item:nth-child(even) { padding-left: 0; border-left: none; }
+  .feature-grid { grid-template-columns: 1fr; }
+  .arch-row { grid-template-columns: 1fr; gap: 6px; }
+  .flag-row { grid-template-columns: 1fr; }
+  .disc-row { grid-template-columns: 1fr; }
+  .deliverables { grid-template-columns: 1fr; }
+  .cover-bottom { flex-direction: column; gap: 24px; }
+  .dark-section { padding: 60px 32px; }
+  .sow-footer { padding: 48px 32px 32px; }
+  .sow-footer-top { flex-direction: column; gap: 24px; }
+}
+</style>
+</head>
+<body>
+
+<!-- ══════════════════════════════════════════ COVER ══ -->
+<div class="cover">
+  <div class="cover-wm">SOW</div>
+
+  <div class="cover-top">
+    <div class="cover-label">HelloIT Professionals · Client Document</div>
+    <h1>SCOPE OF<br>WORK</h1>
+    <p class="cover-sub">
+      Noon Shop — Shopify E-Commerce Website<br>
+      Custom theme development, fit-technology integration,
+      and brand-forward editorial experience.
+    </p>
+  </div>
+
+  <div class="cover-bottom">
+    <div class="cover-meta">
+      <div class="cover-meta-line">Client &nbsp;·&nbsp; <strong>Noon Shop / Dr. Anna Park, MD</strong></div>
+      <div class="cover-meta-line">Prepared by &nbsp;·&nbsp; <strong>HelloIT Professionals</strong></div>
+      <div class="cover-meta-line">Document &nbsp;·&nbsp; <strong>Scope of Work v1.0 — May 2026</strong></div>
+      <div class="cover-meta-line">Platform &nbsp;·&nbsp; <strong>Shopify (Custom Theme)</strong></div>
+    </div>
+    <div class="cover-version">v1.0</div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════ TOC ══ -->
+<div class="toc-section">
+  <div class="toc-inner">
+    <div class="section-label">Document Contents</div>
+    <div class="section-title">TABLE OF<br>CONTENTS</div>
+    <div class="toc-grid">
+      <div class="toc-item"><span class="toc-num">01</span><span class="toc-name">Project Overview &amp; Goals</span></div>
+      <div class="toc-item"><span class="toc-num">02</span><span class="toc-name">Platform: Shopify</span></div>
+      <div class="toc-item"><span class="toc-num">03</span><span class="toc-name">Site Architecture</span></div>
+      <div class="toc-item"><span class="toc-num">04</span><span class="toc-name">Design System</span></div>
+      <div class="toc-item"><span class="toc-num">05</span><span class="toc-name">Homepage</span></div>
+      <div class="toc-item"><span class="toc-num">06</span><span class="toc-name">Shop &amp; Collections</span></div>
+      <div class="toc-item"><span class="toc-num">07</span><span class="toc-name">Product Detail Page</span></div>
+      <div class="toc-item"><span class="toc-num">08</span><span class="toc-name">Fit Guide</span></div>
+      <div class="toc-item"><span class="toc-num">09</span><span class="toc-name">Our Story</span></div>
+      <div class="toc-item"><span class="toc-num">10</span><span class="toc-name">Global Components</span></div>
+      <div class="toc-item"><span class="toc-num">11</span><span class="toc-name">Shopify Considerations &amp; Challenges</span></div>
+      <div class="toc-item"><span class="toc-num">12</span><span class="toc-name">Third-Party Integrations</span></div>
+      <div class="toc-item"><span class="toc-num">13</span><span class="toc-name">Items for Additional Discovery</span></div>
+      <div class="toc-item"><span class="toc-num">14</span><span class="toc-name">Deliverables &amp; Phases</span></div>
+      <div class="toc-item"><span class="toc-num">15</span><span class="toc-name">Out of Scope</span></div>
+      <div class="toc-item"><span class="toc-num">16</span><span class="toc-name">Assumptions &amp; Dependencies</span></div>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════ 01 OVERVIEW ══ -->
+<section id="s01">
+<div class="page">
+  <div class="section-label">Section 01</div>
+  <div class="section-title">PROJECT<br>OVERVIEW</div>
+  <p class="section-intro">
+    Noon Shop is a specialty eyewear brand founded by Dr. Anna Park, MD — an ophthalmologist with over 20 years
+    of clinical experience. The brand's core philosophy is that most eyewear fails its wearer not in
+    style, but in fit. Noon Shop engineered two collections around three clinical fit dimensions:
+    Bridge Fit, Cheekbone Clearance, and Face Width.
+  </p>
+
+  <div class="feature-grid">
+    <div class="feature-card">
+      <div class="feature-card-label">Objective</div>
+      <div class="feature-card-title">BRAND-FORWARD E-COMMERCE</div>
+      <div class="feature-card-body">
+        Build a Shopify store that communicates the Noon Shop brand story and fit philosophy while
+        converting visitors into confident buyers. The site must function as both a retail engine
+        and an editorial brand platform — balancing clinical credibility with high-end aesthetic.
+      </div>
+    </div>
+    <div class="feature-card">
+      <div class="feature-card-label">Primary Audience</div>
+      <div class="feature-card-title">FIT-CONSCIOUS BUYERS</div>
+      <div class="feature-card-body">
+        Customers who have struggled with ill-fitting eyewear — particularly those with low nose bridges,
+        prominent cheekbones, or narrower face widths. Educated, design-conscious, and willing to invest
+        in quality when the value is clearly communicated.
+      </div>
+    </div>
+    <div class="feature-card span2">
+      <div class="feature-card-label">Two Collections</div>
+      <div class="feature-card-title">DORMANN &amp; STEEL BROWN</div>
+      <div class="feature-card-body">
+        <strong>Dormann</strong> — Beta-titanium temples, patented screwless snap hinge, South Korean craftsmanship.
+        Vibrant colors on a fit-first foundation.
+        <br><br>
+        <strong>Steel Brown</strong> — German stainless steel, designed with optical engineer Wolfgang Proksch.
+        Neutral tones built for professional and everyday wear. Each collection has its own editorial identity
+        and must be presented with dedicated landing experiences within the store.
+      </div>
+    </div>
+  </div>
+
+  <div class="callout info">
+    <strong>Prototype Reference</strong>
+    A fully designed, 5-page static HTML prototype has been developed and reviewed by the client.
+    This prototype — built at <code>helloit-pros.github.io/noonshopwebsite/</code> — serves as the
+    visual and functional specification for this Shopify build. All features described in this
+    document are represented in the prototype.
+  </div>
+</div>
+</section>
+
+<div class="gold-rule" style="margin:0 60px;"></div>
+
+<!-- ══════════════════════════════════════════ 02 PLATFORM ══ -->
+<section id="s02">
+<div class="page">
+  <div class="section-label">Section 02</div>
+  <div class="section-title">PLATFORM:<br>SHOPIFY</div>
+  <p class="section-intro">
+    The site will be built on Shopify using a fully custom theme (not a pre-built template).
+    Shopify provides the e-commerce backend — inventory, checkout, payments, orders —
+    while HelloIT Professionals delivers a bespoke front-end experience that matches the
+    approved prototype design.
+  </p>
+
+  <div class="feature-grid">
+    <div class="feature-card">
+      <div class="feature-card-label">Theme Architecture</div>
+      <div class="feature-card-title">CUSTOM LIQUID THEME</div>
+      <div class="feature-card-body">
+        Built using Shopify's <strong>Online Store 2.0</strong> theme architecture. All pages
+        will use Liquid templates, section schemas, and block configurations — enabling the client
+        to make content updates through the Shopify Theme Editor without code changes.
+        <ul class="feature-list">
+          <li>Liquid templates for all 5 primary page types</li>
+          <li>Reusable section components with configurable blocks</li>
+          <li>JSON template files for flexible page composition</li>
+          <li>Global settings schema for brand colors and fonts</li>
+        </ul>
+      </div>
+    </div>
+    <div class="feature-card">
+      <div class="feature-card-label">Shopify Plan</div>
+      <div class="feature-card-title">PLAN RECOMMENDATION</div>
+      <div class="feature-card-body">
+        We recommend starting on <strong>Shopify Basic or Standard</strong>. Several features
+        (checkout extensibility, B2B, advanced scripts) require <strong>Shopify Plus</strong>
+        and are noted where relevant. Plan requirements should be confirmed during discovery.
+        <ul class="feature-list">
+          <li><strong>Basic/Standard:</strong> sufficient for launch</li>
+          <li><strong>Advanced:</strong> needed for advanced shipping rules</li>
+          <li><strong>Plus:</strong> required for checkout customization beyond standard</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</div>
+</section>
+
+<div class="gold-rule" style="margin:0 60px;"></div>
+
+<!-- ══════════════════════════════════════════ 03 ARCHITECTURE ══ -->
+<section id="s03">
+<div class="page">
+  <div class="section-label">Section 03</div>
+  <div class="section-title">SITE<br>ARCHITECTURE</div>
+  <p class="section-intro">
+    The store comprises five primary page types plus supporting system pages.
+    All pages share a global navigation, footer, and design system.
+  </p>
+
+  <div class="page-arch">
+    <div class="arch-row header">
+      <div>Page</div>
+      <div>Description</div>
+      <div class="arch-url">Shopify Template</div>
+    </div>
+    <div class="arch-row">
+      <div class="arch-page">Homepage</div>
+      <div class="arch-desc">Editorial hero, fit philosophy intro, homepage fit quiz, collection showcase, editorial strips, social proof, Dr. Park credential section</div>
+      <div class="arch-url">index.liquid</div>
+    </div>
+    <div class="arch-row">
+      <div class="arch-page">Shop / Collection</div>
+      <div class="arch-desc">Full product grid with collection filter bar (All / Dormann / Steel Brown), fit tag filters, quick-add functionality, collection editorial banners</div>
+      <div class="arch-url">collection.liquid</div>
+    </div>
+    <div class="arch-row">
+      <div class="arch-page">Product Detail</div>
+      <div class="arch-desc">Product gallery (flat + on-model views), fit dimension measurements, Dr. Park clinical notes, color/variant selector, add to cart, accordion specs, complementary recommendations</div>
+      <div class="arch-url">product.liquid</div>
+    </div>
+    <div class="arch-row">
+      <div class="arch-page">Fit Guide</div>
+      <div class="arch-desc">Three-pillar fit explainer, measurement guide with labeled diagram, size reference table, face profile cards, interactive 3-step Fit Finder quiz, sessionStorage persistence</div>
+      <div class="arch-url">page.fit-guide.liquid</div>
+    </div>
+    <div class="arch-row">
+      <div class="arch-page">Our Story</div>
+      <div class="arch-desc">Full-screen editorial hero, stats bar, founding narrative, brand timeline, collections origin cards, Dr. Park profile, craft process strip, manifesto section</div>
+      <div class="arch-url">page.story.liquid</div>
+    </div>
+    <div class="arch-row">
+      <div class="arch-page">Cart</div>
+      <div class="arch-desc">Cart drawer (slide-in) with fit tag summaries on line items, upsell recommendations, order summary. Standard Shopify checkout.</div>
+      <div class="arch-url">cart.liquid / AJAX</div>
+    </div>
+    <div class="arch-row">
+      <div class="arch-page">System Pages</div>
+      <div class="arch-desc">404 error page (on-brand), search results, customer account pages, order confirmation — all styled to match brand design system</div>
+      <div class="arch-url">Various</div>
+    </div>
+  </div>
+
+  <div class="callout">
+    <strong>Navigation Structure</strong>
+    Global nav includes the Noon Shop wordmark/logo, a Shop mega-dropdown (Dormann, Steel Brown, All Frames, Fit Finder), a Fit Guide link, an Our Story link, and a persistent cart icon with item count. On scroll, the nav transitions to a cream/frosted background with dark ink text.
+  </div>
+</div>
+</section>
+
+<div class="gold-rule" style="margin:0 60px;"></div>
+
+<!-- ══════════════════════════════════════════ 04 DESIGN SYSTEM ══ -->
+<section id="s04">
+<div class="page">
+  <div class="section-label">Section 04</div>
+  <div class="section-title">DESIGN<br>SYSTEM</div>
+  <p class="section-intro">
+    The visual language is defined and locked in the approved prototype. All design tokens,
+    typographic scales, and component patterns will be implemented as CSS custom properties
+    and translated into Shopify's global settings schema.
+  </p>
+
+  <div class="feature-grid">
+    <div class="feature-card">
+      <div class="feature-card-label">Color Tokens</div>
+      <div class="feature-card-title">BRAND PALETTE</div>
+      <div class="feature-card-body">
+        <ul class="feature-list">
+          <li><strong>--ink (#0C0C0C):</strong> Primary text and dark UI</li>
+          <li><strong>--paper (#EEECE7):</strong> Default page background (warm cream)</li>
+          <li><strong>--white (#F7F6F3):</strong> Alternate section background (soft white)</li>
+          <li><strong>--gold (#C8B89A):</strong> Brand accent on dark surfaces</li>
+          <li><strong>--gold-dark (#A89070):</strong> Brand accent on light surfaces</li>
+          <li><strong>--gold-light (#E8D8BE):</strong> Hover states, highlights</li>
+        </ul>
+      </div>
+    </div>
+    <div class="feature-card">
+      <div class="feature-card-label">Typography</div>
+      <div class="feature-card-title">TYPE SYSTEM</div>
+      <div class="feature-card-body">
+        <ul class="feature-list">
+          <li><strong>Bebas Neue:</strong> Display headings, stats, product names</li>
+          <li><strong>Outfit (100–500):</strong> Body text, UI labels, navigation</li>
+          <li><strong>Playfair Display (regular &amp; italic):</strong> Quotes, subheadings, editorial text</li>
+          <li>All sizes use <code>clamp()</code> for fluid responsive scaling</li>
+          <li>Letter-spacing and weight defined per-component in design tokens</li>
+        </ul>
+      </div>
+    </div>
+    <div class="feature-card">
+      <div class="feature-card-label">Motion &amp; Interaction</div>
+      <div class="feature-card-title">ANIMATION SYSTEM</div>
+      <div class="feature-card-body">
+        <ul class="feature-list">
+          <li><strong>Scroll reveal:</strong> IntersectionObserver — elements animate in on viewport entry with staggered delays</li>
+          <li><strong>GSAP loader:</strong> Homepage entrance animation (sequential text reveal)</li>
+          <li><strong>Custom cursor:</strong> 7px dot + 32px ring, mix-blend-mode: difference; scales on hover</li>
+          <li><strong>Product image hover:</strong> Flat → on-model crossfade on product cards</li>
+          <li><strong>Nav mega-dropdown:</strong> Slide-in transition from top</li>
+          <li><strong>Page transitions:</strong> Smooth section entry animations</li>
+        </ul>
+      </div>
+    </div>
+    <div class="feature-card">
+      <div class="feature-card-label">Layout Principles</div>
+      <div class="feature-card-title">LAYOUT SYSTEM</div>
+      <div class="feature-card-body">
+        <ul class="feature-list">
+          <li>Editorial hero sections and footer stay dark (--ink background) for visual drama</li>
+          <li>Content sections alternate between --paper and --white</li>
+          <li>Dark collection cards and editorial panels retain dark treatment</li>
+          <li>60px horizontal padding desktop, 24px mobile</li>
+          <li>Responsive breakpoint at 900px</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</div>
+</section>
+
+<div class="gold-rule" style="margin:0 60px;"></div>
+
+<!-- ══════════════════════════════════════════ 05 HOMEPAGE ══ -->
+<section id="s05">
+<div class="page">
+  <div class="section-label">Section 05</div>
+  <div class="section-title">HOMEPAGE</div>
+  <p class="section-intro">
+    The homepage functions as both a brand introduction and a conversion engine.
+    It leads with editorial visual impact, quickly establishes fit credibility,
+    and guides the visitor toward either collection exploration or the Fit Finder.
+  </p>
+
+  <div class="feature-grid">
+    <div class="feature-card">
+      <div class="feature-card-label">Hero Section</div>
+      <div class="feature-card-title">SPLIT EDITORIAL HERO</div>
+      <div class="feature-card-body">
+        Full-viewport split layout — brand copy and CTAs on the left, editorial model photography on the right.
+        <ul class="feature-list">
+          <li>GSAP entrance animation: headline, subline, and CTAs animate in sequentially on load</li>
+          <li>Model image with a paper-to-transparent blend on the left edge for seamless integration</li>
+          <li>Two CTAs: Shop Collections (primary) and Find My Fit (secondary)</li>
+          <li>Animated gold accent line at page top</li>
+          <li>Watermark typography behind content</li>
+        </ul>
+      </div>
+    </div>
+    <div class="feature-card">
+      <div class="feature-card-label">Fit Differentiators</div>
+      <div class="feature-card-title">THREE-PILLAR FIT STRIP</div>
+      <div class="feature-card-body">
+        Three cards explaining the clinical fit dimensions that define Noon Shop frames.
+        <ul class="feature-list">
+          <li>Bridge Fit — the foundational dimension with adjustable nose pads</li>
+          <li>Cheekbone Clearance — engineered rim height to avoid cheek contact</li>
+          <li>Face Width — proportional temple lengths for secure, comfortable fit</li>
+          <li>Each card links to the corresponding Fit Guide section</li>
+        </ul>
+      </div>
+    </div>
+    <div class="feature-card">
+      <div class="feature-card-label">Interactive</div>
+      <div class="feature-card-title">HOMEPAGE FIT QUIZ</div>
+      <div class="feature-card-body">
+        Inline 3-step fit quiz on the homepage generates a personalized fit profile.
+        <ul class="feature-list">
+          <li>Three illustrated face-type selector cards per dimension</li>
+          <li>Animated profile card builds as user completes each step</li>
+          <li>Result summary with fit tags and a direct link to filtered shop URL</li>
+          <li>Fit profile saved to <strong>sessionStorage</strong> and persists to PDP and shop pages</li>
+          <li>URL parameters (<code>?bridge=&amp;cheek=&amp;width=</code>) allow quiz pre-fill from external links</li>
+        </ul>
+      </div>
+    </div>
+    <div class="feature-card">
+      <div class="feature-card-label">Collections &amp; Editorial</div>
+      <div class="feature-card-title">EDITORIAL GRID</div>
+      <div class="feature-card-body">
+        <ul class="feature-list">
+          <li>Full-width editorial collection showcase (Dormann / Steel Brown)</li>
+          <li>Asymmetric image grid with hover effects and collection CTAs</li>
+          <li>Rotating editorial image strips (4-image horizontal layout)</li>
+          <li>"Fit Belief" brand manifesto section on dark background</li>
+          <li>Dr. Park founder credential callout with clinical trust signals</li>
+          <li>Customer reviews / social proof section (3 featured testimonials)</li>
+          <li>Virtual try-on feature teaser section</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</div>
+</section>
+
+<div class="gold-rule" style="margin:0 60px;"></div>
+
+<!-- ══════════════════════════════════════════ 06 SHOP ══ -->
+<section id="s06">
+<div class="page">
+  <div class="section-label">Section 06</div>
+  <div class="section-title">SHOP &amp;<br>COLLECTIONS</div>
+  <p class="section-intro">
+    The shop page serves both as an all-products listing and as a collection landing page,
+    toggling between views via a persistent filter bar. Products are presented with editorial
+    richness while maintaining fast scan-ability.
+  </p>
+
+  <div class="feature-grid">
+    <div class="feature-card">
+      <div class="feature-card-label">Filter &amp; Navigation</div>
+      <div class="feature-card-title">STICKY FILTER BAR</div>
+      <div class="feature-card-body">
+        <ul class="feature-list">
+          <li>Sticky top bar: All Frames / Dormann / Steel Brown collection toggles</li>
+          <li>Active state highlighted with gold-dark color</li>
+          <li>URL parameter-driven filtering (<code>?collection=dormann</code>) for deep-linkability</li>
+          <li>Fit tag filter chips: Bridge Fit, Cheekbone Clearance, Wide, Standard</li>
+          <li>Collection editorial banner shown/hidden based on active filter</li>
+          <li>Empty state message with CTA when no products match filters</li>
+        </ul>
+      </div>
+    </div>
+    <div class="feature-card">
+      <div class="feature-card-label">Product Cards</div>
+      <div class="feature-card-title">EDITORIAL PRODUCT CARDS</div>
+      <div class="feature-card-body">
+        <ul class="feature-list">
+          <li>Flat product image at rest; on-model image crossfades in on hover</li>
+          <li>Collection badge (Dormann / Steel Brown) and product name</li>
+          <li>Price display with variant pricing support</li>
+          <li>Fit tag chips on each card (e.g., "Bridge Fit · Low", "Cheekbone · High")</li>
+          <li>Quick-Add button — adds to cart without leaving the page</li>
+          <li>Highlighted card state when product matches saved fit profile</li>
+        </ul>
+      </div>
+    </div>
+    <div class="feature-card span2">
+      <div class="feature-card-label">Collection Banners</div>
+      <div class="feature-card-title">COLLECTION EDITORIAL BANNERS</div>
+      <div class="feature-card-body">
+        Each collection has a dark editorial banner displayed above its product grid — featuring collection name,
+        description, key specs (material, origin, hinge type), and a link to the full collection story.
+        Banners show/hide dynamically based on active collection filter.
+      </div>
+    </div>
+  </div>
+</div>
+</section>
+
+<div class="gold-rule" style="margin:0 60px;"></div>
+
+<!-- ══════════════════════════════════════════ 07 PDP ══ -->
+<section id="s07">
+<div class="page">
+  <div class="section-label">Section 07</div>
+  <div class="section-title">PRODUCT<br>DETAIL PAGE</div>
+  <p class="section-intro">
+    The PDP is the most technically complex page. It must communicate fit dimensions,
+    clinical rationale, and product specifications while maintaining a clean purchase path.
+    Dr. Park's clinical notes appear inline on every product — this is a key brand differentiator.
+  </p>
+
+  <div class="feature-grid">
+    <div class="feature-card">
+      <div class="feature-card-label">Media Gallery</div>
+      <div class="feature-card-title">FLAT + MODEL GALLERY</div>
+      <div class="feature-card-body">
+        <ul class="feature-list">
+          <li>Primary large image with thumbnail strip below</li>
+          <li>Product images: flat on-white shots, macro hinge detail shots</li>
+          <li>On-model shots (front, three-quarter, profile) as separate gallery thumbnails</li>
+          <li>Model thumbnail tabs are visually distinguished from flat shots</li>
+          <li>Smooth crossfade transition on thumbnail click</li>
+        </ul>
+      </div>
+    </div>
+    <div class="feature-card">
+      <div class="feature-card-label">Fit Data</div>
+      <div class="feature-card-title">FIT DIMENSIONS DISPLAY</div>
+      <div class="feature-card-body">
+        <ul class="feature-list">
+          <li>Fit tag chips displayed on PDP: Bridge type, Cheekbone clearance, Face width rating</li>
+          <li>Measurement grid: Bridge width, Lens width, Temple length, Frame height — numeric values</li>
+          <li><strong>Dr. Park Clinical Note</strong> — a callout block (gold-left-border) with Dr. Park's specific clinical observation about why this frame fits a particular face type</li>
+          <li>Fit match highlight if session fit profile is active</li>
+          <li>"Find Your Fit" secondary CTA linking to Fit Guide</li>
+        </ul>
+      </div>
+    </div>
+    <div class="feature-card">
+      <div class="feature-card-label">Purchase Path</div>
+      <div class="feature-card-title">ADD TO CART &amp; VARIANTS</div>
+      <div class="feature-card-body">
+        <ul class="feature-list">
+          <li>Color variant selector with color swatches and label display</li>
+          <li>Color name display updates dynamically on selection</li>
+          <li>Add to Cart button (full-width, ink background)</li>
+          <li>Breadcrumb navigation: Home → Collection → Product</li>
+          <li>Product tagline and clinical brand positioning copy</li>
+        </ul>
+      </div>
+    </div>
+    <div class="feature-card">
+      <div class="feature-card-label">Content &amp; Specs</div>
+      <div class="feature-card-title">ACCORDION &amp; DETAILS</div>
+      <div class="feature-card-body">
+        <ul class="feature-list">
+          <li>Accordion sections: Product Details, Materials, Fit Notes, Care Instructions</li>
+          <li>Spec table: key-value pairs (material, origin, hinge type, collection)</li>
+          <li>"This Frame Is For" section — face type suitability callout</li>
+          <li>You May Also Like — complementary product recommendations (3 cards)</li>
+          <li>Recommendation cards link to relevant PDPs</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <div class="callout warn">
+    <strong>Shopify Note: Product Metafields Required</strong>
+    Fit tags, Dr. Park clinical notes, and frame measurements are not part of Shopify's standard product schema.
+    These will be stored as <strong>product metafields</strong> and rendered via Liquid.
+    Content entry for metafields should be confirmed during discovery — either through the Shopify admin,
+    a metafield app, or a custom admin UI.
+  </div>
+</div>
+</section>
+
+<div class="gold-rule" style="margin:0 60px;"></div>
+
+<!-- ══════════════════════════════════════════ 08 FIT GUIDE ══ -->
+<section id="s08">
+<div class="page">
+  <div class="section-label">Section 08</div>
+  <div class="section-title">FIT GUIDE</div>
+  <p class="section-intro">
+    The Fit Guide is a dedicated editorial and interactive page that educates visitors
+    on the three fit dimensions, provides measurement instructions, and ends with
+    an interactive Fit Finder quiz that produces a personalized frame recommendation.
+  </p>
+
+  <div class="feature-grid">
+    <div class="feature-card">
+      <div class="feature-card-label">Educational Content</div>
+      <div class="feature-card-title">THREE FIT PILLARS</div>
+      <div class="feature-card-body">
+        Three full-width pillar cards (one per fit dimension):
+        <ul class="feature-list">
+          <li><strong>Bridge Fit</strong> — how nose bridge width determines frame stability and prescription accuracy</li>
+          <li><strong>Cheekbone Clearance</strong> — rim height clearance to prevent cheek contact and lens shifting</li>
+          <li><strong>Face Width</strong> — temple length proportions for secure, pressure-free wear</li>
+          <li>Each includes a clinical note from Dr. Park, illustrated diagram placeholder, and educational copy</li>
+        </ul>
+      </div>
+    </div>
+    <div class="feature-card">
+      <div class="feature-card-label">Measurement Guide</div>
+      <div class="feature-card-title">HOW TO MEASURE</div>
+      <div class="feature-card-body">
+        <ul class="feature-list">
+          <li>Labeled anatomical diagram image showing measurement points</li>
+          <li>5-step measurement instructions with numbered step-tags</li>
+          <li>Step callout tags styled as gold accent labels</li>
+          <li>Size reference table: bridge widths, face widths mapped to Narrow / Standard / Wide / Extra Wide</li>
+          <li>Size tag highlights on recommended ranges</li>
+        </ul>
+      </div>
+    </div>
+    <div class="feature-card">
+      <div class="feature-card-label">Face Profiles</div>
+      <div class="feature-card-title">FACE TYPE CARDS</div>
+      <div class="feature-card-body">
+        <ul class="feature-list">
+          <li>Three face profile cards: Low Bridge, High Cheekbones, Wider Face</li>
+          <li>"Featured" highlight on the most common profile (Low Bridge)</li>
+          <li>Each card lists fit challenges, recommended adjustments, and compatible frame styles</li>
+          <li>Dr. Park closing quote with attribution</li>
+        </ul>
+      </div>
+    </div>
+    <div class="feature-card">
+      <div class="feature-card-label">Interactive Quiz</div>
+      <div class="feature-card-title">FIT FINDER QUIZ</div>
+      <div class="feature-card-body">
+        A 3-step interactive quiz that builds a personalized fit profile:
+        <ul class="feature-list">
+          <li><strong>Step 1 — Bridge:</strong> Low / Standard / High nose bridge selector</li>
+          <li><strong>Step 2 — Cheekbones:</strong> Prominent / Average / Flat cheekbone selector</li>
+          <li><strong>Step 3 — Face Width:</strong> Narrow / Standard / Wide face selector</li>
+          <li>Animated result profile card with all three dimension tags</li>
+          <li>Recommended frame link to filtered shop URL</li>
+          <li>Fit profile saved to sessionStorage for cross-page persistence</li>
+          <li>URL parameter pre-fill for shareable fit links</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</div>
+</section>
+
+<div class="gold-rule" style="margin:0 60px;"></div>
+
+<!-- ══════════════════════════════════════════ 09 STORY ══ -->
+<section id="s09">
+<div class="page">
+  <div class="section-label">Section 09</div>
+  <div class="section-title">OUR STORY</div>
+  <p class="section-intro">
+    The Story page builds brand trust through editorial depth. It introduces Dr. Anna Park's
+    clinical background, traces the founding of Noon Shop from observation to product, and
+    profiles both collections as deliberate design responses to real patient needs.
+  </p>
+
+  <div class="feature-grid">
+    <div class="feature-card">
+      <div class="feature-card-label">Hero + Stats</div>
+      <div class="feature-card-title">EDITORIAL HERO</div>
+      <div class="feature-card-body">
+        <ul class="feature-list">
+          <li>Full-viewport dark hero: "FOUNDED ON FIT" headline with editorial photography</li>
+          <li>Stats bar below hero: 20+ years in ophthalmology, 3 fit dimensions, 2 collections, 1 rule</li>
+          <li>Gold accent divider between hero and content</li>
+        </ul>
+      </div>
+    </div>
+    <div class="feature-card">
+      <div class="feature-card-label">Founding Narrative</div>
+      <div class="feature-card-title">DR. PARK'S STORY</div>
+      <div class="feature-card-body">
+        <ul class="feature-list">
+          <li>Two-column layout: editorial image (left) + narrative text (right)</li>
+          <li>Pull quote from Dr. Park in Playfair italic</li>
+          <li>Body copy tracing clinical observation → brand founding</li>
+          <li>6-milestone brand timeline: from first clinical observation to both collections launching</li>
+        </ul>
+      </div>
+    </div>
+    <div class="feature-card">
+      <div class="feature-card-label">Collections Origin</div>
+      <div class="feature-card-title">COLLECTION CARDS</div>
+      <div class="feature-card-body">
+        <ul class="feature-list">
+          <li>Two dark editorial collection cards (Dormann / Steel Brown) in a 2-column grid</li>
+          <li>Background photography with hover zoom effect</li>
+          <li>Collection origin story, material specs, and link to shop</li>
+        </ul>
+      </div>
+    </div>
+    <div class="feature-card">
+      <div class="feature-card-label">Founder Profile + Manifesto</div>
+      <div class="feature-card-title">DR. PARK &amp; CRAFT</div>
+      <div class="feature-card-body">
+        <ul class="feature-list">
+          <li>Sticky founder portrait (3/4 aspect) alongside credentials list (education, clinical tenure, publications)</li>
+          <li>4-step craft process strip (Clinical Insight → Engineering → Testing → Production)</li>
+          <li>Brand manifesto pull quote with two CTAs: Shop Frames + Find My Fit</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</div>
+</section>
+
+<div class="gold-rule" style="margin:0 60px;"></div>
+
+<!-- ══════════════════════════════════════════ 10 GLOBAL ══ -->
+<section id="s10">
+<div class="page">
+  <div class="section-label">Section 10</div>
+  <div class="section-title">GLOBAL<br>COMPONENTS</div>
+  <p class="section-intro">
+    Components that appear across multiple pages or underpin the entire site experience.
+  </p>
+
+  <div class="feature-grid">
+    <div class="feature-card">
+      <div class="feature-card-label">Navigation</div>
+      <div class="feature-card-title">GLOBAL NAV</div>
+      <div class="feature-card-body">
+        <ul class="feature-list">
+          <li>Fixed-position transparent nav over dark hero sections</li>
+          <li>On scroll (80px+): transitions to frosted cream background with dark text and gold hover states</li>
+          <li>Shop mega-dropdown: 4 tiles (Dormann, Steel Brown, All Frames, Fit Finder)</li>
+          <li>Logo with fallback text wordmark ("NOON SHOP")</li>
+          <li>Cart icon with live item count badge</li>
+          <li>Mobile: nav links hidden below 900px (hamburger menu — <em>scope TBD, see Discovery</em>)</li>
+        </ul>
+      </div>
+    </div>
+    <div class="feature-card">
+      <div class="feature-card-label">Cart</div>
+      <div class="feature-card-title">CART DRAWER</div>
+      <div class="feature-card-body">
+        <ul class="feature-list">
+          <li>AJAX slide-in cart drawer (no full page reload)</li>
+          <li>Line items with fit tag summaries displayed per product</li>
+          <li>Quantity adjusters and remove buttons</li>
+          <li>Upsell recommendation (complementary frame or accessory)</li>
+          <li>Subtotal and "Proceed to Checkout" button</li>
+          <li>Shopify's native checkout handles payment processing</li>
+        </ul>
+      </div>
+    </div>
+    <div class="feature-card">
+      <div class="feature-card-label">Footer</div>
+      <div class="feature-card-title">GLOBAL FOOTER</div>
+      <div class="feature-card-body">
+        <ul class="feature-list">
+          <li>Dark editorial footer (ink background)</li>
+          <li>Four-column layout: Brand, Shop, Company, Support</li>
+          <li>Logo with brand tagline in Playfair italic</li>
+          <li>Footer links to all primary pages</li>
+          <li>Copyright, legal links, founder attribution</li>
+        </ul>
+      </div>
+    </div>
+    <div class="feature-card">
+      <div class="feature-card-label">UX Details</div>
+      <div class="feature-card-title">MICRO-INTERACTIONS</div>
+      <div class="feature-card-body">
+        <ul class="feature-list">
+          <li><strong>Custom cursor:</strong> Dot + ring with mix-blend-mode: difference; scales on hover (desktop only)</li>
+          <li><strong>Scroll reveal:</strong> All content sections animate in as they enter the viewport using IntersectionObserver with staggered delay classes</li>
+          <li><strong>GSAP loader:</strong> Homepage entrance animation — brand mark and headline reveal on first load</li>
+          <li>All interactions disabled on mobile (cursor hidden, enter animations simplified)</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</div>
+</section>
+
+<div class="gold-rule" style="margin:0 60px;"></div>
+
+<!-- ══════════════════════════════════════════ 11 SHOPIFY CHALLENGES ══ -->
+<section id="s11">
+<div class="dark-section">
+  <div style="max-width:1080px; margin:0 auto;">
+    <div class="section-label">Section 11</div>
+    <div class="section-title">SHOPIFY<br>CONSIDERATIONS<br>&amp; CHALLENGES</div>
+    <p class="section-intro">
+      Shopify is an excellent platform for this project — but building a high-fidelity, editorial
+      experience on Shopify requires deliberate architectural decisions. The following items
+      are known challenges that will require specific implementation strategies. These are
+      not blockers, but they are scoped and budgeted accordingly.
+    </p>
+    <div class="ink-rule"></div>
+  </div>
+</div>
+<div style="background:var(--ink2); padding: 0 60px 80px;">
+  <div style="max-width:1080px; margin:0 auto;">
+    <div class="shopify-flags">
+      <div class="flag-row flag-header">
+        <div>#</div>
+        <div>Topic</div>
+        <div>Challenge &amp; Approach</div>
+        <div>Impact</div>
+      </div>
+
+      <div class="flag-row">
+        <div class="flag-num">01</div>
+        <div class="flag-topic">Product Metafields for Fit Data</div>
+        <div class="flag-detail">
+          Fit tags (Bridge, Cheekbone, Width), Dr. Park clinical notes, and frame measurements
+          are not native Shopify product fields. These must be created as <strong>metafield definitions</strong>
+          in the Shopify admin and populated per product. The Liquid theme will render them conditionally.
+          A content entry workflow must be established for the client team.
+          <br><span style="color:rgba(247,246,243,.35);font-size:11px;margin-top:6px;display:block;">Approach: Shopify native metafields (Online Store 2.0) + metafield definitions setup + admin documentation for client</span>
+        </div>
+        <div><span class="badge plan">Planning</span></div>
+      </div>
+
+      <div class="flag-row">
+        <div class="flag-num">02</div>
+        <div class="flag-topic">Fit Quiz: sessionStorage vs. Customer Accounts</div>
+        <div class="flag-detail">
+          The Fit Finder quiz saves results to <strong>sessionStorage</strong> (browser tab only — clears on close).
+          This works well for anonymous browsing but the fit profile is lost when the session ends.
+          A more durable fit profile requires either Shopify Customer Metafields (logged-in users only)
+          or a third-party app. The current prototype uses sessionStorage — upgrade path should be scoped.
+          <br><span style="color:rgba(247,246,243,.35);font-size:11px;margin-top:6px;display:block;">Approach: sessionStorage for launch; customer metafield persistence as Phase 2 if customer accounts are enabled</span>
+        </div>
+        <div><span class="badge med">Medium</span></div>
+      </div>
+
+      <div class="flag-row">
+        <div class="flag-num">03</div>
+        <div class="flag-topic">Collection Filtering &amp; Fit Tag Facets</div>
+        <div class="flag-detail">
+          Shopify's native collection filtering supports tags and product type — but the fit tag
+          filtering on the shop page (Bridge / Cheekbone / Width combinations) requires careful
+          product tag taxonomy and may require a <strong>third-party filter app</strong>
+          (e.g., Boost Commerce, SearchPie) for more complex faceted filtering beyond what
+          Shopify's Storefront Filter API natively handles elegantly.
+          <br><span style="color:rgba(247,246,243,.35);font-size:11px;margin-top:6px;display:block;">Approach: Evaluate Shopify native filters first; scope filter app if needed</span>
+        </div>
+        <div><span class="badge med">Medium</span></div>
+      </div>
+
+      <div class="flag-row">
+        <div class="flag-num">04</div>
+        <div class="flag-topic">GSAP &amp; Custom Cursor on Shopify</div>
+        <div class="flag-detail">
+          GSAP (GreenSock Animation Platform) and the custom cursor require loading external JavaScript
+          in the Shopify theme. This is fully supported — GSAP via CDN or npm bundle, cursor via
+          custom JS snippet. However, <strong>Shopify's asset pipeline</strong> and theme script loading
+          order must be carefully managed to avoid conflicts with Shopify's own JS and app scripts.
+          Performance impact of GSAP loader should be measured and the loader should be skippable
+          for return visitors (localStorage flag).
+          <br><span style="color:rgba(247,246,243,.35);font-size:11px;margin-top:6px;display:block;">Approach: GSAP via CDN with defer/async; loader skip logic via localStorage; cursor disabled on touch devices</span>
+        </div>
+        <div><span class="badge low">Low</span></div>
+      </div>
+
+      <div class="flag-row">
+        <div class="flag-num">05</div>
+        <div class="flag-topic">Checkout Customization Limitations</div>
+        <div class="flag-detail">
+          Shopify's standard checkout <strong>cannot be styled</strong> beyond basic branding (logo, colors, font)
+          on standard plans. The checkout page will not match the custom Noon Shop design system. For full
+          checkout UI control, <strong>Shopify Plus</strong> (Checkout Extensibility) is required.
+          Post-purchase pages and order confirmation are similarly limited on standard plans.
+          <br><span style="color:rgba(247,246,243,.35);font-size:11px;margin-top:6px;display:block;">Approach: Apply basic branding (logo, gold accent, fonts) to standard checkout; note Plus as upgrade path</span>
+        </div>
+        <div><span class="badge high">High</span></div>
+      </div>
+
+      <div class="flag-row">
+        <div class="flag-num">06</div>
+        <div class="flag-topic">Product Image Flat/Model Hover (Quick-Add)</div>
+        <div class="flag-detail">
+          The product card hover state (flat → on-model crossfade) requires that <strong>each product
+          has at least two images tagged or ordered correctly</strong> — one flat/product image and one
+          model image. This must be enforced as a content management convention. If a product only has
+          one image, the hover will gracefully show no change rather than breaking.
+          <br><span style="color:rgba(247,246,243,.35);font-size:11px;margin-top:6px;display:block;">Approach: Image alt-text convention or Shopify image roles (metafield) to identify flat vs. model shots</span>
+        </div>
+        <div><span class="badge low">Low</span></div>
+      </div>
+
+      <div class="flag-row">
+        <div class="flag-num">07</div>
+        <div class="flag-topic">Theme Editor Compatibility</div>
+        <div class="flag-detail">
+          Highly custom sections (the Fit Guide quiz, the founding timeline, the homepage quiz)
+          cannot be fully configured through the Shopify Theme Editor without building out
+          <strong>complex section schemas</strong>. Some sections will be code-only and
+          require developer involvement to update. The client should be aware that not all
+          content is editable via the drag-and-drop editor.
+          <br><span style="color:rgba(247,246,243,.35);font-size:11px;margin-top:6px;display:block;">Approach: Document which sections are editor-editable vs. code-only; build schemas for high-frequency content</span>
+        </div>
+        <div><span class="badge med">Medium</span></div>
+      </div>
+
+      <div class="flag-row">
+        <div class="flag-num">08</div>
+        <div class="flag-topic">Page Speed &amp; Core Web Vitals</div>
+        <div class="flag-detail">
+          Large editorial images, GSAP, custom fonts (3 font families, multiple weights), and IntersectionObserver
+          animations all contribute to page weight. Shopify's app ecosystem can also add significant
+          script bloat. Image optimization (WebP, lazy loading), font subsetting, and critical CSS
+          inlining will be required to meet acceptable Core Web Vitals scores.
+          <br><span style="color:rgba(247,246,243,.35);font-size:11px;margin-top:6px;display:block;">Approach: Shopify image CDN for assets, lazy-load below-fold images, GSAP deferred, critical CSS inlined</span>
+        </div>
+        <div><span class="badge high">High</span></div>
+      </div>
+
+      <div class="flag-row">
+        <div class="flag-num">09</div>
+        <div class="flag-topic">Mobile Navigation</div>
+        <div class="flag-detail">
+          The prototype hides the nav links on mobile (&lt;900px) but does not implement a hamburger/drawer menu.
+          A mobile navigation drawer must be designed and built for the Shopify theme.
+          This is in scope but the exact pattern (drawer, bottom nav, etc.) requires design decision.
+          <br><span style="color:rgba(247,246,243,.35);font-size:11px;margin-top:6px;display:block;">Approach: Slide-in drawer nav consistent with brand aesthetic; confirmed during design review</span>
+        </div>
+        <div><span class="badge med">Medium</span></div>
+      </div>
+
+      <div class="flag-row">
+        <div class="flag-num">10</div>
+        <div class="flag-topic">App Script Conflicts &amp; Budget</div>
+        <div class="flag-detail">
+          Each third-party Shopify app (reviews, virtual try-on, filter, email pop-up) injects
+          additional JavaScript and CSS. On heavily-customized themes, app scripts can conflict
+          with custom interactions or affect layout. Apps also add recurring monthly costs
+          on top of the Shopify plan fee.
+          <br><span style="color:rgba(247,246,243,.35);font-size:11px;margin-top:6px;display:block;">Approach: Vet app choices before installation; test each app in a development theme; confirm app budget with client</span>
+        </div>
+        <div><span class="badge med">Medium</span></div>
+      </div>
+    </div>
+  </div>
+</div>
+</section>
+
+<div class="gold-rule" style="margin:0 60px;"></div>
+
+<!-- ══════════════════════════════════════════ 12 INTEGRATIONS ══ -->
+<section id="s12">
+<div class="page">
+  <div class="section-label">Section 12</div>
+  <div class="section-title">THIRD-PARTY<br>INTEGRATIONS</div>
+  <p class="section-intro">
+    The following integrations are anticipated based on the feature scope. Final app selections
+    should be confirmed during discovery. Where multiple options exist, recommendations are provided.
+  </p>
+
+  <div class="feature-grid">
+    <div class="feature-card">
+      <div class="feature-card-label">Reviews &amp; Social Proof</div>
+      <div class="feature-card-title">CUSTOMER REVIEWS</div>
+      <div class="feature-card-body">
+        The homepage and PDPs include customer reviews.
+        <ul class="feature-list">
+          <li><strong>Recommended:</strong> Okendo or Judge.me</li>
+          <li>Must support rendering within custom card layouts</li>
+          <li>Star ratings, review text, reviewer name display</li>
+          <li>Photo reviews preferred for eyewear social proof</li>
+        </ul>
+      </div>
+    </div>
+    <div class="feature-card">
+      <div class="feature-card-label">Email Marketing</div>
+      <div class="feature-card-title">EMAIL / SMS</div>
+      <div class="feature-card-body">
+        <ul class="feature-list">
+          <li><strong>Recommended:</strong> Klaviyo (deep Shopify integration)</li>
+          <li>Fit profile data from quiz can be passed as Klaviyo customer properties</li>
+          <li>Abandoned cart, welcome series, post-purchase flows</li>
+          <li>Pop-up / email capture form (styled to brand)</li>
+        </ul>
+      </div>
+    </div>
+    <div class="feature-card">
+      <div class="feature-card-label">Virtual Try-On</div>
+      <div class="feature-card-title">VIRTUAL TRY-ON</div>
+      <div class="feature-card-body">
+        The homepage and PDP reference a virtual try-on feature.
+        <ul class="feature-list">
+          <li><strong>Options:</strong> Ditto, GlassesUSA Virtual Try-On embed, or Shopify AR (if 3D models available)</li>
+          <li>Requires 3D models or front-facing camera API access</li>
+          <li>Significant technical and content cost — confirm scope separately</li>
+          <li>May be deferred to Phase 2</li>
+        </ul>
+      </div>
+    </div>
+    <div class="feature-card">
+      <div class="feature-card-label">Search &amp; Filter</div>
+      <div class="feature-card-title">PRODUCT SEARCH</div>
+      <div class="feature-card-body">
+        <ul class="feature-list">
+          <li><strong>Evaluate:</strong> Shopify native Storefront Search vs. Boost Commerce or SearchPie</li>
+          <li>Faceted filtering by fit tag, collection, and price requires app if native filters are insufficient</li>
+          <li>Predictive search in nav recommended</li>
+        </ul>
+      </div>
+    </div>
+    <div class="feature-card">
+      <div class="feature-card-label">Analytics</div>
+      <div class="feature-card-title">TRACKING &amp; ANALYTICS</div>
+      <div class="feature-card-body">
+        <ul class="feature-list">
+          <li>Google Analytics 4 via Shopify integration or GTM</li>
+          <li>Meta Pixel for retargeting</li>
+          <li>Fit quiz step tracking as custom GA4 events</li>
+          <li>Heat mapping (Hotjar or Microsoft Clarity) recommended post-launch</li>
+        </ul>
+      </div>
+    </div>
+    <div class="feature-card">
+      <div class="feature-card-label">Shipping &amp; Returns</div>
+      <div class="feature-card-title">FULFILLMENT</div>
+      <div class="feature-card-body">
+        <ul class="feature-list">
+          <li>Shopify Shipping native rates for standard carriers</li>
+          <li>Returns policy page (styled to brand)</li>
+          <li>If home try-on program is considered: requires dedicated fulfillment workflow (out of scope)</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</div>
+</section>
+
+<div class="gold-rule" style="margin:0 60px;"></div>
+
+<!-- ══════════════════════════════════════════ 13 DISCOVERY ══ -->
+<section id="s13">
+<div class="page">
+  <div class="section-label">Section 13</div>
+  <div class="section-title">ITEMS FOR<br>ADDITIONAL<br>DISCOVERY</div>
+  <p class="section-intro">
+    The following items cannot be fully scoped without additional information from the client.
+    These will be addressed in a discovery session before development begins or before Phase 2 scoping.
+  </p>
+
+  <div class="disc-table">
+    <div class="disc-row disc-header">
+      <div>Topic</div>
+      <div>Questions to Resolve</div>
+      <div>Owner</div>
+    </div>
+
+    <div class="disc-row">
+      <div class="disc-topic">Shopify Plan Selection</div>
+      <div class="disc-q">Which Shopify plan is in use or planned? Checkout customization and script access differ significantly between Basic, Advanced, and Plus. Confirming the plan determines what checkout branding is achievable.</div>
+      <div><span class="disc-owner client">Client</span></div>
+    </div>
+
+    <div class="disc-row">
+      <div class="disc-topic">Product Catalog Scope</div>
+      <div class="disc-q">How many SKUs are launching? How many color variants per frame? Are all products in two collections only (Dormann, Steel Brown) or will new collections be added? This determines metafield complexity and PDP variant logic.</div>
+      <div><span class="disc-owner client">Client</span></div>
+    </div>
+
+    <div class="disc-row">
+      <div class="disc-topic">Fit Data Entry Workflow</div>
+      <div class="disc-q">Who will enter fit tags and Dr. Park clinical notes per product — and how frequently does this change? Options range from Shopify admin metafield editing to a custom internal tool. Determines the content management approach.</div>
+      <div><span class="disc-owner client">Client</span></div>
+    </div>
+
+    <div class="disc-row">
+      <div class="disc-topic">Virtual Try-On Feature</div>
+      <div class="disc-q">Is virtual try-on a hard requirement for launch, or is it a Phase 2 feature? If required at launch: are 3D frame models available, or does a vendor need to produce them? This has significant cost and timeline implications.</div>
+      <div><span class="disc-owner client">Client</span></div>
+    </div>
+
+    <div class="disc-row">
+      <div class="disc-topic">Customer Accounts &amp; Fit Profile Persistence</div>
+      <div class="disc-q">Should customers be able to create accounts and have their fit profile saved permanently? If yes, this adds customer account pages, Shopify metafield writes for fit data, and an account portal UI to the scope.</div>
+      <div><span class="disc-owner client">Client</span></div>
+    </div>
+
+    <div class="disc-row">
+      <div class="disc-topic">Reviews Strategy</div>
+      <div class="disc-q">Does Noon Shop have existing reviews that need to be migrated? What is the preferred review platform? Are photo reviews or verified buyer badges required? Determines app selection and import effort.</div>
+      <div><span class="disc-owner client">Client</span></div>
+    </div>
+
+    <div class="disc-row">
+      <div class="disc-topic">Home Try-On Program</div>
+      <div class="disc-q">Is a home try-on program (try 3 frames, keep or return) planned? This would require a separate product type, fulfillment workflow, return logistics integration, and a dedicated PDP flow — this is a significant addition to scope if required at launch.</div>
+      <div><span class="disc-owner client">Client</span></div>
+    </div>
+
+    <div class="disc-row">
+      <div class="disc-topic">International / Multi-Currency</div>
+      <div class="disc-q">Is the initial launch US-only or will international shipping be offered? Multi-currency display and international tax handling (Shopify Markets) require additional configuration if non-US orders are expected at launch.</div>
+      <div><span class="disc-owner client">Client</span></div>
+    </div>
+
+    <div class="disc-row">
+      <div class="disc-topic">Photography &amp; Asset Readiness</div>
+      <div class="disc-q">Are production-ready editorial images, flat product shots, on-model shots, and macro detail images available for all launch SKUs? The prototype uses placeholder editorial imagery. Missing photography is a critical path risk for launch timing.</div>
+      <div><span class="disc-owner client">Client</span></div>
+    </div>
+
+    <div class="disc-row">
+      <div class="disc-topic">Mobile Navigation Pattern</div>
+      <div class="disc-q">The prototype hides nav links on mobile. A mobile drawer menu needs to be designed. Should this be a full-screen overlay, a side drawer, or a bottom navigation bar? Requires a design decision before development.</div>
+      <div><span class="disc-owner team">HelloIT</span></div>
+    </div>
+
+    <div class="disc-row">
+      <div class="disc-topic">Email Capture &amp; Pop-Up</div>
+      <div class="disc-q">Is there a planned email capture pop-up or footer sign-up form? If Klaviyo is used, what list segmentation is needed (e.g., separate flows for customers who completed the Fit Finder vs. generic visitors)?</div>
+      <div><span class="disc-owner client">Client</span></div>
+    </div>
+
+    <div class="disc-row">
+      <div class="disc-topic">Inventory Management</div>
+      <div class="disc-q">Will inventory be managed in Shopify natively, or is a third-party inventory system (ERP, warehouse management) required? Are back-in-stock notifications needed? Does the site need to display low-stock messaging?</div>
+      <div><span class="disc-owner client">Client</span></div>
+    </div>
+  </div>
+</div>
+</section>
+
+<div class="gold-rule" style="margin:0 60px;"></div>
+
+<!-- ══════════════════════════════════════════ 14 DELIVERABLES ══ -->
+<section id="s14">
+<div class="page">
+  <div class="section-label">Section 14</div>
+  <div class="section-title">DELIVERABLES<br>&amp; PHASES</div>
+  <p class="section-intro">
+    The project is structured in three phases. Phase 1 delivers a fully functional, brand-approved
+    Shopify store. Phases 2 and 3 address enhanced functionality and growth features.
+    A detailed timeline with milestones will be provided separately.
+  </p>
+
+  <div class="deliverables">
+    <div class="deliv-card">
+      <div class="deliv-phase">Phase 1 · Launch</div>
+      <div class="deliv-title">CORE STORE</div>
+      <ul class="deliv-list">
+        <li>Shopify store setup &amp; configuration</li>
+        <li>Custom Liquid theme — all 5 page types</li>
+        <li>Product metafield definitions (fit data, Dr. Park notes)</li>
+        <li>Homepage with GSAP loader, fit quiz, editorial sections</li>
+        <li>Shop / Collection page with filter bar</li>
+        <li>Product Detail Page with fit dimensions &amp; Park Note</li>
+        <li>Fit Guide with Fit Finder quiz</li>
+        <li>Our Story editorial page</li>
+        <li>AJAX cart drawer</li>
+        <li>Global nav (desktop) + mobile nav drawer</li>
+        <li>Footer</li>
+        <li>Checkout branding (logo, colors, font)</li>
+        <li>Reviews app integration (selected app)</li>
+        <li>Google Analytics 4 + Meta Pixel</li>
+        <li>Basic on-page SEO (meta tags, structured data)</li>
+        <li>QA across Chrome, Safari, Firefox, iOS, Android</li>
+        <li>Client content entry training &amp; documentation</li>
+      </ul>
+    </div>
+    <div class="deliv-card">
+      <div class="deliv-phase">Phase 2 · Enhance</div>
+      <div class="deliv-title">GROWTH FEATURES</div>
+      <ul class="deliv-list">
+        <li>Fit profile persistence via customer accounts</li>
+        <li>Klaviyo email integration &amp; flows</li>
+        <li>Email capture pop-up (styled to brand)</li>
+        <li>Advanced fit tag faceted filtering (if native insufficient)</li>
+        <li>Virtual try-on integration (pending asset readiness)</li>
+        <li>Predictive search with fit-aware results</li>
+        <li>Wishlist functionality</li>
+        <li>Back-in-stock notification</li>
+        <li>Post-purchase order confirmation page (Plus only)</li>
+        <li>International / multi-currency (Shopify Markets)</li>
+      </ul>
+    </div>
+    <div class="deliv-card">
+      <div class="deliv-phase">Phase 3 · Scale</div>
+      <div class="deliv-title">ADVANCED</div>
+      <ul class="deliv-list">
+        <li>Checkout extensibility (Shopify Plus)</li>
+        <li>Home try-on program workflow</li>
+        <li>Loyalty / referral program</li>
+        <li>Prescription upload &amp; management</li>
+        <li>B2B / wholesale portal (if applicable)</li>
+        <li>A/B testing infrastructure (Shopify Experiments or third-party)</li>
+        <li>Advanced analytics &amp; conversion optimization</li>
+        <li>New collection page templates</li>
+      </ul>
+    </div>
+  </div>
+</div>
+</section>
+
+<div class="gold-rule" style="margin:0 60px;"></div>
+
+<!-- ══════════════════════════════════════════ 15 OUT OF SCOPE ══ -->
+<section id="s15">
+<div class="page">
+  <div class="section-label">Section 15</div>
+  <div class="section-title">OUT OF<br>SCOPE</div>
+  <p class="section-intro">
+    The following items are explicitly excluded from this engagement unless separately agreed upon in writing.
+  </p>
+
+  <div class="feature-grid">
+    <div class="feature-card span2">
+      <div class="feature-card-label">Phase 1 Exclusions</div>
+      <div class="feature-card-title">NOT INCLUDED IN THIS SOW</div>
+      <div class="feature-card-body">
+        <ul class="feature-list">
+          <li>Photography, videography, or 3D model production for products or editorial content</li>
+          <li>Copywriting beyond what is established in the approved prototype</li>
+          <li>Virtual try-on feature (Phase 2, pending asset confirmation)</li>
+          <li>Customer account portal design and development (Phase 2)</li>
+          <li>Shopify Plus checkout extensibility (requires Plus plan upgrade)</li>
+          <li>Custom prescription management or optical lab integrations</li>
+          <li>Home try-on program development (Phase 3)</li>
+          <li>Ongoing maintenance, content updates, or product additions post-launch</li>
+          <li>SEO content strategy, link building, or paid advertising campaign management</li>
+          <li>Logo design, brand identity, or brand guideline development</li>
+          <li>Third-party app subscription fees (billed directly to client)</li>
+          <li>Shopify plan fees (billed directly to client)</li>
+          <li>Domain registration or DNS configuration (client manages)</li>
+          <li>Email newsletter design or campaign management</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</div>
+</section>
+
+<div class="gold-rule" style="margin:0 60px;"></div>
+
+<!-- ══════════════════════════════════════════ 16 ASSUMPTIONS ══ -->
+<section id="s16">
+<div class="page">
+  <div class="section-label">Section 16</div>
+  <div class="section-title">ASSUMPTIONS<br>&amp; DEPENDENCIES</div>
+
+  <div class="feature-grid">
+    <div class="feature-card">
+      <div class="feature-card-label">Client Responsibilities</div>
+      <div class="feature-card-title">CLIENT PROVIDES</div>
+      <div class="feature-card-body">
+        <ul class="feature-list">
+          <li>Access to the Shopify store (Owner or Staff permissions)</li>
+          <li>All final product photography (flat, on-model, macro detail) for all launch SKUs</li>
+          <li>All editorial photography used in hero and story sections</li>
+          <li>Final product names, descriptions, and pricing</li>
+          <li>Fit data (bridge type, cheekbone rating, face width) for every SKU</li>
+          <li>Dr. Park clinical notes for every SKU (can be drafted by HelloIT, reviewed by client)</li>
+          <li>Brand logo in SVG or high-resolution PNG</li>
+          <li>Timely feedback and approvals (48-hour SLA per review round)</li>
+          <li>One designated point of contact with decision-making authority</li>
+        </ul>
+      </div>
+    </div>
+    <div class="feature-card">
+      <div class="feature-card-label">Assumptions</div>
+      <div class="feature-card-title">PROJECT ASSUMPTIONS</div>
+      <div class="feature-card-body">
+        <ul class="feature-list">
+          <li>The approved prototype represents the agreed design direction — no major design pivots in Phase 1</li>
+          <li>The Shopify store has not yet been built; this is a greenfield development project</li>
+          <li>Maximum two rounds of revisions per page template are included in Phase 1 scope</li>
+          <li>Product catalog at launch is limited to the Dormann and Steel Brown collections</li>
+          <li>All content (copy, images) will be provided by the client in agreed formats before development begins</li>
+          <li>Third-party app selections will be finalized before development, not during</li>
+          <li>Timeline begins from the date of signed agreement and deposit receipt</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <div class="callout info">
+    <strong>Prototype as Specification</strong>
+    The 5-page HTML/CSS prototype at <code>helloit-pros.github.io/noonshopwebsite/</code> is the agreed
+    visual specification for this project. Design decisions visible in the prototype — layout, typography,
+    color, component behavior, animation — are considered approved. Changes beyond the prototype spec
+    will be treated as change requests and may affect timeline and cost.
+  </div>
+</div>
+</section>
+
+<!-- ══════════════════════════════════════════ FOOTER ══ -->
+<footer class="sow-footer">
+  <div class="sow-footer-inner">
+    <div class="sow-footer-top">
+      <div>
+        <div class="footer-brand">HELLOIT PROFESSIONALS</div>
+        <div style="font-size:11px; color:rgba(247,246,243,.2); margin-top:6px; letter-spacing:.1em;">Digital Strategy &amp; Web Development</div>
+      </div>
+      <p class="footer-note">
+        This document is confidential and prepared exclusively for Noon Shop / Dr. Anna Park, MD.
+        All features, architecture, and timeline estimates are subject to change based on
+        discovery findings and final agreement. This document does not constitute a binding contract.
+        A formal contract and project agreement will be issued separately.
+      </p>
+    </div>
+    <div class="footer-copy">
+      Scope of Work v1.0 &nbsp;·&nbsp; Prepared May 2026 &nbsp;·&nbsp; HelloIT Professionals &nbsp;·&nbsp; Noon Shop E-Commerce Website
+    </div>
+  </div>
+</footer>
+
+</body>
+</html>
