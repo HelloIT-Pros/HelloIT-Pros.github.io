@@ -376,6 +376,14 @@ section { position: relative; }
 .evo-list li:last-child { border-bottom: none; }
 .evo-list li::before { content:'→'; color: var(--gold); opacity:.5; flex-shrink:0; }
 
+/* ── EVOLUTION LIGHT VARIANT ── */
+.sec-light .evo-grid { background: var(--border-l); }
+.sec-light .evo-card { background: var(--white); border-color: var(--border-l); }
+.sec-light .evo-title { color: var(--ink); }
+.sec-light .evo-desc { color: rgba(12,12,12,.55); }
+.sec-light .evo-list li { color: rgba(12,12,12,.55); border-bottom-color: rgba(12,12,12,.07); }
+.sec-light .evo-list li::before { color: var(--gold-dk); opacity:.7; }
+
 /* ── FOOTER ── */
 footer {
   background: var(--ink); border-top: 0.5px solid var(--border-d);
@@ -430,7 +438,7 @@ footer {
   <a href="#top" class="nav-brand">
     <div class="nav-brand-labels">
       <div class="nav-brand-name">SOLIS.</div>
-      <div class="nav-brand-sub">SOLIS · Built for Noon Shop</div>
+      <div class="nav-brand-sub">Built for Noon Shop</div>
     </div>
   </a>
   <div class="nav-links">
@@ -439,7 +447,6 @@ footer {
     <a href="#capabilities">Capabilities</a>
     <a href="#pricing">Pricing</a>
   </div>
-  <div class="nav-pill">Proposal 2026</div>
 </nav>
 
 <!-- ── HERO ── -->
@@ -550,18 +557,18 @@ footer {
     <div>
       <div class="tag-d">AI Photography Generation</div>
       <h2 class="dh-d">
-        Five types of<br>
-        <em>imagery. One platform.</em>
+        On Brand.<br>
+        <em>On Demand.</em>
       </h2>
     </div>
     <p class="body-d" style="max-width:380px;">
-      SOLIS generates photography across five distinct categories, all aligned with Noon Shop's brand guide, editorial standards, and visual direction. These are real outputs from the platform.
+      SOLIS generates photography across five distinct categories, all aligned with Noon Shop's brand guide, editorial standards, and visual direction.
     </p>
   </div>
 
   <div class="showcase-grid-a">
     <div class="show-photo" style="min-height:380px;">
-      <img src="assets/Editorial/Editorial_portrait_in_the_style_of_Annie_Leibovitz-1777301542395.png" alt="Editorial Photography">
+      <img src="assets/Editorial/annie-1.png" alt="Editorial Photography">
       <div class="show-label">
         <div class="show-label-title">Editorial Portrait</div>
         <div class="show-label-type">Editorial Photography · Campaign-Ready</div>
@@ -577,7 +584,7 @@ footer {
       <div class="show-badge">SOLIS Output</div>
     </div>
     <div class="show-photo">
-      <img src="assets/Editorial/Editorial_portrait_in_the_style_of_Platons_direct-1777301562204.png" alt="Editorial Portrait">
+      <img src="assets/Editorial/platon-1.png" alt="Editorial Portrait">
       <div class="show-label">
         <div class="show-label-title">Editorial · Direct</div>
         <div class="show-label-type">Editorial Photography · Campaign</div>
@@ -588,7 +595,7 @@ footer {
 
   <div class="showcase-grid-b">
     <div class="show-photo product">
-      <img src="assets/Product/Frames on white-2.png" alt="Product Flat-Lay">
+      <img src="assets/Product/frames-white-2.png" alt="Product Flat-Lay">
       <div class="show-label">
         <div class="show-label-title">Product Flat-Lay</div>
         <div class="show-label-type">Ecommerce Product Photography</div>
@@ -603,7 +610,7 @@ footer {
       <div class="show-badge">SOLIS Output</div>
     </div>
     <div class="show-photo macro">
-      <img src="assets/Editorial/macro-detail.png" alt="Macro Photography">
+      <img src="assets/Product/macro-detail.png" alt="Macro Photography">
       <div class="show-label">
         <div class="show-label-title">Macro Detail</div>
         <div class="show-label-type">Macro Photography · Craftsmanship</div>
@@ -706,7 +713,6 @@ footer {
         <li>Fit profile &amp; face-type tagging</li>
         <li>Structured comfort commentary</li>
         <li>Demographic &amp; location formatting</li>
-        <li>Moderation workflow required</li>
       </ul>
     </div>
   </div>
@@ -722,7 +728,7 @@ footer {
       <img src="assets/Refined Look - 2026/A_professional_portrait_photograph_of_an_Asian_man-1777258671076.png" alt="" style="width:100%;height:100%;object-fit:cover;object-position:center top;display:block;">
     </div>
     <div style="overflow:hidden; aspect-ratio:3/4; background:#111;">
-      <img src="assets/Editorial/Editorial_portrait_photograph_of_a_woman_with_hear-1777301578241.png" alt="" style="width:100%;height:100%;object-fit:cover;object-position:center top;display:block;">
+      <img src="assets/Editorial/woman-headband.png" alt="" style="width:100%;height:100%;object-fit:cover;object-position:center top;display:block;">
     </div>
     <div style="overflow:hidden; aspect-ratio:3/4; background:#111;">
       <img src="assets/Refined Look - 2026/A_professional_portrait_photograph_of_an_Asian_wom-1777294170963.png" alt="" style="width:100%;height:100%;object-fit:cover;object-position:center top;display:block;">
@@ -849,7 +855,7 @@ footer {
         <div class="price-feature"><span class="check">✓</span> Platform evolution</div>
         <div class="price-feature"><span class="check">✓</span> AI photography generation</div>
         <div class="price-feature"><span class="check">✓</span> Product onboarding support</div>
-        <div class="price-feature"><span class="check">✓</span> Expanded content generation support</div>
+        <div class="price-feature"><span class="check">✓</span> Content generation support</div>
       </div>
     </div>
 
@@ -877,7 +883,7 @@ footer {
         <div class="price-feature"><span class="check">✓</span> Platform evolution</div>
         <div class="price-feature"><span class="check">✓</span> AI photography generation</div>
         <div class="price-feature"><span class="check">✓</span> Product onboarding support</div>
-        <div class="price-feature"><span class="check">✓</span> Moderate content generation support</div>
+        <div class="price-feature"><span class="check">✓</span> Content generation support</div>
       </div>
     </div>
 
@@ -901,7 +907,7 @@ footer {
         <div class="price-feature"><span class="dim">~$125/mo</span> Hosting &amp; infrastructure</div>
         <div class="price-feature"><span class="dim">~$250/mo</span> AI compute costs</div>
         <div class="price-feature"><span class="dim">~$50/mo</span> Storage &amp; media</div>
-        <div class="price-feature"><span class="dim">~$125/mo</span> Platform operations</div>
+        <div class="price-feature"><span class="x">—</span> <span class="dim">Platform operations not included</span></div>
         <div class="price-feature"><span class="dim">~$125/mo</span> Platform updates</div>
         <div class="price-feature"><span class="x">—</span> <span class="dim">Platform evolution not included</span></div>
         <div class="price-feature"><span class="check">✓</span> Initial photography generation</div>
@@ -913,18 +919,18 @@ footer {
 </section>
 
 <!-- ── PLATFORM EVOLUTION ── -->
-<section class="sec-dark2 rv">
-  <div class="tag-d">Platform Evolution</div>
-  <h2 class="dh-d">
+<section class="sec-light rv">
+  <div class="tag-l">Platform Evolution</div>
+  <h2 class="dh-l">
     Not a static tool.<br>
     <em>A living system.</em>
   </h2>
-  <p class="body-d" style="max-width:540px; margin-top:28px;">
+  <p class="body-l" style="max-width:540px; margin-top:28px;">
     SOLIS is designed to function as a continuously evolving Brand Intelligence &amp; Content Operating System. Managed Services keep the platform advancing, not just maintained.
   </p>
   <div class="evo-grid">
     <div class="evo-card">
-      <div class="evo-title">What Managed Services Support</div>
+      <div class="evo-title">Managed Support Services</div>
       <div class="evo-desc">Ongoing platform development beyond initial launch, keeping SOLIS current with Noon Shop's evolving needs.</div>
       <ul class="evo-list">
         <li>New workflows &amp; campaign systems</li>
@@ -953,12 +959,11 @@ footer {
 <!-- ── FOOTER ── -->
 <footer>
   <div class="footer-brand">
-    <img src="assets/logo.png" alt="Noon Shop" class="footer-logo-img">
     <div class="footer-brand-text">SOLIS · Built for Noon Shop</div>
   </div>
   <div class="footer-meta">
     Brand Intelligence &amp; AI Content Platform<br>
-    Noon Shop · Proposal 2026 · HelloIT Pros
+    Proposal 2026 · HelloIT Pros
   </div>
 </footer>
 
