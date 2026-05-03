@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Noon Shop · Website Redesign & Development Proposal</title>
+<title>Noon Shop · A New Web Experience</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Outfit:wght@200;300;400;500&family=Playfair+Display:ital,wght@0,400;1,400&display=swap" rel="stylesheet">
 <style>
@@ -173,24 +173,24 @@ section { position: relative; }
 .story-body { font-size: 14px; line-height: 1.85; color: var(--t55); }
 
 /* ── TIMELINE STRIP ── */
-.timeline-strip { display: grid; grid-template-columns: repeat(4,1fr); gap: 1px; background: var(--bd); margin-top: 48px; }
-.tl-cell { background: rgba(247,246,243,.02); padding: 32px 28px; }
-.tl-year { font-family:'Bebas Neue',sans-serif; font-size: 13px; letter-spacing:.12em; color: var(--gold); margin-bottom: 8px; }
-.tl-title { font-family:'Bebas Neue',sans-serif; font-size: 17px; letter-spacing:.04em; color: var(--white); margin-bottom: 8px; line-height: .95; }
-.tl-body { font-size: 12px; color: var(--t35); line-height: 1.65; }
+.timeline-strip { display: grid; grid-template-columns: repeat(4,1fr); gap: 1px; background: var(--bl); margin-top: 48px; }
+.tl-cell { background: var(--white); padding: 32px 28px; }
+.tl-year { font-family:'Bebas Neue',sans-serif; font-size: 13px; letter-spacing:.12em; color: var(--gold-dk); margin-bottom: 8px; }
+.tl-title { font-family:'Bebas Neue',sans-serif; font-size: 17px; letter-spacing:.04em; color: var(--ink); margin-bottom: 8px; line-height: .95; }
+.tl-body { font-size: 12px; color: rgba(12,12,12,.45); line-height: 1.65; }
 
 /* ── DR PARK ── */
 .park-feature { display: grid; grid-template-columns: 340px 1fr; gap: 72px; align-items: start; margin-top: 72px; }
 .park-img-wrap { position: relative; overflow: hidden; aspect-ratio: 3/4; }
 .park-img-wrap img { width: 100%; height: 100%; object-fit: cover; object-position: center top; }
-.park-cap { margin-top: 16px; font-size: 11px; letter-spacing:.16em; text-transform:uppercase; color: var(--t35); }
-.park-name { font-family:'Bebas Neue',sans-serif; font-size: clamp(40px,5vw,72px); letter-spacing:.03em; color: var(--white); line-height: .9; margin-bottom: 8px; }
-.park-title { font-family:'Playfair Display',serif; font-style:italic; font-size: 16px; color: var(--gold); margin-bottom: 36px; }
-.park-bio { font-size: 14px; line-height: 1.88; color: var(--t55); margin-bottom: 32px; }
-.park-creds { display: flex; flex-direction: column; gap: 0; border-top: 0.5px solid var(--bd); }
-.park-cred { padding: 14px 0; border-bottom: 0.5px solid var(--bd); display: grid; grid-template-columns: 80px 1fr; gap: 16px; align-items: baseline; }
-.park-cred-year { font-family:'Bebas Neue',sans-serif; font-size: 13px; letter-spacing:.08em; color: var(--gold); }
-.park-cred-text { font-size: 12px; color: var(--t55); }
+.park-cap { margin-top: 16px; font-size: 11px; letter-spacing:.16em; text-transform:uppercase; color: rgba(12,12,12,.4); }
+.park-name { font-family:'Bebas Neue',sans-serif; font-size: clamp(40px,5vw,72px); letter-spacing:.03em; color: var(--ink); line-height: .9; margin-bottom: 8px; }
+.park-title { font-family:'Playfair Display',serif; font-style:italic; font-size: 16px; color: var(--gold-dk); margin-bottom: 36px; }
+.park-bio { font-size: 14px; line-height: 1.88; color: rgba(12,12,12,.58); margin-bottom: 32px; }
+.park-quote { font-family:'Playfair Display',serif; font-style:italic; font-size: clamp(16px,1.8vw,22px); line-height: 1.5; color: var(--ink); margin-bottom: 20px; }
+.park-quote em { color: var(--gold-dk); font-style: normal; }
+.park-attr { font-size: 11px; letter-spacing:.2em; text-transform:uppercase; color: rgba(12,12,12,.35); margin-bottom: 36px; display:flex; align-items:center; gap:12px; }
+.park-attr::before { content:''; display:block; width:20px; height:0.5px; background: rgba(12,12,12,.2); }
 
 /* ── SHOP LAYOUT CONCEPT ── */
 .shop-concept { margin-top: 72px; border: 1px solid rgba(12,12,12,.1); overflow: hidden; background: var(--white); }
@@ -218,29 +218,29 @@ section { position: relative; }
 .shop-fit-tag { font-size: 9px; letter-spacing:.12em; padding: 2px 7px; border: 1px solid rgba(12,12,12,.12); color: rgba(12,12,12,.45); }
 
 /* ── PDP PREVIEW ── */
-.pdp-preview { display: grid; grid-template-columns: 1fr 1fr; gap: 1px; background: var(--bd); margin-top: 72px; border: 0.5px solid var(--bd); }
-.pdp-gallery { background: rgba(247,246,243,.03); padding: 32px; display: flex; flex-direction: column; gap: 8px; }
-.pdp-main-img { aspect-ratio: 4/3; overflow: hidden; background: rgba(247,246,243,.04); }
+.pdp-preview { display: grid; grid-template-columns: 1fr 1fr; gap: 1px; background: var(--bl); margin-top: 72px; border: 0.5px solid var(--bl); }
+.pdp-gallery { background: var(--white); padding: 32px; display: flex; flex-direction: column; gap: 8px; }
+.pdp-main-img { aspect-ratio: 4/3; overflow: hidden; background: var(--paper); }
 .pdp-main-img img { width: 100%; height: 100%; object-fit: cover; object-position: center; }
 .pdp-thumbs { display: flex; gap: 6px; }
-.pdp-thumb { width: 56px; height: 44px; overflow: hidden; background: rgba(247,246,243,.04); border: 0.5px solid var(--bd); }
+.pdp-thumb { width: 56px; height: 44px; overflow: hidden; background: var(--paper); border: 0.5px solid var(--bl); }
 .pdp-thumb img { width: 100%; height: 100%; object-fit: cover; }
-.pdp-info { padding: 40px 40px; display: flex; flex-direction: column; justify-content: center; }
-.pdp-coll { font-size: 10px; letter-spacing:.24em; text-transform:uppercase; color: var(--gold); margin-bottom: 8px; }
-.pdp-name { font-family:'Bebas Neue',sans-serif; font-size: 36px; letter-spacing:.04em; color: var(--white); line-height:.9; margin-bottom: 12px; }
-.pdp-tagline { font-family:'Playfair Display',serif; font-style:italic; font-size: 14px; color: var(--t35); margin-bottom: 20px; }
-.pdp-price { font-family:'Bebas Neue',sans-serif; font-size: 26px; letter-spacing:.04em; color: var(--white); margin-bottom: 20px; }
+.pdp-info { padding: 40px 40px; display: flex; flex-direction: column; justify-content: center; background: var(--white); }
+.pdp-coll { font-size: 10px; letter-spacing:.24em; text-transform:uppercase; color: var(--gold-dk); margin-bottom: 8px; }
+.pdp-name { font-family:'Bebas Neue',sans-serif; font-size: 36px; letter-spacing:.04em; color: var(--ink); line-height:.9; margin-bottom: 12px; }
+.pdp-tagline { font-family:'Playfair Display',serif; font-style:italic; font-size: 14px; color: rgba(12,12,12,.45); margin-bottom: 20px; }
+.pdp-price { font-family:'Bebas Neue',sans-serif; font-size: 26px; letter-spacing:.04em; color: var(--ink); margin-bottom: 20px; }
 .pdp-fit-tags { display: flex; gap: 6px; flex-wrap:wrap; margin-bottom: 20px; }
-.pdp-fit-tag { font-size: 10px; letter-spacing:.12em; padding: 4px 10px; border: 0.5px solid rgba(200,184,154,.3); color: var(--gold); }
-.pdp-park-note { border-left: 2px solid rgba(200,184,154,.3); padding: 14px 18px; background: rgba(200,184,154,.04); margin-bottom: 20px; }
-.pdp-park-note-label { font-size: 9px; letter-spacing:.24em; text-transform:uppercase; color: var(--gold); margin-bottom: 6px; }
-.pdp-park-note-body { font-size: 12px; color: var(--t55); line-height: 1.7; font-style:italic; }
-.pdp-btn { display: block; padding: 14px 24px; background: var(--white); color: var(--ink); font-size: 11px; letter-spacing:.2em; text-transform:uppercase; text-align:center; margin-bottom: 8px; }
-.pdp-btn-ghost { display: block; padding: 14px 24px; border: 0.5px solid rgba(200,184,154,.3); color: var(--gold); font-size: 11px; letter-spacing:.2em; text-transform:uppercase; text-align:center; }
-.pdp-measurements { display: grid; grid-template-columns: 1fr 1fr; gap: 1px; background: var(--bd); margin-bottom: 20px; }
-.pdp-meas { background: rgba(247,246,243,.03); padding: 10px 12px; }
-.pdp-meas-val { font-family:'Bebas Neue',sans-serif; font-size: 20px; color: var(--white); }
-.pdp-meas-label { font-size: 10px; letter-spacing:.14em; text-transform:uppercase; color: var(--t35); }
+.pdp-fit-tag { font-size: 10px; letter-spacing:.12em; padding: 4px 10px; border: 0.5px solid rgba(168,144,112,.35); color: var(--gold-dk); }
+.pdp-park-note { border-left: 2px solid rgba(168,144,112,.35); padding: 14px 18px; background: rgba(168,144,112,.06); margin-bottom: 20px; }
+.pdp-park-note-label { font-size: 9px; letter-spacing:.24em; text-transform:uppercase; color: var(--gold-dk); margin-bottom: 6px; }
+.pdp-park-note-body { font-size: 12px; color: rgba(12,12,12,.58); line-height: 1.7; font-style:italic; }
+.pdp-btn { display: block; padding: 14px 24px; background: var(--ink); color: var(--white); font-size: 11px; letter-spacing:.2em; text-transform:uppercase; text-align:center; margin-bottom: 8px; }
+.pdp-btn-ghost { display: block; padding: 14px 24px; border: 0.5px solid rgba(168,144,112,.35); color: var(--gold-dk); font-size: 11px; letter-spacing:.2em; text-transform:uppercase; text-align:center; }
+.pdp-measurements { display: grid; grid-template-columns: 1fr 1fr; gap: 1px; background: var(--bl); margin-bottom: 20px; }
+.pdp-meas { background: var(--paper); padding: 10px 12px; }
+.pdp-meas-val { font-family:'Bebas Neue',sans-serif; font-size: 20px; color: var(--ink); }
+.pdp-meas-label { font-size: 10px; letter-spacing:.14em; text-transform:uppercase; color: rgba(12,12,12,.45); }
 
 /* ── REVIEWS SECTION ── */
 .reviews-header { display: grid; grid-template-columns: 1fr 1fr; gap: 60px; align-items: end; margin-bottom: 56px; }
@@ -320,7 +320,7 @@ footer { background: var(--ink); border-top: 0.5px solid var(--bd); padding: 48p
 <nav>
   <div class="nav-brand">
     <div class="nav-brand-name">NOON SHOP</div>
-    <div class="nav-brand-sub">Website Redesign &amp; Development</div>
+    <div class="nav-brand-sub">A New Look</div>
   </div>
   <div class="nav-links">
     <a href="#fit">Fit is Fundamental</a>
@@ -333,13 +333,13 @@ footer { background: var(--ink); border-top: 0.5px solid var(--bd); padding: 48p
 <!-- ══════════════════════════════════════════ HERO ══ -->
 <section class="hero" id="top">
   <div class="hero-left">
-    <div class="eyebrow">HelloIT Professionals · Noon Shop</div>
+    <div class="eyebrow">Noon Shop</div>
     <h1 class="hero-h1">
       FIT IS<br>FUNDAMENTAL
-      <em>Website Redesign &amp; Development.</em>
+      <em>A New Web Experience.</em>
     </h1>
     <p class="hero-body">
-      A Shopify B2C website built around the single idea that has always defined Noon Shop —
+      A Shopify B2C website built around the single idea that has always defined Noon Shop:
       fit is not an afterthought. Every page, every interaction, every word is designed to
       help the right customer find the right frame.
     </p>
@@ -378,7 +378,7 @@ footer { background: var(--ink); border-top: 0.5px solid var(--bd); padding: 48p
   </h2>
   <p class="body-l" style="max-width:560px; margin-top:28px;">
     Most eyewear brands sell frames. Noon Shop sells the certainty that the frame will fit.
-    The website has to do the same — every page earns trust, educates on fit, and removes
+    The website has to do the same: every page earns trust, educates on fit, and removes
     the hesitation that comes from buying eyewear online without trying it on.
   </p>
 
@@ -389,7 +389,7 @@ footer { background: var(--ink); border-top: 0.5px solid var(--bd); padding: 48p
       <p class="brief-cell-body">
         Buying eyewear online is a leap of faith. Customers can't try frames on, can't feel the
         weight, can't know if the bridge will sit right. The current site doesn't bridge that gap.
-        Noon Shop's fit philosophy is the answer — but the website doesn't lead with it.
+        Noon Shop's fit philosophy is the answer, but the website doesn't lead with it.
       </p>
     </div>
     <div class="brief-cell">
@@ -398,18 +398,18 @@ footer { background: var(--ink); border-top: 0.5px solid var(--bd); padding: 48p
       <p class="brief-cell-body">
         Redesign and develop a Shopify store where fit is the narrative from the first scroll to
         the final add-to-cart. Dr. Park's clinical expertise surfaces at every touchpoint.
-        The customer arrives uncertain. They leave with confidence — and the right frame.
+        The customer arrives uncertain. They leave with confidence, and the right frame.
       </p>
     </div>
     <div class="brief-cell">
       <div class="brief-cell-n">03</div>
       <div class="brief-cell-title">Dr. Park's Two Collections</div>
       <p class="brief-cell-body">
-        <strong>Dormann</strong> — Beta-titanium temples, patented screwless snap hinge, vibrant colors. Built for the fit-first customer who doesn't want to choose between style and comfort.
+        <strong>Dormann:</strong> Beta-titanium temples, patented screwless snap hinge, vibrant colors. Built for the fit-first customer who doesn't want to choose between style and comfort.
         <br><br>
-        <strong>Steel Brown</strong> — German stainless steel, engineered with Wolfgang Proksch. Neutral, refined, and built for everyday precision.
+        <strong>Steel Brown:</strong> German stainless steel, engineered with Wolfgang Proksch. Neutral, refined, and built for everyday precision.
         <br><br>
-        <strong>Denova</strong> — A third collection designed to expand Noon Shop's reach. Details to be confirmed in discovery.
+        <strong>Denova:</strong> A third collection designed to expand Noon Shop's reach. Details to be confirmed in discovery.
       </p>
     </div>
     <div class="brief-cell">
@@ -417,7 +417,7 @@ footer { background: var(--ink); border-top: 0.5px solid var(--bd); padding: 48p
       <div class="brief-cell-title">Why Shopify</div>
       <p class="brief-cell-body">
         A fully custom Shopify theme gives Noon Shop the operational backbone of a world-class
-        e-commerce platform — inventory, checkout, payments, and apps — wrapped in a
+        e-commerce platform (inventory, checkout, payments, and apps) wrapped in a
         brand-forward, editorial design that no off-the-shelf theme could match.
       </p>
     </div>
@@ -428,12 +428,12 @@ footer { background: var(--ink); border-top: 0.5px solid var(--bd); padding: 48p
 <section class="sec-dark2 rv" id="fit">
   <div class="tag-d">Fit is Fundamental</div>
   <h2 class="dh-d">
-    Not a tagline.<br>
-    <em>The design brief.</em>
+    Fit is not<br>
+    <em>a tagline.</em>
   </h2>
   <p class="body-d" style="max-width:560px; margin-top:28px;">
     The Fit Guide is the heart of the website. It's where Noon Shop's clinical expertise
-    becomes a genuine shopping tool — transforming abstract brand positioning into a
+    becomes a genuine shopping tool, transforming abstract brand positioning into a
     concrete, personal answer: <em style="color:var(--gold)">here is the frame built for your face.</em>
   </p>
 
@@ -448,7 +448,7 @@ footer { background: var(--ink); border-top: 0.5px solid var(--bd); padding: 48p
       <div class="fit-preview-eyebrow">Noon Shop · The Science of Fit</div>
       <div class="fit-preview-h">THE SCIENCE<br>OF FIT</div>
       <p class="fit-preview-sub">
-        Twenty years of clinical practice. One persistent observation — most frames don't fit.
+        Twenty years of clinical practice. One persistent observation: most frames don't fit.
         Dr. Anna Park, MD built Noon Shop around three dimensions of fit that the
         eyewear industry has ignored.
       </p>
@@ -469,7 +469,7 @@ footer { background: var(--ink); border-top: 0.5px solid var(--bd); padding: 48p
   </h2>
   <p class="body-l" style="max-width:560px; margin-top:28px;">
     Most brands size by frame width and stop there. Noon Shop engineers around three
-    clinical dimensions — the same ones Dr. Park identified through two decades of watching
+    clinical dimensions, the same ones Dr. Park identified through two decades of watching
     prescriptions underperform because the frame didn't fit.
   </p>
 
@@ -483,9 +483,9 @@ footer { background: var(--ink); border-top: 0.5px solid var(--bd); padding: 48p
         bridge system addresses the most common misfit in eyewear.
       </p>
       <div class="pillar-note">
-        "The bridge is doing two jobs — supporting the frame and maintaining optical alignment.
+        "The bridge is doing two jobs: supporting the frame and maintaining optical alignment.
         Most frames only do one of them."
-        <br><br><span style="font-size:10px; letter-spacing:.16em; text-transform:uppercase; color:rgba(200,184,154,.5);">— Dr. Anna Park, MD</span>
+        <br><br><span style="font-size:10px; letter-spacing:.16em; text-transform:uppercase; color:rgba(200,184,154,.5);">Dr. Anna Park, MD</span>
       </div>
     </div>
     <div class="pillar-card">
@@ -493,13 +493,13 @@ footer { background: var(--ink); border-top: 0.5px solid var(--bd); padding: 48p
       <div class="pillar-name">Cheekbone Clearance</div>
       <p class="pillar-body">
         Frames that sit on the cheekbones shift with every expression, smudge the lens,
-        and cause constant unconscious adjustment. Rim height is an engineering choice —
+        and cause constant unconscious adjustment. Rim height is an engineering choice,
         and Noon Shop makes it deliberately.
       </p>
       <div class="pillar-note">
         "I had patients coming in for adjustments every few weeks. The same frames, the same problem.
         The rim was sitting on the cheekbone."
-        <br><br><span style="font-size:10px; letter-spacing:.16em; text-transform:uppercase; color:rgba(200,184,154,.5);">— Dr. Anna Park, MD</span>
+        <br><br><span style="font-size:10px; letter-spacing:.16em; text-transform:uppercase; color:rgba(200,184,154,.5);">Dr. Anna Park, MD</span>
       </div>
     </div>
     <div class="pillar-card">
@@ -508,12 +508,12 @@ footer { background: var(--ink); border-top: 0.5px solid var(--bd); padding: 48p
       <p class="pillar-body">
         Temple length determines whether a frame stays put or creates pressure points.
         Too wide and the frame falls forward. Too narrow and it grips. Noon Shop
-        proportions temple length to actual face width — not a one-size approximation.
+        proportions temple length to actual face width, not a one-size approximation.
       </p>
       <div class="pillar-note">
         "Fit isn't a detail. It's the whole product. Every other quality decision is irrelevant
         if the frame doesn't stay where it's supposed to."
-        <br><br><span style="font-size:10px; letter-spacing:.16em; text-transform:uppercase; color:rgba(200,184,154,.5);">— Dr. Anna Park, MD</span>
+        <br><br><span style="font-size:10px; letter-spacing:.16em; text-transform:uppercase; color:rgba(200,184,154,.5);">Dr. Anna Park, MD</span>
       </div>
     </div>
   </div>
@@ -533,7 +533,7 @@ footer { background: var(--ink); border-top: 0.5px solid var(--bd); padding: 48p
   <p class="body-d" style="max-width:540px; margin-top:28px;">
     The Fit Finder quiz is embedded in both the homepage and the Fit Guide page.
     Three questions. Thirty seconds. A personalized fit profile that follows the customer
-    through the store — pre-filtering products and highlighting frames that match their face.
+    through the store, pre-filtering products and highlighting frames that match their face.
   </p>
 
   <div class="quiz-wrap">
@@ -582,56 +582,60 @@ footer { background: var(--ink); border-top: 0.5px solid var(--bd); padding: 48p
         <div class="quiz-result-title">LOW BRIDGE · STANDARD CHEEK · STANDARD WIDTH</div>
         <div class="quiz-tags">
           <div class="quiz-tag"><div class="quiz-tag-dot"></div>Adjustable nose pad bridges recommended</div>
-          <div class="quiz-tag"><div class="quiz-tag-dot"></div>Standard rim height — no cheekbone contact</div>
+          <div class="quiz-tag"><div class="quiz-tag-dot"></div>Standard rim height, no cheekbone contact</div>
           <div class="quiz-tag"><div class="quiz-tag-dot"></div>43–47mm temple for secure hold</div>
         </div>
         <div class="quiz-result-cta">Shop Frames for My Fit →</div>
       </div>
-      <p class="body-d" style="margin-top:28px; font-size:13px;">
-        The fit profile is saved across the session — product cards highlight matching frames, and
-        the Product Detail Page surfaces the most relevant fit notes for that specific customer.
-      </p>
-      <a href="https://helloit-pros.github.io/noonshopwebsite/fit-guide.html#finder" target="_blank" class="preview-btn" style="margin-top:24px;">
-        Try the Fit Finder Live
-      </a>
     </div>
   </div>
 </section>
 
 <!-- ══════════════════════════════════════════ OUR STORY ══ -->
-<section class="sec-dark2 rv" id="story">
-  <div class="tag-d">Our Story</div>
-  <h2 class="dh-d">
+<section class="sec-light rv" id="story">
+  <div class="tag-l">Our Story</div>
+  <h2 class="dh-l">
     Founded<br>
     <em>on fit.</em>
   </h2>
-  <p class="body-d" style="max-width:560px; margin-top:28px;">
+  <p class="body-l" style="max-width:560px; margin-top:28px;">
     The Our Story page is not marketing copy. It is twenty years of clinical observation translated
-    into a brand. Visitors who read it don't just understand Noon Shop — they trust it.
+    into a brand. Visitors who read it don't just understand Noon Shop, they trust it.
   </p>
 
-  <div class="story-split">
-    <div class="story-img">
-      <img src="assets/editorial/editorial-1a.png" alt="Our Story · Editorial"
-           onerror="this.parentElement.style.background='#111'">
+  <div class="park-feature">
+    <div>
+      <div class="park-img-wrap">
+        <img src="assets/anna-park-headshot.png" alt="Dr. Anna Park, MD"
+             onerror="this.parentElement.style.background='#eee'">
+      </div>
+      <p class="park-cap">Dr. Anna Park, MD · Founder, Noon Shop</p>
     </div>
-    <div class="story-content">
-      <div class="tag-d" style="margin-bottom:28px;">The Founding</div>
+    <div>
+      <div class="tag-l">The Founder</div>
+      <div class="park-name">DR. ANNA<br>PARK, MD</div>
+      <div class="park-title">Ophthalmologist · Founder</div>
       <p class="park-quote">
-        "I watched patient after patient leave my clinic with a perfect prescription —
+        "I watched patient after patient leave my clinic with a perfect prescription,
         and a frame that <em>negated half of it</em> by sliding off their nose."
       </p>
       <div class="park-attr">Dr. Anna Park, MD · Founder</div>
-      <p class="story-body">
+      <p class="park-bio">
         After two decades in ophthalmology, Dr. Park stopped adjusting patients' frames and
         started designing better ones. Noon Shop is the result: two collections, three fit dimensions,
         and a single clinical conviction that the frame is as important as the prescription.
+      </p>
+      <p class="park-bio">
+        Dr. Park built Noon Shop because no one else was solving the right problem.
+        Not frame style. Not lens quality. Not price. Fit. The single variable that determines
+        whether a perfect prescription actually works, and that the eyewear industry had
+        treated as an afterthought for decades.
       </p>
     </div>
   </div>
 
   <!-- Timeline -->
-  <div class="timeline-strip" style="margin-top:2px;">
+  <div class="timeline-strip">
     <div class="tl-cell">
       <div class="tl-year">2004</div>
       <div class="tl-title">Clinical Observation</div>
@@ -645,7 +649,7 @@ footer { background: var(--ink); border-top: 0.5px solid var(--bd); padding: 48p
     <div class="tl-cell">
       <div class="tl-year">2019</div>
       <div class="tl-title">Dormann Launches</div>
-      <p class="tl-body">Dormann collection introduced — beta-titanium, vibrant colors, fit-first construction.</p>
+      <p class="tl-body">Dormann collection introduced: beta-titanium, vibrant colors, fit-first construction.</p>
     </div>
     <div class="tl-cell">
       <div class="tl-year">2022</div>
@@ -654,38 +658,9 @@ footer { background: var(--ink); border-top: 0.5px solid var(--bd); padding: 48p
     </div>
   </div>
 
-  <a href="https://helloit-pros.github.io/noonshopwebsite/story.html" target="_blank" class="preview-btn">
+  <a href="https://helloit-pros.github.io/noonshopwebsite/story.html" target="_blank" class="preview-btn-l">
     Preview Our Story Page
   </a>
-</section>
-
-<!-- ══════════════════════════════════════════ DR PARK ══ -->
-<section class="sec-dark rv">
-  <div class="park-feature">
-    <div>
-      <div class="park-img-wrap">
-        <img src="assets/anna-park-headshot.png" alt="Dr. Anna Park, MD"
-             onerror="this.parentElement.style.background='#1a1a1a'">
-      </div>
-      <p class="park-cap">Dr. Anna Park, MD · Founder, Noon Shop</p>
-    </div>
-    <div>
-      <div class="tag-d">The Founder</div>
-      <div class="park-name">DR. ANNA<br>PARK, MD</div>
-      <div class="park-title">Ophthalmologist · Founder</div>
-      <p class="park-bio">
-        Dr. Park built Noon Shop because no one else was solving the right problem.
-        Not frame style. Not lens quality. Not price. Fit. The single variable that determines
-        whether a perfect prescription actually works — and that the eyewear industry had
-        treated as an afterthought for decades.
-      </p>
-      <p class="park-bio">
-        The Our Story page brings Dr. Park's founding narrative to life: her clinical background,
-        her observations, her decision to build something that didn't exist. It's the kind of
-        brand story that makes customers advocates.
-      </p>
-    </div>
-  </div>
 </section>
 
 <!-- ══════════════════════════════════════════ THE SHOP ══ -->
@@ -696,7 +671,7 @@ footer { background: var(--ink); border-top: 0.5px solid var(--bd); padding: 48p
     <em>Not just by style.</em>
   </h2>
   <p class="body-l" style="max-width:540px; margin-top:28px;">
-    The product listing page is redesigned with fit filters in a persistent left panel —
+    The product listing page is redesigned with fit filters in a persistent left panel,
     so customers can narrow by bridge type, cheekbone clearance, and face width before
     they even look at a frame. Collection banners anchor Dormann, Steel Brown, and Denova as
     distinct editorial identities within one cohesive shop.
@@ -791,16 +766,16 @@ footer { background: var(--ink); border-top: 0.5px solid var(--bd); padding: 48p
 </section>
 
 <!-- ══════════════════════════════════════════ PRODUCT DETAIL ══ -->
-<section class="sec-dark rv">
-  <div class="tag-d">The Product Page</div>
-  <h2 class="dh-d">
+<section class="sec-paper rv">
+  <div class="tag-l">The Product Page</div>
+  <h2 class="dh-l">
     Every frame tells<br>
-    <em>its fit story.</em>
+    <em>a unique story.</em>
   </h2>
-  <p class="body-d" style="max-width:540px; margin-top:28px;">
+  <p class="body-l" style="max-width:540px; margin-top:28px;">
     The Product Detail Page is where clinical credibility and commerce meet.
     Fit dimensions, Dr. Park's clinical note, on-model photography, and a clean purchase
-    path — all in one page that gives the customer every reason to add to cart with confidence.
+    path, all in one page that gives the customer every reason to add to cart with confidence.
   </p>
 
   <div class="pdp-preview">
@@ -837,7 +812,7 @@ footer { background: var(--ink); border-top: 0.5px solid var(--bd); padding: 48p
         <div class="pdp-park-note-label">Dr. Park · Clinical Note</div>
         <div class="pdp-park-note-body">
           "The Panto Brown's 17mm adjustable bridge makes it one of the most accommodating
-          frames I've designed for lower nose bridges — without sacrificing the optical
+          frames I've designed for lower nose bridges, without sacrificing the optical
           alignment that makes the prescription work."
         </div>
       </div>
@@ -846,7 +821,7 @@ footer { background: var(--ink); border-top: 0.5px solid var(--bd); padding: 48p
     </div>
   </div>
 
-  <a href="https://helloit-pros.github.io/noonshopwebsite/product.html" target="_blank" class="preview-btn">
+  <a href="https://helloit-pros.github.io/noonshopwebsite/product.html" target="_blank" class="preview-btn-l">
     Preview the Product Page
   </a>
 </section>
@@ -862,7 +837,7 @@ footer { background: var(--ink); border-top: 0.5px solid var(--bd); padding: 48p
       </h2>
     </div>
     <p class="body-l" style="max-width:380px;">
-      The reviews section surfaces customer voices through the lens of fit —
+      The reviews section surfaces customer voices through the lens of fit,
       not just stars and generic praise. Each review shows the reviewer's fit profile,
       face type, and the specific way the frame worked for them. Social proof, clinically framed.
     </p>
@@ -952,7 +927,7 @@ footer { background: var(--ink); border-top: 0.5px solid var(--bd); padding: 48p
           "Every page earns trust, educates on fit, and removes the hesitation that comes from
           buying eyewear online. That is the <em>design standard</em> for this project."
         </div>
-        <div class="overview-quote-sub">HelloIT Professionals · Project Objective</div>
+        <div class="overview-quote-sub">Project Objective</div>
       </div>
     </div>
   </div>
@@ -1009,11 +984,11 @@ footer { background: var(--ink); border-top: 0.5px solid var(--bd); padding: 48p
     <div style="background:var(--paper2); padding:36px 32px; border-top:2px solid var(--gold-dk);">
       <div class="tag-l" style="margin-bottom:20px;">The 5 Pages</div>
       <ul style="list-style:none; display:flex; flex-direction:column; gap:10px;">
-        <li style="font-size:13px; color:rgba(12,12,12,.6); display:flex; gap:10px; align-items:baseline;"><span style="color:var(--gold-dk);">01</span> Homepage — hero, fit quiz, collections, reviews</li>
-        <li style="font-size:13px; color:rgba(12,12,12,.6); display:flex; gap:10px; align-items:baseline;"><span style="color:var(--gold-dk);">02</span> Shop — left-panel fit filters, product grid</li>
-        <li style="font-size:13px; color:rgba(12,12,12,.6); display:flex; gap:10px; align-items:baseline;"><span style="color:var(--gold-dk);">03</span> Product — gallery, fit data, Park note, cart</li>
-        <li style="font-size:13px; color:rgba(12,12,12,.6); display:flex; gap:10px; align-items:baseline;"><span style="color:var(--gold-dk);">04</span> Fit Guide — pillars, measure guide, quiz</li>
-        <li style="font-size:13px; color:rgba(12,12,12,.6); display:flex; gap:10px; align-items:baseline;"><span style="color:var(--gold-dk);">05</span> Our Story — timeline, Dr. Park profile</li>
+        <li style="font-size:13px; color:rgba(12,12,12,.6); display:flex; gap:10px; align-items:baseline;"><span style="color:var(--gold-dk);">01</span> Homepage: hero, fit quiz, collections, reviews</li>
+        <li style="font-size:13px; color:rgba(12,12,12,.6); display:flex; gap:10px; align-items:baseline;"><span style="color:var(--gold-dk);">02</span> Shop: left-panel fit filters, product grid</li>
+        <li style="font-size:13px; color:rgba(12,12,12,.6); display:flex; gap:10px; align-items:baseline;"><span style="color:var(--gold-dk);">03</span> Product: gallery, fit data, Park note, cart</li>
+        <li style="font-size:13px; color:rgba(12,12,12,.6); display:flex; gap:10px; align-items:baseline;"><span style="color:var(--gold-dk);">04</span> Fit Guide: pillars, measure guide, quiz</li>
+        <li style="font-size:13px; color:rgba(12,12,12,.6); display:flex; gap:10px; align-items:baseline;"><span style="color:var(--gold-dk);">05</span> Our Story: timeline, Dr. Park profile</li>
       </ul>
     </div>
     <div style="background:var(--white); padding:36px 32px;">
@@ -1035,9 +1010,9 @@ footer { background: var(--ink); border-top: 0.5px solid var(--bd); padding: 48p
 
 <!-- ── FOOTER ── -->
 <footer>
-  <div class="footer-brand">HELLOIT PROFESSIONALS</div>
+  <div class="footer-brand">NOON SHOP</div>
   <div class="footer-meta">
-    Noon Shop · Website Redesign &amp; Development Proposal<br>
+    A New Web Experience · Website Proposal<br>
     Prepared May 2026 · Confidential
   </div>
 </footer>
