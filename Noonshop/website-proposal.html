@@ -58,9 +58,8 @@ nav {
 .hero-stat-val { font-family: 'Bebas Neue', sans-serif; font-size: 36px; letter-spacing: .02em; color: var(--white); line-height: 1; }
 .hero-stat-label { font-size: 11px; letter-spacing: .2em; text-transform: uppercase; color: var(--gold); margin-top: 5px; }
 .hero-stat-sub { font-size: 12px; color: var(--t35); margin-top: 3px; line-height: 1.5; }
-.hero-right { overflow: hidden; background: #111; position: relative; }
-.hero-right img { width: 100%; height: 100%; object-fit: cover; object-position: center top; display: block; }
-.hero-right::after { content:''; position:absolute; bottom:0; left:0; right:0; height:35%; background: linear-gradient(to top, var(--ink), transparent); }
+.hero-right { overflow: hidden; background: #111; position: relative; min-height: 100vh; }
+.hero-right img { width: 100%; height: 100%; object-fit: cover; object-position: 65% top; display: block; }
 .hero-photo { overflow: hidden; background: #111; position: relative; }
 .hero-photo img { width: 100%; height: 100%; object-fit: cover; object-position: center top; display: block; transition: transform .7s ease; }
 .hero-photo:hover img { transform: scale(1.04); }
@@ -166,7 +165,6 @@ section { position: relative; }
 .story-split { display: grid; grid-template-columns: 1fr 1fr; gap: 1px; background: var(--bd); margin-top: 72px; }
 .story-img { overflow: hidden; min-height: 600px; position: relative; }
 .story-img img { width: 100%; height: 100%; object-fit: cover; object-position: center top; }
-.story-img::after { content:''; position:absolute; inset:0; background: linear-gradient(to right, transparent 70%, var(--ink2) 100%); }
 .story-content { background: var(--ink2); padding: 64px 56px; display: flex; flex-direction: column; justify-content: center; }
 .park-quote { font-family:'Playfair Display',serif; font-style:italic; font-size: clamp(18px,2vw,26px); line-height: 1.45; color: var(--white); margin-bottom: 20px; }
 .park-quote em { color: var(--gold); font-style: normal; }
@@ -185,7 +183,6 @@ section { position: relative; }
 .park-feature { display: grid; grid-template-columns: 340px 1fr; gap: 72px; align-items: start; margin-top: 72px; }
 .park-img-wrap { position: relative; overflow: hidden; aspect-ratio: 3/4; }
 .park-img-wrap img { width: 100%; height: 100%; object-fit: cover; object-position: center top; }
-.park-img-wrap::after { content:''; position:absolute; bottom:0; left:0; right:0; height:40%; background: linear-gradient(to top, var(--ink2), transparent); }
 .park-cap { margin-top: 16px; font-size: 11px; letter-spacing:.16em; text-transform:uppercase; color: var(--t35); }
 .park-name { font-family:'Bebas Neue',sans-serif; font-size: clamp(40px,5vw,72px); letter-spacing:.03em; color: var(--white); line-height: .9; margin-bottom: 8px; }
 .park-title { font-family:'Playfair Display',serif; font-style:italic; font-size: 16px; color: var(--gold); margin-bottom: 36px; }
@@ -196,29 +193,29 @@ section { position: relative; }
 .park-cred-text { font-size: 12px; color: var(--t55); }
 
 /* ── SHOP LAYOUT CONCEPT ── */
-.shop-concept { margin-top: 72px; border: 0.5px solid var(--bd); overflow: hidden; }
-.shop-concept-bar { background: rgba(247,246,243,.03); border-bottom: 0.5px solid var(--bd); padding: 14px 24px; display: flex; justify-content: space-between; align-items: center; }
-.shop-concept-bar-label { font-size: 10px; letter-spacing:.2em; text-transform:uppercase; color: var(--t35); }
+.shop-concept { margin-top: 72px; border: 1px solid rgba(12,12,12,.1); overflow: hidden; background: var(--white); }
+.shop-concept-bar { background: var(--paper); border-bottom: 1px solid rgba(12,12,12,.08); padding: 14px 24px; display: flex; justify-content: space-between; align-items: center; }
+.shop-concept-bar-label { font-size: 10px; letter-spacing:.2em; text-transform:uppercase; color: rgba(12,12,12,.4); }
 .shop-concept-bar-tabs { display: flex; gap: 24px; }
-.shop-tab { font-size: 11px; letter-spacing:.14em; text-transform:uppercase; color: var(--t35); }
-.shop-tab.active { color: var(--gold); }
-.shop-body { display: grid; grid-template-columns: 200px 1fr; gap: 1px; background: var(--bd); }
-.shop-filters { background: rgba(247,246,243,.02); padding: 28px 24px; }
+.shop-tab { font-size: 11px; letter-spacing:.14em; text-transform:uppercase; color: rgba(12,12,12,.35); }
+.shop-tab.active { color: var(--ink); }
+.shop-body { display: grid; grid-template-columns: 200px 1fr; gap: 1px; background: rgba(12,12,12,.07); }
+.shop-filters { background: var(--white); padding: 28px 24px; }
 .shop-filter-group { margin-bottom: 28px; }
-.shop-filter-title { font-size: 10px; letter-spacing:.24em; text-transform:uppercase; color: var(--gold); margin-bottom: 12px; padding-bottom: 8px; border-bottom: 0.5px solid var(--bd); }
-.shop-filter-opt { font-size: 12px; color: var(--t35); padding: 6px 0; display: flex; align-items: center; gap: 8px; }
-.shop-filter-opt.active { color: var(--gold); }
-.shop-filter-opt::before { content:''; width:8px; height:8px; border: 0.5px solid rgba(200,184,154,.3); flex-shrink:0; }
-.shop-filter-opt.active::before { background: var(--gold); border-color: var(--gold); }
-.shop-grid { background: var(--ink2); padding: 24px; display: grid; grid-template-columns: repeat(3,1fr); gap: 1px; }
-.shop-card { background: rgba(247,246,243,.03); position: relative; overflow: hidden; }
-.shop-card img { width: 100%; aspect-ratio: 1; object-fit: cover; object-position: center; display: block; }
-.shop-card-info { padding: 12px 14px; }
-.shop-card-coll { font-size: 9px; letter-spacing:.2em; text-transform:uppercase; color: var(--gold); margin-bottom: 4px; }
-.shop-card-name { font-family:'Bebas Neue',sans-serif; font-size: 15px; letter-spacing:.04em; color: var(--white); margin-bottom: 4px; }
-.shop-card-price { font-size: 12px; color: var(--t55); }
+.shop-filter-title { font-size: 10px; letter-spacing:.24em; text-transform:uppercase; color: var(--ink); margin-bottom: 12px; padding-bottom: 8px; border-bottom: 1px solid rgba(12,12,12,.08); }
+.shop-filter-opt { font-size: 12px; color: rgba(12,12,12,.45); padding: 6px 0; display: flex; align-items: center; gap: 8px; }
+.shop-filter-opt.active { color: var(--ink); font-weight: 500; }
+.shop-filter-opt::before { content:''; width:8px; height:8px; border: 1px solid rgba(12,12,12,.2); flex-shrink:0; }
+.shop-filter-opt.active::before { background: var(--ink); border-color: var(--ink); }
+.shop-grid { background: var(--paper); padding: 20px; display: grid; grid-template-columns: repeat(3,1fr); gap: 12px; }
+.shop-card { background: var(--white); position: relative; overflow: hidden; border: 1px solid rgba(12,12,12,.06); }
+.shop-card img { width: 100%; aspect-ratio: 1; object-fit: contain; object-position: center; display: block; padding: 16px; background: var(--white); }
+.shop-card-info { padding: 12px 14px; border-top: 1px solid rgba(12,12,12,.06); }
+.shop-card-coll { font-size: 9px; letter-spacing:.2em; text-transform:uppercase; color: rgba(12,12,12,.4); margin-bottom: 4px; }
+.shop-card-name { font-family:'Bebas Neue',sans-serif; font-size: 15px; letter-spacing:.04em; color: var(--ink); margin-bottom: 4px; }
+.shop-card-price { font-size: 12px; color: rgba(12,12,12,.5); }
 .shop-fit-tags { display: flex; gap: 4px; flex-wrap: wrap; padding: 0 14px 12px; }
-.shop-fit-tag { font-size: 9px; letter-spacing:.12em; padding: 2px 7px; border: 0.5px solid rgba(200,184,154,.2); color: var(--t35); }
+.shop-fit-tag { font-size: 9px; letter-spacing:.12em; padding: 2px 7px; border: 1px solid rgba(12,12,12,.12); color: rgba(12,12,12,.45); }
 
 /* ── PDP PREVIEW ── */
 .pdp-preview { display: grid; grid-template-columns: 1fr 1fr; gap: 1px; background: var(--bd); margin-top: 72px; border: 0.5px solid var(--bd); }
@@ -675,7 +672,7 @@ footer { background: var(--ink); border-top: 0.5px solid var(--bd); padding: 48p
     <div>
       <div class="tag-d">The Founder</div>
       <div class="park-name">DR. ANNA<br>PARK, MD</div>
-      <div class="park-title">Ophthalmologist · Founder · Designer</div>
+      <div class="park-title">Ophthalmologist · Founder</div>
       <p class="park-bio">
         Dr. Park built Noon Shop because no one else was solving the right problem.
         Not frame style. Not lens quality. Not price. Fit. The single variable that determines
@@ -687,39 +684,21 @@ footer { background: var(--ink); border-top: 0.5px solid var(--bd); padding: 48p
         her observations, her decision to build something that didn't exist. It's the kind of
         brand story that makes customers advocates.
       </p>
-      <div class="park-creds">
-        <div class="park-cred">
-          <div class="park-cred-year">20+</div>
-          <div class="park-cred-text">Years in clinical ophthalmology</div>
-        </div>
-        <div class="park-cred">
-          <div class="park-cred-year">3</div>
-          <div class="park-cred-text">Fit dimensions engineered into every frame</div>
-        </div>
-        <div class="park-cred">
-          <div class="park-cred-year">2</div>
-          <div class="park-cred-text">Collections — Dormann and Steel Brown</div>
-        </div>
-        <div class="park-cred">
-          <div class="park-cred-year">1</div>
-          <div class="park-cred-text">Rule: fit first, everything else second</div>
-        </div>
-      </div>
     </div>
   </div>
 </section>
 
 <!-- ══════════════════════════════════════════ THE SHOP ══ -->
-<section class="sec-dark2 rv" id="shop">
-  <div class="tag-d">The Shop</div>
-  <h2 class="dh-d">
+<section class="sec-paper rv" id="shop">
+  <div class="tag-l">The Shop</div>
+  <h2 class="dh-l">
     Browse by fit.<br>
     <em>Not just by style.</em>
   </h2>
-  <p class="body-d" style="max-width:540px; margin-top:28px;">
+  <p class="body-l" style="max-width:540px; margin-top:28px;">
     The product listing page is redesigned with fit filters in a persistent left panel —
     so customers can narrow by bridge type, cheekbone clearance, and face width before
-    they even look at a frame. Collection banners anchor Dormann and Steel Brown as
+    they even look at a frame. Collection banners anchor Dormann, Steel Brown, and Denova as
     distinct editorial identities within one cohesive shop.
   </p>
 
@@ -806,7 +785,7 @@ footer { background: var(--ink); border-top: 0.5px solid var(--bd); padding: 48p
     </div>
   </div>
 
-  <a href="https://helloit-pros.github.io/noonshopwebsite/shop.html" target="_blank" class="preview-btn">
+  <a href="https://helloit-pros.github.io/noonshopwebsite/shop.html" target="_blank" class="preview-btn-l">
     Preview the Shop Page
   </a>
 </section>
