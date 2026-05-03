@@ -1,0 +1,1041 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SOLIS — Brand Intelligence &amp; Content Platform · Noon Shop</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Outfit:wght@200;300;400;500&family=Playfair+Display:ital,wght@0,400;1,400&display=swap" rel="stylesheet">
+<style>
+:root {
+  --ink:       #0C0C0C;
+  --ink2:      #1A1A1A;
+  --white:     #F7F6F3;
+  --paper:     #EEECE7;
+  --paper2:    #E6E3DC;
+  --gold:      #C8B89A;
+  --gold-dk:   #A89070;
+  --gold-lt:   #E8D8BE;
+  --mid:       #888;
+  --border-d:  rgba(200,184,154,.12);
+  --border-l:  rgba(12,12,12,.10);
+  --t55:       rgba(247,246,243,.55);
+  --t35:       rgba(247,246,243,.35);
+  --t20:       rgba(247,246,243,.20);
+}
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+body {
+  font-family: 'Outfit', sans-serif;
+  font-weight: 300;
+  background: var(--ink);
+  color: var(--white);
+  -webkit-font-smoothing: antialiased;
+  overflow-x: hidden;
+}
+
+/* ── NAV ── */
+nav {
+  position: fixed; top: 0; left: 0; right: 0; z-index: 200;
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 0 60px; height: 64px;
+  background: rgba(12,12,12,.88); backdrop-filter: blur(16px);
+  border-bottom: 0.5px solid var(--border-d);
+}
+.nav-brand {
+  display: flex; align-items: center; gap: 14px;
+  text-decoration: none;
+}
+.nav-logo-img {
+  height: 32px; width: auto; object-fit: contain;
+  filter: brightness(0) invert(1); opacity: .75;
+}
+.nav-brand-labels { display: flex; flex-direction: column; gap: 1px; }
+.nav-brand-name {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 18px; letter-spacing: .14em; color: var(--white);
+  line-height: 1;
+}
+.nav-brand-sub {
+  font-size: 10px; letter-spacing: .22em; text-transform: uppercase;
+  color: var(--gold); line-height: 1;
+}
+.nav-links { display: flex; gap: 36px; align-items: center; }
+.nav-links a {
+  font-size: 11px; letter-spacing: .22em; text-transform: uppercase;
+  color: var(--t55); text-decoration: none; transition: color .15s;
+}
+.nav-links a:hover { color: var(--gold); }
+.nav-pill {
+  font-size: 10px; letter-spacing: .18em; text-transform: uppercase;
+  color: var(--gold); border: 0.5px solid rgba(200,184,154,.3);
+  padding: 6px 16px; margin-left: 12px;
+}
+
+/* ── HERO ── */
+.hero {
+  min-height: 100vh;
+  display: grid; grid-template-columns: 1fr 1fr;
+  padding-top: 64px;
+  background: var(--ink);
+}
+.hero-left {
+  display: flex; flex-direction: column; justify-content: center;
+  padding: 96px 72px 96px 80px;
+  border-right: 0.5px solid var(--border-d);
+  position: relative;
+}
+.eyebrow {
+  font-size: 11px; letter-spacing: .38em; text-transform: uppercase;
+  color: var(--gold); margin-bottom: 28px;
+  display: flex; align-items: center; gap: 14px;
+}
+.eyebrow::before { content:''; display:block; width:28px; height:0.5px; background:var(--gold); }
+.hero-h1 {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: clamp(64px, 7vw, 116px);
+  letter-spacing: .025em; line-height: .88;
+  color: var(--white); margin-bottom: 32px;
+}
+.hero-h1 em {
+  display: block;
+  font-family: 'Playfair Display', serif;
+  font-style: italic; font-weight: 400; font-size: .75em; line-height: 1.2;
+  color: var(--gold); margin-top: 6px;
+}
+.hero-body {
+  font-size: 15px; line-height: 1.85;
+  color: var(--t55); max-width: 400px; margin-bottom: 52px;
+}
+.hero-divider { width: 100%; height: 0.5px; background: var(--border-d); margin-bottom: 36px; }
+.hero-meta { display: flex; gap: 0; }
+.hero-stat { flex: 1; padding-right: 28px; border-right: 0.5px solid var(--border-d); margin-right: 28px; }
+.hero-stat:last-child { border-right: none; padding-right: 0; margin-right: 0; }
+.hero-stat-val {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 36px; letter-spacing: .02em; color: var(--white); line-height: 1;
+}
+.hero-stat-label { font-size: 11px; letter-spacing: .2em; text-transform: uppercase; color: var(--gold); margin-top: 5px; }
+.hero-stat-sub { font-size: 12px; color: var(--t35); margin-top: 3px; line-height: 1.5; }
+
+/* Hero photo grid */
+.hero-right {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-template-rows: 1fr 1fr;
+  gap: 1px; background: rgba(200,184,154,.08);
+}
+.hero-photo { overflow: hidden; background: #111; position: relative; }
+.hero-photo img { width: 100%; height: 100%; object-fit: cover; object-position: center top; display: block; transition: transform .7s ease; }
+.hero-photo:hover img { transform: scale(1.04); }
+.hero-photo.tall { grid-row: span 2; }
+.photo-cap {
+  position: absolute; bottom: 0; left: 0; right: 0;
+  padding: 12px 16px;
+  background: linear-gradient(to top, rgba(12,12,12,.65), transparent);
+  font-size: 10px; letter-spacing: .18em; text-transform: uppercase;
+  color: rgba(247,246,243,.65);
+}
+.photo-badge {
+  position: absolute; top: 14px; right: 14px;
+  background: rgba(12,12,12,.72); border: 0.5px solid rgba(200,184,154,.25);
+  padding: 5px 11px;
+  font-size: 10px; letter-spacing: .18em; text-transform: uppercase;
+  color: var(--gold);
+}
+
+/* ── SHARED SECTION ── */
+section { position: relative; }
+.sec-dark  { background: var(--ink); color: var(--white); padding: 120px 80px; }
+.sec-dark2 { background: var(--ink2); color: var(--white); padding: 120px 80px; }
+.sec-light { background: var(--white); color: var(--ink); padding: 120px 80px; }
+.sec-paper { background: var(--paper); color: var(--ink); padding: 120px 80px; }
+
+.tag-d {
+  font-size: 11px; letter-spacing: .32em; text-transform: uppercase;
+  color: var(--gold); margin-bottom: 48px;
+  display: flex; align-items: center; gap: 14px;
+}
+.tag-d::before { content:''; display:block; width:28px; height:0.5px; background:var(--gold); }
+.tag-l {
+  font-size: 11px; letter-spacing: .32em; text-transform: uppercase;
+  color: var(--gold-dk); margin-bottom: 48px;
+  display: flex; align-items: center; gap: 14px;
+}
+.tag-l::before { content:''; display:block; width:28px; height:0.5px; background:var(--gold-dk); }
+
+.dh-d {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: clamp(52px, 7vw, 108px);
+  letter-spacing: .025em; line-height: .88; color: var(--white);
+}
+.dh-d em {
+  display: block;
+  font-family: 'Playfair Display', serif;
+  font-style: italic; font-weight: 400;
+  font-size: clamp(36px, 5vw, 76px);
+  line-height: 1.18; letter-spacing: -.01em;
+  color: rgba(200,184,154,.7); margin-top: 6px;
+}
+.dh-l {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: clamp(52px, 7vw, 108px);
+  letter-spacing: .025em; line-height: .88; color: var(--ink);
+}
+.dh-l em {
+  display: block;
+  font-family: 'Playfair Display', serif;
+  font-style: italic; font-weight: 400;
+  font-size: clamp(36px, 5vw, 76px);
+  line-height: 1.18; letter-spacing: -.01em;
+  color: var(--gold-dk); margin-top: 6px;
+}
+.body-d { font-size: 15px; line-height: 1.85; color: var(--t55); }
+.body-l { font-size: 15px; line-height: 1.85; color: rgba(12,12,12,.55); }
+
+/* ── OVERVIEW ── */
+.overview-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 80px; align-items: center; }
+.overview-pillars { display: flex; flex-direction: column; gap: 1px; margin-top: 48px; }
+.pillar {
+  display: flex; gap: 20px; align-items: flex-start;
+  padding: 22px 0; border-bottom: 0.5px solid var(--border-l);
+}
+.pillar:first-child { border-top: 0.5px solid var(--border-l); }
+.pillar-n {
+  font-family: 'Bebas Neue', sans-serif; font-size: 26px;
+  color: rgba(12,12,12,.12); line-height: 1; flex-shrink: 0; width: 32px; margin-top: 2px;
+}
+.pillar-title { font-size: 14px; font-weight: 500; color: var(--ink); letter-spacing: .02em; margin-bottom: 5px; }
+.pillar-desc { font-size: 13px; color: rgba(12,12,12,.5); line-height: 1.7; }
+.overview-right { display: flex; flex-direction: column; gap: 24px; }
+.overview-quote {
+  border: 0.5px solid var(--border-l); padding: 48px 44px;
+  position: relative; background: var(--paper);
+}
+.overview-quote::before { content:''; position:absolute; top:-1px; left:0; width:60px; height:2px; background:var(--gold-dk); }
+.overview-quote-text {
+  font-family: 'Playfair Display', serif; font-style: italic; font-weight: 400;
+  font-size: clamp(18px, 2vw, 26px); line-height: 1.4; color: var(--ink);
+  margin-bottom: 24px;
+}
+.overview-quote-text em { color: var(--gold-dk); font-style: normal; }
+.overview-quote-sub { font-size: 12px; letter-spacing: .18em; text-transform: uppercase; color: var(--gold-dk); }
+.overview-note {
+  padding: 28px 32px; background: var(--white);
+  border: 0.5px solid var(--border-l);
+  font-size: 13px; line-height: 1.75; color: rgba(12,12,12,.55);
+}
+
+/* ── PHOTO SHOWCASE ── */
+.showcase-header { margin-bottom: 64px; display: grid; grid-template-columns: 1fr 1fr; gap: 60px; align-items: end; }
+.showcase-grid-a {
+  display: grid; grid-template-columns: 2fr 1fr 1fr;
+  gap: 1px; background: var(--border-d); margin-bottom: 1px;
+}
+.showcase-grid-b {
+  display: grid; grid-template-columns: 1fr 1fr 1fr 1fr;
+  gap: 1px; background: var(--border-d);
+}
+.show-photo { overflow: hidden; background: #111; position: relative; }
+.show-photo img { width: 100%; height: 100%; min-height: 280px; object-fit: cover; object-position: center top; display: block; transition: transform .6s ease; }
+.show-photo.product img { object-position: center center; background: var(--paper); }
+.show-photo.macro img { object-position: center center; }
+.show-photo:hover img { transform: scale(1.04); }
+.show-label {
+  position: absolute; bottom: 0; left: 0; right: 0;
+  padding: 12px 16px;
+  background: linear-gradient(to top, rgba(12,12,12,.7), transparent);
+}
+.show-label-title { font-family:'Bebas Neue',sans-serif; font-size: 14px; letter-spacing:.08em; color: #F7F6F3; }
+.show-label-type { font-size: 10px; letter-spacing:.18em; text-transform:uppercase; color: rgba(200,184,154,.7); margin-top: 3px; }
+.show-badge {
+  position: absolute; top: 12px; right: 12px;
+  background: rgba(12,12,12,.72); border: 0.5px solid rgba(200,184,154,.25);
+  padding: 5px 11px; font-size: 10px; letter-spacing:.18em; text-transform:uppercase; color: var(--gold);
+}
+
+/* ── CAPABILITIES ── */
+.cap-intro { display: grid; grid-template-columns: 1fr 1fr; gap: 60px; align-items: end; margin-bottom: 72px; }
+.cap-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1px; background: var(--border-l); }
+.cap-card {
+  padding: 36px 32px 40px;
+}
+.cap-n { font-size: 11px; letter-spacing:.26em; text-transform:uppercase; color: var(--gold-dk); margin-bottom: 18px; opacity: .75; }
+.cap-name { font-family:'Bebas Neue',sans-serif; font-size: 22px; letter-spacing:.04em; color: var(--ink); margin-bottom: 12px; }
+.cap-desc { font-size: 13px; line-height: 1.8; color: rgba(12,12,12,.55); }
+.cap-items { list-style: none; margin-top: 20px; display: flex; flex-direction: column; gap: 6px; }
+.cap-items li {
+  font-size: 12px; letter-spacing:.03em; color: rgba(12,12,12,.45);
+  display: flex; gap: 8px; align-items: baseline;
+}
+.cap-items li::before { content:'·'; color: var(--gold-dk); flex-shrink: 0; }
+
+/* ── PHASES ── */
+.phases-grid {
+  display: grid; grid-template-columns: repeat(5, 1fr);
+  gap: 1px; background: var(--border-l);
+  margin-top: 72px;
+}
+.phase { background: var(--white); padding: 32px 24px; position: relative; }
+.phase-n { font-family: 'Bebas Neue', sans-serif; font-size: 56px; color: rgba(12,12,12,.07); line-height: 1; margin-bottom: 14px; }
+.phase-name { font-family:'Bebas Neue',sans-serif; font-size: 16px; letter-spacing:.06em; color: var(--ink); margin-bottom: 10px; }
+.phase-desc { font-size: 13px; line-height: 1.7; color: rgba(12,12,12,.5); }
+.phase-bar { position: absolute; top: 0; left: 0; right: 0; height: 2px; }
+.phase-bar-1 { background: linear-gradient(90deg, var(--gold), var(--gold-lt)); }
+.phase-bar-2 { background: linear-gradient(90deg, var(--gold-lt), var(--gold)); }
+.phase-bar-3 { background: var(--gold-dk); }
+.phase-bar-4 { background: linear-gradient(90deg, var(--gold-dk), var(--gold)); }
+.phase-bar-5 { background: linear-gradient(90deg, var(--gold), transparent); }
+
+/* ── INTEGRATIONS ── */
+.int-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1px; background: var(--border-l); margin-top: 64px; }
+.int-card { background: var(--paper); padding: 40px 36px; }
+.int-icon { font-size: 11px; letter-spacing:.26em; text-transform:uppercase; color: var(--gold-dk); margin-bottom: 16px; }
+.int-name { font-family:'Bebas Neue',sans-serif; font-size: 20px; letter-spacing:.04em; color: var(--ink); margin-bottom: 10px; }
+.int-desc { font-size: 13px; line-height: 1.75; color: rgba(12,12,12,.5); }
+.int-tag {
+  margin-top: 18px; display: inline-block;
+  font-size: 10px; letter-spacing:.2em; text-transform:uppercase;
+  color: var(--gold-dk); padding: 5px 12px;
+  border: 0.5px solid rgba(168,144,112,.25); background: rgba(168,144,112,.06);
+}
+
+/* ── PRICING (light) ── */
+.pricing-intro { text-align: center; margin-bottom: 80px; }
+.pricing-intro .tag-l { justify-content: center; }
+.pricing-intro .dh-l { text-align: center; }
+.pricing-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1px; background: var(--border-l); }
+.price-card {
+  background: var(--white); padding: 48px 40px;
+  position: relative; display: flex; flex-direction: column;
+}
+.price-card.featured {
+  background: var(--paper2);
+  border-top: 2px solid var(--gold-dk);
+}
+.price-option { font-size: 11px; letter-spacing:.32em; text-transform:uppercase; color: var(--gold-dk); margin-bottom: 16px; }
+.price-name { font-family:'Bebas Neue',sans-serif; font-size: 28px; letter-spacing:.03em; color: var(--ink); margin-bottom: 8px; }
+.price-struct { font-size: 12px; letter-spacing:.1em; text-transform:uppercase; color: rgba(12,12,12,.38); margin-bottom: 36px; }
+.price-init-label { font-size: 11px; letter-spacing:.2em; text-transform:uppercase; color: var(--gold-dk); margin-bottom: 6px; opacity:.85; }
+.price-init-val { font-family:'Bebas Neue',sans-serif; font-size: 52px; letter-spacing:.02em; color: var(--ink); line-height: 1; }
+.price-mgd { margin-top: 16px; padding-top: 16px; border-top: 0.5px solid var(--border-l); }
+.price-mgd-label { font-size: 11px; letter-spacing:.2em; text-transform:uppercase; color: rgba(12,12,12,.38); margin-bottom: 4px; }
+.price-mgd-val { font-family:'Bebas Neue',sans-serif; font-size: 22px; letter-spacing:.02em; color: var(--ink); }
+.price-total {
+  margin-top: 20px; padding: 14px 16px;
+  background: rgba(168,144,112,.08); border: 0.5px solid rgba(168,144,112,.2);
+}
+.price-total-label { font-size: 11px; letter-spacing:.2em; text-transform:uppercase; color: rgba(12,12,12,.38); margin-bottom: 4px; }
+.price-total-val { font-family:'Bebas Neue',sans-serif; font-size: 18px; letter-spacing:.02em; color: var(--ink); }
+.price-features { margin-top: 36px; padding-top: 28px; border-top: 0.5px solid var(--border-l); flex: 1; }
+.price-features-label { font-size: 11px; letter-spacing:.24em; text-transform:uppercase; color: var(--gold-dk); margin-bottom: 18px; opacity:.85; }
+.price-feature {
+  display: flex; gap: 10px; align-items: flex-start;
+  font-size: 13px; color: rgba(12,12,12,.6); line-height: 1.5;
+  padding: 9px 0; border-bottom: 0.5px solid rgba(12,12,12,.07);
+}
+.price-feature:last-child { border-bottom: none; }
+.price-feature .check { color: var(--gold-dk); flex-shrink: 0; margin-top: 1px; }
+.price-feature .x { color: rgba(12,12,12,.2); flex-shrink: 0; }
+.price-feature .dim { color: rgba(12,12,12,.38); }
+
+/* ── PRICING TABLE ── */
+.price-table-wrap { margin-top: 48px; overflow-x: auto; }
+.price-table {
+  width: 100%; border-collapse: collapse;
+  font-size: 13px; color: rgba(12,12,12,.6);
+}
+.price-table th {
+  font-family:'Bebas Neue',sans-serif; font-size: 15px; letter-spacing:.06em;
+  color: var(--ink); padding: 16px 20px; text-align: left;
+  border-bottom: 0.5px solid var(--border-l);
+  background: var(--paper2);
+}
+.price-table th:first-child { color: var(--gold-dk); font-size: 11px; letter-spacing:.2em; text-transform:uppercase; font-family:'Outfit',sans-serif; font-weight:500; }
+.price-table th.featured-col { background: var(--paper); color: var(--gold-dk); }
+.price-table td {
+  padding: 13px 20px; border-bottom: 0.5px solid rgba(12,12,12,.06);
+  line-height: 1.4; background: var(--white);
+}
+.price-table td:first-child { color: rgba(12,12,12,.45); font-size: 12px; }
+.price-table td.featured-col { background: var(--paper); }
+.price-table tr:last-child td { border-bottom: none; }
+.price-table .val-gold { color: var(--gold-dk); font-family:'Bebas Neue',sans-serif; font-size: 16px; letter-spacing:.02em; }
+.price-table .val-yes { color: rgba(12,12,12,.7); font-size: 12px; letter-spacing:.1em; }
+.price-table .val-no { color: rgba(12,12,12,.22); font-size: 12px; }
+.price-table .val-dim { color: rgba(12,12,12,.4); font-size: 12px; }
+
+/* ── EVOLUTION ── */
+.evo-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1px; background: var(--border-d); margin-top: 72px; }
+.evo-card { background: rgba(247,246,243,.02); border: 0.5px solid var(--border-d); padding: 40px 36px; }
+.evo-title { font-family:'Bebas Neue',sans-serif; font-size: 20px; letter-spacing:.05em; color: var(--gold); margin-bottom: 12px; }
+.evo-desc { font-size: 13px; line-height: 1.8; color: var(--t55); }
+.evo-list { list-style: none; margin-top: 16px; }
+.evo-list li { font-size: 13px; color: rgba(200,184,154,.5); padding: 8px 0; border-bottom: 0.5px solid rgba(200,184,154,.08); display: flex; gap: 10px; }
+.evo-list li:last-child { border-bottom: none; }
+.evo-list li::before { content:'→'; color: var(--gold); opacity:.5; flex-shrink:0; }
+
+/* ── FOOTER ── */
+footer {
+  background: var(--ink); border-top: 0.5px solid var(--border-d);
+  padding: 48px 80px;
+  display: flex; align-items: center; justify-content: space-between; gap: 24px;
+}
+.footer-brand { display: flex; align-items: center; gap: 14px; }
+.footer-logo-img { height: 24px; width: auto; filter: brightness(0) invert(1); opacity: .3; }
+.footer-brand-text { font-family:'Bebas Neue',sans-serif; font-size: 16px; letter-spacing:.14em; color: rgba(247,246,243,.3); }
+.footer-meta { font-size: 11px; letter-spacing:.1em; color: rgba(247,246,243,.22); line-height: 1.9; text-align: right; }
+
+/* ── REVEAL ── */
+.rv { opacity: 0; transform: translateY(24px); transition: opacity .75s ease, transform .75s ease; }
+.rv.in { opacity: 1; transform: translateY(0); }
+.rv.d1 { transition-delay:.1s; } .rv.d2 { transition-delay:.2s; } .rv.d3 { transition-delay:.3s; }
+
+/* ── RESPONSIVE ── */
+@media (max-width: 1024px) {
+  nav { padding: 0 32px; }
+  .nav-links { display: none; }
+  .hero { grid-template-columns: 1fr; min-height: auto; }
+  .hero-left { padding: 72px 40px 56px; border-right: none; border-bottom: 0.5px solid var(--border-d); }
+  .hero-right { min-height: 400px; }
+  .sec-dark, .sec-dark2, .sec-light, .sec-paper { padding: 80px 40px; }
+  .overview-grid { grid-template-columns: 1fr; gap: 48px; }
+  .cap-intro { grid-template-columns: 1fr; gap: 24px; }
+  .cap-grid { grid-template-columns: 1fr 1fr; }
+  .phases-grid { grid-template-columns: 1fr 1fr; }
+  .showcase-grid-a { grid-template-columns: 1fr 1fr; }
+  .showcase-grid-b { grid-template-columns: 1fr 1fr; }
+  .pricing-grid { grid-template-columns: 1fr; }
+  .evo-grid { grid-template-columns: 1fr; }
+  .int-grid { grid-template-columns: 1fr 1fr; }
+  .showcase-header { grid-template-columns: 1fr; gap: 24px; }
+  footer { flex-direction: column; text-align: center; padding: 40px; }
+  .footer-meta { text-align: center; }
+}
+@media (max-width: 640px) {
+  .hero-left { padding: 60px 24px 48px; }
+  .sec-dark, .sec-dark2, .sec-light, .sec-paper { padding: 72px 24px; }
+  .cap-grid { grid-template-columns: 1fr; }
+  .phases-grid { grid-template-columns: 1fr; }
+  .int-grid { grid-template-columns: 1fr; }
+  footer { padding: 40px 24px; }
+}
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <a href="#top" class="nav-brand">
+    <img src="assets/logo.png" alt="Noon Shop" class="nav-logo-img">
+    <div class="nav-brand-labels">
+      <div class="nav-brand-name">Noon Shop</div>
+      <div class="nav-brand-sub">SOLIS · Built for Noon Shop</div>
+    </div>
+  </a>
+  <div class="nav-links">
+    <a href="#what">Platform</a>
+    <a href="#photography">Photography</a>
+    <a href="#capabilities">Capabilities</a>
+    <a href="#pricing">Pricing</a>
+  </div>
+  <div class="nav-pill">Proposal 2026</div>
+</nav>
+
+<!-- ── HERO ── -->
+<section class="hero" id="top">
+  <div class="hero-left">
+    <div class="eyebrow">SOLIS · Built for Noon Shop</div>
+    <h1 class="hero-h1">
+      SOLIS
+      <em>Content on Brand.</em>
+    </h1>
+    <p class="hero-body">
+      An AI-powered Brand Intelligence &amp; Content Operating System built specifically for Noon Shop, generating product photography, copy, campaign assets, and ecommerce content on-brand, at scale, on demand.
+    </p>
+    <div class="hero-divider"></div>
+    <div class="hero-meta">
+      <div class="hero-stat">
+        <div class="hero-stat-val">6</div>
+        <div class="hero-stat-label">Capabilities</div>
+        <div class="hero-stat-sub">Photography · Copy · Enrichment</div>
+      </div>
+      <div class="hero-stat">
+        <div class="hero-stat-val">5</div>
+        <div class="hero-stat-label">Phases</div>
+        <div class="hero-stat-sub">Foundation to Scale</div>
+      </div>
+      <div class="hero-stat">
+        <div class="hero-stat-val">3</div>
+        <div class="hero-stat-label">Options</div>
+        <div class="hero-stat-sub">Managed · Ownership</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="hero-right">
+    <div class="hero-photo tall">
+      <img src="assets/Refined Look - 2026/A_professional_portrait_photograph_of_a_woman_with-1777258647009.png" alt="AI Model Photography — Noon Shop">
+      <div class="photo-cap">AI Model Photography · Refined Look 2026</div>
+      <div class="photo-badge">SOLIS Output</div>
+    </div>
+    <div class="hero-photo">
+      <img src="assets/Refined Look - 2026/A_professional_portrait_photograph_of_an_Asian_wom-1777294177211.png" alt="AI Portrait — Noon Shop">
+      <div class="photo-cap">Portrait · Three-Quarter</div>
+    </div>
+    <div class="hero-photo" style="background:var(--paper);">
+      <img src="assets/Product/Frames on white-1.png" alt="Product Photography" style="object-position:center center;">
+      <div class="photo-cap">Product Photography · Flat-Lay</div>
+      <div class="photo-badge">SOLIS Output</div>
+    </div>
+  </div>
+</section>
+
+<!-- ── WHAT IS SOLIS ── -->
+<section class="sec-light rv" id="what">
+  <div class="overview-grid">
+    <div>
+      <div class="tag-l">What is SOLIS</div>
+      <h2 class="dh-l">
+        SKU in.<br>
+        <em>Content out.</em>
+      </h2>
+      <p class="body-l" style="margin-top:32px; max-width:420px;">
+        SOLIS is a continuously evolving Brand Intelligence &amp; Content Operating System, trained on Noon Shop's brand guide, visual identity, and "Fit is Fundamental" philosophy.
+      </p>
+      <p class="body-l" style="margin-top:20px; max-width:420px;">
+        It generates everything your marketing, ecommerce, and campaign teams need, at the speed of AI, with the consistency of a brand standard.
+      </p>
+      <div class="overview-pillars">
+        <div class="pillar">
+          <div class="pillar-n">01</div>
+          <div>
+            <div class="pillar-title">Trained on your brand</div>
+            <div class="pillar-desc">Every output follows Noon Shop's voice, visual identity, and fit-first positioning. Not a generic template.</div>
+          </div>
+        </div>
+        <div class="pillar">
+          <div class="pillar-n">02</div>
+          <div>
+            <div class="pillar-title">Built to evolve</div>
+            <div class="pillar-desc">New workflows, campaigns, and integrations expand the platform over time through Managed Services.</div>
+          </div>
+        </div>
+        <div class="pillar">
+          <div class="pillar-n">03</div>
+          <div>
+            <div class="pillar-title">Human-supervised</div>
+            <div class="pillar-desc">AI acceleration with human oversight at every publishing decision. SOLIS generates. Your team approves.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="overview-right">
+      <div class="overview-quote">
+        <div class="overview-quote-text">
+          "A scalable content engine built around Noon Shop's <em>Fit is Fundamental</em> philosophy, accelerating production across every channel, every launch."
+        </div>
+        <div class="overview-quote-sub">SOLIS · Strategic Objective</div>
+      </div>
+      <div class="overview-note">
+        SOLIS is not a one-time delivery. It is a managed platform that grows alongside Noon Shop, adding new models, campaigns, integrations, and capabilities through ongoing Managed Services.
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── PHOTOGRAPHY SHOWCASE ── -->
+<section class="sec-dark rv" id="photography">
+  <div class="showcase-header">
+    <div>
+      <div class="tag-d">AI Photography Generation</div>
+      <h2 class="dh-d">
+        Five types of<br>
+        <em>imagery. One platform.</em>
+      </h2>
+    </div>
+    <p class="body-d" style="max-width:380px;">
+      SOLIS generates photography across five distinct categories, all aligned with Noon Shop's brand guide, editorial standards, and visual direction. These are real outputs from the platform.
+    </p>
+  </div>
+
+  <div class="showcase-grid-a">
+    <div class="show-photo" style="min-height:380px;">
+      <img src="assets/Editorial/Editorial_portrait_in_the_style_of_Annie_Leibovitz-1777301542395.png" alt="Editorial Photography">
+      <div class="show-label">
+        <div class="show-label-title">Editorial Portrait</div>
+        <div class="show-label-type">Editorial Photography · Campaign-Ready</div>
+      </div>
+      <div class="show-badge">SOLIS Output</div>
+    </div>
+    <div class="show-photo">
+      <img src="assets/Refined Look - 2026/A_professional_portrait_photograph_of_a_man_with_d-1777258682718.png" alt="AI Model Portrait">
+      <div class="show-label">
+        <div class="show-label-title">AI Model · Close Portrait</div>
+        <div class="show-label-type">Model Photography · Refined Look</div>
+      </div>
+      <div class="show-badge">SOLIS Output</div>
+    </div>
+    <div class="show-photo">
+      <img src="assets/Editorial/Editorial_portrait_in_the_style_of_Platons_direct-1777301562204.png" alt="Editorial Portrait">
+      <div class="show-label">
+        <div class="show-label-title">Editorial · Direct</div>
+        <div class="show-label-type">Editorial Photography · Campaign</div>
+      </div>
+      <div class="show-badge">SOLIS Output</div>
+    </div>
+  </div>
+
+  <div class="showcase-grid-b">
+    <div class="show-photo product">
+      <img src="assets/Product/Frames on white-2.png" alt="Product Flat-Lay">
+      <div class="show-label">
+        <div class="show-label-title">Product Flat-Lay</div>
+        <div class="show-label-type">Ecommerce Product Photography</div>
+      </div>
+    </div>
+    <div class="show-photo">
+      <img src="assets/Authentic Faces/Close_portrait_photograph_of_East_Asian_woman_ear-1777588527843.png" alt="Authentic Portrait">
+      <div class="show-label">
+        <div class="show-label-title">Authentic Portrait</div>
+        <div class="show-label-type">Authentic Faces · Close Portrait</div>
+      </div>
+      <div class="show-badge">SOLIS Output</div>
+    </div>
+    <div class="show-photo macro">
+      <img src="assets/Editorial/macro-detail.png" alt="Macro Photography">
+      <div class="show-label">
+        <div class="show-label-title">Macro Detail</div>
+        <div class="show-label-type">Macro Photography · Craftsmanship</div>
+      </div>
+      <div class="show-badge">SOLIS Output</div>
+    </div>
+    <div class="show-photo">
+      <img src="assets/Refined Look - 2026/A_professional_portrait_photograph_of_an_Asian_wom-1777294151888.png" alt="Refined Look Portrait">
+      <div class="show-label">
+        <div class="show-label-title">Refined Look · 2026</div>
+        <div class="show-label-type">Model Photography · Three-Quarter</div>
+      </div>
+      <div class="show-badge">SOLIS Output</div>
+    </div>
+  </div>
+</section>
+
+<!-- ── CAPABILITIES ── -->
+<section class="sec-paper rv" id="capabilities">
+  <div class="cap-intro">
+    <div>
+      <div class="tag-l">Platform Capabilities</div>
+      <h2 class="dh-l">
+        Six Marketing Capabilities.<br>
+        <em>One platform.</em>
+      </h2>
+    </div>
+    <p class="body-l" style="max-width:380px;">
+      SOLIS covers the full spectrum of Noon Shop's content needs, from product page copy to campaign photography to clinical fit notes. Everything generated on-brand, every time.
+    </p>
+  </div>
+
+  <div class="cap-grid">
+    <div class="cap-card" style="background:var(--white);">
+      <div class="cap-n">01 · Intelligence</div>
+      <div class="cap-name">AI Product Intelligence</div>
+      <p class="cap-desc">Structured product intelligence and merchandising data: names, descriptions, positioning copy, and fit classifications for every Noon Shop frame.</p>
+      <ul class="cap-items">
+        <li>Product names &amp; subtitles</li>
+        <li>Ecommerce descriptions</li>
+        <li>Fit-focused positioning copy</li>
+        <li>Frame shape &amp; fit classification</li>
+        <li>Collection &amp; campaign storytelling</li>
+      </ul>
+    </div>
+    <div class="cap-card" style="background:var(--paper2);">
+      <div class="cap-n">02 · Photography</div>
+      <div class="cap-name">AI Photography Generation</div>
+      <p class="cap-desc">Five distinct photography types, all on-brand. Product flats, macro detail, AI model portraits, editorial campaign imagery, and collection photography.</p>
+      <ul class="cap-items">
+        <li>Product flat &amp; ecommerce imagery</li>
+        <li>Macro: hinges, materials, textures</li>
+        <li>AI model: multiple demographics</li>
+        <li>Editorial &amp; campaign imagery</li>
+        <li>Portrait angles: front, 3/4, profile</li>
+      </ul>
+    </div>
+    <div class="cap-card" style="background:var(--white);">
+      <div class="cap-n">03 · Marketing</div>
+      <div class="cap-name">Marketing Content Generation</div>
+      <p class="cap-desc">Social media creative, email campaigns, collection launch content, and product storytelling, all aligned with Noon Shop's brand voice and editorial style.</p>
+      <ul class="cap-items">
+        <li>Social media creative &amp; captions</li>
+        <li>Email campaigns: subject, copy, CTA</li>
+        <li>Collection launch content</li>
+        <li>Fit-focused educational content</li>
+        <li>Campaign concepts &amp; storytelling</li>
+      </ul>
+    </div>
+    <div class="cap-card" style="background:var(--paper2);">
+      <div class="cap-n">04 · Ecommerce</div>
+      <div class="cap-name">Ecommerce Enrichment</div>
+      <p class="cap-desc">Complete product data enrichment for your Shopify storefront: specifications, clinical notes, fit classifications, and review enhancement workflows.</p>
+      <ul class="cap-items">
+        <li>Product specifications</li>
+        <li>Fit profile classifications</li>
+        <li>PDP copy &amp; SEO content</li>
+        <li>Fit-focused merchandising</li>
+        <li>Review enhancement workflows</li>
+      </ul>
+    </div>
+    <div class="cap-card" style="background:var(--white);">
+      <div class="cap-n">05 · Clinical</div>
+      <div class="cap-name">Clinical Product Notes</div>
+      <p class="cap-desc">AI-generated "Dr. Anna Park Clinical Notes" for individual frames, reinforcing clinical credibility, fit education, and product differentiation across Noon Shop's catalogue.</p>
+      <ul class="cap-items">
+        <li>Cheekbone clearance commentary</li>
+        <li>Low bridge fit notes</li>
+        <li>Optical alignment positioning</li>
+        <li>Comfort &amp; fit geometry</li>
+        <li>Human approval workflow required</li>
+      </ul>
+    </div>
+    <div class="cap-card" style="background:var(--paper2);">
+      <div class="cap-n">06 · Reviews</div>
+      <div class="cap-name">Review Enhancement</div>
+      <p class="cap-desc">Transform real customer and staff feedback into structured, fit-forward reviews. Authenticity preserved and enriched with fit profile indicators, face classifications, and comfort commentary.</p>
+      <ul class="cap-items">
+        <li>Staff &amp; sample user input</li>
+        <li>Fit profile &amp; face-type tagging</li>
+        <li>Structured comfort commentary</li>
+        <li>Demographic &amp; location formatting</li>
+        <li>Moderation workflow required</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- ── PHOTO BREAK: Model Range ── -->
+<section style="padding:0; background:var(--ink2);">
+  <div style="display:grid; grid-template-columns:repeat(4,1fr); gap:1px; background:var(--border-d);">
+    <div style="overflow:hidden; aspect-ratio:3/4; background:#111;">
+      <img src="assets/Authentic Faces/Close_portrait_photograph_of_a_Caucasian_woman_in_-1777226113765.png" alt="" style="width:100%;height:100%;object-fit:cover;object-position:center top;display:block;">
+    </div>
+    <div style="overflow:hidden; aspect-ratio:3/4; background:#111;">
+      <img src="assets/Refined Look - 2026/A_professional_portrait_photograph_of_an_Asian_man-1777258671076.png" alt="" style="width:100%;height:100%;object-fit:cover;object-position:center top;display:block;">
+    </div>
+    <div style="overflow:hidden; aspect-ratio:3/4; background:#111;">
+      <img src="assets/Editorial/Editorial_portrait_photograph_of_a_woman_with_hear-1777301578241.png" alt="" style="width:100%;height:100%;object-fit:cover;object-position:center top;display:block;">
+    </div>
+    <div style="overflow:hidden; aspect-ratio:3/4; background:#111;">
+      <img src="assets/Authentic Faces/Close_portrait_photograph_of_racially_ambiguous_ma-1777226401015.png" alt="" style="width:100%;height:100%;object-fit:cover;object-position:center top;display:block;">
+    </div>
+  </div>
+  <div style="display:flex; justify-content:center; align-items:center; gap:16px; padding:16px 0; border-top:0.5px solid var(--border-d);">
+    <span style="width:28px;height:0.5px;background:var(--gold);display:block;opacity:.5;"></span>
+    <span style="font-size:11px;letter-spacing:.28em;text-transform:uppercase;color:rgba(200,184,154,.45);">AI Model Photography · Multiple Demographics and Compositions</span>
+    <span style="width:28px;height:0.5px;background:var(--gold);display:block;opacity:.5;"></span>
+  </div>
+</section>
+
+<!-- ── PROJECT PHASES ── -->
+<section class="sec-light rv">
+  <div class="tag-l">Proposed Project Phases</div>
+  <h2 class="dh-l">
+    Foundation to scale.<br>
+    <em>Five phases.</em>
+  </h2>
+  <p class="body-l" style="max-width:520px; margin-top:28px;">
+    SOLIS is built in structured phases, each one extending the platform's capabilities. Managed Services ensure the platform continues to evolve after launch.
+  </p>
+  <div class="phases-grid">
+    <div class="phase">
+      <div class="phase-bar phase-bar-1"></div>
+      <div class="phase-n">01</div>
+      <div class="phase-name">Brand Intelligence Foundation</div>
+      <div class="phase-desc">Brand voice training, visual direction alignment, prompt engineering, product intelligence structure, fit taxonomy, and content framework definition.</div>
+    </div>
+    <div class="phase">
+      <div class="phase-bar phase-bar-2"></div>
+      <div class="phase-n">02</div>
+      <div class="phase-name">Photography &amp; Media Generation</div>
+      <div class="phase-desc">Product photography workflows, macro photography, AI model generation systems, editorial campaign imagery, and collection visual systems.</div>
+    </div>
+    <div class="phase">
+      <div class="phase-bar phase-bar-3"></div>
+      <div class="phase-n">03</div>
+      <div class="phase-name">Marketing Content Systems</div>
+      <div class="phase-desc">Social content generation, email campaign workflows, product storytelling systems, and campaign framework creation.</div>
+    </div>
+    <div class="phase">
+      <div class="phase-bar phase-bar-4"></div>
+      <div class="phase-n">04</div>
+      <div class="phase-name">Ecommerce Enrichment</div>
+      <div class="phase-desc">Product data generation, fit classification systems, clinical note workflows, product specification generation, and review enhancement systems.</div>
+    </div>
+    <div class="phase">
+      <div class="phase-bar phase-bar-5"></div>
+      <div class="phase-n">05</div>
+      <div class="phase-name">Scaling &amp; Optimization</div>
+      <div class="phase-desc">Additional AI models, seasonal campaign systems, performance optimization, workflow refinement, and expanded campaign automation.</div>
+    </div>
+  </div>
+</section>
+
+<!-- ── INTEGRATIONS ── -->
+<section class="sec-paper rv">
+  <div class="tag-l">Future State</div>
+  <h2 class="dh-l">
+    Integration<br>
+    <em>opportunities.</em>
+  </h2>
+  <p class="body-l" style="max-width:520px; margin-top:28px;">
+    As SOLIS evolves, the platform is designed to connect with Noon Shop's broader technology stack. Specific integrations and future-state functionality to be defined as the platform matures.
+  </p>
+  <div class="int-grid">
+    <div class="int-card">
+      <div class="int-icon">Ecommerce</div>
+      <div class="int-name">Shopify</div>
+      <p class="int-desc">Direct product data sync, draft publishing workflows, and ecommerce enrichment pushed to your live Shopify storefront.</p>
+      <span class="int-tag">Future Integration</span>
+    </div>
+    <div class="int-card">
+      <div class="int-icon">CRM · Email</div>
+      <div class="int-name">Email Marketing Platforms</div>
+      <p class="int-desc">Campaign content generation connected to your email platform, including Go High Level. Automated campaign delivery workflows.</p>
+      <span class="int-tag">Future Integration</span>
+    </div>
+    <div class="int-card">
+      <div class="int-icon">Social · Analytics</div>
+      <div class="int-name">Social &amp; Campaign Systems</div>
+      <p class="int-desc">Social publishing workflows, campaign management systems, ecommerce merchandising, and analytics and reporting integrations.</p>
+      <span class="int-tag">Future Integration</span>
+    </div>
+  </div>
+</section>
+
+<!-- ── PRICING ── -->
+<section class="sec-light rv" id="pricing">
+  <div class="pricing-intro">
+    <div class="tag-l">Investment Options</div>
+    <h2 class="dh-l">
+      Three paths.<br>
+      <em>One platform.</em>
+    </h2>
+    <p class="body-l" style="max-width:500px; margin:28px auto 0; text-align:center;">
+      Choose the model that fits Noon Shop's goals: managed partnership with ongoing evolution, or ownership-oriented with full platform control.
+    </p>
+  </div>
+
+  <div class="pricing-grid">
+    <!-- Option 1 -->
+    <div class="price-card">
+      <div class="price-option">Option 01</div>
+      <div class="price-name">Managed Platform I</div>
+      <div class="price-struct">Managed Partnership</div>
+      <div class="price-init-label">Platform Initialization</div>
+      <div class="price-init-val">$12,000</div>
+      <div class="price-mgd">
+        <div class="price-mgd-label">Managed Services</div>
+        <div class="price-mgd-val">$2,500 / mo</div>
+      </div>
+      <div class="price-total">
+        <div class="price-total-label">Year 1 Total Investment</div>
+        <div class="price-total-val">$42,000</div>
+      </div>
+      <div class="price-features">
+        <div class="price-features-label">Included</div>
+        <div class="price-feature"><span class="check">✓</span> Hosting &amp; infrastructure</div>
+        <div class="price-feature"><span class="check">✓</span> AI compute costs</div>
+        <div class="price-feature"><span class="check">✓</span> Storage &amp; media</div>
+        <div class="price-feature"><span class="check">✓</span> Platform operations &amp; updates</div>
+        <div class="price-feature"><span class="check">✓</span> Platform evolution</div>
+        <div class="price-feature"><span class="check">✓</span> AI photography generation</div>
+        <div class="price-feature"><span class="check">✓</span> Product onboarding support</div>
+        <div class="price-feature"><span class="check">✓</span> Expanded content generation support</div>
+      </div>
+    </div>
+
+    <!-- Option 2 -->
+    <div class="price-card featured">
+      <div class="price-option">Option 02</div>
+      <div class="price-name">Managed Platform II</div>
+      <div class="price-struct">Managed Partnership</div>
+      <div class="price-init-label">Platform Initialization</div>
+      <div class="price-init-val">$25,000</div>
+      <div class="price-mgd">
+        <div class="price-mgd-label">Managed Services</div>
+        <div class="price-mgd-val">$1,250 / mo</div>
+      </div>
+      <div class="price-total">
+        <div class="price-total-label">Year 1 Total Investment</div>
+        <div class="price-total-val">$40,000</div>
+      </div>
+      <div class="price-features">
+        <div class="price-features-label">Included</div>
+        <div class="price-feature"><span class="check">✓</span> Hosting &amp; infrastructure</div>
+        <div class="price-feature"><span class="check">✓</span> AI compute costs</div>
+        <div class="price-feature"><span class="check">✓</span> Storage &amp; media</div>
+        <div class="price-feature"><span class="check">✓</span> Platform operations &amp; updates</div>
+        <div class="price-feature"><span class="check">✓</span> Platform evolution</div>
+        <div class="price-feature"><span class="check">✓</span> AI photography generation</div>
+        <div class="price-feature"><span class="check">✓</span> Product onboarding support</div>
+        <div class="price-feature"><span class="check">✓</span> Moderate content generation support</div>
+      </div>
+    </div>
+
+    <!-- Option 3 -->
+    <div class="price-card">
+      <div class="price-option">Option 03</div>
+      <div class="price-name">Ownership Option</div>
+      <div class="price-struct">Ownership-Oriented</div>
+      <div class="price-init-label">Platform Initialization</div>
+      <div class="price-init-val">$65,000</div>
+      <div class="price-mgd">
+        <div class="price-mgd-label">Managed Services</div>
+        <div class="price-mgd-val" style="color:rgba(12,12,12,.3);">None</div>
+      </div>
+      <div class="price-total">
+        <div class="price-total-label">Year 1 Total Investment</div>
+        <div class="price-total-val">$65,000</div>
+      </div>
+      <div class="price-features">
+        <div class="price-features-label">Client-Managed Infrastructure</div>
+        <div class="price-feature"><span class="dim">~$125/mo</span> Hosting &amp; infrastructure</div>
+        <div class="price-feature"><span class="dim">~$250/mo</span> AI compute costs</div>
+        <div class="price-feature"><span class="dim">~$50/mo</span> Storage &amp; media</div>
+        <div class="price-feature"><span class="dim">~$125/mo</span> Platform operations</div>
+        <div class="price-feature"><span class="dim">~$125/mo</span> Platform updates</div>
+        <div class="price-feature"><span class="x">—</span> <span class="dim">Platform evolution not included</span></div>
+        <div class="price-feature"><span class="check">✓</span> Initial photography generation</div>
+        <div class="price-feature"><span class="check">✓</span> Initial product onboarding</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="price-table-wrap">
+    <table class="price-table">
+      <thead>
+        <tr>
+          <th>Feature</th>
+          <th>Option 01 · Managed I</th>
+          <th class="featured-col">Option 02 · Managed II</th>
+          <th>Option 03 · Ownership</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Platform Initialization</td>
+          <td class="val-gold">$12,000</td>
+          <td class="featured-col val-gold">$25,000</td>
+          <td class="val-gold">$65,000</td>
+        </tr>
+        <tr>
+          <td>Managed Services</td>
+          <td class="val-gold">$2,500 / mo</td>
+          <td class="featured-col val-gold">$1,250 / mo</td>
+          <td class="val-no">None</td>
+        </tr>
+        <tr>
+          <td>Year 1 Total</td>
+          <td class="val-gold">$42,000</td>
+          <td class="featured-col val-gold">$40,000</td>
+          <td class="val-gold">$65,000</td>
+        </tr>
+        <tr>
+          <td>Hosting &amp; Infrastructure</td>
+          <td class="val-yes">Included</td>
+          <td class="featured-col val-yes">Included</td>
+          <td class="val-dim">~$125/mo client</td>
+        </tr>
+        <tr>
+          <td>AI Compute Costs</td>
+          <td class="val-yes">Included</td>
+          <td class="featured-col val-yes">Included</td>
+          <td class="val-dim">~$250/mo client</td>
+        </tr>
+        <tr>
+          <td>Platform Evolution</td>
+          <td class="val-yes">Included</td>
+          <td class="featured-col val-yes">Included</td>
+          <td class="val-no">Not included</td>
+        </tr>
+        <tr>
+          <td>AI Photography Generation</td>
+          <td class="val-yes">Ongoing</td>
+          <td class="featured-col val-yes">Ongoing</td>
+          <td class="val-dim">Initial only</td>
+        </tr>
+        <tr>
+          <td>Product Onboarding Support</td>
+          <td class="val-yes">Ongoing</td>
+          <td class="featured-col val-yes">Ongoing</td>
+          <td class="val-dim">Initial only</td>
+        </tr>
+        <tr>
+          <td>Content Generation Support</td>
+          <td class="val-yes">Expanded</td>
+          <td class="featured-col val-yes">Moderate</td>
+          <td class="val-dim">Initial only</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</section>
+
+<!-- ── PLATFORM EVOLUTION ── -->
+<section class="sec-dark2 rv">
+  <div class="tag-d">Platform Evolution</div>
+  <h2 class="dh-d">
+    Not a static tool.<br>
+    <em>A living system.</em>
+  </h2>
+  <p class="body-d" style="max-width:540px; margin-top:28px;">
+    SOLIS is designed to function as a continuously evolving Brand Intelligence &amp; Content Operating System. Managed Services keep the platform advancing, not just maintained.
+  </p>
+  <div class="evo-grid">
+    <div class="evo-card">
+      <div class="evo-title">What Managed Services Support</div>
+      <div class="evo-desc">Ongoing platform development beyond initial launch, keeping SOLIS current with Noon Shop's evolving needs.</div>
+      <ul class="evo-list">
+        <li>New workflows &amp; campaign systems</li>
+        <li>Improved generation capabilities</li>
+        <li>Platform optimization</li>
+        <li>Integration opportunities</li>
+        <li>Evolving merchandising capabilities</li>
+        <li>Continued strategic refinement</li>
+      </ul>
+    </div>
+    <div class="evo-card">
+      <div class="evo-title">Human Oversight &amp; Approval</div>
+      <div class="evo-desc">SOLIS is an AI-assisted creative acceleration platform, not a fully autonomous publishing system. Human decisions remain at every key stage.</div>
+      <ul class="evo-list">
+        <li>Campaign approvals</li>
+        <li>Product copy review</li>
+        <li>Clinical note approvals</li>
+        <li>Legal &amp; compliance review</li>
+        <li>Campaign publishing decisions</li>
+        <li>Social posting &amp; scheduling</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- ── FOOTER ── -->
+<footer>
+  <div class="footer-brand">
+    <img src="assets/logo.png" alt="Noon Shop" class="footer-logo-img">
+    <div class="footer-brand-text">SOLIS · Built for Noon Shop</div>
+  </div>
+  <div class="footer-meta">
+    Brand Intelligence &amp; AI Content Platform<br>
+    Noon Shop · Proposal 2026 · HelloIT Pros
+  </div>
+</footer>
+
+<script>
+const observer = new IntersectionObserver(entries => {
+  entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('in'); });
+}, { threshold: 0.08 });
+document.querySelectorAll('.rv').forEach(el => observer.observe(el));
+</script>
+</body>
+</html>
