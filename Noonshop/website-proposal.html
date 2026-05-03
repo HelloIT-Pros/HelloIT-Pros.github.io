@@ -88,27 +88,29 @@ section { position: relative; }
 
 /* ── PREVIEW BUTTON ── */
 .preview-btn {
-  display: inline-flex; align-items: center; gap: 10px;
-  padding: 13px 28px;
-  border: 0.5px solid rgba(200,184,154,.4);
-  font-size: 11px; letter-spacing: .22em; text-transform: uppercase;
-  color: var(--gold); transition: background .2s, border-color .2s, color .2s;
+  display: inline-flex; align-items: center; gap: 12px;
+  padding: 16px 36px;
+  background: var(--gold); border: none;
+  font-size: 11px; letter-spacing: .26em; text-transform: uppercase;
+  color: var(--ink); font-weight: 500;
+  transition: background .2s, transform .2s;
   cursor: pointer; margin-top: 40px;
 }
-.preview-btn:hover { background: rgba(200,184,154,.08); border-color: var(--gold); }
-.preview-btn::after { content: '→'; font-size: 14px; transition: transform .2s; }
-.preview-btn:hover::after { transform: translateX(4px); }
+.preview-btn:hover { background: var(--gold-lt); }
+.preview-btn::after { content: '→'; font-size: 15px; transition: transform .2s; }
+.preview-btn:hover::after { transform: translateX(5px); }
 .preview-btn-l {
-  display: inline-flex; align-items: center; gap: 10px;
-  padding: 13px 28px;
-  border: 0.5px solid rgba(168,144,112,.35);
-  font-size: 11px; letter-spacing: .22em; text-transform: uppercase;
-  color: var(--gold-dk); transition: background .2s, border-color .2s;
+  display: inline-flex; align-items: center; gap: 12px;
+  padding: 16px 36px;
+  background: var(--ink); border: none;
+  font-size: 11px; letter-spacing: .26em; text-transform: uppercase;
+  color: var(--white); font-weight: 500;
+  transition: background .2s;
   cursor: pointer; margin-top: 40px;
 }
-.preview-btn-l:hover { background: rgba(168,144,112,.07); border-color: var(--gold-dk); }
-.preview-btn-l::after { content: '→'; font-size: 14px; transition: transform .2s; }
-.preview-btn-l:hover::after { transform: translateX(4px); }
+.preview-btn-l:hover { background: var(--ink2); }
+.preview-btn-l::after { content: '→'; font-size: 15px; transition: transform .2s; }
+.preview-btn-l:hover::after { transform: translateX(5px); }
 
 /* ── BRIEF SECTION ── */
 .brief-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1px; background: rgba(12,12,12,.08); margin-top: 72px; }
@@ -126,7 +128,7 @@ section { position: relative; }
 }
 .fit-hero-preview-bg { position: absolute; inset: 0; }
 .fit-hero-preview-bg img { width: 100%; height: 100%; object-fit: cover; object-position: center 25%; }
-.fit-hero-preview-bg::after { content:''; position:absolute; inset:0; background: linear-gradient(180deg, transparent 30%, rgba(12,12,12,.9) 100%); }
+.fit-hero-preview-bg::after { display: none; }
 .fit-hero-preview-content { position: relative; z-index: 1; }
 .fit-preview-eyebrow { font-size: 10px; letter-spacing:.32em; text-transform:uppercase; color: var(--gold); margin-bottom: 16px; display:flex; align-items:center; gap:12px; }
 .fit-preview-eyebrow::before { content:''; display:block; width:24px; height:0.5px; background:var(--gold); }
@@ -429,7 +431,7 @@ footer { background: var(--ink); border-top: 0.5px solid var(--bd); padding: 48p
     </div>
     <div class="brief-cell">
       <div class="brief-cell-n">04</div>
-      <div class="brief-cell-title">Why Shopify</div>
+      <div class="brief-cell-title">Custom Shopify Theme</div>
       <p class="brief-cell-body">
         A fully custom Shopify theme gives Noon Shop the operational backbone of a world-class
         e-commerce platform (inventory, checkout, payments, and apps) wrapped in a
@@ -817,12 +819,6 @@ footer { background: var(--ink); border-top: 0.5px solid var(--bd); padding: 48p
         <div class="pdp-fit-tag">Cheekbone · Standard</div>
         <div class="pdp-fit-tag">Width · Standard</div>
       </div>
-      <div class="pdp-measurements">
-        <div class="pdp-meas"><div class="pdp-meas-val">17mm</div><div class="pdp-meas-label">Bridge</div></div>
-        <div class="pdp-meas"><div class="pdp-meas-val">48mm</div><div class="pdp-meas-label">Lens Width</div></div>
-        <div class="pdp-meas"><div class="pdp-meas-val">145mm</div><div class="pdp-meas-label">Temple</div></div>
-        <div class="pdp-meas"><div class="pdp-meas-val">42mm</div><div class="pdp-meas-label">Frame Height</div></div>
-      </div>
       <div class="pdp-park-note">
         <div class="pdp-park-note-label">Dr. Park · Clinical Note</div>
         <div class="pdp-park-note-body">
@@ -848,7 +844,7 @@ footer { background: var(--ink); border-top: 0.5px solid var(--bd); padding: 48p
       <div class="tag-l">Worn &amp; Trusted</div>
       <h2 class="dh-l">
         Real customers.<br>
-        <em>Real fit stories.</em>
+        <em>Real stories.</em>
       </h2>
     </div>
     <p class="body-l" style="max-width:380px;">
@@ -921,9 +917,7 @@ footer { background: var(--ink); border-top: 0.5px solid var(--bd); padding: 48p
     </div>
   </div>
 
-  <a href="https://helloit-pros.github.io/noonshopwebsite/" target="_blank" class="preview-btn-l">
-    Preview the Homepage
-  </a>
+
 </section>
 
 <!-- ══════════════════════════════════════════ SCOPE ══ -->
