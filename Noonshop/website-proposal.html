@@ -58,7 +58,9 @@ nav {
 .hero-stat-val { font-family: 'Bebas Neue', sans-serif; font-size: 36px; letter-spacing: .02em; color: var(--white); line-height: 1; }
 .hero-stat-label { font-size: 11px; letter-spacing: .2em; text-transform: uppercase; color: var(--gold); margin-top: 5px; }
 .hero-stat-sub { font-size: 12px; color: var(--t35); margin-top: 3px; line-height: 1.5; }
-.hero-right { display: grid; grid-template-columns: 1fr 1fr; grid-template-rows: 1fr 1fr; gap: 1px; background: rgba(200,184,154,.08); }
+.hero-right { overflow: hidden; background: #111; position: relative; }
+.hero-right img { width: 100%; height: 100%; object-fit: cover; object-position: center top; display: block; }
+.hero-right::after { content:''; position:absolute; bottom:0; left:0; right:0; height:35%; background: linear-gradient(to top, var(--ink), transparent); }
 .hero-photo { overflow: hidden; background: #111; position: relative; }
 .hero-photo img { width: 100%; height: 100%; object-fit: cover; object-position: center top; display: block; transition: transform .7s ease; }
 .hero-photo:hover img { transform: scale(1.04); }
@@ -110,11 +112,11 @@ section { position: relative; }
 .preview-btn-l:hover::after { transform: translateX(4px); }
 
 /* ── BRIEF SECTION ── */
-.brief-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1px; background: var(--bd); margin-top: 72px; }
-.brief-cell { background: rgba(247,246,243,.02); padding: 52px 48px; }
-.brief-cell-n { font-family:'Bebas Neue',sans-serif; font-size: 64px; color: rgba(200,184,154,.06); line-height: 1; margin-bottom: 20px; }
-.brief-cell-title { font-family:'Bebas Neue',sans-serif; font-size: 22px; letter-spacing:.05em; color: var(--gold); margin-bottom: 14px; }
-.brief-cell-body { font-size: 14px; line-height: 1.85; color: var(--t55); }
+.brief-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1px; background: rgba(12,12,12,.08); margin-top: 72px; }
+.brief-cell { background: var(--white); padding: 52px 48px; }
+.brief-cell-n { font-family:'Bebas Neue',sans-serif; font-size: 64px; color: rgba(12,12,12,.05); line-height: 1; margin-bottom: 20px; }
+.brief-cell-title { font-family:'Bebas Neue',sans-serif; font-size: 22px; letter-spacing:.05em; color: var(--ink); margin-bottom: 14px; }
+.brief-cell-body { font-size: 14px; line-height: 1.85; color: rgba(12,12,12,.55); }
 
 /* ── FIT HERO PREVIEW ── */
 .fit-hero-preview {
@@ -134,12 +136,12 @@ section { position: relative; }
 .site-badge { position: absolute; top: 28px; right: 32px; z-index:2; background: rgba(12,12,12,.75); border: 0.5px solid rgba(200,184,154,.25); padding: 7px 16px; font-size:10px; letter-spacing:.18em; text-transform:uppercase; color:var(--gold); }
 
 /* ── 3 PILLARS ── */
-.pillars-row { display: grid; grid-template-columns: repeat(3,1fr); gap: 1px; background: var(--bd); margin-top: 72px; }
-.pillar-card { background: rgba(247,246,243,.025); padding: 48px 40px; }
-.pillar-n { font-family:'Bebas Neue',sans-serif; font-size: 56px; color: rgba(200,184,154,.07); line-height: 1; margin-bottom: 20px; }
-.pillar-name { font-family:'Bebas Neue',sans-serif; font-size: 20px; letter-spacing:.05em; color: var(--gold); margin-bottom: 12px; }
-.pillar-body { font-size: 14px; line-height: 1.8; color: var(--t55); }
-.pillar-note { margin-top: 20px; padding: 16px 18px; border-left: 2px solid rgba(200,184,154,.25); background: rgba(200,184,154,.04); font-size: 13px; color: var(--t35); font-style: italic; line-height: 1.65; }
+.pillars-row { display: grid; grid-template-columns: repeat(3,1fr); gap: 1px; background: rgba(12,12,12,.08); margin-top: 72px; }
+.pillar-card { background: var(--paper); padding: 48px 40px; }
+.pillar-n { font-family:'Bebas Neue',sans-serif; font-size: 56px; color: rgba(12,12,12,.07); line-height: 1; margin-bottom: 20px; }
+.pillar-name { font-family:'Bebas Neue',sans-serif; font-size: 20px; letter-spacing:.05em; color: var(--ink); margin-bottom: 12px; }
+.pillar-body { font-size: 14px; line-height: 1.8; color: rgba(12,12,12,.58); }
+.pillar-note { margin-top: 20px; padding: 16px 18px; border-left: 2px solid rgba(12,12,12,.15); background: rgba(12,12,12,.04); font-size: 13px; color: rgba(12,12,12,.45); font-style: italic; line-height: 1.65; }
 
 /* ── QUIZ PREVIEW ── */
 .quiz-wrap { margin-top: 72px; display: grid; grid-template-columns: 1fr 1fr; gap: 80px; align-items: start; }
@@ -352,9 +354,9 @@ footer { background: var(--ink); border-top: 0.5px solid var(--bd); padding: 48p
         <div class="hero-stat-sub">Built for conversion</div>
       </div>
       <div class="hero-stat">
-        <div class="hero-stat-val">2</div>
+        <div class="hero-stat-val">3</div>
         <div class="hero-stat-label">Collections</div>
-        <div class="hero-stat-sub">Dormann · Steel Brown</div>
+        <div class="hero-stat-sub">Dormann · Steel Brown · Denova</div>
       </div>
       <div class="hero-stat">
         <div class="hero-stat-val">1</div>
@@ -365,35 +367,19 @@ footer { background: var(--ink); border-top: 0.5px solid var(--bd); padding: 48p
   </div>
 
   <div class="hero-right">
-    <div class="hero-photo tall">
-      <img src="assets/editorial/editorial-1a.png" alt="Noon Shop · Science of Fit"
-           onerror="this.parentElement.style.background='#1a1a1a'">
-      <div class="photo-cap">Science of Fit · Editorial Hero</div>
-      <div class="photo-badge">Fit Guide</div>
-    </div>
-    <div class="hero-photo" style="background:var(--paper);">
-      <img src="assets/product/dormann-panto-brown.png" alt="Dormann Panto Brown"
-           style="object-position:center center;"
-           onerror="this.parentElement.style.background='#1a1a1a'">
-      <div class="photo-cap">Dormann · Panto Brown</div>
-    </div>
-    <div class="hero-photo">
-      <img src="assets/refined/woman-front-1.png" alt="On-model shot"
-           onerror="this.parentElement.style.background='#1a1a1a'">
-      <div class="photo-cap">Product Detail · On-Model</div>
-      <div class="photo-badge">PDP</div>
-    </div>
+    <img src="assets/editorial/editorial-1a.png" alt="Noon Shop · Science of Fit"
+         onerror="this.style.display='none'">
   </div>
 </section>
 
 <!-- ══════════════════════════════════════════ THE BRIEF ══ -->
-<section class="sec-dark rv" id="brief">
-  <div class="tag-d">The Brief</div>
-  <h2 class="dh-d">
+<section class="sec-paper rv" id="brief">
+  <div class="tag-l">The Brief</div>
+  <h2 class="dh-l">
     A site built<br>
     <em>around the fit.</em>
   </h2>
-  <p class="body-d" style="max-width:560px; margin-top:28px;">
+  <p class="body-l" style="max-width:560px; margin-top:28px;">
     Most eyewear brands sell frames. Noon Shop sells the certainty that the frame will fit.
     The website has to do the same — every page earns trust, educates on fit, and removes
     the hesitation that comes from buying eyewear online without trying it on.
@@ -422,9 +408,11 @@ footer { background: var(--ink); border-top: 0.5px solid var(--bd); padding: 48p
       <div class="brief-cell-n">03</div>
       <div class="brief-cell-title">Dr. Park's Two Collections</div>
       <p class="brief-cell-body">
-        <strong style="color:var(--gold);">Dormann</strong> — Beta-titanium temples, patented screwless snap hinge, vibrant colors. Built for the fit-first customer who doesn't want to choose between style and comfort.
+        <strong>Dormann</strong> — Beta-titanium temples, patented screwless snap hinge, vibrant colors. Built for the fit-first customer who doesn't want to choose between style and comfort.
         <br><br>
-        <strong style="color:var(--gold);">Steel Brown</strong> — German stainless steel, engineered with Wolfgang Proksch. Neutral, refined, and built for everyday precision.
+        <strong>Steel Brown</strong> — German stainless steel, engineered with Wolfgang Proksch. Neutral, refined, and built for everyday precision.
+        <br><br>
+        <strong>Denova</strong> — A third collection designed to expand Noon Shop's reach. Details to be confirmed in discovery.
       </p>
     </div>
     <div class="brief-cell">
@@ -542,8 +530,8 @@ footer { background: var(--ink); border-top: 0.5px solid var(--bd); padding: 48p
 <section class="sec-dark rv">
   <div class="tag-d">Find Your Fit in 60 Seconds</div>
   <h2 class="dh-d">
-    From question<br>
-    <em>to frame.</em>
+    Three questions.<br>
+    <em>Your perfect frame.</em>
   </h2>
   <p class="body-d" style="max-width:540px; margin-top:28px;">
     The Fit Finder quiz is embedded in both the homepage and the Fit Guide page.
@@ -743,6 +731,7 @@ footer { background: var(--ink); border-top: 0.5px solid var(--bd); padding: 48p
         <div class="shop-tab active">All</div>
         <div class="shop-tab">Dormann</div>
         <div class="shop-tab">Steel Brown</div>
+        <div class="shop-tab">Denova</div>
       </div>
     </div>
     <div class="shop-body">
@@ -752,6 +741,7 @@ footer { background: var(--ink); border-top: 0.5px solid var(--bd); padding: 48p
           <div class="shop-filter-opt active">All Frames</div>
           <div class="shop-filter-opt">Dormann</div>
           <div class="shop-filter-opt">Steel Brown</div>
+          <div class="shop-filter-opt">Denova</div>
         </div>
         <div class="shop-filter-group">
           <div class="shop-filter-title">Bridge Fit</div>
