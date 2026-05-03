@@ -283,17 +283,17 @@ section { position: relative; }
 /* ── WHAT TO EXPECT ── */
 .expect-list-wrap { display: flex; flex-direction: column; gap: 0; margin-top: 64px; border-top: 1px solid rgba(12,12,12,.1); }
 .expect-row { display: grid; grid-template-columns: 200px 1fr; gap: 48px; padding: 32px 0; border-bottom: 1px solid rgba(12,12,12,.08); align-items: start; }
-.expect-cat { font-family:'Bebas Neue',sans-serif; font-size: 13px; letter-spacing:.12em; color: var(--gold-dk); padding-top: 3px; line-height: 1.4; }
-.expect-items { display: grid; grid-template-columns: 1fr 1fr; gap: 8px 48px; }
-.expect-item { font-size: 13px; line-height: 1.65; color: rgba(12,12,12,.6); display: flex; gap: 9px; align-items: baseline; }
-.expect-item::before { content: '·'; color: var(--gold-dk); flex-shrink: 0; font-size: 16px; line-height: 0.85; }
+.expect-cat { font-family:'Bebas Neue',sans-serif; font-size: 15px; letter-spacing:.10em; color: var(--gold-dk); padding-top: 3px; line-height: 1.4; }
+.expect-items { display: grid; grid-template-columns: 1fr 1fr; gap: 10px 48px; }
+.expect-item { font-size: 15px; line-height: 1.7; color: rgba(12,12,12,.65); display: flex; gap: 10px; align-items: baseline; }
+.expect-item::before { content: '·'; color: var(--gold-dk); flex-shrink: 0; font-size: 18px; line-height: 0.85; }
 .expect-item.full { grid-column: 1 / -1; }
 .expect-outcomes { background: var(--paper2); padding: 52px 48px; margin-top: 1px; display: grid; grid-template-columns: 240px 1fr; gap: 60px; align-items: start; }
 .expect-outcomes-label { font-family:'Bebas Neue',sans-serif; font-size: clamp(24px,3vw,42px); letter-spacing:.04em; line-height: .9; color: var(--ink); }
 .expect-outcomes-label em { display:block; font-family:'Playfair Display',serif; font-style:italic; font-size:.58em; color: var(--gold-dk); font-weight:400; margin-top:8px; letter-spacing:0; }
 .expect-outcomes-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 20px 40px; }
-.expect-outcome { font-size: 13px; line-height: 1.65; color: rgba(12,12,12,.6); display: flex; gap: 9px; align-items: baseline; }
-.expect-outcome::before { content: '·'; color: var(--gold-dk); flex-shrink: 0; font-size: 16px; line-height: 0.85; }
+.expect-outcome { font-size: 15px; line-height: 1.7; color: rgba(12,12,12,.65); display: flex; gap: 10px; align-items: baseline; }
+.expect-outcome::before { content: '·'; color: var(--gold-dk); flex-shrink: 0; font-size: 18px; line-height: 0.85; }
 
 /* ── REVEAL ── */
 .rv { opacity: 0; transform: translateY(24px); transition: opacity .75s ease, transform .75s ease; }
@@ -975,45 +975,17 @@ footer { background: var(--ink); border-top: 0.5px solid var(--bd); padding: 48p
     </div>
   </div>
 
-  <div style="margin-top:72px; display:grid; grid-template-columns:1fr 1fr 1fr; gap:1px; background:var(--bl);">
-    <div style="background:var(--white); padding:36px 32px;">
-      <div class="tag-l" style="margin-bottom:20px;">What's Included</div>
-      <ul style="list-style:none; display:flex; flex-direction:column; gap:10px;">
-        <li style="font-size:13px; color:rgba(12,12,12,.6); display:flex; gap:10px; align-items:baseline;"><span style="color:var(--gold-dk);">·</span> 5-page custom Shopify theme</li>
-        <li style="font-size:13px; color:rgba(12,12,12,.6); display:flex; gap:10px; align-items:baseline;"><span style="color:var(--gold-dk);">·</span> Fit Finder quiz (homepage + Fit Guide)</li>
-        <li style="font-size:13px; color:rgba(12,12,12,.6); display:flex; gap:10px; align-items:baseline;"><span style="color:var(--gold-dk);">·</span> Dr. Park clinical notes on PDPs</li>
-        <li style="font-size:13px; color:rgba(12,12,12,.6); display:flex; gap:10px; align-items:baseline;"><span style="color:var(--gold-dk);">·</span> Fit tag filtering (left panel)</li>
-        <li style="font-size:13px; color:rgba(12,12,12,.6); display:flex; gap:10px; align-items:baseline;"><span style="color:var(--gold-dk);">·</span> Product metafield setup</li>
-        <li style="font-size:13px; color:rgba(12,12,12,.6); display:flex; gap:10px; align-items:baseline;"><span style="color:var(--gold-dk);">·</span> AJAX cart + checkout branding</li>
-        <li style="font-size:13px; color:rgba(12,12,12,.6); display:flex; gap:10px; align-items:baseline;"><span style="color:var(--gold-dk);">·</span> Reviews integration</li>
-        <li style="font-size:13px; color:rgba(12,12,12,.6); display:flex; gap:10px; align-items:baseline;"><span style="color:var(--gold-dk);">·</span> GA4 + Meta Pixel</li>
-        <li style="font-size:13px; color:rgba(12,12,12,.6); display:flex; gap:10px; align-items:baseline;"><span style="color:var(--gold-dk);">·</span> Mobile-responsive across all pages</li>
-        <li style="font-size:13px; color:rgba(12,12,12,.6); display:flex; gap:10px; align-items:baseline;"><span style="color:var(--gold-dk);">·</span> Client training + documentation</li>
-      </ul>
-    </div>
-    <div style="background:var(--paper2); padding:36px 32px; border-top:2px solid var(--gold-dk);">
-      <div class="tag-l" style="margin-bottom:20px;">The 5 Pages</div>
-      <ul style="list-style:none; display:flex; flex-direction:column; gap:10px;">
-        <li style="font-size:13px; color:rgba(12,12,12,.6); display:flex; gap:10px; align-items:baseline;"><span style="color:var(--gold-dk);">01</span> Homepage: hero, fit quiz, collections, reviews</li>
-        <li style="font-size:13px; color:rgba(12,12,12,.6); display:flex; gap:10px; align-items:baseline;"><span style="color:var(--gold-dk);">02</span> Shop: left-panel fit filters, product grid</li>
-        <li style="font-size:13px; color:rgba(12,12,12,.6); display:flex; gap:10px; align-items:baseline;"><span style="color:var(--gold-dk);">03</span> Product: gallery, fit data, Park note, cart</li>
-        <li style="font-size:13px; color:rgba(12,12,12,.6); display:flex; gap:10px; align-items:baseline;"><span style="color:var(--gold-dk);">04</span> Fit Guide: pillars, measure guide, quiz</li>
-        <li style="font-size:13px; color:rgba(12,12,12,.6); display:flex; gap:10px; align-items:baseline;"><span style="color:var(--gold-dk);">05</span> Our Story: timeline, Dr. Park profile</li>
-      </ul>
-    </div>
-    <div style="background:var(--white); padding:36px 32px;">
-      <div class="tag-l" style="margin-bottom:20px;">Preview the Prototype</div>
-      <p style="font-size:13px; color:rgba(12,12,12,.55); line-height:1.75; margin-bottom:24px;">
-        A working prototype of all five pages is available to view now.
-        This represents the approved design direction for the Shopify build.
-      </p>
-      <div style="display:flex; flex-direction:column; gap:8px;">
-        <a href="https://helloit-pros.github.io/noonshopwebsite/" target="_blank" class="preview-btn-l" style="margin-top:0;">Homepage</a>
-        <a href="https://helloit-pros.github.io/noonshopwebsite/fit-guide.html" target="_blank" class="preview-btn-l" style="margin-top:0;">Fit Guide</a>
-        <a href="https://helloit-pros.github.io/noonshopwebsite/story.html" target="_blank" class="preview-btn-l" style="margin-top:0;">Our Story</a>
-        <a href="https://helloit-pros.github.io/noonshopwebsite/shop.html" target="_blank" class="preview-btn-l" style="margin-top:0;">The Shop</a>
-        <a href="https://helloit-pros.github.io/noonshopwebsite/product.html" target="_blank" class="preview-btn-l" style="margin-top:0;">Product Page</a>
-      </div>
+  <div style="margin-top:72px;">
+    <div class="tag-l" style="margin-bottom:20px;">Preview the Prototype</div>
+    <p style="font-size:14px; color:rgba(12,12,12,.55); line-height:1.75; margin-bottom:28px; max-width:480px;">
+      A working prototype of all five pages is available to view now.
+      This represents the approved design direction for the Shopify build.
+    </p>
+    <div style="display:flex; flex-wrap:wrap; gap:10px;">
+      <a href="https://helloit-pros.github.io/noonshopwebsite/fit-guide.html" target="_blank" class="preview-btn-l" style="margin-top:0;">Fit Guide</a>
+      <a href="https://helloit-pros.github.io/noonshopwebsite/story.html" target="_blank" class="preview-btn-l" style="margin-top:0;">Our Story</a>
+      <a href="https://helloit-pros.github.io/noonshopwebsite/shop.html" target="_blank" class="preview-btn-l" style="margin-top:0;">The Shop</a>
+      <a href="https://helloit-pros.github.io/noonshopwebsite/product.html" target="_blank" class="preview-btn-l" style="margin-top:0;">Product Page</a>
     </div>
   </div>
 </section>
