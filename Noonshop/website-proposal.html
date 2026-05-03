@@ -281,18 +281,19 @@ section { position: relative; }
 .overview-quote-sub { font-size: 12px; letter-spacing:.18em; text-transform:uppercase; color: var(--gold-dk); }
 
 /* ── WHAT TO EXPECT ── */
-.expect-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 1px; background: var(--bl); margin-top: 72px; }
-.expect-card { background: var(--white); padding: 40px 36px; }
-.expect-cat { font-family:'Bebas Neue',sans-serif; font-size: 16px; letter-spacing:.06em; color: var(--ink); margin-bottom: 18px; padding-bottom: 14px; border-bottom: 1px solid rgba(12,12,12,.08); }
-.expect-list { list-style: none; display: flex; flex-direction: column; gap: 10px; }
-.expect-item { font-size: 13px; line-height: 1.7; color: rgba(12,12,12,.6); display: flex; gap: 10px; align-items: baseline; }
-.expect-item::before { content: '·'; color: var(--gold-dk); flex-shrink: 0; font-size: 18px; line-height: 0.9; }
-.expect-outcomes { background: var(--paper2); padding: 56px 48px; margin-top: 1px; display: grid; grid-template-columns: 280px 1fr; gap: 60px; align-items: start; }
-.expect-outcomes-label { font-family:'Bebas Neue',sans-serif; font-size: clamp(28px,3.5vw,48px); letter-spacing:.04em; line-height: .9; color: var(--ink); }
-.expect-outcomes-label em { display:block; font-family:'Playfair Display',serif; font-style:italic; font-size:.6em; color: var(--gold-dk); font-weight:400; margin-top:6px; letter-spacing:0; }
-.expect-outcomes-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 24px 40px; }
-.expect-outcome { font-size: 13px; line-height: 1.65; color: rgba(12,12,12,.6); display: flex; gap: 10px; align-items: baseline; }
-.expect-outcome::before { content: '·'; color: var(--gold-dk); flex-shrink: 0; font-size: 18px; line-height: 0.9; }
+.expect-list-wrap { display: flex; flex-direction: column; gap: 0; margin-top: 64px; border-top: 1px solid rgba(12,12,12,.1); }
+.expect-row { display: grid; grid-template-columns: 200px 1fr; gap: 48px; padding: 32px 0; border-bottom: 1px solid rgba(12,12,12,.08); align-items: start; }
+.expect-cat { font-family:'Bebas Neue',sans-serif; font-size: 13px; letter-spacing:.12em; color: var(--gold-dk); padding-top: 3px; line-height: 1.4; }
+.expect-items { display: grid; grid-template-columns: 1fr 1fr; gap: 8px 48px; }
+.expect-item { font-size: 13px; line-height: 1.65; color: rgba(12,12,12,.6); display: flex; gap: 9px; align-items: baseline; }
+.expect-item::before { content: '·'; color: var(--gold-dk); flex-shrink: 0; font-size: 16px; line-height: 0.85; }
+.expect-item.full { grid-column: 1 / -1; }
+.expect-outcomes { background: var(--paper2); padding: 52px 48px; margin-top: 1px; display: grid; grid-template-columns: 240px 1fr; gap: 60px; align-items: start; }
+.expect-outcomes-label { font-family:'Bebas Neue',sans-serif; font-size: clamp(24px,3vw,42px); letter-spacing:.04em; line-height: .9; color: var(--ink); }
+.expect-outcomes-label em { display:block; font-family:'Playfair Display',serif; font-style:italic; font-size:.58em; color: var(--gold-dk); font-weight:400; margin-top:8px; letter-spacing:0; }
+.expect-outcomes-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 20px 40px; }
+.expect-outcome { font-size: 13px; line-height: 1.65; color: rgba(12,12,12,.6); display: flex; gap: 9px; align-items: baseline; }
+.expect-outcome::before { content: '·'; color: var(--gold-dk); flex-shrink: 0; font-size: 16px; line-height: 0.85; }
 
 /* ── REVEAL ── */
 .rv { opacity: 0; transform: translateY(24px); transition: opacity .75s ease, transform .75s ease; }
@@ -1028,79 +1029,97 @@ footer { background: var(--ink); border-top: 0.5px solid var(--bd); padding: 48p
     A summary of what the new website will deliver across brand, customer experience, fit education, and commerce.
   </p>
 
-  <div class="expect-grid">
-    <div class="expect-card">
+  <div class="expect-list-wrap">
+
+    <div class="expect-row">
       <div class="expect-cat">Brand &amp; Positioning</div>
-      <ul class="expect-list">
-        <li class="expect-item">A premium digital flagship that reflects Noon Shop's unique position at the intersection of luxury eyewear, fit innovation, and clinical credibility</li>
-        <li class="expect-item">A more elevated and differentiated online presence designed to stand apart from traditional eyewear e-commerce</li>
-        <li class="expect-item">Stronger storytelling around Dr. Anna Park's philosophy, expertise, and the deeper purpose behind the brand</li>
-        <li class="expect-item">A modern editorial aesthetic that feels refined, intentional, and visually sophisticated</li>
-      </ul>
+      <div class="expect-items">
+        <div class="expect-item">A premium digital flagship at the intersection of luxury eyewear, fit innovation, and clinical credibility</div>
+        <div class="expect-item">A more elevated online presence designed to stand apart from traditional eyewear e-commerce</div>
+        <div class="expect-item">Stronger storytelling around Dr. Anna Park's philosophy and the purpose behind the brand</div>
+        <div class="expect-item">A modern editorial aesthetic that feels refined, intentional, and visually sophisticated</div>
+      </div>
     </div>
-    <div class="expect-card">
+
+    <div class="expect-row">
       <div class="expect-cat">Customer Experience</div>
-      <ul class="expect-list">
-        <li class="expect-item">A cleaner, more intuitive shopping experience designed to reduce friction and increase purchase confidence</li>
-        <li class="expect-item">Mobile-first optimization across browsing, storytelling, and purchasing</li>
-        <li class="expect-item">A more guided customer journey focused on education, fit understanding, and product discovery</li>
-        <li class="expect-item">Simplified navigation to help customers quickly understand styles, fit profiles, and product differences</li>
-        <li class="expect-item">A highly visual and immersive browsing experience with stronger product storytelling</li>
-      </ul>
+      <div class="expect-items">
+        <div class="expect-item">A cleaner, more intuitive shopping experience designed to reduce friction and increase purchase confidence</div>
+        <div class="expect-item">Mobile-first optimization across browsing, storytelling, and purchasing</div>
+        <div class="expect-item">A guided customer journey focused on education, fit understanding, and product discovery</div>
+        <div class="expect-item">Simplified navigation to help customers quickly understand styles, fit profiles, and product differences</div>
+        <div class="expect-item full">A highly visual and immersive browsing experience with stronger product storytelling throughout</div>
+      </div>
     </div>
-    <div class="expect-card">
+
+    <div class="expect-row">
       <div class="expect-cat">Fit Education &amp; Differentiation</div>
-      <ul class="expect-list">
-        <li class="expect-item">A dedicated Fit Guide that helps customers understand bridge fit, cheekbone clearance, and frame geometry</li>
-        <li class="expect-item">Interactive "Find Your Fit" functionality that recommends frames based on facial structure rather than popularity alone</li>
-        <li class="expect-item">Educational content that positions Noon Shop as an authority on fit-first eyewear</li>
-        <li class="expect-item">A more clinically informed shopping experience without feeling overly technical or medical</li>
-        <li class="expect-item">Clearer communication around why Noon Shop frames fit differently than traditional eyewear</li>
-      </ul>
+      <div class="expect-items">
+        <div class="expect-item">A dedicated Fit Guide for bridge fit, cheekbone clearance, and frame geometry</div>
+        <div class="expect-item">Interactive "Find Your Fit" that recommends frames based on facial structure, not popularity</div>
+        <div class="expect-item">Educational content positioning Noon Shop as an authority on fit-first eyewear</div>
+        <div class="expect-item">A clinically informed shopping experience without feeling overly technical or medical</div>
+        <div class="expect-item full">Clearer communication around why Noon Shop frames fit differently than traditional eyewear</div>
+      </div>
     </div>
-    <div class="expect-card">
+
+    <div class="expect-row">
       <div class="expect-cat">Product Detail Experience</div>
-      <ul class="expect-list">
-        <li class="expect-item">Completely redesigned Product Detail Pages where clinical credibility and commerce work together seamlessly</li>
-        <li class="expect-item">Richer product storytelling that communicates both the technical and lifestyle value of each frame</li>
-        <li class="expect-item">Detailed fit dimensions, material specifications, and fit-related education on every PDP</li>
-        <li class="expect-item">Dr. Park's clinical notes and fit insights integrated directly into the product experience</li>
-        <li class="expect-item">Cleaner purchasing flows designed to improve add-to-cart confidence and conversion</li>
-      </ul>
+      <div class="expect-items">
+        <div class="expect-item">Redesigned PDPs where clinical credibility and commerce work together seamlessly</div>
+        <div class="expect-item">Richer product storytelling covering both technical and lifestyle value of each frame</div>
+        <div class="expect-item">Dr. Park's clinical notes and fit insights integrated directly into every PDP</div>
+        <div class="expect-item">Cleaner purchasing flows designed to improve add-to-cart confidence and conversion</div>
+      </div>
     </div>
-    <div class="expect-card">
+
+    <div class="expect-row">
+      <div class="expect-cat">Product Side-by-Side Comparison</div>
+      <div class="expect-items">
+        <div class="expect-item">A dedicated comparison view allowing customers to evaluate two or more frames side by side</div>
+        <div class="expect-item">Compare fit dimensions, materials, price, and Dr. Park's fit profile compatibility at a glance</div>
+        <div class="expect-item">Surfaces key differences between Dormann, Steel Brown, and Denova collections</div>
+        <div class="expect-item">Helps customers make confident purchase decisions when choosing between similar styles</div>
+      </div>
+    </div>
+
+    <div class="expect-row">
       <div class="expect-cat">Virtual Try-On &amp; Interactive Features</div>
-      <ul class="expect-list">
-        <li class="expect-item">Browser-based Virtual Try-On that allows customers to see frames on their face in real time without downloading an app</li>
-        <li class="expect-item">More interactive and personalized shopping experiences throughout the site</li>
-        <li class="expect-item">Enhanced filtering and recommendation experiences designed around fit and facial structure</li>
-        <li class="expect-item">Future-ready architecture capable of supporting personalization and AI-assisted recommendations</li>
-      </ul>
+      <div class="expect-items">
+        <div class="expect-item">Browser-based Virtual Try-On to see frames in real time — no app download required</div>
+        <div class="expect-item">More interactive and personalized shopping experiences throughout the site</div>
+        <div class="expect-item">Enhanced filtering and recommendations designed around fit and facial structure</div>
+        <div class="expect-item">Future-ready architecture for personalization and AI-assisted recommendations</div>
+      </div>
     </div>
-    <div class="expect-card">
+
+    <div class="expect-row">
       <div class="expect-cat">Reviews &amp; Social Proof</div>
-      <ul class="expect-list">
-        <li class="expect-item">A reimagined review system focused on fit and real-world wearability rather than generic star ratings</li>
-        <li class="expect-item">Reviews tied to customer fit profiles, face shapes, bridge types, and comfort experiences</li>
-        <li class="expect-item">Social proof presented in a more clinically relevant and educational format</li>
-        <li class="expect-item">Increased customer confidence through more meaningful and relatable review experiences</li>
-      </ul>
+      <div class="expect-items">
+        <div class="expect-item">A reimagined review system focused on fit and wearability rather than generic star ratings</div>
+        <div class="expect-item">Reviews tied to customer fit profiles, face shapes, bridge types, and comfort experiences</div>
+        <div class="expect-item">Social proof presented in a more clinically relevant and educational format</div>
+        <div class="expect-item">Increased customer confidence through more meaningful and relatable review experiences</div>
+      </div>
     </div>
-    <div class="expect-card">
+
+    <div class="expect-row">
       <div class="expect-cat">Shopify &amp; Platform Foundation</div>
-      <ul class="expect-list">
-        <li class="expect-item">A fully customized Shopify experience tailored specifically to Noon Shop's brand and product philosophy</li>
-        <li class="expect-item">Scalable infrastructure capable of supporting future collections, campaigns, and growth initiatives</li>
-        <li class="expect-item">Improved product organization, content structure, and long-term maintainability</li>
-        <li class="expect-item">Integration-ready architecture for reviews, email marketing, analytics, virtual try-on, and future platform enhancements</li>
-      </ul>
+      <div class="expect-items">
+        <div class="expect-item">A fully customized Shopify experience tailored to Noon Shop's brand and product philosophy</div>
+        <div class="expect-item">Scalable infrastructure supporting future collections, campaigns, and growth initiatives</div>
+        <div class="expect-item">Improved product organization, content structure, and long-term maintainability</div>
+        <div class="expect-item">Integration-ready architecture for reviews, email marketing, analytics, and virtual try-on</div>
+      </div>
     </div>
-    <div class="expect-card">
+
+    <div class="expect-row">
       <div class="expect-cat">Content &amp; Brand Intelligence</div>
-      <ul class="expect-list">
-        <li class="expect-item">AI-assisted content infrastructure through SOLIS, enabling Noon Shop to efficiently scale brand storytelling, product copy, and customer communications</li>
-      </ul>
+      <div class="expect-items">
+        <div class="expect-item full">AI-assisted content infrastructure through SOLIS, enabling Noon Shop to efficiently scale brand storytelling, product copy, and customer communications</div>
+      </div>
     </div>
+
   </div>
 
   <!-- Strategic Outcomes closing strip -->
