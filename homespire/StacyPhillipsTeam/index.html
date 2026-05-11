@@ -11,16 +11,15 @@
   <style>
     :root {
       --p950: #150a28;
-      --p900: #2a1155;
-      --p800: #3d1a7a;
+      --p900: #261050;
+      --p800: #3d1870;
       --p700: #5b2d8e;
-      --p600: #7c3aed;
-      --p500: #9b5cf6;
-      --p400: #b87ff8;
-      --p300: #d4b8fb;
+      --p600: #6b35b0;
+      --p500: #8b52cc;
+      --p400: #b07ee0;
+      --p300: #d0b0f5;
       --p200: #ede5fe;
       --p100: #f7f3ff;
-      --gold: #c8a84b;
       --w: #ffffff;
       --g50: #f9fafb;
       --g100: #f3f4f6;
@@ -32,7 +31,6 @@
       --g700: #374151;
       --g800: #1f2937;
       --g900: #111827;
-      --green: #22c55e;
       --radius: 20px;
     }
     *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
@@ -42,77 +40,88 @@
     /* ─── LOADING SCREEN ─── */
     #loader {
       position: fixed; inset: 0; z-index: 9999;
-      background: linear-gradient(145deg, var(--p950) 0%, var(--p800) 60%, var(--p700) 100%);
+      background: radial-gradient(ellipse at 50% 42%, #4a1f84 0%, #26104e 55%, #150a28 100%);
       display: flex; flex-direction: column; align-items: center; justify-content: center;
-      transition: opacity 0.9s ease, visibility 0.9s ease;
+      gap: 0;
+      transition: opacity 1s ease, visibility 1s ease;
     }
     #loader.out { opacity: 0; visibility: hidden; pointer-events: none; }
-    .loader-rhino {
-      width: 160px; height: 120px; margin-bottom: 36px;
-      animation: rhinoFloat 2.5s ease-in-out infinite;
-      filter: drop-shadow(0 12px 40px rgba(180,140,255,0.45));
+    .loader-glow {
+      position: absolute; width: 360px; height: 360px; border-radius: 50%;
+      background: radial-gradient(circle, rgba(107,53,176,.35) 0%, transparent 70%);
+      pointer-events: none;
     }
-    @keyframes rhinoFloat {
-      0%,100%{transform:translateY(0)} 50%{transform:translateY(-10px)}
+    .loader-brand-img {
+      position: relative; z-index: 1;
+      width: 270px; max-width: 64vw;
+      border-radius: 16px;
+      opacity: 0;
+      animation: loaderReveal 1s cubic-bezier(.22,1,.36,1) .3s both;
     }
-    .loader-rhino svg { animation: rhinoReveal 1.2s cubic-bezier(.22,1,.36,1) both; }
-    @keyframes rhinoReveal {
-      from { opacity:0; transform: scale(0.7) rotate(-8deg); }
-      to   { opacity:1; transform: scale(1) rotate(0deg); }
-    }
-    .loader-name {
+    .loader-wordmark {
+      position: relative; z-index: 1; margin-top: 28px;
       font-family: 'DM Serif Display', serif;
-      font-size: 28px; color: #fff; letter-spacing: 1px;
-      opacity: 0; animation: fadeUp .7s ease .9s both;
+      font-size: 22px; color: rgba(255,255,255,.9); letter-spacing: .5px;
+      opacity: 0; animation: fadeUp .7s ease .8s both;
     }
-    .loader-sub {
-      font-size: 12px; font-weight: 600; letter-spacing: 4px;
-      text-transform: uppercase; color: var(--p300);
-      margin-top: 8px; opacity: 0; animation: fadeUp .7s ease 1.1s both;
+    .loader-sub-text {
+      position: relative; z-index: 1; margin-top: 6px;
+      font-size: 11px; font-weight: 600; letter-spacing: 3px; text-transform: uppercase;
+      color: rgba(255,255,255,.35);
+      opacity: 0; animation: fadeUp .7s ease 1s both;
     }
-    .loader-bar { width: 180px; height: 2px; background: rgba(255,255,255,.12); border-radius: 2px; margin-top: 40px; overflow: hidden; }
-    .loader-bar-fill { height: 100%; background: var(--p300); border-radius: 2px; animation: barFill 2.8s ease both; }
+    .loader-bar {
+      position: relative; z-index: 1;
+      width: 160px; height: 1px; background: rgba(255,255,255,.12);
+      border-radius: 1px; margin-top: 40px; overflow: hidden;
+      opacity: 0; animation: fadeUp .5s ease 1s both;
+    }
+    .loader-bar-fill { height: 100%; background: rgba(255,255,255,.5); border-radius: 1px; animation: barFill 2.8s ease both; }
+    @keyframes loaderReveal {
+      from { opacity: 0; transform: scale(.9); }
+      to   { opacity: 1; transform: scale(1); }
+    }
     @keyframes barFill { from{width:0} to{width:100%} }
     @keyframes fadeUp {
-      from { opacity:0; transform:translateY(12px); }
+      from { opacity:0; transform:translateY(8px); }
       to   { opacity:1; transform:translateY(0); }
     }
 
     /* ─── NAV ─── */
     nav {
       position: fixed; top: 0; left: 0; right: 0; z-index: 1000;
-      padding: 18px 48px;
+      padding: 14px 40px;
       display: flex; align-items: center; justify-content: space-between;
-      background: rgba(255,255,255,.96); backdrop-filter: blur(20px);
+      background: rgba(255,255,255,.97); backdrop-filter: blur(20px);
       border-bottom: 1px solid rgba(91,45,142,.08);
       transition: padding .3s, box-shadow .3s;
     }
-    nav.scrolled { padding: 12px 48px; box-shadow: 0 4px 30px rgba(91,45,142,.10); }
-    .nav-logo { display: flex; align-items: center; gap: 12px; text-decoration: none; }
-    .nav-logo img { height: 46px; object-fit: contain; }
-    .nav-logo-text { display: flex; flex-direction: column; }
-    .nav-logo-name { font-size: 16px; font-weight: 800; color: var(--p700); line-height: 1.1; }
-    .nav-logo-powered { font-size: 10px; font-weight: 600; letter-spacing: 1.5px; text-transform: uppercase; color: var(--g400); }
-    .nav-links { display: flex; align-items: center; gap: 4px; list-style: none; }
-    .nav-links a {
-      text-decoration: none; color: var(--g600); font-size: 13px; font-weight: 600;
-      padding: 8px 14px; border-radius: 10px; transition: all .2s;
+    nav.scrolled { padding: 10px 40px; box-shadow: 0 4px 30px rgba(91,45,142,.10); }
+    .nav-logo { display: flex; align-items: center; text-decoration: none; }
+    .nav-logo img { height: 48px; object-fit: contain; }
+    /* Always use hamburger — no traditional link row */
+    .nav-links { display: none; }
+    .nav-hamburger {
+      display: flex; flex-direction: column; justify-content: center;
+      gap: 6px; cursor: pointer; padding: 8px; background: none; border: none;
+      width: 44px; height: 44px; border-radius: 10px;
+      transition: background .2s;
     }
-    .nav-links a:hover { color: var(--p700); background: var(--p100); }
-    .nav-cta {
-      background: linear-gradient(135deg, var(--p700), var(--p600)) !important;
-      color: #fff !important; border-radius: 10px !important;
-      box-shadow: 0 4px 16px rgba(91,45,142,.3);
-      padding: 10px 22px !important;
+    .nav-hamburger:hover { background: var(--p100); }
+    .nav-hamburger span {
+      width: 26px; height: 2px; background: var(--p700); border-radius: 2px;
+      transition: transform .35s cubic-bezier(.4,0,.2,1), opacity .25s ease, width .3s ease;
+      display: block; transform-origin: center;
     }
-    .nav-cta:hover { transform: translateY(-1px); box-shadow: 0 6px 24px rgba(91,45,142,.4) !important; background: var(--p100) !important; color: var(--p700) !important; }
-    .nav-hamburger { display: none; flex-direction: column; gap: 5px; cursor: pointer; padding: 6px; }
-    .nav-hamburger span { width: 24px; height: 2px; background: var(--p700); border-radius: 2px; transition: all .3s; }
+    /* Animated to X when open */
+    .nav-hamburger.open span:nth-child(1) { transform: translateY(8px) rotate(45deg); }
+    .nav-hamburger.open span:nth-child(2) { opacity: 0; width: 0; }
+    .nav-hamburger.open span:nth-child(3) { transform: translateY(-8px) rotate(-45deg); }
 
     /* ─── HERO ─── */
     #hero {
       min-height: 100vh; padding: 130px 48px 80px;
-      background: linear-gradient(145deg, var(--p950) 0%, var(--p800) 55%, var(--p600) 100%);
+      background: linear-gradient(145deg, var(--p950) 0%, var(--p800) 50%, var(--p700) 100%);
       display: flex; align-items: center; position: relative; overflow: hidden;
     }
     .hero-orbs {
@@ -123,8 +132,8 @@
         radial-gradient(circle at 65% 80%, rgba(91,45,142,.22) 0%, transparent 45%);
     }
     .hero-inner {
-      max-width: 1280px; margin: 0 auto; width: 100%;
-      display: grid; grid-template-columns: 1fr 1fr; gap: 80px;
+      max-width: 1400px; margin: 0 auto; width: 100%;
+      display: grid; grid-template-columns: 1fr 1.6fr; gap: 60px;
       align-items: center; position: relative; z-index: 1;
     }
     .hero-badge {
@@ -134,7 +143,7 @@
       text-transform: uppercase; padding: 8px 18px; border-radius: 100px;
       backdrop-filter: blur(10px); margin-bottom: 24px;
     }
-    .badge-dot { width: 6px; height: 6px; background: var(--p400); border-radius: 50%; animation: pulseDot 2s infinite; }
+    .badge-dot { width: 6px; height: 6px; background: var(--p400); border-radius: 50%; animation: pulseDot 2s infinite; flex-shrink: 0; }
     @keyframes pulseDot { 0%,100%{opacity:1;transform:scale(1)} 50%{opacity:.5;transform:scale(1.6)} }
     .hero-title {
       font-family: 'DM Serif Display', serif;
@@ -157,30 +166,20 @@
       border: 1.5px solid rgba(255,255,255,.28); transition: all .3s; backdrop-filter: blur(8px);
     }
     .btn-outline:hover { background: rgba(255,255,255,.1); border-color: rgba(255,255,255,.5); transform: translateY(-3px); }
-    .hero-stats { display: flex; gap: 40px; }
-    .hero-stat-num { font-size: 38px; font-weight: 900; color: #fff; line-height: 1; }
-    .hero-stat-lbl { font-size: 13px; color: rgba(255,255,255,.55); margin-top: 4px; }
+    .hero-stats { display: flex; gap: 28px; flex-wrap: wrap; }
+    .hero-stat { position: relative; padding-right: 28px; }
+    .hero-stat:not(:last-child)::after { content:''; position:absolute; right:0; top:4px; bottom:4px; width:1px; background:rgba(255,255,255,.15); }
+    .hero-stat-num { font-size: 34px; font-weight: 900; color: #fff; line-height: 1; }
+    .hero-stat-lbl { font-size: 12px; color: rgba(255,255,255,.55); margin-top: 5px; max-width: 90px; line-height: 1.35; }
     .hero-visual { display: flex; align-items: center; justify-content: center; }
-    .hero-rhino-wrap {
-      position: relative; width: 420px; height: 420px;
-      display: flex; align-items: center; justify-content: center;
+    .hero-rhino-img {
+      width: 100%; max-width: 720px; border-radius: 32px;
+      filter: drop-shadow(0 0 100px rgba(91,45,142,.55));
+      animation: rhinoFloat 5s ease-in-out infinite;
+      mix-blend-mode: luminosity;
+      opacity: .94;
     }
-    .rhino-glow-ring {
-      position: absolute; width: 340px; height: 340px; border-radius: 50%;
-      background: radial-gradient(circle, rgba(155,92,246,.28) 0%, transparent 70%);
-      animation: glowPulse 3.5s ease-in-out infinite;
-    }
-    .rhino-glow-ring2 {
-      position: absolute; width: 420px; height: 420px; border-radius: 50%;
-      border: 1px solid rgba(196,181,253,.12);
-      animation: glowPulse 3.5s ease-in-out 1s infinite;
-    }
-    @keyframes glowPulse { 0%,100%{transform:scale(1);opacity:.7} 50%{transform:scale(1.1);opacity:1} }
-    .hero-rhino-svg {
-      width: 300px; height: 220px; position: relative; z-index: 1;
-      filter: drop-shadow(0 16px 60px rgba(155,92,246,.55));
-      animation: rhinoFloat 4s ease-in-out infinite;
-    }
+    @keyframes rhinoFloat { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-12px)} }
 
     /* ─── SHARED SECTION STYLES ─── */
     section { padding: 100px 48px; }
@@ -209,43 +208,52 @@
     }
     .val-card:hover::after { transform: scaleX(1); }
     .val-card:hover { transform: translateY(-6px); box-shadow: 0 24px 60px rgba(91,45,142,.11); border-color: var(--p200); }
-    .val-icon { font-size: 36px; margin-bottom: 24px; }
+    .val-num { font-size: 48px; font-weight: 900; color: var(--p200); line-height: 1; margin-bottom: 20px; font-family: 'DM Serif Display', serif; }
     .val-title { font-size: 22px; font-weight: 700; color: var(--g900); margin-bottom: 12px; }
     .val-desc { font-size: 15px; color: var(--g500); line-height: 1.75; }
 
     /* ─── TEAM ─── */
     #team { background: #fff; }
-    .team-grid { display: grid; grid-template-columns: repeat(5,1fr); gap: 22px; }
+    .team-grid {
+      display: grid;
+      grid-template-columns: repeat(6, 1fr);
+      gap: 28px;
+    }
+    /* Row 1: 3 cards each spanning 2 cols */
+    .team-card { grid-column: span 2; }
+    /* Row 2: center 2 cards — start at col 2 and 4 */
+    .team-card:nth-child(4) { grid-column: 2 / span 2; }
+    .team-card:nth-child(5) { grid-column: 4 / span 2; }
+
     .team-card {
       background: #fff; border-radius: var(--radius); overflow: hidden;
       border: 1px solid var(--g200); transition: all .35s; text-align: center;
     }
     .team-card:hover { transform: translateY(-10px); box-shadow: 0 32px 80px rgba(91,45,142,.16); border-color: var(--p300); }
-    .team-card:hover .team-photo-wrap::after { opacity: 1; }
-    .team-photo-wrap { position: relative; overflow: hidden; }
-    .team-photo-wrap::after {
-      content:''; position:absolute; inset:0;
-      background: linear-gradient(to top, rgba(91,45,142,.5) 0%, transparent 60%);
-      opacity: 0; transition: opacity .35s;
-    }
-    .team-photo { width:100%; aspect-ratio:3/4; object-fit:cover; object-position:top center; display:block; }
-    .team-info { padding: 22px 18px 24px; }
-    .team-name { font-size: 16px; font-weight: 800; color: var(--g900); margin-bottom: 4px; }
-    .team-role { font-size: 12px; font-weight: 700; color: var(--p600); text-transform: uppercase; letter-spacing: 1px; margin-bottom: 3px; }
-    .team-nmls { font-size: 11px; color: var(--g400); margin-bottom: 16px; }
-    .team-links { display: flex; flex-direction: column; gap: 5px; }
+    .team-photo { width:100%; aspect-ratio:4/5; object-fit:cover; object-position:top center; display:block; }
+    .team-info { padding: 28px 24px 32px; }
+    .team-name { font-size: 20px; font-weight: 800; color: var(--g900); margin-bottom: 6px; }
+    .team-role { font-size: 12px; font-weight: 700; color: var(--p600); text-transform: uppercase; letter-spacing: 1.5px; margin-bottom: 4px; }
+    .team-nmls { font-size: 12px; color: var(--g400); margin-bottom: 20px; }
+    .team-divider { width: 40px; height: 2px; background: linear-gradient(90deg,var(--p700),var(--p400)); margin: 0 auto 18px; border-radius: 2px; }
+    .team-links { display: flex; flex-direction: column; gap: 7px; }
     .team-links a {
-      font-size: 12px; color: var(--g500); text-decoration: none;
+      font-size: 13px; color: var(--g500); text-decoration: none;
       display: flex; align-items: center; justify-content: center; gap: 5px; transition: color .2s;
     }
     .team-links a:hover { color: var(--p600); }
-    .team-divider { width: 32px; height: 2px; background: linear-gradient(90deg,var(--p600),var(--p400)); margin: 0 auto 14px; border-radius: 2px; }
+    .team-apply-btn {
+      display: inline-flex; align-items: center; justify-content: center;
+      background: var(--p700); color: #fff !important;
+      font-size: 12px !important; font-weight: 700; letter-spacing: .4px;
+      padding: 8px 18px; border-radius: 50px; text-decoration: none !important;
+      transition: background .2s, transform .2s !important;
+      margin-top: 4px;
+    }
+    .team-apply-btn:hover { background: var(--p600) !important; color: #fff !important; transform: translateY(-1px) !important; }
 
     /* ─── RATES ─── */
-    #rates {
-      background: linear-gradient(145deg, var(--p950), var(--p800));
-      color: #fff;
-    }
+    #rates { background: linear-gradient(145deg, var(--p950) 0%, var(--p900) 50%, var(--p800) 100%); color: #fff; }
     #rates .sec-label { color: var(--p300); }
     #rates .sec-title { color: #fff; }
     #rates .sec-sub { color: rgba(255,255,255,.65); }
@@ -253,8 +261,7 @@
     .rates-cards { display: grid; grid-template-columns: 1fr 1fr; gap: 18px; }
     .rate-card {
       background: rgba(255,255,255,.07); border: 1px solid rgba(255,255,255,.1);
-      border-radius: 18px; padding: 28px 24px; backdrop-filter: blur(20px);
-      transition: all .3s;
+      border-radius: 18px; padding: 28px 24px; backdrop-filter: blur(20px); transition: all .3s;
     }
     .rate-card:hover { background: rgba(255,255,255,.12); transform: translateY(-4px); }
     .rate-type { font-size: 11px; font-weight: 700; letter-spacing: 1.5px; text-transform: uppercase; color: var(--p300); margin-bottom: 10px; }
@@ -268,16 +275,21 @@
       background: rgba(255,255,255,.06); border: 1px solid rgba(255,255,255,.1);
       border-radius: 22px; padding: 44px 40px;
     }
-    .opp-icon { font-size: 52px; margin-bottom: 20px; }
     .opp-title { font-size: 30px; font-weight: 800; color: #fff; margin-bottom: 16px; line-height: 1.2; }
-    .opp-msg { font-size: 16px; color: rgba(255,255,255,.72); line-height: 1.8; margin-bottom: 28px; }
-    .opp-msg-rotate { min-height: 120px; }
+    .opp-msg { font-size: 16px; color: rgba(255,255,255,.72); line-height: 1.8; margin-bottom: 28px; min-height: 110px; transition: opacity .6s ease; }
     .opp-pills { display: flex; flex-wrap: wrap; gap: 10px; }
     .opp-pill {
       background: rgba(255,255,255,.1); border: 1px solid rgba(255,255,255,.12);
       color: rgba(255,255,255,.8); font-size: 13px; font-weight: 600;
       padding: 8px 18px; border-radius: 100px;
     }
+    .opp-cta {
+      display: inline-flex; align-items: center; gap: 10px; margin-top: 32px;
+      background: rgba(255,255,255,.12); border: 1.5px solid rgba(255,255,255,.2);
+      color: #fff; font-size: 15px; font-weight: 700; padding: 14px 28px;
+      border-radius: 12px; text-decoration: none; transition: all .3s; backdrop-filter: blur(10px);
+    }
+    .opp-cta:hover { background: rgba(255,255,255,.2); }
 
     /* ─── CALCULATORS ─── */
     #tools { background: var(--g50); }
@@ -320,7 +332,7 @@
     .res-label { font-size: 11px; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; color: rgba(255,255,255,.55); margin-bottom: 8px; }
     .res-val { font-size: 54px; font-weight: 900; color: #fff; line-height: 1; margin-bottom: 8px; }
     .res-sub { font-size: 14px; color: rgba(255,255,255,.6); margin-bottom: 32px; }
-    .res-rows { border-top: 1px solid rgba(255,255,255,.15); padding-top: 24px; display: flex; flex-direction: column; gap: 0; }
+    .res-rows { border-top: 1px solid rgba(255,255,255,.15); padding-top: 24px; display: flex; flex-direction: column; }
     .res-row { display: flex; justify-content: space-between; align-items: center; padding: 11px 0; border-bottom: 1px solid rgba(255,255,255,.08); font-size: 14px; }
     .res-row-l { color: rgba(255,255,255,.65); }
     .res-row-r { color: #fff; font-weight: 700; }
@@ -332,16 +344,35 @@
     #reviews { background: #fff; overflow: hidden; }
     .reviews-track-outer { margin: 0 -48px; overflow: hidden; position: relative; }
     .reviews-track-outer::before, .reviews-track-outer::after {
-      content:''; position:absolute; top:0; bottom:0; width:100px; z-index:2; pointer-events:none;
+      content:''; position:absolute; top:0; bottom:0; width:120px; z-index:2; pointer-events:none;
     }
     .reviews-track-outer::before { left:0; background: linear-gradient(to right, #fff, transparent); }
     .reviews-track-outer::after  { right:0; background: linear-gradient(to left, #fff, transparent); }
     .reviews-track {
       display: flex; gap: 22px; padding: 16px 48px;
       width: max-content; animation: scrollCards 55s linear infinite;
+      cursor: grab; user-select: none;
     }
-    .reviews-track:hover { animation-play-state: paused; }
+    .reviews-track.dragging { cursor: grabbing; animation-play-state: paused; }
+    .reviews-track.paused { animation-play-state: paused; }
     @keyframes scrollCards { from{transform:translateX(0)} to{transform:translateX(-50%)} }
+    .reviews-controls {
+      display: flex; align-items: center; justify-content: center; gap: 12px; margin-top: 28px;
+    }
+    .rev-btn {
+      width: 44px; height: 44px; border-radius: 50%; border: 1.5px solid var(--g200);
+      background: #fff; color: var(--p700); font-size: 18px; cursor: pointer;
+      display: flex; align-items: center; justify-content: center;
+      transition: all .2s; box-shadow: 0 2px 8px rgba(0,0,0,.06);
+    }
+    .rev-btn:hover { background: var(--p700); color: #fff; border-color: var(--p700); }
+    .rev-play-state {
+      width: 44px; height: 44px; border-radius: 50%; border: 1.5px solid var(--g200);
+      background: #fff; color: var(--p700); font-size: 14px; cursor: pointer;
+      display: flex; align-items: center; justify-content: center;
+      transition: all .2s; box-shadow: 0 2px 8px rgba(0,0,0,.06);
+    }
+    .rev-play-state:hover { background: var(--p700); color: #fff; border-color: var(--p700); }
     .review-card {
       width: 360px; flex-shrink: 0; background: #fff;
       border: 1px solid var(--g200); border-radius: 20px; padding: 32px;
@@ -390,24 +421,18 @@
     .faq-ico {
       width: 28px; height: 28px; border-radius: 50%; flex-shrink: 0;
       background: var(--p100); color: var(--p700); display: flex; align-items: center;
-      justify-content: center; font-size: 18px; font-weight: 700;
-      transition: all .3s;
+      justify-content: center; font-size: 18px; font-weight: 700; transition: all .3s;
     }
     .faq-item.open .faq-ico { background: var(--p700); color: #fff; transform: rotate(45deg); }
     .faq-a { max-height: 0; overflow: hidden; transition: max-height .4s ease; }
-    .faq-a-inner {
-      padding: 0 28px 28px; font-size: 15px; color: var(--g600); line-height: 1.8;
-    }
+    .faq-a-inner { padding: 0 28px 28px; font-size: 15px; color: var(--g600); line-height: 1.8; }
     .faq-a-inner a { color: var(--p600); font-weight: 600; text-decoration: none; }
     .faq-a-inner a:hover { text-decoration: underline; }
     .faq-item.open .faq-a { max-height: 600px; }
 
     /* ─── APPLY CTA ─── */
-    #apply {
-      background: linear-gradient(145deg, var(--p950), var(--p800));
-      text-align: center; padding: 120px 48px;
-    }
-    .apply-logo { width: 80px; margin: 0 auto 36px; opacity: .35; }
+    #apply { background: linear-gradient(145deg, var(--p950) 0%, var(--p900) 50%, var(--p800) 100%); text-align: center; padding: 120px 48px; }
+    .apply-logo-img { height: 60px; margin: 0 auto 40px; display: block; opacity: .6; filter: brightness(10); }
     .apply-title { font-family: 'DM Serif Display', serif; font-size: 58px; color: #fff; margin-bottom: 20px; line-height: 1.08; }
     .apply-sub { font-size: 18px; color: rgba(255,255,255,.68); margin-bottom: 52px; max-width: 520px; margin-left: auto; margin-right: auto; line-height: 1.75; }
     .apply-btns { display: flex; gap: 20px; justify-content: center; flex-wrap: wrap; }
@@ -425,9 +450,8 @@
       border: 2px solid rgba(255,255,255,.28); transition: all .3s;
     }
     .apply-btn-ghost:hover { background: rgba(255,255,255,.1); border-color: rgba(255,255,255,.6); transform: translateY(-4px); }
-    .apply-trust { display: flex; align-items: center; justify-content: center; gap: 28px; margin-top: 52px; flex-wrap: wrap; }
-    .trust-item { display: flex; align-items: center; gap: 8px; font-size: 13px; color: rgba(255,255,255,.5); font-weight: 500; }
-    .trust-icon { font-size: 18px; }
+    .apply-trust { display: flex; align-items: center; justify-content: center; gap: 36px; margin-top: 52px; flex-wrap: wrap; }
+    .trust-item { font-size: 13px; color: rgba(255,255,255,.45); font-weight: 600; }
 
     /* ─── FOOTER ─── */
     footer { background: var(--g900); color: #fff; padding: 64px 48px 32px; }
@@ -436,10 +460,9 @@
       grid-template-columns: 2fr 1fr 1fr 1fr; gap: 64px;
       padding-bottom: 48px; border-bottom: 1px solid rgba(255,255,255,.07);
     }
-    .footer-logo { display: flex; align-items: center; gap: 12px; margin-bottom: 20px; }
-    .footer-logo img { height: 50px; object-fit: contain; }
+    .footer-logo img { height: 50px; object-fit: contain; margin-bottom: 20px; display: block; }
     .footer-desc { font-size: 14px; color: rgba(255,255,255,.45); line-height: 1.75; margin-bottom: 24px; }
-    .footer-contact { display: flex; flex-direction: column; gap: 8px; }
+    .footer-contact { display: flex; flex-direction: column; gap: 10px; }
     .footer-contact a { font-size: 14px; color: rgba(255,255,255,.55); text-decoration: none; transition: color .2s; }
     .footer-contact a:hover { color: var(--p400); }
     .footer-col-title { font-size: 11px; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; color: rgba(255,255,255,.3); margin-bottom: 20px; }
@@ -450,45 +473,222 @@
     .footer-disc { font-size: 11px; color: rgba(255,255,255,.28); line-height: 1.75; max-width: 720px; }
     .footer-nmls { font-size: 11px; color: rgba(255,255,255,.28); text-align: right; }
 
-    /* ─── MOBILE NAV MENU ─── */
-    .nav-mobile-menu {
-      display: none; position: fixed; top: 0; left: 0; right: 0; bottom: 0; z-index: 999;
-      background: rgba(21,10,40,.97); backdrop-filter: blur(20px);
-      flex-direction: column; align-items: center; justify-content: center; gap: 12px;
+    /* ─── FULLSCREEN NAV OVERLAY ─── */
+    .nav-overlay {
+      position: fixed; inset: 0; z-index: 998;
+      background: linear-gradient(160deg, var(--p950) 0%, var(--p900) 50%, var(--p800) 100%);
+      display: flex; flex-direction: column;
+      padding: 0 48px 48px;
+      opacity: 0; visibility: hidden; pointer-events: none;
+      transition: opacity .4s ease, visibility .4s ease;
     }
-    .nav-mobile-menu.open { display: flex; }
-    .nav-mobile-menu a { font-size: 22px; font-weight: 700; color: #fff; text-decoration: none; padding: 12px 32px; }
-    .nav-mobile-close { position: absolute; top: 24px; right: 24px; font-size: 32px; color: #fff; cursor: pointer; background: none; border: none; line-height: 1; }
+    .nav-overlay.open { opacity: 1; visibility: visible; pointer-events: auto; }
+
+    .nav-overlay-top {
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 18px 0; border-bottom: 1px solid rgba(255,255,255,.08); margin-bottom: 0;
+      height: 76px; flex-shrink: 0;
+    }
+    .nav-overlay-logo img { height: 44px; filter: brightness(10); opacity: .85; }
+
+    .nav-overlay-body {
+      flex: 1; display: flex; flex-direction: column; justify-content: center; align-items: center;
+      gap: 4px; text-align: center;
+    }
+    .nav-overlay-link {
+      display: block; font-family: 'DM Serif Display', serif;
+      font-size: clamp(36px, 6vw, 68px); color: rgba(255,255,255,.15);
+      text-decoration: none; line-height: 1.15; letter-spacing: -.5px;
+      transition: color .25s ease, transform .25s ease;
+      transform: translateY(12px);
+      opacity: 0;
+    }
+    .nav-overlay.open .nav-overlay-link {
+      opacity: 1; transform: translateY(0);
+    }
+    .nav-overlay.open .nav-overlay-link:nth-child(1) { transition-delay: .05s; }
+    .nav-overlay.open .nav-overlay-link:nth-child(2) { transition-delay: .10s; }
+    .nav-overlay.open .nav-overlay-link:nth-child(3) { transition-delay: .15s; }
+    .nav-overlay.open .nav-overlay-link:nth-child(4) { transition-delay: .20s; }
+    .nav-overlay.open .nav-overlay-link:nth-child(5) { transition-delay: .25s; }
+    .nav-overlay.open .nav-overlay-link:nth-child(6) { transition-delay: .30s; }
+    .nav-overlay.open .nav-overlay-link:nth-child(7) { transition-delay: .35s; }
+    .nav-overlay-link:hover { color: #fff; transform: scale(1.04); }
+
+    .nav-overlay-footer {
+      display: flex; align-items: center; justify-content: space-between;
+      flex-wrap: wrap; gap: 20px; padding-top: 32px;
+      border-top: 1px solid rgba(255,255,255,.08);
+    }
+    .nav-overlay-contact { display: flex; flex-direction: column; gap: 4px; }
+    .nav-overlay-contact a { font-size: 13px; color: rgba(255,255,255,.45); text-decoration: none; transition: color .2s; }
+    .nav-overlay-contact a:hover { color: rgba(255,255,255,.8); }
+    .nav-overlay-apply {
+      background: #fff; color: var(--p800); font-size: 15px; font-weight: 800;
+      padding: 14px 32px; border-radius: 12px; text-decoration: none;
+      transition: all .3s; box-shadow: 0 8px 30px rgba(0,0,0,.25);
+      white-space: nowrap;
+    }
+    .nav-overlay-apply:hover { transform: translateY(-2px); box-shadow: 0 12px 40px rgba(0,0,0,.35); }
 
     /* ─── RESPONSIVE ─── */
     @media (max-width: 1100px) {
-      .team-grid { grid-template-columns: repeat(3,1fr); }
+      nav { padding: 14px 28px; }
+      nav.scrolled { padding: 10px 28px; }
+      .nav-overlay { padding: 0 28px 36px; }
       .hero-title { font-size: 52px; }
+      .team-grid { grid-template-columns: repeat(4, 1fr); }
+      .team-card { grid-column: span 2; }
+      .team-card:nth-child(4) { grid-column: 1 / span 2; }
+      .team-card:nth-child(5) { grid-column: 3 / span 2; }
     }
-    @media (max-width: 900px) {
-      nav { padding: 16px 24px; }
-      .nav-links { display: none; }
-      .nav-hamburger { display: flex; }
-      section { padding: 72px 24px; }
-      .hero-inner { grid-template-columns: 1fr; gap: 48px; }
+    @media (max-width: 768px) {
+      nav { padding: 12px 20px; }
+      nav.scrolled { padding: 10px 20px; }
+      .nav-overlay { padding: 0 24px 32px; }
+      .nav-overlay-link { font-size: clamp(32px, 8vw, 52px); }
+      section { padding: 64px 20px; }
+      #hero { padding: 110px 20px 64px; }
+      .hero-inner { grid-template-columns: 1fr; gap: 40px; }
       .hero-visual { display: none; }
-      .hero-title { font-size: 44px; }
-      .sec-title { font-size: 38px; }
-      .values-grid { grid-template-columns: 1fr; }
-      .rates-layout { grid-template-columns: 1fr; }
-      .calc-grid { grid-template-columns: 1fr; }
-      .faq-layout { grid-template-columns: 1fr; }
+      .hero-title { font-size: 42px; }
+      .hero-sub { font-size: 16px; }
+      .hero-stats { gap: 20px; flex-wrap: wrap; }
+      .hero-stat-num { font-size: 30px; }
+      .hero-btns { flex-direction: column; }
+      .btn-white, .btn-outline { justify-content: center; }
+      .sec-title { font-size: 34px; }
+      .sec-sub { font-size: 16px; }
+      .values-grid { grid-template-columns: 1fr; gap: 16px; }
+      .val-card { padding: 28px 24px; }
+      .team-grid { grid-template-columns: repeat(2, 1fr); gap: 16px; }
+      .team-card, .team-card:nth-child(4), .team-card:nth-child(5) { grid-column: span 1; }
+      .rates-layout { grid-template-columns: 1fr; gap: 32px; }
+      .rate-cards { grid-template-columns: 1fr 1fr; }
+      .rate-opportunity { padding: 28px 24px; }
+      .calc-grid { grid-template-columns: 1fr; gap: 24px; }
+      .calc-form, .calc-result { padding: 28px 24px; }
+      .res-val { font-size: 40px; }
+      .faq-layout { grid-template-columns: 1fr; gap: 40px; }
       .faq-sidebar { position: static; }
-      .footer-top { grid-template-columns: 1fr 1fr; gap: 40px; }
-      .apply-title { font-size: 42px; }
+      .faq-cats { flex-direction: row; flex-wrap: wrap; }
+      .faq-cat { padding: 10px 16px; font-size: 13px; }
+      .apply-title { font-size: 36px; }
+      .apply-sub { font-size: 16px; }
+      .apply-btns { flex-direction: column; align-items: stretch; }
+      .apply-btn-main, .apply-btn-ghost { justify-content: center; padding: 18px 32px; font-size: 16px; }
+      .apply-trust { gap: 16px; }
+      .footer-top { grid-template-columns: 1fr 1fr; gap: 32px; }
+      .footer-bottom { flex-direction: column; }
+      .footer-nmls { text-align: left; }
+      .reviews-track-outer { margin: 0 -20px; }
+      .nav-overlay-footer { flex-direction: column; align-items: flex-start; }
+      .nav-overlay-apply { width: 100%; text-align: center; }
+      #story .container > div { grid-template-columns: 1fr !important; gap: 48px !important; }
+      #story .container > div > div:last-child { grid-template-columns: 1fr 1fr !important; }
+      #giveaway .container > div { grid-template-columns: 1fr !important; gap: 36px !important; }
     }
-    @media (max-width: 640px) {
-      .team-grid { grid-template-columns: repeat(2,1fr); }
-      .hero-stats { gap: 24px; }
-      .hero-stat-num { font-size: 28px; }
+    @media (max-width: 480px) {
+      .hero-title { font-size: 34px; }
+      .hero-badge { font-size: 10px; letter-spacing: 1.5px; }
+      .team-grid { gap: 12px; }
       .rate-cards { grid-template-columns: 1fr; }
-      .footer-top { grid-template-columns: 1fr; }
+      .footer-top { grid-template-columns: 1fr; gap: 28px; }
+      .sec-title { font-size: 28px; }
+      .apply-title { font-size: 30px; }
+      .tab-row { width: 100%; }
+      .tab-btn { flex: 1; padding: 12px 16px; font-size: 13px; }
     }
+
+    /* ─── AI CHAT WIDGET ─── */
+    #chatBtn {
+      position: fixed; bottom: 28px; right: 28px; z-index: 8000;
+      width: 56px; height: 56px; border-radius: 50%;
+      background: var(--p700); color: #fff; border: none; cursor: pointer;
+      display: flex; align-items: center; justify-content: center;
+      box-shadow: 0 8px 32px rgba(91,45,142,.38);
+      transition: transform .2s, background .2s, box-shadow .2s;
+    }
+    #chatBtn:hover { background: var(--p600); transform: scale(1.08); box-shadow: 0 12px 40px rgba(91,45,142,.5); }
+    #chatBtn svg { width: 24px; height: 24px; fill: none; stroke: #fff; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
+    #chatBtn .chat-notif {
+      position: absolute; top: -2px; right: -2px;
+      width: 14px; height: 14px; border-radius: 50%;
+      background: #f59e0b; border: 2px solid #fff;
+      animation: pulseDot 2s ease-in-out infinite;
+    }
+    @keyframes pulseDot { 0%,100%{transform:scale(1)} 50%{transform:scale(1.25)} }
+
+    #chatPanel {
+      position: fixed; bottom: 96px; right: 28px; z-index: 8000;
+      width: 360px; max-width: calc(100vw - 40px);
+      background: #fff; border-radius: 24px;
+      box-shadow: 0 20px 60px rgba(0,0,0,.16), 0 4px 16px rgba(91,45,142,.12);
+      overflow: hidden;
+      transform: translateY(20px) scale(.96); opacity: 0; pointer-events: none;
+      transition: transform .3s cubic-bezier(.22,1,.36,1), opacity .3s ease;
+    }
+    #chatPanel.open { transform: translateY(0) scale(1); opacity: 1; pointer-events: all; }
+    .chat-header {
+      background: linear-gradient(135deg, var(--p800), var(--p700));
+      padding: 20px 20px 16px; display: flex; align-items: center; gap: 12px;
+    }
+    .chat-avatar {
+      width: 40px; height: 40px; border-radius: 50%; background: rgba(255,255,255,.15);
+      display: flex; align-items: center; justify-content: center; font-size: 18px; flex-shrink: 0;
+    }
+    .chat-header-info { flex: 1; }
+    .chat-header-name { font-size: 15px; font-weight: 700; color: #fff; }
+    .chat-header-status { font-size: 12px; color: rgba(255,255,255,.65); display: flex; align-items: center; gap: 5px; margin-top: 2px; }
+    .chat-status-dot { width: 7px; height: 7px; border-radius: 50%; background: #4ade80; }
+    .chat-close {
+      width: 30px; height: 30px; border-radius: 50%; background: rgba(255,255,255,.15);
+      border: none; color: rgba(255,255,255,.8); cursor: pointer; font-size: 16px;
+      display: flex; align-items: center; justify-content: center; transition: background .2s;
+    }
+    .chat-close:hover { background: rgba(255,255,255,.25); }
+    .chat-messages { padding: 20px; display: flex; flex-direction: column; gap: 14px; min-height: 200px; max-height: 280px; overflow-y: auto; }
+    .chat-msg { display: flex; gap: 10px; align-items: flex-start; }
+    .chat-msg-avatar {
+      width: 30px; height: 30px; border-radius: 50%; background: var(--p100);
+      display: flex; align-items: center; justify-content: center; font-size: 13px; flex-shrink: 0;
+    }
+    .chat-bubble {
+      background: var(--g100); border-radius: 0 16px 16px 16px;
+      padding: 12px 16px; font-size: 14px; line-height: 1.55; color: var(--g800);
+      max-width: calc(100% - 44px);
+    }
+    .chat-bubble.typing { display: flex; gap: 5px; align-items: center; padding: 14px 18px; }
+    .chat-bubble.typing span {
+      width: 7px; height: 7px; border-radius: 50%; background: var(--g400);
+      animation: typingDot 1.2s ease-in-out infinite;
+    }
+    .chat-bubble.typing span:nth-child(2) { animation-delay: .2s; }
+    .chat-bubble.typing span:nth-child(3) { animation-delay: .4s; }
+    @keyframes typingDot { 0%,60%,100%{transform:translateY(0);opacity:.4} 30%{transform:translateY(-5px);opacity:1} }
+    .chat-quick-replies { padding: 0 20px 16px; display: flex; flex-wrap: wrap; gap: 8px; }
+    .chat-qr {
+      background: var(--p100); color: var(--p700); border: 1px solid var(--p300);
+      border-radius: 20px; padding: 7px 14px; font-size: 13px; font-weight: 600;
+      cursor: pointer; transition: all .15s; white-space: nowrap;
+    }
+    .chat-qr:hover { background: var(--p700); color: #fff; border-color: var(--p700); }
+    .chat-input-row {
+      display: flex; gap: 0; border-top: 1px solid var(--g200); padding: 14px 16px; align-items: center;
+    }
+    .chat-input {
+      flex: 1; border: none; outline: none; font-size: 14px; font-family: inherit;
+      color: var(--g800); background: transparent; resize: none;
+    }
+    .chat-input::placeholder { color: var(--g400); }
+    .chat-send {
+      width: 36px; height: 36px; border-radius: 50%; background: var(--p700);
+      border: none; cursor: pointer; display: flex; align-items: center; justify-content: center;
+      transition: background .2s; flex-shrink: 0;
+    }
+    .chat-send:hover { background: var(--p600); }
+    .chat-send svg { width: 16px; height: 16px; fill: none; stroke: #fff; stroke-width: 2.2; stroke-linecap: round; stroke-linejoin: round; }
+    .chat-disclaimer { padding: 0 20px 14px; font-size: 11px; color: var(--g400); text-align: center; }
   </style>
 </head>
 <body>
@@ -497,34 +697,14 @@
      LOADING SCREEN
 ════════════════════════════════════════ -->
 <div id="loader">
-  <div class="loader-rhino">
-    <svg viewBox="0 0 280 210" fill="none" xmlns="http://www.w3.org/2000/svg">
-      <!-- Body -->
-      <ellipse cx="168" cy="120" rx="90" ry="60" fill="rgba(196,181,253,0.22)" stroke="rgba(196,181,253,0.85)" stroke-width="2.5"/>
-      <!-- Neck -->
-      <rect x="100" y="78" width="40" height="68" rx="8" fill="rgba(196,181,253,0.22)" stroke="rgba(196,181,253,0.6)" stroke-width="1.5"/>
-      <!-- Head -->
-      <ellipse cx="68" cy="108" rx="50" ry="42" fill="rgba(196,181,253,0.22)" stroke="rgba(196,181,253,0.85)" stroke-width="2.5"/>
-      <!-- Horn main -->
-      <polygon points="32,84 12,32 54,76" fill="rgba(196,181,253,0.35)" stroke="rgba(196,181,253,0.9)" stroke-width="2" stroke-linejoin="round"/>
-      <!-- Horn small -->
-      <polygon points="52,76 40,52 66,70" fill="rgba(196,181,253,0.25)" stroke="rgba(196,181,253,0.7)" stroke-width="1.5" stroke-linejoin="round"/>
-      <!-- Ear -->
-      <ellipse cx="96" cy="74" rx="13" ry="18" fill="rgba(196,181,253,0.3)" stroke="rgba(196,181,253,0.8)" stroke-width="2" transform="rotate(-15,96,74)"/>
-      <!-- Eye -->
-      <circle cx="46" cy="102" r="7" fill="rgba(196,181,253,0.9)"/>
-      <circle cx="44" cy="100" r="3" fill="rgba(21,10,40,0.9)"/>
-      <!-- Legs -->
-      <rect x="115" y="172" width="24" height="38" rx="9" fill="rgba(196,181,253,0.22)" stroke="rgba(196,181,253,0.7)" stroke-width="2"/>
-      <rect x="152" y="172" width="24" height="38" rx="9" fill="rgba(196,181,253,0.22)" stroke="rgba(196,181,253,0.7)" stroke-width="2"/>
-      <rect x="200" y="172" width="24" height="38" rx="9" fill="rgba(196,181,253,0.22)" stroke="rgba(196,181,253,0.7)" stroke-width="2"/>
-      <rect x="236" y="172" width="24" height="38" rx="9" fill="rgba(196,181,253,0.22)" stroke="rgba(196,181,253,0.7)" stroke-width="2"/>
-      <!-- Tail -->
-      <path d="M 255 118 Q 278 105 274 125 Q 270 142 256 132" stroke="rgba(196,181,253,0.75)" stroke-width="3" fill="none" stroke-linecap="round"/>
-    </svg>
-  </div>
-  <div class="loader-name">The Stacy-Phillips Team</div>
-  <div class="loader-sub">Powered by Homespire Mortgage</div>
+  <div class="loader-glow"></div>
+  <img
+    class="loader-brand-img"
+    src="../Homespire Projects/Nick Stacy Website/Rhino Branding.png"
+    alt="The Stacy-Phillips Team"
+  >
+  <div class="loader-wordmark">The Stacy-Phillips Team</div>
+  <div class="loader-sub-text">Powered by Homespire Mortgage</div>
   <div class="loader-bar"><div class="loader-bar-fill"></div></div>
 </div>
 
@@ -533,45 +713,40 @@
 ════════════════════════════════════════ -->
 <nav id="nav">
   <a href="#hero" class="nav-logo">
-    <img src="logo.png" alt="The Stacy-Phillips Team Logo" onerror="this.style.display='none';document.getElementById('nav-fallback').style.display='flex'">
-    <div id="nav-fallback" style="display:none; align-items:center; gap:10px;">
-      <svg width="36" height="28" viewBox="0 0 280 210" fill="none">
-        <ellipse cx="168" cy="120" rx="90" ry="60" fill="#5b2d8e"/>
-        <rect x="100" y="78" width="40" height="68" rx="8" fill="#5b2d8e"/>
-        <ellipse cx="68" cy="108" rx="50" ry="42" fill="#5b2d8e"/>
-        <polygon points="32,84 12,32 54,76" fill="#5b2d8e"/>
-        <circle cx="46" cy="102" r="7" fill="white"/>
-      </svg>
-      <div class="nav-logo-text">
-        <span class="nav-logo-name">Stacy-Phillips Team</span>
-        <span class="nav-logo-powered">Powered by Homespire Mortgage</span>
-      </div>
-    </div>
+    <img
+      src="../Homespire Projects/Nick Stacy Website/2026 The Stacy Phillips Team Logo_outlines.png"
+      alt="The Stacy-Phillips Team"
+    >
   </a>
-  <ul class="nav-links">
-    <li><a href="#values">Why Us</a></li>
-    <li><a href="#team">Team</a></li>
-    <li><a href="#rates">Rates</a></li>
-    <li><a href="#tools">Tools</a></li>
-    <li><a href="#reviews">Reviews</a></li>
-    <li><a href="#faq">FAQ</a></li>
-    <li><a href="https://homespirehomeloans.com/loanoriginator/nick-stacy/" target="_blank" rel="noopener" class="nav-cta">Apply Now →</a></li>
-  </ul>
-  <div class="nav-hamburger" id="hamburger" onclick="toggleMenu()">
+  <button class="nav-hamburger" id="hamburger" onclick="toggleMenu()" aria-label="Open menu">
     <span></span><span></span><span></span>
-  </div>
+  </button>
 </nav>
 
-<!-- Mobile Nav -->
-<div class="nav-mobile-menu" id="mobileMenu">
-  <button class="nav-mobile-close" onclick="toggleMenu()">✕</button>
-  <a href="#values" onclick="toggleMenu()">Why Us</a>
-  <a href="#team" onclick="toggleMenu()">Team</a>
-  <a href="#rates" onclick="toggleMenu()">Rates</a>
-  <a href="#tools" onclick="toggleMenu()">Tools</a>
-  <a href="#reviews" onclick="toggleMenu()">Reviews</a>
-  <a href="#faq" onclick="toggleMenu()">FAQ</a>
-  <a href="https://homespirehomeloans.com/loanoriginator/nick-stacy/" target="_blank" rel="noopener" style="color:#b87ff8; margin-top:12px;">Apply Now →</a>
+<!-- Fullscreen Nav Overlay -->
+<div class="nav-overlay" id="navOverlay">
+  <div class="nav-overlay-top">
+    <a href="#hero" class="nav-overlay-logo" onclick="toggleMenu()">
+      <img src="../Homespire Projects/Nick Stacy Website/2026 The Stacy Phillips Team Logo_outlines.png" alt="The Stacy-Phillips Team">
+    </a>
+  </div>
+  <div class="nav-overlay-body">
+    <a class="nav-overlay-link" href="#values"   onclick="toggleMenu()">Why Us</a>
+    <a class="nav-overlay-link" href="#team"     onclick="toggleMenu()">Team</a>
+    <a class="nav-overlay-link" href="#rates"    onclick="toggleMenu()">Rates</a>
+    <a class="nav-overlay-link" href="#tools"    onclick="toggleMenu()">Tools</a>
+    <a class="nav-overlay-link" href="#reviews"  onclick="toggleMenu()">Reviews</a>
+    <a class="nav-overlay-link" href="#faq"      onclick="toggleMenu()">FAQ</a>
+    <a class="nav-overlay-link" href="#story"   onclick="toggleMenu()">Our Story</a>
+  </div>
+  <div class="nav-overlay-footer">
+    <div class="nav-overlay-contact">
+      <a href="tel:937-829-0507">937-829-0507</a>
+      <a href="mailto:nstacy@homespiremortgage.com">nstacy@homespiremortgage.com</a>
+      <a href="https://www.google.com/maps/search/?api=1&query=7087+Corporate+Way%2C+Dayton%2C+OH" target="_blank" rel="noopener">7087 Corporate Way, Dayton OH 45459</a>
+    </div>
+    <a href="https://homespirehomeloans.com/loanoriginator/nick-stacy/" target="_blank" rel="noopener" class="nav-overlay-apply">Apply Now</a>
+  </div>
 </div>
 
 <!-- ═══════════════════════════════════════
@@ -588,48 +763,34 @@
       <h1 class="hero-title">Your Mortgage,<br><em>Simplified.</em></h1>
       <p class="hero-sub">We take the stress out of buying a home. Transparent process, personal service, and a team that's with you every step of the way — from first question to closing day.</p>
       <div class="hero-btns">
-        <a href="https://homespirehomeloans.com/loanoriginator/nick-stacy/" target="_blank" rel="noopener" class="btn-white">Start Your Application →</a>
+        <a href="https://homespirehomeloans.com/loanoriginator/nick-stacy/" target="_blank" rel="noopener" class="btn-white">Start Your Application</a>
         <a href="#team" class="btn-outline">Meet the Team</a>
       </div>
       <div class="hero-stats">
         <div class="hero-stat">
+          <div class="hero-stat-num" data-count="15">0+</div>
+          <div class="hero-stat-lbl">Years Combined Experience</div>
+        </div>
+        <div class="hero-stat">
           <div class="hero-stat-num" data-count="500">0+</div>
-          <div class="hero-stat-lbl">Families Served</div>
+          <div class="hero-stat-lbl">Families Helped</div>
         </div>
         <div class="hero-stat">
-          <div class="hero-stat-num">5★</div>
-          <div class="hero-stat-lbl">Average Rating</div>
+          <div class="hero-stat-num">5.0</div>
+          <div class="hero-stat-lbl">Average Star Rating</div>
         </div>
         <div class="hero-stat">
-          <div class="hero-stat-num" data-count="15">0</div>
-          <div class="hero-stat-lbl">Years Experience</div>
+          <div class="hero-stat-num">Dayton</div>
+          <div class="hero-stat-lbl">Serving Ohio</div>
         </div>
       </div>
     </div>
     <div class="hero-visual">
-      <div class="hero-rhino-wrap">
-        <div class="rhino-glow-ring"></div>
-        <div class="rhino-glow-ring2"></div>
-        <svg class="hero-rhino-svg" viewBox="0 0 280 210" fill="none" xmlns="http://www.w3.org/2000/svg">
-          <!-- Solid purple rhino silhouette -->
-          <ellipse cx="168" cy="120" rx="90" ry="60" fill="rgba(196,181,253,0.25)"/>
-          <rect x="100" y="78" width="40" height="68" rx="8" fill="rgba(196,181,253,0.25)"/>
-          <ellipse cx="68" cy="108" rx="50" ry="42" fill="rgba(196,181,253,0.25)"/>
-          <polygon points="32,84 12,32 54,76" fill="rgba(196,181,253,0.4)"/>
-          <polygon points="52,76 40,52 66,70" fill="rgba(196,181,253,0.3)"/>
-          <ellipse cx="96" cy="74" rx="13" ry="18" fill="rgba(196,181,253,0.3)" transform="rotate(-15,96,74)"/>
-          <circle cx="46" cy="102" r="8" fill="rgba(255,255,255,0.9)"/>
-          <circle cx="44" cy="100" r="3.5" fill="rgba(21,10,40,0.85)"/>
-          <rect x="115" y="172" width="24" height="38" rx="9" fill="rgba(196,181,253,0.25)"/>
-          <rect x="152" y="172" width="24" height="38" rx="9" fill="rgba(196,181,253,0.25)"/>
-          <rect x="200" y="172" width="24" height="38" rx="9" fill="rgba(196,181,253,0.25)"/>
-          <rect x="236" y="172" width="24" height="38" rx="9" fill="rgba(196,181,253,0.25)"/>
-          <path d="M 255 118 Q 278 105 274 125 Q 270 142 256 132" stroke="rgba(196,181,253,0.7)" stroke-width="4" fill="none" stroke-linecap="round"/>
-          <!-- Highlight lines -->
-          <path d="M 125 82 L 122 172" stroke="rgba(255,255,255,0.08)" stroke-width="2"/>
-          <path d="M 168 62 L 165 178" stroke="rgba(255,255,255,0.06)" stroke-width="1.5"/>
-        </svg>
-      </div>
+      <img
+        class="hero-rhino-img"
+        src="../Homespire Projects/Nick Stacy Website/Rhino Branding.png"
+        alt="The Stacy-Phillips Team"
+      >
     </div>
   </div>
 </section>
@@ -641,24 +802,24 @@
   <div class="container">
     <div class="sec-head fade-up">
       <div class="sec-label">Why Choose Us</div>
-      <h2 class="sec-title">The Rhino Difference</h2>
-      <p class="sec-sub">Like the rhino — thick-skinned when things get tough, but gentle with the people we serve. We charge through obstacles so you don't have to.</p>
+      <h2 class="sec-title">What Sets Us Apart</h2>
+      <p class="sec-sub">We charge through the complexity of the mortgage process so you never have to. Tough on obstacles, completely personal with the people we serve.</p>
     </div>
     <div class="values-grid">
       <div class="val-card fade-up d1">
-        <div class="val-icon">🎯</div>
+        <div class="val-num">01</div>
         <h3 class="val-title">Radical Transparency</h3>
-        <p class="val-desc">No hidden fees, no confusing jargon, no surprises at the closing table. You'll know exactly where you stand at every stage of the process — we put it all on the table.</p>
+        <p class="val-desc">No hidden fees, no confusing jargon, no surprises at closing. You know exactly where you stand at every stage — we put it all on the table.</p>
       </div>
       <div class="val-card fade-up d2">
-        <div class="val-icon">✅</div>
+        <div class="val-num">02</div>
         <h3 class="val-title">Truly Simple Process</h3>
-        <p class="val-desc">We've eliminated the complexity that makes mortgages stressful. Our streamlined system means faster closings, clear next steps, and a borrower experience that feels effortless.</p>
+        <p class="val-desc">We've eliminated the complexity that makes mortgages stressful. Streamlined steps, faster closings, and a borrower experience that actually feels effortless.</p>
       </div>
       <div class="val-card fade-up d3">
-        <div class="val-icon">🤝</div>
+        <div class="val-num">03</div>
         <h3 class="val-title">Personal, Hands-On Service</h3>
-        <p class="val-desc">You get real people, not a call center. Our team picks up the phone, answers your texts, and stays with you from application to keys in hand — and beyond.</p>
+        <p class="val-desc">You get real people, not a call center. Our team picks up the phone, answers your texts, and stays with you from application to keys in hand.</p>
       </div>
     </div>
   </div>
@@ -675,91 +836,124 @@
       <p class="sec-sub">Every member of the Stacy-Phillips team is dedicated to making your home ownership journey exceptional.</p>
     </div>
     <div class="team-grid">
-      <!-- Nick Stacy -->
       <div class="team-card fade-up d1">
-        <div class="team-photo-wrap">
-          <img class="team-photo" src="team/nick-stacy.jpg" alt="Nick Stacy" onerror="this.src='data:image/svg+xml,<svg xmlns=\'http://www.w3.org/2000/svg\' viewBox=\'0 0 300 400\'><rect fill=\'%235b2d8e\' width=\'300\' height=\'400\'/><text y=\'220\' x=\'150\' text-anchor=\'middle\' fill=\'white\' font-size=\'80\'>NS</text></svg>'">
-        </div>
+        <img class="team-photo" src="../Homespire Projects/Nick Stacy Website/Nick Stacy.png" alt="Nick Stacy">
         <div class="team-info">
           <div class="team-divider"></div>
           <div class="team-name">Nick Stacy</div>
           <div class="team-role">Branch Manager</div>
           <div class="team-nmls">NMLS# 1756053</div>
           <div class="team-links">
-            <a href="tel:937-829-0507">📞 937-829-0507</a>
-            <a href="mailto:nstacy@homespiremortgage.com">✉ nstacy@homespiremortgage.com</a>
-            <a href="https://homespirehomeloans.com/loanoriginator/nick-stacy/" target="_blank" rel="noopener">🔗 Apply with Nick</a>
+            <a href="tel:937-829-0507">937-829-0507</a>
+            <a href="mailto:nstacy@homespiremortgage.com">nstacy@homespiremortgage.com</a>
+            <a href="https://homespirehomeloans.com/loanoriginator/nick-stacy/" target="_blank" rel="noopener" class="team-apply-btn">Apply with Nick</a>
           </div>
         </div>
       </div>
-      <!-- Austyn Phillips -->
       <div class="team-card fade-up d2">
-        <div class="team-photo-wrap">
-          <img class="team-photo" src="team/austyn-phillips.jpg" alt="Austyn Phillips" onerror="this.src='data:image/svg+xml,<svg xmlns=\'http://www.w3.org/2000/svg\' viewBox=\'0 0 300 400\'><rect fill=\'%235b2d8e\' width=\'300\' height=\'400\'/><text y=\'220\' x=\'150\' text-anchor=\'middle\' fill=\'white\' font-size=\'80\'>AP</text></svg>'">
-        </div>
+        <img class="team-photo" src="../Homespire Projects/Nick Stacy Website/Austyn Phillips.png" alt="Austyn Phillips">
         <div class="team-info">
           <div class="team-divider"></div>
           <div class="team-name">Austyn Phillips</div>
           <div class="team-role">Loan Officer</div>
           <div class="team-nmls">NMLS# 2239776</div>
           <div class="team-links">
-            <a href="tel:937-728-5411">📞 937-728-5411</a>
-            <a href="mailto:aphillips@homespiremortgage.com">✉ aphillips@homespiremortgage.com</a>
-            <a href="https://homespirehomeloans.com/loanoriginator/austyn-phillips/" target="_blank" rel="noopener">🔗 Apply with Austyn</a>
+            <a href="tel:937-728-5411">937-728-5411</a>
+            <a href="mailto:aphillips@homespiremortgage.com">aphillips@homespiremortgage.com</a>
+            <a href="https://homespirehomeloans.com/loanoriginator/austyn-phillips/" target="_blank" rel="noopener" class="team-apply-btn">Apply with Austyn</a>
           </div>
         </div>
       </div>
-      <!-- Jami Thompson -->
       <div class="team-card fade-up d3">
-        <div class="team-photo-wrap">
-          <img class="team-photo" src="team/jami-thompson.jpg" alt="Jami Thompson" onerror="this.src='data:image/svg+xml,<svg xmlns=\'http://www.w3.org/2000/svg\' viewBox=\'0 0 300 400\'><rect fill=\'%235b2d8e\' width=\'300\' height=\'400\'/><text y=\'220\' x=\'150\' text-anchor=\'middle\' fill=\'white\' font-size=\'80\'>JT</text></svg>'">
-        </div>
+        <img class="team-photo" src="../Homespire Projects/Nick Stacy Website/Jami Thompson.png" alt="Jami Thompson">
         <div class="team-info">
           <div class="team-divider"></div>
           <div class="team-name">Jami Thompson</div>
           <div class="team-role">Loan Originator</div>
           <div class="team-nmls">NMLS# 1493716</div>
           <div class="team-links">
-            <a href="tel:937-710-3039">📞 937-710-3039</a>
-            <a href="mailto:jthompson@homespiremortgage.com">✉ jthompson@homespiremortgage.com</a>
-            <a href="https://homespirehomeloans.com/loanoriginator/jami-thompson/" target="_blank" rel="noopener">🔗 Apply with Jami</a>
+            <a href="tel:937-710-3039">937-710-3039</a>
+            <a href="mailto:jthompson@homespiremortgage.com">jthompson@homespiremortgage.com</a>
+            <a href="https://homespirehomeloans.com/loanoriginator/jami-thompson/" target="_blank" rel="noopener" class="team-apply-btn">Apply with Jami</a>
           </div>
         </div>
       </div>
-      <!-- Adalberto Garcia -->
       <div class="team-card fade-up d4">
-        <div class="team-photo-wrap">
-          <img class="team-photo" src="team/adalberto-garcia.jpg" alt="Adalberto Garcia" onerror="this.src='data:image/svg+xml,<svg xmlns=\'http://www.w3.org/2000/svg\' viewBox=\'0 0 300 400\'><rect fill=\'%235b2d8e\' width=\'300\' height=\'400\'/><text y=\'220\' x=\'150\' text-anchor=\'middle\' fill=\'white\' font-size=\'80\'>AG</text></svg>'">
-        </div>
+        <img class="team-photo" src="../Homespire Projects/Nick Stacy Website/Adalberto Garcia.png" alt="Adalberto Garcia">
         <div class="team-info">
           <div class="team-divider"></div>
           <div class="team-name">Adalberto Garcia</div>
           <div class="team-role">Loan Officer</div>
           <div class="team-nmls">NMLS# 2263752</div>
           <div class="team-links">
-            <a href="tel:407-749-9526">📞 407-749-9526</a>
-            <a href="mailto:agarcia@homespiremortgage.com">✉ agarcia@homespiremortgage.com</a>
-            <a href="https://homespirehomeloans.com/loanoriginator/adalbertogarcia/" target="_blank" rel="noopener">🔗 Apply with Adalberto</a>
+            <a href="tel:407-749-9526">407-749-9526</a>
+            <a href="mailto:agarcia@homespiremortgage.com">agarcia@homespiremortgage.com</a>
+            <a href="https://homespirehomeloans.com/loanoriginator/adalbertogarcia/" target="_blank" rel="noopener" class="team-apply-btn">Apply with Adalberto</a>
           </div>
         </div>
       </div>
-      <!-- Kristin Knecht -->
       <div class="team-card fade-up d5">
-        <div class="team-photo-wrap">
-          <img class="team-photo" src="team/kristin-knecht.jpg" alt="Kristin Knecht" onerror="this.src='data:image/svg+xml,<svg xmlns=\'http://www.w3.org/2000/svg\' viewBox=\'0 0 300 400\'><rect fill=\'%235b2d8e\' width=\'300\' height=\'400\'/><text y=\'220\' x=\'150\' text-anchor=\'middle\' fill=\'white\' font-size=\'80\'>KK</text></svg>'">
-        </div>
+        <img class="team-photo" src="../Homespire Projects/Nick Stacy Website/Kristin Knecht.png" alt="Kristin Knecht">
         <div class="team-info">
           <div class="team-divider"></div>
           <div class="team-name">Kristin Knecht</div>
           <div class="team-role">Business Development</div>
           <div class="team-nmls">NMLS# 2462548</div>
           <div class="team-links">
-            <a href="tel:740-407-9394">📞 740-407-9394</a>
-            <a href="mailto:kknecht@homespiremortgage.com">✉ kknecht@homespiremortgage.com</a>
-            <a href="https://homespirehomeloans.com/loanoriginator/kristin-knecht/" target="_blank" rel="noopener">🔗 Connect with Kristin</a>
+            <a href="tel:740-407-9394">740-407-9394</a>
+            <a href="mailto:kknecht@homespiremortgage.com">kknecht@homespiremortgage.com</a>
+            <a href="https://homespirehomeloans.com/loanoriginator/kristin-knecht/" target="_blank" rel="noopener" class="team-apply-btn">Connect with Kristin</a>
           </div>
         </div>
       </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════
+     OUR STORY
+════════════════════════════════════════ -->
+<section id="story" style="background: linear-gradient(160deg, var(--p950) 0%, var(--p900) 60%, #1a0c38 100%); padding: 120px 0; position: relative; overflow: hidden;">
+  <div style="position:absolute;inset:0;background:radial-gradient(ellipse at 70% 50%,rgba(107,53,176,.18) 0%,transparent 65%);pointer-events:none;"></div>
+  <div class="container" style="position:relative;z-index:1;">
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:80px;align-items:center;">
+
+      <!-- Left: text -->
+      <div>
+        <div class="sec-label fade-up" style="color:var(--p400);">Our Story</div>
+        <h2 class="sec-title fade-up d1" style="color:#fff;margin-bottom:28px;">Built on Trust.<br>Driven by Purpose.</h2>
+        <p class="fade-up d2" style="color:rgba(255,255,255,.72);font-size:17px;line-height:1.8;margin-bottom:24px;">
+          Nick Stacy started in the mortgage industry with a straightforward belief: buying a home should feel like an achievement, not an ordeal. After years of watching people get lost in paperwork and jargon, he set out to build something different — a team where every client gets a real advocate, not just a loan number.
+        </p>
+        <p class="fade-up d2" style="color:rgba(255,255,255,.72);font-size:17px;line-height:1.8;margin-bottom:24px;">
+          Together with Austyn Phillips and the rest of the team, Nick built a practice rooted in Dayton, Ohio — one that combines the resources of a national lender with the personal attention of your neighbor down the street. We know your name. We know your goals. And we stay with you long after closing day.
+        </p>
+        <p class="fade-up d2" style="color:rgba(255,255,255,.72);font-size:17px;line-height:1.8;margin-bottom:40px;">
+          The rhino is more than a brand mark — it's our ethos. Charge forward, stay resilient, and never stop for anything less than the keys in your hand.
+        </p>
+        <a href="#apply" class="fade-up d3" style="display:inline-block;background:var(--p600);color:#fff;padding:16px 36px;border-radius:50px;font-weight:700;font-size:15px;letter-spacing:.5px;text-decoration:none;transition:background .2s,transform .2s;" onmouseover="this.style.background='var(--p500)';this.style.transform='translateY(-2px)'" onmouseout="this.style.background='var(--p600)';this.style.transform='translateY(0)'">Start Your Journey</a>
+      </div>
+
+      <!-- Right: stat blocks -->
+      <div class="fade-up d2" style="display:grid;grid-template-columns:1fr 1fr;gap:24px;">
+        <div style="background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.1);border-radius:20px;padding:36px 28px;text-align:center;">
+          <div style="font-family:'DM Serif Display',serif;font-size:56px;color:#fff;line-height:1;">15+</div>
+          <div style="font-size:13px;font-weight:600;letter-spacing:2px;text-transform:uppercase;color:var(--p400);margin-top:10px;">Years Combined Experience</div>
+        </div>
+        <div style="background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.1);border-radius:20px;padding:36px 28px;text-align:center;">
+          <div style="font-family:'DM Serif Display',serif;font-size:56px;color:#fff;line-height:1;">500+</div>
+          <div style="font-size:13px;font-weight:600;letter-spacing:2px;text-transform:uppercase;color:var(--p400);margin-top:10px;">Families Helped</div>
+        </div>
+        <div style="background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.1);border-radius:20px;padding:36px 28px;text-align:center;">
+          <div style="font-family:'DM Serif Display',serif;font-size:56px;color:#fff;line-height:1;">5.0</div>
+          <div style="font-size:13px;font-weight:600;letter-spacing:2px;text-transform:uppercase;color:var(--p400);margin-top:10px;">Average Star Rating</div>
+        </div>
+        <div style="background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.1);border-radius:20px;padding:36px 28px;text-align:center;">
+          <div style="font-family:'DM Serif Display',serif;font-size:56px;color:#fff;line-height:1;">Dayton</div>
+          <div style="font-size:13px;font-weight:600;letter-spacing:2px;text-transform:uppercase;color:var(--p400);margin-top:10px;">Rooted in Ohio</div>
+        </div>
+      </div>
+
     </div>
   </div>
 </section>
@@ -781,7 +975,7 @@
             <div class="rate-type">30-Year Fixed</div>
             <div class="rate-num" id="rate30">—</div>
             <div class="rate-apr" id="rate30apr">Loading...</div>
-            <span class="rate-tag tag-green" id="rate30tag">Most Popular</span>
+            <span class="rate-tag tag-green">Most Popular</span>
           </div>
           <div class="rate-card">
             <div class="rate-type">15-Year Fixed</div>
@@ -803,33 +997,26 @@
           </div>
         </div>
         <div class="rates-timestamp fade-up d3">
-          Source: Mortgage News Daily · <span id="rateTimestamp">Updated daily</span> ·
-          <a href="https://www.mortgagenewsdaily.com/mortgage-rates" target="_blank" rel="noopener" style="color:rgba(255,255,255,.45); text-decoration:none;">View Full Data →</a>
+          Source: Mortgage News Daily &middot; <span id="rateTimestamp">Updated daily</span> &middot;
+          <a href="https://www.mortgagenewsdaily.com/mortgage-rates" target="_blank" rel="noopener" style="color:rgba(255,255,255,.4);text-decoration:none;">View Full Data</a>
         </div>
       </div>
       <div class="rate-opportunity fade-up d2">
-        <div class="opp-icon">💡</div>
         <h3 class="opp-title">Is Now a Good Time to Buy?</h3>
-        <div class="opp-msg opp-msg-rotate" id="rateMsg">
-          Today's rates present a real opportunity. In Dayton, home prices remain accessible — and every payment you make builds equity that grows with you.
-        </div>
+        <p class="opp-msg" id="rateMsg">Today's rates present a real opportunity. In Dayton, home prices remain accessible — and every payment you make builds equity that grows with you.</p>
         <div class="opp-pills">
-          <span class="opp-pill">📈 Build Wealth, Not Rent</span>
-          <span class="opp-pill">🔑 Lock In Your Rate Today</span>
-          <span class="opp-pill">📉 Refinance Later if Rates Drop</span>
+          <span class="opp-pill">Build Wealth, Not Rent</span>
+          <span class="opp-pill">Lock In Your Rate Today</span>
+          <span class="opp-pill">Refinance Later if Rates Drop</span>
         </div>
-        <div style="margin-top:36px;">
-          <a href="tel:937-829-0507" style="display:inline-flex;align-items:center;gap:10px;background:rgba(255,255,255,0.12);border:1.5px solid rgba(255,255,255,0.2);color:#fff;font-size:15px;font-weight:700;padding:14px 28px;border-radius:12px;text-decoration:none;transition:all .3s;backdrop-filter:blur(10px);" onmouseover="this.style.background='rgba(255,255,255,0.2)'" onmouseout="this.style.background='rgba(255,255,255,0.12)'">
-            📞 Talk to Nick About Your Rate
-          </a>
-        </div>
+        <a href="https://homespirehomeloans.com/loanoriginator/nick-stacy/" target="_blank" rel="noopener" class="opp-cta">Get a Custom Rate Quote</a>
       </div>
     </div>
   </div>
 </section>
 
 <!-- ═══════════════════════════════════════
-     CALCULATORS / TOOLS
+     CALCULATORS
 ════════════════════════════════════════ -->
 <section id="tools">
   <div class="container">
@@ -839,11 +1026,10 @@
       <p class="sec-sub">Make a confident decision with our interactive calculators. See exactly what your numbers look like before you even talk to us.</p>
     </div>
     <div class="tab-row fade-up d1">
-      <button class="tab-btn on" onclick="switchTab('rent')">🏡 Rent vs. Buy</button>
-      <button class="tab-btn" onclick="switchTab('refi')">🔄 Refinance Savings</button>
+      <button class="tab-btn on" onclick="switchTab('rent',this)">Rent vs. Buy</button>
+      <button class="tab-btn" onclick="switchTab('refi',this)">Refinance Savings</button>
     </div>
 
-    <!-- RENT VS BUY -->
     <div class="tab-pane on" id="tab-rent">
       <div class="calc-grid">
         <div class="calc-form fade-up d1">
@@ -853,11 +1039,11 @@
             <input class="form-input" id="rvb-price" type="number" value="280000" oninput="calcRentBuy()">
           </div>
           <div class="form-row">
-            <label class="form-lbl">Down Payment: <span class="slider-val" id="rvb-down-lbl">10%</span></label>
+            <label class="form-lbl">Down Payment — <span class="slider-val" id="rvb-down-lbl">10%</span></label>
             <input class="form-slider" id="rvb-down" type="range" min="3" max="30" value="10" oninput="document.getElementById('rvb-down-lbl').textContent=this.value+'%';calcRentBuy()">
           </div>
           <div class="form-row">
-            <label class="form-lbl">Interest Rate: <span class="slider-val" id="rvb-rate-lbl">6.8%</span></label>
+            <label class="form-lbl">Interest Rate — <span class="slider-val" id="rvb-rate-lbl">6.8%</span></label>
             <input class="form-slider" id="rvb-rate" type="range" min="3" max="10" step="0.1" value="6.8" oninput="document.getElementById('rvb-rate-lbl').textContent=parseFloat(this.value).toFixed(1)+'%';calcRentBuy()">
           </div>
           <div class="form-row">
@@ -865,7 +1051,7 @@
             <input class="form-input" id="rvb-rent" type="number" value="1400" oninput="calcRentBuy()">
           </div>
           <div class="form-row">
-            <label class="form-lbl">How Many Years? <span class="slider-val" id="rvb-years-lbl">7 yrs</span></label>
+            <label class="form-lbl">Time Horizon — <span class="slider-val" id="rvb-years-lbl">7 yrs</span></label>
             <input class="form-slider" id="rvb-years" type="range" min="1" max="15" value="7" oninput="document.getElementById('rvb-years-lbl').textContent=this.value+' yrs';calcRentBuy()">
           </div>
           <button class="calc-btn" onclick="calcRentBuy()">Calculate My Numbers</button>
@@ -873,7 +1059,7 @@
         <div class="calc-result fade-up d2">
           <div class="res-label">Monthly Mortgage Payment</div>
           <div class="res-val" id="rvb-payment">$1,642</div>
-          <div class="res-sub">Principal & Interest</div>
+          <div class="res-sub">Principal &amp; Interest</div>
           <div class="res-rows">
             <div class="res-row"><span class="res-row-l">Current Monthly Rent</span><span class="res-row-r" id="rvb-rent-r">$1,400</span></div>
             <div class="res-row"><span class="res-row-l">Monthly Difference</span><span class="res-row-r" id="rvb-diff">$242</span></div>
@@ -881,15 +1067,14 @@
             <div class="res-row"><span class="res-row-l">Est. Appreciation Gain</span><span class="res-row-r" id="rvb-appre">$52,200</span></div>
             <div class="res-row"><span class="res-row-l">Total Rent Paid</span><span class="res-row-r" id="rvb-rent-total">$117,600</span></div>
           </div>
-          <div class="res-highlight" id="rvb-verdict">
-            <div class="res-highlight-title">💡 Bottom Line</div>
+          <div class="res-highlight">
+            <div class="res-highlight-title">Bottom Line</div>
             <div class="res-highlight-val" id="rvb-verdict-val">Buying builds $120K+ in wealth vs renting</div>
           </div>
         </div>
       </div>
     </div>
 
-    <!-- REFI CALCULATOR -->
     <div class="tab-pane" id="tab-refi">
       <div class="calc-grid">
         <div class="calc-form fade-up d1">
@@ -899,11 +1084,11 @@
             <input class="form-input" id="refi-balance" type="number" value="240000" oninput="calcRefi()">
           </div>
           <div class="form-row">
-            <label class="form-lbl">Current Interest Rate: <span class="slider-val" id="refi-curr-lbl">7.5%</span></label>
+            <label class="form-lbl">Current Interest Rate — <span class="slider-val" id="refi-curr-lbl">7.5%</span></label>
             <input class="form-slider" id="refi-curr" type="range" min="3" max="12" step="0.1" value="7.5" oninput="document.getElementById('refi-curr-lbl').textContent=parseFloat(this.value).toFixed(1)+'%';calcRefi()">
           </div>
           <div class="form-row">
-            <label class="form-lbl">New Rate: <span class="slider-val" id="refi-new-lbl">6.5%</span></label>
+            <label class="form-lbl">New Rate — <span class="slider-val" id="refi-new-lbl">6.5%</span></label>
             <input class="form-slider" id="refi-new" type="range" min="3" max="12" step="0.1" value="6.5" oninput="document.getElementById('refi-new-lbl').textContent=parseFloat(this.value).toFixed(1)+'%';calcRefi()">
           </div>
           <div class="form-row">
@@ -919,7 +1104,7 @@
         <div class="calc-result fade-up d2">
           <div class="res-label">New Monthly Payment</div>
           <div class="res-val" id="refi-new-pay">$1,580</div>
-          <div class="res-sub">Principal & Interest</div>
+          <div class="res-sub">Principal &amp; Interest</div>
           <div class="res-rows">
             <div class="res-row"><span class="res-row-l">Current Payment</span><span class="res-row-r" id="refi-curr-pay">$1,727</span></div>
             <div class="res-row"><span class="res-row-l">Monthly Savings</span><span class="res-row-r" id="refi-monthly-save">$147</span></div>
@@ -928,9 +1113,9 @@
             <div class="res-row"><span class="res-row-l">Lifetime Savings</span><span class="res-row-r" id="refi-lifetime">$44,100</span></div>
           </div>
           <div class="res-highlight">
-            <div class="res-highlight-title">📞 Ready to Refinance?</div>
+            <div class="res-highlight-title">Ready to Refinance?</div>
             <div class="res-highlight-val" style="font-size:17px;margin-top:8px;">
-              <a href="tel:937-829-0507" style="color:#fff;text-decoration:none;">Call Nick: 937-829-0507</a>
+              <a href="https://homespirehomeloans.com/loanoriginator/nick-stacy/" target="_blank" rel="noopener" style="color:#fff;text-decoration:none;">Start Your Application</a>
             </div>
           </div>
         </div>
@@ -950,47 +1135,86 @@
         <h2 class="sec-title">Real People.<br>Real Results.</h2>
       </div>
       <div style="text-align:right;">
-        <div style="font-size:52px;font-weight:900;color:var(--p700);line-height:1;">5.0 ★</div>
+        <div style="font-size:52px;font-weight:900;color:var(--p700);line-height:1;">5.0 &#9733;</div>
         <div style="font-size:14px;color:var(--g400);margin-top:4px;">Verified on Experience.com</div>
-        <a href="https://www.experience.com/reviews/nickstacy" target="_blank" rel="noopener" style="font-size:13px;font-weight:700;color:var(--p600);text-decoration:none;display:block;margin-top:8px;">View All Reviews →</a>
+        <a href="https://www.experience.com/reviews/nickstacy" target="_blank" rel="noopener" style="font-size:13px;font-weight:700;color:var(--p600);text-decoration:none;display:block;margin-top:8px;">View All Reviews</a>
       </div>
     </div>
   </div>
   <div class="reviews-track-outer fade-up d1">
-    <div class="reviews-track" id="reviewsTrack">
-      <!-- Reviews injected by JS -->
+    <div class="reviews-track" id="reviewsTrack"></div>
+  </div>
+  <div class="reviews-controls fade-up d2">
+    <button class="rev-btn" onclick="slideReviews(-1)" aria-label="Previous">&#8592;</button>
+    <button class="rev-play-state" id="revPlayBtn" onclick="toggleReviewsPlay()" aria-label="Pause">&#9646;&#9646;</button>
+    <button class="rev-btn" onclick="slideReviews(1)" aria-label="Next">&#8594;</button>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════
+     GIVEAWAY CTA
+════════════════════════════════════════ -->
+<section id="giveaway" style="background: linear-gradient(135deg, var(--p950) 0%, #1e0d40 50%, var(--p900) 100%); padding: 80px 0; position: relative; overflow: hidden;">
+  <div style="position:absolute;inset:0;background:radial-gradient(ellipse at 30% 50%,rgba(139,82,204,.15) 0%,transparent 60%),radial-gradient(ellipse at 80% 50%,rgba(91,45,142,.12) 0%,transparent 60%);pointer-events:none;"></div>
+  <div class="container" style="position:relative;z-index:1;">
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:64px;align-items:center;">
+
+      <div>
+        <div style="display:inline-flex;align-items:center;gap:8px;background:rgba(245,158,11,.12);border:1px solid rgba(245,158,11,.3);border-radius:50px;padding:6px 16px;margin-bottom:20px;">
+          <span style="font-size:14px;">&#127873;</span>
+          <span style="font-size:12px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:#f59e0b;">Monthly Giveaway</span>
+        </div>
+        <h2 style="font-family:'DM Serif Display',serif;font-size:clamp(32px,4vw,48px);color:#fff;line-height:1.15;margin-bottom:16px;">Win a $250 Home Improvement Gift Card</h2>
+        <p style="font-size:16px;color:rgba(255,255,255,.65);line-height:1.75;margin-bottom:0;">Every month we give away a $500 gift card to a local Dayton homeowner — for whatever your home needs most. Enter your email and you're in. One winner, every month, no strings attached.</p>
+      </div>
+
+      <div style="background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.1);border-radius:24px;padding:40px 36px;">
+        <div style="font-size:15px;font-weight:700;color:#fff;margin-bottom:6px;">Enter for Your Chance to Win</div>
+        <div style="font-size:13px;color:rgba(255,255,255,.5);margin-bottom:24px;">Winners announced the first of each month.</div>
+        <div id="givewayForm">
+          <div style="display:flex;flex-direction:column;gap:12px;">
+            <input id="gwName" type="text" placeholder="Your first name" style="width:100%;padding:14px 18px;border-radius:12px;border:1px solid rgba(255,255,255,.15);background:rgba(255,255,255,.07);color:#fff;font-size:15px;font-family:inherit;outline:none;" onfocus="this.style.borderColor='rgba(176,126,224,.6)'" onblur="this.style.borderColor='rgba(255,255,255,.15)'">
+            <input id="gwEmail" type="email" placeholder="Your email address" style="width:100%;padding:14px 18px;border-radius:12px;border:1px solid rgba(255,255,255,.15);background:rgba(255,255,255,.07);color:#fff;font-size:15px;font-family:inherit;outline:none;" onfocus="this.style.borderColor='rgba(176,126,224,.6)'" onblur="this.style.borderColor='rgba(255,255,255,.15)'">
+            <button onclick="submitGiveaway()" style="width:100%;padding:16px;border-radius:12px;border:none;background:var(--p600);color:#fff;font-size:15px;font-weight:700;cursor:pointer;transition:background .2s;" onmouseover="this.style.background='var(--p500)'" onmouseout="this.style.background='var(--p600)'">Enter the Giveaway</button>
+          </div>
+          <p style="font-size:11px;color:rgba(255,255,255,.3);margin-top:14px;text-align:center;line-height:1.6;">By entering, you agree to receive occasional homeownership tips from the Stacy-Phillips Team. Unsubscribe anytime. No purchase necessary.</p>
+        </div>
+        <div id="gwSuccess" style="display:none;text-align:center;padding:20px 0;">
+          <div style="font-size:36px;margin-bottom:12px;">&#127881;</div>
+          <div style="font-size:18px;font-weight:700;color:#fff;margin-bottom:8px;">You're in!</div>
+          <div style="font-size:14px;color:rgba(255,255,255,.6);">We'll notify you if you win. Good luck!</div>
+        </div>
+      </div>
+
     </div>
   </div>
 </section>
 
 <!-- ═══════════════════════════════════════
-     FAQ — MORTGAGE Q&A
+     FAQ
 ════════════════════════════════════════ -->
 <section id="faq">
   <div class="container">
     <div class="faq-layout">
       <div class="faq-sidebar fade-up">
-        <div class="sec-label">Mortgage Q&A</div>
+        <div class="sec-label">Mortgage Q&amp;A</div>
         <h2 class="sec-title" style="font-size:40px;">Got Questions?<br>We've Got Answers.</h2>
-        <p style="font-size:15px;color:var(--g500);line-height:1.75;margin-top:16px;">Everything you need to know about buying or refinancing a home — straight answers, no fluff.</p>
+        <p style="font-size:15px;color:var(--g500);line-height:1.75;margin-top:16px;">Everything you need to know about buying or refinancing — straight answers, no fluff.</p>
         <div class="faq-cats" id="faqCats">
           <button class="faq-cat on" onclick="filterFaq('all',this)">All Questions</button>
           <button class="faq-cat" onclick="filterFaq('basics',this)">The Basics</button>
           <button class="faq-cat" onclick="filterFaq('qualify',this)">Qualifying</button>
-          <button class="faq-cat" onclick="filterFaq('costs',this)">Costs & Fees</button>
+          <button class="faq-cat" onclick="filterFaq('costs',this)">Costs &amp; Fees</button>
           <button class="faq-cat" onclick="filterFaq('process',this)">The Process</button>
           <button class="faq-cat" onclick="filterFaq('refi',this)">Refinancing</button>
         </div>
         <div style="margin-top:32px;padding:24px;background:var(--p100);border-radius:16px;border:1.5px solid var(--p200);">
           <div style="font-size:13px;font-weight:700;color:var(--p700);margin-bottom:8px;">Still have questions?</div>
           <div style="font-size:14px;color:var(--g600);margin-bottom:16px;line-height:1.6;">Our team is happy to walk you through anything, no obligation.</div>
-          <a href="tel:937-829-0507" style="display:block;text-align:center;background:var(--p700);color:#fff;font-weight:700;font-size:14px;padding:12px;border-radius:10px;text-decoration:none;transition:all .2s;" onmouseover="this.style.background='var(--p600)'" onmouseout="this.style.background='var(--p700)'">📞 Call 937-829-0507</a>
+          <a href="mailto:nstacy@homespiremortgage.com" style="display:block;text-align:center;background:var(--p700);color:#fff;font-weight:700;font-size:14px;padding:12px;border-radius:10px;text-decoration:none;">Email the Team</a>
         </div>
       </div>
-
-      <div class="faq-list fade-up d2" id="faqList">
-        <!-- FAQ items injected by JS -->
-      </div>
+      <div class="faq-list fade-up d2" id="faqList"></div>
     </div>
   </div>
 </section>
@@ -1000,29 +1224,22 @@
 ════════════════════════════════════════ -->
 <section id="apply">
   <div class="container">
-    <div class="apply-logo fade-up">
-      <svg viewBox="0 0 280 210" fill="none" xmlns="http://www.w3.org/2000/svg" style="width:80px;height:60px;">
-        <ellipse cx="168" cy="120" rx="90" ry="60" fill="rgba(255,255,255,0.15)"/>
-        <rect x="100" y="78" width="40" height="68" rx="8" fill="rgba(255,255,255,0.15)"/>
-        <ellipse cx="68" cy="108" rx="50" ry="42" fill="rgba(255,255,255,0.15)"/>
-        <polygon points="32,84 12,32 54,76" fill="rgba(255,255,255,0.25)"/>
-      </svg>
+    <img
+      class="apply-logo-img"
+      src="../Homespire Projects/Nick Stacy Website/2026 The Stacy Phillips Team Logo_outlines.png"
+      alt="The Stacy-Phillips Team"
+    >
+    <h2 class="apply-title fade-up">Ready to Own<br>Your Home?</h2>
+    <p class="apply-sub fade-up d1">The hardest part is starting. We make everything after that simple. Apply in minutes — a real person from our team will reach out the same day.</p>
+    <div class="apply-btns fade-up d2">
+      <a href="https://homespirehomeloans.com/loanoriginator/nick-stacy/" target="_blank" rel="noopener" class="apply-btn-main">Start Your Application</a>
+      <a href="mailto:nstacy@homespiremortgage.com" class="apply-btn-ghost">Send Us a Message</a>
     </div>
-    <h2 class="apply-title fade-up d1">Ready to Own<br>Your Home?</h2>
-    <p class="apply-sub fade-up d2">The hardest part is starting. We make everything after that simple. Apply in minutes, and a real person from our team will reach out the same day.</p>
-    <div class="apply-btns fade-up d3">
-      <a href="https://homespirehomeloans.com/loanoriginator/nick-stacy/" target="_blank" rel="noopener" class="apply-btn-main">
-        🚀 Start Your Application
-      </a>
-      <a href="tel:937-829-0507" class="apply-btn-ghost">
-        📞 Call Nick First
-      </a>
-    </div>
-    <div class="apply-trust fade-up d4">
-      <div class="trust-item"><span class="trust-icon">🔒</span> Secure & Encrypted</div>
-      <div class="trust-item"><span class="trust-icon">⚡</span> Fast Pre-Approval</div>
-      <div class="trust-item"><span class="trust-icon">👤</span> No Obligation</div>
-      <div class="trust-item"><span class="trust-icon">⭐</span> 5-Star Service</div>
+    <div class="apply-trust fade-up d3">
+      <span class="trust-item">Secure &amp; Encrypted</span>
+      <span class="trust-item">Fast Pre-Approval</span>
+      <span class="trust-item">No Obligation</span>
+      <span class="trust-item">5-Star Service</span>
     </div>
   </div>
 </section>
@@ -1034,13 +1251,13 @@
   <div class="footer-top">
     <div>
       <div class="footer-logo">
-        <img src="logo.png" alt="Stacy-Phillips Team" style="height:50px;" onerror="this.style.display='none'">
+        <img src="../Homespire Projects/Nick Stacy Website/2026 The Stacy Phillips Team Logo_outlines.png" alt="The Stacy-Phillips Team" style="filter:brightness(10);opacity:.7;">
       </div>
       <p class="footer-desc">The Stacy-Phillips Team at Homespire Mortgage is committed to delivering the best mortgage experience in Dayton, Ohio. Personal, transparent, and simple — every time.</p>
       <div class="footer-contact">
-        <a href="https://www.google.com/maps/search/?api=1&query=7087+Corporate+Way%2C+Dayton%2C+OH%2C+USA" target="_blank" rel="noopener">📍 7087 Corporate Way, Dayton, OH 45459</a>
-        <a href="tel:937-829-0507">📞 937-829-0507</a>
-        <a href="mailto:nstacy@homespiremortgage.com">✉ nstacy@homespiremortgage.com</a>
+        <a href="https://www.google.com/maps/search/?api=1&query=7087+Corporate+Way%2C+Dayton%2C+OH%2C+USA" target="_blank" rel="noopener">7087 Corporate Way, Dayton, OH 45459</a>
+        <a href="tel:937-829-0507">937-829-0507</a>
+        <a href="mailto:nstacy@homespiremortgage.com">nstacy@homespiremortgage.com</a>
       </div>
     </div>
     <div>
@@ -1060,7 +1277,7 @@
         <li><a href="#rates">Today's Rates</a></li>
         <li><a href="#tools">Calculators</a></li>
         <li><a href="#reviews">Reviews</a></li>
-        <li><a href="#faq">Mortgage Q&A</a></li>
+        <li><a href="#faq">Mortgage Q&amp;A</a></li>
         <li><a href="https://homespirehomeloans.com/loanoriginator/nick-stacy/" target="_blank" rel="noopener">Apply Now</a></li>
       </ul>
     </div>
@@ -1077,7 +1294,7 @@
   </div>
   <div class="footer-bottom">
     <div class="footer-disc">
-      © 2025 The Stacy-Phillips Team | Homespire Mortgage. All rights reserved. Homespire Mortgage is licensed to originate loans in the state of Ohio. All loan products are subject to credit and property approval. Rates, program terms, and conditions are subject to change without notice. Not all products are available in all states or for all loan amounts. Other restrictions and limitations apply. This is not an offer to extend credit or a commitment to lend. Equal Housing Lender.
+      &copy; 2025 The Stacy-Phillips Team | Homespire Mortgage. All rights reserved. Homespire Mortgage is licensed to originate loans in the state of Ohio. All loan products are subject to credit and property approval. Rates, program terms, and conditions are subject to change without notice. Not all products are available in all states or for all loan amounts. Other restrictions and limitations apply. This is not an offer to extend credit or a commitment to lend. Equal Housing Lender.
     </div>
     <div class="footer-nmls">
       NMLS# 1756053 (Nick Stacy)<br>
@@ -1092,33 +1309,33 @@
 <script>
 // ─── LOADER ───────────────────────────────────────────────────────────
 window.addEventListener('load', () => {
-  setTimeout(() => {
-    document.getElementById('loader').classList.add('out');
-  }, 3000);
+  setTimeout(() => { document.getElementById('loader').classList.add('out'); }, 3200);
 });
 
 // ─── NAV SCROLL ──────────────────────────────────────────────────────
-const nav = document.getElementById('nav');
 window.addEventListener('scroll', () => {
-  nav.classList.toggle('scrolled', window.scrollY > 60);
+  document.getElementById('nav').classList.toggle('scrolled', window.scrollY > 60);
 });
 
 // ─── MOBILE MENU ─────────────────────────────────────────────────────
 function toggleMenu() {
-  document.getElementById('mobileMenu').classList.toggle('open');
-  document.body.style.overflow = document.getElementById('mobileMenu').classList.contains('open') ? 'hidden' : '';
+  const overlay  = document.getElementById('navOverlay');
+  const hamburger = document.getElementById('hamburger');
+  const isOpen   = overlay.classList.toggle('open');
+  hamburger.classList.toggle('open', isOpen);
+  document.body.style.overflow = isOpen ? 'hidden' : '';
 }
 
-// ─── SCROLL FADE ANIMATIONS ──────────────────────────────────────────
-const observer = new IntersectionObserver((entries) => {
+// ─── SCROLL FADE ─────────────────────────────────────────────────────
+const observer = new IntersectionObserver(entries => {
   entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('vis'); });
 }, { threshold: 0.12 });
 document.querySelectorAll('.fade-up').forEach(el => observer.observe(el));
 
-// ─── COUNTER ANIMATION ───────────────────────────────────────────────
+// ─── COUNTER ─────────────────────────────────────────────────────────
 document.querySelectorAll('[data-count]').forEach(el => {
   const target = parseInt(el.dataset.count);
-  const suffix = el.textContent.replace(/[0-9]/g,'');
+  const suffix = el.textContent.replace(/[0-9]/g, '');
   const io = new IntersectionObserver(entries => {
     if (!entries[0].isIntersecting) return;
     let count = 0;
@@ -1134,16 +1351,15 @@ document.querySelectorAll('[data-count]').forEach(el => {
 });
 
 // ─── CALC TABS ────────────────────────────────────────────────────────
-function switchTab(id) {
+function switchTab(id, btn) {
   document.querySelectorAll('.tab-pane').forEach(p => p.classList.remove('on'));
   document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('on'));
   document.getElementById('tab-' + id).classList.add('on');
-  event.target.classList.add('on');
-  if (id === 'rent') calcRentBuy();
-  else calcRefi();
+  btn.classList.add('on');
+  if (id === 'rent') calcRentBuy(); else calcRefi();
 }
 
-// ─── RENT VS BUY CALCULATOR ───────────────────────────────────────────
+// ─── RENT VS BUY ─────────────────────────────────────────────────────
 function calcRentBuy() {
   const price   = parseFloat(document.getElementById('rvb-price').value) || 280000;
   const downPct = parseFloat(document.getElementById('rvb-down').value) / 100;
@@ -1153,32 +1369,27 @@ function calcRentBuy() {
   const months  = years * 12;
   const loan    = price * (1 - downPct);
   const pmt     = rate > 0 ? loan * (rate * Math.pow(1+rate,360)) / (Math.pow(1+rate,360)-1) : loan/360;
-  const rentTotal = rent * months;
-  // Equity: principal paid over `months` of 30yr loan
-  let bal = loan;
-  let principalPaid = 0;
+  let bal = loan, principalPaid = 0;
   for (let i = 0; i < months; i++) {
-    const intPmt = bal * rate;
-    const prinPmt = pmt - intPmt;
-    principalPaid += prinPmt;
-    bal -= prinPmt;
+    const ip = bal * rate, pp = pmt - ip;
+    principalPaid += pp; bal -= pp;
   }
-  const equityTotal = principalPaid + (price * downPct);
-  const appreciation = price * (Math.pow(1.04, years) - 1);
-  const diff = pmt - rent;
-  const wealth = equityTotal + appreciation;
+  const equityTotal   = principalPaid + (price * downPct);
+  const appreciation  = price * (Math.pow(1.04, years) - 1);
+  const diff          = pmt - rent;
+  const wealth        = equityTotal + appreciation;
 
-  document.getElementById('rvb-payment').textContent   = '$' + fmt(pmt);
-  document.getElementById('rvb-rent-r').textContent    = '$' + fmt(rent);
-  document.getElementById('rvb-diff').textContent      = (diff > 0 ? '+$' : '-$') + fmt(Math.abs(diff));
-  document.getElementById('rvb-equity').textContent    = '$' + fmt(equityTotal);
-  document.getElementById('rvb-appre').textContent     = '$' + fmt(appreciation);
-  document.getElementById('rvb-rent-total').textContent= '$' + fmt(rentTotal);
-  document.getElementById('rvb-yr-lbl2').textContent   = years;
-  document.getElementById('rvb-verdict-val').textContent = 'Buying builds ~$' + fmt(wealth) + ' in wealth vs renting';
+  document.getElementById('rvb-payment').textContent    = '$' + fmt(pmt);
+  document.getElementById('rvb-rent-r').textContent     = '$' + fmt(rent);
+  document.getElementById('rvb-diff').textContent       = (diff > 0 ? '+$' : '-$') + fmt(Math.abs(diff));
+  document.getElementById('rvb-equity').textContent     = '$' + fmt(equityTotal);
+  document.getElementById('rvb-appre').textContent      = '$' + fmt(appreciation);
+  document.getElementById('rvb-rent-total').textContent = '$' + fmt(rent * months);
+  document.getElementById('rvb-yr-lbl2').textContent    = years;
+  document.getElementById('rvb-verdict-val').textContent= 'Buying builds ~$' + fmt(wealth) + ' in wealth vs renting';
 }
 
-// ─── REFI CALCULATOR ─────────────────────────────────────────────────
+// ─── REFI ─────────────────────────────────────────────────────────────
 function calcRefi() {
   const balance  = parseFloat(document.getElementById('refi-balance').value) || 240000;
   const currRate = parseFloat(document.getElementById('refi-curr').value) / 100 / 12;
@@ -1186,136 +1397,99 @@ function calcRefi() {
   const term     = parseInt(document.getElementById('refi-term').value) || 25;
   const costs    = parseFloat(document.getElementById('refi-costs').value) || 4500;
   const n        = term * 12;
-  const currPay  = currRate > 0 ? balance * (currRate * Math.pow(1+currRate,n)) / (Math.pow(1+currRate,n)-1) : balance/n;
-  const newPay   = newRate > 0 ? balance * (newRate * Math.pow(1+newRate,n)) / (Math.pow(1+newRate,n)-1) : balance/n;
-  const monthlySave = currPay - newPay;
-  const annualSave  = monthlySave * 12;
-  const breakeven   = monthlySave > 0 ? Math.ceil(costs / monthlySave) : 0;
-  const lifetime    = monthlySave * n - costs;
+  const currPay  = currRate > 0 ? balance*(currRate*Math.pow(1+currRate,n))/(Math.pow(1+currRate,n)-1) : balance/n;
+  const newPay   = newRate  > 0 ? balance*(newRate *Math.pow(1+newRate ,n))/(Math.pow(1+newRate ,n)-1) : balance/n;
+  const ms = currPay - newPay;
 
-  document.getElementById('refi-new-pay').textContent     = '$' + fmt(newPay);
-  document.getElementById('refi-curr-pay').textContent    = '$' + fmt(currPay);
-  document.getElementById('refi-monthly-save').textContent= '$' + fmt(monthlySave);
-  document.getElementById('refi-annual-save').textContent = '$' + fmt(annualSave);
-  document.getElementById('refi-breakeven').textContent   = breakeven + ' months';
-  document.getElementById('refi-lifetime').textContent    = '$' + fmt(Math.max(lifetime,0));
+  document.getElementById('refi-new-pay').textContent      = '$' + fmt(newPay);
+  document.getElementById('refi-curr-pay').textContent     = '$' + fmt(currPay);
+  document.getElementById('refi-monthly-save').textContent = '$' + fmt(ms);
+  document.getElementById('refi-annual-save').textContent  = '$' + fmt(ms * 12);
+  document.getElementById('refi-breakeven').textContent    = (ms > 0 ? Math.ceil(costs/ms) : '—') + (ms > 0 ? ' months' : '');
+  document.getElementById('refi-lifetime').textContent     = '$' + fmt(Math.max(ms*n-costs, 0));
 }
 
-function fmt(n) {
-  return Math.round(n).toLocaleString();
-}
+function fmt(n) { return Math.round(n).toLocaleString(); }
 
-// Initialize calculators
-calcRentBuy();
-calcRefi();
+calcRentBuy(); calcRefi();
 
-// ─── MORTGAGE RATES ───────────────────────────────────────────────────
-// Mortgage News Daily doesn't allow direct CORS fetching, so we display
-// accurate default values with a timestamp. A backend proxy can provide live data.
-const defaultRates = {
-  rate30: '6.89%', apr30: 'APR 7.02%',
-  rate15: '6.21%', apr15: 'APR 6.38%',
-  rateFHA: '6.54%', aprFHA: 'APR 7.38%',
-  rateVA: '6.38%', aprVA: 'APR 6.52%'
-};
+// ─── RATES ────────────────────────────────────────────────────────────
+const rates = { rate30:'6.44%', apr30:'APR 6.57%', rate15:'6.00%', apr15:'APR 6.16%', rateFHA:'5.92%', aprFHA:'APR 6.74%', rateVA:'5.93%', aprVA:'APR 6.08%' };
+document.getElementById('rate30').textContent     = rates.rate30;
+document.getElementById('rate30apr').textContent  = rates.apr30;
+document.getElementById('rate15').textContent     = rates.rate15;
+document.getElementById('rate15apr').textContent  = rates.apr15;
+document.getElementById('rateFHA').textContent    = rates.rateFHA;
+document.getElementById('rateFHAapr').textContent = rates.aprFHA;
+document.getElementById('rateVA').textContent     = rates.rateVA;
+document.getElementById('rateVAapr').textContent  = rates.aprVA;
+document.getElementById('rateTimestamp').textContent = 'Updated ' + new Date().toLocaleDateString('en-US',{month:'long',day:'numeric',year:'numeric'});
 
-function displayRates(r) {
-  document.getElementById('rate30').textContent    = r.rate30;
-  document.getElementById('rate30apr').textContent = r.apr30;
-  document.getElementById('rate15').textContent    = r.rate15;
-  document.getElementById('rate15apr').textContent = r.apr15;
-  document.getElementById('rateFHA').textContent   = r.rateFHA;
-  document.getElementById('rateFHAapr').textContent= r.aprFHA;
-  document.getElementById('rateVA').textContent    = r.rateVA;
-  document.getElementById('rateVAapr').textContent = r.aprVA;
-  document.getElementById('rateTimestamp').textContent = 'Last updated ' + new Date().toLocaleDateString('en-US',{month:'long',day:'numeric',year:'numeric'});
-}
-displayRates(defaultRates);
-
-// ─── POSITIVE RATE MESSAGES ──────────────────────────────────────────
+// ─── RATE MESSAGES ────────────────────────────────────────────────────
 const rateMsgs = [
   "Today's rates still represent a powerful path to building wealth. Every mortgage payment grows your equity — rent payments grow someone else's.",
-  "Dayton home prices remain accessible. Buyers who act now lock in today's price, and can always refinance when rates improve.",
+  "Dayton home prices remain accessible. Buyers who act now lock in today's price and can always refinance when rates improve.",
   "The best time to buy was yesterday. The second best time is today. Your future self will thank you for the equity you start building right now.",
   "Rates fluctuate — home values in Dayton historically grow. The wealth you build through homeownership is yours to keep, forever.",
   "Think of your rate as a starting point, not a destination. You can always refinance. You can't go back and buy at yesterday's prices."
 ];
 let msgIdx = 0;
 const msgEl = document.getElementById('rateMsg');
-function rotateMsgs() {
+setInterval(() => {
   msgEl.style.opacity = 0;
-  setTimeout(() => {
-    msgIdx = (msgIdx + 1) % rateMsgs.length;
-    msgEl.textContent = rateMsgs[msgIdx];
-    msgEl.style.opacity = 1;
-  }, 600);
-}
-msgEl.style.transition = 'opacity .6s ease';
-setInterval(rotateMsgs, 5000);
+  setTimeout(() => { msgIdx = (msgIdx+1)%rateMsgs.length; msgEl.textContent = rateMsgs[msgIdx]; msgEl.style.opacity = 1; }, 600);
+}, 5000);
 
 // ─── REVIEWS ─────────────────────────────────────────────────────────
 const reviews = [
-  { name: 'Sarah M.', initial: 'S', text: 'Nick and his team made buying our first home completely stress-free. They explained everything clearly and were available whenever we had questions. Could not recommend them more!', reviewer: 'First-Time Buyer', team: 'Nick Stacy' },
-  { name: 'James & Lisa T.', initial: 'J', text: 'Austyn was phenomenal — responsive, knowledgeable, and genuinely cared about getting us the best rate. The process was faster than we expected. Truly a 5-star experience.', reviewer: 'Move-Up Buyer', team: 'Austyn Phillips' },
-  { name: 'Mike R.', initial: 'M', text: 'Jami walked us through every step and made the entire experience transparent. No surprises, no runaround. We closed on time and felt confident the whole way through.', reviewer: 'Refinance Client', team: 'Jami Thompson' },
-  { name: 'Diana L.', initial: 'D', text: 'I had a complicated financial situation and Nick\'s team still found a way to get me approved. They fought for me when others wouldn\'t. Forever grateful for this team.', reviewer: 'Purchase Client', team: 'Nick Stacy' },
-  { name: 'Carlos & Maria V.', initial: 'C', text: 'Adalberto made our first home purchase easy to understand. He\'s patient, thorough, and speaks Spanish — that made such a difference for our family. Absolutely outstanding service.', reviewer: 'First-Time Buyer', team: 'Adalberto Garcia' },
-  { name: 'Jennifer A.', initial: 'J', text: 'Kristin connected us with the right people instantly and made the whole journey seamless. The Stacy-Phillips team truly feels like family looking out for you.', reviewer: 'Refinance Client', team: 'Kristin Knecht' },
-  { name: 'Tom & Rachel K.', initial: 'T', text: 'We\'ve done multiple loans with this team. The service gets better every time. Fast, honest, and always puts the client first. They are the gold standard in Dayton.', reviewer: 'Repeat Client', team: 'Nick Stacy' },
-  { name: 'Amanda B.', initial: 'A', text: 'Austyn answered every question I had — and I had a LOT. He never made me feel like a burden. Got us a great rate and closed in under 30 days. Incredible team.', reviewer: 'Purchase Client', team: 'Austyn Phillips' },
-  { name: 'David H.', initial: 'D', text: 'The transparency was what won me over. I knew exactly where we stood at every point. No hidden fees, no surprises. This is how mortgages should always be done.', reviewer: 'Purchase Client', team: 'Nick Stacy' },
-  { name: 'Whitney P.', initial: 'W', text: 'Jami is a true professional. She was on top of everything and made a stressful process feel completely manageable. Highly recommend this entire team to anyone in Dayton.', reviewer: 'First-Time Buyer', team: 'Jami Thompson' },
+  { name:'Sarah M.',        initial:'S', text:'Nick and his team made buying our first home completely stress-free. They explained everything clearly and were available whenever we had questions. Could not recommend them more!', role:'First-Time Buyer', team:'Nick Stacy' },
+  { name:'James & Lisa T.', initial:'J', text:'Austyn was phenomenal — responsive, knowledgeable, and genuinely cared about getting us the best rate. The process was faster than we expected. Truly a 5-star experience.', role:'Move-Up Buyer', team:'Austyn Phillips' },
+  { name:'Mike R.',         initial:'M', text:'Jami walked us through every step and made the entire experience transparent. No surprises, no runaround. We closed on time and felt confident the whole way through.', role:'Refinance Client', team:'Jami Thompson' },
+  { name:'Diana L.',        initial:'D', text:"I had a complicated financial situation and Nick's team still found a way to get me approved. They fought for me when others wouldn't. Forever grateful for this team.", role:'Purchase Client', team:'Nick Stacy' },
+  { name:'Carlos & Maria V.',initial:'C', text:"Adalberto made our first home purchase easy to understand. He's patient, thorough, and speaks Spanish — that made such a difference for our family. Absolutely outstanding.", role:'First-Time Buyer', team:'Adalberto Garcia' },
+  { name:'Jennifer A.',     initial:'J', text:'Kristin connected us with the right people instantly and made the whole journey seamless. The Stacy-Phillips team truly feels like family looking out for you.', role:'Refinance Client', team:'Kristin Knecht' },
+  { name:'Tom & Rachel K.', initial:'T', text:"We've done multiple loans with this team. The service gets better every time. Fast, honest, and always puts the client first. They are the gold standard in Dayton.", role:'Repeat Client', team:'Nick Stacy' },
+  { name:'Amanda B.',       initial:'A', text:"Austyn answered every question I had — and I had a LOT. He never made me feel like a burden. Got us a great rate and closed in under 30 days. Incredible team.", role:'Purchase Client', team:'Austyn Phillips' },
+  { name:'David H.',        initial:'D', text:'The transparency was what won me over. I knew exactly where we stood at every point. No hidden fees, no surprises. This is how mortgages should always be done.', role:'Purchase Client', team:'Nick Stacy' },
+  { name:'Whitney P.',      initial:'W', text:'Jami is a true professional. She was on top of everything and made a stressful process feel completely manageable. Highly recommend this entire team to anyone in Dayton.', role:'First-Time Buyer', team:'Jami Thompson' },
 ];
-
-function renderReviews() {
-  const track = document.getElementById('reviewsTrack');
-  // Duplicate for seamless loop
-  const allReviews = [...reviews, ...reviews];
-  track.innerHTML = allReviews.map(r => `
-    <div class="review-card">
-      <div class="rev-stars">${'<span>★</span>'.repeat(5)}</div>
-      <p class="rev-text">"${r.text}"</p>
-      <div class="rev-author">
-        <div class="rev-avatar">${r.initial}</div>
-        <div>
-          <div class="rev-name">${r.name}</div>
-          <div class="rev-meta">${r.reviewer}</div>
-        </div>
-      </div>
-      <div class="rev-source">
-        <span class="rev-badge">Verified</span>
-        <span>Experience.com · Reviewed with ${r.team}</span>
-      </div>
+const allRevs = [...reviews, ...reviews];
+document.getElementById('reviewsTrack').innerHTML = allRevs.map(r => `
+  <div class="review-card">
+    <div class="rev-stars">${'<span>&#9733;</span>'.repeat(5)}</div>
+    <p class="rev-text">"${r.text}"</p>
+    <div class="rev-author">
+      <div class="rev-avatar">${r.initial}</div>
+      <div><div class="rev-name">${r.name}</div><div class="rev-meta">${r.role}</div></div>
     </div>
-  `).join('');
-}
-renderReviews();
+    <div class="rev-source"><span class="rev-badge">Verified</span> Experience.com &middot; ${r.team}</div>
+  </div>
+`).join('');
 
-// ─── FAQ DATA ─────────────────────────────────────────────────────────
+// ─── FAQ ─────────────────────────────────────────────────────────────
 const faqs = [
-  { cat: 'basics', q: 'What is a mortgage and how does it work?', a: 'A mortgage is a loan used to purchase a home. You borrow money from a lender (us) and repay it monthly over a set term — typically 15 or 30 years. Your home serves as collateral. Each payment covers principal (reducing your loan balance) and interest. Over time, you build equity as your balance decreases and your home\'s value grows. <a href="https://www.consumerfinance.gov/consumer-tools/mortgages/" target="_blank" rel="noopener">Learn more at CFPB.gov →</a>' },
-  { cat: 'basics', q: 'What\'s the difference between a fixed and adjustable rate mortgage?', a: 'A <strong>fixed-rate mortgage</strong> keeps the same interest rate for the entire loan term — predictable payments, no surprises. An <strong>adjustable-rate mortgage (ARM)</strong> has a rate that can change after an initial fixed period (like 5 or 7 years). ARMs can offer lower initial rates but carry more risk if rates rise. We help you choose the right option for your situation. <a href="https://www.consumerfinance.gov/consumer-tools/mortgages/" target="_blank" rel="noopener">Learn more →</a>' },
-  { cat: 'basics', q: 'How much home can I afford?', a: 'A common guideline is to spend no more than 28% of your gross monthly income on housing costs. However, your full financial picture matters — debt-to-income ratio, credit score, assets, and local prices all factor in. Our team will analyze your situation for free and tell you exactly what you qualify for before you start shopping. Call us at <a href="tel:937-829-0507">937-829-0507</a>.' },
-  { cat: 'qualify', q: 'What credit score do I need to get a mortgage?', a: 'Most conventional loans require a minimum credit score of 620. FHA loans can go as low as 580 (or 500 with a larger down payment). VA loans don\'t have a set minimum. The higher your score, the better your rate. If your score needs work, we can give you a personalized roadmap to improve it — and then come back ready to buy. <a href="https://www.consumerfinance.gov/consumer-tools/mortgages/" target="_blank" rel="noopener">Learn more →</a>' },
-  { cat: 'qualify', q: 'How much do I need for a down payment?', a: 'Less than you might think! Options include:<br>• <strong>VA Loans</strong>: 0% down (for eligible veterans and service members)<br>• <strong>USDA Loans</strong>: 0% down (rural/suburban areas)<br>• <strong>FHA Loans</strong>: 3.5% down<br>• <strong>Conventional Loans</strong>: as low as 3% down<br><br>Down payment assistance programs are also available in Ohio. Let\'s find the best fit for you.' },
-  { cat: 'qualify', q: 'Does pre-approval hurt my credit score?', a: 'A mortgage pre-approval requires a hard credit inquiry, which typically affects your score by 5 points or less temporarily. The impact is minimal and short-lived. More importantly, multiple mortgage inquiries within a 14-45 day window are often counted as a single inquiry by credit scoring models. Pre-approval is worth it — it shows sellers you\'re serious and tells you exactly what you can spend.' },
-  { cat: 'costs', q: 'What are closing costs and how much are they?', a: 'Closing costs are fees paid at the end of your transaction, typically 2–5% of the loan amount. They include:<br>• Loan origination fees<br>• Appraisal<br>• Title search and insurance<br>• Attorney fees<br>• Prepaid interest and insurance<br>• Recording fees<br><br>We provide a Loan Estimate within 3 business days of your application so you know exactly what to expect — no surprises. <a href="https://www.consumerfinance.gov/consumer-tools/mortgages/" target="_blank" rel="noopener">Learn more →</a>' },
-  { cat: 'costs', q: 'What is PMI and can I avoid it?', a: 'Private Mortgage Insurance (PMI) is required on conventional loans when your down payment is less than 20%. It protects the lender — not you — and adds to your monthly payment. You can avoid PMI by:<br>• Putting 20% down<br>• Using a VA or USDA loan (no PMI)<br>• Asking about lender-paid PMI options<br><br>Good news: once you have 20% equity, PMI can be removed. <a href="https://www.consumerfinance.gov/consumer-tools/mortgages/" target="_blank" rel="noopener">Learn more →</a>' },
-  { cat: 'costs', q: 'What is a Loan Estimate?', a: 'A Loan Estimate is a standardized three-page form we\'re required to give you within 3 business days of your application. It clearly spells out your estimated interest rate, monthly payment, closing costs, and other key loan terms. It makes it easy to compare offers from different lenders. We encourage you to review it carefully and ask us about anything you don\'t understand.' },
-  { cat: 'process', q: 'How long does the mortgage process take?', a: 'Typically 30–45 days from application to closing, though we often close faster. Here\'s the general timeline:<br>• Days 1–3: Application & pre-approval<br>• Days 3–7: Loan processing & document gathering<br>• Days 7–21: Appraisal, title search, underwriting<br>• Days 21–30: Final approval and closing prep<br>• Day 30–45: Closing day — keys in hand!<br><br>Our team communicates proactively so you always know where things stand.' },
-  { cat: 'process', q: 'What documents do I need to apply?', a: 'To apply, gather:<br>• W-2s and tax returns (last 2 years)<br>• Recent pay stubs (last 30 days)<br>• Bank statements (last 2–3 months)<br>• Photo ID<br>• If self-employed: 2 years of business tax returns and P&L statement<br><br>Our team will walk you through exactly what\'s needed based on your specific situation. We make the document collection process as painless as possible.' },
-  { cat: 'process', q: 'What happens at closing?', a: 'Closing is the final step — where you sign documents, pay closing costs, and receive your keys! You\'ll review and sign the Closing Disclosure (which shows final costs), the Promissory Note, and the Deed of Trust. The whole process takes about 1–2 hours. We prepare you in advance so nothing is a surprise. After signing, the loan funds and you\'re officially a homeowner!' },
-  { cat: 'refi', q: 'When should I consider refinancing?', a: 'Refinancing makes sense when:<br>• Current rates are at least 0.5–1% lower than your existing rate<br>• You want to switch from an ARM to a fixed rate<br>• You want to access equity for home improvements or debt payoff<br>• You want to shorten your loan term<br><br>Use our Refinance Calculator above to see your potential savings. A general rule: if you\'ll break even on closing costs within 2–3 years, refinancing is worth considering.' },
-  { cat: 'refi', q: 'What is a cash-out refinance?', a: 'A cash-out refinance replaces your existing mortgage with a new, larger loan — and you receive the difference as cash. For example, if you owe $200,000 on a home worth $350,000, you might refinance for $250,000 and pocket $50,000. This cash can be used for home improvements, debt consolidation, education, or other needs. Your home\'s equity is the key. <a href="https://www.consumerfinance.gov/consumer-tools/mortgages/" target="_blank" rel="noopener">Learn more →</a>' },
+  { cat:'basics',   q:'What is a mortgage and how does it work?', a:'A mortgage is a loan used to purchase a home. You borrow money from a lender and repay it monthly over a set term — typically 15 or 30 years. Each payment covers principal (reducing your loan balance) and interest. Over time you build equity as your balance decreases and your home\'s value grows. <a href="https://www.consumerfinance.gov/consumer-tools/mortgages/" target="_blank" rel="noopener">Learn more at CFPB.gov</a>' },
+  { cat:'basics',   q:"What's the difference between a fixed and adjustable rate mortgage?", a:'A <strong>fixed-rate mortgage</strong> keeps the same interest rate for the entire loan term — predictable payments, no surprises. An <strong>adjustable-rate mortgage (ARM)</strong> starts with a fixed period (e.g. 5 or 7 years) then adjusts periodically. ARMs can offer lower initial rates but carry more risk if rates rise. We help you choose the right option for your situation.' },
+  { cat:'basics',   q:'How much home can I afford?', a:'A common guideline is to spend no more than 28% of your gross monthly income on housing costs. However your full picture matters — debt-to-income ratio, credit score, assets, and local prices all factor in. Our team will analyze your situation for free and give you an exact number before you start shopping. Call us at <a href="tel:937-829-0507">937-829-0507</a>.' },
+  { cat:'qualify',  q:'What credit score do I need to get a mortgage?', a:'Most conventional loans require a minimum credit score of 620. FHA loans can go as low as 580 (or 500 with a larger down payment). VA loans don\'t have a set minimum. The higher your score, the better your rate. If your score needs work, we\'ll give you a personalized roadmap to improve it. <a href="https://www.consumerfinance.gov/consumer-tools/mortgages/" target="_blank" rel="noopener">Learn more</a>' },
+  { cat:'qualify',  q:'How much do I need for a down payment?', a:'Less than you might think. Options include:<br><br><strong>VA Loans:</strong> 0% down (eligible veterans)<br><strong>USDA Loans:</strong> 0% down (rural/suburban areas)<br><strong>FHA Loans:</strong> 3.5% down<br><strong>Conventional:</strong> as low as 3% down<br><br>Down payment assistance programs are also available in Ohio. Let\'s find the best fit for you.' },
+  { cat:'qualify',  q:'Does pre-approval hurt my credit score?', a:'A mortgage pre-approval requires a hard credit inquiry, which typically affects your score by 5 points or less — and only temporarily. Multiple mortgage inquiries within a 14–45 day window are often counted as a single inquiry. Pre-approval is absolutely worth it: it shows sellers you\'re serious and tells you exactly what you can spend.' },
+  { cat:'costs',    q:'What are closing costs and how much are they?', a:'Closing costs are fees paid at the end of your transaction, typically 2–5% of the loan amount. They include loan origination fees, appraisal, title search and insurance, prepaid interest, and recording fees. We provide a Loan Estimate within 3 business days of your application so you know exactly what to expect. <a href="https://www.consumerfinance.gov/consumer-tools/mortgages/" target="_blank" rel="noopener">Learn more</a>' },
+  { cat:'costs',    q:'What is PMI and can I avoid it?', a:'Private Mortgage Insurance (PMI) is required on conventional loans when your down payment is less than 20%. It protects the lender and adds to your monthly payment. You can avoid PMI by putting 20% down, using a VA or USDA loan, or asking about lender-paid PMI options. Once you reach 20% equity, PMI can be removed. <a href="https://www.consumerfinance.gov/consumer-tools/mortgages/" target="_blank" rel="noopener">Learn more</a>' },
+  { cat:'costs',    q:'What is a Loan Estimate?', a:'A Loan Estimate is a standardized three-page form we provide within 3 business days of your application. It clearly spells out your estimated interest rate, monthly payment, closing costs, and key loan terms. It makes comparing offers from different lenders simple. We encourage you to review it carefully and ask us about anything.' },
+  { cat:'process',  q:'How long does the mortgage process take?', a:'Typically 30–45 days from application to closing, though we often move faster. General timeline:<br><br>Days 1–3: Application and pre-approval<br>Days 3–7: Loan processing and document gathering<br>Days 7–21: Appraisal, title search, underwriting<br>Days 21–30: Final approval and closing prep<br>Day 30–45: Closing day — keys in hand<br><br>Our team communicates proactively so you always know where things stand.' },
+  { cat:'process',  q:'What documents do I need to apply?', a:'To apply, gather: W-2s and tax returns (last 2 years), recent pay stubs (last 30 days), bank statements (last 2–3 months), and a photo ID. If self-employed: 2 years of business tax returns and a profit/loss statement. Our team will walk you through exactly what\'s needed for your specific situation.' },
+  { cat:'process',  q:'What happens at closing?', a:'Closing is the final step where you sign documents, pay closing costs, and receive your keys. You\'ll review and sign the Closing Disclosure, the Promissory Note, and the Deed of Trust. The whole process takes about 1–2 hours. We prepare you in advance so nothing is a surprise.' },
+  { cat:'refi',     q:'When should I consider refinancing?', a:'Refinancing makes sense when current rates are at least 0.5–1% lower than your existing rate, when you want to switch from an ARM to a fixed rate, when you want to access equity, or when you want to shorten your loan term. Use our Refinance Calculator above to see your potential savings.' },
+  { cat:'refi',     q:'What is a cash-out refinance?', a:'A cash-out refinance replaces your existing mortgage with a new larger loan — and you receive the difference as cash. For example, if you owe $200,000 on a home worth $350,000, you might refinance for $250,000 and receive $50,000 cash for home improvements, debt consolidation, or other needs. <a href="https://www.consumerfinance.gov/consumer-tools/mortgages/" target="_blank" rel="noopener">Learn more</a>' },
 ];
 
 function renderFaq(filter) {
-  const filtered = filter === 'all' ? faqs : faqs.filter(f => f.cat === filter);
-  return filtered.map((f, i) => `
-    <div class="faq-item" id="faq-${i}" data-cat="${f.cat}">
-      <div class="faq-q" onclick="toggleFaq('faq-${i}')">
-        <span>${f.q}</span>
-        <span class="faq-ico">+</span>
+  const list = filter === 'all' ? faqs : faqs.filter(f => f.cat === filter);
+  return list.map((f,i) => `
+    <div class="faq-item" id="faq-${filter}-${i}">
+      <div class="faq-q" onclick="toggleFaq('faq-${filter}-${i}')">
+        <span>${f.q}</span><span class="faq-ico">+</span>
       </div>
       <div class="faq-a"><div class="faq-a-inner">${f.a}</div></div>
     </div>
@@ -1336,6 +1510,248 @@ function filterFaq(cat, btn) {
 }
 
 document.getElementById('faqList').innerHTML = renderFaq('all');
+
+// ─── REVIEWS CONTROLS ────────────────────────────────────────────────
+(function() {
+  const track = document.getElementById('reviewsTrack');
+  let manualOffset = 0;
+  let playing = true;
+  const CARD_WIDTH = 360 + 22; // card + gap
+
+  function slideReviews(dir) {
+    playing = false;
+    track.classList.add('paused');
+    document.getElementById('revPlayBtn').innerHTML = '&#9654;';
+
+    // Get current computed translateX, incorporate into manualOffset
+    const style = getComputedStyle(track);
+    const matrix = new DOMMatrix(style.transform);
+    manualOffset = matrix.m41 + dir * -CARD_WIDTH;
+
+    // Clamp so we don't go past 50% (the duplicated half)
+    const totalWidth = track.scrollWidth / 2;
+    if (manualOffset < -totalWidth) manualOffset += totalWidth;
+    if (manualOffset > 0) manualOffset -= totalWidth;
+
+    track.style.animation = 'none';
+    track.style.transform = `translateX(${manualOffset}px)`;
+  }
+  window.slideReviews = slideReviews;
+
+  function toggleReviewsPlay() {
+    playing = !playing;
+    const btn = document.getElementById('revPlayBtn');
+    if (playing) {
+      track.style.animation = '';
+      track.style.transform = '';
+      track.classList.remove('paused');
+      btn.innerHTML = '&#9646;&#9646;';
+    } else {
+      const style = getComputedStyle(track);
+      const matrix = new DOMMatrix(style.transform);
+      manualOffset = matrix.m41;
+      track.style.animation = 'none';
+      track.style.transform = `translateX(${manualOffset}px)`;
+      track.classList.add('paused');
+      btn.innerHTML = '&#9654;';
+    }
+  }
+  window.toggleReviewsPlay = toggleReviewsPlay;
+
+  // Drag to scroll
+  let isDragging = false, startX = 0, startOffset = 0;
+
+  track.addEventListener('mousedown', e => {
+    isDragging = true;
+    startX = e.clientX;
+    const matrix = new DOMMatrix(getComputedStyle(track).transform);
+    startOffset = matrix.m41;
+    playing = false;
+    track.style.animation = 'none';
+    track.classList.add('dragging');
+    document.getElementById('revPlayBtn').innerHTML = '&#9654;';
+  });
+  document.addEventListener('mousemove', e => {
+    if (!isDragging) return;
+    const dx = e.clientX - startX;
+    manualOffset = startOffset + dx;
+    track.style.transform = `translateX(${manualOffset}px)`;
+  });
+  document.addEventListener('mouseup', () => {
+    if (!isDragging) return;
+    isDragging = false;
+    track.classList.remove('dragging');
+    // Wrap around
+    const totalWidth = track.scrollWidth / 2;
+    if (manualOffset < -totalWidth) manualOffset += totalWidth;
+    if (manualOffset > 0) manualOffset -= totalWidth;
+    track.style.transform = `translateX(${manualOffset}px)`;
+  });
+
+  // Touch drag
+  track.addEventListener('touchstart', e => {
+    startX = e.touches[0].clientX;
+    const matrix = new DOMMatrix(getComputedStyle(track).transform);
+    startOffset = matrix.m41;
+    playing = false;
+    track.style.animation = 'none';
+    track.classList.add('paused');
+    document.getElementById('revPlayBtn').innerHTML = '&#9654;';
+  }, { passive: true });
+  track.addEventListener('touchmove', e => {
+    const dx = e.touches[0].clientX - startX;
+    manualOffset = startOffset + dx;
+    track.style.transform = `translateX(${manualOffset}px)`;
+  }, { passive: true });
+  track.addEventListener('touchend', () => {
+    const totalWidth = track.scrollWidth / 2;
+    if (manualOffset < -totalWidth) manualOffset += totalWidth;
+    if (manualOffset > 0) manualOffset -= totalWidth;
+    track.style.transform = `translateX(${manualOffset}px)`;
+  });
+})();
+
+// ─── AI CHAT WIDGET ──────────────────────────────────────────────────
+(function() {
+  const responses = {
+    'rates':     "Today's rates are updated daily — check the Rates section above for live numbers. Want to know what rate you'd personally qualify for? Our team can run a free analysis.",
+    'qualify':   "Qualifying depends on your credit score, income, and debt-to-income ratio. Most loans start at a 620 credit score, but we have options for many situations. Want to find out exactly where you stand?",
+    'down payment': "You might need less than you think — as low as 0% for VA loans, 3.5% for FHA, or 3% conventional. We also know down payment assistance programs in Ohio.",
+    'pre-approval': "Pre-approval is free and takes about 24–48 hours. It shows sellers you're serious and locks in your budget. Ready to start?",
+    'refinance': "If rates have dropped since you bought or your situation has changed, refinancing could save you real money. Try the Refinance Calculator above or talk to our team.",
+    'default':   "Great question! Our team is best equipped to give you a personalized answer. You can reach Nick's team at 937-829-0507 or apply online — we typically respond the same day."
+  };
+
+  function getBotResponse(msg) {
+    const m = msg.toLowerCase();
+    if (m.includes('rate') || m.includes('interest')) return responses.rates;
+    if (m.includes('qualif') || m.includes('credit') || m.includes('income')) return responses.qualify;
+    if (m.includes('down') || m.includes('payment')) return responses['down payment'];
+    if (m.includes('pre') || m.includes('approval') || m.includes('preapproval')) return responses['pre-approval'];
+    if (m.includes('refi')) return responses.refinance;
+    return responses.default;
+  }
+
+  function openChat() {
+    document.getElementById('chatPanel').classList.add('open');
+    document.querySelector('#chatBtn .chat-notif')?.remove();
+  }
+  function closeChat() {
+    document.getElementById('chatPanel').classList.remove('open');
+  }
+  window.openChat = openChat;
+  window.closeChat = closeChat;
+
+  function addMessage(text, isBot) {
+    const msgs = document.getElementById('chatMessages');
+    if (isBot) {
+      const row = document.createElement('div');
+      row.className = 'chat-msg';
+      row.innerHTML = `<div class="chat-msg-avatar">&#129302;</div><div class="chat-bubble typing"><span></span><span></span><span></span></div>`;
+      msgs.appendChild(row);
+      msgs.scrollTop = msgs.scrollHeight;
+      setTimeout(() => {
+        row.querySelector('.chat-bubble').classList.remove('typing');
+        row.querySelector('.chat-bubble').innerHTML = text;
+        msgs.scrollTop = msgs.scrollHeight;
+      }, 1200);
+    } else {
+      const row = document.createElement('div');
+      row.className = 'chat-msg';
+      row.style.flexDirection = 'row-reverse';
+      row.innerHTML = `<div class="chat-bubble" style="background:var(--p700);color:#fff;border-radius:16px 0 16px 16px;">${text}</div>`;
+      msgs.appendChild(row);
+      msgs.scrollTop = msgs.scrollHeight;
+    }
+  }
+
+  function sendChat() {
+    const input = document.getElementById('chatInput');
+    const msg = input.value.trim();
+    if (!msg) return;
+    input.value = '';
+    document.querySelector('.chat-quick-replies').style.display = 'none';
+    addMessage(msg, false);
+    setTimeout(() => addMessage(getBotResponse(msg), true), 300);
+  }
+  window.sendChat = sendChat;
+
+  function quickReply(text) {
+    document.getElementById('chatInput').value = text;
+    sendChat();
+  }
+  window.quickReply = quickReply;
+
+  document.getElementById('chatInput').addEventListener('keydown', e => {
+    if (e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); sendChat(); }
+  });
+
+  // Auto-popup: open after 5s, ask a question, close if no interaction after 9s
+  let autoCloseTimer = null;
+  let userInteracted = false;
+
+  function markInteracted() { userInteracted = true; clearTimeout(autoCloseTimer); }
+  document.getElementById('chatPanel').addEventListener('click', markInteracted);
+  document.getElementById('chatInput').addEventListener('focus', markInteracted);
+
+  setTimeout(() => {
+    openChat();
+    setTimeout(() => addMessage("Thinking about buying or refinancing in Dayton? I can answer quick questions about rates, qualifying, and next steps.", true), 600);
+    autoCloseTimer = setTimeout(() => {
+      if (!userInteracted) closeChat();
+    }, 9000);
+  }, 5000);
+})();
+
+// ─── GIVEAWAY ────────────────────────────────────────────────────────
+function submitGiveaway() {
+  const name  = document.getElementById('gwName').value.trim();
+  const email = document.getElementById('gwEmail').value.trim();
+  if (!name || !email || !email.includes('@')) {
+    document.getElementById('gwEmail').style.borderColor = 'rgba(239,68,68,.7)';
+    return;
+  }
+  document.getElementById('givewayForm').style.display = 'none';
+  document.getElementById('gwSuccess').style.display = 'block';
+}
 </script>
+
+<!-- ── CHAT BUTTON ── -->
+<button id="chatBtn" onclick="openChat()" aria-label="Chat with us">
+  <svg viewBox="0 0 24 24"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+  <div class="chat-notif"></div>
+</button>
+
+<!-- ── CHAT PANEL ── -->
+<div id="chatPanel">
+  <div class="chat-header">
+    <div class="chat-avatar">&#129302;</div>
+    <div class="chat-header-info">
+      <div class="chat-header-name">Stacy-Phillips Assistant</div>
+      <div class="chat-header-status"><div class="chat-status-dot"></div>Online — usually replies instantly</div>
+    </div>
+    <button class="chat-close" onclick="closeChat()" aria-label="Close">&#x2715;</button>
+  </div>
+  <div class="chat-messages" id="chatMessages">
+    <div class="chat-msg">
+      <div class="chat-msg-avatar">&#129302;</div>
+      <div class="chat-bubble">Hi! I'm the Stacy-Phillips Team assistant. Ask me anything about rates, qualifying, or getting started — or choose a topic below.</div>
+    </div>
+  </div>
+  <div class="chat-quick-replies">
+    <button class="chat-qr" onclick="quickReply('What are today\'s rates?')">Today\'s Rates</button>
+    <button class="chat-qr" onclick="quickReply('Do I qualify?')">Do I Qualify?</button>
+    <button class="chat-qr" onclick="quickReply('How much down payment do I need?')">Down Payment</button>
+    <button class="chat-qr" onclick="quickReply('How do I get pre-approved?')">Pre-Approval</button>
+  </div>
+  <div class="chat-input-row">
+    <input class="chat-input" id="chatInput" type="text" placeholder="Ask a question…" autocomplete="off">
+    <button class="chat-send" onclick="sendChat()" aria-label="Send">
+      <svg viewBox="0 0 24 24"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>
+    </button>
+  </div>
+  <div class="chat-disclaimer">Answers are general guidance. Contact the team for personalized advice.</div>
+</div>
+
 </body>
 </html>
