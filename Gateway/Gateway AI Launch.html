@@ -1,0 +1,1034 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>Gateway Ai. Every answer is one question away.</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Geist:wght@100;200;300;400;500;600;700&family=Geist+Mono:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --ink:#000;
+    --ink-2:#0a0a0c;
+    --ink-3:#101013;
+    --paper:#f5f5f3;
+    --paper-2:#ececea;
+    --line:rgba(255,255,255,.08);
+    --line-2:rgba(0,0,0,.08);
+    --muted:rgba(255,255,255,.55);
+    --muted-d:rgba(0,0,0,.55);
+    --glow: #40A848;
+    --glow-soft: oklch(0.66 0.16 145 / .35);
+    --glow-faint: oklch(0.66 0.16 145 / .08);
+    --gateway-green: oklch(0.68 0.17 152);
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html,body{background:#000;color:#f5f5f3;font-family:"Geist",ui-sans-serif,system-ui,sans-serif;font-feature-settings:"ss01","cv11";-webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility}
+  html{scroll-behavior:smooth}
+  body{overflow-x:hidden}
+  ::selection{background:var(--glow);color:#000}
+  .mono{font-family:"Geist Mono",ui-monospace,monospace;font-feature-settings:normal}
+
+  /* Sticky nav */
+  .nav{
+    position:fixed;top:0;left:0;right:0;z-index:100;
+    height:56px;
+    display:flex;align-items:center;justify-content:space-between;
+    padding:0 max(24px, 4vw);
+    backdrop-filter: blur(20px) saturate(1.4);
+    -webkit-backdrop-filter: blur(20px) saturate(1.4);
+    background:rgba(0,0,0,.45);
+    border-bottom:1px solid rgba(255,255,255,.06);
+    transition: background .4s ease, border-color .4s ease, color .4s ease;
+  }
+  .nav.light{background:rgba(245,245,243,.7);border-bottom-color:rgba(0,0,0,.06);color:#000}
+  .nav-brand{display:flex;align-items:center;gap:12px;font-weight:600;font-size:18px;letter-spacing:-.02em;color:#fff !important;text-decoration:none}
+  .nav.light .nav-brand{color:#0a0a0c !important}
+  .nav-logo{
+    width:32px;height:32px;border-radius:50%;
+    display:grid;place-items:center;overflow:hidden;background:#fff;
+    box-shadow: 0 0 14px oklch(0.66 0.16 145 / .35);
+  }
+  .nav-logo img{width:100%;height:100%;display:block;object-fit:cover}
+  .gw-mark{display:inline-block;line-height:0}
+  .gw-mark svg{display:block;width:100%;height:100%}
+  .nav-links{display:flex;gap:32px;font-size:13px;color:inherit;opacity:.7}
+  .nav-links a{color:inherit;text-decoration:none;transition:opacity .2s}
+  .nav-links a:hover{opacity:1}
+
+  /* Sections */
+  section{position:relative;overflow:hidden}
+  .container{max-width:1320px;margin:0 auto;padding:0 max(24px,5vw)}
+
+  /* Reveal */
+  .reveal{opacity:0;transform:translateY(28px);transition:opacity 1.1s cubic-bezier(.16,1,.3,1), transform 1.1s cubic-bezier(.16,1,.3,1)}
+  .reveal.in{opacity:1;transform:none}
+  .reveal.d1{transition-delay:.08s} .reveal.d2{transition-delay:.18s}
+  .reveal.d3{transition-delay:.28s} .reveal.d4{transition-delay:.38s}
+  .reveal.d5{transition-delay:.48s} .reveal.d6{transition-delay:.58s}
+
+  /* Cursor */
+  .cursor{display:inline-block;width:.55ch;height:.95em;background:currentColor;transform:translateY(.12em);margin-left:.1ch;animation:blink 1.05s steps(1) infinite;vertical-align:baseline}
+  @keyframes blink{50%{opacity:0}}
+
+  /* Headlines */
+  .display{
+    font-weight:200;
+    letter-spacing:-.045em;
+    line-height:.95;
+    font-size: clamp(56px, 11vw, 196px);
+  }
+  .h1{font-weight:300;letter-spacing:-.035em;line-height:1;font-size:clamp(44px,7.2vw,124px)}
+  .h2{font-weight:300;letter-spacing:-.03em;line-height:1.02;font-size:clamp(36px,5.2vw,84px)}
+  .eyebrow{font-family:"Geist Mono",monospace;font-size:11px;letter-spacing:.18em;text-transform:uppercase;color:var(--glow);opacity:.85}
+  .eyebrow.dark{color:oklch(0.45 0.16 145)}
+  .lede{font-size:clamp(17px,1.4vw,22px);line-height:1.5;font-weight:300;max-width:60ch;color:var(--muted)}
+  .lede.dark{color:var(--muted-d)}
+
+  /* Buttons */
+  .btn{
+    display:inline-flex;align-items:center;gap:10px;
+    font-family:inherit;font-size:14px;font-weight:400;letter-spacing:-.005em;
+    padding:14px 22px;border-radius:999px;border:1px solid var(--line);
+    background:rgba(255,255,255,.04);color:#f5f5f3;text-decoration:none;
+    transition: all .3s cubic-bezier(.16,1,.3,1);cursor:pointer;
+    backdrop-filter: blur(8px);
+  }
+  .btn:hover{background:rgba(255,255,255,.08);border-color:rgba(255,255,255,.2);transform:translateY(-1px)}
+  .btn.primary{background:#40A848;color:#fff;border-color:transparent}
+  .btn.primary:hover{box-shadow:0 14px 50px -10px rgba(64,168,72,.5);filter:brightness(1.08)}
+  .btn .arrow{transition:transform .3s ease}
+  .btn:hover .arrow{transform:translateX(3px)}
+  .pill{
+    display:inline-flex;align-items:center;gap:8px;
+    padding:6px 12px 6px 10px;border-radius:999px;
+    background:rgba(255,255,255,.04);border:1px solid var(--line);
+    font-size:12px;color:var(--muted);font-family:"Geist Mono",monospace;letter-spacing:.04em;
+  }
+  .pill .dot{width:6px;height:6px;border-radius:50%;background:var(--glow);box-shadow:0 0 12px var(--glow)}
+
+  /* HERO */
+  .hero{
+    min-height:100vh;
+    background: radial-gradient(ellipse 90% 60% at 50% 35%, oklch(0.66 0.16 145 / .12), transparent 55%), #000;
+    display:flex;flex-direction:column;align-items:center;justify-content:flex-start;
+    padding:140px 24px 60px;text-align:center;position:relative;
+    overflow:hidden;
+  }
+  .hero canvas{position:absolute;inset:0;width:100%;height:100%;pointer-events:none}
+  .hero-grid{
+    position:absolute;inset:0;pointer-events:none;
+    background-image:
+      linear-gradient(to right, rgba(255,255,255,.025) 1px, transparent 1px),
+      linear-gradient(to bottom, rgba(255,255,255,.025) 1px, transparent 1px);
+    background-size: 80px 80px;
+    mask-image: radial-gradient(ellipse 70% 55% at 50% 45%, #000 30%, transparent 75%);
+    -webkit-mask-image: radial-gradient(ellipse 70% 55% at 50% 45%, #000 30%, transparent 75%);
+  }
+  .hero-inner{position:relative;z-index:2;display:flex;flex-direction:column;align-items:center;gap:36px}
+  .hero h1{
+    background: linear-gradient(180deg, #fff 0%, #fff 55%, rgba(255,255,255,.65) 100%);
+    -webkit-background-clip:text;background-clip:text;color:transparent;
+    text-shadow: 0 0 60px oklch(0.66 0.16 145 / .18);
+  }
+  .hero-sub{font-size:clamp(20px,2vw,30px);font-weight:300;letter-spacing:-.02em;color:#e8e8e6;max-width:24ch}
+  .hero-body{font-size:15px;line-height:1.55;color:var(--muted);max-width:54ch;font-weight:300}
+  .hero-cta{display:flex;gap:12px;flex-wrap:wrap;justify-content:center;margin-top:8px}
+
+  /* Closing section */
+  .closing{
+    background:#000;padding:clamp(60px,10vh,140px) 0 0;position:relative;overflow:hidden;
+  }
+  .closing::before{
+    content:"";position:absolute;inset:0;
+    background: radial-gradient(ellipse 60% 50% at 50% 60%, oklch(0.66 0.16 145 / .10), transparent 70%);
+    pointer-events:none;
+  }
+  .closing-laptop{
+    position:relative;z-index:1;
+    width:min(1100px, 92vw);margin:0 auto;
+    --p: 0;
+    opacity: var(--p);
+    transform: translateY(calc((1 - var(--p)) * 160px));
+    will-change: opacity, transform;
+    filter: drop-shadow(0 40px 80px rgba(0,0,0,.7)) drop-shadow(0 0 140px oklch(0.66 0.16 145 / .25));
+  }
+  .closing-laptop img{width:100%;height:auto;display:block}
+
+  .hero-foot{
+    position:relative;z-index:2;margin-top:auto;
+    display:flex;justify-content:space-between;align-items:center;
+    width:100%;max-width:1320px;padding:48px max(0px,2vw) 0;
+    font-size:11px;color:var(--muted);letter-spacing:.06em;font-family:"Geist Mono",monospace;text-transform:uppercase;
+  }
+  .scroll-hint{display:flex;align-items:center;gap:8px;opacity:.6}
+  .scroll-hint .bar{width:1px;height:24px;background:linear-gradient(180deg,transparent,#fff,transparent);animation:scrolly 2.2s ease-in-out infinite}
+  @keyframes scrolly{0%{transform:translateY(-12px);opacity:0}40%{opacity:1}100%{transform:translateY(12px);opacity:0}}
+
+  /* PROBLEM */
+  .problem{background:var(--paper);color:#0a0a0c;padding:clamp(120px,18vh,200px) 0}
+  .problem .h1{font-weight:200}
+  .problem-list{
+    display:grid;grid-template-columns:1fr;gap:18px;margin-top:48px;
+    max-width:780px;
+  }
+  .problem-list li{
+    list-style:none;display:flex;align-items:center;gap:18px;
+    font-size:clamp(18px,1.9vw,26px);font-weight:300;letter-spacing:-.015em;color:#0a0a0c;
+    padding:18px 0;border-top:1px solid rgba(0,0,0,.08);
+  }
+  .problem-list li::before{
+    content:"";width:8px;height:8px;border-radius:50%;
+    background:#0a0a0c;flex-shrink:0;opacity:.85;
+  }
+  .strike{position:relative;display:inline}
+  .strike::after{
+    content:"";position:absolute;left:-2%;right:-2%;top:55%;height:1px;background:currentColor;
+    transform:scaleX(0);transform-origin:left;transition:transform 3.6s cubic-bezier(.7,0,.3,1)
+  }
+  .problem-list li:nth-child(1) .strike::after{transition-delay:.6s}
+  .problem-list li:nth-child(2) .strike::after{transition-delay:1.6s}
+  .problem-list li:nth-child(3) .strike::after{transition-delay:2.6s}
+  .problem-list li:nth-child(4) .strike::after{transition-delay:3.6s}
+  .problem-list li:nth-child(5) .strike::after{transition-delay:4.6s}
+  .in .strike::after{transform:scaleX(1)}
+  .changes{margin-top:96px;font-size:clamp(40px,6vw,96px);font-weight:200;letter-spacing:-.03em;line-height:1}
+  .changes em{font-style:normal;color:oklch(0.45 0.16 145)}
+
+  /* ASK ANYTHING */
+  .ask{background:#0a0a0c;padding:clamp(120px,18vh,200px) 0;position:relative}
+  .ask::before{
+    content:"";position:absolute;inset:0;
+    background: radial-gradient(ellipse 50% 40% at 50% 50%, oklch(0.66 0.16 145 / .10), transparent 60%);
+    pointer-events:none;
+  }
+  .ask-grid{display:grid;grid-template-columns:1fr;gap:64px;align-items:center;position:relative;z-index:1;text-align:center}
+  .ask .h2{margin-top:18px}
+  .ask .lede{margin:24px auto 0}
+
+  /* Chat mock */
+  .chat-wrap{
+    margin:64px auto 0;max-width:880px;
+    border-radius:24px;
+    background: linear-gradient(180deg, rgba(255,255,255,.035), rgba(255,255,255,.015));
+    border:1px solid rgba(255,255,255,.08);
+    box-shadow: 0 60px 120px -40px rgba(0,0,0,.6), 0 0 0 1px rgba(255,255,255,.02) inset, 0 0 80px -20px var(--glow-soft);
+    overflow:hidden;
+    backdrop-filter: blur(12px);
+    position:relative;
+    text-align:left;
+  }
+  .chat-head{
+    display:flex;align-items:center;justify-content:space-between;
+    padding:14px 20px;border-bottom:1px solid var(--line);font-size:12px;color:var(--muted);
+  }
+  .chat-head .left{display:flex;gap:8px;align-items:center}
+  .chat-head .dotrow{display:flex;gap:5px}
+  .chat-head .dotrow span{width:8px;height:8px;border-radius:50%;background:rgba(255,255,255,.12)}
+  .chat-head .title{font-family:"Geist Mono",monospace;letter-spacing:.06em;font-size:11px;text-transform:uppercase}
+  .chat-body{padding:28px 28px 16px;min-height:240px;display:flex;flex-direction:column;gap:18px}
+  .msg{display:flex;gap:14px;align-items:flex-start}
+  .msg .avatar{
+    width:28px;height:28px;border-radius:8px;flex-shrink:0;
+    display:grid;place-items:center;font-size:11px;font-weight:500;letter-spacing:-.02em;
+  }
+  .msg.user .avatar{background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.12);color:#fff}
+  .msg.ai .avatar{
+    background: radial-gradient(circle at 30% 30%, oklch(0.78 0.18 152), oklch(0.5 0.17 152));
+    color:#fff;
+    box-shadow: 0 0 18px oklch(0.68 0.17 152 / .45);
+  }
+  .msg-content{flex:1;font-size:15px;line-height:1.6;color:#e8e8e6;font-weight:300;letter-spacing:-.005em;padding-top:3px;min-height:1.6em}
+  .msg.user .msg-content{color:#fff}
+  .typing-dots{display:inline-flex;gap:4px;vertical-align:middle}
+  .typing-dots i{width:5px;height:5px;border-radius:50%;background:rgba(255,255,255,.4);animation:bounce 1.2s infinite}
+  .typing-dots i:nth-child(2){animation-delay:.15s}
+  .typing-dots i:nth-child(3){animation-delay:.3s}
+  @keyframes bounce{0%,80%,100%{transform:translateY(0);opacity:.4}40%{transform:translateY(-4px);opacity:1}}
+
+  .chat-input{
+    border-top:1px solid var(--line);padding:14px 18px;display:flex;align-items:center;gap:14px;
+    background:rgba(0,0,0,.2);
+  }
+  .chat-input .field{
+    flex:1;font-size:15px;color:rgba(255,255,255,.55);font-weight:300;letter-spacing:-.005em;
+    display:flex;align-items:center;min-height:32px;
+  }
+  .chat-input .icon{
+    width:32px;height:32px;border-radius:50%;display:grid;place-items:center;
+    background:rgba(255,255,255,.06);color:rgba(255,255,255,.5);
+    flex-shrink:0;
+  }
+  .chat-input .send{
+    width:34px;height:34px;border-radius:50%;background:var(--glow);color:#000;display:grid;place-items:center;
+    box-shadow: 0 0 30px var(--glow-soft);
+  }
+  .chips{display:flex;gap:8px;flex-wrap:wrap;margin-top:24px;justify-content:center;max-width:880px;margin-left:auto;margin-right:auto}
+  .chip{
+    font-size:12px;padding:7px 13px;border-radius:999px;
+    border:1px solid rgba(255,255,255,.1);background:rgba(255,255,255,.025);
+    color:rgba(255,255,255,.7);font-family:"Geist Mono",monospace;letter-spacing:.02em;
+    transition:all .25s ease;cursor:default;
+  }
+  .chip:hover{border-color:var(--glow-soft);color:#fff;background:rgba(255,255,255,.05)}
+
+  /* PANELS */
+  .panels{background:#000;padding:clamp(80px,12vh,160px) 0;}
+  .panel{
+    display:grid;grid-template-columns: 1fr 1fr;gap:80px;align-items:center;
+    padding:clamp(80px,14vh,180px) 0;
+    border-top:1px solid var(--line);
+  }
+  .panel:first-child{border-top:none}
+  .panel.flip .panel-text{order:2}
+  .panel-text .eyebrow{margin-bottom:24px;display:block}
+  .panel-text .h2{margin-bottom:24px}
+  .panel-text p{font-size:18px;line-height:1.55;color:var(--muted);font-weight:300;max-width:44ch}
+  .panel-text p + p{margin-top:18px}
+  .panel-visual{
+    aspect-ratio: 5/4;border-radius:24px;
+    background: linear-gradient(180deg, #131318, #08080a);
+    border:1px solid var(--line);
+    position:relative;overflow:hidden;
+    box-shadow: 0 60px 120px -40px rgba(0,0,0,.8), 0 0 60px -20px var(--glow-faint) inset;
+  }
+  @media (max-width: 880px){
+    .panel{grid-template-columns:1fr;gap:40px;padding:80px 0}
+    .panel.flip .panel-text{order:0}
+  }
+
+  /* Floating UI cards inside visuals */
+  .card{
+    position:absolute;background:rgba(20,20,24,.7);
+    border:1px solid rgba(255,255,255,.08);border-radius:14px;
+    padding:14px 16px;backdrop-filter:blur(16px);
+    box-shadow: 0 20px 60px -20px rgba(0,0,0,.6), 0 0 0 1px rgba(255,255,255,.02) inset;
+    color:#e8e8e6;font-size:13px;line-height:1.45;font-weight:300;letter-spacing:-.005em;
+    animation: float 8s ease-in-out infinite;
+  }
+  .card .label{font-family:"Geist Mono",monospace;font-size:10px;text-transform:uppercase;letter-spacing:.12em;color:var(--muted);margin-bottom:6px}
+  .card .glow-dot{display:inline-block;width:6px;height:6px;border-radius:50%;background:var(--glow);box-shadow:0 0 8px var(--glow);margin-right:6px;vertical-align:middle}
+  @keyframes float{0%,100%{transform:translateY(0)}50%{transform:translateY(-8px)}}
+
+  /* HOW IT WORKS */
+  .how{background:var(--paper);color:#0a0a0c;padding:clamp(120px,18vh,200px) 0}
+  .how-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:48px;margin-top:80px}
+  @media (max-width: 880px){.how-grid{grid-template-columns:1fr;gap:60px}}
+  .step{position:relative}
+  .step .num{font-family:"Geist Mono",monospace;font-size:11px;letter-spacing:.2em;text-transform:uppercase;color:oklch(0.45 0.16 145);margin-bottom:24px;display:flex;align-items:center;gap:12px}
+  .step .num .line{flex:1;height:1px;background:rgba(0,0,0,.15)}
+  .step h3{font-size:clamp(32px,3.4vw,52px);font-weight:300;letter-spacing:-.03em;line-height:1.05;margin-bottom:24px}
+  .step p{font-size:16px;line-height:1.55;color:var(--muted-d);font-weight:300;max-width:32ch}
+  .step .visual{
+    margin-top:32px;aspect-ratio:5/3;border-radius:14px;
+    background: linear-gradient(180deg,#fff,#ececea);
+    border:1px solid rgba(0,0,0,.08);
+    position:relative;overflow:hidden;
+    box-shadow: 0 30px 60px -30px rgba(0,0,0,.18);
+  }
+
+  /* BUILT FOR GATEWAY */
+  .built{background:#0a0a0c;padding:clamp(120px,18vh,200px) 0;position:relative;overflow:hidden}
+  .built::before{
+    content:"";position:absolute;inset:0;
+    background: radial-gradient(ellipse 45% 35% at 50% 0%, oklch(0.66 0.16 145 / .12), transparent 60%);
+  }
+  .built-grid{display:grid;grid-template-columns:1.1fr 1fr;gap:80px;align-items:center;position:relative;z-index:1}
+  @media (max-width:880px){.built-grid{grid-template-columns:1fr;gap:48px}}
+  .built p{font-size:18px;line-height:1.55;color:var(--muted);font-weight:300;max-width:44ch}
+  .built p + p{margin-top:20px}
+
+  .trust-visual{
+    aspect-ratio:1/1;border-radius:50%;
+    background: radial-gradient(circle, oklch(0.66 0.16 145 / .12), transparent 65%);
+    position:relative;display:grid;place-items:center;
+  }
+  .orbit{position:absolute;inset:0;border-radius:50%;border:1px solid rgba(255,255,255,.06);animation:spin 40s linear infinite}
+  .orbit.b{inset:14%;animation-duration:60s;animation-direction:reverse}
+  .orbit.c{inset:28%;animation-duration:25s}
+  .orbit-node{
+    position:absolute;top:-5px;left:50%;width:10px;height:10px;border-radius:50%;
+    background:var(--glow);box-shadow:0 0 20px var(--glow);transform:translateX(-50%);
+  }
+  .orbit.b .orbit-node{background:#fff;box-shadow:0 0 14px rgba(255,255,255,.7)}
+  .orbit.c .orbit-node{background:oklch(0.68 0.17 152);box-shadow:0 0 16px oklch(0.68 0.17 152)}
+  @keyframes spin{to{transform:rotate(360deg)}}
+  .trust-core{
+    position:relative;z-index:2;
+    width:32%;aspect-ratio:1;border-radius:50%;
+    background: radial-gradient(circle at 30% 30%, #1a1a1f, #050507);
+    border:1px solid rgba(255,255,255,.12);
+    display:grid;place-items:center;
+    box-shadow: 0 0 60px var(--glow-soft), 0 0 0 1px rgba(255,255,255,.04) inset;
+  }
+  .trust-core .mark{
+    width:42%;aspect-ratio:1;border-radius:50%;
+    display:grid;place-items:center;
+    background:#fff;overflow:hidden;
+  }
+
+  /* Panel mockup wrappers */
+  .mockup-frame{
+    position:absolute;inset:0;display:grid;place-items:center;
+    background: radial-gradient(ellipse 65% 55% at 50% 50%, oklch(0.66 0.16 145 / .12), transparent 70%);
+  }
+  .mockup-frame img{max-width:78%;max-height:88%;width:auto;height:auto;display:block;filter: drop-shadow(0 30px 60px rgba(0,0,0,.6)) drop-shadow(0 0 80px oklch(0.66 0.16 145 / .25))}
+
+  /* FINAL FOOTER */
+  .final{
+    background:#000;
+    padding:40px 24px;text-align:center;position:relative;
+  }
+  .final-foot{
+    position:relative;
+    display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:16px;
+    max-width:1320px;margin:0 auto;
+    font-size:11px;color:var(--muted);letter-spacing:.06em;font-family:"Geist Mono",monospace;text-transform:uppercase;
+  }
+  .final::before{
+    content:"";position:absolute;inset:0;
+    background: radial-gradient(ellipse 70% 50% at 50% 50%, oklch(0.66 0.16 145 / .08), transparent 65%);
+    pointer-events:none;
+  }
+
+  /* Mobile responsive */
+  @media (max-width: 880px){
+    .nav{height:52px;padding:0 18px}
+    .nav-brand{font-size:16px}
+    .nav-logo{width:28px;height:28px}
+    .container{padding:0 22px}
+    .hero{padding:120px 20px 60px;min-height:auto}
+    .display{font-size:clamp(48px,13vw,80px)}
+    .h1{font-size:clamp(36px,9vw,64px)}
+    .h2{font-size:clamp(28px,7vw,48px)}
+    .hero-sub{font-size:clamp(18px,4.5vw,24px);max-width:90vw}
+    .lede{font-size:16px}
+    .problem-list li{font-size:18px;padding:14px 0}
+    .changes{font-size:clamp(34px,9vw,56px);margin-top:64px}
+    .problem,.ask,.panels,.how,.built{padding:80px 0}
+    .step h3{font-size:clamp(26px,7vw,36px)}
+    .chat-wrap{margin:40px auto 0}
+    .chat-body{padding:20px 20px 12px}
+    .chips{margin-top:16px}
+    .chip{font-size:11px}
+    .closing-laptop{width:96vw}
+    .panel{padding:64px 0}
+    .panel-visual{aspect-ratio:5/4}
+    .built-grid p{font-size:16px}
+    .nav-links{display:none}
+    .scroll-hint{display:none}
+  }
+  @media (max-width: 640px){
+    .final-foot{flex-direction:column;gap:10px;align-items:center;text-align:center}
+    .panel-text p{font-size:16px}
+  }
+</style>
+</head>
+<body>
+  <div id="root"></div>
+
+  <script src="https://unpkg.com/react@18.3.1/umd/react.development.js" crossorigin="anonymous"></script>
+  <script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.development.js" crossorigin="anonymous"></script>
+  <script src="https://unpkg.com/@babel/standalone@7.29.0/babel.min.js" crossorigin="anonymous"></script>
+
+  <script type="text/babel">
+    const { useState, useEffect, useRef, useCallback } = React;
+
+    // ─── HERO PARTICLES ──────────────────────────────────────────────────────────
+    const HeroParticles = () => {
+      const canvasRef = useRef(null);
+      useEffect(() => {
+        const c = canvasRef.current; if (!c) return;
+        const ctx = c.getContext('2d');
+        let raf, w, h, dpr = Math.min(window.devicePixelRatio || 1, 2);
+        const resize = () => {
+          const r = c.getBoundingClientRect();
+          w = r.width; h = r.height;
+          c.width = w * dpr; c.height = h * dpr;
+          ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+        };
+        resize();
+        window.addEventListener('resize', resize);
+        const N = 80;
+        const parts = Array.from({length: N}, () => ({
+          x: Math.random() * (w || 800),
+          y: Math.random() * (h || 600),
+          r: Math.random() * 1.2 + .2,
+          vx: (Math.random() - .5) * .14,
+          vy: (Math.random() - .5) * .14,
+          a: Math.random() * .6 + .15,
+          hue: Math.random() < .25 ? 'glow' : 'white',
+        }));
+        let t = 0;
+        const tick = () => {
+          t += .005;
+          ctx.clearRect(0, 0, w, h);
+          const cx = w * (.5 + Math.sin(t * .7) * .15);
+          const cy = h * (.45 + Math.cos(t * .5) * .12);
+          const g = ctx.createRadialGradient(cx, cy, 0, cx, cy, Math.max(w,h) * .55);
+          g.addColorStop(0, 'rgba(64,168,72,.10)');
+          g.addColorStop(1, 'transparent');
+          ctx.fillStyle = g;
+          ctx.fillRect(0, 0, w, h);
+          for (const p of parts) {
+            p.x += p.vx; p.y += p.vy;
+            if (p.x < -10) p.x = w + 10; if (p.x > w + 10) p.x = -10;
+            if (p.y < -10) p.y = h + 10; if (p.y > h + 10) p.y = -10;
+            ctx.beginPath();
+            ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
+            if (p.hue === 'glow') {
+              ctx.fillStyle = `rgba(64,168,72,${p.a})`;
+              ctx.shadowColor = '#40A848';
+              ctx.shadowBlur = 8;
+            } else {
+              ctx.fillStyle = `rgba(255,255,255,${p.a * .55})`;
+              ctx.shadowBlur = 0;
+            }
+            ctx.fill();
+          }
+          ctx.shadowBlur = 0;
+          raf = requestAnimationFrame(tick);
+        };
+        tick();
+        return () => { cancelAnimationFrame(raf); window.removeEventListener('resize', resize); };
+      }, []);
+      return <canvas ref={canvasRef} />;
+    };
+
+    // ─── TYPEWRITER ───────────────────────────────────────────────────────────────
+    const TypeOnce = ({ text, typeSpeed = 95, startDelay = 300, cursorColor = '#40A848' }) => {
+      const [shown, setShown] = useState('');
+      const [run, setRun] = useState(0);
+
+      useEffect(() => {
+        let wasAway = false;
+        const onScroll = () => {
+          const y = window.scrollY || window.pageYOffset || 0;
+          if (y > 200) wasAway = true;
+          else if (wasAway && y < 40) { wasAway = false; setRun(r => r + 1); }
+        };
+        window.addEventListener('scroll', onScroll, { passive: true });
+        return () => window.removeEventListener('scroll', onScroll);
+      }, []);
+
+      useEffect(() => {
+        let cancelled = false, t;
+        setShown('');
+        t = setTimeout(() => {
+          let i = 0;
+          const tick = () => {
+            if (cancelled) return;
+            i++;
+            setShown(text.slice(0, i));
+            if (i < text.length) t = setTimeout(tick, typeSpeed);
+          };
+          tick();
+        }, startDelay);
+        return () => { cancelled = true; clearTimeout(t); };
+      }, [text, typeSpeed, startDelay, run]);
+
+      return (
+        <span>
+          <span>{shown}</span>
+          <span className="cursor" style={{ background: cursorColor, width: 2 }}></span>
+        </span>
+      );
+    };
+
+    // ─── SCROLL REVEAL HOOK ───────────────────────────────────────────────────────
+    const useReveal = () => {
+      useEffect(() => {
+        const reveal = () => {
+          const vh = window.innerHeight;
+          document.querySelectorAll('.reveal:not(.in)').forEach(el => {
+            const rect = el.getBoundingClientRect();
+            if (rect.top < vh * 0.92 && rect.bottom > 0) el.classList.add('in');
+          });
+          // Scroll-driven laptop reveal
+          const laptop = document.querySelector('.closing-laptop');
+          if (laptop) {
+            const r = laptop.getBoundingClientRect();
+            const start = vh * 1.0, end = vh * 0.4;
+            const p = Math.max(0, Math.min(1, (start - r.top) / (start - end)));
+            laptop.style.setProperty('--p', p.toFixed(3));
+          }
+        };
+        requestAnimationFrame(() => requestAnimationFrame(reveal));
+        window.addEventListener('scroll', reveal, { passive: true });
+        window.addEventListener('resize', reveal);
+        return () => { window.removeEventListener('scroll', reveal); window.removeEventListener('resize', reveal); };
+      }, []);
+    };
+
+    // ─── CHAT MOCK ────────────────────────────────────────────────────────────────
+    const PROMPTS = [
+      "What is our mold procedure?",
+      "How should incident reports be handled?",
+      "What do I do if someone slips on ice?",
+      "What is the move-out process?",
+      "Where can I find the Security Deposit Settlement Notice process?",
+    ];
+    const RESPONSES = [
+      "Gateway's mold procedure follows a five-step protocol: assess, contain, document, notify, and remediate. Begin with a visual inspection of the affected unit and photograph all visible growth before any cleaning takes place.",
+      "Submit the incident within 24 hours via the Operations portal. Include date, time, location, parties involved, and any witness statements. A regional manager will be notified automatically.",
+      "Mark the area immediately and request emergency maintenance. File a Slip & Fall incident report the same day, even if the resident declines medical attention. Photograph the conditions before treatment.",
+      "Move-outs begin with a 30-day notice in writing, followed by a pre-move inspection. The Security Deposit Settlement Notice is generated within 21 days of vacancy.",
+      "The Security Deposit Settlement Notice template lives under Operations, then Forms, then Move-out. It must be sent via certified mail within 21 days of the resident's last day of tenancy.",
+    ];
+
+    const useTypewriter = (text, speed = 22, startDelay = 0) => {
+      const [out, setOut] = useState('');
+      useEffect(() => {
+        setOut('');
+        let i = 0;
+        const start = setTimeout(() => {
+          const id = setInterval(() => {
+            i++;
+            setOut(text.slice(0, i));
+            if (i >= text.length) clearInterval(id);
+          }, speed);
+          return () => clearInterval(id);
+        }, startDelay);
+        return () => clearTimeout(start);
+      }, [text, speed, startDelay]);
+      return out;
+    };
+
+    const ChatMock = () => {
+      const [idx, setIdx] = useState(0);
+      const [phase, setPhase] = useState('typing');
+      const prompt = PROMPTS[idx];
+      const response = RESPONSES[idx];
+
+      useEffect(() => {
+        setPhase('typing');
+        const timings = [
+          [prompt.length * 30 + 250, 'sent'],
+          [prompt.length * 30 + 850, 'thinking'],
+          [prompt.length * 30 + 1850, 'answering'],
+          [prompt.length * 30 + 1850 + response.length * 16 + 1400, 'rest'],
+          [prompt.length * 30 + 1850 + response.length * 16 + 2800, 'next'],
+        ];
+        const timers = timings.map(([d, p]) => setTimeout(() => {
+          if (p === 'next') setIdx(i => (i + 1) % PROMPTS.length);
+          else setPhase(p);
+        }, d));
+        return () => timers.forEach(clearTimeout);
+      }, [idx]);
+
+      const typedPrompt = useTypewriter(prompt, 30);
+      const typedResp = useTypewriter(phase === 'answering' || phase === 'rest' ? response : '', 16);
+
+      return (
+        <div className="chat-wrap">
+          <div className="chat-head">
+            <div className="left">
+              <span className="dotrow"><span></span><span></span><span></span></span>
+              <span style={{opacity:.5,marginLeft:8,fontSize:11}}>gateway.ai / new conversation</span>
+            </div>
+            <span className="title">Gateway Ai</span>
+          </div>
+          <div className="chat-body">
+            {phase !== 'typing' && (
+              <div className="msg user">
+                <div className="avatar">PK</div>
+                <div className="msg-content">{prompt}</div>
+              </div>
+            )}
+            {(phase === 'thinking' || phase === 'answering' || phase === 'rest') && (
+              <div className="msg ai">
+                <div className="avatar" style={{background:'#fff',padding:0,overflow:'hidden',borderRadius:8}}>
+                  <img src="assets/gateway-avatar.png" alt="Gateway" style={{width:'100%',height:'100%',display:'block',objectFit:'cover'}} />
+                </div>
+                <div className="msg-content">
+                  {phase === 'thinking' ? (
+                    <span className="typing-dots"><i></i><i></i><i></i></span>
+                  ) : (
+                    <>
+                      {typedResp}
+                      {phase === 'answering' && <span className="cursor" style={{background:'#e8e8e6'}}></span>}
+                    </>
+                  )}
+                </div>
+              </div>
+            )}
+          </div>
+          <div className="chat-input">
+            <div className="icon">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+            </div>
+            <div className="field">
+              {phase === 'typing' ? (
+                <><span style={{color:'#fff'}}>{typedPrompt}</span><span className="cursor" style={{background:'#fff'}}></span></>
+              ) : phase === 'sent' || phase === 'thinking' || phase === 'answering' ? (
+                <span style={{opacity:.35}}>Ask Gateway Ai…</span>
+              ) : (
+                <span style={{opacity:.35}}>Ask anything about Gateway operations…</span>
+              )}
+            </div>
+            <div className="icon">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z"/><path d="M19 10v2a7 7 0 0 1-14 0v-2"/><line x1="12" y1="19" x2="12" y2="23"/></svg>
+            </div>
+            <div className="send">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><path d="M12 19V5M5 12l7-7 7 7"/></svg>
+            </div>
+          </div>
+        </div>
+      );
+    };
+
+    // ─── PANEL VISUALS ────────────────────────────────────────────────────────────
+    const PanelVisualA = () => (
+      <div className="panel-visual">
+        <div className="mockup-frame">
+          <img src="assets/mockup-phone-dark.png" alt="Gateway AI on iPhone" />
+        </div>
+        <div className="card" style={{top:'14%',left:'6%',width:'42%',padding:'12px 14px',animationDelay:'0s'}}>
+          <div className="label">· 0.2s · found</div>
+          <div style={{fontSize:13,color:'#fff',marginTop:6,fontWeight:400,letterSpacing:'-.01em'}}>Mold Remediation Protocol</div>
+          <div style={{fontSize:10,color:'rgba(255,255,255,.45)',marginTop:4,fontFamily:'Geist Mono',letterSpacing:'.04em'}}>Operations / Health &amp; Safety</div>
+        </div>
+        <div className="card" style={{bottom:'14%',right:'6%',width:'42%',padding:'12px 14px',animationDelay:'1s'}}>
+          <div className="label"><span className="glow-dot"></span> Resolved</div>
+          <div style={{fontSize:13,color:'#fff',marginTop:6,fontWeight:400,letterSpacing:'-.01em'}}>Step 1 of 5: Visual inspection</div>
+          <div style={{fontSize:10,color:'rgba(255,255,255,.45)',marginTop:4,fontFamily:'Geist Mono',letterSpacing:'.04em'}}>Procedure 4.2.1</div>
+        </div>
+      </div>
+    );
+
+    const PanelVisualB = () => (
+      <div className="panel-visual">
+        <div style={{position:'absolute',inset:0,background:'radial-gradient(ellipse 60% 50% at 70% 30%, oklch(0.68 0.17 152 / .12), transparent 70%)'}} />
+        {[
+          {top:'12%',left:'18%',w:'52%',h:'48%',rotate:-3,label:'OPERATIONS HANDBOOK',title:'Section 4: Inspections',sub:'Updated 03/2026 · Gateway Internal'},
+          {top:'22%',left:'30%',w:'52%',h:'48%',rotate:2,label:'POLICY',title:'Incident Response',sub:'Effective May 2026'},
+          {top:'32%',left:'22%',w:'52%',h:'48%',rotate:-1,label:'PROCEDURE',title:'Move-out Workflow',sub:'30-day notice protocol'},
+        ].map((c, i) => (
+          <div key={i} className="card" style={{top:c.top,left:c.left,width:c.w,height:c.h,transform:`rotate(${c.rotate}deg)`,animationDelay:`${i*.6}s`,padding:'18px 20px'}}>
+            <div className="label">{c.label}</div>
+            <div style={{fontSize:18,fontWeight:400,marginTop:8,letterSpacing:'-.015em',color:'#fff'}}>{c.title}</div>
+            <div style={{fontSize:11,color:'rgba(255,255,255,.45)',marginTop:8,fontFamily:'Geist Mono',letterSpacing:'.04em'}}>{c.sub}</div>
+            <div style={{position:'absolute',bottom:14,left:20,right:20,display:'flex',gap:6}}>
+              {[0,1,2,3,4,5,6].map(j => <div key={j} style={{flex:1,height:2,borderRadius:1,background:j<i+3?'var(--glow)':'rgba(255,255,255,.1)'}} />)}
+            </div>
+          </div>
+        ))}
+        <div style={{position:'absolute',bottom:'10%',right:'8%',display:'flex',alignItems:'center',gap:8,fontFamily:'Geist Mono',fontSize:10,color:'var(--glow)',letterSpacing:'.12em',textTransform:'uppercase'}}>
+          <span style={{display:'inline-block',width:6,height:6,borderRadius:'50%',background:'var(--glow)',boxShadow:'0 0 8px var(--glow)'}}></span>
+          TRAINED ON GATEWAY POLICIES
+        </div>
+      </div>
+    );
+
+    const PanelVisualC = () => (
+      <div className="panel-visual">
+        <div style={{position:'absolute',inset:0,background:'radial-gradient(ellipse 60% 50% at 50% 50%, oklch(0.66 0.16 145 / .12), transparent 70%)'}} />
+        <div style={{position:'absolute',top:'15%',left:'10%',right:'10%',padding:'20px 22px',borderRadius:16,background:'rgba(20,20,24,.7)',border:'1px solid rgba(255,255,255,.08)',backdropFilter:'blur(12px)'}}>
+          <div style={{display:'flex',justifyContent:'space-between',alignItems:'baseline',marginBottom:14}}>
+            <span style={{fontSize:11,fontFamily:'Geist Mono',color:'rgba(255,255,255,.5)',letterSpacing:'.12em',textTransform:'uppercase'}}>Response Time</span>
+          </div>
+          <div style={{display:'flex',alignItems:'baseline',gap:8}}>
+            <span style={{fontSize:42,fontWeight:200,letterSpacing:'-.04em',color:'#fff'}}>1.95</span>
+            <span style={{fontSize:14,color:'rgba(255,255,255,.5)',fontFamily:'Geist Mono'}}>seconds</span>
+          </div>
+          <div style={{marginTop:12,height:2,background:'rgba(255,255,255,.06)',borderRadius:1,overflow:'hidden'}}>
+            <div style={{height:'100%',width:'82%',background:'linear-gradient(90deg, var(--glow), oklch(0.78 0.18 152))',animation:'grow 2s ease-out infinite alternate'}} />
+          </div>
+        </div>
+        <style>{`@keyframes grow{0%{width:30%}100%{width:88%}}`}</style>
+      </div>
+    );
+
+    // ─── STEP VISUALS ─────────────────────────────────────────────────────────────
+    const StepVisual = ({ i }) => {
+      const green = '#40A848';
+      if (i === 0) return (
+        <div className="visual">
+          <div style={{position:'absolute',inset:'22% 10%',padding:'14px 16px',borderRadius:10,background:'#fff',border:'1px solid rgba(0,0,0,.08)',boxShadow:'0 12px 24px -10px rgba(0,0,0,.12)',display:'flex',alignItems:'center',gap:10}}>
+            <div style={{width:14,height:14,borderRadius:'50%',border:`1.5px solid ${green}`,position:'relative'}}>
+              <div style={{position:'absolute',right:-3,bottom:-3,width:2,height:6,background:green,transform:'rotate(-45deg)',borderRadius:1}} />
+            </div>
+            <span style={{fontSize:13,color:'#0a0a0c',fontWeight:300}}>What is our mold procedure?</span>
+            <span className="cursor" style={{background:'#0a0a0c'}}></span>
+          </div>
+        </div>
+      );
+      if (i === 1) return (
+        <div className="visual">
+          <div style={{position:'absolute',inset:0,display:'grid',placeItems:'center'}}>
+            <div style={{position:'relative',width:60,height:60}}>
+              <div style={{position:'absolute',inset:0,border:`1px solid ${green}`,borderRadius:'50%',opacity:.3,animation:'pulse-ring 2s ease-out infinite'}}></div>
+              <div style={{position:'absolute',inset:0,border:`1px solid ${green}`,borderRadius:'50%',opacity:.3,animation:'pulse-ring 2s ease-out 1s infinite'}}></div>
+              <div style={{position:'absolute',inset:'25%',background:green,borderRadius:'50%',boxShadow:`0 0 24px ${green}`}}></div>
+            </div>
+          </div>
+          <div style={{position:'absolute',bottom:'14%',left:0,right:0,textAlign:'center',fontFamily:'Geist Mono',fontSize:10,color:'rgba(0,0,0,.5)',letterSpacing:'.18em',textTransform:'uppercase'}}>ANALYZING FILES AND FINDING THE ANSWER</div>
+          <style>{`@keyframes pulse-ring{0%{transform:scale(.6);opacity:.6}100%{transform:scale(2.4);opacity:0}}`}</style>
+        </div>
+      );
+      return (
+        <div className="visual">
+          <div style={{position:'absolute',top:'18%',left:'10%',right:'10%',padding:'14px 16px',borderRadius:10,background:'#fff',border:'1px solid rgba(0,0,0,.08)',boxShadow:'0 12px 24px -10px rgba(0,0,0,.12)'}}>
+            <div style={{display:'flex',alignItems:'center',gap:8,marginBottom:8}}>
+              <div style={{width:14,height:14,borderRadius:'50%',background:'radial-gradient(circle at 30% 30%, oklch(0.78 0.18 152), oklch(0.5 0.17 152))'}} />
+              <span style={{fontSize:9,fontFamily:'Geist Mono',color:green,letterSpacing:'.12em',textTransform:'uppercase',fontWeight:500}}>Gateway Ai</span>
+            </div>
+            <div style={{fontSize:12,color:'#0a0a0c',lineHeight:1.5,fontWeight:300}}>
+              Begin with visual inspection. Photograph all growth before cleaning. Notify the regional manager within 4 hours.
+            </div>
+          </div>
+          <div style={{position:'absolute',bottom:'14%',left:'10%',right:'10%',display:'flex',gap:6}}>
+            {[0,1,2].map(j => <div key={j} style={{flex:1,padding:'6px 10px',background:'rgba(0,0,0,.04)',borderRadius:6,fontSize:10,fontFamily:'Geist Mono',color:'rgba(0,0,0,.5)',letterSpacing:'.04em'}}></div>)}
+          </div>
+        </div>
+      );
+    };
+
+    // ─── NAV ──────────────────────────────────────────────────────────────────────
+    const Nav = () => {
+      const [light, setLight] = useState(false);
+      useEffect(() => {
+        const check = () => {
+          const vh = window.innerHeight, midY = vh * 0.45;
+          let active = null;
+          document.querySelectorAll('[data-theme]').forEach(s => {
+            const r = s.getBoundingClientRect();
+            if (r.top <= midY && r.bottom >= midY) active = s.dataset.theme;
+          });
+          setLight(active === 'light');
+        };
+        check();
+        window.addEventListener('scroll', check, { passive: true });
+        window.addEventListener('resize', check);
+        return () => { window.removeEventListener('scroll', check); window.removeEventListener('resize', check); };
+      }, []);
+      return (
+        <nav className={"nav" + (light ? " light" : "")}>
+          <a href="#top" className="nav-brand">
+            <span className="nav-logo"><img src="assets/gateway-avatar.png" alt="Gateway" /></span>
+            <span>Gateway Ai</span>
+          </a>
+          <div className="nav-links">
+            <a href="#ask">Overview</a>
+            <a href="#features">Features</a>
+            <a href="#how">How it works</a>
+          </div>
+        </nav>
+      );
+    };
+
+    // ─── HERO ─────────────────────────────────────────────────────────────────────
+    const Hero = () => (
+      <section className="hero" id="top" data-screen-label="01 Hero">
+        <HeroParticles />
+        <div className="hero-grid" />
+        <div className="hero-inner">
+          <h1 className="display reveal d2">Gateway<span style={{color:'#40A848',fontWeight:300}}> Ai</span></h1>
+          <div className="hero-sub reveal d3" style={{minHeight:'1.4em'}}>
+            <TypeOnce text="Every answer is just one question away." />
+          </div>
+          <div className="hero-cta reveal d5">
+            <a href="#ask" className="btn primary">
+              <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>
+              See it work
+            </a>
+          </div>
+        </div>
+        <div className="hero-foot">
+          <span></span>
+          <span className="scroll-hint"><span className="bar"></span></span>
+        </div>
+      </section>
+    );
+
+    // ─── PROBLEM ──────────────────────────────────────────────────────────────────
+    const Problem = () => (
+      <section className="problem" data-theme="light" data-screen-label="02 Problem">
+        <div className="container">
+          <h2 className="h1 reveal" style={{maxWidth:'14ch'}}>
+            Policies shouldn't<br />feel buried.
+          </h2>
+          <p className="lede dark reveal d1" style={{marginTop:32,maxWidth:'60ch'}}>
+            Built for Gateway employees to instantly access policies, procedures, operational guidance,
+            and company knowledge through a simple AI-powered experience.
+          </p>
+          <p className="lede dark reveal d2" style={{marginTop:56}}>Employees shouldn't have to:</p>
+          <ul className="problem-list reveal d3">
+            <li><span className="strike">search through folders</span></li>
+            <li><span className="strike">dig through PDFs</span></li>
+            <li><span className="strike">wait for replies</span></li>
+            <li><span className="strike">guess at procedures</span></li>
+            <li><span className="strike">wonder where information lives</span></li>
+          </ul>
+          <div className="changes reveal d4">
+            Gateway Ai <em>changes that.</em>
+          </div>
+        </div>
+      </section>
+    );
+
+    // ─── ASK ──────────────────────────────────────────────────────────────────────
+    const Ask = () => (
+      <section className="ask" id="ask" data-screen-label="03 Ask">
+        <div className="container">
+          <div className="ask-grid">
+            <div>
+              <span className="eyebrow reveal"></span>
+              <h2 className="h2 reveal d1">Ask naturally.</h2>
+              <p className="lede reveal d2" style={{margin:'24px auto 0'}}>
+                A conversational interface your team already understands. Gateway Ai searches Gateway
+                knowledge instantly and delivers fast, contextual answers grounded in company
+                procedures and operational guidance.
+              </p>
+            </div>
+            <div className="reveal d3" style={{width:'100%'}}>
+              <ChatMock />
+              <div className="chips">
+                {["mold procedure","incident reports","slip & fall","move-out","security deposit"].map(c =>
+                  <span className="chip" key={c}>{c}</span>
+                )}
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+    );
+
+    // ─── FEATURES ─────────────────────────────────────────────────────────────────
+    const Panel = ({ flip, eyebrow, title, body, Visual }) => (
+      <div className={"panel" + (flip ? " flip" : "")}>
+        <div className="panel-text">
+          <span className="eyebrow reveal">{eyebrow}</span>
+          <h3 className="h2 reveal d1">{title}</h3>
+          {body.map((p, i) => <p key={i} className={"reveal d" + (i + 2)}>{p}</p>)}
+        </div>
+        <div className="reveal d2"><Visual /></div>
+      </div>
+    );
+
+    const Features = () => (
+      <section className="panels" id="features" data-screen-label="04 Features">
+        <div className="container">
+          <Panel eyebrow="01 · ACCURACY" title="Instant operational guidance." flip={false}
+            body={["Find procedures, policies, and workflows in seconds, without searching through documents manually."]}
+            Visual={PanelVisualA} />
+          <Panel eyebrow="02 · SCOPE" title="Built around Gateway policies." flip={true}
+            body={["Gateway Ai is trained specifically on Gateway operational knowledge, procedures, and internal guidance.", "Not the public internet."]}
+            Visual={PanelVisualB} />
+          <Panel eyebrow="03 · SPEED" title="Faster answers. Better decisions." flip={false}
+            body={["From incident handling to inspections to compliance workflows, employees can get answers when timing matters most."]}
+            Visual={PanelVisualC} />
+        </div>
+      </section>
+    );
+
+    // ─── HOW IT WORKS ─────────────────────────────────────────────────────────────
+    const How = () => (
+      <section className="how" id="how" data-theme="light" data-screen-label="06 How it works">
+        <div className="container">
+          <span className="eyebrow dark reveal">04 · HOW IT WORKS</span>
+          <h2 className="h1 reveal d1" style={{marginTop:24,maxWidth:'16ch'}}>Three steps.<br />That's the entire learning curve.</h2>
+          <div className="how-grid">
+            {[
+              {n:"01",title:"Ask.",body:"Type a question naturally, the way you'd ask a colleague who happens to know every Gateway document by heart."},
+              {n:"02",title:"Gateway Ai searches.",body:"Policies, procedures, operational documents, and company guidance are analyzed instantly."},
+              {n:"03",title:"Answers, fast.",body:"Clear responses. Relevant guidance. Operational clarity, sourced from Gateway itself."},
+            ].map((s, i) => (
+              <div className="step reveal" style={{transitionDelay:`${i*.15}s`}} key={s.n}>
+                <div className="num"><span>STEP {s.n}</span><span className="line"></span></div>
+                <h3>{s.title}</h3>
+                <p>{s.body}</p>
+                <StepVisual i={i} />
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+    );
+
+    // ─── BUILT FOR GATEWAY ────────────────────────────────────────────────────────
+    const Built = () => (
+      <section className="built" data-screen-label="07 Built for Gateway">
+        <div className="container">
+          <div className="built-grid">
+            <div>
+              <span className="eyebrow reveal">THE ONLY AI YOU WILL NEED</span>
+              <h2 className="h1 reveal d1" style={{marginTop:24}}>Built for Gateway.</h2>
+              <p className="reveal d2" style={{marginTop:36}}>
+                Gateway Ai is designed around Gateway's internal operational knowledge and intended for employee use.
+              </p>
+              <p className="reveal d3">
+                The platform provides fast access to company information in a modern conversational experience employees already understand intuitively.
+              </p>
+              <div className="reveal d4" style={{marginTop:36,display:'flex',gap:24,flexWrap:'wrap'}}>
+                {[
+                  {l:"INTERNAL",v:"Employee-only"},
+                  {l:"GROUNDED",v:"Gateway sources"},
+                  {l:"PRIVATE",v:"Security Enabled"},
+                ].map(s => (
+                  <div key={s.l} style={{minWidth:140,paddingTop:18,borderTop:'1px solid rgba(255,255,255,.1)'}}>
+                    <div style={{fontFamily:'Geist Mono',fontSize:10,letterSpacing:'.2em',color:'var(--glow)',textTransform:'uppercase'}}>{s.l}</div>
+                    <div style={{marginTop:8,fontSize:17,color:'#fff',fontWeight:300,letterSpacing:'-.01em'}}>{s.v}</div>
+                  </div>
+                ))}
+              </div>
+            </div>
+            <div className="reveal d2">
+              <div className="trust-visual">
+                <div className="orbit"><div className="orbit-node"></div></div>
+                <div className="orbit b"><div className="orbit-node"></div></div>
+                <div className="orbit c"><div className="orbit-node"></div></div>
+                <div className="trust-core">
+                  <div className="mark">
+                    <img src="assets/gateway-avatar.png" alt="Gateway" style={{width:'100%',height:'100%',display:'block',objectFit:'cover'}} />
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+    );
+
+    // ─── CLOSING LAPTOP ───────────────────────────────────────────────────────────
+    const ClosingShot = () => (
+      <section className="closing" data-screen-label="08 Closing">
+        <div className="closing-laptop" aria-hidden="true">
+          <img src="assets/hero-laptop.png" alt="Gateway Ai in action" />
+        </div>
+      </section>
+    );
+
+    // ─── FOOTER ───────────────────────────────────────────────────────────────────
+    const Final = () => (
+      <section className="final" data-screen-label="09 Final">
+        <div className="final-foot">
+          <span>Powered by HelloIT</span>
+          <span>GATEWAY MANAGEMENT · 2026</span>
+        </div>
+      </section>
+    );
+
+    // ─── APP ROOT ─────────────────────────────────────────────────────────────────
+    const App = () => {
+      useReveal();
+      return (
+        <>
+          <Nav />
+          <Hero />
+          <Problem />
+          <Ask />
+          <Features />
+          <How />
+          <Built />
+          <ClosingShot />
+          <Final />
+        </>
+      );
+    };
+
+    ReactDOM.createRoot(document.getElementById('root')).render(<App />);
+  </script>
+</body>
+</html>
