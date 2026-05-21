@@ -10,9 +10,9 @@
 <style>
 :root {
   --white: #F6F4EF;
-  --paper: #E1DDD3;
-  --cool: #E9EBEC;
-  --stone: #D8CFC4;
+  --paper: #EDE9E3;
+  --cool: #F4F5F5;
+  --stone: #EAE6DF;
   --ink: #1C1C1C;
   --ink2: #2F2F2F;
   --mid: #C9C6BF;
@@ -150,7 +150,7 @@ section { padding: 136px 60px; position: relative; }
   -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
 }
 .accent-samples { display: flex; flex-direction: column; gap: 2px; }
-.accent-sample { background: var(--cool); border: 1px solid rgba(28,28,28,.06); padding: 28px 32px; display: flex; flex-direction: column; gap: 8px; }
+.accent-sample { background: var(--white); border: 1px solid rgba(28,28,28,.06); padding: 28px 32px; display: flex; flex-direction: column; gap: 8px; }
 .accent-sample-lbl { font-size: 9px; font-weight: 500; letter-spacing: .22em; text-transform: uppercase; color: rgba(28,28,28,.4); }
 .accent-sample-val { font-family: var(--D); font-size: 22px; letter-spacing: .1em; }
 
@@ -181,7 +181,7 @@ section { padding: 136px 60px; position: relative; }
 
 /* ── Voice ── */
 .voice-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 2px; }
-.voice-card { padding: 52px 48px; background: var(--white); color: var(--ink); }
+.voice-card { padding: 52px 48px; background: #FFFFFF; color: var(--ink); }
 .voice-title { font-family: var(--D); font-size: clamp(26px, 2.6vw, 40px); line-height: .92; letter-spacing: .025em; margin-bottom: 16px; color: var(--ink); }
 .voice-text { font-size: 15px; font-weight: 300; line-height: 1.75; color: var(--mid); }
 .voice-ex { font-size: 13px; font-weight: 300; line-height: 1.7; color: rgba(28,28,28,.5); margin-top: 16px; font-style: italic; border-left: 2px solid var(--accent); padding-left: 16px; }
@@ -189,7 +189,7 @@ section { padding: 136px 60px; position: relative; }
 /* ── Do/Don't ── */
 .do-dont { display: grid; grid-template-columns: 1fr 1fr; gap: 2px; }
 .do-card { padding: 48px; background: var(--paper); color: var(--ink); }
-.dont-card { padding: 48px; background: var(--white); color: var(--ink); border: 1px solid rgba(28,28,28,.06); }
+.dont-card { padding: 48px; background: #FFFFFF; color: var(--ink); border: 1px solid rgba(28,28,28,.06); }
 .do-lbl { font-size: 10px; font-weight: 500; letter-spacing: .22em; text-transform: uppercase; margin-bottom: 28px; color: var(--accent-dark); }
 .do-list, .dont-list { list-style: none; }
 .do-list li, .dont-list li { font-size: 15px; font-weight: 300; line-height: 1.65; color: var(--ink2); padding: 14px 0; border-bottom: 1px solid var(--border); display: flex; gap: 12px; }
@@ -229,7 +229,7 @@ section { padding: 136px 60px; position: relative; }
 
 /* ── Model grid ── */
 .model-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 2px; }
-.model-panel { background: var(--white); border: 1px solid rgba(28,28,28,.07); padding: 32px 28px; }
+.model-panel { background: #FFFFFF; border: 1px solid rgba(28,28,28,.07); padding: 32px 28px; }
 
 /* ── Collections ── */
 .collections-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 2px; }
@@ -250,7 +250,7 @@ section { padding: 136px 60px; position: relative; }
 
 /* ── AI System ── */
 .governs-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 2px; }
-.governs-panel { background: var(--white); border: 1px solid rgba(28,28,28,.07); padding: 32px 28px; }
+.governs-panel { background: #FFFFFF; border: 1px solid rgba(28,28,28,.07); padding: 32px 28px; }
 .governs-title { font-family: var(--D); font-size: 18px; letter-spacing: .06em; color: var(--accent); margin-bottom: 12px; }
 .governs-body { font-size: 13px; font-weight: 300; line-height: 1.75; color: rgba(28,28,28,.55); }
 .ai-checklist { list-style: none; padding: 0; margin: 0; border-top: 1px solid rgba(28,28,28,.08); }
@@ -260,7 +260,7 @@ section { padding: 136px 60px; position: relative; }
 
 /* ── Motion ── */
 .motion-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 2px; }
-.motion-card { padding: 48px 40px; background: var(--white); border: 1px solid rgba(28,28,28,.07); }
+.motion-card { padding: 48px 40px; background: #FFFFFF; border: 1px solid rgba(28,28,28,.07); }
 .motion-name { font-family: var(--D); font-size: 28px; letter-spacing: .04em; margin-bottom: 16px; color: var(--accent); }
 .motion-val { font-size: 13px; font-weight: 300; color: rgba(28,28,28,.6); line-height: 1.7; }
 .motion-demo { width: 40px; height: 1px; background: var(--accent); opacity: .4; margin-top: 24px; transition: width .4s, opacity .4s; }
