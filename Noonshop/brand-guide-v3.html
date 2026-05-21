@@ -1,0 +1,1112 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Noon Shop: Brand Guide — Teal Accent</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Outfit:wght@100;200;300;400;500&family=Playfair+Display:ital,wght@0,400;0,700;1,400;1,700&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+<style>
+:root {
+  --white: #F6F4EF;
+  --paper: #E1DDD3;
+  --cool: #E9EBEC;
+  --stone: #D8CFC4;
+  --ink: #1C1C1C;
+  --ink2: #2F2F2F;
+  --mid: #C9C6BF;
+  --border: rgba(28,28,28,.10);
+  --accent: #739693;
+  --accent-dark: #4A6B6A;
+  --accent-light: #9BBCBB;
+  --D: 'Bebas Neue', sans-serif;
+  --B: 'Outfit', sans-serif;
+}
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+body { background: var(--white); color: var(--ink); font-family: var(--B); font-weight: 300; overflow-x: hidden; cursor: none; }
+
+/* ── Loader ── */
+.loader {
+  position: fixed; inset: 0; background: var(--white);
+  z-index: 10000; display: flex; flex-direction: column;
+  align-items: center; justify-content: center; gap: 20px; pointer-events: none;
+}
+.loader-brand {
+  font-family: var(--D); font-size: clamp(28px, 3.6vw, 44px);
+  letter-spacing: .32em; color: var(--ink); opacity: 0; transform: translateY(8px);
+}
+.loader-line { width: 0; height: 1px; background: var(--accent); }
+
+/* ── Cursor ── */
+.cur { position: fixed; width: 7px; height: 7px; background: var(--accent); border-radius: 50%; pointer-events: none; z-index: 9999; }
+.ring { position: fixed; width: 32px; height: 32px; border: 1px solid rgba(115,150,147,.3); border-radius: 50%; pointer-events: none; z-index: 9998; }
+
+/* ── Nav ── */
+nav {
+  position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+  display: flex; justify-content: space-between; align-items: center;
+  padding: 20px 60px; transition: background .4s, backdrop-filter .4s;
+}
+nav.scrolled { background: rgba(246,244,239,.88); backdrop-filter: blur(16px); border-bottom: 1px solid rgba(28,28,28,.08); }
+.nav-logo { display: flex; align-items: center; text-decoration: none; }
+.nav-logo img { height: 36px; width: auto; object-fit: contain; opacity: .75; transition: opacity .3s; }
+.nav-logo img:hover { opacity: 1; }
+.nav-logo-fallback { font-family: var(--D); font-size: 18px; letter-spacing: .14em; color: rgba(28,28,28,.6); }
+.nav-pill { font-family: var(--B); font-size: 10px; font-weight: 500; letter-spacing: .22em; text-transform: uppercase; color: var(--accent); border: 1px solid rgba(115,150,147,.3); padding: 6px 16px; border-radius: 40px; }
+
+/* ── Hero ── */
+.hero {
+  min-height: 100vh; background: var(--white);
+  display: flex; flex-direction: column; justify-content: flex-end;
+  padding: 0 60px 88px; position: relative; overflow: hidden;
+}
+.hero-wm {
+  position: absolute; right: -30px; top: 50%; transform: translateY(-52%);
+  font-family: var(--D); font-size: clamp(240px, 32vw, 500px);
+  color: rgba(28,28,28,.04); line-height: 1;
+  pointer-events: none; user-select: none; letter-spacing: .04em; z-index: 1;
+}
+.hero-accent-line {
+  position: absolute; top: 0; left: 0; right: 0; height: 2px;
+  background: linear-gradient(90deg, transparent, var(--accent), transparent); z-index: 2;
+}
+.hero-tag {
+  font-size: 10px; font-weight: 400; letter-spacing: .36em; text-transform: uppercase;
+  color: var(--accent); margin-bottom: 28px; position: relative; z-index: 2; opacity: 0;
+}
+.hero-h1 {
+  font-family: var(--D); font-size: clamp(56px, 9vw, 160px); line-height: .88;
+  letter-spacing: .025em; color: var(--ink); position: relative; z-index: 2;
+  opacity: 0; padding-bottom: .15em;
+}
+.hero-h1-sub {
+  display: block; font-family: 'Playfair Display', Georgia, serif;
+  font-style: italic; font-weight: 400; font-size: clamp(36px, 5.5vw, 96px);
+  line-height: 1.18; letter-spacing: -.01em; color: rgba(115,150,147,.6); margin-top: 4px;
+}
+.hero-foot {
+  display: flex; justify-content: space-between; align-items: flex-end;
+  margin-top: 64px; position: relative; z-index: 2; opacity: 0;
+}
+.hero-sub { font-size: 16px; font-weight: 300; line-height: 1.78; color: rgba(28,28,28,.5); max-width: 420px; }
+.hero-desc { font-size: 11px; font-weight: 500; letter-spacing: .2em; text-transform: uppercase; color: var(--accent); }
+.sline { width: 1px; height: 64px; background: var(--accent); opacity: .4; animation: pulse 2.5s 2s infinite; }
+@keyframes pulse { 0%, 100% { opacity: .1; transform: scaleY(.4); } 50% { opacity: .5; transform: scaleY(1); } }
+
+/* ── Shared ── */
+section { padding: 136px 60px; position: relative; }
+.ls { background: var(--white); color: var(--ink); }
+.ls2 { background: var(--paper); color: var(--ink); }
+.rule-d { height: 1px; background: rgba(28,28,28,.08); margin: 0 60px; }
+.rule-l { height: 1px; background: var(--border); margin: 0 60px; }
+.rule-accent { height: 1px; background: linear-gradient(90deg, var(--accent), transparent); margin: 0 60px; }
+
+.tag {
+  font-size: 10px; font-weight: 500; letter-spacing: .32em; text-transform: uppercase;
+  color: var(--accent); margin-bottom: 52px; display: flex; align-items: center; gap: 16px;
+}
+.tag::before { content: ''; display: block; width: 36px; height: 1px; background: var(--accent); }
+.tag-dark { color: var(--accent-dark); }
+.tag-dark::before { background: var(--accent-dark); }
+.tag-ink { color: rgba(28,28,28,.45); }
+.tag-ink::before { background: rgba(28,28,28,.3); }
+
+.dh { font-family: var(--D); font-size: clamp(64px, 9.5vw, 160px); line-height: .88; letter-spacing: .025em; margin-bottom: 80px; padding-bottom: .15em; }
+.dh-sub { display: block; font-family: 'Playfair Display', Georgia, serif; font-size: clamp(44px, 7vw, 112px); font-weight: 400; font-style: italic; line-height: 1.18; letter-spacing: -.01em; margin-top: 8px; color: var(--accent-dark); }
+
+/* ── Reveal ── */
+.rv { opacity: 0; transform: translateY(28px); transition: opacity .8s ease, transform .8s ease; }
+.rv.in { opacity: 1; transform: translateY(0); }
+.rv.d1 { transition-delay: .1s; } .rv.d2 { transition-delay: .2s; } .rv.d3 { transition-delay: .3s; } .rv.d4 { transition-delay: .4s; }
+
+/* ── Colors ── */
+.palette-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 2px; }
+.swatch {
+  aspect-ratio: 1; display: flex; flex-direction: column;
+  justify-content: flex-end; padding: 16px; cursor: default; transition: transform .3s;
+}
+.swatch:hover { transform: scale(1.02); }
+.swatch-name { font-size: 10px; font-weight: 500; letter-spacing: .22em; text-transform: uppercase; margin-bottom: 4px; }
+.swatch-hex { font-family: var(--D); font-size: 18px; letter-spacing: .1em; }
+.swatch-desc { font-size: 11px; font-weight: 300; margin-top: 6px; opacity: .7; }
+.swatch-badge {
+  display: inline-flex; align-items: center; margin-top: 10px;
+  font-size: 9px; font-weight: 500; letter-spacing: .2em; text-transform: uppercase;
+  color: var(--accent); background: var(--white); padding: 4px 10px; border-radius: 20px;
+}
+
+/* ── Accent feature ── */
+.accent-row { display: grid; grid-template-columns: 2fr 1fr; gap: 2px; margin-top: 2px; }
+.accent-feature {
+  background: var(--white);
+  border: 1px solid rgba(115,150,147,.12);
+  padding: 56px 52px; display: flex; flex-direction: column; gap: 32px;
+}
+.accent-display {
+  font-family: var(--D); font-size: clamp(48px, 6vw, 96px); line-height: .88; letter-spacing: .025em;
+  background: linear-gradient(135deg, var(--accent-light), var(--accent), var(--accent-dark));
+  -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
+}
+.accent-samples { display: flex; flex-direction: column; gap: 2px; }
+.accent-sample { background: var(--cool); border: 1px solid rgba(28,28,28,.06); padding: 28px 32px; display: flex; flex-direction: column; gap: 8px; }
+.accent-sample-lbl { font-size: 9px; font-weight: 500; letter-spacing: .22em; text-transform: uppercase; color: rgba(28,28,28,.4); }
+.accent-sample-val { font-family: var(--D); font-size: 22px; letter-spacing: .1em; }
+
+/* ── Typography ── */
+.type-stack { display: flex; flex-direction: column; gap: 64px; }
+.type-row { border-top: 1px solid var(--border); padding-top: 40px; }
+.type-meta { display: flex; gap: 40px; margin-bottom: 28px; flex-wrap: wrap; }
+.type-label { font-size: 10px; font-weight: 500; letter-spacing: .22em; text-transform: uppercase; color: var(--mid); }
+.type-value { font-size: 10px; font-weight: 300; color: var(--mid); }
+.type-sample-bebas { font-family: var(--D); font-size: clamp(48px, 7vw, 112px); line-height: .9; letter-spacing: .025em; color: var(--ink); }
+.type-sample-outfit { font-family: var(--B); font-size: 18px; font-weight: 300; line-height: 1.75; color: var(--ink2); max-width: 640px; }
+.type-sample-playfair { font-family: 'Playfair Display', Georgia, serif; font-style: italic; font-size: clamp(32px, 4vw, 64px); line-height: 1.2; letter-spacing: -.01em; color: var(--accent-dark); }
+.type-size-item { display: flex; align-items: baseline; gap: 24px; border-bottom: 1px solid var(--border); padding-bottom: 12px; margin-bottom: 12px; }
+.type-size-lbl { font-size: 9px; letter-spacing: .2em; text-transform: uppercase; color: var(--mid); width: 100px; flex-shrink: 0; }
+
+/* ── Logo ── */
+.logo-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 2px; }
+.logo-cell {
+  padding: 64px 48px; display: flex; flex-direction: column;
+  align-items: flex-start; justify-content: center; gap: 24px;
+}
+.logo-cell.dark { background: var(--ink); }
+.logo-cell.light { background: var(--white); border: 1px solid rgba(28,28,28,.07); }
+.logo-cell.paper { background: var(--paper); }
+.logo-cell.accent-bg { background: var(--accent); }
+.logo-img { max-width: 200px; width: 100%; object-fit: contain; }
+.logo-label { font-size: 10px; font-weight: 500; letter-spacing: .22em; text-transform: uppercase; color: var(--mid); }
+
+/* ── Voice ── */
+.voice-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 2px; }
+.voice-card { padding: 52px 48px; background: var(--white); color: var(--ink); }
+.voice-title { font-family: var(--D); font-size: clamp(26px, 2.6vw, 40px); line-height: .92; letter-spacing: .025em; margin-bottom: 16px; color: var(--ink); }
+.voice-text { font-size: 15px; font-weight: 300; line-height: 1.75; color: var(--mid); }
+.voice-ex { font-size: 13px; font-weight: 300; line-height: 1.7; color: rgba(28,28,28,.5); margin-top: 16px; font-style: italic; border-left: 2px solid var(--accent); padding-left: 16px; }
+
+/* ── Do/Don't ── */
+.do-dont { display: grid; grid-template-columns: 1fr 1fr; gap: 2px; }
+.do-card { padding: 48px; background: var(--paper); color: var(--ink); }
+.dont-card { padding: 48px; background: var(--white); color: var(--ink); border: 1px solid rgba(28,28,28,.06); }
+.do-lbl { font-size: 10px; font-weight: 500; letter-spacing: .22em; text-transform: uppercase; margin-bottom: 28px; color: var(--accent-dark); }
+.do-list, .dont-list { list-style: none; }
+.do-list li, .dont-list li { font-size: 15px; font-weight: 300; line-height: 1.65; color: var(--ink2); padding: 14px 0; border-bottom: 1px solid var(--border); display: flex; gap: 12px; }
+.do-list li::before { content: '→'; color: var(--accent-dark); flex-shrink: 0; }
+.dont-list li::before { content: '×'; color: rgba(28,28,28,.3); flex-shrink: 0; }
+
+/* ── Photography ── */
+.photo-hero { display: grid; grid-template-columns: 2fr 1fr; gap: 2px; }
+.photo-row { display: grid; grid-template-columns: repeat(3, 1fr); gap: 2px; }
+.photo-row-4 { display: grid; grid-template-columns: repeat(4, 1fr); gap: 2px; }
+.photo-cell { overflow: hidden; background: var(--paper); }
+.photo-cell img { width: 100%; height: 100%; object-fit: cover; display: block; transition: transform .6s ease; }
+.photo-cell:hover img { transform: scale(1.04); }
+.photo-tall { aspect-ratio: 3/4; }
+.photo-sq { aspect-ratio: 1; }
+.photo-wide { aspect-ratio: 3/2; }
+
+/* ── Story grid ── */
+.story-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 80px; align-items: start; }
+.story-stat { background: rgba(115,150,147,.05); border: 1px solid rgba(115,150,147,.1); padding: 40px 36px; }
+.story-stat-num { font-family: var(--D); font-size: clamp(52px, 7vw, 88px); line-height: .88; letter-spacing: .02em; }
+.story-stat-desc { font-size: 13px; font-weight: 300; color: rgba(28,28,28,.55); margin-top: 12px; line-height: 1.7; }
+.story-panel { background: rgba(28,28,28,.02); border: 1px solid rgba(28,28,28,.07); padding: 40px 36px; }
+.story-collections { background: rgba(28,28,28,.02); border: 1px solid rgba(28,28,28,.07); padding: 32px 36px; }
+
+/* ── Core Belief ── */
+.core-belief {
+  padding: 140px 60px; text-align: center; position: relative;
+  background: var(--paper);
+}
+.core-belief-inner { max-width: 760px; margin: 0 auto; }
+.core-belief-tag { font-size: 10px; font-weight: 500; letter-spacing: .32em; text-transform: uppercase; color: rgba(115,150,147,.5); margin-bottom: 52px; }
+.core-belief-h { font-family: var(--D); font-size: clamp(72px, 13vw, 200px); line-height: .88; letter-spacing: .025em; color: var(--ink); }
+.core-belief-sub { font-family: 'Playfair Display', Georgia, serif; font-style: italic; font-size: clamp(48px, 9vw, 136px); line-height: 1.1; letter-spacing: -.01em; color: rgba(115,150,147,.6); margin-top: 4px; margin-bottom: 52px; display: block; }
+.core-belief-rule { width: 48px; height: 1px; background: var(--accent); margin: 0 auto 48px; opacity: .4; }
+.core-belief-body { font-size: 17px; font-weight: 300; line-height: 1.9; color: rgba(28,28,28,.55); max-width: 580px; margin: 0 auto; }
+
+/* ── Model grid ── */
+.model-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 2px; }
+.model-panel { background: var(--white); border: 1px solid rgba(28,28,28,.07); padding: 32px 28px; }
+
+/* ── Collections ── */
+.collections-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 2px; }
+.collection-panel { padding: 64px 52px; display: flex; flex-direction: column; gap: 0; position: relative; overflow: hidden; }
+.collection-panel.dormann { background: var(--white); border: 1px solid rgba(28,28,28,.08); }
+.collection-panel.steel-brown { background: var(--paper); border: 1px solid rgba(115,150,147,.1); }
+.collection-name { font-family: var(--D); font-size: clamp(52px, 6vw, 88px); line-height: .88; letter-spacing: .025em; margin-bottom: 8px; }
+.collection-tagline { font-family: 'Playfair Display', Georgia, serif; font-style: italic; font-size: clamp(18px, 2vw, 26px); line-height: 1.3; letter-spacing: -.01em; color: rgba(115,150,147,.6); margin-bottom: 48px; }
+.collection-rule { width: 36px; height: 1px; background: var(--accent); opacity: .4; margin-bottom: 40px; }
+.collection-body { font-size: 15px; font-weight: 300; line-height: 1.85; color: rgba(28,28,28,.6); margin-bottom: 40px; }
+.collection-specs { display: flex; flex-direction: column; gap: 2px; margin-bottom: 40px; }
+.collection-spec { display: flex; gap: 0; }
+.collection-spec-lbl { font-size: 9px; font-weight: 500; letter-spacing: .22em; text-transform: uppercase; color: rgba(115,150,147,.5); width: 88px; flex-shrink: 0; padding: 12px 0; border-bottom: 1px solid rgba(28,28,28,.06); }
+.collection-spec-val { font-size: 13px; font-weight: 300; color: rgba(28,28,28,.65); padding: 12px 0 12px 16px; border-bottom: 1px solid rgba(28,28,28,.06); flex: 1; line-height: 1.5; }
+.collection-serve { background: rgba(115,150,147,.04); border: 1px solid rgba(115,150,147,.1); padding: 24px 28px; margin-top: auto; }
+.collection-serve-lbl { font-size: 9px; font-weight: 500; letter-spacing: .22em; text-transform: uppercase; color: var(--accent); margin-bottom: 10px; }
+.collection-serve-text { font-size: 13px; font-weight: 300; line-height: 1.7; color: rgba(28,28,28,.6); }
+
+/* ── AI System ── */
+.governs-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 2px; }
+.governs-panel { background: var(--white); border: 1px solid rgba(28,28,28,.07); padding: 32px 28px; }
+.governs-title { font-family: var(--D); font-size: 18px; letter-spacing: .06em; color: var(--accent); margin-bottom: 12px; }
+.governs-body { font-size: 13px; font-weight: 300; line-height: 1.75; color: rgba(28,28,28,.55); }
+.ai-checklist { list-style: none; padding: 0; margin: 0; border-top: 1px solid rgba(28,28,28,.08); }
+.ai-checklist li { font-size: 14px; font-weight: 300; line-height: 1.65; color: rgba(28,28,28,.6); border-bottom: 1px solid rgba(28,28,28,.06); padding: 16px 0; display: flex; gap: 12px; }
+.ai-checklist li:last-child { border-bottom: none; }
+.ai-checklist li span { color: var(--accent); flex-shrink: 0; }
+
+/* ── Motion ── */
+.motion-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 2px; }
+.motion-card { padding: 48px 40px; background: var(--white); border: 1px solid rgba(28,28,28,.07); }
+.motion-name { font-family: var(--D); font-size: 28px; letter-spacing: .04em; margin-bottom: 16px; color: var(--accent); }
+.motion-val { font-size: 13px; font-weight: 300; color: rgba(28,28,28,.6); line-height: 1.7; }
+.motion-demo { width: 40px; height: 1px; background: var(--accent); opacity: .4; margin-top: 24px; transition: width .4s, opacity .4s; }
+.motion-card:hover .motion-demo { width: 80px; opacity: .9; }
+
+/* ── Pull quote ── */
+.pull { border: 1px solid rgba(115,150,147,.18); padding: 80px; max-width: 900px; margin: 80px 0 0; position: relative; }
+.pull::before { content: ''; position: absolute; top: -1px; left: 0; width: 80px; height: 2px; background: var(--accent); }
+.pull-text { font-family: 'Playfair Display', Georgia, serif; font-style: italic; font-size: clamp(28px, 3vw, 52px); font-weight: 400; line-height: 1.3; letter-spacing: -.01em; color: var(--ink); }
+.pull-text em { color: var(--accent); font-style: normal; }
+
+/* ── Footer ── */
+footer { padding: 80px 60px; display: flex; justify-content: space-between; align-items: center; border-top: 1px solid rgba(115,150,147,.12); background: var(--white); }
+.footer-logo img { height: 28px; width: auto; opacity: .35; }
+.footer-meta { font-size: 11px; font-weight: 300; color: rgba(28,28,28,.3); letter-spacing: .1em; }
+.footer-accent { font-size: 10px; font-weight: 500; letter-spacing: .22em; text-transform: uppercase; color: var(--accent); opacity: .6; }
+
+/* ── Mobile ── */
+@media (max-width: 900px) {
+  nav { padding: 16px 20px; }
+  .nav-logo img { height: 28px; }
+  .nav-pill { font-size: 9px; padding: 5px 12px; }
+
+  .hero { padding: 0 24px 56px; }
+  .hero-foot { flex-direction: column; align-items: flex-start; gap: 32px; margin-top: 40px; }
+  .hero-foot > div:last-child { display: none; }
+
+  section { padding: 72px 24px; }
+  .dh { margin-bottom: 48px; }
+  .tag { margin-bottom: 32px; }
+
+  .rule-d, .rule-l, .rule-accent { margin: 0 24px; }
+
+  /* Colors */
+  .palette-grid { grid-template-columns: repeat(2, 1fr); }
+  .swatch { aspect-ratio: auto; min-height: 140px; }
+  .accent-row { grid-template-columns: 1fr; }
+  .accent-feature { padding: 40px 28px; }
+  .accent-display { font-size: clamp(40px, 10vw, 64px); }
+
+  /* Typography */
+  .type-meta { flex-direction: column; gap: 12px; margin-bottom: 20px; }
+  .type-meta > div { display: flex; gap: 8px; align-items: baseline; }
+  .type-label::after { content: ':'; }
+  .type-size-item { gap: 12px; }
+  .type-size-lbl { width: 72px; }
+
+  /* Logo */
+  .logo-grid { grid-template-columns: 1fr; }
+  .logo-cell { padding: 48px 32px; }
+
+  /* Photography */
+  .photo-hero { grid-template-columns: 1fr; }
+  .photo-hero .photo-wide { aspect-ratio: 4/3; }
+  .photo-hero .photo-tall { aspect-ratio: 4/3; }
+  .photo-row { grid-template-columns: 1fr 1fr; }
+  .photo-row-4 { grid-template-columns: 1fr 1fr; }
+
+  /* Voice & Do/Don't */
+  .voice-grid { grid-template-columns: 1fr; }
+  .voice-card { padding: 36px 28px; }
+  .do-dont { grid-template-columns: 1fr; }
+  .do-card, .dont-card { padding: 36px 28px; }
+
+  /* Model & Motion */
+  .model-grid { grid-template-columns: 1fr; }
+  .model-panel { padding: 28px 24px; }
+  .motion-grid { grid-template-columns: 1fr; }
+  .motion-card { padding: 36px 28px; }
+
+  /* Collections */
+  .collections-grid { grid-template-columns: 1fr; }
+  .collection-panel { padding: 48px 28px; }
+  .collection-spec-lbl { width: 72px; }
+
+  /* AI System */
+  .governs-grid { grid-template-columns: 1fr; }
+  .governs-panel { padding: 24px 20px; }
+
+  /* Pull & Core Belief */
+  .pull { padding: 40px 28px; margin-top: 40px; }
+  .pull::before { width: 48px; }
+  .core-belief { padding: 80px 24px; }
+  .core-belief-body { font-size: 15px; }
+
+  /* Story & Footer */
+  .story-grid { grid-template-columns: 1fr; gap: 40px; }
+  footer { padding: 48px 24px; flex-direction: column; align-items: flex-start; gap: 12px; }
+}
+</style>
+</head>
+<body>
+
+<!-- Loader -->
+<div class="loader" id="pageLoader">
+  <div class="loader-brand">NOON SHOP</div>
+  <div class="loader-line" id="loaderLine"></div>
+</div>
+
+<!-- Cursor -->
+<div class="cur" id="cur"></div>
+<div class="ring" id="ring"></div>
+
+<!-- Nav -->
+<nav id="mainNav">
+  <a href="#" class="nav-logo">
+    <img src="assets/logo.png" alt="Noon Shop"
+      onerror="this.style.display='none';this.nextElementSibling.style.display='block'">
+    <span class="nav-logo-fallback" style="display:none">NOON SHOP</span>
+  </a>
+  <span class="nav-pill">Brand Guide</span>
+</nav>
+
+<!-- Hero -->
+<section class="hero" id="hero">
+  <div class="hero-accent-line"></div>
+  <div class="hero-wm">NOON</div>
+  <div class="hero-tag" id="hTag">Founded by Dr. Anna Park, MD · Ophthalmologist</div>
+  <h1 class="hero-h1" id="hH1">
+    FIT IS
+    <span class="hero-h1-sub">fundamental.</span>
+  </h1>
+  <div class="hero-foot" id="hFoot">
+    <p class="hero-sub">Noon Shop was founded on a clinical observation: for too long, the eyewear industry had overlooked a vast range of facial structures. Every face deserves a frame that was designed for it.</p>
+    <div style="display:flex;flex-direction:column;align-items:center;gap:12px">
+      <div class="sline"></div>
+      <span class="hero-desc">Scroll to explore</span>
+    </div>
+  </div>
+</section>
+
+<!-- Core Belief -->
+<section class="core-belief" id="core-belief">
+  <div style="position:absolute;top:0;left:0;right:0;height:1px;background:linear-gradient(90deg,transparent,var(--accent),transparent)"></div>
+  <div class="core-belief-inner rv">
+    <div class="core-belief-tag">Noon Shop · Core Belief</div>
+    <div class="core-belief-h">FIT IS</div>
+    <span class="core-belief-sub">fundamental.</span>
+    <div class="core-belief-rule"></div>
+    <p class="core-belief-body">You were never hard to fit. You were wearing the wrong brand. Noon Shop exists because precision engineering and low-bridge fit geometry are not opposing forces. They are the same thing.</p>
+    <p class="core-belief-body" style="margin-top:28px">Founded by Dr. Anna Park, MD on a clinical observation: for too long, the eyewear industry had overlooked a vast range of facial structures. Every face deserves a frame that was designed for it.</p>
+  </div>
+  <div style="position:absolute;bottom:0;left:0;right:0;height:1px;background:linear-gradient(90deg,transparent,var(--accent),transparent)"></div>
+</section>
+
+<div class="rule-accent"></div>
+
+<!-- Brand Story -->
+<section style="background:var(--cool)" id="story">
+  <div class="tag rv">The Founding Story</div>
+  <h2 class="dh rv d1" style="color:var(--ink)">THE FIT<br><span class="dh-sub">that was missing.</span></h2>
+
+  <div class="story-grid rv d2">
+    <div>
+      <p style="font-size:17px;font-weight:300;line-height:1.9;color:rgba(28,28,28,.7);margin-bottom:32px">Patients weren't just struggling to see. They were struggling with the glasses themselves. Frames slipped down noses. Temples pinched. Lenses sat improperly aligned, subtly distorting the very vision they were meant to correct. For Dr. Anna Park, MD, these weren't isolated incidents. Over more than two decades in ophthalmology, they were a pattern.</p>
+      <p style="font-size:17px;font-weight:300;line-height:1.9;color:rgba(28,28,28,.7);margin-bottom:32px">Red marks and discomfort were common, but often dismissed as unavoidable. To Dr. Park, they pointed to something systemic: most frames were designed around a narrow set of facial assumptions, leaving millions with eyewear that corrected their vision but compromised their comfort and daily quality of life.</p>
+      <div style="border-left:2px solid var(--accent);padding:20px 24px;margin:0 0 32px;background:rgba(115,150,147,.04)">
+        <p style="font-family:'Playfair Display',Georgia,serif;font-style:italic;font-size:16px;line-height:1.75;color:rgba(28,28,28,.85)">"Consumers can easily find lenses that match their prescription, but far fewer can find frames that truly fit their face."</p>
+        <div style="margin-top:12px;font-size:10px;letter-spacing:.18em;text-transform:uppercase;color:rgba(28,28,28,.4)">Dr. Anna Park, MD · Founder</div>
+      </div>
+      <p style="font-size:17px;font-weight:300;line-height:1.9;color:rgba(28,28,28,.7);margin-bottom:32px">The realization became personal when she searched for properly fitting glasses for her son. Three optical shops. No frames that actually fit. "That's when it became clear," she recalls. "This wasn't just my son's issue. It was everywhere." Noon Shop was her response: frames engineered for low bridges, high cheekbones, wider and narrower face shapes: the full range of structure the industry had quietly decided to ignore.</p>
+      <p style="font-size:17px;font-weight:300;line-height:1.9;color:rgba(28,28,28,.7)">Medical-grade titanium and stainless steel throughout, chosen for how they wear, not how they photograph. Meaningful innovation, it turns out, often lies in addressing problems that have been normalized. In eyewear, that problem is fit.</p>
+    </div>
+    <div style="display:flex;flex-direction:column;gap:2px">
+      <div class="story-stat">
+        <div class="story-stat-num" style="color:var(--accent)">64%</div>
+        <div class="story-stat-desc">of U.S. adults wear prescription glasses. The vast majority in frames that were never designed for their face.</div>
+      </div>
+      <div class="story-panel">
+        <div class="story-stat-num" style="color:var(--ink)">80K+</div>
+        <div class="story-stat-desc">units sold in Korea before U.S. launch. A celebrity and athlete following built on word of mouth and fit alone.</div>
+      </div>
+      <div class="story-collections">
+        <div style="font-size:10px;font-weight:500;letter-spacing:.22em;text-transform:uppercase;color:var(--accent);margin-bottom:20px">Collections</div>
+        <div style="display:flex;flex-direction:column;gap:12px">
+          <div style="display:flex;flex-direction:column;gap:4px">
+            <div style="font-family:var(--D);font-size:22px;letter-spacing:.08em;color:var(--ink)">DORMANN</div>
+            <div style="font-size:11px;font-weight:300;color:rgba(28,28,28,.4);letter-spacing:.08em">Premium titanium</div>
+          </div>
+          <div style="height:1px;background:rgba(28,28,28,.07)"></div>
+          <div style="display:flex;flex-direction:column;gap:4px">
+            <div style="font-family:var(--D);font-size:22px;letter-spacing:.08em;color:var(--ink)">STEEL BROWN</div>
+            <div style="font-size:11px;font-weight:300;color:rgba(28,28,28,.4);letter-spacing:.08em">Stainless steel</div>
+          </div>
+          <div style="height:1px;background:rgba(28,28,28,.07)"></div>
+          <div style="display:flex;flex-direction:column;gap:4px">
+            <div style="font-family:var(--D);font-size:22px;letter-spacing:.08em;color:var(--ink)">DENOVA</div>
+            <div style="font-size:11px;font-weight:300;color:rgba(28,28,28,.4);letter-spacing:.08em">Everyday essentials</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="pull rv d3">
+    <p class="pull-text">"Seeing clearly shouldn't come at the expense of comfort. <em>Fit is fundamental</em> and it's time the industry treated it that way."</p>
+    <div style="margin-top:28px;font-size:11px;font-weight:500;letter-spacing:.18em;text-transform:uppercase;color:rgba(28,28,28,.35)">Dr. Anna Park, MD · Founder, Noon Shop</div>
+  </div>
+</section>
+
+<div class="rule-accent"></div>
+
+<!-- Collections -->
+<section style="background:var(--white);padding-bottom:0" id="collections">
+  <div class="tag rv">The Collections</div>
+  <h2 class="dh rv d1" style="color:var(--ink)">THE<br><span class="dh-sub">two collections.</span></h2>
+
+  <p class="rv d2" style="font-size:17px;font-weight:300;line-height:1.9;color:rgba(28,28,28,.6);max-width:640px;margin-bottom:80px">Noon Shop carries two distinct collections, each engineered around a different philosophy of precision. Both begin with fit. Both refuse to compromise on material. And both exist because Dr. Park believed the industry was capable of far more than it was offering.</p>
+
+  <div class="collections-grid rv d2">
+
+    <!-- Dormann -->
+    <div class="collection-panel dormann">
+      <div style="font-size:9px;font-weight:500;letter-spacing:.28em;text-transform:uppercase;color:rgba(115,150,147,.4);margin-bottom:20px">Collection 01</div>
+      <div class="collection-name" style="color:var(--ink)">DORMANN</div>
+      <div class="collection-tagline">Playful. Minimal. Correctly fitting — every time.</div>
+      <div class="collection-rule"></div>
+      <p class="collection-body">Dormann frames are made in South Korea and designed to be worn all day without a second thought. Structurally minimal. Impossibly light. The patented screwless snap hinge and beta-titanium temples mean no pressure points, no slipping, no adjusting. Just a secure fit that stays through errands, work, or a weekend with no agenda. Vibrant colors, shapes, and sizes — because fit and personality are not a trade-off. Dormann is the frame you reach for every day and enjoy every time.</p>
+      <div class="collection-specs">
+        <div class="collection-spec">
+          <div class="collection-spec-lbl">Material</div>
+          <div class="collection-spec-val">Beta-titanium temples · TR90 thermoplastic front</div>
+        </div>
+        <div class="collection-spec">
+          <div class="collection-spec-lbl">Hinge</div>
+          <div class="collection-spec-val">Patented screwless snap hinge — no loose parts, no maintenance</div>
+        </div>
+        <div class="collection-spec">
+          <div class="collection-spec-lbl">Origin</div>
+          <div class="collection-spec-val">Designed and manufactured in South Korea</div>
+        </div>
+        <div class="collection-spec">
+          <div class="collection-spec-lbl">Fit</div>
+          <div class="collection-spec-val">Low-bridge geometry · wide and narrow face widths · high cheekbone clearance</div>
+        </div>
+        <div class="collection-spec">
+          <div class="collection-spec-lbl">Price</div>
+          <div class="collection-spec-val">From $260 USD</div>
+        </div>
+      </div>
+      <div class="collection-serve">
+        <div class="collection-serve-lbl">Who Dormann Serves</div>
+        <div class="collection-serve-text">The person who wants glasses that fit correctly, look great, and let them get on with their life. They enjoy color and shape without taking it too seriously. They move between work and weekend without changing their frame — or their personality. Comfort is expected. Fun is the bonus.</div>
+      </div>
+    </div>
+
+    <!-- Steel Brown -->
+    <div class="collection-panel steel-brown">
+      <div style="font-size:9px;font-weight:500;letter-spacing:.28em;text-transform:uppercase;color:rgba(115,150,147,.4);margin-bottom:20px">Collection 02</div>
+      <div class="collection-name" style="color:var(--accent)">STEEL BROWN</div>
+      <div class="collection-tagline">Where precision meets quietly confident style.</div>
+      <div class="collection-rule"></div>
+      <p class="collection-body">Steel Brown is what happens when an engineer's obsession and a stylist's discipline share the same brief. German stainless steel, wafer-thin and permanent. Mazzucchelli Italian acetate, one of the most respected materials in the category. A collaboration with international award-winning German designer Wolfgang Proksch. No-screw silicone nose pads built for low-bridge fit. The result is eyewear that earns its place at the highest levels of professional life and stays there without asking for attention.</p>
+      <div class="collection-specs">
+        <div class="collection-spec">
+          <div class="collection-spec-lbl">Material</div>
+          <div class="collection-spec-val">Medical-grade German stainless steel · Mazzucchelli Italian acetate</div>
+        </div>
+        <div class="collection-spec">
+          <div class="collection-spec-lbl">Nose pads</div>
+          <div class="collection-spec-val">No-screw silicone, optimized for low-bridge fit</div>
+        </div>
+        <div class="collection-spec">
+          <div class="collection-spec-lbl">Design</div>
+          <div class="collection-spec-val">Wolfgang Proksch · international award-winning German eyewear designer</div>
+        </div>
+        <div class="collection-spec">
+          <div class="collection-spec-lbl">Fit</div>
+          <div class="collection-spec-val">Low-bridge geometry · precision temple angle · silicone grip retention</div>
+        </div>
+        <div class="collection-spec">
+          <div class="collection-spec-lbl">Aesthetic</div>
+          <div class="collection-spec-val">Refined daily eyewear — boardroom to everything else</div>
+        </div>
+      </div>
+      <div class="collection-serve">
+        <div class="collection-serve-lbl">Who Steel Brown Serves</div>
+        <div class="collection-serve-text">Professionals, executives, and leaders who have earned the right to demand more from their eyewear. The frame is part of the uniform of someone who operates at a high level and knows it. Steel Brown has earned real traction among figures in government and institutional leadership, drawn to the credibility of the materials and the restraint of the design. Sophisticated enough for the room. Durable enough for everything that follows.</div>
+      </div>
+    </div>
+
+  </div>
+
+  <div class="pull rv d3" style="margin-bottom:136px">
+    <p class="pull-text">Two collections. One standard: <em>the frame that belongs on your face.</em></p>
+  </div>
+</section>
+
+<div class="rule-d"></div>
+
+<!-- Colors -->
+<section style="background:var(--cool)" id="colors">
+  <div class="tag rv">Color Palette</div>
+  <h2 class="dh rv d1" style="color:var(--ink)">OUR<br>COLORS.</h2>
+
+  <div class="palette-grid rv d2">
+    <div class="swatch" style="background:#1C1C1C;color:#F6F4EF;border:1px solid rgba(28,28,28,.08)">
+      <div class="swatch-name">Ink</div>
+      <div class="swatch-hex">#1C1C1C</div>
+      <div class="swatch-desc">Primary text &amp; dark</div>
+    </div>
+    <div class="swatch" style="background:#2F2F2F;color:#F6F4EF;border:1px solid rgba(28,28,28,.08)">
+      <div class="swatch-name">Ink 2</div>
+      <div class="swatch-hex">#2F2F2F</div>
+      <div class="swatch-desc">Depth &amp; layering</div>
+    </div>
+    <div class="swatch" style="background:#C9C6BF;color:#1C1C1C;border:1px solid rgba(28,28,28,.08)">
+      <div class="swatch-name">Warm Gray</div>
+      <div class="swatch-hex">#C9C6BF</div>
+      <div class="swatch-desc">Secondary text &amp; muted</div>
+    </div>
+    <div class="swatch" style="background:#E1DDD3;color:#1C1C1C;border:1px solid rgba(28,28,28,.1)">
+      <div class="swatch-name">Paper</div>
+      <div class="swatch-hex">#E1DDD3</div>
+      <div class="swatch-desc">Warm surface accent</div>
+    </div>
+    <div class="swatch" style="background:#F6F4EF;color:#1C1C1C;border:1px solid rgba(28,28,28,.12)">
+      <div class="swatch-name">Cream</div>
+      <div class="swatch-hex">#F6F4EF</div>
+      <div class="swatch-desc">Primary light surface</div>
+    </div>
+    <div class="swatch" style="background:#739693;color:#1C1C1C;border:1px solid rgba(28,28,28,.08)">
+      <div class="swatch-name">Teal</div>
+      <div class="swatch-hex">#739693</div>
+      <div class="swatch-desc">Brand accent &amp; depth</div>
+      <div class="swatch-badge">Signature Accent</div>
+    </div>
+  </div>
+
+  <!-- Accent feature panel -->
+  <div class="accent-row rv d3">
+    <div class="accent-feature">
+      <div style="font-size:10px;font-weight:500;letter-spacing:.32em;text-transform:uppercase;color:var(--accent)">Brand Accent · Teal</div>
+      <div class="accent-display">THE CALM<br>ACCENT</div>
+      <p style="font-size:15px;font-weight:300;line-height:1.75;color:rgba(28,28,28,.6);max-width:440px">Teal is the signature depth of Noon Shop. It enters where precision meets craft: type highlights, border accents, interactive states, wherever the brand needs to feel considered rather than decorative.</p>
+    </div>
+    <div class="accent-samples">
+      <div class="accent-sample">
+        <div class="accent-sample-lbl">Tint</div>
+        <div class="accent-sample-val" style="color:#9BBCBB">#9BBCBB</div>
+        <div style="font-size:12px;font-weight:300;color:rgba(28,28,28,.4);margin-top:4px">Subtle borders on light</div>
+      </div>
+      <div class="accent-sample">
+        <div class="accent-sample-lbl">Primary</div>
+        <div class="accent-sample-val" style="color:#0B4312">#739693</div>
+        <div style="font-size:12px;font-weight:300;color:rgba(28,28,28,.4);margin-top:4px">Nav, tags, CTAs</div>
+      </div>
+      <div class="accent-sample">
+        <div class="accent-sample-lbl">Deep</div>
+        <div class="accent-sample-val" style="color:#4A6B6A">#4A6B6A</div>
+        <div style="font-size:12px;font-weight:300;color:rgba(28,28,28,.4);margin-top:4px">Borders, hover states</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="pull rv d3">
+    <p class="pull-text">Precision in material. Depth in accent. <em>Teal</em> for the moments that matter.</p>
+  </div>
+</section>
+
+<div class="rule-d"></div>
+
+<!-- Typography -->
+<section class="ls" id="typography">
+  <div class="tag tag-ink rv">Typography</div>
+  <h2 class="dh rv d1" style="color:var(--ink)">TYPE<br>SYSTEM.</h2>
+  <div class="type-stack rv d2">
+    <div class="type-row">
+      <div class="type-meta">
+        <div><div class="type-label">Typeface</div><div class="type-value">Bebas Neue</div></div>
+        <div><div class="type-label">Role</div><div class="type-value">Display / Headlines</div></div>
+        <div><div class="type-label">Weight</div><div class="type-value">Regular (single weight)</div></div>
+      </div>
+      <div class="type-sample-bebas">FIT IS<br>FUNDAMENTAL.</div>
+      <div style="margin-top:32px">
+        <div class="type-size-item">
+          <span class="type-size-lbl">Hero</span>
+          <span style="font-family:var(--D);font-size:clamp(48px,6vw,96px);line-height:.9;color:var(--ink)">HEADLINE</span>
+        </div>
+        <div class="type-size-item">
+          <span class="type-size-lbl">Section</span>
+          <span style="font-family:var(--D);font-size:36px;line-height:.9;color:var(--ink)">HEADLINE</span>
+        </div>
+        <div class="type-size-item">
+          <span class="type-size-lbl">Card</span>
+          <span style="font-family:var(--D);font-size:24px;line-height:.9;color:var(--ink)">HEADLINE</span>
+        </div>
+        <div class="type-size-item" style="border:none">
+          <span class="type-size-lbl">Label</span>
+          <span style="font-family:var(--D);font-size:16px;letter-spacing:.08em;color:var(--ink)">LABEL TEXT</span>
+        </div>
+      </div>
+    </div>
+    <div class="type-row">
+      <div class="type-meta">
+        <div><div class="type-label">Typeface</div><div class="type-value">Playfair Display</div></div>
+        <div><div class="type-label">Role</div><div class="type-value">Accent / Italic Subtitles</div></div>
+        <div><div class="type-label">Weights</div><div class="type-value">400, 700, always italic</div></div>
+      </div>
+      <div class="type-sample-playfair">the frame it belongs on.</div>
+    </div>
+    <div class="type-row">
+      <div class="type-meta">
+        <div><div class="type-label">Typeface</div><div class="type-value">Outfit</div></div>
+        <div><div class="type-label">Role</div><div class="type-value">Body / Interface / Navigation</div></div>
+        <div><div class="type-label">Weights</div><div class="type-value">100–500 (prefer 300)</div></div>
+      </div>
+      <div class="type-sample-outfit">Noon Shop offers eyewear engineered for the full range of facial structures. Founded by an ophthalmologist who understood that fit is not a detail. Titanium, stainless steel, and a clinical commitment to getting it right.</div>
+    </div>
+  </div>
+</section>
+
+<div class="rule-l"></div>
+
+<!-- Logo -->
+<section class="ls2" id="logo">
+  <div class="tag tag-ink rv">Logo</div>
+  <h2 class="dh rv d1" style="color:var(--ink)">OUR<br>MARK.</h2>
+  <div class="logo-grid rv d2">
+    <div class="logo-cell dark">
+      <img class="logo-img" src="assets/logo.png" alt="Noon Shop logo on dark"
+        style="filter:brightness(0) invert(1)"
+        onerror="this.style.display='none';this.nextElementSibling.style.display='block'">
+      <div style="display:none;font-family:var(--D);font-size:32px;letter-spacing:.2em;color:#F6F4EF">NOON SHOP</div>
+      <span class="logo-label" style="color:rgba(246,244,239,.35)">On dark · primary use</span>
+    </div>
+    <div class="logo-cell light">
+      <img class="logo-img" src="assets/logo.png" alt="Noon Shop logo on light"
+        onerror="this.style.display='none';this.nextElementSibling.style.display='block'">
+      <div style="display:none;font-family:var(--D);font-size:32px;letter-spacing:.2em;color:var(--ink)">NOON SHOP</div>
+      <span class="logo-label">On light backgrounds</span>
+    </div>
+    <div class="logo-cell accent-bg">
+      <img class="logo-img" src="assets/logo.png" alt="Noon Shop logo on forest"
+        style="filter:brightness(0) invert(1);opacity:.85"
+        onerror="this.style.display='none';this.nextElementSibling.style.display='block'">
+      <div style="display:none;font-family:var(--D);font-size:32px;letter-spacing:.2em;color:#F6F4EF">NOON SHOP</div>
+      <span class="logo-label" style="color:rgba(246,244,239,.5)">Teal accent · special use</span>
+    </div>
+    <div class="logo-cell paper">
+      <div style="display:flex;flex-direction:column;gap:12px">
+        <div style="font-size:10px;font-weight:500;letter-spacing:.22em;text-transform:uppercase;color:var(--accent-dark);margin-bottom:4px">Clear space rule</div>
+        <div style="display:inline-flex;border:1px dashed rgba(115,150,147,.25);padding:24px">
+          <img class="logo-img" src="assets/logo.png" alt="Logo clearspace" style="max-width:120px"
+            onerror="this.style.display='none';this.nextElementSibling.style.display='block'">
+          <div style="display:none;font-family:var(--D);font-size:24px;letter-spacing:.2em;color:var(--ink)">NOON SHOP</div>
+        </div>
+        <p style="font-size:12px;font-weight:300;color:var(--mid)">Always maintain clear space equal to the height of the "N" on all sides.</p>
+      </div>
+      <span class="logo-label">Minimum clear space</span>
+    </div>
+  </div>
+</section>
+
+<div class="rule-l"></div>
+
+<!-- Photography -->
+<section class="ls" id="photography">
+  <div class="tag tag-ink rv">Photography</div>
+  <h2 class="dh rv d1" style="color:var(--ink)">IMAGE<br>DIRECTION.</h2>
+  <p class="rv d2" style="font-size:17px;font-weight:300;line-height:1.8;color:var(--ink2);max-width:640px;margin-bottom:64px">Product photography leads with material and fit. Clean backgrounds, direct light, no lifestyle staging. The forest-toned frames connect directly to the brand accent, reinforcing the link between craft and identity.</p>
+
+  <!-- Hero photo row -->
+  <div class="photo-hero rv d2">
+    <div class="photo-cell photo-wide">
+      <img src="assets/gold-round-1.png" alt="Gold round sunglasses" onerror="this.parentElement.style.background='#E1DDD3'">
+    </div>
+    <div class="photo-cell photo-tall">
+      <img src="assets/cat-eye.png" alt="Cat-eye sunglasses" onerror="this.parentElement.style.background='#D8CFC4'">
+    </div>
+  </div>
+
+  <!-- Second row -->
+  <div class="photo-row rv d3" style="margin-top:2px">
+    <div class="photo-cell photo-sq">
+      <img src="assets/classic-round.png" alt="Classic round frames" onerror="this.parentElement.style.background='#E9EBEC'">
+    </div>
+    <div class="photo-cell photo-sq">
+      <img src="assets/thin-rect.png" alt="Thin rectangular frames" onerror="this.parentElement.style.background='#E1DDD3'">
+    </div>
+    <div class="photo-cell photo-sq">
+      <img src="assets/gold-round-2.png" alt="Gold round 2" onerror="this.parentElement.style.background='#D8CFC4'">
+    </div>
+  </div>
+
+  <!-- Caption strip -->
+  <div style="background:var(--paper);border:1px solid rgba(115,150,147,.1);padding:28px 40px;display:flex;justify-content:space-between;align-items:center;margin-top:2px" class="rv d3">
+    <p style="font-size:13px;font-weight:300;line-height:1.7;color:rgba(28,28,28,.6);max-width:480px">Preferred: frames on cream or paper. Material fills 60–80% of frame. No props, no lifestyle context. The frame is the story. Frame tones connect directly to the Teal brand accent.</p>
+  </div>
+
+  <!-- Macro row -->
+  <div style="margin-top:56px" class="rv d3">
+    <div style="font-size:10px;font-weight:500;letter-spacing:.22em;text-transform:uppercase;color:var(--accent-dark);margin-bottom:16px;display:flex;align-items:center;gap:12px"><span style="display:block;width:24px;height:1px;background:var(--accent-dark)"></span>Detail &amp; Macro Photography</div>
+    <div class="photo-row-4">
+      <div class="photo-cell photo-sq">
+        <img src="assets/macro-hinge-1.png" alt="Hinge macro" onerror="this.parentElement.style.background='#E9EBEC'">
+      </div>
+      <div class="photo-cell photo-sq">
+        <img src="assets/macro-hinge-2.png" alt="Hinge macro 2" onerror="this.parentElement.style.background='#D8CFC4'">
+      </div>
+      <div class="photo-cell photo-sq">
+        <img src="assets/macro-detail.png" alt="Macro detail" onerror="this.parentElement.style.background='#E1DDD3'">
+      </div>
+      <div class="photo-cell photo-sq">
+        <img src="assets/thin-rect-2.png" alt="Thin rect 2" onerror="this.parentElement.style.background='#E9EBEC'">
+      </div>
+    </div>
+  </div>
+
+  <!-- Photography pull quote -->
+  <div style="border-left:2px solid var(--accent-dark);padding:28px 32px;margin-top:56px;max-width:720px" class="rv d3">
+    <p style="font-family:'Playfair Display',Georgia,serif;font-style:italic;font-size:clamp(18px,2vw,24px);line-height:1.65;color:var(--ink2)">"In an industry where style has long dominated the conversation, Noon Shop is reframing the narrative by bringing function, inclusivity, and medical precision back into focus."</p>
+  </div>
+</section>
+
+<div class="rule-d"></div>
+
+<!-- Model Direction -->
+<section style="background:var(--cool)" id="model-direction">
+  <div class="tag rv">Model &amp; Image Direction</div>
+  <h2 class="dh rv d1" style="color:var(--ink)">THE FACE<br><span class="dh-sub">that wears it.</span></h2>
+
+  <p class="rv" style="font-size:17px;font-weight:300;line-height:1.85;color:rgba(28,28,28,.6);max-width:640px;margin-bottom:80px">Our visual direction is an extension of the brand's core promise. Faces of the world, faces of all kinds, and the full range of structures that come with them. Beautiful, but never a single archetype of beautiful. The price point demands polish. The mission demands range. Both must show up in the same image.</p>
+
+  <!-- Facial structures -->
+  <div class="rv d1" style="margin-bottom:64px">
+    <div style="font-size:10px;font-weight:500;letter-spacing:.22em;text-transform:uppercase;color:var(--accent);margin-bottom:24px;display:flex;align-items:center;gap:12px">
+      <span style="display:block;width:24px;height:1px;background:var(--accent)"></span>Facial Structures to Represent
+    </div>
+    <div class="model-grid">
+      <div class="model-panel">
+        <div style="font-family:var(--D);font-size:20px;letter-spacing:.06em;color:var(--accent);margin-bottom:12px">LOW BRIDGE</div>
+        <p style="font-size:13px;font-weight:300;line-height:1.75;color:rgba(28,28,28,.6)">East Asian, Southeast Asian, Black, and Latinx facial structures. Flatter nasal bridges where standard frames slip forward. The face this brand was explicitly built to serve.</p>
+      </div>
+      <div class="model-panel">
+        <div style="font-family:var(--D);font-size:20px;letter-spacing:.06em;color:var(--accent);margin-bottom:12px">HIGH CHEEKBONES</div>
+        <p style="font-size:13px;font-weight:300;line-height:1.75;color:rgba(28,28,28,.6)">Frames that press on or ride over prominent cheekbones are a persistent, ignored discomfort. Show faces where the frame clears correctly, visibly settled, not fighting the face.</p>
+      </div>
+      <div class="model-panel">
+        <div style="font-family:var(--D);font-size:20px;letter-spacing:.06em;color:var(--accent);margin-bottom:12px">WIDER &amp; NARROWER</div>
+        <p style="font-size:13px;font-weight:300;line-height:1.75;color:rgba(28,28,28,.6)">Both ends of the face-width spectrum, underserved by standard sizing. Temples that sit flush, without squeeze or gap. The frame disappears into the face because it belongs there.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Shot types -->
+  <div class="rv d2" style="margin-bottom:64px">
+    <div style="font-size:10px;font-weight:500;letter-spacing:.22em;text-transform:uppercase;color:var(--accent);margin-bottom:24px;display:flex;align-items:center;gap:12px">
+      <span style="display:block;width:24px;height:1px;background:var(--accent)"></span>Shot Types
+    </div>
+    <div class="model-grid">
+      <div class="model-panel">
+        <div style="font-family:var(--D);font-size:20px;letter-spacing:.06em;color:var(--ink);margin-bottom:8px">CLOSE<br>PORTRAIT</div>
+        <div style="width:24px;height:1px;background:var(--accent);margin:12px 0;opacity:.5"></div>
+        <p style="font-size:13px;font-weight:300;line-height:1.75;color:rgba(28,28,28,.6)">Chest to crown. Direct eye contact or 15° turn. Shows how the frame sits on the bridge and against the cheekbones. Primary commercial shot. This is the one that sells.</p>
+      </div>
+      <div class="model-panel">
+        <div style="font-family:var(--D);font-size:20px;letter-spacing:.06em;color:var(--ink);margin-bottom:8px">THREE-<br>QUARTER</div>
+        <div style="width:24px;height:1px;background:var(--accent);margin:12px 0;opacity:.5"></div>
+        <p style="font-size:13px;font-weight:300;line-height:1.75;color:rgba(28,28,28,.6)">45° angle. Reveals the temple arm and how the frame wraps the ear. Best for showing fit quality and frame depth. The shot that builds trust.</p>
+      </div>
+      <div class="model-panel">
+        <div style="font-family:var(--D);font-size:20px;letter-spacing:.06em;color:var(--ink);margin-bottom:8px">PROFILE</div>
+        <div style="width:24px;height:1px;background:var(--accent);margin:12px 0;opacity:.5"></div>
+        <p style="font-size:13px;font-weight:300;line-height:1.75;color:rgba(28,28,28,.6)">Pure side view. Shows frame depth, temple angle, and lens position against the cheekbone. The fit shot. Nothing hides here.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Lighting & styling panels -->
+  <div class="story-grid rv d2" style="margin-bottom:2px">
+    <div style="background:var(--white);border:1px solid rgba(28,28,28,.07);padding:40px 36px">
+      <div style="font-size:10px;font-weight:500;letter-spacing:.22em;text-transform:uppercase;color:var(--accent);margin-bottom:20px">Light &amp; Background</div>
+      <ul style="list-style:none;display:flex;flex-direction:column">
+        <li style="font-size:14px;font-weight:300;line-height:1.65;color:rgba(28,28,28,.6);border-bottom:1px solid rgba(28,28,28,.06);padding:14px 0;display:flex;gap:12px"><span style="color:var(--accent);flex-shrink:0">→</span>Soft directional natural light or controlled studio. Even, not dramatic.</li>
+        <li style="font-size:14px;font-weight:300;line-height:1.65;color:rgba(28,28,28,.6);border-bottom:1px solid rgba(28,28,28,.06);padding:14px 0;display:flex;gap:12px"><span style="color:var(--accent);flex-shrink:0">→</span>Background: cream (#F6F4EF) or paper (#E1DDD3). On-brand, never distracting.</li>
+        <li style="font-size:14px;font-weight:300;line-height:1.65;color:rgba(28,28,28,.6);border-bottom:1px solid rgba(28,28,28,.06);padding:14px 0;display:flex;gap:12px"><span style="color:var(--accent);flex-shrink:0">→</span>No harsh shadows. Light should reveal the facial structure, not flatten or obscure it.</li>
+        <li style="font-size:14px;font-weight:300;line-height:1.65;color:rgba(28,28,28,.6);padding-top:14px;display:flex;gap:12px"><span style="color:var(--accent);flex-shrink:0">→</span>Skin tones rendered accurately and warmly across all ethnicities. No whitening or homogenizing.</li>
+      </ul>
+    </div>
+    <div style="background:var(--white);border:1px solid rgba(28,28,28,.07);padding:40px 36px">
+      <div style="font-size:10px;font-weight:500;letter-spacing:.22em;text-transform:uppercase;color:var(--accent);margin-bottom:20px">Expression &amp; Styling</div>
+      <ul style="list-style:none;display:flex;flex-direction:column">
+        <li style="font-size:14px;font-weight:300;line-height:1.65;color:rgba(28,28,28,.6);border-bottom:1px solid rgba(28,28,28,.06);padding:14px 0;display:flex;gap:12px"><span style="color:var(--accent);flex-shrink:0">→</span>Calm and composed. No broad smiles or extreme editorial expressions. Serene, assured.</li>
+        <li style="font-size:14px;font-weight:300;line-height:1.65;color:rgba(28,28,28,.6);border-bottom:1px solid rgba(28,28,28,.06);padding:14px 0;display:flex;gap:12px"><span style="color:var(--accent);flex-shrink:0">→</span>Clothing neutral or out of frame. The face and frame are the only subjects.</li>
+        <li style="font-size:14px;font-weight:300;line-height:1.65;color:rgba(28,28,28,.6);border-bottom:1px solid rgba(28,28,28,.06);padding:14px 0;display:flex;gap:12px"><span style="color:var(--accent);flex-shrink:0">→</span>Natural makeup. Present but not dominant. The face at its best, not its most transformed.</li>
+        <li style="font-size:14px;font-weight:300;line-height:1.65;color:rgba(28,28,28,.6);padding-top:14px;display:flex;gap:12px"><span style="color:var(--accent);flex-shrink:0">→</span>Ages 25–50. The premium buyer — not exclusively young, not uniformly aspirational. West Coast tech skews 28–42.</li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- Audience Context -->
+  <div class="rv d3" style="background:rgba(115,150,147,.05);border:1px solid rgba(115,150,147,.1);padding:48px;margin-top:2px">
+    <div style="font-size:10px;font-weight:500;letter-spacing:.22em;text-transform:uppercase;color:var(--accent);margin-bottom:20px">Audience Context · West Coast Tech</div>
+    <p style="font-size:16px;font-weight:300;line-height:1.85;color:rgba(28,28,28,.7);max-width:720px;margin-bottom:20px">A significant segment of the Noon Shop buyer is the West Coast technology professional — designers, engineers, founders, and product thinkers. This audience is educated, detail-oriented, and comfortable spending $300–400 on something that genuinely performs. They are drawn to function-forward design, clinical credibility, and material specificity. They are not moved by overt branding or fashion-led imagery.</p>
+    <p style="font-size:16px;font-weight:300;line-height:1.85;color:rgba(28,28,28,.7);max-width:720px">Model imagery for this audience should feel considered and intelligent, not aspirational in the traditional luxury sense. Real faces. Quiet confidence. A person who found the right frame, not a person performing wearing one. The Bay Area and Pacific Northwest are also among the most ethnically diverse regions in the country, which reinforces the brand's range-of-faces direction naturally.</p>
+  </div>
+
+  <!-- Do/Don't -->
+  <div class="do-dont rv d3" style="margin-top:2px">
+    <div class="do-card">
+      <div class="do-lbl">Do</div>
+      <ul class="do-list">
+        <li>Cast a genuine range of ethnicities and facial structures</li>
+        <li>Show the frame fitting correctly — settled, not slipping or pinching</li>
+        <li>Use calm, composed expressions that convey quiet confidence</li>
+        <li>Keep backgrounds on-brand: cream or paper, no lifestyle staging</li>
+        <li>Vary angles across portrait, three-quarter, and profile within a set</li>
+        <li>Keep styling minimal — the face and frame are the only subject</li>
+      </ul>
+    </div>
+    <div class="dont-card">
+      <div class="do-lbl" style="color:rgba(28,28,28,.4)">Don't</div>
+      <ul class="dont-list">
+        <li>Cast exclusively high-fashion or one type of face</li>
+        <li>Use lifestyle backgrounds, props, or active/movement shots</li>
+        <li>Generate over-smoothed, AI-homogenized skin — preserve texture</li>
+        <li>Use dramatic lighting that hides how the frame actually sits</li>
+        <li>Apply heavy makeup or styling that competes with the frame</li>
+        <li>Show frames sitting off-center, tilted, or appearing to slip</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="pull rv d3">
+    <p class="pull-text">Diverse by design. <em>Every face</em> is a face Noon Shop was built for.</p>
+  </div>
+</section>
+
+<div class="rule-d"></div>
+
+<!-- AI System -->
+<section style="background:var(--white)" id="ai-system">
+  <div class="tag rv">How We Scale</div>
+  <h2 class="dh rv d1" style="color:var(--ink)">AI SYSTEM<br><span class="dh-sub">Brand Intelligence.</span></h2>
+
+  <!-- Brief -->
+  <div class="rv d2" style="max-width:720px;margin-bottom:80px">
+    <div style="font-family:var(--D);font-size:clamp(18px,2.5vw,28px);letter-spacing:.1em;color:var(--ink);margin-bottom:32px">THIS DOCUMENT IS THE BRIEF.</div>
+    <p style="font-size:17px;font-weight:300;line-height:1.9;color:rgba(28,28,28,.6);margin-bottom:20px">The Noon Shop Brand Guide is the authoritative source of truth for all AI-assisted content generation across every channel and format. Every output, written, visual, or interactive, is measured against what is defined here.</p>
+    <p style="font-size:17px;font-weight:300;line-height:1.9;color:rgba(28,28,28,.6)">This document functions as the system prompt for Noon Shop's AI content infrastructure. It defines the rules the system operates within. Not suggestions. Rules.</p>
+  </div>
+
+  <!-- What the system governs -->
+  <div class="rv d2" style="margin-bottom:80px">
+    <div style="font-size:10px;font-weight:500;letter-spacing:.22em;text-transform:uppercase;color:var(--accent);margin-bottom:32px;display:flex;align-items:center;gap:12px">
+      <span style="display:block;width:24px;height:1px;background:var(--accent)"></span>What the System Governs
+    </div>
+    <div class="governs-grid">
+      <div class="governs-panel">
+        <div class="governs-title">PRODUCT COPY</div>
+        <p class="governs-body">Product descriptions, frame specifications, collection introductions, and fit language. Every word written about a Noon Shop frame begins with fit as the primary value. Materials are named with specificity, titanium, stainless steel, never described by trend or season alone.</p>
+      </div>
+      <div class="governs-panel">
+        <div class="governs-title">STUDIO MODEL PHOTOGRAPHY</div>
+        <p class="governs-body">AI-generated model imagery for commercial, editorial, and social use. The locked scene spec defined in the Photography section is the only accepted input. Background, light source, color temperature, expression, clothing, and crop are fixed. The face and frame are the only variables.</p>
+      </div>
+      <div class="governs-panel">
+        <div class="governs-title">PRODUCT PHOTOGRAPHY</div>
+        <p class="governs-body">AI-generated product detail and flat lay imagery. Frames on cream or paper. Material fills the frame. No props, no lifestyle staging. The frame tones connect directly to the brand accent. The frame is the story.</p>
+      </div>
+      <div class="governs-panel">
+        <div class="governs-title">EMAIL MARKETING</div>
+        <p class="governs-body">Campaign and transactional email copy. Brand voice applies in full: direct, confident, human, refined. Subject lines lead with fit or a specific clinical truth. No breathless superlatives, no exclamation marks, no fashion-first language.</p>
+      </div>
+      <div class="governs-panel">
+        <div class="governs-title">WEB DESIGN &amp; LANDING PAGES</div>
+        <p class="governs-body">Page layouts, section hierarchy, CTA copy, and interaction patterns follow the motion and typography principles defined here. Bebas Neue for all display. Playfair Display italic for accent. Outfit 300 for body. Teal is a deliberate accent, never decorative.</p>
+      </div>
+      <div class="governs-panel">
+        <div class="governs-title">GOOGLE &amp; META ADS</div>
+        <p class="governs-body">Paid search and social ad copy generated from the approved voice pillars: Direct, Confident, Human, Refined. Headlines lead with the fit problem or the fit solution. No generic eyewear language. No fashion trend references. The brand does not compete on price or style. It competes on precision.</p>
+      </div>
+      <div class="governs-panel">
+        <div class="governs-title">INSTAGRAM &amp; SOCIAL CONTENT</div>
+        <p class="governs-body">Grid tiles, story cards, and caption copy generated to the locked visual system. Three content types only: model portrait, product flat, brand statement tile. All three share the same background, light, and typographic treatment. Consistency is not optional. It is the brand signal.</p>
+      </div>
+      <div class="governs-panel">
+        <div class="governs-title">MARKETING GRAPHICS</div>
+        <p class="governs-body">Campaign banners, event materials, and branded assets. Color palette, typography, and spacing rules are non-negotiable. Teal enters only where precision meets craft. Never as decoration.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- How the system uses this document -->
+  <div class="rv d3" style="max-width:760px;margin-bottom:80px">
+    <div style="font-size:10px;font-weight:500;letter-spacing:.22em;text-transform:uppercase;color:var(--accent);margin-bottom:32px;display:flex;align-items:center;gap:12px">
+      <span style="display:block;width:24px;height:1px;background:var(--accent)"></span>How the System Uses This Document
+    </div>
+    <p style="font-size:16px;font-weight:300;line-height:1.9;color:rgba(28,28,28,.6);margin-bottom:32px">Before generating any output, the AI references this document to confirm:</p>
+    <ul class="ai-checklist">
+      <li><span>→</span>Is the primary value fit, not style?</li>
+      <li><span>→</span>Does the visual follow the locked scene spec?</li>
+      <li><span>→</span>Is the typography Bebas Neue, Playfair Display italic, or Outfit 300?</li>
+      <li><span>→</span>Is Teal used as a deliberate accent, not a decoration?</li>
+      <li><span>→</span>Does the model casting reflect the full range of facial structures this brand was built to serve?</li>
+      <li><span>→</span>Does the copy lead with clinical credibility, not fashion aspiration?</li>
+      <li><span>→</span>Is the brand voice Direct, Confident, Human, Refined, in that order?</li>
+    </ul>
+    <p style="font-size:14px;font-weight:300;line-height:1.65;color:rgba(28,28,28,.3);margin-top:32px;font-style:italic">If any output deviates from these checks, it does not represent the brand.</p>
+  </div>
+
+  <!-- The Standard -->
+  <div class="pull rv d4">
+    <div style="font-size:10px;font-weight:500;letter-spacing:.22em;text-transform:uppercase;color:rgba(115,150,147,.4);margin-bottom:32px">The Standard</div>
+    <p class="pull-text">Noon Shop was built on a clinical observation. The AI system that scales it is held to the same standard: precision, range, and the honest belief that <em>fit is fundamental</em>.</p>
+    <p style="font-family:'Playfair Display',Georgia,serif;font-style:italic;font-size:clamp(16px,1.8vw,22px);font-weight:400;line-height:1.65;color:rgba(28,28,28,.35);margin-top:32px">Every image. Every word. Every frame.<br>Built for the face it belongs on.</p>
+  </div>
+</section>
+
+<div class="rule-accent"></div>
+
+<!-- Voice -->
+<section style="background:var(--cool)" id="voice">
+  <div class="tag rv">Brand Voice</div>
+  <h2 class="dh rv d1" style="color:var(--ink)">HOW WE<br>SPEAK.</h2>
+  <div class="voice-grid rv d2">
+    <div class="voice-card">
+      <div class="voice-title">DIRECT</div>
+      <p class="voice-text">We don't hide behind lifestyle imagery or trend language. Fit is either right or it isn't. We say so plainly, without softening the point.</p>
+      <p class="voice-ex">"Fit is not optional. It never was."</p>
+    </div>
+    <div class="voice-card">
+      <div class="voice-title">CONFIDENT</div>
+      <p class="voice-text">We believe fit is fundamental. Not a bonus feature, not a premium upgrade. The brand speaks with quiet clinical assurance, never loudness.</p>
+      <p class="voice-ex">"You weren't hard to fit. The industry just wasn't trying."</p>
+    </div>
+    <div class="voice-card">
+      <div class="voice-title">HUMAN</div>
+      <p class="voice-text">Behind the precision is warmth. Dr. Park built this for real faces, real people, the ones the industry had been quietly excluding for too long.</p>
+      <p class="voice-ex">"Three optical shops. No frames that actually fit. That's when it became clear: this wasn't just one person's issue. It was everywhere."</p>
+    </div>
+    <div class="voice-card">
+      <div class="voice-title">REFINED</div>
+      <p class="voice-text">Grounded in medicine. Expressed in craft. Titanium and stainless steel chosen for how they wear, not how they photograph. Language that ages well.</p>
+      <p class="voice-ex">"Medical-grade materials. Quiet precision. The frame that belongs on your face."</p>
+    </div>
+  </div>
+  <div class="do-dont rv d3" style="margin-top:2px">
+    <div class="do-card">
+      <div class="do-lbl">Do</div>
+      <ul class="do-list">
+        <li>Lead with fit as the primary value, always</li>
+        <li>Reference the full range of facial structures we serve</li>
+        <li>Draw on Dr. Park's clinical credibility as the brand foundation</li>
+        <li>Name materials with specificity: titanium, stainless steel</li>
+        <li>Use Bebas Neue for all display type</li>
+        <li>Use Teal as a deliberate accent: tags, borders, CTAs</li>
+      </ul>
+    </div>
+    <div class="dont-card">
+      <div class="do-lbl" style="color:rgba(28,28,28,.4)">Don't</div>
+      <ul class="dont-list">
+        <li>Say "for everyone" (we're specific, not generic)</li>
+        <li>Describe frames by trend or season alone</li>
+        <li>Use exclamation marks or breathless superlatives</li>
+        <li>Reference "fashion" as the primary motivation</li>
+        <li>Add color accents beyond the core palette</li>
+        <li>Place the logo on busy or patterned backgrounds</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<div class="rule-d"></div>
+
+<!-- Motion -->
+<section style="background:var(--paper)" id="motion">
+  <div class="tag rv">Motion &amp; Interaction</div>
+  <h2 class="dh rv d1" style="color:var(--ink)">HOW WE<br>MOVE.</h2>
+  <div class="motion-grid rv d2">
+    <div class="motion-card">
+      <div class="motion-name">SMOOTH</div>
+      <p class="motion-val">Nothing snaps. Transitions are never hurried. Elements ease in and out naturally, never abruptly.</p>
+      <div class="motion-demo"></div>
+    </div>
+    <div class="motion-card">
+      <div class="motion-name">SUBTLE</div>
+      <p class="motion-val">Hover states whisper, they don't shout. Small lifts, quiet fades. The brand doesn't need to perform.</p>
+      <div class="motion-demo"></div>
+    </div>
+    <div class="motion-card">
+      <div class="motion-name">INTENTIONAL</div>
+      <p class="motion-val">Every animation has a reason. If it doesn't earn its place, it doesn't belong on the page.</p>
+      <div class="motion-demo"></div>
+    </div>
+  </div>
+  <div class="pull rv d3">
+    <p class="pull-text">Calm, considered, never hurried. The brand moves the way it speaks.</p>
+  </div>
+</section>
+
+<!-- Footer -->
+<footer>
+  <div class="footer-logo">
+    <img src="assets/logo.png" alt="Noon Shop" onerror="this.style.display='none'">
+  </div>
+  <div class="footer-accent">Visual Identity System</div>
+  <div class="footer-meta">Brand Guide · 2026 · Internal Use</div>
+</footer>
+
+<script>
+/* ── Loader ── */
+(function initLoader() {
+  const loader = document.getElementById('pageLoader');
+  if (!loader) return;
+  const brand = loader.querySelector('.loader-brand');
+  const line = document.getElementById('loaderLine');
+  const tl = gsap.timeline();
+  tl.to(brand, { opacity: 1, y: 0, duration: 0.7, ease: 'power3.out' })
+    .to(line, { width: '120px', duration: 0.8, ease: 'power2.inOut' }, '-=0.3')
+    .to(brand, { opacity: 0, y: -12, duration: 0.5, delay: 0.6, ease: 'power2.in' })
+    .to(line, { opacity: 0, width: '180px', duration: 0.4, ease: 'power2.in' }, '-=0.4')
+    .to(loader, { opacity: 0, duration: 0.6, ease: 'power2.inOut', onComplete: () => {
+      loader.remove();
+      heroIn();
+    }});
+})();
+
+function heroIn() {
+  gsap.to(document.getElementById('hTag'), { opacity: 1, y: 0, duration: 0.7, ease: 'power3.out', delay: 0.1 });
+  gsap.to(document.getElementById('hH1'),  { opacity: 1, y: 0, duration: 0.9, ease: 'power3.out', delay: 0.3 });
+  gsap.to(document.getElementById('hFoot'),{ opacity: 1, y: 0, duration: 0.8, ease: 'power3.out', delay: 0.7 });
+}
+
+/* ── Cursor ── */
+const cur = document.getElementById('cur'), ring = document.getElementById('ring');
+let mx=0,my=0,cx=0,cy=0,rx=0,ry=0;
+document.addEventListener('mousemove', e => { mx=e.clientX; my=e.clientY; });
+(function loop() {
+  cx+=(mx-cx)*.2; cy+=(my-cy)*.2; rx+=(mx-rx)*.08; ry+=(my-ry)*.08;
+  cur.style.transform=`translate(${cx-3.5}px,${cy-3.5}px)`;
+  ring.style.transform=`translate(${rx-16}px,${ry-16}px)`;
+  requestAnimationFrame(loop);
+})();
+
+/* ── Nav ── */
+window.addEventListener('scroll', () => {
+  document.getElementById('mainNav').classList.toggle('scrolled', scrollY > 60);
+});
+
+/* ── Scroll reveal ── */
+const obs = new IntersectionObserver(entries => {
+  entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('in'); obs.unobserve(e.target); } });
+}, { threshold: 0.1 });
+document.querySelectorAll('.rv').forEach(el => obs.observe(el));
+</script>
+</body>
+</html>
