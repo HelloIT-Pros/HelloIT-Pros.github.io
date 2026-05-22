@@ -303,7 +303,7 @@
             <span>/</span>
             <strong>Current State</strong>
         </div>
-        <span class="breadcrumb-updated">Updated May 2026</span>
+        <span class="breadcrumb-updated">Updated 2026-05-23</span>
     </div>
 
     <div class="header">
@@ -318,15 +318,15 @@
         </div>
         <div class="status-item">
             <div class="status-dot green"></div>
-            <span><strong>OpenWebUI:</strong> v0.9.2 (latest)</span>
+            <span><strong>OpenWebUI:</strong> v0.9.5 (pinned)</span>
         </div>
         <div class="status-item">
             <div class="status-dot green"></div>
             <span><strong>URL:</strong> ai.gwaffordable.com</span>
         </div>
         <div class="status-item">
-            <div class="status-dot yellow"></div>
-            <span><strong>Phase:</strong> Pilot (5 users)</span>
+            <div class="status-dot green"></div>
+            <span><strong>Phase:</strong> Pilot ready &middot; 82.9% benchmark</span>
         </div>
     </div>
 
@@ -343,23 +343,23 @@
             </div>
             <div class="stack-item">
                 <div class="stack-label">AI Platform</div>
-                <div class="stack-value">OpenWebUI v0.9.2</div>
-                <div class="stack-sub">Self-hosted · Docker Compose · PostgreSQL 15</div>
+                <div class="stack-value">OpenWebUI v0.9.5 (pinned)</div>
+                <div class="stack-sub">Self-hosted · Docker Compose · PostgreSQL 15 · image tag pinned to prevent drift</div>
             </div>
             <div class="stack-item">
                 <div class="stack-label">AI Model (Chat)</div>
-                <div class="stack-value">GPT-4.1</div>
-                <div class="stack-sub">OpenAI API · gpt-4.1</div>
-            </div>
-            <div class="stack-item">
-                <div class="stack-label">AI Model (Tasks)</div>
                 <div class="stack-value">GPT-4.1-mini</div>
-                <div class="stack-sub">Title generation, tags, follow-up questions</div>
+                <div class="stack-sub">OpenAI API · gpt-4.1-mini · clears all handover gates at ~$5–10/month projected pilot cost</div>
             </div>
             <div class="stack-item">
                 <div class="stack-label">Embedding Model</div>
                 <div class="stack-value">text-embedding-3-small</div>
                 <div class="stack-sub">OpenAI · document indexing for RAG</div>
+            </div>
+            <div class="stack-item">
+                <div class="stack-label">OCR Engine</div>
+                <div class="stack-value">Mistral OCR (patched)</div>
+                <div class="stack-sub">Native handling for PDF / .docx / .xlsx / .pptx after the <code>image_limit: 0</code> entrypoint patch (May 21, 2026)</div>
             </div>
             <div class="stack-item">
                 <div class="stack-label">Reverse Proxy</div>
@@ -438,33 +438,83 @@
 
         <!-- KNOWLEDGE BASE -->
         <h2 class="section-title">Knowledge Base</h2>
-        <p>Two collections are active. Users attach a collection to any chat using the <code style="background:#f0f0f0; padding:1px 5px; border-radius:3px; font-size:13px;">#</code> command.</p>
+        <p>Six collections are active, each scoped to a distinct audience + document type. All six are pre-attached to the <strong>Gateway Assistant</strong> model preset, so end users do not need to attach anything manually — every chat searches the whole corpus. Detailed operator playbook lives in the eval repo at <code style="background:#f0f0f0; padding:1px 5px; border-radius:3px; font-size:13px;">eval/COLLECTIONS.md</code>.</p>
 
         <div class="collection">
             <div class="collection-header">
-                <span class="collection-name">Gateway — Agreements</span>
-                <span class="collection-count">5 files</span>
+                <span class="collection-name">Gateway - HR/Staff Policies</span>
+                <span class="collection-count">4 files</span>
             </div>
             <div class="collection-files">
-                <div class="collection-file"><span class="file-icon">📄</span> Otis Elevator Agreement — Spring (OCR processed) <span class="file-size">39 KB</span></div>
-                <div class="collection-file"><span class="file-icon">📄</span> Langston Lane Landscape Contract 2025 <span class="file-size">474 KB</span></div>
-                <div class="collection-file"><span class="file-icon">📄</span> Langston Lane Snow Proposal 2025 <span class="file-size">524 KB</span></div>
-                <div class="collection-file"><span class="file-icon">📄</span> Enviro Pest Control — Spring Manor <span class="file-size">3.8 MB</span></div>
-                <div class="collection-file"><span class="file-icon">📄</span> Jersey Park Snow Removal 2025–2026 <span class="file-size">302 KB</span></div>
+                <div class="collection-file"><span class="file-icon">📄</span> Employee Handbook (updated May 2024)</div>
+                <div class="collection-file"><span class="file-icon">📄</span> Site Manager Reference Manual</div>
+                <div class="collection-file"><span class="file-icon">📄</span> Gateway Policy &amp; Procedures Guide (Admin, Common, Tenancy)</div>
+                <div class="collection-file"><span class="file-icon">📄</span> 2025 Landscaping Signature</div>
             </div>
         </div>
 
         <div class="collection">
             <div class="collection-header">
-                <span class="collection-name">Gateway — Policies</span>
-                <span class="collection-count">5 files</span>
+                <span class="collection-name">Gateway - Tenant Operations</span>
+                <span class="collection-count">6 files</span>
             </div>
             <div class="collection-files">
-                <div class="collection-file"><span class="file-icon">📄</span> Employee Handbook — May 2024 <span class="file-size">984 KB</span></div>
-                <div class="collection-file"><span class="file-icon">📄</span> Site Manager Reference Manual <span class="file-size">146 KB</span></div>
-                <div class="collection-file"><span class="file-icon">📊</span> Community Listing and Information <span class="file-size">90 KB</span><span class="file-note">⚠ xlsx — poor RAG extraction</span></div>
-                <div class="collection-file"><span class="file-icon">📊</span> Chart of Accounts — All Properties <span class="file-size">23 KB</span><span class="file-note">⚠ xlsx — poor RAG extraction</span></div>
-                <div class="collection-file"><span class="file-icon">📄</span> Pay Your Rent Online <span class="file-size">14 KB</span></div>
+                <div class="collection-file"><span class="file-icon">📄</span> Photo ID Policy from Applicants</div>
+                <div class="collection-file"><span class="file-icon">📄</span> Law Enforcement Policy</div>
+                <div class="collection-file"><span class="file-icon">📄</span> Reasonable Accommodation Policy (HUD)</div>
+                <div class="collection-file"><span class="file-icon">📄</span> Service / Companion Animal Policy</div>
+                <div class="collection-file"><span class="file-icon">📄</span> Zero Income Policy Handout</div>
+                <div class="collection-file"><span class="file-icon">📄</span> Pay Your Rent Online</div>
+            </div>
+        </div>
+
+        <div class="collection">
+            <div class="collection-header">
+                <span class="collection-name">Gateway - Leases &amp; Tenancy Rules</span>
+                <span class="collection-count">7 files</span>
+            </div>
+            <div class="collection-files">
+                <div class="collection-file"><span class="file-icon">📄</span> MD / NY / WV / Ohio lease templates</div>
+                <div class="collection-file"><span class="file-icon">📄</span> RULES_0116_RD (USDA Rural Development generic)</div>
+                <div class="collection-file"><span class="file-icon">📄</span> RULES_0116_RD-Charleston</div>
+                <div class="collection-file"><span class="file-icon">📄</span> RULES_1114_HUD_Gateway</div>
+            </div>
+        </div>
+
+        <div class="collection">
+            <div class="collection-header">
+                <span class="collection-name">Gateway - Property Reference</span>
+                <span class="collection-count">3 files</span>
+            </div>
+            <div class="collection-files">
+                <div class="collection-file"><span class="file-icon">📄</span> Community Listing (hand-authored markdown with manager-grouping summary)</div>
+                <div class="collection-file"><span class="file-icon">📊</span> Community Listing and Information (xlsx, original source)</div>
+                <div class="collection-file"><span class="file-icon">📊</span> Chart of Accounts — All Properties</div>
+            </div>
+        </div>
+
+        <div class="collection">
+            <div class="collection-header">
+                <span class="collection-name">Gateway - Business Development</span>
+                <span class="collection-count">1 file</span>
+            </div>
+            <div class="collection-files">
+                <div class="collection-file"><span class="file-icon">📄</span> RFP — Property Management Services Southern MD (USDA-LIHTC Portfolio)</div>
+            </div>
+        </div>
+
+        <div class="collection">
+            <div class="collection-header">
+                <span class="collection-name">Gateway - Agreements</span>
+                <span class="collection-count">9 files</span>
+            </div>
+            <div class="collection-files">
+                <div class="collection-file"><span class="file-icon">📄</span> Otis Elevator Agreement — Spring (OCR processed + .md companion)</div>
+                <div class="collection-file"><span class="file-icon">📄</span> Enviro Pest Control — Spring Manor</div>
+                <div class="collection-file"><span class="file-icon">📄</span> Select Fire Monitoring — Spring Manor</div>
+                <div class="collection-file"><span class="file-icon">📄</span> Langston Lane Landscape Contract 2025</div>
+                <div class="collection-file"><span class="file-icon">📄</span> Langston Lane Snow Proposal 2025</div>
+                <div class="collection-file"><span class="file-icon">📄</span> Jersey Park Snow Removal 2025–2026</div>
             </div>
         </div>
 
@@ -476,18 +526,25 @@
                 <tr><th>Setting</th><th>Value</th></tr>
             </thead>
             <tbody>
-                <tr><td>Content Extraction Engine</td><td><strong>Default</strong> — with OCR enabled for scanned PDFs</td></tr>
+                <tr><td>Content Extraction Engine</td><td><strong>Mistral OCR</strong> — patched with <code>image_limit: 0</code> so .docx / .xlsx / .pptx extract natively (May 2026)</td></tr>
                 <tr><td>Text Splitter</td><td><strong>Character</strong> with Markdown Header awareness</td></tr>
-                <tr><td>Chunk Size</td><td><strong>3,200 characters</strong> — preserves legal clause context</td></tr>
-                <tr><td>Chunk Overlap</td><td><strong>400 characters</strong> (12%) — prevents context loss at boundaries</td></tr>
+                <tr><td>Chunk Size</td><td><strong>1,800 characters</strong> <span style="color: #999; font-size: 13px;">(was 3,200)</span> — smaller chunks preserve negation clauses (e.g., "do not photocopy")</td></tr>
+                <tr><td>Chunk Overlap</td><td><strong>250 characters</strong> <span style="color: #999; font-size: 13px;">(was 400)</span> — proportional ~14%</td></tr>
+                <tr><td>Chunk Min Size Target</td><td><strong>1,000 characters</strong> <span style="color: #999; font-size: 13px;">(was 0)</span> — merges undersized fragments after markdown-header splitting</td></tr>
                 <tr><td>Embedding Batch Size</td><td><strong>50</strong> — fast indexing for large documents</td></tr>
                 <tr><td>Full Context Mode</td><td><strong>Off</strong> — chunk retrieval only (cost and context control)</td></tr>
-                <tr><td>Hybrid Search</td><td><strong>On</strong> — BM25 keyword + vector semantic, 50/50 weight</td></tr>
+                <tr><td>Hybrid Search</td><td><strong>On</strong> — BM25 keyword + vector semantic, <strong>BM25 weight 0.4</strong> <span style="color: #999; font-size: 13px;">(was 0.5)</span> — semantic dominates, keyword as tiebreaker</td></tr>
                 <tr><td>Top K</td><td><strong>10</strong> chunks retrieved per query</td></tr>
-                <tr><td>Top K Reranker</td><td><strong>3</strong> — final reranked chunks sent to model</td></tr>
-                <tr><td>Source Citation</td><td><strong>Enabled</strong> via RAG template — model cites document and section</td></tr>
+                <tr><td>Top K Reranker</td><td><strong>5</strong> <span style="color: #999; font-size: 13px;">(was 3)</span> — more signal for cross-doc questions</td></tr>
+                <tr><td>RAG System Context</td><td><strong>Enabled</strong> (<code>RAG_SYSTEM_CONTEXT=true</code>) — retrieved context injected into system message; preserves KV cache across follow-up turns</td></tr>
+                <tr><td>Source Citation</td><td><strong>Enabled</strong> via system-prompt directive — model cites document and section verbatim</td></tr>
+                <tr><td>Follow-up / tag / autocomplete generation</td><td><strong>Disabled</strong> — addresses pilot feedback ("give me pause") and saves tokens</td></tr>
             </tbody>
         </table>
+
+        <p style="margin-top: 18px; font-size: 14px; color: #666;">
+            All RAG settings + system-prompt changes were arrived at by a structured evaluation framework. Full results in the <a href="eval-results.html"><strong>Evaluation Results &amp; Acceptance Report</strong></a> — baseline 56.9% → final 82.9% across a 30-question grounded benchmark, with every Prakash-flagged item resolved and all critical handover gates passing.
+        </p>
 
         <!-- PROMPTS -->
         <h2 class="section-title">Prompt Library</h2>
@@ -521,12 +578,32 @@
                 <span class="timeline-content"><strong>Knowledge base seeded.</strong> Vendor contracts ingested (landscaping, snow removal, pest control, fire monitoring, elevators). 2025 Employee Handbook added.</span>
             </div>
             <div class="timeline-item">
-                <span class="timeline-date">May 2026</span>
-                <span class="timeline-content"><strong>Platform hardened and updated.</strong> OpenWebUI upgraded to v0.9.2. Security tightened (signup disabled, session key pinned, secure cookies). Hybrid search enabled. RAG tuned. Prompt library created. Document ingestion guide published.</span>
+                <span class="timeline-date">May 17, 2026</span>
+                <span class="timeline-content"><strong>Prakash's pilot feedback.</strong> Three emails flag source noise, semantic drift, dropped negation, off-duty marijuana hallucination risk, and a spreadsheet cross-row failure on manager grouping. Becomes the seed for the evaluation framework.</span>
             </div>
             <div class="timeline-item">
-                <span class="timeline-date">~May 22</span>
-                <span class="timeline-content"><strong>Policy &amp; Procedures manual</strong> — Mike Severe completing final sections. Will be added to Gateway — Policies collection on completion.</span>
+                <span class="timeline-date">May 17, 2026</span>
+                <span class="timeline-content"><strong>Eval framework built &amp; baseline run.</strong> 30 grounded questions across 7 categories, six-dimension rubric, independent LLM judge. Baseline 56.9%.</span>
+            </div>
+            <div class="timeline-item">
+                <span class="timeline-date">May 17, 2026</span>
+                <span class="timeline-content"><strong>Tuning Phase 4 (system prompt + retrieval) applied.</strong> Aggregate jumps to 79.3%.</span>
+            </div>
+            <div class="timeline-item">
+                <span class="timeline-date">May 17, 2026</span>
+                <span class="timeline-content"><strong>Phase 4.5 — source cleanup.</strong> 4 broken .doc files re-OCR'd as .md. Community Listing .xlsx replaced with hand-authored .md including a "Managers Responsible for Multiple Properties" summary section (fixes Prakash's Q9). Aggregate to 82.9%.</span>
+            </div>
+            <div class="timeline-item">
+                <span class="timeline-date">May 21, 2026</span>
+                <span class="timeline-content"><strong>Mistral OCR patch &amp; content expansion.</strong> OpenWebUI loader patched with <code>image_limit: 0</code> for native .docx / .xlsx handling. 12 additional Gateway docs uploaded (7 lease templates + 1 RFP + 4 vendor contracts).</span>
+            </div>
+            <div class="timeline-item">
+                <span class="timeline-date">May 22, 2026</span>
+                <span class="timeline-content"><strong>Phase 9 — collection restructure.</strong> Single "Policies" catch-all split into 5 domain collections (HR/Staff, Tenant Operations, Leases, Property Reference, Business Development) alongside Agreements. Official RAG settings applied (<code>CHUNK_MIN_SIZE_TARGET=1000</code>, <code>RAG_SYSTEM_CONTEXT=true</code>).</span>
+            </div>
+            <div class="timeline-item">
+                <span class="timeline-date">May 23, 2026</span>
+                <span class="timeline-content"><strong>Acceptance report published.</strong> Stakeholder-facing report mapping each Prakash item to current measured outcomes. All 7 handover gates passing. Recommendation: ship to pilot.</span>
             </div>
         </div>
 
@@ -536,19 +613,19 @@
         <div class="open-items">
             <div class="open-item medium">
                 <span class="open-item-priority">Medium</span>
-                <span class="open-item-text"><strong>P&amp;P Manual ingestion</strong> — awaiting Mike's completion (~May 22). Add to Gateway — Policies on receipt.</span>
+                <span class="open-item-text"><strong>Pre-aggregated summary sections for the Community Listing</strong> — questions like "total units across elderly properties with elevators" or "oldest family no-elevator property" undercount because retrieval pulls top-K rows, not all 52. Same fix that resolved Prakash's Q9 (manager grouping): add summary sections at the top of the markdown. ~30 minutes; not blocking handover.</span>
             </div>
             <div class="open-item medium">
                 <span class="open-item-priority">Medium</span>
-                <span class="open-item-text"><strong>Fire monitoring contract missing from Agreements collection</strong> — was referenced in January ingestion but not present. Needs to be located and re-uploaded.</span>
-            </div>
-            <div class="open-item medium">
-                <span class="open-item-priority">Medium</span>
-                <span class="open-item-text"><strong>Replace Excel files in Policies collection</strong> — Community Listing and Chart of Accounts (.xlsx) extract poorly in RAG. Convert to structured text or markdown before re-ingesting.</span>
+                <span class="open-item-text"><strong>Rotate <code>OPENAI_API_KEY</code> and <code>POSTGRES_PASSWORD</code></strong> — both currently visible in plaintext in the docker-compose env on the VPS. Independent task, schedule when convenient.</span>
             </div>
             <div class="open-item low">
                 <span class="open-item-priority">Low</span>
-                <span class="open-item-text"><strong>Model presets</strong> — Contract Reviewer, Policy Assistant, and Tenant Letter Writer presets (Workspace → Models) with pre-attached collections. Defer until P&amp;P manual is live.</span>
+                <span class="open-item-text"><strong>Per-collection model presets</strong> — drafted in <code>eval/system_prompts/</code> (Gateway HR Assistant, Gateway Contract Reviewer). Current unified Gateway Assistant works for the pilot. Revisit if user feedback suggests clearer scoping helps.</span>
+            </div>
+            <div class="open-item low">
+                <span class="open-item-priority">Low</span>
+                <span class="open-item-text"><strong>Application-level database backups</strong> — Hostinger block-level snapshots exist, but <code>pg_dump</code> application backups are not yet scheduled.</span>
             </div>
             <div class="open-item low">
                 <span class="open-item-priority">Low</span>
@@ -556,9 +633,13 @@
             </div>
             <div class="open-item low">
                 <span class="open-item-priority">Low</span>
-                <span class="open-item-text"><strong>Application-level database backups</strong> — Hostinger block-level snapshots exist, but pg_dump application backups are not yet scheduled.</span>
+                <span class="open-item-text"><strong>File two upstream bug reports against open-webui/open-webui</strong> — (1) <code>/file/add</code> silently swallows join-table insert exceptions, returns 200; (2) <code>GET /knowledge/{id}</code> doesn't populate its <code>files</code> field. Both were workarounds during Phase 9. Worth filing when bandwidth allows.</span>
             </div>
         </div>
+
+        <p style="margin-top: 24px; font-size: 13px; color: #888;">
+            Items resolved during May 17–23 sprint (no longer open): P&amp;P Manual ingestion, fire monitoring contract recovery, Excel-file extraction in Policies collection, source noise (Prakash Q1), dropped negation (Prakash Q2), semantic drift to vendor contracts (Prakash Q3), off-duty marijuana hallucination (Prakash Q6), manager grouping cross-row failure (Prakash Q9), follow-up question suggestions noise (Prakash sources email).
+        </p>
 
     </div>
 
