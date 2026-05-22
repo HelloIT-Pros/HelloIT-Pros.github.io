@@ -349,7 +349,7 @@
             <div class="stack-item">
                 <div class="stack-label">AI Model (Chat)</div>
                 <div class="stack-value">GPT-4.1-mini</div>
-                <div class="stack-sub">OpenAI API · gpt-4.1-mini · clears all handover gates at ~$5–10/month projected pilot cost</div>
+                <div class="stack-sub">OpenAI API · clears all handover gates on the current corpus</div>
             </div>
             <div class="stack-item">
                 <div class="stack-label">Embedding Model</div>
@@ -370,11 +370,6 @@
                 <div class="stack-label">Backups</div>
                 <div class="stack-value">Hostinger Daily Snapshots</div>
                 <div class="stack-sub">Block-level · 4 snapshots retained automatically</div>
-            </div>
-            <div class="stack-item">
-                <div class="stack-label">Automation</div>
-                <div class="stack-value">n8n</div>
-                <div class="stack-sub">automation.helloitpros.com · workflow automation</div>
             </div>
         </div>
 
@@ -532,7 +527,7 @@
                 <tr><td>Chunk Overlap</td><td><strong>250 characters</strong> <span style="color: #999; font-size: 13px;">(was 400)</span> — proportional ~14%</td></tr>
                 <tr><td>Chunk Min Size Target</td><td><strong>1,000 characters</strong> <span style="color: #999; font-size: 13px;">(was 0)</span> — merges undersized fragments after markdown-header splitting</td></tr>
                 <tr><td>Embedding Batch Size</td><td><strong>50</strong> — fast indexing for large documents</td></tr>
-                <tr><td>Full Context Mode</td><td><strong>Off</strong> — chunk retrieval only (cost and context control)</td></tr>
+                <tr><td>Full Context Mode</td><td><strong>Off</strong> — chunk retrieval only (keeps context windows scoped and answers focused)</td></tr>
                 <tr><td>Hybrid Search</td><td><strong>On</strong> — BM25 keyword + vector semantic, <strong>BM25 weight 0.4</strong> <span style="color: #999; font-size: 13px;">(was 0.5)</span> — semantic dominates, keyword as tiebreaker</td></tr>
                 <tr><td>Top K</td><td><strong>10</strong> chunks retrieved per query</td></tr>
                 <tr><td>Top K Reranker</td><td><strong>5</strong> <span style="color: #999; font-size: 13px;">(was 3)</span> — more signal for cross-doc questions</td></tr>

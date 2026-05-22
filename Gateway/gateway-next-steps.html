@@ -1,0 +1,328 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gateway AI — Next Steps for Gateway Team | HelloIT Pros</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap');
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif; line-height: 1.65; color: #1a1a1a; background: linear-gradient(135deg, #f5f5f5 0%, #e8e8e8 100%); min-height: 100vh; padding: 40px 20px; }
+        .container { max-width: 960px; margin: 0 auto; background: white; border-radius: 12px; box-shadow: 0 10px 40px rgba(0,0,0,0.1); overflow: hidden; }
+        .breadcrumb { padding: 20px 40px; background: #f8f8f8; border-bottom: 1px solid #e0e0e0; font-size: 14px; }
+        .breadcrumb a { color: #666; text-decoration: none; }
+        .breadcrumb a:hover { color: #000; }
+        .breadcrumb span { margin: 0 8px; color: #999; }
+        .header { background: #000; color: white; padding: 50px 40px; text-align: center; }
+        .header h1 { font-size: 32px; font-weight: 700; margin-bottom: 10px; }
+        .header p { font-size: 17px; opacity: 0.85; font-weight: 300; }
+        .meta-bar { background: #f8f8f8; padding: 14px 40px; border-bottom: 1px solid #e0e0e0; font-size: 13px; color: #666; display: flex; justify-content: space-between; flex-wrap: wrap; gap: 10px; }
+        .content { padding: 50px 40px; }
+
+        .intro { background: #f8f8f8; border-left: 4px solid #000; padding: 22px 28px; margin-bottom: 36px; border-radius: 0 6px 6px 0; font-size: 15.5px; }
+
+        h2.section-title { font-size: 24px; font-weight: 700; margin: 50px 0 12px; color: #000; border-bottom: 3px solid #000; padding-bottom: 10px; display: flex; align-items: baseline; gap: 12px; }
+        h2.section-title:first-of-type { margin-top: 0; }
+        h2.section-title .num { display: inline-flex; align-items: center; justify-content: center; min-width: 32px; height: 32px; padding: 0 10px; border-radius: 16px; background: #000; color: #fff; font-size: 14px; font-weight: 700; font-family: 'JetBrains Mono', monospace; }
+        h3 { font-size: 18px; font-weight: 600; margin: 26px 0 10px; color: #000; }
+
+        p { margin-bottom: 14px; color: #2a2a2a; }
+        ul, ol { margin: 0 0 16px 24px; }
+        ul li, ol li { margin-bottom: 8px; color: #2a2a2a; }
+        a { color: #000; }
+        code { font-family: 'JetBrains Mono', monospace; background: #f4f4f4; padding: 1px 6px; border-radius: 3px; font-size: 13.5px; color: #b03060; }
+
+        table { width: 100%; border-collapse: collapse; margin: 14px 0 24px; font-size: 14.5px; }
+        thead { background: #000; color: white; }
+        th, td { text-align: left; padding: 10px 14px; border: 1px solid #e0e0e0; vertical-align: top; }
+        th { font-weight: 600; }
+        tbody tr:nth-child(even) { background: #fafafa; }
+
+        .callout { background: #fff7e6; border-left: 4px solid #f5a623; padding: 16px 22px; margin: 22px 0; border-radius: 0 6px 6px 0; }
+        .callout.success { background: #f0fff4; border-left-color: #2c8a3e; }
+        .callout.info { background: #eef5ff; border-left-color: #1d4ed8; }
+        .callout strong { color: #000; }
+
+        .checklist { list-style: none; margin-left: 0; padding-left: 0; }
+        .checklist li { position: relative; padding: 10px 0 10px 36px; border-bottom: 1px dashed #e0e0e0; }
+        .checklist li:last-child { border-bottom: none; }
+        .checklist li:before { content: "☐"; position: absolute; left: 0; top: 9px; font-size: 22px; color: #888; }
+        .checklist li strong { color: #000; }
+
+        .responsibility-table th, .responsibility-table td { vertical-align: top; }
+        .pill { display: inline-block; padding: 3px 9px; border-radius: 10px; font-size: 11.5px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px; }
+        .pill.gateway { background: #cfe5ff; color: #0a3666; }
+        .pill.hellotitp { background: #ffe1cc; color: #6b3a0a; }
+
+        .priority { display: inline-block; padding: 2px 9px; border-radius: 10px; font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px; margin-left: 8px; }
+        .priority.high { background: #d0021b; color: white; }
+        .priority.med { background: #f5a623; color: white; }
+        .priority.low { background: #888; color: white; }
+
+        .footer { background: #f8f8f8; padding: 30px 40px; text-align: center; color: #666; font-size: 13px; border-top: 1px solid #e0e0e0; }
+
+        @media (max-width: 768px) {
+            body { padding: 20px 10px; }
+            .header h1 { font-size: 24px; }
+            .content { padding: 30px 20px; }
+            .meta-bar { padding: 12px 20px; flex-direction: column; }
+            table { font-size: 13px; }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="breadcrumb">
+            <a href="../">← HelloIT Pros</a>
+            <span>/</span>
+            <a href="./">Gateway Management</a>
+            <span>/</span>
+            Next Steps
+        </div>
+
+        <div class="header">
+            <h1>Next Steps for the Gateway Team</h1>
+            <p>What we need from you to make the pilot a success</p>
+        </div>
+
+        <div class="meta-bar">
+            <span><strong>For:</strong> Mike Severe, Lester Severe, pilot users</span>
+            <span><strong>From:</strong> HelloIT Pros</span>
+            <span><strong>Updated:</strong> 2026-05-23</span>
+        </div>
+
+        <div class="content">
+
+            <div class="intro">
+                The system is built, tuned, and acceptance-tested. The remaining gap between
+                "ready for pilot" and "delivering real value" is <strong>your team using it during
+                actual work</strong> and <strong>telling us what's missing or wrong</strong>. This
+                page lists everything we need from Gateway on your side. None of it is heavy lift —
+                most items take five minutes.
+            </div>
+
+            <!-- ============================================================ -->
+            <h2 class="section-title"><span class="num">1</span> Confirm pilot access <span class="priority high">This week</span></h2>
+
+            <p>Five pilot accounts are active. Each pilot user should do the following once:</p>
+
+            <ul class="checklist">
+                <li><strong>Open</strong> <a href="https://ai.gwaffordable.com">ai.gwaffordable.com</a> in a desktop browser (Chrome, Edge, Safari, or Firefox). Mobile works but desktop is better for the source-citation feature.</li>
+                <li><strong>Log in</strong> with your <code>@gwaffordable.com</code> email and the temporary password HelloIT Pros sent you. If you don't have it, email <a href="mailto:helloit@gwaffordable.com">helloit@gwaffordable.com</a>.</li>
+                <li><strong>Change your password</strong> from Settings → Account. Use a unique password, not one you reuse elsewhere.</li>
+                <li><strong>Confirm</strong> that <em>Gateway Assistant</em> appears in the model picker at the top of a new chat. It should be the only option you see. If you see other models or nothing at all, tell us.</li>
+                <li><strong>Ask one test question</strong> to confirm everything works — see the <a href="gateway-user-guide.html">User Guide</a> for ideas. A good first one: "What is the policy on an employee being arrested for DUI?"</li>
+            </ul>
+
+            <div class="callout info">
+                <p><strong>If anything in step 1–5 doesn't work,</strong> email
+                <a href="mailto:helloit@gwaffordable.com">helloit@gwaffordable.com</a> with what
+                you tried, what you expected, and what you got. Screenshots help. We're
+                actively watching the inbox during the pilot.</p>
+            </div>
+
+            <!-- ============================================================ -->
+            <h2 class="section-title"><span class="num">2</span> Use it in real work <span class="priority high">First 2 weeks</span></h2>
+
+            <p>
+                The biggest risk to a pilot is that everyone tests it for ten minutes on day one,
+                then forgets about it. Test-mode usage misses the patterns that matter — the
+                specific questions site managers ask at 3 p.m. on a Tuesday when something is on
+                fire. Real work surfaces the gaps.
+            </p>
+
+            <h3>What "real use" looks like</h3>
+            <ul>
+                <li>Next time you'd normally email Mike or text a regional manager asking about a policy, <strong>try asking Gateway AI first</strong>. If the answer is right, you saved 20 minutes. If it's wrong, you've found a bug — tell us.</li>
+                <li>Next time you'd dig through the Employee Handbook for one paragraph, <strong>ask the AI to quote it.</strong></li>
+                <li>Next time you need to pull a clause from a vendor contract (snow removal scope, elevator callback SLA, pest control coverage), <strong>let the AI find the section.</strong></li>
+                <li>Next time you need to know who manages a specific property or what type of building it is, <strong>just ask.</strong></li>
+            </ul>
+
+            <p>
+                See the <a href="gateway-user-guide.html"><strong>User Guide</strong></a> for the
+                full list of example questions, grouped by topic.
+            </p>
+
+            <!-- ============================================================ -->
+            <h2 class="section-title"><span class="num">3</span> Tell us when the AI is wrong <span class="priority high">Ongoing</span></h2>
+
+            <p>
+                The fastest way for the system to get better is for you to flag bad answers
+                immediately. We need three pieces of information:
+            </p>
+
+            <ol>
+                <li><strong>The question</strong> you asked, copied exactly.</li>
+                <li><strong>The AI's response</strong> (the full text, or a screenshot).</li>
+                <li><strong>What you expected instead</strong> — the right answer, the source document the AI missed, or a description of what would have been helpful.</li>
+            </ol>
+
+            <h3>How to send it to us</h3>
+            <table>
+                <thead><tr><th>Method</th><th>Best for</th></tr></thead>
+                <tbody>
+                    <tr>
+                        <td>Email <a href="mailto:helloit@gwaffordable.com">helloit@gwaffordable.com</a></td>
+                        <td>Anything with a screenshot or longer description. Default channel.</td>
+                    </tr>
+                    <tr>
+                        <td>Reply to the weekly check-in email</td>
+                        <td>Patterns you've noticed across the week, not a single incident.</td>
+                    </tr>
+                    <tr>
+                        <td>Standing call (if scheduled)</td>
+                        <td>Discussion of bigger changes — should we add a new collection? Should access be split?</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <div class="callout">
+                <p>
+                    <strong>Don't wait until you have a list of ten things.</strong> Send each
+                    one when it happens. Single-incident reports let us see context that a
+                    week-old list of bullet points doesn't.
+                </p>
+            </div>
+
+            <!-- ============================================================ -->
+            <h2 class="section-title"><span class="num">4</span> Submit new documents <span class="priority med">As needed</span></h2>
+
+            <p>
+                The AI only knows what we've ingested. When you have new content the team
+                should be able to ask about — a new vendor contract, an updated lease template,
+                a new internal procedure document, an RFP — send it to us and we'll add it.
+            </p>
+
+            <h3>What's worth sending</h3>
+            <ul>
+                <li>New or updated vendor contracts (snow, landscaping, pest, elevator, fire monitoring, laundry, etc.)</li>
+                <li>New or revised HR / personnel policies</li>
+                <li>State or program-specific lease templates we don't have yet</li>
+                <li>Updated property roster information (when the Community Listing changes)</li>
+                <li>RFPs you're evaluating</li>
+                <li>Procedure documents (e.g., the P&amp;P Manual when Mike finishes it)</li>
+            </ul>
+
+            <h3>What NOT to send</h3>
+            <ul>
+                <li>Tenant-specific records (rent ledgers, eviction history, SSNs) — these stay in your property management system. The AI is not designed for tenant lookups.</li>
+                <li>Personal HR records about a specific employee (disciplinary files, salary, medical info).</li>
+                <li>Anything you're not sure about — ask us first.</li>
+            </ul>
+
+            <p>
+                See the <a href="ai-knowledge-guide.html"><strong>Sharing Documents Guide</strong></a>
+                for the full submission process — preferred file formats, naming conventions, and
+                the Google Drive folder we monitor.
+            </p>
+
+            <!-- ============================================================ -->
+            <h2 class="section-title"><span class="num">5</span> Decisions Gateway leadership owns <span class="priority med">First month</span></h2>
+
+            <p>
+                A handful of decisions are yours to make. We'll bring you the data; you make the
+                call.
+            </p>
+
+            <ul class="checklist">
+                <li><strong>Broader rollout timing.</strong> The pilot is 5 users. When are we
+                    ready to open it to all Gateway staff, and on what schedule?</li>
+                <li><strong>Who joins the pilot next?</strong> Are there specific site managers,
+                    regional managers, or accounting team members who should be added before full
+                    rollout? Two or three additions during the pilot is the right size.</li>
+                <li><strong>Whether to add per-role assistants.</strong> Today everyone uses one
+                    "Gateway Assistant" that searches the entire knowledge base. We could add
+                    dedicated assistants (e.g., "HR Assistant", "Contract Reviewer") with their
+                    own focus. Worth doing if pilot users tell us they'd prefer scoped views.</li>
+                <li><strong>How to handle sensitive data if it ever needs to land in the
+                    system.</strong> The current corpus is policies + contracts + property
+                    catalog — no tenant-personal or employee-personal data. If you ever want to
+                    add something sensitive (compliance records, HR personnel files), we'll
+                    pre-walk the access-control implications with you and only proceed after your
+                    explicit sign-off.</li>
+                <li><strong>P&amp;P Manual completion.</strong> Mike has been working on the
+                    Policy &amp; Procedures Manual. When sections are done, send them in for
+                    indexing. The AI will be noticeably more helpful once they land.</li>
+            </ul>
+
+            <!-- ============================================================ -->
+            <h2 class="section-title"><span class="num">6</span> Who owns what <span class="priority low">Reference</span></h2>
+
+            <p>
+                For clarity on the operating model during the pilot and after handover:
+            </p>
+
+            <table class="responsibility-table">
+                <thead><tr><th style="width:34%;">Topic</th><th>Responsible</th></tr></thead>
+                <tbody>
+                    <tr>
+                        <td>Server uptime, security patches, OpenWebUI version management, backups, monitoring</td>
+                        <td><span class="pill hellotitp">HelloIT Pros</span></td>
+                    </tr>
+                    <tr>
+                        <td>Adding new pilot users, removing departed users</td>
+                        <td><span class="pill hellotitp">HelloIT Pros</span> (you tell us who; we add them)</td>
+                    </tr>
+                    <tr>
+                        <td>Ingesting new documents into the knowledge base</td>
+                        <td><span class="pill hellotitp">HelloIT Pros</span> (you send the doc; we process and index it)</td>
+                    </tr>
+                    <tr>
+                        <td>Re-running the quality benchmark after changes</td>
+                        <td><span class="pill hellotitp">HelloIT Pros</span></td>
+                    </tr>
+                    <tr>
+                        <td>Tuning RAG settings, system prompts, model selection</td>
+                        <td><span class="pill hellotitp">HelloIT Pros</span> (driven by benchmark + pilot feedback)</td>
+                    </tr>
+                    <tr>
+                        <td>Bug reports, wrong-answer reports, feature requests</td>
+                        <td><span class="pill gateway">Gateway</span> reports → <span class="pill hellotitp">HelloIT Pros</span> investigates &amp; resolves</td>
+                    </tr>
+                    <tr>
+                        <td>Deciding what content to add or keep out</td>
+                        <td><span class="pill gateway">Gateway</span> (you own the corpus)</td>
+                    </tr>
+                    <tr>
+                        <td>Deciding who has access to what</td>
+                        <td><span class="pill gateway">Gateway</span> directs → <span class="pill hellotitp">HelloIT Pros</span> configures</td>
+                    </tr>
+                    <tr>
+                        <td>Communicating the pilot to Gateway staff, training rollout</td>
+                        <td><span class="pill gateway">Gateway</span></td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <!-- ============================================================ -->
+            <h2 class="section-title"><span class="num">7</span> Where to find things</h2>
+
+            <table>
+                <thead><tr><th>Resource</th><th>Link</th></tr></thead>
+                <tbody>
+                    <tr><td>The Gateway Assistant (the AI itself)</td><td><a href="https://ai.gwaffordable.com">ai.gwaffordable.com</a></td></tr>
+                    <tr><td>User Guide — how to use the assistant + example questions</td><td><a href="gateway-user-guide.html">gateway-user-guide.html</a></td></tr>
+                    <tr><td>How to share new documents with us</td><td><a href="ai-knowledge-guide.html">ai-knowledge-guide.html</a></td></tr>
+                    <tr><td>Current state — what's deployed today</td><td><a href="gateway-current-state.html">gateway-current-state.html</a></td></tr>
+                    <tr><td>Evaluation results — quality report</td><td><a href="eval-results.html">eval-results.html</a></td></tr>
+                    <tr><td>Support / bug reports / feedback</td><td><a href="mailto:helloit@gwaffordable.com">helloit@gwaffordable.com</a></td></tr>
+                </tbody>
+            </table>
+
+            <div class="callout success">
+                <p>
+                    <strong>The shortest version of this whole page:</strong>
+                    log in, use it in real work, tell us when it's wrong, send new documents
+                    when you have them. We'll do the rest.
+                </p>
+            </div>
+
+        </div>
+
+        <div class="footer">
+            <p>Gateway Management × HelloIT Pros &middot; Pilot kickoff resources &middot; 2026-05-23</p>
+        </div>
+    </div>
+</body>
+</html>

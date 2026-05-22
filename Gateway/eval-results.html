@@ -319,8 +319,8 @@
 
             <div class="callout success">
                 <p><strong>Recommendation:</strong> Gateway AI is <strong>ready for pilot handover</strong>
-                on the current model (<code>gpt-4.1-mini</code>). Projected pilot cost: $5–10/month for
-                5 users at ~30 queries/day each. No model upgrade required.</p>
+                on the current model (<code>gpt-4.1-mini</code>). No model upgrade required for the
+                current corpus — quality clears every handover gate.</p>
             </div>
 
             <!-- =========================== TOC =========================== -->
@@ -336,7 +336,7 @@
                     <li><a href="#gates">Handover Gates</a></li>
                     <li><a href="#changes">What Changed in the System</a></li>
                     <li><a href="#limitations">Remaining Limitations</a></li>
-                    <li><a href="#cost">Cost &amp; Ongoing Operations</a></li>
+                    <li><a href="#ops">Ongoing Operations</a></li>
                     <li><a href="#artifacts">Artifacts &amp; References</a></li>
                 </ol>
             </div>
@@ -944,31 +944,16 @@
                 task, low urgency, documented in the audit trail.
             </p>
 
-            <!-- =========================== Cost =========================== -->
-            <h2 id="cost" class="section-title">Cost &amp; Ongoing Operations</h2>
-
-            <h3>Current cost</h3>
-            <table>
-                <thead>
-                    <tr><th>Item</th><th>Cost</th><th>Notes</th></tr>
-                </thead>
-                <tbody>
-                    <tr><td>Model: <code>gpt-4.1-mini</code></td><td>$0.40/M input, $1.60/M output</td><td>OpenAI cloud, US East</td></tr>
-                    <tr><td>Embeddings: <code>text-embedding-3-small</code></td><td>$0.02/M tokens</td><td>One-time per upload (re-runs on reindex)</td></tr>
-                    <tr><td>Mistral OCR</td><td>Per-page billing</td><td>Used on PDF / DOCX uploads</td></tr>
-                    <tr><td>Hostinger VPS (KVM 2)</td><td>~$15/month</td><td>2 vCPU, 8 GB, 100 GB</td></tr>
-                    <tr><td>Full benchmark run</td><td>~$0.30</td><td>30 questions × ~5K tokens</td></tr>
-                    <tr><td><strong>Projected pilot usage</strong></td><td><strong>$5–10/month</strong></td><td>5 users × ~30 queries/day × ~4K tokens each</td></tr>
-                </tbody>
-            </table>
+            <!-- =========================== Ongoing Ops =========================== -->
+            <h2 id="ops" class="section-title">Ongoing Operations</h2>
 
             <div class="callout info">
                 <p>
-                    <strong>Model-tier decision:</strong> <code>gpt-4.1-mini</code> clears every
-                    handover gate. The alternatives — <code>gpt-4.1</code> (~10×) or <code>gpt-5</code>
-                    (~15×) — are not justified by quality gains on this corpus. Revisit only if a
-                    specific failure pattern emerges that's clearly a model-ceiling issue, not a
-                    retrieval-ceiling issue.
+                    <strong>Model decision:</strong> <code>gpt-4.1-mini</code> clears every handover
+                    gate on the current corpus. The eval framework will revisit the model choice
+                    only if a specific failure pattern emerges that's clearly a model-ceiling
+                    issue — not a retrieval-ceiling issue. The benchmark stays the source of truth
+                    for that decision.
                 </p>
             </div>
 
@@ -1015,7 +1000,7 @@
                     <strong>Ship to the existing pilot.</strong> Every issue Prakash flagged is
                     resolved with measured evidence. All seven handover gates are passing or partial
                     (Q15 paraphrasing is cosmetic, not safety). The system is documented, monitored,
-                    and reversible. Cost is well-bounded.
+                    and reversible.
                 </p>
                 <p>
                     Suggested next pass before broader rollout: add pre-aggregated summary sections

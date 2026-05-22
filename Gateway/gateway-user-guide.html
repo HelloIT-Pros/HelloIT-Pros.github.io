@@ -1,0 +1,602 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gateway AI — User Guide | HelloIT Pros</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap');
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif; line-height: 1.65; color: #1a1a1a; background: linear-gradient(135deg, #f5f5f5 0%, #e8e8e8 100%); min-height: 100vh; padding: 40px 20px; }
+        .container { max-width: 960px; margin: 0 auto; background: white; border-radius: 12px; box-shadow: 0 10px 40px rgba(0,0,0,0.1); overflow: hidden; }
+        .breadcrumb { padding: 20px 40px; background: #f8f8f8; border-bottom: 1px solid #e0e0e0; font-size: 14px; }
+        .breadcrumb a { color: #666; text-decoration: none; }
+        .breadcrumb a:hover { color: #000; }
+        .breadcrumb span { margin: 0 8px; color: #999; }
+        .header { background: #000; color: white; padding: 50px 40px; text-align: center; }
+        .header h1 { font-size: 32px; font-weight: 700; margin-bottom: 10px; }
+        .header p { font-size: 17px; opacity: 0.85; font-weight: 300; }
+        .meta-bar { background: #f8f8f8; padding: 14px 40px; border-bottom: 1px solid #e0e0e0; font-size: 13px; color: #666; display: flex; justify-content: space-between; flex-wrap: wrap; gap: 10px; }
+        .content { padding: 50px 40px; }
+
+        .toc { background: #f8f8f8; border-left: 4px solid #000; padding: 20px 25px; margin-bottom: 36px; border-radius: 0 6px 6px 0; }
+        .toc h2 { font-size: 14px; text-transform: uppercase; letter-spacing: 1.5px; color: #000; margin-bottom: 12px; }
+        .toc ol { padding-left: 22px; font-size: 14.5px; color: #444; }
+        .toc ol li { margin-bottom: 4px; }
+        .toc a { color: #444; text-decoration: none; border-bottom: 1px dotted #999; }
+        .toc a:hover { color: #000; border-bottom-color: #000; }
+
+        h2.section-title { font-size: 24px; font-weight: 700; margin: 50px 0 14px; color: #000; border-bottom: 3px solid #000; padding-bottom: 10px; }
+        h2.section-title:first-of-type { margin-top: 0; }
+        h3 { font-size: 18px; font-weight: 600; margin: 28px 0 10px; color: #000; }
+        h4 { font-size: 15px; font-weight: 600; margin: 18px 0 6px; color: #222; }
+
+        p { margin-bottom: 14px; color: #2a2a2a; }
+        ul, ol { margin: 0 0 16px 24px; }
+        ul li, ol li { margin-bottom: 6px; color: #2a2a2a; }
+        a { color: #000; }
+        code { font-family: 'JetBrains Mono', monospace; background: #f4f4f4; padding: 1px 6px; border-radius: 3px; font-size: 13.5px; color: #b03060; }
+
+        /* Quick-start strip */
+        .quickstart { display: grid; grid-template-columns: repeat(5, 1fr); gap: 10px; margin: 20px 0 30px; }
+        .qs-step { background: #f8f8f8; border: 1px solid #e0e0e0; border-radius: 6px; padding: 16px 14px; position: relative; }
+        .qs-step .n { display: inline-flex; align-items: center; justify-content: center; width: 26px; height: 26px; border-radius: 50%; background: #000; color: #fff; font-size: 13px; font-weight: 700; font-family: 'JetBrains Mono', monospace; margin-bottom: 8px; }
+        .qs-step .t { font-size: 13.5px; color: #2a2a2a; line-height: 1.45; }
+
+        /* Screenshot placeholder */
+        .screenshot { margin: 22px 0; border: 2px dashed #c0c0c0; border-radius: 8px; background: #fafafa; padding: 32px 24px; text-align: center; color: #888; font-size: 13.5px; }
+        .screenshot .label { font-size: 11px; text-transform: uppercase; letter-spacing: 1.5px; color: #999; font-weight: 700; margin-bottom: 6px; }
+        .screenshot .caption { font-style: italic; }
+
+        /* Example question card */
+        .qcard { background: #f8f8f8; border-left: 4px solid #1d4ed8; padding: 16px 22px; margin: 14px 0; border-radius: 0 6px 6px 0; }
+        .qcard .q-label { font-size: 11px; text-transform: uppercase; letter-spacing: 1px; color: #1d4ed8; font-weight: 700; margin-bottom: 6px; }
+        .qcard .q-text { font-size: 15px; color: #1a1a1a; font-weight: 500; margin-bottom: 8px; }
+        .qcard .q-why { font-size: 13.5px; color: #555; }
+
+        .collection-section { margin: 30px 0; padding: 22px 26px; background: #fcfcfc; border: 1px solid #e8e8e8; border-radius: 8px; }
+        .collection-section h3 { margin-top: 0; display: flex; align-items: baseline; gap: 10px; }
+        .collection-section .who { font-size: 12px; color: #888; font-weight: 500; text-transform: uppercase; letter-spacing: 0.6px; }
+
+        table { width: 100%; border-collapse: collapse; margin: 14px 0 24px; font-size: 14.5px; }
+        thead { background: #000; color: white; }
+        th, td { text-align: left; padding: 10px 14px; border: 1px solid #e0e0e0; vertical-align: top; }
+        th { font-weight: 600; }
+        tbody tr:nth-child(even) { background: #fafafa; }
+
+        .callout { background: #fff7e6; border-left: 4px solid #f5a623; padding: 16px 22px; margin: 22px 0; border-radius: 0 6px 6px 0; }
+        .callout.success { background: #f0fff4; border-left-color: #2c8a3e; }
+        .callout.info { background: #eef5ff; border-left-color: #1d4ed8; }
+        .callout strong { color: #000; }
+
+        .tip { background: #f0fff4; border-left: 4px solid #2c8a3e; padding: 12px 18px; margin: 12px 0; border-radius: 0 4px 4px 0; font-size: 14px; }
+        .tip strong { color: #155724; }
+
+        .footer { background: #f8f8f8; padding: 30px 40px; text-align: center; color: #666; font-size: 13px; border-top: 1px solid #e0e0e0; }
+
+        @media (max-width: 768px) {
+            body { padding: 20px 10px; }
+            .header h1 { font-size: 24px; }
+            .content { padding: 30px 20px; }
+            .meta-bar { padding: 12px 20px; flex-direction: column; }
+            table { font-size: 13px; }
+            .quickstart { grid-template-columns: repeat(2, 1fr); }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="breadcrumb">
+            <a href="../">← HelloIT Pros</a>
+            <span>/</span>
+            <a href="./">Gateway Management</a>
+            <span>/</span>
+            User Guide
+        </div>
+
+        <div class="header">
+            <h1>Gateway AI — User Guide</h1>
+            <p>How to use the assistant, what it knows, and what to ask it</p>
+        </div>
+
+        <div class="meta-bar">
+            <span><strong>For:</strong> Gateway pilot users</span>
+            <span><strong>System:</strong> <code>ai.gwaffordable.com</code></span>
+            <span><strong>Updated:</strong> 2026-05-23</span>
+        </div>
+
+        <div class="content">
+
+            <!-- ============================================================ -->
+            <h2 id="quickstart" class="section-title">Quick start</h2>
+
+            <p>Five steps. Two minutes. You're using it.</p>
+
+            <div class="quickstart">
+                <div class="qs-step">
+                    <div class="n">1</div>
+                    <div class="t">Open <a href="https://ai.gwaffordable.com">ai.gwaffordable.com</a></div>
+                </div>
+                <div class="qs-step">
+                    <div class="n">2</div>
+                    <div class="t">Log in with your <code>@gwaffordable.com</code> email</div>
+                </div>
+                <div class="qs-step">
+                    <div class="n">3</div>
+                    <div class="t">Confirm <strong>Gateway Assistant</strong> is selected at the top</div>
+                </div>
+                <div class="qs-step">
+                    <div class="n">4</div>
+                    <div class="t">Type a question in the message box and press Enter</div>
+                </div>
+                <div class="qs-step">
+                    <div class="n">5</div>
+                    <div class="t">Click the source citations to see the original document</div>
+                </div>
+            </div>
+
+            <div class="callout success">
+                <p><strong>That's it.</strong> No special syntax, no slash commands, no need
+                to pick a knowledge base. The Gateway Assistant already knows every Gateway
+                document we've indexed. Just type your question like you'd ask a colleague.</p>
+            </div>
+
+            <!-- ============================================================ -->
+            <div class="toc">
+                <h2>What's in this guide</h2>
+                <ol>
+                    <li><a href="#quickstart">Quick start</a></li>
+                    <li><a href="#login">Logging in for the first time</a></li>
+                    <li><a href="#interface">The chat interface</a></li>
+                    <li><a href="#ask-well">How to ask good questions</a></li>
+                    <li><a href="#what-it-knows">What the assistant knows</a></li>
+                    <li><a href="#examples">Example questions by topic</a></li>
+                    <li><a href="#sources">Reading the source citations</a></li>
+                    <li><a href="#wrong">When the AI gets it wrong</a></li>
+                    <li><a href="#faq">FAQ</a></li>
+                </ol>
+            </div>
+
+            <!-- ============================================================ -->
+            <h2 id="login" class="section-title">Logging in for the first time</h2>
+
+            <p>
+                Gateway AI lives at <a href="https://ai.gwaffordable.com"><strong>ai.gwaffordable.com</strong></a>.
+                Bookmark it. The login page asks for your email and password.
+            </p>
+
+            <div class="screenshot">
+                <div class="label">Screenshot — placeholder</div>
+                <div class="caption">Login page at ai.gwaffordable.com. Email + password fields, no signup link (accounts are created by HelloIT Pros).</div>
+            </div>
+
+            <ul>
+                <li><strong>Email:</strong> your <code>@gwaffordable.com</code> address</li>
+                <li><strong>Password:</strong> the temporary password HelloIT Pros sent you. <strong>Change it on first login</strong> from Settings → Account.</li>
+            </ul>
+
+            <div class="tip">
+                <strong>Forgot your password?</strong> Email
+                <a href="mailto:helloit@gwaffordable.com">helloit@gwaffordable.com</a> and we'll
+                reset it. There's no self-service reset link — that's intentional, to keep
+                accounts under HelloIT Pros control during the pilot.
+            </div>
+
+            <!-- ============================================================ -->
+            <h2 id="interface" class="section-title">The chat interface</h2>
+
+            <p>
+                Once you're logged in, you land on a fresh chat. Three things to notice:
+            </p>
+
+            <div class="screenshot">
+                <div class="label">Screenshot — placeholder</div>
+                <div class="caption">Main chat screen. Top center: model picker showing "Gateway Assistant". Center: empty message box. Left sidebar: chat history. Top right: account menu.</div>
+            </div>
+
+            <ol>
+                <li><strong>Top center — model picker.</strong> Should say <em>Gateway Assistant</em>. That's the only model your account can use. If it shows something else, tell us.</li>
+                <li><strong>Center — message box.</strong> Type your question here. Press Enter to send. Shift+Enter for a new line.</li>
+                <li><strong>Left sidebar — chat history.</strong> Every conversation is saved. Click an old chat to revisit it. Use <em>New Chat</em> at the top of the sidebar to start fresh.</li>
+            </ol>
+
+            <div class="tip">
+                <strong>Start a new chat for each new topic.</strong> The AI remembers everything
+                in the current chat, so mixing unrelated questions can confuse it. One topic per chat
+                keeps answers cleaner.
+            </div>
+
+            <!-- ============================================================ -->
+            <h2 id="ask-well" class="section-title">How to ask good questions</h2>
+
+            <p>
+                The system is designed to be forgiving — you don't need to phrase things like a
+                search engine. Plain English works. That said, a few patterns get noticeably
+                better answers:
+            </p>
+
+            <h3>Do</h3>
+            <ul>
+                <li><strong>Be specific about the situation.</strong> "An employee was arrested for DUI over the weekend" gives the AI more to work with than "What's the DUI policy?"</li>
+                <li><strong>Name people, properties, or vendors when they're relevant.</strong> "Who manages Spring Manor?" is faster than "What's the manager list for elderly properties?"</li>
+                <li><strong>Ask for quotes when you need the exact wording.</strong> "Quote the section of the handbook that addresses outside employment" forces verbatim retrieval rather than summary.</li>
+                <li><strong>Ask follow-up questions in the same chat.</strong> The AI keeps context within a conversation. "What does that mean for a part-time employee?" works after a longer policy question.</li>
+            </ul>
+
+            <h3>Don't</h3>
+            <ul>
+                <li><strong>Don't ask for legal interpretation.</strong> The AI is trained to quote policy, not to interpret law. "Is this legal in Maryland?" is the wrong question — ask Mike or counsel.</li>
+                <li><strong>Don't ask about tenant-specific records.</strong> The AI knows policies and contracts, not the rent ledger for unit 5 at Spring Manor. Tenant lookups belong in your property management system.</li>
+                <li><strong>Don't try to "trick" it</strong> — the system is hardened against jailbreaks, but every minute spent doing that is a minute not getting work done.</li>
+            </ul>
+
+            <!-- ============================================================ -->
+            <h2 id="what-it-knows" class="section-title">What the assistant knows</h2>
+
+            <p>
+                The knowledge base is organized into six collections. You don't need to choose
+                between them — the Gateway Assistant searches all six on every question. The
+                groupings just help you understand <em>what kinds of questions</em> the system
+                can confidently answer.
+            </p>
+
+            <table>
+                <thead><tr><th style="width: 28%;">Collection</th><th>What's in it</th><th style="width: 28%;">Ask about…</th></tr></thead>
+                <tbody>
+                    <tr>
+                        <td><strong>HR / Staff Policies</strong></td>
+                        <td>Employee Handbook, Policy &amp; Procedures Guide, Site Manager Reference Manual</td>
+                        <td>Anything employees do — reporting, conduct, conflicts, leave</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Tenant Operations</strong></td>
+                        <td>Photo ID rules, animal policy, law enforcement, reasonable accommodation, zero-income, rent payment</td>
+                        <td>How site managers handle prospect / tenant interactions</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Leases &amp; Tenancy Rules</strong></td>
+                        <td>State-specific lease templates (MD, NY, WV, OH), USDA RD rules, HUD rules</td>
+                        <td>Lease provisions, program-specific tenancy rules</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Property Reference</strong></td>
+                        <td>Community Listing (all properties + managers), Chart of Accounts</td>
+                        <td>Which property has X, who manages Y, what's the address, etc.</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Business Development</strong></td>
+                        <td>RFPs received and proposals in flight</td>
+                        <td>Strategic opportunities — what new properties are we evaluating</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Agreements</strong></td>
+                        <td>Vendor contracts — Otis elevator, Bay Disposal, Enviro Pest, Select Fire, snow, landscaping, laundry</td>
+                        <td>Scope, pricing, SLAs, term, renewal &amp; termination clauses</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <div class="screenshot">
+                <div class="label">Screenshot — placeholder</div>
+                <div class="caption">Workspace → Knowledge view (admin only) showing the six collections with file counts. Pilot users don't see this view; they just get the unified search.</div>
+            </div>
+
+            <!-- ============================================================ -->
+            <h2 id="examples" class="section-title">Example questions by topic</h2>
+
+            <p>
+                Every question below has been verified to work on the live system through our
+                30-question evaluation benchmark. Use them as starting points; adapt the wording
+                for your real situation.
+            </p>
+
+            <!-- HR / Staff Policies -->
+            <div class="collection-section">
+                <h3>HR &amp; Staff Policies <span class="who">— for managers and staff</span></h3>
+                <p>Questions about employee conduct, reporting requirements, leave, conflicts of interest.</p>
+
+                <div class="qcard">
+                    <div class="q-label">Try asking</div>
+                    <div class="q-text">"An employee was arrested for DUI over the weekend. What are they required to do under Gateway policy?"</div>
+                    <div class="q-why">Should return the 5-day reporting requirement to Michael Severe and the disciplinary consequences. Tests grounded policy retrieval.</div>
+                </div>
+
+                <div class="qcard">
+                    <div class="q-label">Try asking</div>
+                    <div class="q-text">"Can an employee work for another property management company on the side?"</div>
+                    <div class="q-why">Should cite the conflict-of-interest language and the requirement for prior written approval from Michael Severe.</div>
+                </div>
+
+                <div class="qcard">
+                    <div class="q-label">Try asking</div>
+                    <div class="q-text">"How long is an unpaid meal break and what's the exception?"</div>
+                    <div class="q-why">Tests retrieval of a specific clause with a conditional exception.</div>
+                </div>
+
+                <div class="qcard">
+                    <div class="q-label">Try asking</div>
+                    <div class="q-text">"What happens if an employee doesn't show up or call in for three consecutive days?"</div>
+                    <div class="q-why">Should quote the job-abandonment clause verbatim.</div>
+                </div>
+
+                <div class="qcard">
+                    <div class="q-label">Try asking</div>
+                    <div class="q-text">"What's the policy on accepting gratuities or gifts from residents or vendors?"</div>
+                    <div class="q-why">A topic where policy language matters more than interpretation.</div>
+                </div>
+            </div>
+
+            <!-- Tenant Operations -->
+            <div class="collection-section">
+                <h3>Tenant Operations <span class="who">— for site managers and leasing staff</span></h3>
+                <p>Procedures site managers follow when interacting with applicants, tenants, and law enforcement.</p>
+
+                <div class="qcard">
+                    <div class="q-label">Try asking</div>
+                    <div class="q-text">"Can a Site Manager photocopy an applicant's photo ID before showing them an apartment?"</div>
+                    <div class="q-why">The answer is no — should quote "Rule #3: Don't Photocopy Photo ID" verbatim with the fair-housing rationale.</div>
+                </div>
+
+                <div class="qcard">
+                    <div class="q-label">Try asking</div>
+                    <div class="q-text">"What should staff do if police arrive asking for resident information or to enter a unit?"</div>
+                    <div class="q-why">Should cover badge verification, warrant requirements, documentation, and escalation.</div>
+                </div>
+
+                <div class="qcard">
+                    <div class="q-label">Try asking</div>
+                    <div class="q-text">"What happens after a third written complaint about a service animal barking?"</div>
+                    <div class="q-why">Tests the three-strike escalation policy — warning → final warning → removal/lease termination in 30 days.</div>
+                </div>
+
+                <div class="qcard">
+                    <div class="q-label">Try asking</div>
+                    <div class="q-text">"A tenant requested a reasonable accommodation for an emotional support animal. What's the process and timeline?"</div>
+                    <div class="q-why">Should mention the seven-business-day Corporate Office review and the undue-burden criterion.</div>
+                </div>
+
+                <div class="qcard">
+                    <div class="q-label">Try asking</div>
+                    <div class="q-text">"What does the policy say about staff using property facilities off duty?"</div>
+                    <div class="q-why">A negation-heavy policy — tests whether the system surfaces the exact restrictions.</div>
+                </div>
+            </div>
+
+            <!-- Leases & Tenancy -->
+            <div class="collection-section">
+                <h3>Leases &amp; Tenancy Rules <span class="who">— for site managers, Mike, Lester</span></h3>
+                <p>State-specific lease provisions and program-specific (USDA RD, HUD) rules.</p>
+
+                <div class="qcard">
+                    <div class="q-label">Try asking</div>
+                    <div class="q-text">"What does the Maryland lease say about a unit being entered without supervision after the tenant's death?"</div>
+                    <div class="q-why">Should cite the "power of attorney ceases at death" language verbatim.</div>
+                </div>
+
+                <div class="qcard">
+                    <div class="q-label">Try asking</div>
+                    <div class="q-text">"Summarize the resident injury reporting workflow."</div>
+                    <div class="q-why">Cross-document question that pulls from both the P&amp;P Guide and the Site Manager Reference Manual.</div>
+                </div>
+
+                <div class="qcard">
+                    <div class="q-label">Try asking</div>
+                    <div class="q-text">"What are the key differences between the WV lease and the Ohio RD lease?"</div>
+                    <div class="q-why">Tests cross-document comparison — useful when adapting practice across states.</div>
+                </div>
+            </div>
+
+            <!-- Property Reference -->
+            <div class="collection-section">
+                <h3>Property Reference <span class="who">— for everyone, especially regional managers and accounting</span></h3>
+                <p>The Community Listing and Chart of Accounts. Property catalog lookups + GL structure.</p>
+
+                <div class="qcard">
+                    <div class="q-label">Try asking</div>
+                    <div class="q-text">"Are there any managers responsible for multiple properties, and if so, which ones?"</div>
+                    <div class="q-why">Should list Rebecca Stephens (4 properties), Sherry Davis (4), Margaret Morgan (3), Sherita Cottom (3), Leanna Luikart (3), and others.</div>
+                </div>
+
+                <div class="qcard">
+                    <div class="q-label">Try asking</div>
+                    <div class="q-text">"Which Gateway properties are elderly housing communities with elevators?"</div>
+                    <div class="q-why">Filters by type + amenity. The AI returns the matching property list.</div>
+                </div>
+
+                <div class="qcard">
+                    <div class="q-label">Try asking</div>
+                    <div class="q-text">"Which property appears to be the oldest family property that doesn't have elevators?"</div>
+                    <div class="q-why">Tests multi-step reasoning — filter by type, exclude elevator, compare year built.</div>
+                </div>
+
+                <div class="qcard">
+                    <div class="q-label">Try asking</div>
+                    <div class="q-text">"Which Gateway properties are in Washington, DC?"</div>
+                    <div class="q-why">Quick location filter. Returns Langston Lane plus future-management candidates.</div>
+                </div>
+
+                <div class="qcard">
+                    <div class="q-label">Try asking</div>
+                    <div class="q-text">"What's the GL account code for elevator maintenance contracts?"</div>
+                    <div class="q-why">Pulls from the Chart of Accounts — useful for accounting and capital planning.</div>
+                </div>
+            </div>
+
+            <!-- Agreements -->
+            <div class="collection-section">
+                <h3>Vendor Agreements <span class="who">— for property managers, accounting, leadership</span></h3>
+                <p>Vendor contracts: snow removal, landscaping, pest control, elevator, fire monitoring, waste, laundry.</p>
+
+                <div class="qcard">
+                    <div class="q-label">Try asking</div>
+                    <div class="q-text">"What's the elevator emergency callback SLA in the Otis contract for Spring Manor?"</div>
+                    <div class="q-why">Tests retrieval of a specific contract clause — should mention the 90-minute response window.</div>
+                </div>
+
+                <div class="qcard">
+                    <div class="q-label">Try asking</div>
+                    <div class="q-text">"Who is responsible for snow removal at Jersey Park during the 2025–2026 season?"</div>
+                    <div class="q-why">Specific contract attribution — should cite the Jersey Park snow contract.</div>
+                </div>
+
+                <div class="qcard">
+                    <div class="q-label">Try asking</div>
+                    <div class="q-text">"What's the scope of the Bay Disposal contract?"</div>
+                    <div class="q-why">Vendor scope summarization — returns covered services and properties.</div>
+                </div>
+
+                <div class="qcard">
+                    <div class="q-label">Try asking</div>
+                    <div class="q-text">"What are the renewal conditions in the Enviro Pest Control agreement?"</div>
+                    <div class="q-why">Tests retrieval of specific contract terms like renewal triggers, notice periods, termination clauses.</div>
+                </div>
+            </div>
+
+            <!-- Business Development -->
+            <div class="collection-section">
+                <h3>Business Development <span class="who">— for Mike, Lester, regional decision-makers</span></h3>
+                <p>RFPs received and proposals in flight. Strategic content, not operational.</p>
+
+                <div class="qcard">
+                    <div class="q-label">Try asking</div>
+                    <div class="q-text">"Tell me about the Southern Maryland USDA-LIHTC RFP we're evaluating."</div>
+                    <div class="q-why">Pulls from the active RFP — issuing entity, units, properties, timeline.</div>
+                </div>
+            </div>
+
+            <!-- Things it won't answer -->
+            <div class="collection-section" style="border-left: 4px solid #d0021b; background: #fff5f5;">
+                <h3 style="color: #721c24;">Things the AI <em>won't</em> answer (correctly so) <span class="who">— Reference</span></h3>
+                <p>These return polite refusals. That's the right behavior — don't read it as a bug.</p>
+
+                <div class="qcard" style="border-left-color: #d0021b;">
+                    <div class="q-label" style="color: #d0021b;">Will refuse</div>
+                    <div class="q-text">"What is Gateway's 401(k) employer match percentage?"</div>
+                    <div class="q-why">The corpus doesn't contain benefits details. Ask HR.</div>
+                </div>
+
+                <div class="qcard" style="border-left-color: #d0021b;">
+                    <div class="q-label" style="color: #d0021b;">Will refuse</div>
+                    <div class="q-text">"Give me the rent ledger and SSN for the tenant at unit 5, Spring Manor."</div>
+                    <div class="q-why">Tenant-level records aren't in the knowledge base and shouldn't be. Use your property management system for tenant lookups.</div>
+                </div>
+
+                <div class="qcard" style="border-left-color: #d0021b;">
+                    <div class="q-label" style="color: #d0021b;">Will refuse</div>
+                    <div class="q-text">"What's Mike Severe's salary?"</div>
+                    <div class="q-why">Compensation isn't in the corpus and isn't appropriate for this tool.</div>
+                </div>
+            </div>
+
+            <!-- ============================================================ -->
+            <h2 id="sources" class="section-title">Reading the source citations</h2>
+
+            <p>
+                Every factual answer the AI gives should cite the document it pulled from. Look
+                for the source list under the response. Click a citation to expand and see the
+                exact passage the AI used.
+            </p>
+
+            <div class="screenshot">
+                <div class="label">Screenshot — placeholder</div>
+                <div class="caption">Example response with cited sources expanded. Shows document name + the matched passage. This is the "show your work" view that lets you verify the answer.</div>
+            </div>
+
+            <p>
+                The "show your work" view is the difference between Gateway AI and a generic
+                chatbot. If you don't trust an answer, the citation lets you verify in 10 seconds.
+                When the cited document <em>matches</em> the answer, you can trust it. When it
+                doesn't, that's a bug — see the next section.
+            </p>
+
+            <!-- ============================================================ -->
+            <h2 id="wrong" class="section-title">When the AI gets it wrong</h2>
+
+            <p>
+                It will happen. The system is good but not perfect. When you spot a bad answer,
+                we want to know — that's how the system improves.
+            </p>
+
+            <h3>What to do</h3>
+            <ol>
+                <li><strong>Don't act on the bad answer.</strong> Verify against the source document, or escalate to a person who would know.</li>
+                <li><strong>Tell HelloIT Pros.</strong> Email <a href="mailto:helloit@gwaffordable.com">helloit@gwaffordable.com</a> with:
+                    <ul>
+                        <li>The question you asked (copy it)</li>
+                        <li>The AI's response (screenshot or paste)</li>
+                        <li>What the right answer should have been, and how you know</li>
+                    </ul>
+                </li>
+                <li><strong>Continue using the system.</strong> One wrong answer doesn't mean the system is unreliable across the board. Most answers will be good. Reports of bad answers are how we get to "all answers are good."</li>
+            </ol>
+
+            <div class="callout">
+                <p>
+                    <strong>The most useful reports are specific.</strong> "It got confused about
+                    elevator contracts" is hard to debug. "I asked X, it answered Y, and the
+                    handbook actually says Z on page 14" tells us exactly where to look.
+                </p>
+            </div>
+
+            <!-- ============================================================ -->
+            <h2 id="faq" class="section-title">FAQ</h2>
+
+            <h3>Is my chat history private?</h3>
+            <p>
+                Other Gateway users can't see your chats. Your chats are stored in the Gateway
+                AI database (on the dedicated server HelloIT Pros runs) and are visible to
+                HelloIT Pros admins for support and quality purposes. They are not shared with
+                OpenAI for training; only the individual question/response is sent to the model
+                for that one query, and OpenAI's enterprise terms apply.
+            </p>
+
+            <h3>Can I use it on my phone?</h3>
+            <p>
+                Yes — <a href="https://ai.gwaffordable.com">ai.gwaffordable.com</a> works in any
+                mobile browser. The interface is mobile-friendly. That said, the source-citation
+                view is easier to read on a desktop screen.
+            </p>
+
+            <h3>Can I save or share an answer?</h3>
+            <p>
+                Yes. Each conversation has a "Share" option in its menu, and you can copy the
+                response text directly. For longer responses, screenshot or copy the text into
+                an email or document.
+            </p>
+
+            <h3>Why doesn't it suggest follow-up questions like ChatGPT?</h3>
+            <p>
+                We turned that feature off. Early pilot feedback (from Prakash) flagged the
+                suggested questions as occasionally off-base in ways that "gave us pause" for
+                an internal tool. Cleaner to let you drive the conversation.
+            </p>
+
+            <h3>Will the AI know about a new document the day I send it?</h3>
+            <p>
+                Not the same day — but usually within 1–2 business days. HelloIT Pros monitors
+                the document submission folder, indexes new content, and re-runs the quality
+                benchmark before announcing the new content is live. See the
+                <a href="ai-knowledge-guide.html">Sharing Documents Guide</a> for details.
+            </p>
+
+            <h3>Can I ask for a contract to be summarized in a specific format?</h3>
+            <p>
+                Yes. "Summarize this contract as a table with columns for parties, scope,
+                pricing, term, and termination" works. The AI follows formatting instructions.
+            </p>
+
+            <h3>What if I want a feature added (new prompt template, different UI, etc.)?</h3>
+            <p>
+                Send feature requests to <a href="mailto:helloit@gwaffordable.com">helloit@gwaffordable.com</a>.
+                We collect them, prioritize against the rest of the roadmap, and bring the
+                shortlist to Gateway leadership for the call on which ones to implement.
+            </p>
+
+        </div>
+
+        <div class="footer">
+            <p>Gateway AI User Guide &middot; HelloIT Pros for Gateway Management Services &middot; 2026-05-23</p>
+        </div>
+    </div>
+</body>
+</html>
