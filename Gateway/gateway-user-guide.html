@@ -43,10 +43,14 @@
         .qs-step .n { display: inline-flex; align-items: center; justify-content: center; width: 26px; height: 26px; border-radius: 50%; background: #000; color: #fff; font-size: 13px; font-weight: 700; font-family: 'JetBrains Mono', monospace; margin-bottom: 8px; }
         .qs-step .t { font-size: 13.5px; color: #2a2a2a; line-height: 1.45; }
 
-        /* Screenshot placeholder */
-        .screenshot { margin: 22px 0; border: 2px dashed #c0c0c0; border-radius: 8px; background: #fafafa; padding: 32px 24px; text-align: center; color: #888; font-size: 13.5px; }
-        .screenshot .label { font-size: 11px; text-transform: uppercase; letter-spacing: 1.5px; color: #999; font-weight: 700; margin-bottom: 6px; }
-        .screenshot .caption { font-style: italic; }
+        /* Screenshot (real or placeholder) */
+        .screenshot { margin: 24px 0; }
+        .screenshot img { width: 100%; height: auto; display: block; border: 1px solid #d0d0d0; border-radius: 8px; box-shadow: 0 4px 14px rgba(0,0,0,0.08); }
+        .screenshot figcaption { font-size: 13px; color: #666; font-style: italic; margin-top: 8px; text-align: center; }
+        /* Placeholder (when image isn't ready yet) */
+        .screenshot.placeholder { border: 2px dashed #c0c0c0; border-radius: 8px; background: #fafafa; padding: 32px 24px; text-align: center; color: #888; font-size: 13.5px; }
+        .screenshot.placeholder .label { font-size: 11px; text-transform: uppercase; letter-spacing: 1.5px; color: #999; font-weight: 700; margin-bottom: 6px; }
+        .screenshot.placeholder .caption { font-style: italic; }
 
         /* Example question card */
         .qcard { background: #f8f8f8; border-left: 4px solid #1d4ed8; padding: 16px 22px; margin: 14px 0; border-radius: 0 6px 6px 0; }
@@ -165,10 +169,10 @@
                 Bookmark it. The login page asks for your email and password.
             </p>
 
-            <div class="screenshot">
-                <div class="label">Screenshot — placeholder</div>
-                <div class="caption">Login page at ai.gwaffordable.com. Email + password fields, no signup link (accounts are created by HelloIT Pros).</div>
-            </div>
+            <figure class="screenshot">
+                <img src="images/01-login.png" alt="Gateway AI Assistant login page showing email and password fields, no signup link.">
+                <figcaption>Login page at ai.gwaffordable.com. Accounts are created by HelloIT Pros — no public signup.</figcaption>
+            </figure>
 
             <ul>
                 <li><strong>Email:</strong> your <code>@gwaffordable.com</code> address</li>
@@ -189,10 +193,10 @@
                 Once you're logged in, you land on a fresh chat. Three things to notice:
             </p>
 
-            <div class="screenshot">
-                <div class="label">Screenshot — placeholder</div>
-                <div class="caption">Main chat screen. Top center: model picker showing "Gateway Assistant". Center: empty message box. Left sidebar: chat history. Top right: account menu.</div>
-            </div>
+            <figure class="screenshot">
+                <img src="images/02-chat-empty.png" alt="Empty chat screen showing 'Gateway Assistant' selected in the model picker, message box ready for input, and suggested starter prompts.">
+                <figcaption>Empty chat — Gateway Assistant selected, six "Suggested" starter prompts shown below the message box.</figcaption>
+            </figure>
 
             <ol>
                 <li><strong>Top center — model picker.</strong> Should say <em>Gateway Assistant</em>. That's the only model your account can use. If it shows something else, tell us.</li>
@@ -275,11 +279,6 @@
                     </tr>
                 </tbody>
             </table>
-
-            <div class="screenshot">
-                <div class="label">Screenshot — placeholder</div>
-                <div class="caption">Workspace → Knowledge view (admin only) showing the six collections with file counts. Pilot users don't see this view; they just get the unified search.</div>
-            </div>
 
             <!-- ============================================================ -->
             <h2 id="examples" class="section-title">Example questions by topic</h2>
@@ -497,10 +496,10 @@
                 exact passage the AI used.
             </p>
 
-            <div class="screenshot">
-                <div class="label">Screenshot — placeholder</div>
-                <div class="caption">Example response with cited sources expanded. Shows document name + the matched passage. This is the "show your work" view that lets you verify the answer.</div>
-            </div>
+            <figure class="screenshot">
+                <img src="images/03-response-with-sources.png" alt="Gateway Assistant response to the photo ID question, quoting 'Rule #3: Don't Photocopy Photo ID' verbatim with the HUD rationale, followed by 15 expanded source citations including documents from Tenant Operations, HR/Staff Policies, Property Reference, and Agreements.">
+                <figcaption>Example response with sources expanded. The assistant quotes the policy verbatim, names the source (Gateway - Tenant Operations, Photo ID Required to Show Apartments), and lists every document chunk it considered — 15 in this case across multiple collections.</figcaption>
+            </figure>
 
             <p>
                 The "show your work" view is the difference between Gateway AI and a generic
