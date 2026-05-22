@@ -1009,6 +1009,60 @@
                 </p>
             </div>
 
+            <!-- =========================== Post-pub validation =========================== -->
+            <h2 class="section-title">Post-Publication Validation</h2>
+
+            <p>
+                Honest disclosure: between publishing this report and validating it end-to-end
+                through the user-facing UI on May 23, two latent OpenWebUI v0.9.5 bugs surfaced
+                and were fixed the same day. The eval scores in this report were always accurate
+                for the benchmark's internal API path; what was broken was the path that pilot
+                users see in the browser.
+            </p>
+
+            <h3>H-24 — Preset knowledge attachment was silently no-op</h3>
+            <p>
+                The Gateway Assistant model preset had its six knowledge collections listed in
+                <code>meta.knowledge</code>, but each entry was missing the required
+                <code>type: "collection"</code> field. The eval runner always supplies this
+                explicitly in its API calls; the UI does not. Effect: pilot users opening chats
+                from the Gateway Assistant since the May 22 restructure had been hitting the
+                model with zero retrieved context.
+            </p>
+            <p>
+                <strong>Fix:</strong> set <code>type: "collection"</code> on each entry via
+                <code>POST /api/v1/models/model/update</code>. Reversible from
+                <code>eval/snapshots/gateway_assistant_pre_typefix_*.json</code>.
+            </p>
+
+            <h3>H-25 — Follow-up + tag flags were ignoring the env override</h3>
+            <p>
+                OpenWebUI's <code>PersistentConfig</code> pattern lets compose env vars seed the
+                DB only on first boot; once a DB value exists, the env var is inert. The
+                <code>ENABLE_FOLLOW_UP_GENERATION</code> and <code>ENABLE_TAGS_GENERATION</code>
+                flags had been flipped to <code>true</code> in the DB at some earlier point and
+                had been silently overriding the <code>false</code> we'd set in compose.
+            </p>
+            <p>
+                <strong>Fix:</strong> <code>POST /api/v1/tasks/config/update</code> with the
+                corrected values. No restart needed; takes effect immediately.
+            </p>
+
+            <div class="callout success">
+                <p>
+                    <strong>Both fixes verified.</strong> Re-asked Q02 (photo ID) through the
+                    UI as the <code>evaltest</code> pilot user. Response now matches what this
+                    report describes — verbatim "Rule #3: Don't Photocopy" quote with HUD
+                    rationale, exception clause, 15 sources expanded across all 6 collections,
+                    no follow-up clutter. The User Guide screenshot at
+                    <a href="gateway-user-guide.html">gateway-user-guide.html</a> is that response.
+                </p>
+                <p>
+                    Full forensic detail and rollback procedures in
+                    <code>eval/CHANGES.md</code> entries H-24 and H-25.
+                </p>
+            </div>
+
         </div>
 
         <div class="footer">
