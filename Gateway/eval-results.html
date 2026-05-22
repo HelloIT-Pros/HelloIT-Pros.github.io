@@ -892,23 +892,32 @@
 
             <p>Honest list. None are deal-breakers; each has a known fix path.</p>
 
-            <h3>1. Numeric aggregation across many rows (Q10, Q11, Q13)</h3>
+            <h3>1. Numeric aggregation across many rows (Q10, Q11, Q13) — <span style="color: #2c8a3e;">RESOLVED 2026-05-23</span></h3>
             <p>
-                <strong>Symptom:</strong> "Total units across all family properties built before 2000"
-                returns 201 instead of ~380. "Elderly properties with elevators" returns 3 properties
-                instead of 7.
+                <strong>Previously:</strong> "Total units across all family properties built before 2000"
+                returned 201 instead of ~631. "Elderly properties with elevators" returned 3 properties
+                instead of 9. "Oldest family no-elevator" returned a property from 1985 instead of
+                Mecklenburg Manor (1976).
             </p>
             <p>
-                <strong>Why:</strong> Each property is its own markdown section. Top-K retrieval pulls
-                the most-similar 5 sections to the question; the model sums only what it sees, not all
-                52 properties.
+                <strong>Why:</strong> Each property was its own markdown section. Top-K retrieval pulls
+                the most-similar 5 sections to the question; the model summed only what it saw, not all
+                47 properties.
             </p>
             <p>
-                <strong>Fix path:</strong> The Q12 "manager grouping" pattern (which now works
-                perfectly) shows the technique — extend <code>Community_Listing.md</code> with
-                additional pre-aggregated summary sections at the top: "Elderly Properties with
-                Elevators (7 properties, X total units)", "Family Properties Built Before 2000 (17
-                properties, ~380 total units)", etc. ~30 minutes of work; not blocking handover.
+                <strong>Fix applied (H-26):</strong> Extended <code>Community_Listing.md</code> with
+                pre-aggregated summary sections at the top — same technique that fixed Q12 (manager
+                grouping). New sections include "Elderly Properties with Elevators (9 properties,
+                394 total units)", "Family Properties Built Before 2000 (19 properties, 631 units)",
+                "Family Properties Without Elevators sorted oldest-to-newest" with explicit
+                "Oldest: #156 Mecklenburg Manor (1976)" line, plus by-state and by-decade breakdowns.
+            </p>
+            <p>
+                <strong>Verified:</strong> Q10 now answers "9 properties, 394 total units" verbatim.
+                Q11 now answers "Mecklenburg Manor, built in 1976 with 51 units in Virginia" and even
+                cites the section heading. Q13 now answers "19 properties, 631 total units" verbatim.
+                Build script: <code>eval/scripts/build_summaries.py</code> — re-runnable any time the
+                property roster changes.
             </p>
 
             <h3>2. Q15 negation paraphrased instead of verbatim</h3>
