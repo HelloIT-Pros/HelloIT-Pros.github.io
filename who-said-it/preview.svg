@@ -1,0 +1,122 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 630" width="1200" height="630">
+  <defs>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%"   stop-color="#1e1b4b"/>
+      <stop offset="55%"  stop-color="#312e81"/>
+      <stop offset="100%" stop-color="#4c1d95"/>
+    </linearGradient>
+    <linearGradient id="titleGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%"   stop-color="#c4b5fd"/>
+      <stop offset="100%" stop-color="#f9a8d4"/>
+    </linearGradient>
+    <linearGradient id="cardA" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#7C3AED"/>
+      <stop offset="100%" stop-color="#6D28D9"/>
+    </linearGradient>
+    <linearGradient id="cardB" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#EC4899"/>
+      <stop offset="100%" stop-color="#DB2777"/>
+    </linearGradient>
+    <linearGradient id="cardC" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#F97316"/>
+      <stop offset="100%" stop-color="#EA580C"/>
+    </linearGradient>
+    <linearGradient id="cardD" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#10B981"/>
+      <stop offset="100%" stop-color="#059669"/>
+    </linearGradient>
+  </defs>
+
+  <!-- Background -->
+  <rect width="1200" height="630" fill="url(#bg)"/>
+
+  <!-- Ambient glow blobs -->
+  <circle cx="1120" cy="80"  r="320" fill="rgba(139,92,246,0.22)"/>
+  <circle cx="80"   cy="570" r="220" fill="rgba(236,72,153,0.18)"/>
+  <circle cx="600"  cy="315" r="400" fill="rgba(99,102,241,0.06)"/>
+
+  <!-- Outer frame card -->
+  <rect x="48" y="48" width="1104" height="534" rx="36"
+        fill="rgba(255,255,255,0.045)"
+        stroke="rgba(255,255,255,0.1)" stroke-width="1.5"/>
+
+  <!-- ── Speech bubble icon ── -->
+  <!-- Bubble body -->
+  <rect x="506" y="68" width="188" height="112" rx="28"
+        fill="rgba(167,139,250,0.22)" stroke="rgba(167,139,250,0.55)" stroke-width="2.5"/>
+  <!-- Bubble tail -->
+  <polygon points="554,176 538,208 590,176"
+           fill="rgba(167,139,250,0.22)" stroke="rgba(167,139,250,0.55)"
+           stroke-width="2.5" stroke-linejoin="round"/>
+  <!-- Three dots inside bubble -->
+  <circle cx="556" cy="124" r="10" fill="rgba(255,255,255,0.75)"/>
+  <circle cx="600" cy="124" r="10" fill="rgba(255,255,255,0.75)"/>
+  <circle cx="644" cy="124" r="10" fill="rgba(255,255,255,0.75)"/>
+
+  <!-- ── Title ── -->
+  <text x="600" y="296"
+        text-anchor="middle"
+        font-family="-apple-system, BlinkMacSystemFont, 'Helvetica Neue', Arial, sans-serif"
+        font-size="96" font-weight="900" letter-spacing="-2"
+        fill="url(#titleGrad)">Who Said It?</text>
+
+  <!-- ── Subtitle ── -->
+  <text x="600" y="348"
+        text-anchor="middle"
+        font-family="-apple-system, BlinkMacSystemFont, 'Helvetica Neue', Arial, sans-serif"
+        font-size="30" font-weight="600"
+        fill="rgba(255,255,255,0.60)">
+    The party guessing game · 4–6 players
+  </text>
+
+  <!-- ── Thin divider ── -->
+  <line x1="220" y1="376" x2="980" y2="376"
+        stroke="rgba(255,255,255,0.08)" stroke-width="1.5"/>
+
+  <!-- ── Answer cards ── -->
+  <!-- Card A  x=108 -->
+  <rect x="108" y="396" width="218" height="70" rx="18" fill="url(#cardA)" opacity="0.85"/>
+  <circle cx="148" cy="431" r="19" fill="rgba(255,255,255,0.2)"/>
+  <text x="148" y="438" text-anchor="middle"
+        font-family="-apple-system,sans-serif" font-size="18" font-weight="900" fill="white">A</text>
+  <text x="178" y="438"
+        font-family="-apple-system,sans-serif" font-size="21" font-weight="700" fill="rgba(255,255,255,0.92)">McDonald's</text>
+
+  <!-- Card B  x=346 -->
+  <rect x="346" y="396" width="196" height="70" rx="18" fill="url(#cardB)" opacity="0.85"/>
+  <circle cx="386" cy="431" r="19" fill="rgba(255,255,255,0.2)"/>
+  <text x="386" y="438" text-anchor="middle"
+        font-family="-apple-system,sans-serif" font-size="18" font-weight="900" fill="white">B</text>
+  <text x="416" y="438"
+        font-family="-apple-system,sans-serif" font-size="21" font-weight="700" fill="rgba(255,255,255,0.92)">Chipotle</text>
+
+  <!-- Card C  x=562 -->
+  <rect x="562" y="396" width="210" height="70" rx="18" fill="url(#cardC)" opacity="0.85"/>
+  <circle cx="602" cy="431" r="19" fill="rgba(255,255,255,0.2)"/>
+  <text x="602" y="438" text-anchor="middle"
+        font-family="-apple-system,sans-serif" font-size="18" font-weight="900" fill="white">C</text>
+  <text x="632" y="438"
+        font-family="-apple-system,sans-serif" font-size="21" font-weight="700" fill="rgba(255,255,255,0.92)">Taco Bell</text>
+
+  <!-- Card D  x=792 -->
+  <rect x="792" y="396" width="210" height="70" rx="18" fill="url(#cardD)" opacity="0.85"/>
+  <circle cx="832" cy="431" r="19" fill="rgba(255,255,255,0.2)"/>
+  <text x="832" y="438" text-anchor="middle"
+        font-family="-apple-system,sans-serif" font-size="18" font-weight="900" fill="white">D</text>
+  <text x="862" y="438"
+        font-family="-apple-system,sans-serif" font-size="21" font-weight="700" fill="rgba(255,255,255,0.92)">In-N-Out</text>
+
+  <!-- ── Guess prompt ── -->
+  <text x="600" y="510"
+        text-anchor="middle"
+        font-family="-apple-system, BlinkMacSystemFont, sans-serif"
+        font-size="26" font-weight="700"
+        fill="rgba(255,255,255,0.45)">Who wrote which answer? 🤔</text>
+
+  <!-- ── URL ── -->
+  <text x="600" y="562"
+        text-anchor="middle"
+        font-family="-apple-system, BlinkMacSystemFont, sans-serif"
+        font-size="20" font-weight="600"
+        fill="rgba(255,255,255,0.28)">helloit-pros.github.io/who-said-it</text>
+</svg>
