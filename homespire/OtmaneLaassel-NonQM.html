@@ -1,0 +1,948 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="description" content="Homespire Mortgage - Non-QM Solutions for the Way Real Life Works">
+<meta name="theme-color" content="#6B4E9B">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<title>Homespire Mortgage – Non-QM</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=Instrument+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg-primary: #fafafa;
+  --bg-card: #ffffff;
+  --bg-card-hover: #f8f7fa;
+  --text-primary: #1a1a1a;
+  --text-secondary: #4a4a4a;
+  --text-muted: #888;
+  --accent: #6B4E9B;
+  --accent-light: #8B6BBB;
+  --accent-gradient: linear-gradient(135deg, #6B4E9B 0%, #8B6BBB 100%);
+  --grad: linear-gradient(135deg, #e040fb 0%, #7c4dff 100%);
+  --border: #e8e8e8;
+  --serif: 'DM Serif Display', Georgia, serif;
+  --sans: 'Instrument Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; -webkit-font-smoothing: antialiased; }
+
+html {
+  scroll-behavior: smooth;
+  -webkit-text-size-adjust: 100%;
+  overscroll-behavior-y: none;
+}
+
+body {
+  background: var(--bg-primary);
+  color: var(--text-primary);
+  font-family: var(--sans);
+  line-height: 1.6;
+  font-size: 17px;
+  min-height: 100vh;
+}
+
+/* ── FIXED CHROME ── */
+.logo {
+  position: fixed; top: 24px; left: 24px; z-index: 100;
+  width: 48px; height: 48px; border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+}
+
+.progress-container {
+  position: fixed; top: 0; left: 0; right: 0; height: 3px;
+  background: var(--border); z-index: 1000;
+}
+.progress-bar {
+  height: 100%;
+  background: var(--grad);
+  transition: width 0.1s ease-out;
+}
+
+.nav {
+  position: fixed; top: 24px; right: 24px; z-index: 100;
+  display: flex; gap: 10px;
+}
+.nav button {
+  background: var(--bg-card); border: 1px solid var(--border);
+  color: var(--text-secondary); width: 48px; height: 48px;
+  border-radius: 50%; cursor: pointer; font-size: 18px;
+  transition: all 0.25s ease;
+  display: flex; align-items: center; justify-content: center;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+}
+.nav button:hover {
+  background: var(--bg-card-hover); color: var(--text-primary);
+  border-color: var(--accent);
+  box-shadow: 0 4px 16px rgba(107,78,155,0.12);
+}
+
+.slide-counter {
+  position: fixed; bottom: 32px; right: 32px;
+  font-size: 13px; color: var(--text-muted);
+  font-weight: 600; letter-spacing: 0.1em; z-index: 100;
+}
+
+/* ── SLIDES ── */
+.slide {
+  min-height: 100vh;
+  display: flex; align-items: center; justify-content: center;
+  opacity: 0; transform: translateY(40px);
+  transition: opacity 0.8s ease, transform 0.8s ease;
+  padding: 120px 60px;
+  position: relative; overflow: hidden;
+}
+.slide.visible { opacity: 1; transform: translateY(0); }
+
+.gradient-glow {
+  position: absolute; bottom: -300px; left: -300px;
+  width: 900px; height: 900px;
+  background: radial-gradient(circle, rgba(224,64,251,0.15) 0%, rgba(124,77,255,0.08) 40%, transparent 70%);
+  pointer-events: none; z-index: 0;
+}
+.gradient-glow-secondary {
+  position: absolute; bottom: -150px; left: -100px;
+  width: 600px; height: 600px;
+  background: radial-gradient(circle, rgba(124,77,255,0.12) 0%, rgba(224,64,251,0.05) 50%, transparent 70%);
+  pointer-events: none; z-index: 0;
+}
+
+.slide-content {
+  display: grid; grid-template-columns: 1fr 1fr;
+  gap: 80px; max-width: 1400px; width: 100%;
+  align-items: center; position: relative; z-index: 1;
+}
+.slide-content.reverse { direction: rtl; }
+.slide-content.reverse > * { direction: ltr; }
+.slide-content.center {
+  grid-template-columns: 1fr; text-align: center; max-width: 1000px;
+}
+.slide-content.wide {
+  grid-template-columns: 1fr; max-width: 1200px;
+}
+.slide-content.full {
+  grid-template-columns: 1fr; max-width: 1400px;
+}
+
+.content-container { max-width: 600px; }
+
+/* ── TYPOGRAPHY ── */
+.section-label {
+  display: inline-block;
+  font-size: 12px; font-weight: 700; letter-spacing: 0.15em;
+  text-transform: uppercase; color: var(--accent);
+  background: linear-gradient(135deg, rgba(107,78,155,0.08), rgba(139,107,187,0.08));
+  padding: 8px 16px; border-radius: 20px; margin-bottom: 24px;
+}
+
+h1 {
+  font-family: var(--serif);
+  font-size: 56px; font-weight: 400; line-height: 1.1;
+  color: var(--text-primary); margin-bottom: 32px;
+}
+
+.subtitle {
+  font-size: 20px; color: var(--text-secondary);
+  line-height: 1.7; margin-bottom: 40px;
+}
+
+@keyframes shimmer {
+  0%   { background-position: 200% center; }
+  100% { background-position: -200% center; }
+}
+.shimmer-text {
+  background: linear-gradient(90deg, #e040fb 0%, #7c4dff 25%, #ffffff 50%, #7c4dff 75%, #e040fb 100%);
+  background-size: 200% auto;
+  -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+  background-clip: text; animation: shimmer 3s linear infinite;
+}
+.grad-text {
+  background: var(--grad);
+  -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+  background-clip: text; display: inline-block;
+}
+
+/* ── FEATURE CARDS ── */
+.features { display: flex; flex-direction: column; gap: 24px; }
+
+.feature-block {
+  background: var(--bg-card); border: 1px solid var(--border);
+  border-radius: 12px; padding: 24px;
+  transition: all 0.3s ease; position: relative;
+}
+.feature-block:hover {
+  border-color: var(--accent-light);
+  box-shadow: 0 4px 16px rgba(107,78,155,0.1);
+  transform: translateY(-2px);
+}
+
+.new-badge {
+  position: absolute; top: -10px; right: 16px;
+  background: var(--grad); color: white;
+  font-size: 11px; font-weight: 700; letter-spacing: 0.08em;
+  padding: 4px 12px; border-radius: 20px;
+  box-shadow: 0 2px 8px rgba(107,78,155,0.3);
+  text-transform: uppercase; z-index: 2;
+}
+
+.feature-header {
+  display: flex; align-items: center; gap: 16px; margin-bottom: 16px;
+}
+.feature-icon {
+  width: 48px; height: 48px; border-radius: 12px;
+  background: var(--grad);
+  display: flex; align-items: center; justify-content: center; flex-shrink: 0;
+}
+.feature-icon svg { width: 24px; height: 24px; stroke: white; fill: none; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
+.feature-title { font-size: 18px; font-weight: 700; color: var(--text-primary); }
+
+.feature-list { list-style: none; padding-left: 0; }
+.feature-list li {
+  position: relative; padding-left: 24px;
+  margin-bottom: 10px; color: var(--text-secondary); line-height: 1.6;
+  font-size: 15px;
+}
+.feature-list li::before {
+  content: "→"; position: absolute; left: 0;
+  color: var(--accent); font-weight: 600;
+}
+
+/* ── PERSONA GRID ── */
+.persona-grid {
+  display: grid; grid-template-columns: repeat(2, 1fr); gap: 16px;
+  margin-top: 32px;
+}
+.persona-card {
+  background: var(--bg-card); border: 1px solid var(--border);
+  border-radius: 12px; padding: 20px 22px;
+  transition: all 0.3s ease;
+}
+.persona-card:hover {
+  border-color: var(--accent-light);
+  box-shadow: 0 4px 16px rgba(107,78,155,0.1);
+  transform: translateY(-2px);
+}
+.persona-card .persona-title {
+  font-size: 14px; font-weight: 700; color: var(--accent);
+  margin-bottom: 6px; display: flex; align-items: center; gap: 8px;
+}
+.persona-card p { font-size: 14px; color: var(--text-secondary); line-height: 1.55; }
+
+/* ── SCENARIO CALLOUT ── */
+.scenario-callout {
+  background: var(--grad); padding: 28px 32px; border-radius: 12px; margin-bottom: 32px;
+}
+.scenario-callout p { font-size: 18px; line-height: 1.65; color: white; font-weight: 500; }
+.scenario-callout .scenario-label {
+  font-size: 11px; font-weight: 700; letter-spacing: 3px;
+  text-transform: uppercase; color: rgba(255,255,255,0.7);
+  margin-bottom: 12px; display: block;
+}
+
+/* ── SOLUTION CARDS ── */
+.solutions-grid {
+  display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; margin-top: 24px;
+}
+.sol-card {
+  background: var(--bg-card); border: 1px solid var(--border);
+  border-radius: 12px; padding: 20px 18px;
+  transition: all 0.3s ease;
+}
+.sol-card:hover {
+  border-color: var(--accent-light);
+  box-shadow: 0 4px 16px rgba(107,78,155,0.1);
+}
+.sol-card .sol-name {
+  font-size: 15px; font-weight: 700; color: var(--accent); margin-bottom: 8px;
+}
+.sol-card .sol-desc { font-size: 14px; color: var(--text-secondary); line-height: 1.55; }
+
+/* ── ICON GRID ── */
+.icon-grid {
+  display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; margin-top: 32px;
+}
+.icon-card {
+  background: var(--bg-card); border: 1px solid var(--border);
+  border-radius: 12px; padding: 20px 16px; text-align: center;
+  transition: all 0.3s ease;
+}
+.icon-card:hover {
+  border-color: var(--accent-light);
+  box-shadow: 0 4px 16px rgba(107,78,155,0.1);
+  transform: translateY(-2px);
+}
+.icon-card .ic { font-size: 28px; margin-bottom: 8px; }
+.icon-card span { font-size: 13px; font-weight: 600; color: var(--text-secondary); line-height: 1.3; display: block; }
+
+/* ── ACCORDION ── */
+.suite-title {
+  font-family: var(--serif); font-size: 22px; font-weight: 400;
+  color: var(--accent); margin: 36px 0 14px;
+  padding-bottom: 10px; border-bottom: 2px solid var(--border);
+}
+.acc-item { border-bottom: 1px solid var(--border); }
+.acc-btn {
+  width: 100%; background: none; border: none; text-align: left;
+  padding: 18px 0; font-size: 16px; font-weight: 700;
+  color: var(--text-primary); cursor: pointer;
+  display: flex; justify-content: space-between; align-items: center; gap: 12px;
+  font-family: var(--sans);
+}
+.acc-btn:hover { color: var(--accent); }
+.acc-btn .chev { color: var(--accent); font-size: 18px; transition: transform 0.25s; flex-shrink: 0; }
+.acc-item.open .acc-btn .chev { transform: rotate(180deg); }
+.acc-body { display: none; padding: 0 0 20px; }
+.acc-item.open .acc-body { display: block; }
+.acc-intro { font-size: 14px; color: var(--text-secondary); line-height: 1.65; margin-bottom: 14px; }
+.acc-list { list-style: none; padding: 0; columns: 2; column-gap: 32px; }
+.acc-list li {
+  font-size: 14px; color: var(--text-secondary); padding: 5px 0 5px 20px;
+  position: relative; line-height: 1.5; break-inside: avoid;
+}
+.acc-list li::before { content: '→'; position: absolute; left: 0; color: var(--accent); font-weight: 600; }
+
+/* ── LO CARD ── */
+.lo-card {
+  background: var(--bg-card); border: 1px solid var(--border);
+  border-radius: 16px; padding: 32px;
+  box-shadow: 0 4px 16px rgba(107,78,155,0.08);
+  text-align: center; max-width: 420px;
+  margin: 0 auto;
+}
+.lo-card img {
+  width: 120px; height: 120px; border-radius: 50%;
+  margin: 0 auto 20px; display: block;
+  box-shadow: 0 4px 12px rgba(107,78,155,0.15);
+  object-fit: cover;
+}
+.lo-card .lo-name { font-size: 22px; font-weight: 600; color: var(--text-primary); margin-bottom: 4px; }
+.lo-card .lo-title { font-size: 14px; color: var(--text-secondary); font-weight: 500; margin-bottom: 4px; }
+.lo-card .lo-nmls { font-size: 13px; color: var(--text-muted); margin-bottom: 20px; }
+.lo-card .lo-contact { display: flex; flex-direction: column; gap: 8px; font-size: 14px; color: var(--text-secondary); align-items: center; }
+.lo-card .lo-contact div { display: flex; align-items: center; gap: 8px; }
+.lo-card .lo-contact svg { color: var(--accent); flex-shrink: 0; }
+
+/* ── PLUS BAR ── */
+.plus-bar {
+  background: linear-gradient(135deg, rgba(107,78,155,0.06), rgba(139,107,187,0.06));
+  border: 1px solid var(--border); border-radius: 12px;
+  padding: 20px 24px; margin-top: 28px;
+}
+.plus-bar strong { color: var(--accent); font-size: 14px; display: block; margin-bottom: 8px; }
+.plus-bar p { font-size: 14px; color: var(--text-secondary); line-height: 1.6; }
+
+/* ── LEGAL ── */
+.legal-section {
+  background: #f0eef6; border-top: 1px solid var(--border);
+  padding: 32px 60px;
+}
+.legal-section p {
+  max-width: 1000px; margin: 0 auto;
+  font-size: 10px; color: var(--text-muted); line-height: 1.7;
+}
+
+/* ── RESPONSIVE ── */
+@media (max-width: 1024px) {
+  .slide-content { grid-template-columns: 1fr !important; gap: 48px; }
+  .slide-content.reverse { direction: ltr; }
+  h1 { font-size: 42px; }
+  .slide { padding: 80px 32px; }
+  .solutions-grid { grid-template-columns: 1fr 1fr; }
+  .icon-grid { grid-template-columns: repeat(4, 1fr); }
+}
+@media (max-width: 767px) {
+  body { font-size: 15px; }
+  .slide { padding: 80px 24px; }
+  h1 { font-size: clamp(1.75rem, 6vw, 2.5rem) !important; margin-bottom: 16px !important; }
+  .subtitle { font-size: 16px !important; }
+  .content-container { max-width: 100% !important; }
+  .persona-grid { grid-template-columns: 1fr; }
+  .solutions-grid { grid-template-columns: 1fr; }
+  .icon-grid { grid-template-columns: repeat(2, 1fr); }
+  .acc-list { columns: 1; }
+  .logo { width: 36px; height: 36px; top: 12px; left: 12px; }
+  .nav { top: 12px; right: 12px; }
+  .nav button { width: 36px; height: 36px; font-size: 14px; }
+  .slide-counter { bottom: 16px; right: 16px; }
+  .legal-section { padding: 24px; }
+}
+@media (max-width: 480px) {
+  .slide { padding: 70px 16px; }
+  .gradient-glow, .gradient-glow-secondary { display: none; }
+}
+@media (prefers-reduced-motion: reduce) {
+  * { animation-duration: 0.01ms !important; transition-duration: 0.01ms !important; }
+  html { scroll-behavior: auto; }
+}
+</style>
+</head>
+<body>
+
+<div class="progress-container">
+  <div class="progress-bar" id="progressBar" style="width:16.6%"></div>
+</div>
+
+<!-- Logo (same base64 as reference) -->
+<img src="data:image/webp;base64,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" alt="Homespire Logo" class="logo" loading="lazy">
+
+<div class="nav">
+  <button onclick="prevSlide()" aria-label="Previous">↑</button>
+  <button onclick="nextSlide()" aria-label="Next">↓</button>
+</div>
+
+<div class="slide-counter">
+  <span id="cur">1</span> / <span id="tot">6</span>
+</div>
+
+<!-- ══════════════════════════════════════
+     SLIDE 1 — HERO / LO INTRO
+════════════════════════════════════════ -->
+<section class="slide visible" data-slide="1">
+  <div class="gradient-glow"></div>
+  <div class="gradient-glow-secondary"></div>
+  <div class="slide-content center">
+    <div class="content-container" style="max-width:100%;">
+      <div class="section-label">Homespire Mortgage · Non-QM</div>
+      <h1 style="font-size:clamp(2.5rem,5vw,4rem); margin-bottom:24px;">
+        The Bank Said No.<br><span class="shimmer-text">We Have a Different Answer.</span>
+      </h1>
+      <p class="subtitle" style="max-width:620px; margin:0 auto 48px;">
+        If your income doesn't fit a W2, your situation doesn't fit a box, or you've been turned away before — this is where you start.
+      </p>
+
+      <div class="lo-card">
+        <img src="https://homespiremortgage.com/wp-content/uploads/2026/02/Otmane%20Product%20Presentation/Otmane%20Laassel.png" alt="Otmane Laassel" onerror="this.style.background='#e8e4f3'">
+        <div class="lo-name">Otmane Laassel</div>
+        <div class="lo-title">Homespire Mortgage · Branch Manager</div>
+        <div class="lo-nmls">NMLS# 184548</div>
+        <div class="lo-contact">
+          <div>
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.19 11.8 19.79 19.79 0 0 1 1.12 3.13 2 2 0 0 1 3.11 1h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+            <span>301.956.2916</span>
+          </div>
+          <div>
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+            <span>otmane@homespiremortgage.com</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════════════════════════════
+     SLIDE 2 — WHO WE HELP
+════════════════════════════════════════ -->
+<section class="slide" data-slide="2">
+  <div class="gradient-glow"></div>
+  <div class="gradient-glow-secondary"></div>
+  <div class="slide-content" style="align-items:flex-start; padding-top:80px;">
+    <div class="content-container">
+      <div class="section-label">Who We Help</div>
+      <h1>Your Income Is Real. Your Story Is Real.<br><span class="grad-text">Your Mortgage Should Be Too.</span></h1>
+      <p class="subtitle" style="max-width:540px;">Millions of creditworthy Americans are turned down every year — not because they can't afford a home, but because their financial picture doesn't fit a government template.</p>
+
+      <div style="background:var(--grad); padding:20px 28px; border-radius:12px; max-width:540px; margin-bottom:8px;">
+        <p style="font-size:18px; color:white; font-weight:600; margin:0; line-height:1.5;">
+          You bring the situation. We find the path forward.
+        </p>
+      </div>
+    </div>
+
+    <div>
+      <div class="persona-grid">
+        <div class="persona-card">
+          <div class="persona-title">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="3" width="20" height="14" rx="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg>
+            Self-Employed / Business Owner
+          </div>
+          <p>Your write-offs work against you on a tax return. We use your actual bank deposits instead.</p>
+        </div>
+        <div class="persona-card">
+          <div class="persona-title">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
+            Real Estate Investor
+          </div>
+          <p>Qualify on the property's rent income — no W2, no personal tax returns, no DTI hurdle.</p>
+        </div>
+        <div class="persona-card">
+          <div class="persona-title">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 1v22M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>
+            High-Net-Worth / Asset-Rich
+          </div>
+          <p>Significant assets but unconventional income? Qualify on liquid assets alone — no employment required.</p>
+        </div>
+        <div class="persona-card">
+          <div class="persona-title">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>
+            ITIN Borrower
+          </div>
+          <p>No Social Security number — you still have real options, and you deserve access to them.</p>
+        </div>
+        <div class="persona-card">
+          <div class="persona-title">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+            Foreign National
+          </div>
+          <p>Investing in U.S. real estate from abroad? We have a clear, structured path for that.</p>
+        </div>
+        <div class="persona-card">
+          <div class="persona-title">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="23 6 13.5 15.5 8.5 10.5 1 18"/><polyline points="17 6 23 6 23 12"/></svg>
+            Recent Credit Event
+          </div>
+          <p>Bankruptcy or foreclosure in your past doesn't have to define your next chapter.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════════════════════════════
+     SLIDE 3 — PROGRAMS OVERVIEW + SCENARIO
+════════════════════════════════════════ -->
+<section class="slide" data-slide="3">
+  <div class="gradient-glow"></div>
+  <div class="gradient-glow-secondary"></div>
+  <div class="slide-content" style="align-items:flex-start; padding-top:80px;">
+    <div class="content-container">
+      <div class="section-label">Non-QM Solutions</div>
+      <h1>More Loan Possibilities.<br><span class="grad-text">More Ways Home.</span></h1>
+      <p class="subtitle" style="max-width:520px;">Our entire Non-QM suite is underwritten in-house — which means faster decisions, real scenario review, and someone actually looking for a yes.</p>
+
+      <div class="icon-grid" style="grid-template-columns:repeat(2,1fr); max-width:440px;">
+
+        <div class="icon-card">
+          <div class="feature-icon" style="width:44px;height:44px;border-radius:10px;margin:0 auto 10px;">
+            <svg viewBox="0 0 24 24" width="20" height="20"><rect x="2" y="5" width="20" height="14" rx="2" stroke="white" stroke-width="2" fill="none"/><line x1="2" y1="10" x2="22" y2="10" stroke="white" stroke-width="2"/></svg>
+          </div>
+          <span>Bank Statement</span>
+        </div>
+
+        <div class="icon-card">
+          <div class="feature-icon" style="width:44px;height:44px;border-radius:10px;margin:0 auto 10px;">
+            <svg viewBox="0 0 24 24" width="20" height="20"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12" stroke="white" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </div>
+          <span>DSCR Investor</span>
+        </div>
+
+        <div class="icon-card">
+          <div class="feature-icon" style="width:44px;height:44px;border-radius:10px;margin:0 auto 10px;">
+            <svg viewBox="0 0 24 24" width="20" height="20"><path d="M12 1v22M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6" stroke="white" stroke-width="2" fill="none" stroke-linecap="round"/></svg>
+          </div>
+          <span>Asset Qualifier</span>
+        </div>
+
+        <div class="icon-card">
+          <div class="feature-icon" style="width:44px;height:44px;border-radius:10px;margin:0 auto 10px;">
+            <svg viewBox="0 0 24 24" width="20" height="20"><circle cx="12" cy="12" r="10" stroke="white" stroke-width="2" fill="none"/><line x1="2" y1="12" x2="22" y2="12" stroke="white" stroke-width="2"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z" stroke="white" stroke-width="2" fill="none"/></svg>
+          </div>
+          <span>ITIN Program</span>
+        </div>
+
+        <div class="icon-card">
+          <div class="feature-icon" style="width:44px;height:44px;border-radius:10px;margin:0 auto 10px;">
+            <svg viewBox="0 0 24 24" width="20" height="20"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z" stroke="white" stroke-width="2" fill="none"/><circle cx="12" cy="10" r="3" stroke="white" stroke-width="2" fill="none"/></svg>
+          </div>
+          <span>Foreign National</span>
+        </div>
+
+        <div class="icon-card">
+          <div class="feature-icon" style="width:44px;height:44px;border-radius:10px;margin:0 auto 10px;">
+            <svg viewBox="0 0 24 24" width="20" height="20"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z" stroke="white" stroke-width="2" fill="none"/><polyline points="9 22 9 12 15 12 15 22" stroke="white" stroke-width="2" fill="none"/></svg>
+          </div>
+          <span>Fix &amp; Flip</span>
+        </div>
+
+        <div class="icon-card">
+          <div class="feature-icon" style="width:44px;height:44px;border-radius:10px;margin:0 auto 10px;">
+            <svg viewBox="0 0 24 24" width="20" height="20"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" stroke="white" stroke-width="2" fill="none"/><polyline points="14 2 14 8 20 8" stroke="white" stroke-width="2" fill="none"/><line x1="9" y1="13" x2="15" y2="13" stroke="white" stroke-width="2"/><line x1="9" y1="17" x2="15" y2="17" stroke="white" stroke-width="2"/></svg>
+          </div>
+          <span>1099 Only</span>
+        </div>
+
+        <div class="icon-card">
+          <div class="feature-icon" style="width:44px;height:44px;border-radius:10px;margin:0 auto 10px;">
+            <svg viewBox="0 0 24 24" width="20" height="20"><rect x="2" y="7" width="20" height="14" rx="2" stroke="white" stroke-width="2" fill="none"/><path d="M16 7V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v2" stroke="white" stroke-width="2" fill="none"/></svg>
+          </div>
+          <span>Non-Warrantable Condo</span>
+        </div>
+
+      </div>
+    </div>
+
+    <div>
+      <div class="section-label" style="margin-bottom:16px;">Real-World Scenario</div>
+      <h2 style="font-family:var(--serif); font-size:clamp(1.4rem,2.5vw,1.9rem); font-weight:400; line-height:1.25; margin-bottom:20px; color:var(--text-primary);">One Borrower. Three Ways to Yes.</h2>
+
+      <div class="scenario-callout">
+        <span class="scenario-label">The Situation</span>
+        <p>Maria runs a successful catering business — six years in, $180,000 flowing through her accounts every year. But after legitimate deductions, her tax return shows $52,000. She's been denied twice by her bank. She has great credit, money saved, and she's ready to buy a $450,000 home.</p>
+      </div>
+
+      <p style="font-size:14px; color:var(--text-muted); text-align:center; margin-bottom:16px;">Maria doesn't have one option. She has three.</p>
+
+      <div class="solutions-grid">
+        <div class="sol-card">
+          <div class="sol-name">Bank Statement Loan</div>
+          <div class="sol-desc">24 months of deposits average $15,000/mo. Her real income — not her tax return — gets her approved.</div>
+        </div>
+        <div class="sol-card">
+          <div class="sol-name">P&amp;L Only</div>
+          <div class="sol-desc">Her CPA provides a signed Profit &amp; Loss statement. We use that as income documentation instead.</div>
+        </div>
+        <div class="sol-card">
+          <div class="sol-name">Asset Qualifier</div>
+          <div class="sol-desc">If Maria has $600K+ in liquid assets, she qualifies with zero income documentation required.</div>
+        </div>
+      </div>
+
+      <p style="font-size:11px; color:var(--text-muted); text-align:center; margin-top:16px; font-style:italic;">Scenario is illustrative. Actual eligibility subject to individual qualification review.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════════════════════════════
+     SLIDE 4 — FEATURED PRODUCTS
+════════════════════════════════════════ -->
+<section class="slide" data-slide="4">
+  <div class="gradient-glow"></div>
+  <div class="gradient-glow-secondary"></div>
+  <div class="slide-content wide">
+    <div class="content-container" style="max-width:100%;">
+      <div class="section-label">Product Suite</div>
+      <h1 style="text-align:center;">More Products. More Possibilities.</h1>
+      <p class="subtitle" style="text-align:center; max-width:700px; margin:0 auto 40px;">Continuously expanding our Non-QM programs to help more borrowers find a path home.</p>
+
+      <div class="features" style="display:grid; grid-template-columns:repeat(2,1fr); gap:24px;">
+
+        <div class="feature-block">
+          <span class="new-badge">In-House</span>
+          <div class="feature-header">
+            <div class="feature-icon">
+              <svg viewBox="0 0 24 24"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+            </div>
+            <div class="feature-title">Bank Statement Loan</div>
+          </div>
+          <ul class="feature-list">
+            <li>Self-employed, contractors, tip and service industry workers</li>
+            <li>12 or 24 months of personal or business bank statements</li>
+            <li>Multiple expense ratio options: 50% uniform, CPA P&amp;L, or verified ratio</li>
+            <li>1099 supplemental income option available</li>
+            <li>LTV up to 90%, FICO as low as 620, loans to $3.5M</li>
+          </ul>
+        </div>
+
+        <div class="feature-block">
+          <span class="new-badge">In-House</span>
+          <div class="feature-header">
+            <div class="feature-icon">
+              <svg viewBox="0 0 24 24"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
+            </div>
+            <div class="feature-title">DSCR — Investor Cash Flow</div>
+          </div>
+          <ul class="feature-list">
+            <li>No DTI, employment, or personal income required</li>
+            <li>Qualify on Debt Service Coverage Ratio — the property pays for itself</li>
+            <li>Interest-only options available</li>
+            <li>LLCs allowed for investment property vesting</li>
+            <li>30-yr fixed, 40-yr fixed, 5/6 ARM · Loans $100K–$3M+</li>
+          </ul>
+        </div>
+
+        <div class="feature-block">
+          <span class="new-badge">In-House</span>
+          <div class="feature-header">
+            <div class="feature-icon">
+              <svg viewBox="0 0 24 24"><path d="M12 1v22M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>
+            </div>
+            <div class="feature-title">Asset Qualifier</div>
+          </div>
+          <ul class="feature-list">
+            <li>No DTI, employment, or income required</li>
+            <li>Qualify based on liquid or near-liquid assets</li>
+            <li>Three qualification methods available</li>
+            <li>All occupancies: primary, second home, investment</li>
+            <li>Recoup funds from a cash purchase as rate &amp; term · Loans to $3.5M</li>
+          </ul>
+        </div>
+
+        <div class="feature-block">
+          <span class="new-badge">Niche</span>
+          <div class="feature-header">
+            <div class="feature-icon">
+              <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>
+            </div>
+            <div class="feature-title">ITIN Borrower Program</div>
+          </div>
+          <ul class="feature-list">
+            <li>Individual Taxpayer ID accepted in lieu of SSN</li>
+            <li>LTV up to 85%, DTI up to 55%</li>
+            <li>Tax returns, P&amp;L, bank statements, or seasoned assets accepted</li>
+            <li>Mobile homes with land and mixed-use properties eligible</li>
+            <li>Purchase and refinance available</li>
+          </ul>
+        </div>
+
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════════════════════════════
+     SLIDE 5 — FULL SUITE ACCORDION
+════════════════════════════════════════ -->
+<section class="slide" data-slide="5">
+  <div class="gradient-glow"></div>
+  <div class="gradient-glow-secondary"></div>
+  <div class="slide-content full" style="padding:60px 80px; overflow-y:auto; align-items:flex-start;">
+    <div class="content-container" style="max-width:100%;">
+      <div class="section-label">Full Non-QM Suite</div>
+      <h1 style="margin-bottom:6px; text-align:center;">Every Program. Every Path.</h1>
+      <p class="subtitle" style="text-align:center; margin-bottom:0;">A complete suite of Non-QM lending solutions built to find a yes when others say no.</p>
+
+      <h3 class="suite-title">In-House Non-QM Programs</h3>
+
+      <div class="acc-item">
+        <button class="acc-btn" onclick="tog(this)">Bank Statement Loans <span class="chev">▾</span></button>
+        <div class="acc-body">
+          <p class="acc-intro">For self-employed borrowers whose tax returns understate their real income. We use your actual deposits to establish what you earn.</p>
+          <ul class="acc-list">
+            <li>Self-employed, independent contractors, tip/service industry</li>
+            <li>12 or 24 months of personal or business statements</li>
+            <li>Multiple expense ratios: 50% uniform, P&amp;L, CPA-verified</li>
+            <li>1099 program supplemental income option</li>
+            <li>Primary, second home, investment properties</li>
+            <li>LTV up to 90% on select programs</li>
+            <li>FICO as low as 620 on select executions</li>
+            <li>Loan amounts up to $3.5M</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="acc-item">
+        <button class="acc-btn" onclick="tog(this)">DSCR — Investor Cash Flow <span class="chev">▾</span></button>
+        <div class="acc-body">
+          <p class="acc-intro">Built for real estate investors. Approval is based on the property's rent income — no W2, no tax returns, no personal income documentation.</p>
+          <ul class="acc-list">
+            <li>No DTI, employment, or income required</li>
+            <li>Qualify on DSCR only (≥ 1.00)</li>
+            <li>Interest-only available</li>
+            <li>30-yr fixed, 40-yr fixed, 5/6 ARM</li>
+            <li>LLCs allowed on investment properties</li>
+            <li>1–4 units, condos, multi-family</li>
+            <li>LTV up to 80–85% depending on execution</li>
+            <li>Loan amounts $100K to $3M+</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="acc-item">
+        <button class="acc-btn" onclick="tog(this)">Asset Qualifier <span class="chev">▾</span></button>
+        <div class="acc-body">
+          <p class="acc-intro">For high-net-worth borrowers with significant liquid assets and unconventional income. Employment and income documentation are removed entirely.</p>
+          <ul class="acc-list">
+            <li>No DTI, employment, or income required</li>
+            <li>All occupancies: primary, second home, investment</li>
+            <li>Qualify on liquid or near-liquid assets</li>
+            <li>3 different qualification methods</li>
+            <li>6 months of statements per account being used</li>
+            <li>Recoup funds from a cash purchase as rate &amp; term</li>
+            <li>Loan amounts up to $3.5M</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="acc-item">
+        <button class="acc-btn" onclick="tog(this)">P&amp;L Only / 1099 Only <span class="chev">▾</span></button>
+        <div class="acc-body">
+          <p class="acc-intro">For self-employed borrowers who prefer a CPA-prepared P&amp;L or 1099 documentation rather than full bank statements.</p>
+          <ul class="acc-list">
+            <li>12 or 24-month P&amp;L signed by a licensed CPA</li>
+            <li>1099-only income qualification available</li>
+            <li>Contractors, freelancers, independent professionals</li>
+            <li>No full tax return required</li>
+            <li>Primary, second home, investment properties</li>
+          </ul>
+        </div>
+      </div>
+
+      <h3 class="suite-title">Niche &amp; Specialty Programs</h3>
+
+      <div class="acc-item">
+        <button class="acc-btn" onclick="tog(this)">ITIN Borrower Program <span class="chev">▾</span></button>
+        <div class="acc-body">
+          <p class="acc-intro">A full mortgage path for borrowers who pay U.S. taxes but do not have a Social Security number.</p>
+          <ul class="acc-list">
+            <li>ITIN accepted in lieu of SSN</li>
+            <li>LTV up to 85%</li>
+            <li>DTI up to 55%</li>
+            <li>Tax returns, P&amp;L, bank statements, or seasoned assets</li>
+            <li>Mobile homes with land and mixed-use eligible</li>
+            <li>Purchase and refinance available</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="acc-item">
+        <button class="acc-btn" onclick="tog(this)">Foreign National Program <span class="chev">▾</span></button>
+        <div class="acc-body">
+          <p class="acc-intro">Investing in American real estate from abroad? Qualification is based on property cash flow — no U.S. credit history required.</p>
+          <ul class="acc-list">
+            <li>No U.S. credit history required</li>
+            <li>DSCR-style qualification on rental income</li>
+            <li>LTV up to 70%</li>
+            <li>Loans $75K to $1.5M</li>
+            <li>Investment properties</li>
+            <li>Purchase and rate-term refinance</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="acc-item">
+        <button class="acc-btn" onclick="tog(this)">Non-Warrantable Condos <span class="chev">▾</span></button>
+        <div class="acc-body">
+          <p class="acc-intro">Condominiums that Fannie/Freddie won't touch — condotels, new developments, high investor concentration — financed through Non-QM.</p>
+          <ul class="acc-list">
+            <li>Condotels and resort-style condos eligible</li>
+            <li>New construction or incomplete HOA budgets accepted</li>
+            <li>High investor concentration buildings OK</li>
+            <li>Available under DSCR for investor buyers</li>
+            <li>Full and alt-doc options for owner-occupants</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="acc-item">
+        <button class="acc-btn" onclick="tog(this)">Recent Credit Events <span class="chev">▾</span></button>
+        <div class="acc-body">
+          <p class="acc-intro">Bankruptcy, foreclosure, or a rough stretch in your credit history shouldn't close the door permanently.</p>
+          <ul class="acc-list">
+            <li>BK, foreclosure, short sale seasoning as low as 1 day on select programs</li>
+            <li>Recent mortgage lates reviewed case by case</li>
+            <li>FICO down to 620 on select programs</li>
+            <li>Manual underwriting available</li>
+            <li>Primary, second home, investment properties</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="acc-item">
+        <button class="acc-btn" onclick="tog(this)">Fix &amp; Flip / Business Purpose <span class="chev">▾</span></button>
+        <div class="acc-body">
+          <p class="acc-intro">Short-term investor financing for purchase and renovation — structured for speed, not convention.</p>
+          <ul class="acc-list">
+            <li>Purchase and renovation financing combined</li>
+            <li>No personal income or DTI required</li>
+            <li>Investment properties only</li>
+            <li>Multiple business-purpose executions available</li>
+            <li>LTV up to 80–85% depending on execution</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="plus-bar">
+        <strong>Plus:</strong>
+        <p>In-House Underwriting &amp; Scenario Desk &nbsp;·&nbsp; LLC Vesting on Investment Properties &nbsp;·&nbsp; Over 4 Units &nbsp;·&nbsp; HELOCs / Stand-Alone 2nds &nbsp;·&nbsp; No Doc (specific states) &nbsp;·&nbsp; Manufactured &amp; Rural Properties</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════════════════════════════
+     SLIDE 6 — CLOSING / CONTACT
+════════════════════════════════════════ -->
+<section class="slide" data-slide="6">
+  <div class="gradient-glow"></div>
+  <div class="gradient-glow-secondary"></div>
+  <div class="slide-content center">
+    <div class="content-container" style="max-width:100%;">
+      <div class="section-label">Let's Talk</div>
+      <h1 style="font-size:clamp(2rem,4vw,3.2rem); margin-bottom:20px;">
+        Tell Us Your Situation.<br><span class="grad-text">We'll Tell You What's Possible.</span>
+      </h1>
+      <p class="subtitle" style="max-width:580px; margin:0 auto 48px;">
+        Non-QM is about looking beyond the obvious and finding a path forward that fits your unique financial picture. Let's start that conversation.
+      </p>
+
+      <div class="lo-card">
+        <img src="https://homespiremortgage.com/wp-content/uploads/2026/02/Otmane%20Product%20Presentation/Otmane%20Laassel.png" alt="Otmane Laassel" onerror="this.style.background='#e8e4f3'">
+        <div class="lo-name">Otmane Laassel</div>
+        <div class="lo-title">Homespire Mortgage · Branch Manager</div>
+        <div class="lo-nmls">NMLS# 184548</div>
+        <div class="lo-contact">
+          <div>
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.19 11.8 19.79 19.79 0 0 1 1.12 3.13 2 2 0 0 1 3.11 1h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+            <span>301.956.2916</span>
+          </div>
+          <div>
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+            <span>otmane@homespiremortgage.com</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- LEGAL -->
+<div class="legal-section">
+  <p>
+    <strong>Equal Housing Lender.</strong> Homespire Home Loans is a division of NFM Lending, LLC. Make sure you understand the features associated with the loan program you choose, and that it meets your unique financial needs. Subject to Debt-to-Income and Underwriting requirements. This is not a final credit decision or a commitment to lend. Eligibility is subject to completion of an application and verification of home ownership, occupancy, title, income, employment, credit, home value, collateral, and underwriting requirements. Not all programs are available in all areas. Offers may vary and are subject to change at any time without notice. NFM Lending, LLC. NMLS #2893. For licensing info, visit www.nmlsconsumeraccess.org. Copyright © 2026 NFM Lending, LLC. America's Common Sense Lender® Non-QM programs have specific eligibility requirements and may carry higher rates than agency products. Scenarios are illustrative only; individual qualification will vary.
+  </p>
+</div>
+
+<script>
+const slides = Array.from(document.querySelectorAll('.slide'));
+const total = slides.length;
+document.getElementById('tot').textContent = total;
+let current = 0;
+
+function updateCounter() {
+  document.getElementById('cur').textContent = current + 1;
+  document.getElementById('progressBar').style.width = ((current + 1) / total * 100) + '%';
+}
+
+function goTo(n) {
+  current = Math.max(0, Math.min(n, total - 1));
+  slides[current].scrollIntoView({ behavior: 'smooth' });
+  updateCounter();
+}
+
+function nextSlide() { goTo(current + 1); }
+function prevSlide() { goTo(current - 1); }
+
+// Keyboard nav
+document.addEventListener('keydown', e => {
+  if (e.key === 'ArrowDown' || e.key === 'ArrowRight') nextSlide();
+  if (e.key === 'ArrowUp'   || e.key === 'ArrowLeft')  prevSlide();
+});
+
+// Intersection observer for fade-in + current tracking
+const obs = new IntersectionObserver(entries => {
+  entries.forEach(e => {
+    if (e.isIntersecting) {
+      e.target.classList.add('visible');
+      current = slides.indexOf(e.target);
+      updateCounter();
+    }
+  });
+}, { threshold: 0.4 });
+
+slides.forEach(s => obs.observe(s));
+
+// Accordion
+function tog(btn) {
+  const item = btn.closest('.acc-item');
+  const isOpen = item.classList.contains('open');
+  // close all within same parent
+  item.parentElement.querySelectorAll('.acc-item').forEach(el => el.classList.remove('open'));
+  if (!isOpen) item.classList.add('open');
+}
+</script>
+</body>
+</html>
