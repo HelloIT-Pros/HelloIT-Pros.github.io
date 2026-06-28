@@ -1,0 +1,279 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Our Story — Noon Shop</title>
+<meta name="description" content="Founded by Dr. Anna Park, MD — an ophthalmologist who spent twenty years watching frames fail. Noon Shop is eyewear engineered around fit and built to feel weightless.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Outfit:wght@200;300;400;500&family=Playfair+Display:ital,wght@0,400;1,400&display=swap" rel="stylesheet">
+<style>
+:root{
+  --white:#FFFFFF;--cool:#F4F5F5;--stone:#EDEAE3;--ink:#1C1C1C;--ink2:#2F2F2F;
+  --line:rgba(28,28,28,.10);--mut:rgba(28,28,28,.56);--mut2:rgba(28,28,28,.40);
+  --navy:#202A44;--navy-lt:#3D4F72;--navy-dk:#111828;
+  --D:'Bebas Neue',sans-serif;--B:'Outfit',sans-serif;--P:'Playfair Display',Georgia,serif;
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+html{scroll-behavior:smooth;}
+body{background:var(--white);color:var(--ink);font-family:var(--B);font-weight:300;overflow-x:hidden;-webkit-font-smoothing:antialiased;}
+a{color:inherit;text-decoration:none;}img{display:block;max-width:100%;}
+
+nav{position:fixed;top:0;left:0;right:0;z-index:200;display:flex;justify-content:space-between;align-items:center;padding:20px 60px;transition:background .3s,padding .3s,box-shadow .3s;}
+nav.scrolled{background:rgba(255,255,255,.92);backdrop-filter:blur(16px);padding:14px 60px;box-shadow:0 1px 0 var(--line);}
+.nav-logo{font-family:var(--D);font-size:19px;letter-spacing:.2em;color:var(--ink);}
+.nav-links{display:flex;gap:36px;align-items:center;}
+.nav-link{font-size:11px;letter-spacing:.2em;text-transform:uppercase;color:var(--mut);transition:color .2s;}
+.nav-link:hover,.nav-link.active{color:var(--navy);}
+.nav-cart{font-size:11px;letter-spacing:.18em;text-transform:uppercase;color:var(--mut);display:flex;gap:7px;align-items:center;}
+.cart-count{font-family:var(--D);font-size:13px;color:var(--navy);}
+
+.rv{opacity:0;transform:translateY(26px);transition:opacity .8s ease,transform .8s ease;}
+.rv.in{opacity:1;transform:translateY(0);}
+.rv.d1{transition-delay:.1s;}.rv.d2{transition-delay:.2s;}.rv.d3{transition-delay:.3s;}
+
+.tag{font-size:11px;font-weight:500;letter-spacing:.3em;text-transform:uppercase;color:var(--navy);margin-bottom:34px;display:flex;align-items:center;gap:14px;}
+.tag::before{content:'';width:30px;height:1px;background:var(--navy);}
+.tag.on-dark{color:#9FB0D0;}.tag.on-dark::before{background:#9FB0D0;}
+.h-d{font-family:var(--D);font-size:clamp(48px,6.5vw,104px);letter-spacing:.02em;line-height:.9;color:var(--ink);}
+.h-d em{display:block;font-family:var(--P);font-style:italic;font-weight:400;font-size:clamp(32px,4.5vw,64px);line-height:1.15;color:var(--navy);margin-top:6px;}
+.lede{font-size:15px;line-height:1.85;color:var(--mut);max-width:560px;margin-top:24px;}
+.btn-navy{display:inline-flex;align-items:center;gap:11px;font-size:11px;font-weight:500;letter-spacing:.2em;text-transform:uppercase;background:var(--navy);color:#fff;padding:14px 30px;border-radius:40px;transition:background .2s;}
+.btn-navy:hover{background:var(--navy-lt);}
+.btn-light{display:inline-flex;align-items:center;gap:11px;font-size:11px;font-weight:500;letter-spacing:.2em;text-transform:uppercase;background:#fff;color:var(--navy);padding:14px 30px;border-radius:40px;}
+
+/* HERO */
+.hero{display:grid;grid-template-columns:1.05fr 1fr;min-height:88vh;padding-top:64px;}
+.hero-left{display:flex;flex-direction:column;justify-content:center;padding:80px 60px;}
+.hero-right{background:var(--cool);overflow:hidden;}
+.hero-right img{width:100%;height:100%;object-fit:cover;object-position:center top;}
+
+.sec{padding:110px 60px;}
+.sec.cool{background:var(--cool);}
+
+/* origin split */
+.split{display:grid;grid-template-columns:1fr 1fr;gap:64px;align-items:center;}
+.split-body p{font-size:15px;line-height:1.9;color:var(--mut);margin-bottom:18px;}
+.split-img{aspect-ratio:4/5;border-radius:10px;overflow:hidden;background:var(--cool);}
+.split-img img{width:100%;height:100%;object-fit:cover;object-position:center top;}
+
+/* pull quote band */
+.quote-band{background:var(--navy-dk);color:#fff;padding:110px 60px;text-align:center;}
+.quote-band p{font-family:var(--P);font-style:italic;font-size:clamp(26px,3.6vw,48px);line-height:1.3;max-width:900px;margin:0 auto;}
+.quote-band em{color:#9FB0D0;font-style:normal;}
+.quote-band .attr{font-size:11px;letter-spacing:.22em;text-transform:uppercase;color:rgba(255,255,255,.4);margin-top:32px;}
+
+/* timeline */
+.timeline{display:grid;grid-template-columns:repeat(5,1fr);gap:1px;background:var(--line);margin-top:56px;border:1px solid var(--line);}
+.tl{background:var(--white);padding:30px 24px;}
+.tl-year{font-family:var(--D);font-size:30px;letter-spacing:.04em;color:var(--navy);margin-bottom:10px;}
+.tl-t{font-size:13px;font-weight:500;letter-spacing:.04em;color:var(--ink);margin-bottom:8px;}
+.tl-b{font-size:12.5px;line-height:1.6;color:var(--mut);}
+
+/* collections */
+.colls{display:grid;grid-template-columns:repeat(3,1fr);gap:24px;margin-top:56px;}
+.cl{border:1px solid var(--line);border-radius:8px;padding:32px 28px;}
+.cl-n{font-size:10px;letter-spacing:.22em;text-transform:uppercase;color:var(--mut2);margin-bottom:12px;}
+.cl-name{font-family:var(--D);font-size:34px;letter-spacing:.03em;color:var(--ink);margin-bottom:8px;}
+.cl-tag{font-family:var(--P);font-style:italic;font-size:14px;color:var(--navy);margin-bottom:16px;}
+.cl-b{font-size:13.5px;line-height:1.75;color:var(--mut);margin-bottom:16px;}
+.cl-cities{font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--navy-lt);}
+
+/* founder */
+.founder{display:grid;grid-template-columns:.85fr 1.15fr;gap:64px;align-items:start;}
+.founder-img{aspect-ratio:3/4;border-radius:10px;overflow:hidden;background:var(--cool);}
+.founder-img img{width:100%;height:100%;object-fit:cover;object-position:center top;}
+.founder-name{font-family:var(--D);font-size:clamp(40px,5vw,68px);letter-spacing:.03em;line-height:.9;color:var(--ink);}
+.founder-role{font-family:var(--P);font-style:italic;font-size:17px;color:var(--navy);margin:8px 0 24px;}
+.founder p{font-size:15px;line-height:1.9;color:var(--mut);margin-bottom:18px;}
+.creds{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(--line);border:1px solid var(--line);margin-top:24px;}
+.cred{background:var(--white);padding:22px 20px;}
+.cred-v{font-family:var(--D);font-size:32px;letter-spacing:.03em;color:var(--navy);line-height:1;}
+.cred-l{font-size:11px;letter-spacing:.1em;color:var(--mut);margin-top:8px;}
+
+/* mission / cta */
+.cta-band{background:var(--navy);color:#fff;padding:110px 60px;text-align:center;}
+.cta-band h2{font-family:var(--D);font-size:clamp(40px,5.5vw,80px);letter-spacing:.02em;line-height:.92;margin-bottom:18px;}
+.cta-band h2 em{font-family:var(--P);font-style:italic;font-weight:400;color:#9FB0D0;font-size:.6em;}
+.cta-band p{font-size:15px;line-height:1.8;color:rgba(255,255,255,.6);max-width:560px;margin:0 auto 34px;}
+.cta-row{display:flex;gap:12px;justify-content:center;flex-wrap:wrap;}
+
+footer{background:var(--ink);color:#fff;padding:56px 60px 40px;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:16px;}
+.footer-logo{font-family:var(--D);font-size:20px;letter-spacing:.2em;color:rgba(255,255,255,.85);}
+.footer-copy{font-size:11px;color:rgba(255,255,255,.3);}
+
+@media (max-width:960px){
+  nav,nav.scrolled{padding:14px 22px;}.nav-links{display:none;}
+  .hero{grid-template-columns:1fr;padding-top:60px;}.hero-left{padding:64px 24px;}.hero-right{min-height:340px;}
+  .sec{padding:72px 24px;}
+  .split,.founder{grid-template-columns:1fr;gap:36px;}
+  .timeline{grid-template-columns:1fr 1fr;}
+  .colls{grid-template-columns:1fr;}
+  .creds{grid-template-columns:repeat(3,1fr);}
+  .quote-band,.cta-band{padding:72px 24px;}
+  footer{padding:40px 24px;}
+}
+@media (max-width:560px){.timeline{grid-template-columns:1fr;}}
+
+/* MOBILE MENU */
+.nav-burger{display:none;flex-direction:column;gap:5px;background:none;border:none;cursor:pointer;padding:6px;margin-left:14px;}
+.nav-burger span{width:24px;height:2px;background:var(--ink);display:block;}
+.mobile-menu{position:fixed;inset:0;background:var(--navy-dk);z-index:300;flex-direction:column;justify-content:center;padding:48px 32px;transform:translateX(100%);transition:transform .4s cubic-bezier(.4,0,.2,1);display:flex;}
+.mobile-menu .mm-sub{font-size:11px;letter-spacing:.22em;text-transform:uppercase;color:#9FB0D0;margin-bottom:20px;}
+.mobile-menu a{font-family:var(--D);font-size:32px;letter-spacing:.04em;color:#fff;padding:13px 0;border-bottom:1px solid rgba(255,255,255,.1);}
+.mobile-menu.open{transform:translateX(0);}
+.mm-close{position:absolute;top:22px;right:24px;font-size:12px;letter-spacing:.18em;text-transform:uppercase;color:#9FB0D0;background:none;border:none;cursor:pointer;}
+@media(min-width:961px){.mobile-menu{display:none !important;}}
+@media(max-width:960px){.nav-burger{display:flex;}}
+</style>
+</head>
+<body>
+<div class="mobile-menu" id="mobileMenu">
+  <button class="mm-close" onclick="toggleMenu(false)">Close ✕</button>
+  <div class="mm-sub">Noon Shop</div>
+  <a href="shop-v2.html">Shop All</a>
+  <a href="shop-v2.html?collection=dormann">Dormann</a>
+  <a href="shop-v2.html?collection=steel-brown">Steel Brown</a>
+  <a href="shop-v2.html?collection=denova">DeNova</a>
+  <a href="fit-guide-v2.html">Fit Guide</a>
+  <a href="story-v2.html">Our Story</a>
+  <a href="cart-v2.html">Cart</a>
+</div>
+
+
+<nav id="nav">
+  <a href="index-v2.html" class="nav-logo">NOON SHOP</a>
+  <div class="nav-links">
+    <a href="shop-v2.html" class="nav-link">Shop</a>
+    <a href="shop-v2.html?collection=dormann" class="nav-link">Dormann</a>
+    <a href="shop-v2.html?collection=steel-brown" class="nav-link">Steel Brown</a>
+    <a href="shop-v2.html?collection=denova" class="nav-link">DeNova</a>
+    <a href="fit-guide-v2.html" class="nav-link">Fit Guide</a>
+    <a href="story-v2.html" class="nav-link active">Our Story</a>
+  </div>
+  <a href="cart-v2.html" class="nav-cart"><span>Cart</span><span class="cart-count">0</span></a>
+  <button class="nav-burger" onclick="toggleMenu(true)" aria-label="Open menu"><span></span><span></span><span></span></button>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-left">
+    <div class="tag">Our Story</div>
+    <h1 class="h-d">Founded<br><em>on fit.</em></h1>
+    <p class="lede">Noon Shop began in an ophthalmologist's exam room — with a problem the eyewear industry had ignored for decades. This is the story of how a doctor decided to fix it.</p>
+  </div>
+  <div class="hero-right">
+    <img src="../Noonshop/assets/editorial/editorial-2a.png" alt="Noon Shop" onerror="this.parentElement.style.background='#EDEAE3'">
+  </div>
+</section>
+
+<!-- ORIGIN -->
+<section class="sec">
+  <div class="split">
+    <div class="split-body rv">
+      <div class="tag">The Observation</div>
+      <h2 class="h-d" style="font-size:clamp(36px,4.5vw,64px);margin-bottom:24px">Twenty years.<br><em>One pattern.</em></h2>
+      <p>Dr. Anna Park spent more than two decades as a board-certified ophthalmologist, customizing lenses down to the fraction of a diopter. Yet patient after patient returned with the same complaint — not about their vision, but about their frames.</p>
+      <p>The lenses were perfect. The frames were not. Designed around a narrow, average face, they slid down low bridges, pressed on high cheekbones, and pinched wider faces — quietly undoing the precision of the prescription underneath.</p>
+      <p>She realized the industry had solved the wrong half of the problem. Fit, the variable that determines whether a perfect prescription actually works, had been treated as an afterthought.</p>
+    </div>
+    <div class="split-img rv d1">
+      <img src="../Noonshop/assets/refined/east-asian-close.png" alt="Clinical observation" onerror="this.parentElement.style.background='#EDEAE3'">
+    </div>
+  </div>
+</section>
+
+<!-- PULL QUOTE -->
+<section class="quote-band">
+  <p class="rv">"I watched patient after patient leave with a perfect prescription — and a frame that <em>negated half of it</em> by sliding off their nose. So I stopped adjusting frames, and started designing better ones."</p>
+  <div class="attr rv d1">Dr. Anna Park, MD · Founder, Noon Shop</div>
+</section>
+
+<!-- TIMELINE -->
+<section class="sec cool">
+  <div class="tag rv">The Journey</div>
+  <h2 class="h-d rv d1" style="font-size:clamp(36px,4.5vw,64px)">From the clinic<br><em>to the world.</em></h2>
+  <div class="timeline rv d2">
+    <div class="tl"><div class="tl-year">2004</div><div class="tl-t">Clinical Observation</div><div class="tl-b">Dr. Park begins documenting fit-related complaints across her ophthalmology practice.</div></div>
+    <div class="tl"><div class="tl-year">2016</div><div class="tl-t">First Prototype</div><div class="tl-b">The first frame engineered with an adjustable bridge and screwless snap hinge.</div></div>
+    <div class="tl"><div class="tl-year">2019</div><div class="tl-t">Dormann Launches</div><div class="tl-b">Beta-titanium, vibrant, fit-first — the founding collection arrives.</div></div>
+    <div class="tl"><div class="tl-year">2022</div><div class="tl-t">Steel Brown</div><div class="tl-b">German stainless steel, engineered with designer Wolfgang Proksch.</div></div>
+    <div class="tl"><div class="tl-year">Today</div><div class="tl-t">80,000+ Worn</div><div class="tl-b">Headquartered in Silver Spring, MD — worn worldwide by people who finally fit.</div></div>
+  </div>
+</section>
+
+<!-- COLLECTIONS -->
+<section class="sec">
+  <div class="tag rv">The Collections</div>
+  <h2 class="h-d rv d1" style="font-size:clamp(36px,4.5vw,64px)">Three houses,<br><em>named for the world's cities.</em></h2>
+  <p class="lede rv d1">Crafted from medical-grade titanium and stainless steel — lightweight, durable, and quietly luxurious. Every frame carries the name of a city that brings people together.</p>
+  <div class="colls rv d2">
+    <div class="cl">
+      <div class="cl-n">Collection 01 · Europe</div>
+      <div class="cl-name">DORMANN</div>
+      <div class="cl-tag">Playful. Minimal. Correctly fitting.</div>
+      <p class="cl-b">Beta-titanium temples and a patented screwless snap hinge. Vibrant colour and shape, with no trade-off between fit and personality.</p>
+      <div class="cl-cities">Milano · Vienna · Copenhagen · Lisbon · Oslo</div>
+    </div>
+    <div class="cl">
+      <div class="cl-n">Collection 02 · Asia</div>
+      <div class="cl-name">STEEL BROWN</div>
+      <div class="cl-tag">Where precision meets quiet luxury.</div>
+      <p class="cl-b">Medical-grade German stainless steel, engineered with award-winning designer Wolfgang Proksch. Thin, refined, weightless.</p>
+      <div class="cl-cities">Tokyo · Kyoto · Seoul · Singapore · Osaka</div>
+    </div>
+    <div class="cl">
+      <div class="cl-n">Collection 03 · Americas</div>
+      <div class="cl-name">DENOVA</div>
+      <div class="cl-tag">Everyday essentials, perfectly fitted.</div>
+      <p class="cl-b">The lightweight everyday line — clean shapes and dependable fit for the frames you reach for every single day.</p>
+      <div class="cl-cities">Manhattan · Toronto · Austin · Vancouver · Savannah</div>
+    </div>
+  </div>
+</section>
+
+<!-- FOUNDER -->
+<section class="sec cool">
+  <div class="founder">
+    <div class="founder-img rv">
+      <img src="../Noonshop/assets/anna-park-headshot.png" alt="Dr. Anna Park, MD" onerror="this.parentElement.style.background='#EDEAE3'">
+    </div>
+    <div class="rv d1">
+      <div class="tag">The Founder</div>
+      <div class="founder-name">DR. ANNA<br>PARK, MD</div>
+      <div class="founder-role">Board-Certified Ophthalmologist · Founder</div>
+      <p>With more than twenty years of clinical experience, Dr. Park built Noon Shop to close a gap she saw every day: while lenses are customized to each prescription, frames were designed around a limited, average set of facial standards that never reflected the diversity of real patients.</p>
+      <p>Noon Shop curates and develops eyewear engineered for a broader range of features — low-bridge noses, higher cheekbones, and diverse face shapes — combining medical insight with innovative design to deliver comfort, visual performance, and lightweight style.</p>
+      <div class="creds">
+        <div class="cred"><div class="cred-v">20+</div><div class="cred-l">Years in ophthalmology</div></div>
+        <div class="cred"><div class="cred-v">80K+</div><div class="cred-l">Frames worn worldwide</div></div>
+        <div class="cred"><div class="cred-v">3</div><div class="cred-l">Premium collections</div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- MISSION CTA -->
+<section class="cta-band">
+  <h2 class="rv">A more inclusive<br><em>future for eyewear.</em></h2>
+  <p class="rv d1">Through partnerships with healthcare providers, vision-benefit platforms, and employers, Noon Shop is expanding access to better-fitting eyewear — so every individual can find frames designed not only to complement their style, but to fit their unique features.</p>
+  <div class="cta-row rv d2">
+    <a href="shop-v2.html" class="btn-light">Shop the Collections</a>
+    <a href="fit-guide-v2.html" class="nav-link" style="color:#9FB0D0;align-self:center">Find Your Fit →</a>
+  </div>
+</section>
+
+<footer>
+  <div class="footer-logo">NOON SHOP</div>
+  <div class="footer-copy">© 2026 Noon Shop · Founded by Dr. Anna Park, MD · Ophthalmologist</div>
+</footer>
+
+<script>
+window.addEventListener('scroll',()=>document.getElementById('nav').classList.toggle('scrolled',scrollY>50));
+const obs=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('in');obs.unobserve(e.target);}}),{threshold:.08});
+document.querySelectorAll('.rv').forEach(el=>obs.observe(el));
+(function(){let n=0;try{n=JSON.parse(localStorage.getItem('noonCart')||'[]').reduce((s,i)=>s+i.qty,0);}catch(e){}document.querySelectorAll('.cart-count').forEach(e=>e.textContent=n);})();
+</script>
+<script>function toggleMenu(o){var m=document.getElementById("mobileMenu");if(m){m.classList.toggle("open",o);document.body.style.overflow=o?"hidden":"";}}</script>
+</body>
+</html>
