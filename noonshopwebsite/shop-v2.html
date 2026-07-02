@@ -57,6 +57,9 @@ nav { position:fixed; top:0; left:0; right:0; z-index:200; display:flex; justify
 .filter-opt .sw { width:15px; height:15px; border-radius:50%; flex-shrink:0; border:1px solid rgba(28,28,28,.18); transition:box-shadow .2s; }
 .filter-opt.active .sw { box-shadow:0 0 0 2px var(--white), 0 0 0 3.5px var(--navy); }
 .filter-reset { font-size:11px; letter-spacing:.14em; text-transform:uppercase; color:var(--navy); cursor:pointer; margin-top:4px; }
+.filter-toggle { display:none; align-items:center; justify-content:space-between; width:100%; font-size:12px; letter-spacing:.14em; text-transform:uppercase; color:var(--ink); background:var(--white); border:1px solid var(--line); border-radius:40px; padding:14px 22px; cursor:pointer; font-family:var(--B); margin-bottom:18px; }
+.filter-toggle .chev { transition:transform .25s; font-size:14px; color:var(--navy); }
+.filters.open .filter-toggle .chev { transform:rotate(180deg); }
 
 /* GRID */
 .grid-head { display:flex; justify-content:space-between; align-items:center; margin-bottom:20px; }
@@ -100,7 +103,10 @@ footer { background:var(--ink); color:#fff; padding:64px 60px 44px; }
   .shop-head { padding:96px 24px 32px; }
   .coll-tabs { padding:0 24px; }
   .shop-body { grid-template-columns:1fr; gap:24px; padding:0 24px 72px; }
-  .filters { position:static; display:grid; grid-template-columns:1fr 1fr; gap:0 28px; }
+  .filters { position:static; display:block; margin-bottom:8px; }
+  .filter-toggle { display:flex; }
+  .filters .filter-group { display:none; }
+  .filters.open .filter-group { display:block; }
   .grid { grid-template-columns:1fr; }
   footer { padding:48px 24px 36px; }
   .footer-top, .footer-bottom { flex-direction:column; gap:12px; }
@@ -160,6 +166,7 @@ footer { background:var(--ink); color:#fff; padding:64px 60px 44px; }
 
 <div class="shop-body">
   <aside class="filters" id="filters">
+    <button class="filter-toggle" id="filterToggle" onclick="document.getElementById('filters').classList.toggle('open')"><span>Filter Frames</span><span class="chev">▾</span></button>
     <div class="filter-group" data-filter="bridge">
       <div class="filter-title">Bridge Fit</div>
       <div class="filter-opt" data-val="low"><span class="box"></span>Low Bridge</div>
