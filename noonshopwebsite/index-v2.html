@@ -268,7 +268,7 @@ footer { background: var(--ink); color: #fff; padding: 72px 60px 48px; }
   .wprop:last-child { border-bottom: none; }
   .feat { padding: 72px 24px; }
   .feat-head { flex-direction: column; align-items: flex-start; }
-  .feat-grid { grid-template-columns: 1fr 1fr; gap: 16px; }
+  .feat-grid { grid-template-columns: 1fr; gap: 18px; }
   .sec { padding: 72px 24px; }
   .coll, .rev-grid { grid-template-columns: 1fr; }
   .fitmap { grid-template-columns: 1fr; gap: 32px; }
@@ -305,11 +305,10 @@ footer { background: var(--ink); color: #fff; padding: 72px 60px 48px; }
 <div class="mobile-menu" id="mobileMenu">
   <button class="mm-close" onclick="toggleMenu(false)">Close ✕</button>
   <div class="mm-sub">Noon Shop</div>
-  <a href="shop-v2.html">Shop All</a>
-  <a href="shop-v2.html?collection=dormann">Dormann</a>
-  <a href="shop-v2.html?collection=steel-brown">Steel Brown</a>
-  <a href="shop-v2.html?collection=denova">DeNova</a>
-  <a href="fit-guide-v2.html">Fit Guide</a>
+  <a href="shop-v2.html">Collections</a>
+  <a href="shop-v2.html?view=bestsellers">Bestsellers</a>
+  <a href="shop-v2.html?view=light">Featherweight</a>
+  <a href="fit-guide-v2.html">Find Your Fit</a>
   <a href="story-v2.html">Our Story</a>
   <a href="cart-v2.html">Cart</a>
 </div>
@@ -319,13 +318,12 @@ footer { background: var(--ink); color: #fff; padding: 72px 60px 48px; }
 <nav id="nav">
   <a href="index-v2.html" class="nav-logo">NOON SHOP</a>
   <div class="nav-links">
-    <a href="shop-v2.html" class="nav-link">Shop</a>
-    <a href="shop-v2.html?collection=dormann" class="nav-link">Dormann</a>
-    <a href="shop-v2.html?collection=steel-brown" class="nav-link">Steel Brown</a>
-    <a href="shop-v2.html?collection=denova" class="nav-link">DeNova</a>
-    <a href="fit-guide-v2.html" class="nav-link">Fit Guide</a>
-    <a href="story-v2.html" class="nav-link">Our Story</a>
-  </div>
+      <a href="shop-v2.html" class="nav-link">Collections</a>
+      <a href="shop-v2.html?view=bestsellers" class="nav-link">Bestsellers</a>
+      <a href="shop-v2.html?view=light" class="nav-link">Featherweight</a>
+      <a href="fit-guide-v2.html" class="nav-link">Find Your Fit</a>
+      <a href="story-v2.html" class="nav-link">Our Story</a>
+    </div>
   <div class="nav-right">
     <a href="cart-v2.html" class="nav-cart"><span>Cart</span><span class="cart-count">0</span></a>
   </div>

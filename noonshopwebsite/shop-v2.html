@@ -101,7 +101,7 @@ footer { background:var(--ink); color:#fff; padding:64px 60px 44px; }
   .coll-tabs { padding:0 24px; }
   .shop-body { grid-template-columns:1fr; gap:24px; padding:0 24px 72px; }
   .filters { position:static; display:grid; grid-template-columns:1fr 1fr; gap:0 28px; }
-  .grid { grid-template-columns:1fr 1fr; }
+  .grid { grid-template-columns:1fr; }
   footer { padding:48px 24px 36px; }
   .footer-top, .footer-bottom { flex-direction:column; gap:12px; }
 }
@@ -123,11 +123,10 @@ footer { background:var(--ink); color:#fff; padding:64px 60px 44px; }
 <div class="mobile-menu" id="mobileMenu">
   <button class="mm-close" onclick="toggleMenu(false)">Close ✕</button>
   <div class="mm-sub">Noon Shop</div>
-  <a href="shop-v2.html">Shop All</a>
-  <a href="shop-v2.html?collection=dormann">Dormann</a>
-  <a href="shop-v2.html?collection=steel-brown">Steel Brown</a>
-  <a href="shop-v2.html?collection=denova">DeNova</a>
-  <a href="fit-guide-v2.html">Fit Guide</a>
+  <a href="shop-v2.html">Collections</a>
+  <a href="shop-v2.html?view=bestsellers">Bestsellers</a>
+  <a href="shop-v2.html?view=light">Featherweight</a>
+  <a href="fit-guide-v2.html">Find Your Fit</a>
   <a href="story-v2.html">Our Story</a>
   <a href="cart-v2.html">Cart</a>
 </div>
@@ -136,13 +135,12 @@ footer { background:var(--ink); color:#fff; padding:64px 60px 44px; }
 <nav>
   <a href="index-v2.html" class="nav-logo">NOON SHOP</a>
   <div class="nav-links">
-    <a href="shop-v2.html" class="nav-link active">Shop</a>
-    <a href="shop-v2.html?collection=dormann" class="nav-link">Dormann</a>
-    <a href="shop-v2.html?collection=steel-brown" class="nav-link">Steel Brown</a>
-    <a href="shop-v2.html?collection=denova" class="nav-link">DeNova</a>
-    <a href="fit-guide-v2.html" class="nav-link">Fit Guide</a>
-    <a href="story-v2.html" class="nav-link">Our Story</a>
-  </div>
+      <a href="shop-v2.html" class="nav-link active">Collections</a>
+      <a href="shop-v2.html?view=bestsellers" class="nav-link">Bestsellers</a>
+      <a href="shop-v2.html?view=light" class="nav-link">Featherweight</a>
+      <a href="fit-guide-v2.html" class="nav-link">Find Your Fit</a>
+      <a href="story-v2.html" class="nav-link">Our Story</a>
+    </div>
   <a href="cart-v2.html" class="nav-cart"><span>Cart</span><span class="cart-count">0</span></a>
   <button class="nav-burger" onclick="toggleMenu(true)" aria-label="Open menu"><span></span><span></span><span></span></button>
 </nav>
@@ -267,8 +265,14 @@ const COLL_META = {
   'steel-brown':{ title:'STEEL <em>brown</em>', sub:'Asia. Medical-grade German stainless steel, engineered with Wolfgang Proksch. Thin, refined, and weightless. Named for the precision cities of the East.' },
   'denova':     { title:'DE<em>nova</em>', sub:'The Americas. Lightweight everyday essentials with dependable fit — the frames you reach for every single day. Named for cities across the New World.' },
 };
+const VIEW_META = {
+  'bestsellers':{ title:'BEST <em>sellers</em>', sub:'The frames our customers reach for most — the ones that fit a little of everyone.' },
+  'light':      { title:'FEATHER<em>weight</em>', sub:'Our lightest frames, sorted by weight. Eight to twelve grams of titanium and stainless steel — light enough to forget you have them on.' },
+};
+const BEST = ['Milano','Tokyo','Seoul','Manhattan','Vienna','Kyoto'];
 
 let activeColl = 'all';
+let activeView = null;
 const FILTER_KEYS = ['bridge','cheekbone','width','shape','material','color'];
 const filters = { bridge:null, cheekbone:null, width:null, shape:null, material:null, color:null, price:null };
 function priceBucket(n){ return n < 275 ? 'under275' : n <= 325 ? 'mid' : 'over325'; }
@@ -276,6 +280,7 @@ function priceBucket(n){ return n < 275 ? 'under275' : n <= 325 ? 'mid' : 'over3
 function applyFitProfile() {
   const params = new URLSearchParams(location.search);
   if (params.get('collection')) activeColl = params.get('collection');
+  if (params.get('view') && VIEW_META[params.get('view')]) activeView = params.get('view');
   ['bridge','cheekbone','width'].forEach(k => { if (params.get(k)) filters[k] = params.get(k); });
   try {
     const saved = JSON.parse(sessionStorage.getItem('fitProfile') || '{}');
@@ -284,18 +289,20 @@ function applyFitProfile() {
 }
 
 function render() {
-  const meta = COLL_META[activeColl] || COLL_META.all;
+  const meta = (activeView && VIEW_META[activeView]) || COLL_META[activeColl] || COLL_META.all;
   document.getElementById('shopTitle').innerHTML = meta.title;
   document.getElementById('shopSub').textContent = meta.sub;
-  document.querySelectorAll('.coll-tab').forEach(t => t.classList.toggle('active', t.dataset.coll === activeColl));
+  document.querySelectorAll('.coll-tab').forEach(t => t.classList.toggle('active', !activeView && t.dataset.coll === activeColl));
   document.querySelectorAll('.filter-opt').forEach(o => {
     const grp = o.closest('[data-filter]').dataset.filter;
     o.classList.toggle('active', filters[grp] === o.dataset.val);
   });
 
-  let items = PRODUCTS.filter(p => activeColl === 'all' || p.coll === activeColl);
+  let items = PRODUCTS.filter(p => activeView ? true : (activeColl === 'all' || p.coll === activeColl));
+  if (activeView === 'bestsellers') items = items.filter(p => BEST.includes(p.name));
   FILTER_KEYS.forEach(k => { if (filters[k]) items = items.filter(p => p[k] === filters[k]); });
   if (filters.price) items = items.filter(p => priceBucket(p.price) === filters.price);
+  if (activeView === 'light') items = items.slice().sort((a,b) => parseInt(a.weight) - parseInt(b.weight));
 
   const grid = document.getElementById('grid');
   document.getElementById('gridCount').textContent = items.length + (items.length === 1 ? ' frame' : ' frames');
@@ -323,7 +330,7 @@ function render() {
 }
 
 /* events */
-document.querySelectorAll('.coll-tab').forEach(t => t.addEventListener('click', () => { activeColl = t.dataset.coll; render(); }));
+document.querySelectorAll('.coll-tab').forEach(t => t.addEventListener('click', () => { activeColl = t.dataset.coll; activeView = null; render(); }));
 document.querySelectorAll('.filter-opt').forEach(o => o.addEventListener('click', () => {
   const grp = o.closest('[data-filter]').dataset.filter;
   filters[grp] = (filters[grp] === o.dataset.val) ? null : o.dataset.val;
