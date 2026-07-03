@@ -125,27 +125,34 @@ footer{background:var(--ink);color:#fff;padding:56px 60px 40px;display:flex;just
 .mm-close{position:absolute;top:22px;right:24px;font-size:12px;letter-spacing:.18em;text-transform:uppercase;color:#9FB0D0;background:none;border:none;cursor:pointer;}
 @media(min-width:961px){.mobile-menu{display:none !important;}}
 @media(max-width:960px){.nav-burger{display:flex;}}
+
+/* ANNOUNCEMENT BAR */
+body{padding-top:38px;}
+nav{top:38px;}
+.annbar{position:fixed;top:0;left:0;right:0;height:38px;z-index:250;background:var(--navy);color:#fff;display:flex;align-items:center;justify-content:center;text-align:center;padding:0 16px;font-size:11px;letter-spacing:.08em;}
+.annbar b{font-weight:600;}
+.annbar .code{color:#9FB0D0;font-weight:600;letter-spacing:.12em;}
+@media(max-width:960px){ .annbar{font-size:10px;letter-spacing:.04em;} }
 </style>
 </head>
 <body>
 <div class="mobile-menu" id="mobileMenu">
   <button class="mm-close" onclick="toggleMenu(false)">Close ✕</button>
   <div class="mm-sub">Noon Shop</div>
-  <a href="shop-v2.html">Collections</a>
+  <a href="shop-v2.html">Shop</a>
   <a href="shop-v2.html?view=bestsellers">Bestsellers</a>
-  <a href="shop-v2.html?view=light">Featherweight</a>
   <a href="fit-guide-v2.html">Find Your Fit</a>
   <a href="story-v2.html">Our Story</a>
   <a href="cart-v2.html">Cart</a>
 </div>
 
 
+<div class="annbar"><span>Free shipping on every order&nbsp;·&nbsp;<b>10% off your first pair</b> with code <span class="code">NOON10</span></span></div>
 <nav id="nav">
   <a href="index-v2.html" class="nav-logo">NOON SHOP</a>
   <div class="nav-links">
-      <a href="shop-v2.html" class="nav-link">Collections</a>
+      <a href="shop-v2.html" class="nav-link">Shop</a>
       <a href="shop-v2.html?view=bestsellers" class="nav-link">Bestsellers</a>
-      <a href="shop-v2.html?view=light" class="nav-link">Featherweight</a>
       <a href="fit-guide-v2.html" class="nav-link">Find Your Fit</a>
       <a href="story-v2.html" class="nav-link active">Our Story</a>
     </div>
