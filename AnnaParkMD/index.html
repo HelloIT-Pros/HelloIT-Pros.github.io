@@ -3,30 +3,28 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Anna Park, MD — Board-Certified Ophthalmologist &amp; Founder, Noon Shop Eyewear</title>
-<meta name="description" content="Anna Park, MD is a board-certified ophthalmologist and the founder of Noon Shop Eyewear, featured in Entrepreneur Asia Pacific for redefining eyewear fit.">
+<title>Dr. Anna Park, MD — Board-Certified Ophthalmologist, Silver Spring Eye</title>
+<meta name="description" content="Dr. Anna Park, MD is a board-certified ophthalmologist at Silver Spring Eye, featured in Entrepreneur Asia Pacific and founder of Noon Shop Eyewear.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Outfit:wght@300;400;500;600&family=Playfair+Display:ital,wght@0,400;0,600;1,400;1,600&display=swap" rel="stylesheet">
 <style>
   :root{
-    --cream:#FBF7F1;
-    --paper:#FFFFFF;
-    --stone:#F1EBDF;
-    --ink:#201E1A;
-    --ink-soft:#5A574F;
-    --navy:#202A44;
-    --navy-deep:#141a2c;
-    --sage:#7E9779;
-    --line:#E5DCCB;
-    --black:#141310;
+    --white:#FFFFFF;
+    --offwhite:#F6F7F9;
+    --ink:#1C1D21;
+    --ink-soft:#585A62;
+    --blue:#1D4ED8;
+    --blue-deep:#13245A;
+    --line:#E3E5EA;
+    --black:#111114;
   }
   *{margin:0;padding:0;box-sizing:border-box;}
   html{scroll-behavior:smooth;}
   body{
     font-family:'Outfit',sans-serif;
     color:var(--ink);
-    background:var(--cream);
+    background:var(--white);
     line-height:1.6;
     font-weight:300;
   }
@@ -37,11 +35,11 @@
     font-family:'Bebas Neue',sans-serif;
     letter-spacing:0.22em;
     font-size:14px;
-    color:var(--sage);
+    color:var(--blue);
     margin-bottom:14px;
     display:block;
   }
-  .eyebrow.on-dark{color:#C9CFDD;}
+  .eyebrow.on-dark{color:#AFC0F0;}
   h1,h2,h3{font-family:'Playfair Display',Georgia,serif;font-weight:600;line-height:1.15;}
   .btn{
     display:inline-block;
@@ -53,58 +51,69 @@
     transition:all .2s ease;
     border:1px solid transparent;
   }
-  .btn-solid{background:var(--navy);color:#fff;}
-  .btn-solid:hover{background:var(--navy-deep);}
-  .btn-outline{border-color:var(--navy);color:var(--navy);}
-  .btn-outline:hover{background:var(--navy);color:#fff;}
+  .btn-solid{background:var(--blue);color:#fff;}
+  .btn-solid:hover{background:var(--blue-deep);}
+  .btn-outline{border-color:var(--blue);color:var(--blue);}
+  .btn-outline:hover{background:var(--blue);color:#fff;}
   .btn-outline.on-dark{border-color:#fff;color:#fff;}
   .btn-outline.on-dark:hover{background:#fff;color:var(--black);}
 
   /* NAV */
   header.site{
     position:sticky;top:0;z-index:50;
-    background:rgba(251,247,241,0.92);
+    background:rgba(255,255,255,0.95);
     backdrop-filter:blur(8px);
     border-bottom:1px solid var(--line);
   }
   nav.wrap{
     display:flex;align-items:center;justify-content:space-between;
-    padding:20px 32px;
+    padding:20px 32px;position:relative;
   }
   .brandmark{font-family:'Playfair Display',serif;font-weight:600;font-size:20px;letter-spacing:0.01em;}
-  .brandmark span{color:var(--sage);}
-  .navlinks{display:flex;gap:34px;font-size:14px;align-items:center;}
-  .navlinks a{color:var(--ink-soft);}
-  .navlinks a:hover{color:var(--navy);}
-  .navlinks .btn{padding:11px 22px;font-size:13px;}
-  .nav-toggle{display:none;}
+  .brandmark span{color:var(--blue);}
+  .nav-right{display:flex;align-items:center;gap:16px;}
+  .nav-right .btn{padding:11px 22px;font-size:13px;}
+
+  .hamburger{
+    width:40px;height:40px;border-radius:2px;border:1px solid var(--line);
+    background:var(--white);display:flex;flex-direction:column;
+    align-items:center;justify-content:center;gap:5px;cursor:pointer;
+  }
+  .hamburger span{width:18px;height:2px;background:var(--ink);display:block;transition:all .2s ease;}
+  .hamburger.open span:nth-child(1){transform:translateY(7px) rotate(45deg);}
+  .hamburger.open span:nth-child(2){opacity:0;}
+  .hamburger.open span:nth-child(3){transform:translateY(-7px) rotate(-45deg);}
+
+  .nav-panel{
+    position:absolute;top:100%;right:32px;
+    background:var(--white);border:1px solid var(--line);border-radius:4px;
+    box-shadow:0 20px 45px -15px rgba(20,20,25,0.2);
+    padding:14px 0;min-width:220px;
+    display:none;flex-direction:column;
+  }
+  .nav-panel.open{display:flex;}
+  .nav-panel a{
+    padding:13px 24px;font-size:15px;color:var(--ink-soft);
+  }
+  .nav-panel a:hover{color:var(--blue);background:var(--offwhite);}
 
   /* HERO */
-  .hero{padding:88px 0 80px;}
-  .hero .wrap{display:grid;grid-template-columns:1.05fr 0.85fr;gap:64px;align-items:center;}
-  .hero h1{font-size:52px;margin-bottom:6px;}
-  .hero .role{
-    font-family:'Outfit',sans-serif;font-weight:500;font-size:18px;
-    color:var(--navy);margin-bottom:26px;
+  .hero{display:grid;grid-template-columns:1fr 1fr;min-height:82vh;}
+  .hero-photo{overflow:hidden;background:var(--offwhite);}
+  .hero-photo img{width:100%;height:100%;object-fit:cover;object-position:top center;}
+  .hero-copy{
+    padding:88px 72px;display:flex;flex-direction:column;justify-content:center;
   }
-  .hero p.lead{font-size:18px;color:var(--ink-soft);max-width:520px;margin-bottom:34px;}
-  .hero .ctas{display:flex;gap:16px;flex-wrap:wrap;margin-bottom:22px;}
-  .hero .press-note{font-size:14px;color:var(--ink-soft);}
-  .hero .press-note a{color:var(--navy);border-bottom:1px solid var(--navy);}
-  .hero-photo{position:relative;}
-  .hero-photo .frame{
-    border-radius:4px;overflow:hidden;
-    box-shadow:0 30px 60px -20px rgba(20,19,16,0.25);
-    aspect-ratio:4/5;
+  .hero-copy .eyebrow{margin-bottom:18px;}
+  .hero-copy h1{font-size:46px;margin-bottom:10px;}
+  .hero-copy .role{
+    font-family:'Outfit',sans-serif;font-weight:500;font-size:19px;
+    color:var(--blue);margin-bottom:26px;
   }
-  .hero-photo .frame img{width:100%;height:100%;object-fit:cover;object-position:top center;}
-  .hero-photo .tag{
-    position:absolute;bottom:-18px;left:-18px;
-    background:var(--paper);border:1px solid var(--line);
-    padding:14px 20px;border-radius:3px;
-    font-size:13px;box-shadow:0 12px 30px -10px rgba(20,19,16,0.2);
-  }
-  .hero-photo .tag strong{display:block;font-family:'Bebas Neue',sans-serif;letter-spacing:0.05em;color:var(--sage);font-size:12px;margin-bottom:2px;}
+  .hero-copy p.lead{font-size:18px;color:var(--ink-soft);max-width:480px;margin-bottom:34px;}
+  .hero-copy .ctas{display:flex;gap:16px;flex-wrap:wrap;margin-bottom:22px;}
+  .hero-copy .press-note{font-size:14px;color:var(--ink-soft);}
+  .hero-copy .press-note a{color:var(--blue);border-bottom:1px solid var(--blue);}
 
   /* PRESS */
   .press{background:var(--black);color:#fff;padding:90px 0;}
@@ -124,7 +133,7 @@
   .press-body .byline{font-size:13px;color:#8B90A0;margin-bottom:28px;}
   .press-body blockquote{
     font-family:'Playfair Display',serif;font-style:italic;font-size:23px;
-    line-height:1.45;color:#fff;border-left:2px solid var(--sage);
+    line-height:1.45;color:#fff;border-left:2px solid var(--blue);
     padding-left:22px;margin-bottom:20px;
   }
   .press-body .quote2{
@@ -134,66 +143,49 @@
 
   /* SECTION generic */
   section.block{padding:96px 0;}
-  section.block.alt{background:var(--stone);}
+  section.block.alt{background:var(--offwhite);}
   .section-head{max-width:640px;margin-bottom:52px;}
   .section-head h2{font-size:36px;}
 
-  /* ABOUT */
-  .about-grid{display:grid;grid-template-columns:0.8fr 1.2fr;gap:64px;align-items:start;}
-  .about-photo .frame{border-radius:4px;overflow:hidden;aspect-ratio:3/4;}
-  .about-photo .frame img{width:100%;height:100%;object-fit:cover;object-position:top center;}
-  .about-text p{color:var(--ink-soft);font-size:17px;margin-bottom:20px;max-width:560px;}
+  /* ABOUT (text only) */
+  .about-text{max-width:700px;}
+  .about-text p{color:var(--ink-soft);font-size:17px;margin-bottom:20px;}
   .about-text blockquote{
     font-family:'Playfair Display',serif;font-style:italic;font-size:22px;
-    color:var(--ink);border-left:3px solid var(--sage);padding-left:24px;
-    margin:32px 0;max-width:560px;
+    color:var(--ink);border-left:3px solid var(--blue);padding-left:24px;
+    margin:32px 0;
   }
   .about-text blockquote cite{
     display:block;font-family:'Outfit',sans-serif;font-style:normal;font-size:13px;
     color:var(--ink-soft);margin-top:12px;letter-spacing:0.02em;
   }
   .stat-row{display:flex;gap:44px;margin-top:40px;flex-wrap:wrap;}
-  .stat{border-top:2px solid var(--navy);padding-top:10px;min-width:140px;}
-  .stat .num{font-family:'Bebas Neue',sans-serif;font-size:30px;color:var(--navy);letter-spacing:0.02em;}
+  .stat{border-top:2px solid var(--blue);padding-top:10px;min-width:140px;}
+  .stat .num{font-family:'Bebas Neue',sans-serif;font-size:30px;color:var(--blue);letter-spacing:0.02em;}
   .stat .label{font-size:13px;color:var(--ink-soft);}
 
-  /* NOON SHOP BRIDGE */
-  .bridge-head{text-align:center;max-width:720px;margin:0 auto 48px;}
-  .bridge-head h2{font-size:38px;}
-  .bridge-body{max-width:700px;margin:0 auto;color:var(--ink-soft);font-size:17px;}
-  .bridge-body p{margin-bottom:20px;}
-  .bridge-quote{
-    max-width:760px;margin:48px auto;text-align:center;
-    font-family:'Playfair Display',serif;font-style:italic;font-size:28px;
-    line-height:1.5;color:var(--ink);
+  /* PRACTICE (single card) */
+  .practice-card{
+    background:var(--white);border:1px solid var(--line);border-radius:4px;
+    padding:44px;max-width:640px;
   }
-  .bridge-quote cite{
-    display:block;font-family:'Outfit',sans-serif;font-style:normal;font-size:14px;
-    color:var(--navy);margin-top:18px;font-weight:500;
-  }
-  .bridge-stats{
-    display:flex;justify-content:center;gap:0;margin:56px auto 44px;
-    max-width:680px;border-top:1px solid var(--line);border-bottom:1px solid var(--line);
-  }
-  .bridge-stats .stat{
-    flex:1;text-align:center;padding:26px 10px;border-top:none;
-    border-right:1px solid var(--line);
-  }
-  .bridge-stats .stat:last-child{border-right:none;}
-  .bridge-ctas{display:flex;gap:16px;justify-content:center;flex-wrap:wrap;}
+  .practice-card .kicker{font-family:'Bebas Neue',sans-serif;letter-spacing:0.18em;font-size:13px;color:var(--blue);margin-bottom:14px;}
+  .practice-card h3{font-size:26px;margin-bottom:14px;}
+  .practice-card p{color:var(--ink-soft);font-size:15px;margin-bottom:24px;}
 
-  /* PRACTICE / CONTACT */
-  .cards{display:grid;grid-template-columns:1fr 1fr;gap:28px;}
-  .card{
-    background:var(--paper);border:1px solid var(--line);border-radius:4px;
-    padding:40px;
+  /* NOON SHOP (compact, secondary) */
+  .noonshop-card{
+    border:1px solid var(--line);border-radius:4px;padding:40px 44px;max-width:760px;
   }
-  .card .kicker{font-family:'Bebas Neue',sans-serif;letter-spacing:0.18em;font-size:13px;color:var(--sage);margin-bottom:14px;}
-  .card h3{font-size:26px;margin-bottom:14px;}
-  .card p{color:var(--ink-soft);font-size:15px;margin-bottom:24px;}
+  .noonshop-card .kicker{font-family:'Bebas Neue',sans-serif;letter-spacing:0.18em;font-size:13px;color:var(--blue);margin-bottom:12px;}
+  .noonshop-card h3{font-size:24px;margin-bottom:14px;}
+  .noonshop-card p{color:var(--ink-soft);font-size:15px;margin-bottom:16px;}
+  .noonshop-card .micro-quote{font-family:'Playfair Display',serif;font-style:italic;font-size:16px;color:var(--ink);margin-bottom:20px;}
+  .noonshop-card .micro-stat{font-size:13px;color:var(--ink-soft);margin-bottom:22px;}
+  .noonshop-card .micro-stat strong{color:var(--blue);font-family:'Bebas Neue',sans-serif;letter-spacing:0.02em;font-size:15px;}
 
   /* FOOTER */
-  footer{background:var(--navy);color:#fff;padding:56px 0 36px;}
+  footer{background:var(--blue-deep);color:#fff;padding:56px 0 36px;}
   footer .wrap{display:flex;justify-content:space-between;align-items:flex-start;flex-wrap:wrap;gap:24px;}
   footer .fbrand{font-family:'Playfair Display',serif;font-size:22px;margin-bottom:6px;}
   footer .froles{font-size:13px;color:#B9C0D4;}
@@ -206,17 +198,12 @@
   }
 
   @media(max-width:860px){
-    .navlinks{display:none;}
-    .hero .wrap{grid-template-columns:1fr;}
-    .hero-photo{order:-1;max-width:340px;margin:0 auto 20px;}
+    .hero{grid-template-columns:1fr;min-height:auto;}
+    .hero-photo{aspect-ratio:4/3;}
+    .hero-copy{padding:56px 28px;}
     .press .wrap{grid-template-columns:1fr;gap:40px;}
-    .about-grid{grid-template-columns:1fr;}
-    .about-photo{max-width:280px;}
-    .cards{grid-template-columns:1fr;}
-    .hero h1{font-size:40px;}
-    .bridge-stats{flex-direction:column;}
-    .bridge-stats .stat{border-right:none;border-bottom:1px solid var(--line);}
-    .bridge-stats .stat:last-child{border-bottom:none;}
+    .hero-copy h1{font-size:36px;}
+    .practice-card,.noonshop-card{padding:32px 26px;}
   }
 </style>
 </head>
@@ -225,34 +212,82 @@
 <header class="site">
   <nav class="wrap">
     <a href="#" class="brandmark">Anna Park<span>, MD</span></a>
-    <div class="navlinks">
-      <a href="#about">About</a>
-      <a href="#noonshop">Noon Shop</a>
-      <a href="#press">Press</a>
-      <a href="#practice">My Practice</a>
+    <div class="nav-right">
       <a href="https://www.silverspringeye.com/book-an-appointment/fenton-street/" class="btn btn-solid">Book an Appointment</a>
+      <button class="hamburger" id="navToggle" aria-label="Menu" aria-expanded="false">
+        <span></span><span></span><span></span>
+      </button>
+      <div class="nav-panel" id="navPanel">
+        <a href="#about">About</a>
+        <a href="#practice">My Practice</a>
+        <a href="#noonshop">Noon Shop</a>
+        <a href="#press">Press</a>
+      </div>
     </div>
   </nav>
 </header>
 
 <section class="hero">
-  <div class="wrap">
-    <div class="hero-copy">
-      <span class="eyebrow">Board-Certified Ophthalmologist</span>
-      <h1>Anna Park, MD</h1>
-      <div class="role">Founder, Noon Shop Eyewear</div>
-      <p class="lead">Twenty years spent perfecting how her patients see. One recurring problem she couldn't prescribe her way out of — and a company built to finally fix it.</p>
-      <div class="ctas">
-        <a href="https://www.silverspringeye.com/book-an-appointment/fenton-street/" class="btn btn-solid">Book an Appointment</a>
-        <a href="https://www.noonshop.com/" class="btn btn-outline">Explore Noon Shop Eyewear</a>
-      </div>
-      <div class="press-note">As featured in <a href="#press">Entrepreneur Asia Pacific →</a></div>
+  <div class="hero-photo">
+    <img src="assets/anna-park-headshot.png" alt="Dr. Anna Park, MD">
+  </div>
+  <div class="hero-copy">
+    <span class="eyebrow">Silver Spring Eye</span>
+    <h1>Dr. Anna Park, MD</h1>
+    <div class="role">Board-Certified Ophthalmologist</div>
+    <p class="lead">Providing personal, comprehensive eye care in Silver Spring, Maryland, with the same attention to detail built over more than twenty years of practice.</p>
+    <div class="ctas">
+      <a href="https://www.silverspringeye.com/book-an-appointment/fenton-street/" class="btn btn-solid">Book an Appointment</a>
+      <a href="#about" class="btn btn-outline">About Dr. Park</a>
     </div>
-    <div class="hero-photo">
-      <div class="frame">
-        <img src="assets/anna-park-headshot.png" alt="Dr. Anna Park, MD">
+    <div class="press-note">As featured in <a href="#press">Entrepreneur Asia Pacific →</a></div>
+  </div>
+</section>
+
+<section class="block" id="about">
+  <div class="wrap">
+    <span class="eyebrow">About Dr. Park</span>
+    <h2 style="font-size:34px;margin-bottom:22px;">Twenty years behind the exam chair.</h2>
+    <div class="about-text">
+      <p>For more than two decades, Dr. Park has practiced ophthalmology — including 17 years caring for patients in Washington, DC. She recently relocated her practice to Silver Spring Eye to be closer to family, carrying a lighter, post-pandemic schedule and the same commitment to patient trust she built over nearly two decades in DC.</p>
+      <blockquote>
+        "Like some of you, I've struggled to find glasses that felt truly comfortable, especially with a higher prescription."
+        <cite>— Dr. Park, in a letter to her patients</cite>
+      </blockquote>
+      <p>Outside the exam room, Dr. Park is also the founder of <a href="#noonshop" style="color:var(--blue);border-bottom:1px solid var(--blue);">Noon Shop Eyewear</a>, a lightweight eyewear brand born from patterns she noticed in her own patients.</p>
+      <div class="stat-row">
+        <div class="stat"><div class="num">20+</div><div class="label">Years in Ophthalmology</div></div>
+        <div class="stat"><div class="num">Board-Certified</div><div class="label">Ophthalmologist</div></div>
+        <div class="stat"><div class="num">DC → MD</div><div class="label">17 Yrs Washington, DC · Now Silver Spring Eye</div></div>
       </div>
-      <div class="tag"><strong>Silver Spring Eye</strong>General &amp; Medical Ophthalmology</div>
+    </div>
+  </div>
+</section>
+
+<section class="block alt" id="practice">
+  <div class="wrap">
+    <span class="eyebrow">My Practice</span>
+    <h2 style="font-size:34px;margin-bottom:32px;">Care first. Comfort always.</h2>
+    <div class="practice-card">
+      <div class="kicker">Medical Eye Care</div>
+      <h3>Silver Spring Eye</h3>
+      <p>General ophthalmology and medical eye care with Dr. Park at the Fenton Street office — the same personal attention she built over 17 years in Washington, DC.</p>
+      <a href="https://www.silverspringeye.com/book-an-appointment/fenton-street/" class="btn btn-solid">Book an Appointment</a>
+    </div>
+  </div>
+</section>
+
+<section class="block" id="noonshop">
+  <div class="wrap">
+    <span class="eyebrow">Also From Dr. Park</span>
+    <h2 style="font-size:30px;margin-bottom:32px;">Noon Shop Eyewear</h2>
+    <div class="noonshop-card">
+      <div class="kicker">Eyewear, Engineered to Fit</div>
+      <h3>A Frame That Finally Fits</h3>
+      <p>In 2023, Dr. Park founded Noon Shop Eyewear after noticing the same problem again and again in her own exam room: patients with a perfect prescription undone by a frame that didn't fit. Noon Shop makes lightweight, Korean-designed frames engineered for a broader range of faces — low bridges, high cheekbones, and everything in between.</p>
+      <div class="micro-quote">"The frame is as important as the prescription."</div>
+      <div class="micro-stat"><strong>80,000+</strong> frames worn worldwide</div>
+      <a href="https://www.noonshop.com/" class="btn btn-outline">Visit Noon Shop Eyewear →</a>
     </div>
   </div>
 </section>
@@ -276,86 +311,11 @@
   </div>
 </section>
 
-<section class="block" id="about">
-  <div class="wrap about-grid">
-    <div class="about-photo">
-      <div class="frame">
-        <img src="assets/anna-park-headshot.png" alt="Dr. Anna Park, MD">
-      </div>
-    </div>
-    <div class="about-text">
-      <span class="eyebrow">About Dr. Park</span>
-      <h2 style="font-size:34px;margin-bottom:22px;">Twenty years behind the exam chair.</h2>
-      <p>For more than two decades, Anna Park, MD has practiced ophthalmology — including 17 years caring for patients in Washington, DC. She recently relocated her practice to Silver Spring Eye to be closer to family, carrying a lighter, post-pandemic schedule and the same commitment to patient trust she built over nearly two decades in DC.</p>
-      <p>Along the way, she ran into the same problem in her own life that her patients had been describing for years.</p>
-      <blockquote>
-        "Like some of you, I've struggled to find glasses that felt truly comfortable, especially with a higher prescription."
-        <cite>— Dr. Park, in a letter to her patients</cite>
-      </blockquote>
-      <p>That struggle — and years of watching patients leave with a perfect prescription undone by a frame that didn't fit — led her, in 2023, to found Noon Shop Eyewear.</p>
-      <div class="stat-row">
-        <div class="stat"><div class="num">20+</div><div class="label">Years in Ophthalmology</div></div>
-        <div class="stat"><div class="num">DC → MD</div><div class="label">17 Yrs Washington, DC · Now Silver Spring Eye</div></div>
-        <div class="stat"><div class="num">2023</div><div class="label">Founded Noon Shop Eyewear</div></div>
-      </div>
-    </div>
-  </div>
-</section>
-
-<section class="block alt" id="noonshop">
-  <div class="wrap">
-    <div class="bridge-head">
-      <span class="eyebrow">From the Exam Room to Noon Shop</span>
-      <h2>Founded on fit.</h2>
-    </div>
-    <div class="bridge-body">
-      <p>Across two decades of practice, Dr. Park customized lenses down to the fraction of a diopter — yet patient after patient came back with the same complaint, not about their vision, but about their frames.</p>
-      <p>The lenses were perfect. The frames, designed around a narrow, average face, were not: they slid down low bridges, pressed on high cheekbones, and pinched wider faces — quietly undoing the precision of the prescription underneath.</p>
-    </div>
-    <div class="bridge-quote">
-      "I watched patient after patient leave with a perfect prescription, and a frame that negated half of it by sliding off their nose. So I set out to bring people eyewear that finally fits."
-      <cite>Anna Park, MD · Founder, Noon Shop</cite>
-    </div>
-    <div class="bridge-stats">
-      <div class="stat"><div class="num">2023</div><div class="label">Founded</div></div>
-      <div class="stat"><div class="num">80,000+</div><div class="label">Frames Worn Worldwide</div></div>
-      <div class="stat"><div class="num">3</div><div class="label">Premium Collections</div></div>
-    </div>
-    <div class="bridge-ctas">
-      <a href="https://www.noonshop.com/" class="btn btn-solid">Shop Noon Shop Eyewear →</a>
-      <a href="https://helloit-pros.github.io/noonshopwebsite/story-v2.html" class="btn btn-outline">Read Our Full Story →</a>
-    </div>
-  </div>
-</section>
-
-<section class="block" id="practice">
-  <div class="section-head" style="margin-left:auto;margin-right:auto;text-align:center;max-width:600px;">
-    <span class="eyebrow" style="display:block;text-align:center;">My Practice</span>
-    <h2>Care first. Comfort always.</h2>
-  </div>
-  <div class="wrap">
-    <div class="cards" id="contact">
-      <div class="card">
-        <div class="kicker">Medical Eye Care</div>
-        <h3>Silver Spring Eye</h3>
-        <p>General ophthalmology and medical eye care with Dr. Park at the Fenton Street office — the same personal attention she built over 17 years in Washington, DC.</p>
-        <a href="https://www.silverspringeye.com/book-an-appointment/fenton-street/" class="btn btn-solid">Book an Appointment</a>
-      </div>
-      <div class="card">
-        <div class="kicker">Eyewear, Engineered to Fit</div>
-        <h3>Noon Shop Eyewear</h3>
-        <p>Lightweight, Korean-designed frames built for real faces — low bridges, high cheekbones, and everything in between. The company Dr. Park founded to fix what her exam room couldn't.</p>
-        <a href="https://www.noonshop.com/" class="btn btn-outline">Shop the Collections</a>
-      </div>
-    </div>
-  </div>
-</section>
-
 <footer>
   <div class="wrap">
     <div>
       <div class="fbrand">Anna Park, MD</div>
-      <div class="froles">Board-Certified Ophthalmologist · Founder, Noon Shop Eyewear</div>
+      <div class="froles">Board-Certified Ophthalmologist</div>
     </div>
     <div class="flinks">
       <a href="https://www.silverspringeye.com/">Silver Spring Eye</a>
@@ -365,6 +325,28 @@
     <div class="copyright">© 2026 Anna Park, MD. All rights reserved.</div>
   </div>
 </footer>
+
+<script>
+  const navToggle = document.getElementById('navToggle');
+  const navPanel = document.getElementById('navPanel');
+  navToggle.addEventListener('click', () => {
+    const open = navPanel.classList.toggle('open');
+    navToggle.classList.toggle('open', open);
+    navToggle.setAttribute('aria-expanded', open);
+  });
+  document.querySelectorAll('.nav-panel a').forEach(a => a.addEventListener('click', () => {
+    navPanel.classList.remove('open');
+    navToggle.classList.remove('open');
+    navToggle.setAttribute('aria-expanded', false);
+  }));
+  document.addEventListener('click', (e) => {
+    if (!navPanel.contains(e.target) && !navToggle.contains(e.target)) {
+      navPanel.classList.remove('open');
+      navToggle.classList.remove('open');
+      navToggle.setAttribute('aria-expanded', false);
+    }
+  });
+</script>
 
 </body>
 </html>
