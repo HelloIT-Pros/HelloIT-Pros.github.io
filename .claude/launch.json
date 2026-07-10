@@ -8,6 +8,12 @@
       "port": 4000
     },
     {
+      "name": "Noonshop v2",
+      "runtimeExecutable": "python3",
+      "runtimeArgs": ["-m", "http.server", "4599", "--directory", "noonshopwebsite"],
+      "port": 4599
+    },
+    {
       "name": "Noonshop CRM",
       "runtimeExecutable": "sh",
       "runtimeArgs": ["-c", "python3 -m http.server $PORT --directory Noonshop"],
@@ -25,6 +31,12 @@
       "runtimeExecutable": "python3",
       "runtimeArgs": ["-m", "http.server", "3003", "--directory", "homespire"],
       "port": 3003
+    },
+    {
+      "name": "AnnaParkMD",
+      "runtimeExecutable": "python3",
+      "runtimeArgs": ["-m", "http.server", "4700", "--directory", "AnnaParkMD"],
+      "port": 4700
     }
   ]
 }
