@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Frame — Noon Shop</title>
+<title>Frame | Noon Shop</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Outfit:wght@200;300;400;500&family=Playfair+Display:ital,wght@0,400;1,400&display=swap" rel="stylesheet">
 <style>
@@ -133,7 +133,8 @@ nav{position:fixed;top:0;left:0;right:0;z-index:200;display:flex;justify-content
 .rcard-b{padding:16px 18px 20px;}
 .rcard-coll{font-size:9px;letter-spacing:.18em;text-transform:uppercase;color:var(--mut2);}
 .rcard-name{font-family:var(--D);font-size:22px;letter-spacing:.04em;color:var(--ink);margin:4px 0;}
-.rcard-price{font-size:13px;color:var(--mut);}
+.rcard-price{font-family:var(--D);font-size:18px;letter-spacing:.03em;color:var(--ink);margin-top:2px;}
+.rcard-wt{font-size:11px;color:var(--mut2);margin-top:4px;}
 
 /* link to story */
 .story-band{background:var(--navy);color:#fff;padding:80px 60px;text-align:center;}
@@ -231,12 +232,12 @@ nav{top:38px;}
 <!-- STORY BAND -->
 <section class="story-band">
   <p class="story-band-l">Every Noon Shop frame is the work of an ophthalmologist who spent twenty years watching frames fail. <em>This one was engineered so yours won't.</em></p>
-  <a href="story-v2.html" class="btn-light">Meet Dr. Anna Park →</a>
+  <a href="story-v2.html" class="btn-light">Meet Anna Park →</a>
 </section>
 
 <footer>
   <div class="footer-logo">NOON SHOP</div>
-  <div class="footer-copy">© 2026 Noon Shop · Founded by Dr. Anna Park, MD</div>
+  <div class="footer-copy">© 2026 Noon Shop · Founded by Anna Park, MD</div>
 </footer>
 
 <!-- VIRTUAL TRY-ON -->
@@ -255,7 +256,7 @@ nav{top:38px;}
       <div class="tryon-ctrl"><label>Frame size</label><input type="range" id="toSize" min="26" max="68" value="46"></div>
       <div class="tryon-ctrl"><label>Position</label><input type="range" id="toTop" min="22" max="58" value="38"></div>
       <button class="btn-navy" style="margin-top:6px" onclick="tryonAddCart()">Add to Bag</button>
-      <div class="tryon-note" id="tryonNote">Your camera stays on your device — nothing is uploaded or stored.</div>
+      <div class="tryon-note" id="tryonNote">Your camera stays on your device, nothing is uploaded or stored.</div>
     </div>
   </div>
 </div>
@@ -266,21 +267,21 @@ nav{top:38px;}
 const IMG='../Noonshop/assets/product/';
 const FACE='../Noonshop/assets/';
 const CATALOG=[
-  {name:'Milano', sku:'DO12408',desc:"A beta-titanium panto with a keyhole bridge that sits light and stays put.",coll:'dormann',collLabel:'Dormann',price:285,weight:9,material:'Beta-titanium · TR90 front',origin:'South Korea',tagline:'Beta-titanium panto',bridge:'low',cheekbone:'moderate',width:'standard',prod:'dormann-panto.png',face:'refined/woman-front-1.png',clinical:'The keyhole bridge and adjustable pads make Milano one of the most forgiving frames I have designed for a lower nose bridge — without ever giving up optical alignment.'},
+  {name:'Milano', sku:'DO12408',desc:"A beta-titanium panto with a keyhole bridge that sits light and stays put.",coll:'dormann',collLabel:'Dormann',price:285,weight:9,material:'Beta-titanium · TR90 front',origin:'South Korea',tagline:'Beta-titanium panto',bridge:'low',cheekbone:'moderate',width:'standard',prod:'dormann-panto.png',face:'refined/woman-front-1.png',clinical:'The keyhole bridge and adjustable pads make Milano one of the most forgiving frames I have designed for a lower nose bridge, without ever giving up optical alignment.'},
   {name:'Vienna', sku:'DO12658',desc:"A softly rounded frame shaped for narrower faces and lower nose bridges.",coll:'dormann',collLabel:'Dormann',price:295,weight:10,material:'Beta-titanium · acetate',origin:'South Korea',tagline:'Rounded keyhole bridge',bridge:'low',cheekbone:'low',width:'narrow',prod:'dormann-panto-brown.png',face:'refined/asian-woman-1.png',clinical:'A softer, narrower fit. Vienna sits beautifully on a narrower face where most frames slide wide.'},
-  {name:'Copenhagen', sku:'DO13127',desc:"A clean soft-square in beta-titanium with our screwless snap hinge.",coll:'dormann',collLabel:'Dormann',price:285,weight:9,material:'Beta-titanium · TR90 front',origin:'South Korea',tagline:'Soft square, snap hinge',bridge:'medium',cheekbone:'moderate',width:'standard',prod:'classic-round.png',face:'faces/caucasian-man.png',clinical:'The screwless snap hinge means no loose parts and no pressure points — it simply holds.'},
+  {name:'Copenhagen', sku:'DO13127',desc:"A clean soft-square in beta-titanium with our screwless snap hinge.",coll:'dormann',collLabel:'Dormann',price:285,weight:9,material:'Beta-titanium · TR90 front',origin:'South Korea',tagline:'Soft square, snap hinge',bridge:'medium',cheekbone:'moderate',width:'standard',prod:'classic-round.png',face:'faces/caucasian-man.png',clinical:'The screwless snap hinge means no loose parts and no pressure points, it simply holds.'},
   {name:'Lisbon', sku:'DO13594',desc:"Warm acetate round with generous rim clearance for higher cheekbones.",coll:'dormann',collLabel:'Dormann',price:275,weight:11,material:'Warm acetate · titanium core',origin:'South Korea',tagline:'Warm acetate round',bridge:'low',cheekbone:'prominent',width:'wide',prod:'gold-round-1.png',face:'faces/east-asian-woman.png',clinical:'Generous rim clearance keeps Lisbon off prominent cheekbones, even on a wider face.'},
-  {name:'Oslo', sku:'DO14072',desc:"A minimal cat-eye with lift and engineered cheekbone clearance.",coll:'dormann',collLabel:'Dormann',price:295,weight:10,material:'Beta-titanium',origin:'South Korea',tagline:'Minimal cat-eye',bridge:'medium',cheekbone:'prominent',width:'narrow',prod:'cat-eye.png',face:'refined/asian-woman-1.png',clinical:'A lifted cat-eye with the rim height engineered to clear the cheek — expression without contact.'},
-  {name:'Tokyo', sku:'SB28755',desc:"Eight grams of thin German steel — our lightest everyday rectangle.",coll:'steel-brown',collLabel:'Steel Brown',price:320,weight:8,material:'German stainless steel',origin:'Germany · designed w/ W. Proksch',tagline:'Thin stainless rectangle',bridge:'medium',cheekbone:'prominent',width:'wide',prod:'steel-brown-rect.png',face:'faces/east-asian-man-front.png',clinical:'At eight grams, Tokyo disappears. The thin stainless front is the lightest serious frame I prescribe.'},
-  {name:'Kyoto', sku:'SB29013',desc:"A slim steel oval with low-bridge silicone pads that grip gently.",coll:'steel-brown',collLabel:'Steel Brown',price:330,weight:8,material:'German stainless · silicone pads',origin:'Germany · designed w/ W. Proksch',tagline:'Slim oval, silicone pads',bridge:'low',cheekbone:'moderate',width:'standard',prod:'thin-rect-2.png',face:'faces/east-asian-woman.png',clinical:'Low-bridge silicone pads grip gently — Kyoto stays put on a flatter bridge all day.'},
-  {name:'Seoul', sku:'SB29488',desc:"A fine round wire with a low-set bridge — quiet and weightless.",coll:'steel-brown',collLabel:'Steel Brown',price:330,weight:8,material:'German stainless steel',origin:'Germany · designed w/ W. Proksch',tagline:'Round wire, low-bridge',bridge:'low',cheekbone:'moderate',width:'narrow',prod:'classic-round.png',face:'refined/asian-man-front.png',clinical:'A fine round wire with a low-set bridge — quiet, precise, and weightless.'},
-  {name:'Singapore', sku:'SB30176',desc:"A squared steel browline with real presence, sized for wider faces.",coll:'steel-brown',collLabel:'Steel Brown',price:345,weight:9,material:'German stainless · acetate browline',origin:'Germany · designed w/ W. Proksch',tagline:'Squared steel browline',bridge:'high',cheekbone:'low',width:'wide',prod:'gold-round-2.png',face:'faces/ambiguous-man.png',clinical:'Structured but light — the browline gives presence on a wider face without the weight.'},
-  {name:'Osaka', sku:'SB30642',desc:"A compact steel rectangle scaled precisely for narrower faces.",coll:'steel-brown',collLabel:'Steel Brown',price:320,weight:8,material:'German stainless steel',origin:'Germany · designed w/ W. Proksch',tagline:'Compact rectangle',bridge:'medium',cheekbone:'low',width:'narrow',prod:'thin-rect.png',face:'faces/caucasian-woman-front.png',clinical:'Compact and exact — sized for a narrower face that standard rectangles overwhelm.'},
-  {name:'Manhattan', sku:'DR41209',desc:"Our most refined rectangle — premium titanium and Italian acetate, impeccably finished.",coll:'denova',collLabel:'DeNova',price:385,weight:11,material:'Premium titanium · Italian acetate',origin:'Noon Shop atelier',tagline:'Refined titanium rectangle',bridge:'medium',cheekbone:'moderate',width:'standard',prod:'frames-white-1.png',face:'faces/caucasian-woman-front.png',clinical:'DeNova is where fit meets true luxury — Manhattan carries our finest finish with the balance I insist on.'},
-  {name:'Toronto', sku:'DR41773',desc:"A softly rounded frame in the finest materials, gold-accented and quietly opulent.",coll:'denova',collLabel:'DeNova',price:395,weight:12,material:'Premium titanium · Italian acetate, gold-accented',origin:'Noon Shop atelier',tagline:'Rounded, gold-accented',bridge:'medium',cheekbone:'moderate',width:'wide',prod:'gold-round-1.png',face:'faces/ambiguous-man.png',clinical:'Even at its most luxurious, fit comes first — Toronto sits light and true on a wider face.'},
+  {name:'Oslo', sku:'DO14072',desc:"A minimal cat-eye with lift and engineered cheekbone clearance.",coll:'dormann',collLabel:'Dormann',price:295,weight:10,material:'Beta-titanium',origin:'South Korea',tagline:'Minimal cat-eye',bridge:'medium',cheekbone:'prominent',width:'narrow',prod:'cat-eye.png',face:'refined/asian-woman-1.png',clinical:'A lifted cat-eye with the rim height engineered to clear the cheek, expression without contact.'},
+  {name:'Tokyo', sku:'SB28755',desc:"Eight grams of thin German steel, our lightest everyday rectangle.",coll:'steel-brown',collLabel:'Steel Brown',price:320,weight:8,material:'German stainless steel',origin:'Germany · designed w/ W. Proksch',tagline:'Thin stainless rectangle',bridge:'medium',cheekbone:'prominent',width:'wide',prod:'steel-brown-rect.png',face:'faces/east-asian-man-front.png',clinical:'At eight grams, Tokyo disappears. The thin stainless front is the lightest serious frame I prescribe.'},
+  {name:'Kyoto', sku:'SB29013',desc:"A slim steel oval with low-bridge silicone pads that grip gently.",coll:'steel-brown',collLabel:'Steel Brown',price:330,weight:8,material:'German stainless · silicone pads',origin:'Germany · designed w/ W. Proksch',tagline:'Slim oval, silicone pads',bridge:'low',cheekbone:'moderate',width:'standard',prod:'thin-rect-2.png',face:'faces/east-asian-woman.png',clinical:'Low-bridge silicone pads grip gently, Kyoto stays put on a flatter bridge all day.'},
+  {name:'Seoul', sku:'SB29488',desc:"A fine round wire with a low-set bridge, quiet and weightless.",coll:'steel-brown',collLabel:'Steel Brown',price:330,weight:8,material:'German stainless steel',origin:'Germany · designed w/ W. Proksch',tagline:'Round wire, low-bridge',bridge:'low',cheekbone:'moderate',width:'narrow',prod:'classic-round.png',face:'refined/asian-man-front.png',clinical:'A fine round wire with a low-set bridge, quiet, precise, and weightless.'},
+  {name:'Singapore', sku:'SB30176',desc:"A squared steel browline with real presence, sized for wider faces.",coll:'steel-brown',collLabel:'Steel Brown',price:345,weight:9,material:'German stainless · acetate browline',origin:'Germany · designed w/ W. Proksch',tagline:'Squared steel browline',bridge:'high',cheekbone:'low',width:'wide',prod:'gold-round-2.png',face:'faces/ambiguous-man.png',clinical:'Structured but light, the browline gives presence on a wider face without the weight.'},
+  {name:'Osaka', sku:'SB30642',desc:"A compact steel rectangle scaled precisely for narrower faces.",coll:'steel-brown',collLabel:'Steel Brown',price:320,weight:8,material:'German stainless steel',origin:'Germany · designed w/ W. Proksch',tagline:'Compact rectangle',bridge:'medium',cheekbone:'low',width:'narrow',prod:'thin-rect.png',face:'faces/caucasian-woman-front.png',clinical:'Compact and exact, sized for a narrower face that standard rectangles overwhelm.'},
+  {name:'Manhattan', sku:'DR41209',desc:"Our most refined rectangle, premium titanium and Italian acetate, impeccably finished.",coll:'denova',collLabel:'DeNova',price:385,weight:11,material:'Premium titanium · Italian acetate',origin:'Noon Shop atelier',tagline:'Refined titanium rectangle',bridge:'medium',cheekbone:'moderate',width:'standard',prod:'frames-white-1.png',face:'faces/caucasian-woman-front.png',clinical:'DeNova is where fit meets true luxury, Manhattan carries our finest finish with the balance I insist on.'},
+  {name:'Toronto', sku:'DR41773',desc:"A softly rounded frame in the finest materials, gold-accented and quietly opulent.",coll:'denova',collLabel:'DeNova',price:395,weight:12,material:'Premium titanium · Italian acetate, gold-accented',origin:'Noon Shop atelier',tagline:'Rounded, gold-accented',bridge:'medium',cheekbone:'moderate',width:'wide',prod:'gold-round-1.png',face:'faces/ambiguous-man.png',clinical:'Even at its most luxurious, fit comes first, Toronto sits light and true on a wider face.'},
   {name:'Austin', sku:'DR42158',desc:"A keyhole panto elevated with premium titanium and hand-finished Italian acetate.",coll:'denova',collLabel:'DeNova',price:410,weight:11,material:'Premium titanium · Italian acetate',origin:'Noon Shop atelier',tagline:'Keyhole panto, refined',bridge:'low',cheekbone:'prominent',width:'standard',prod:'frames-white-2.png',face:'refined/woman-front-1.png',clinical:'A low keyhole bridge with cheek clearance, dressed in our finest materials.'},
-  {name:'Vancouver', sku:'DR42690',desc:"A sculpted square in the finest materials — restrained, exacting, luxurious.",coll:'denova',collLabel:'DeNova',price:385,weight:12,material:'Premium titanium · Italian acetate',origin:'Noon Shop atelier',tagline:'Sculpted square',bridge:'high',cheekbone:'low',width:'narrow',prod:'classic-round.png',face:'faces/caucasian-man.png',clinical:'Precision for a narrower face, finished to the standard DeNova is known for.'},
-  {name:'Savannah', sku:'DR43025',desc:"An elevated cat-eye, crafted from premium titanium and hand-finished Italian acetate.",coll:'denova',collLabel:'DeNova',price:420,weight:11,material:'Premium titanium · Italian acetate',origin:'Noon Shop atelier',tagline:'Elevated cat-eye',bridge:'medium',cheekbone:'prominent',width:'wide',prod:'cat-eye.png',face:'faces/east-asian-woman.png',clinical:'The lift you want and the clearance you need — in the premium DeNova build.'},
+  {name:'Vancouver', sku:'DR42690',desc:"A sculpted square in the finest materials, restrained, exacting, luxurious.",coll:'denova',collLabel:'DeNova',price:385,weight:12,material:'Premium titanium · Italian acetate',origin:'Noon Shop atelier',tagline:'Sculpted square',bridge:'high',cheekbone:'low',width:'narrow',prod:'classic-round.png',face:'faces/caucasian-man.png',clinical:'Precision for a narrower face, finished to the standard DeNova is known for.'},
+  {name:'Savannah', sku:'DR43025',desc:"An elevated cat-eye, crafted from premium titanium and hand-finished Italian acetate.",coll:'denova',collLabel:'DeNova',price:420,weight:11,material:'Premium titanium · Italian acetate',origin:'Noon Shop atelier',tagline:'Elevated cat-eye',bridge:'medium',cheekbone:'prominent',width:'wide',prod:'cat-eye.png',face:'faces/east-asian-woman.png',clinical:'The lift you want and the clearance you need, in the premium DeNova build.'},
 ];
 
 const FIT_LABEL={bridge:{low:'Low Bridge',medium:'Standard Bridge',high:'High Bridge'},width:{narrow:'Narrow Width',standard:'Standard Width',wide:'Wide Width'},cheekbone:{prominent:'High-Cheekbone Clearance',moderate:'Moderate Cheekbone',low:'Low Cheekbone'}};
@@ -289,6 +290,8 @@ function getParam(k){return new URLSearchParams(location.search).get(k);}
 let P=CATALOG.find(p=>p.name.toLowerCase()===(getParam('frame')||'').toLowerCase())||CATALOG[0];
 
 function money(n){return '$'+n;}
+function weightWord(n){return n<=8?'featherlight':n<=10?'so light':'light';}
+function weightCompare(n){return n<=8?'About as light as two sheets of paper on your face.':n<=10?'Lighter than a set of house keys.':'Barely there, all day long.';}
 
 /* colour variants */
 const SW={black:'#1C1C1C',tortoise:'linear-gradient(135deg,#8A5A2B,#3D2614)',crystal:'#E7E7E1',gold:'#C2A35A',silver:'#B8BCC2',brown:'#6B4A2F',navy:'#202A44',olive:'#6B6B47',rose:'#C98B7E'};
@@ -326,7 +329,7 @@ function setMain(i){
 
 let qty=1;
 function renderInfo(){
-  document.title=P.name+' — Noon Shop';
+  document.title=P.name+', Noon Shop';
   document.getElementById('crumbColl').textContent=P.collLabel;
   document.getElementById('crumbName').textContent=P.name;
   const tags=[FIT_LABEL.bridge[P.bridge],FIT_LABEL.width[P.width],FIT_LABEL.cheekbone[P.cheekbone]];
@@ -338,30 +341,30 @@ function renderInfo(){
     <div class="info-rule"></div>
     <div class="weight-callout">
       <div class="weight-ico"><svg viewBox="0 0 80 64" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="28" cy="44" r="10"/><circle cx="54" cy="44" r="10"/><path d="M38 42c2-2 6-2 8 0"/><path d="M18 42 12 39"/><path d="M64 42 70 39"/><path d="M50 30C52 18 60 10 70 8"/><path d="M70 8c-9 1-14 7-16 15"/><path d="M70 8c1 9-3 15-11 18"/></svg></div>
-      <div><div class="weight-v">${P.weight} grams</div><div class="weight-t">Featherlight — you'll forget you're wearing them.</div></div>
+      <div><div class="weight-v">${P.weight} grams</div><div class="weight-t">${weightCompare(P.weight)}</div></div>
     </div>
     <div class="fit-tags">${tags.map(t=>`<div class="fit-tag"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>${t}</div>`).join('')}</div>
     <div class="variant">
-      <div class="variant-label">Color — <b id="selColorName">${cap(selColor)}</b></div>
+      <div class="variant-label">Color, <b id="selColorName">${cap(selColor)}</b></div>
       <div class="swatches">${(VARIANTS[P.name]||['black']).map((k,i)=>`<button class="sw-btn ${i===0?'active':''}" data-c="${k}" style="background:${SW[k]}" title="${cap(k)}" onclick="pickColor('${k}',this)"></button>`).join('')}</div>
     </div>
     <div class="qty-row">
       <div class="qty"><button onclick="setQty(-1)">−</button><span id="qtyV">1</span><button onclick="setQty(1)">+</button></div>
-      <button class="btn-navy" onclick="addCart()">Add to Bag — ${money(P.price)}</button>
+      <button class="btn-navy" onclick="addCart()">Add to Bag, ${money(P.price)}</button>
     </div>
     <div class="ship-note">Free shipping & 30-day fit guarantee · Try them at home</div>
     <div class="clinical">
-      <div class="clinical-l">Dr. Park · Clinical Note</div>
+      <div class="clinical-l">Anna Park · Clinical Note</div>
       <div class="clinical-b">"${P.clinical}"</div>
-      <div class="clinical-a">Dr. Anna Park, MD · Founder</div>
+      <div class="clinical-a">Anna Park, MD · Founder</div>
     </div>
     <div class="specs">
       <div class="spec"><div class="spec-k">SKU</div><div class="spec-v">${P.sku}</div></div>
       <div class="spec"><div class="spec-k">Collection</div><div class="spec-v">${P.collLabel}</div></div>
       <div class="spec"><div class="spec-k">Material</div><div class="spec-v">${P.material}</div></div>
-      <div class="spec"><div class="spec-k">Weight</div><div class="spec-v">${P.weight} g — featherlight</div></div>
+      <div class="spec"><div class="spec-k">Weight</div><div class="spec-v">${P.weight} g, featherlight</div></div>
       <div class="spec"><div class="spec-k">Origin</div><div class="spec-v">${P.origin}</div></div>
-      <div class="spec"><div class="spec-k">Lenses</div><div class="spec-v">Demo lenses fitted — ready for your optician's prescription</div></div>
+      <div class="spec"><div class="spec-k">Lenses</div><div class="spec-v">Demo lenses fitted, ready for your optician's prescription</div></div>
       <div class="spec"><div class="spec-k">In the box</div><div class="spec-v">Frame, protective case &amp; microfiber cloth</div></div>
     </div>`;
 }
@@ -396,14 +399,14 @@ function startCam(){
   if(navigator.mediaDevices&&navigator.mediaDevices.getUserMedia){
     navigator.mediaDevices.getUserMedia({video:{facingMode:'user'},audio:false}).then(s=>{
       toStream=s;v.srcObject=s;v.style.display='';fall.style.display='none';
-      document.getElementById('tryonNote').textContent='Your camera stays on your device — nothing is uploaded or stored.';
+      document.getElementById('tryonNote').textContent='Your camera stays on your device, nothing is uploaded or stored.';
     }).catch(()=>showFallback());
   } else showFallback();
 }
 function showFallback(){
   const v=document.getElementById('tryonVideo'),fall=document.getElementById('tryonFall');
   v.style.display='none';fall.style.display='';fall.src=FACE+P.face;
-  document.getElementById('tryonNote').textContent='Camera unavailable here — showing a model preview. With camera access, this becomes a live mirror.';
+  document.getElementById('tryonNote').textContent='Camera unavailable here, showing a model preview. With camera access, this becomes a live mirror.';
 }
 function closeTryOn(){
   document.getElementById('tryonModal').classList.remove('open');document.body.style.overflow='';
@@ -417,7 +420,7 @@ function renderRelated(){
   document.getElementById('related').innerHTML=rel.map(p=>`
     <a class="rcard" href="product-v2.html?frame=${p.name.toLowerCase()}">
       <div class="rcard-img"><img src="${IMG}${p.prod}" onerror="this.style.display='none'"></div>
-      <div class="rcard-b"><div class="rcard-coll">${p.collLabel} · SKU ${p.sku}</div><div class="rcard-name">${p.name.toUpperCase()}</div><div class="rcard-price">${money(p.price)} · ${p.weight}g</div></div>
+      <div class="rcard-b"><div class="rcard-coll">${p.collLabel} · SKU ${p.sku}</div><div class="rcard-name">${p.name.toUpperCase()}</div><div class="rcard-price">${money(p.price)}</div><div class="rcard-wt">${p.weight}g · ${weightWord(p.weight)}</div></div>
     </a>`).join('');
 }
 

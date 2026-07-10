@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Your Bag — Noon Shop</title>
+<title>Your Bag | Noon Shop</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Outfit:wght@200;300;400;500&family=Playfair+Display:ital,wght@0,400;1,400&display=swap" rel="stylesheet">
 <style>
@@ -136,7 +136,7 @@ nav{top:38px;}
 
 <footer>
   <div class="footer-logo">NOON SHOP</div>
-  <div class="footer-copy">© 2026 Noon Shop · Founded by Dr. Anna Park, MD</div>
+  <div class="footer-copy">© 2026 Noon Shop · Founded by Anna Park, MD</div>
 </footer>
 
 <script>
@@ -159,7 +159,7 @@ function render(){
   const summary=document.getElementById('summary');
 
   if(!c.length){
-    itemsCol.innerHTML=`<div class="empty"><p>Your bag is empty — every great pair starts with the right fit.</p><a href="shop-v2.html" class="checkout-btn" style="display:inline-flex;width:auto;padding:16px 32px;">Shop Frames →</a></div>`;
+    itemsCol.innerHTML=`<div class="empty"><p>Your bag is empty, every great pair starts with the right fit.</p><a href="shop-v2.html" class="checkout-btn" style="display:inline-flex;width:auto;padding:16px 32px;">Shop Frames →</a></div>`;
     summary.innerHTML='';summary.style.display='none';return;
   }
   summary.style.display='block';
@@ -190,8 +190,8 @@ function render(){
     <button class="checkout-btn" onclick="location.href='checkout-v2.html'">Checkout →</button>
     <div class="sum-perks">
       <div class="perk">Free shipping both ways, always.</div>
-      <div class="perk">30-day fit guarantee — if it doesn't sit right, send it back.</div>
-      <div class="perk">Every frame backed by Dr. Park's clinical fit standard.</div>
+      <div class="perk">30-day fit guarantee, if it doesn't sit right, send it back.</div>
+      <div class="perk">Every frame backed by Anna Park's clinical fit standard.</div>
     </div>`;
 }
 render();

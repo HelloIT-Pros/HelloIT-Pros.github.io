@@ -3,8 +3,8 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Shop Frames — Noon Shop</title>
-<meta name="description" content="Lightweight titanium and stainless steel eyewear, named for the world's cities. Filter by fit — bridge, cheekbone, and face width.">
+<title>Shop Frames | Noon Shop</title>
+<meta name="description" content="Lightweight titanium and stainless steel eyewear, named for the world's cities. Filter by fit, bridge, cheekbone, and face width.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Outfit:wght@200;300;400;500&family=Playfair+Display:ital,wght@0,400;1,400&display=swap" rel="stylesheet">
 <style>
@@ -161,7 +161,7 @@ nav{top:38px;}
 <header class="shop-head">
   <div class="shop-eyebrow">Named for the world's cities</div>
   <h1 class="shop-title" id="shopTitle">SHOP <em>frames</em></h1>
-  <p class="shop-sub" id="shopSub">Lightweight titanium and stainless steel, engineered around three dimensions of fit. Filter by what your face actually needs — then find the frame that feels like nothing at all.</p>
+  <p class="shop-sub" id="shopSub">Lightweight titanium and stainless steel, engineered around three dimensions of fit. Filter by what your face actually needs, then find the frame that feels like nothing at all.</p>
 </header>
 
 <div class="coll-tabs" id="collTabs">
@@ -217,11 +217,17 @@ nav{top:38px;}
       <div class="filter-opt" data-val="silver"><span class="sw" style="background:#B8BCC2"></span>Silver</div>
       <div class="filter-opt" data-val="crystal"><span class="sw" style="background:#E7E7E1"></span>Crystal</div>
     </div>
+    <div class="filter-group" data-filter="weight">
+      <div class="filter-title">Weight</div>
+      <div class="filter-opt" data-val="feather"><span class="box"></span>Featherlight (8g)</div>
+      <div class="filter-opt" data-val="solight"><span class="box"></span>So Light (9&ndash;10g)</div>
+      <div class="filter-opt" data-val="light"><span class="box"></span>Light (11&ndash;12g)</div>
+    </div>
     <div class="filter-group" data-filter="price">
       <div class="filter-title">Price</div>
-      <div class="filter-opt" data-val="under275"><span class="box"></span>Under $275</div>
-      <div class="filter-opt" data-val="mid"><span class="box"></span>$275 – $325</div>
-      <div class="filter-opt" data-val="over325"><span class="box"></span>$325 &amp; up</div>
+      <div class="filter-opt" data-val="under300"><span class="box"></span>Under $300</div>
+      <div class="filter-opt" data-val="mid"><span class="box"></span>$300 &ndash; $360</div>
+      <div class="filter-opt" data-val="over360"><span class="box"></span>$360 &amp; up</div>
     </div>
     <div class="filter-group">
       <div class="filter-reset" id="resetFilters">Reset filters ×</div>
@@ -245,7 +251,7 @@ nav{top:38px;}
   </div>
   <div class="footer-bottom">
     <div class="footer-copy">© 2026 Noon Shop · All rights reserved</div>
-    <div class="footer-founder">Founded by Dr. Anna Park, MD · Ophthalmologist</div>
+    <div class="footer-founder">Founded by Anna Park, MD · Ophthalmologist</div>
   </div>
 </footer>
 
@@ -274,31 +280,34 @@ const PRODUCTS = [
 ];
 
 const COLL_META = {
-  'all':        { title:'SHOP <em>frames</em>', sub:'Lightweight titanium and stainless steel, engineered around three dimensions of fit. Filter by what your face actually needs — then find the frame that feels like nothing at all.' },
-  'dormann':    { title:'DORM<em>ann</em>', sub:'Europe. Beta-titanium temples and a patented screwless snap hinge — playful, minimal, and barely there. Named for the design capitals of the continent.' },
+  'all':        { title:'SHOP <em>frames</em>', sub:'Lightweight titanium and stainless steel, engineered around three dimensions of fit. Filter by what your face actually needs, then find the frame that feels like nothing at all.' },
+  'dormann':    { title:'DORM<em>ann</em>', sub:'Europe. Beta-titanium temples and a patented screwless snap hinge, playful, minimal, and barely there. Named for the design capitals of the continent.' },
   'steel-brown':{ title:'STEEL <em>brown</em>', sub:'Asia. Medical-grade German stainless steel, engineered with Wolfgang Proksch. Thin, refined, and weightless. Named for the precision cities of the East.' },
-  'denova':     { title:'DE<em>nova</em>', sub:'The Americas. Noon Shop\'s most luxurious house — the finest materials and most exacting craftsmanship. Named for cities across the New World.' },
+  'denova':     { title:'DE<em>nova</em>', sub:'The Americas. Noon Shop\'s most luxurious house, the finest materials and most exacting craftsmanship. Named for cities across the New World.' },
 };
 const VIEW_META = {
-  'bestsellers':{ title:'BEST <em>sellers</em>', sub:'The frames our customers reach for most — the ones that fit a little of everyone.' },
-  'light':      { title:'FEATHER<em>weight</em>', sub:'Our lightest frames, sorted by weight. Eight to twelve grams of titanium and stainless steel — light enough to forget you have them on.' },
+  'bestsellers':{ title:'BEST <em>sellers</em>', sub:'The frames our customers reach for most, the ones that fit a little of everyone.' },
+  'light':      { title:'FEATHER<em>weight</em>', sub:'Our lightest frames, sorted by weight. Eight to twelve grams of titanium and stainless steel, light enough to forget you have them on.' },
 };
 const BEST = ['Milano','Tokyo','Seoul','Manhattan','Vienna','Kyoto'];
 
 let activeColl = 'all';
 let activeView = null;
-const FILTER_KEYS = ['bridge','cheekbone','width','shape','material','color'];
-const filters = { bridge:null, cheekbone:null, width:null, shape:null, material:null, color:null, price:null };
-function priceBucket(n){ return n < 275 ? 'under275' : n <= 325 ? 'mid' : 'over325'; }
+const FILTER_KEYS = ['bridge','cheekbone','width','shape','material','color','weight','price'];
+const filters = { bridge:[], cheekbone:[], width:[], shape:[], material:[], color:[], weight:[], price:[] };
+function priceBucket(n){ return n < 300 ? 'under300' : n <= 360 ? 'mid' : 'over360'; }
+function weightBucket(n){ return n <= 8 ? 'feather' : n <= 10 ? 'solight' : 'light'; }
+function weightWord(n){ return n <= 8 ? 'featherlight' : n <= 10 ? 'so light' : 'light'; }
+function pval(p,k){ if (k==='price') return priceBucket(p.price); if (k==='weight') return weightBucket(parseInt(p.weight)); return p[k]; }
 
 function applyFitProfile() {
   const params = new URLSearchParams(location.search);
   if (params.get('collection')) activeColl = params.get('collection');
   if (params.get('view') && VIEW_META[params.get('view')]) activeView = params.get('view');
-  ['bridge','cheekbone','width'].forEach(k => { if (params.get(k)) filters[k] = params.get(k); });
+  ['bridge','cheekbone','width'].forEach(k => { if (params.get(k)) filters[k] = [params.get(k)]; });
   try {
     const saved = JSON.parse(sessionStorage.getItem('fitProfile') || '{}');
-    ['bridge','cheekbone','width'].forEach(k => { if (saved[k] && !filters[k]) filters[k] = saved[k]; });
+    ['bridge','cheekbone','width'].forEach(k => { if (saved[k] && !filters[k].length) filters[k] = [saved[k]]; });
   } catch(e) {}
 }
 
@@ -309,24 +318,23 @@ function render() {
   document.querySelectorAll('.coll-tab').forEach(t => t.classList.toggle('active', !activeView && t.dataset.coll === activeColl));
   document.querySelectorAll('.filter-opt').forEach(o => {
     const grp = o.closest('[data-filter]').dataset.filter;
-    o.classList.toggle('active', filters[grp] === o.dataset.val);
+    o.classList.toggle('active', (filters[grp]||[]).includes(o.dataset.val));
   });
 
   let items = PRODUCTS.filter(p => activeView ? true : (activeColl === 'all' || p.coll === activeColl));
   if (activeView === 'bestsellers') items = items.filter(p => BEST.includes(p.name));
-  FILTER_KEYS.forEach(k => { if (filters[k]) items = items.filter(p => p[k] === filters[k]); });
-  if (filters.price) items = items.filter(p => priceBucket(p.price) === filters.price);
+  FILTER_KEYS.forEach(k => { if (filters[k].length) items = items.filter(p => filters[k].includes(pval(p,k))); });
   if (activeView === 'light') items = items.slice().sort((a,b) => parseInt(a.weight) - parseInt(b.weight));
 
   const grid = document.getElementById('grid');
   document.getElementById('gridCount').textContent = items.length + (items.length === 1 ? ' frame' : ' frames');
-  if (!items.length) { grid.innerHTML = '<div class="empty">No frames match every filter at once. Try loosening one — every face has frames built for it.</div>'; return; }
+  if (!items.length) { grid.innerHTML = '<div class="empty">No frames match every filter at once. Try loosening one, every face has frames built for it.</div>'; return; }
 
   grid.innerHTML = items.map(p => `
     <a class="card" href="product-v2.html?frame=${p.name.toLowerCase()}">
       <div class="card-img">
         ${p.badge ? `<div class="card-badge">${p.badge}</div>` : ''}
-        <div class="card-weight">${p.weight} · so light</div>
+        <div class="card-weight">${p.weight} · ${weightWord(parseInt(p.weight))}</div>
         <button class="card-tryon" onclick="event.preventDefault();event.stopPropagation();location.href='product-v2.html?frame=${p.name.toLowerCase()}&tryon=1'"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/><circle cx="12" cy="13" r="4"/></svg>Try On</button>
         <img src="${IMG}${p.img}" alt="${p.name}" onerror="this.style.display='none'">
       </div>
@@ -346,12 +354,12 @@ function render() {
 /* events */
 document.querySelectorAll('.coll-tab').forEach(t => t.addEventListener('click', () => { activeColl = t.dataset.coll; activeView = null; render(); }));
 document.querySelectorAll('.filter-opt').forEach(o => o.addEventListener('click', () => {
-  const grp = o.closest('[data-filter]').dataset.filter;
-  filters[grp] = (filters[grp] === o.dataset.val) ? null : o.dataset.val;
+  const grp = o.closest('[data-filter]').dataset.filter, v = o.dataset.val, arr = filters[grp];
+  const i = arr.indexOf(v); if (i >= 0) arr.splice(i,1); else arr.push(v);
   render();
 }));
 document.getElementById('resetFilters').addEventListener('click', () => {
-  FILTER_KEYS.forEach(k => filters[k] = null); filters.price = null; render();
+  FILTER_KEYS.forEach(k => filters[k] = []); render();
 });
 
 function updateCartCount(){let n=0;try{n=JSON.parse(localStorage.getItem('noonCart')||'[]').reduce((s,i)=>s+i.qty,0);}catch(e){}document.querySelectorAll('.cart-count').forEach(e=>e.textContent=n);}

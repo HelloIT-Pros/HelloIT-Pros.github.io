@@ -3,8 +3,8 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Noon Shop — Eyewear Engineered to Fit. Light Enough to Forget.</title>
-<meta name="description" content="Ophthalmologist-founded eyewear built around fit. Lightweight titanium and stainless steel frames that feel weightless on your face. Founded by Dr. Anna Park, MD.">
+<title>Noon Shop | Eyewear Engineered to Fit. Light Enough to Forget.</title>
+<meta name="description" content="Ophthalmologist-founded eyewear built around fit. Lightweight titanium and stainless steel frames that feel weightless on your face. Founded by Anna Park, MD.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Outfit:wght@200;300;400;500&family=Playfair+Display:ital,wght@0,400;1,400&display=swap" rel="stylesheet">
 <style>
@@ -48,6 +48,17 @@ nav.scrolled { background: rgba(255,255,255,.92); backdrop-filter: blur(16px); p
 .nav-cart:hover { color: var(--navy); }
 .cart-count { font-family: var(--D); font-size: 13px; color: var(--navy); }
 
+/* light nav over the dark hero (until scrolled) */
+#nav .nav-logo, #nav .nav-link, #nav .nav-cart { color: #fff; }
+#nav .nav-link:hover { color: #9FB0D0; }
+#nav .cart-count { color: #fff; }
+#nav .nav-burger span { background: #fff; }
+#nav.scrolled .nav-logo { color: var(--ink); }
+#nav.scrolled .nav-link, #nav.scrolled .nav-cart { color: var(--mut); }
+#nav.scrolled .nav-link:hover { color: var(--navy); }
+#nav.scrolled .cart-count { color: var(--navy); }
+#nav.scrolled .nav-burger span { background: var(--ink); }
+
 /* ── REVEAL ── */
 .rv { opacity: 0; transform: translateY(26px); transition: opacity .8s ease, transform .8s ease; }
 .rv.in { opacity: 1; transform: translateY(0); }
@@ -70,19 +81,22 @@ nav.scrolled { background: rgba(255,255,255,.92); backdrop-filter: blur(16px); p
 .link-arrow:hover { gap: 13px; }
 
 /* ── HERO ── */
-.hero { min-height: 100vh; display: grid; grid-template-columns: 1.05fr 1fr; padding-top: 64px; }
-.hero-left { display: flex; flex-direction: column; justify-content: center; padding: 96px 64px 96px 60px; }
-.hero-eyebrow { font-size: 11px; letter-spacing: .28em; text-transform: uppercase; color: var(--navy); margin-bottom: 26px; display: flex; align-items: center; gap: 12px; }
-.hero-eyebrow::before { content: ''; width: 26px; height: 1px; background: var(--navy); }
-.hero-h1 { font-family: var(--D); font-size: clamp(64px,8vw,132px); line-height: .85; letter-spacing: .02em; color: var(--ink); }
-.hero-h1 em { display: block; font-family: var(--P); font-style: italic; font-weight: 400; font-size: clamp(36px,5vw,80px); line-height: 1.1; color: var(--navy); margin-top: 8px; }
-.hero-sub { font-size: 16px; line-height: 1.8; color: var(--mut); max-width: 420px; margin-top: 32px; }
-.hero-ctas { display: flex; gap: 12px; margin-top: 40px; }
-.hero-right { position: relative; overflow: hidden; background: var(--cool); }
-.hero-right img { width: 100%; height: 100%; object-fit: cover; object-position: 72% 35%; }
-.hero-badge { position: absolute; bottom: 28px; left: 28px; background: rgba(255,255,255,.9); backdrop-filter: blur(8px); padding: 12px 18px; border-radius: 8px; }
-.hero-badge-v { font-family: var(--D); font-size: 20px; letter-spacing: .04em; color: var(--navy); line-height: 1; }
-.hero-badge-l { font-size: 10px; letter-spacing: .16em; text-transform: uppercase; color: var(--mut2); margin-top: 4px; }
+.hero { position: relative; min-height: 92vh; display: flex; align-items: flex-end; overflow: hidden; }
+.hero-bg { position: absolute; inset: 0; z-index: 0; }
+.hero-bg img { width: 100%; height: 100%; object-fit: cover; object-position: 62% 32%; }
+.hero-bg::after { content: ''; position: absolute; inset: 0; background: linear-gradient(90deg, rgba(17,24,40,.82) 0%, rgba(17,24,40,.5) 38%, rgba(17,24,40,.1) 70%, transparent 100%), linear-gradient(0deg, rgba(17,24,40,.55) 0%, transparent 42%); }
+.hero-content { position: relative; z-index: 1; padding: 0 60px 88px; max-width: 820px; }
+.hero-eyebrow { font-size: 11px; letter-spacing: .28em; text-transform: uppercase; color: #9FB0D0; margin-bottom: 22px; display: flex; align-items: center; gap: 12px; }
+.hero-eyebrow::before { content: ''; width: 26px; height: 1px; background: #9FB0D0; }
+.hero-h1 { font-family: var(--D); font-size: clamp(64px,9vw,150px); line-height: .84; letter-spacing: .02em; color: #fff; }
+.hero-h1 em { display: block; font-family: var(--P); font-style: italic; font-weight: 400; font-size: clamp(38px,5.5vw,88px); line-height: 1.05; color: #9FB0D0; margin-top: 8px; }
+.hero-sub { font-size: 16px; line-height: 1.8; color: rgba(255,255,255,.8); max-width: 460px; margin-top: 28px; }
+.hero-ctas { display: flex; gap: 12px; margin-top: 36px; }
+.hero-ctas .btn-ghost { color: #fff; border-color: rgba(255,255,255,.4); }
+.hero-ctas .btn-ghost:hover { border-color: #fff; }
+.hero-badge { position: absolute; top: 92px; right: 60px; z-index: 1; background: rgba(255,255,255,.12); backdrop-filter: blur(8px); border: 1px solid rgba(255,255,255,.22); padding: 14px 20px; border-radius: 10px; }
+.hero-badge-v { font-family: var(--D); font-size: 24px; letter-spacing: .04em; color: #fff; line-height: 1; }
+.hero-badge-l { font-size: 10px; letter-spacing: .16em; text-transform: uppercase; color: rgba(255,255,255,.7); margin-top: 5px; }
 
 /* ── WEIGHTLESS ── */
 .weightless { background: var(--navy); color: #fff; padding: 100px 60px; text-align: center; }
@@ -259,9 +273,11 @@ footer { background: var(--ink); color: #fff; padding: 72px 60px 48px; }
 @media (max-width: 960px) {
   nav, nav.scrolled { padding: 14px 22px; }
   .nav-links { display: none; }
-  .hero { grid-template-columns: 1fr; padding-top: 60px; }
-  .hero-left { order: 2; padding: 40px 24px 48px; }
-  .hero-right { order: 1; min-height: 340px; }
+  .hero { min-height: 84vh; }
+  .hero-content { padding: 0 24px 56px; }
+  .hero-bg img { object-position: 64% 28%; }
+  .hero-badge { top: 96px; right: 22px; padding: 10px 14px; }
+  .hero-badge-v { font-size: 20px; }
   .weightless { padding: 72px 24px; }
   .weightless-grid { grid-template-columns: 1fr; margin-top: 48px; }
   .wprop { border-right: none; border-bottom: 1px solid rgba(255,255,255,.14); padding: 36px 20px; }
@@ -339,27 +355,27 @@ nav{top:38px;}
 
 <!-- ── HERO ── -->
 <section class="hero">
-  <div class="hero-left">
-    <div class="hero-eyebrow">Founded by Dr. Anna Park, MD · Ophthalmologist</div>
+  <div class="hero-bg">
+    <img src="../Noonshop/assets/editorial/editorial-1a.png" alt="Noon Shop editorial"
+      onerror="this.parentElement.style.background='#111828'">
+  </div>
+  <div class="hero-badge">
+    <div class="hero-badge-v">80,000+</div>
+    <div class="hero-badge-l">Frames worn worldwide</div>
+  </div>
+  <div class="hero-content">
+    <div class="hero-eyebrow">Founded by Anna Park, MD · Ophthalmologist</div>
     <h1 class="hero-h1">
       FIT IS
       <em>fundamental.</em>
     </h1>
     <p class="hero-sub">
-      Eyewear engineered around your face — in titanium and stainless steel so thin
+      Eyewear engineered around your face, in titanium and stainless steel so thin
       and light it disappears the moment you put it on. Frames that fit, and feel like nothing at all.
     </p>
     <div class="hero-ctas">
       <a href="shop-v2.html" class="btn-navy">Shop Frames</a>
       <a href="fit-guide-v2.html" class="btn-ghost">Find My Fit</a>
-    </div>
-  </div>
-  <div class="hero-right">
-    <img src="../Noonshop/assets/editorial/editorial-1a.png" alt="Noon Shop editorial"
-      onerror="this.parentElement.style.background='#EDEAE3'">
-    <div class="hero-badge">
-      <div class="hero-badge-v">80,000+</div>
-      <div class="hero-badge-l">Frames worn worldwide</div>
     </div>
   </div>
 </section>
@@ -385,7 +401,7 @@ nav{top:38px;}
         </svg>
       </div>
       <div class="wprop-t">Featherlight</div>
-      <div class="wprop-b">Beta-titanium and surgical-grade steel — barely there from the moment they land on your nose.</div>
+      <div class="wprop-b">Just 8 to 12 grams of beta-titanium and surgical-grade steel, about as light as two sheets of paper on your face.</div>
     </div>
     <div class="wprop rv d2">
       <div class="wprop-icon">
@@ -399,7 +415,7 @@ nav{top:38px;}
         </svg>
       </div>
       <div class="wprop-t">Thin Profile</div>
-      <div class="wprop-b">Slim temples and refined fronts. Real presence, with none of the bulk you've worn before.</div>
+      <div class="wprop-b">Temples as thin as a coin's edge and refined fronts. Real presence, none of the bulk you've worn before.</div>
     </div>
     <div class="wprop rv d3">
       <div class="wprop-icon">
@@ -416,7 +432,7 @@ nav{top:38px;}
         </svg>
       </div>
       <div class="wprop-t">Built for Real Faces</div>
-      <div class="wprop-b">Bridge, cheekbone, and face width — engineered for your face, not approximated for an average.</div>
+      <div class="wprop-b">Bridge, cheekbone, and face width, engineered for your face, not approximated for an average.</div>
     </div>
   </div>
 </section>
@@ -526,7 +542,7 @@ nav{top:38px;}
 <section class="navband">
   <div class="navband-eyebrow rv">Why Fit Comes First</div>
   <p class="navband-line rv d1">A frame you forget is a frame that fits. <em>Everything we make begins there.</em></p>
-  <div class="navband-attr rv d2">— Dr. Anna Park, MD · Founder</div>
+  <div class="navband-attr rv d2">Anna Park, MD · Founder</div>
 </section>
 
 <!-- ── FIT DIFFERENCE ── -->
@@ -534,9 +550,9 @@ nav{top:38px;}
   <div class="tag rv">Find Your Fit</div>
   <h2 class="h-d rv d1">Most frames were never<br><em>made for your face.</em></h2>
   <p class="lede rv d1">
-    For decades, eyewear was built around one average face — and the rest of us learned to live with
+    For decades, eyewear was built around one average face, and the rest of us learned to live with
     frames that slide, pinch, and shift all day. Tap a point on her face to see exactly where standard
-    frames go wrong, and how Dr. Park engineered Noon Shop to fix it.
+    frames go wrong, and how Anna Park engineered Noon Shop to fix it.
   </p>
 
   <div class="fitmap rv d2">
@@ -584,7 +600,7 @@ nav{top:38px;}
     </div>
     <div class="rev-card">
       <div class="rev-tags"><span class="rev-tag">Low Bridge</span><span class="rev-tag">Lightweight</span></div>
-      <p class="rev-quote">"The first pair I've ever looked forward to putting on. So light it's almost not there. Dr. Park built something <em>genuinely different</em>."</p>
+      <p class="rev-quote">"The first pair I've ever looked forward to putting on. So light it's almost not there. Anna Park built something <em>genuinely different</em>."</p>
       <div class="rev-meta">
         <div class="rev-avatar"><img src="../Noonshop/assets/refined/asian-man-front.png" alt="" onerror="this.parentElement.style.background='#ddd'"></div>
         <div><div class="rev-name">Ravi T.</div><div class="rev-frame">Steel Brown · Seoul</div></div>
@@ -598,7 +614,7 @@ nav{top:38px;}
   <div class="tryonpromo-body">
     <div class="tryonpromo-eyebrow">Virtual Try-On</div>
     <h2 class="tryonpromo-h">See them on.<br><em>Right in your browser.</em></h2>
-    <p class="tryonpromo-p">Tap try-on, allow your camera, and a Noon Shop frame appears on your face in real time — so you can see the fit and the look before you ever check out.</p>
+    <p class="tryonpromo-p">Tap try-on, allow your camera, and a Noon Shop frame appears on your face in real time, so you can see the fit and the look before you ever check out.</p>
     <div class="tryonpromo-points">
       <div class="tryonpromo-point"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>Try frames on in seconds</div>
       <div class="tryonpromo-point"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>Works on your phone and your laptop</div>
@@ -618,13 +634,13 @@ nav{top:38px;}
 <!-- ── FOUNDER (dark moment) ── -->
 <section class="founder">
   <div class="founder-img">
-    <img src="../Noonshop/assets/anna-park-headshot.png" alt="Dr. Anna Park, MD" onerror="this.parentElement.style.background='#EDEAE3'">
+    <img src="../Noonshop/assets/anna-park-headshot.png" alt="Anna Park, MD" onerror="this.parentElement.style.background='#EDEAE3'">
   </div>
   <div class="founder-body">
     <div class="tag on-dark rv">Our Founder</div>
-    <p class="founder-pull rv d1">"I watched patient after patient leave with a perfect prescription — and a frame that <em>negated half of it</em> by sliding off their nose."</p>
-    <div class="founder-attr rv d2">Dr. Anna Park, MD · Ophthalmologist · Founder</div>
-    <p class="founder-text rv d2">After more than twenty years in ophthalmology, Dr. Park set out to change how eyewear fits — curating and developing frames engineered for a broader range of faces, in lightweight medical-grade materials. More than 80,000 frames later, Noon Shop is headquartered in Silver Spring, Maryland, still built on a single conviction: the frame is as important as the prescription.</p>
+    <p class="founder-pull rv d1">"I watched patient after patient leave with a perfect prescription, and a frame that <em>negated half of it</em> by sliding off their nose."</p>
+    <div class="founder-attr rv d2">Anna Park, MD · Ophthalmologist · Founder</div>
+    <p class="founder-text rv d2">After more than twenty years in ophthalmology, Anna Park set out to change how eyewear fits, curating and developing frames engineered for a broader range of faces, in lightweight medical-grade materials. More than 80,000 frames later, Noon Shop is headquartered in Silver Spring, Maryland, still built on a single conviction: the frame is as important as the prescription.</p>
     <a href="story-v2.html" class="link-arrow rv d3" style="color:#9FB0D0">Read Anna's Story</a>
   </div>
 </section>
@@ -658,7 +674,7 @@ nav{top:38px;}
       <div class="footer-col-h">Brand</div>
       <ul class="footer-links">
         <li><a href="story-v2.html">Our Story</a></li>
-        <li><a href="story-v2.html#founder">Dr. Anna Park, MD</a></li>
+        <li><a href="story-v2.html#founder">Anna Park, MD</a></li>
       </ul>
     </div>
     <div>
@@ -672,7 +688,7 @@ nav{top:38px;}
   </div>
   <div class="footer-bottom">
     <div class="footer-copy">© 2026 Noon Shop · All rights reserved</div>
-    <div class="footer-founder">Founded by Dr. Anna Park, MD · Ophthalmologist</div>
+    <div class="footer-founder">Founded by Anna Park, MD · Ophthalmologist</div>
   </div>
 </footer>
 
@@ -692,10 +708,10 @@ document.querySelectorAll('.rv').forEach(el => obs.observe(el));
 const IV_Q = [
   { key:'bridge', eyebrow:'Question 1 of 5 · Bridge',
     q:'How does your nose bridge sit?',
-    hint:'The bridge is where most frames fail — sliding down all day. This is the single most important answer.',
+    hint:'The bridge is where most frames fail, sliding down all day. This is the single most important answer.',
     opts:[
       { val:'low',    t:'Low / Flat',  d:'Glasses tend to slide down my nose.' },
-      { val:'medium', t:'Medium',      d:'Pretty standard — no strong issues.' },
+      { val:'medium', t:'Medium',      d:'Pretty standard, no strong issues.' },
       { val:'high',   t:'High',        d:'A defined, prominent bridge.' },
     ]},
   { key:'width', eyebrow:'Question 2 of 5 · Width',
@@ -716,7 +732,7 @@ const IV_Q = [
     ]},
   { key:'shape', eyebrow:'Question 4 of 5 · Style',
     q:'Which shape feels most like you?',
-    hint:'Fit comes first — but the frame should still feel like yours.',
+    hint:'Fit comes first, but the frame should still feel like yours.',
     opts:[
       { val:'round',    t:'Round',     d:'Soft, classic, approachable.' },
       { val:'rect',     t:'Rectangle', d:'Clean, sharp, modern.' },
@@ -793,7 +809,7 @@ function ivRenderResult() {
   const q = new URLSearchParams(fit).toString();
   document.getElementById('ivStage').innerHTML = `
     <div class="iv-result-label">Your Fit Profile</div>
-    <div class="iv-result-h">${label} — built for.</div>
+    <div class="iv-result-h">${label}, built for.</div>
     <div class="iv-result-tags">${tags.map(t=>`<span class="iv-result-tag">${t}</span>`).join('')}</div>
     <p class="iv-hint">We've matched the lightweight frames engineered for exactly this face. Let's see them.</p>
     <a class="btn-light" href="shop-v2.html${q?'?'+q:''}">Show My Frames →</a>`;
@@ -804,17 +820,17 @@ if (document.getElementById('interview')) ivRender();
 /* ── INTERACTIVE FACE / FIT MAP ── */
 const FIT_POINTS = [
   { step:'Point 01 · The Bridge', title:'IT SLIDES DOWN', sub:'The number-one reason glasses fail.',
-    problem:'When the bridge is too wide for your nose, the whole frame creeps down all day. As it drops, the lenses fall out of line with your eyes — quietly undoing the prescription you paid for.',
+    problem:'When the bridge is too wide for your nose, the whole frame creeps down all day. As it drops, the lenses fall out of line with your eyes, quietly undoing the prescription you paid for.',
     fix:'An adjustable, low-bridge-optimized nose support that grips gently and holds the optics exactly where they belong.' },
   { step:'Point 02 · The Temples', title:'IT PINCHES', sub:'Pressure behind the ears.',
-    problem:'Temples sized for an "average" head squeeze a wider face or slip on a narrower one — leaving sore spots behind the ears and red marks by mid-afternoon.',
+    problem:'Temples sized for an "average" head squeeze a wider face or slip on a narrower one, leaving sore spots behind the ears and red marks by mid-afternoon.',
     fix:'Temple length and flex tuned to your actual face width, so the frame holds securely without ever gripping.' },
   { step:'Point 03 · The Cheekbones', title:'IT RESTS & SMUDGES', sub:'Frames that sit on your cheeks.',
-    problem:'On higher cheekbones, deep lenses land on the cheeks — shifting every time you smile and smudging the lens you just cleaned.',
+    problem:'On higher cheekbones, deep lenses land on the cheeks, shifting every time you smile and smudging the lens you just cleaned.',
     fix:'Rim height engineered for clearance, so the frame floats above the cheekbone and stays settled and still.' },
   { step:'Point 04 · The Optics', title:'IT BLURS THE EDGES', sub:'When the lens centre drifts.',
     problem:'A frame that will not sit straight pushes the optical centre away from your pupil. The sharpest part of your prescription drifts off-target, and your eyes strain to compensate.',
-    fix:'A frame that sits true keeps the optical centre on your pupil — clarity edge to edge, exactly as it was prescribed.' },
+    fix:'A frame that sits true keeps the optical centre on your pupil, clarity edge to edge, exactly as it was prescribed.' },
 ];
 
 const fmDetail = document.getElementById('fitmapDetail');
