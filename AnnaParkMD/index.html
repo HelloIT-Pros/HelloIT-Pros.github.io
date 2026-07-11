@@ -5,6 +5,21 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Anna Park, MD — Board-Certified Ophthalmologist, Silver Spring Eye</title>
 <meta name="description" content="Anna Park, MD is a board-certified ophthalmologist at Silver Spring Eye, featured in Entrepreneur Asia Pacific and founder of Noon Shop Eyewear.">
+
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://helloit-pros.github.io/AnnaParkMD/">
+<meta property="og:title" content="Anna Park, MD — Board-Certified Ophthalmologist">
+<meta property="og:description" content="Board-certified ophthalmologist at Silver Spring Eye, featured in Entrepreneur Asia Pacific and founder of Noon Shop Eyewear.">
+<meta property="og:image" content="https://helloit-pros.github.io/AnnaParkMD/assets/og-image.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="Anna Park, MD — Board-Certified Ophthalmologist">
+
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Anna Park, MD — Board-Certified Ophthalmologist">
+<meta name="twitter:description" content="Board-certified ophthalmologist at Silver Spring Eye, featured in Entrepreneur Asia Pacific and founder of Noon Shop Eyewear.">
+<meta name="twitter:image" content="https://helloit-pros.github.io/AnnaParkMD/assets/og-image.png">
+
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Outfit:wght@300;400;500;600&family=Playfair+Display:ital,wght@0,400;0,600;1,400;1,600&display=swap" rel="stylesheet">
@@ -31,6 +46,14 @@
   a{color:inherit;text-decoration:none;}
   img{max-width:100%;display:block;}
   .wrap{max-width:1120px;margin:0 auto;padding:0 32px;}
+  .rv{opacity:0;transform:translateY(26px);transition:opacity .7s ease, transform .7s ease;}
+  .rv.in{opacity:1;transform:translateY(0);}
+  .rv.d1{transition-delay:.1s;}
+  .rv.d2{transition-delay:.2s;}
+  .rv.d3{transition-delay:.3s;}
+  @media(prefers-reduced-motion:reduce){
+    .rv{opacity:1;transform:none;transition:none;}
+  }
   .eyebrow{
     font-family:'Bebas Neue',sans-serif;
     letter-spacing:0.22em;
@@ -169,24 +192,6 @@
     display:block;font-family:'Outfit',sans-serif;font-style:normal;font-size:13px;
     color:var(--ink-soft);margin-top:12px;letter-spacing:0.02em;
   }
-  .letter-kicker{
-    font-family:'Bebas Neue',sans-serif;letter-spacing:0.18em;font-size:13px;
-    color:var(--navy);margin-bottom:14px;
-  }
-  .letter{
-    background:var(--offwhite);border:1px solid var(--line);border-left:3px solid var(--navy);
-    border-radius:4px;padding:44px 48px;margin-bottom:36px;
-  }
-  .letter p{
-    font-family:'Playfair Display',serif;font-style:italic;font-size:18px;
-    line-height:1.75;color:var(--ink);margin-bottom:20px;
-  }
-  .letter p.salutation{font-size:19px;margin-bottom:24px;}
-  .letter p.signoff{margin-bottom:0;}
-  .letter .signature{
-    font-family:'Playfair Display',serif;font-style:italic;font-weight:600;
-    font-size:21px;color:var(--navy);
-  }
   .stat-row{display:flex;gap:44px;margin-top:40px;flex-wrap:wrap;}
   .stat{border-top:2px solid var(--navy);padding-top:10px;min-width:140px;}
   .stat .num{font-family:'Bebas Neue',sans-serif;font-size:28px;color:var(--navy);letter-spacing:0.02em;text-transform:uppercase;}
@@ -239,10 +244,18 @@
     .hero-copy h1{font-size:36px;}
     .practice-grid{grid-template-columns:1fr;}
     .practice-card,.noonshop-card{padding:32px 26px;}
-    .letter{padding:32px 26px;}
-    .letter p{font-size:16px;}
     .nav-overlay a{font-size:34px;}
     .nav-overlay{gap:28px;}
+    .press-lockup .word{font-size:38px;}
+    .press-body h2{font-size:27px;}
+    .press-body blockquote{font-size:19px;}
+  }
+  @media(max-width:480px){
+    nav.wrap{padding:16px 20px;}
+    .brandmark{font-size:17px;}
+    .nav-right{gap:10px;}
+    .nav-right .btn{padding:9px 14px;font-size:12px;}
+    .wrap{padding:0 20px;}
   }
 </style>
 </head>
@@ -289,25 +302,18 @@
 
 <section class="block" id="about">
   <div class="wrap">
-    <span class="eyebrow">About Anna Park, MD</span>
-    <h2 style="font-size:34px;margin-bottom:22px;">Twenty years behind the exam chair.</h2>
+    <span class="eyebrow rv">About Anna Park, MD</span>
+    <h2 class="rv" style="font-size:34px;margin-bottom:22px;">Twenty years behind the exam chair.</h2>
     <div class="about-text">
-      <p>For more than two decades, Anna Park, MD has practiced ophthalmology — including 17 years caring for patients in Washington, DC before relocating her practice to Silver Spring Eye. In her own words:</p>
-      <div class="letter-kicker">A Letter to Her Patients</div>
-      <div class="letter">
-        <p class="salutation">To My Patients,</p>
-        <p>Many of you know I've proudly served your eye care needs for 17 years in Washington, DC. It's been an incredible journey, and your trust has always been a privilege.</p>
-        <p>Recently, I made the move to Silver Spring Eye - a decision fueled by wanting to be closer to family. I've been touched that some of you've even followed me there!</p>
-        <p>With a lighter schedule post-pandemic, I found myself at a crossroads. One long-held dream bubbled up: comfortable, stylish glasses!</p>
-        <p>Like some of you, I've struggled to find glasses that felt truly comfortable, especially with a higher prescription. So, in 2023, I took a leap and launched a company, Noon Shop, to bring amazing Korean-designed eyeglasses to the US.</p>
-        <p>These lightweight, stylish frames are a dream to wear all day long. They might not be for everyone, but sometimes the perfect fit is just a try away!</p>
-        <p>Curious to see what I'm talking about? Schedule an appointment at Noon Shop to see these new eyeglasses for yourself, and of course, find me at Silver Spring Eye for your medical eye care!</p>
-        <p class="signoff">Warmly,<br><span class="signature">Anna Park, MD</span></p>
-      </div>
+      <p class="rv">For more than two decades, Anna Park, MD has practiced ophthalmology — including 17 years caring for patients in Washington, DC. She recently relocated her practice to Silver Spring Eye to be closer to family, carrying a lighter, post-pandemic schedule and the same commitment to patient trust she built over nearly two decades in DC.</p>
+      <blockquote class="rv d1">
+        "Like some of you, I've struggled to find glasses that felt truly comfortable, especially with a higher prescription."
+        <cite>— Anna Park, MD, in a letter to her patients</cite>
+      </blockquote>
       <div class="stat-row">
-        <div class="stat"><div class="num">20+</div><div class="label">Years in Ophthalmology</div></div>
-        <div class="stat"><div class="num">Board-Certified</div><div class="label">Ophthalmologist</div></div>
-        <div class="stat"><div class="num">DC Metro Area</div><div class="label">17 Yrs Washington, DC · Now Silver Spring Eye</div></div>
+        <div class="stat rv"><div class="num">20+</div><div class="label">Years in Ophthalmology</div></div>
+        <div class="stat rv d1"><div class="num">Board-Certified</div><div class="label">Ophthalmologist</div></div>
+        <div class="stat rv d2"><div class="num">DC Metro Area</div><div class="label">17 Yrs Washington, DC · Now Silver Spring Eye</div></div>
       </div>
     </div>
   </div>
@@ -315,27 +321,27 @@
 
 <section class="block alt" id="practice">
   <div class="wrap">
-    <span class="eyebrow">My Practice</span>
-    <h2 style="font-size:34px;margin-bottom:32px;">Care first. Comfort always.</h2>
+    <span class="eyebrow rv">My Practice</span>
+    <h2 class="rv" style="font-size:34px;margin-bottom:32px;">Care first. Comfort always.</h2>
     <div class="practice-grid">
       <div class="practice-intro">
-        <p>Anna Park, MD believes an eye exam should feel unhurried — the kind of visit where questions get answered and nothing feels rushed. That philosophy carried over from nearly two decades in Washington, DC to her current practice at Silver Spring Eye.</p>
+        <p class="rv">Anna Park, MD believes an eye exam should feel unhurried — the kind of visit where questions get answered and nothing feels rushed. That philosophy carried over from nearly two decades in Washington, DC to her current practice at Silver Spring Eye.</p>
         <div class="feature-list">
-          <div class="feature-item">
+          <div class="feature-item rv">
             <h4>Comprehensive Eye Exams</h4>
             <p>Thorough vision and eye health exams for every stage of life.</p>
           </div>
-          <div class="feature-item">
+          <div class="feature-item rv d1">
             <h4>Medical Eye Care</h4>
             <p>Diagnosis and treatment of common eye conditions, beyond just glasses and contacts.</p>
           </div>
-          <div class="feature-item">
+          <div class="feature-item rv d2">
             <h4>Unhurried, Personal Visits</h4>
             <p>The same patient-first approach built over 17 years in Washington, DC.</p>
           </div>
         </div>
       </div>
-      <div class="practice-card">
+      <div class="practice-card rv d2">
         <div class="kicker">Medical Eye Care</div>
         <h3>Silver Spring Eye</h3>
         <p>General ophthalmology and medical eye care with Anna Park, MD at the Fenton Street office — the same personal attention she built over 17 years in Washington, DC.</p>
@@ -347,9 +353,9 @@
 
 <section class="block" id="noonshop">
   <div class="wrap">
-    <span class="eyebrow">Also From Anna Park, MD</span>
-    <h2 style="font-size:30px;margin-bottom:32px;">Noon Shop Eyewear</h2>
-    <div class="noonshop-card">
+    <span class="eyebrow rv">Also From Anna Park, MD</span>
+    <h2 class="rv" style="font-size:30px;margin-bottom:32px;">Noon Shop Eyewear</h2>
+    <div class="noonshop-card rv d1">
       <div class="kicker">Eyewear, Engineered to Fit</div>
       <h3>A Frame That Finally Fits</h3>
       <p>In 2023, Anna Park, MD founded Noon Shop Eyewear after noticing the same problem again and again in her own exam room: patients with a perfect prescription undone by a frame that didn't fit. Noon Shop makes lightweight, Korean-designed frames engineered for a broader range of faces — low bridges, high cheekbones, and everything in between.</p>
@@ -362,12 +368,12 @@
 
 <section class="press" id="press">
   <div class="wrap">
-    <div class="press-lockup">
+    <div class="press-lockup rv">
       <div class="apac">ASIA · PACIFIC</div>
       <div class="word">Entrepreneur</div>
       <div class="sub">Entrepreneurs · June 12, 2026</div>
     </div>
-    <div class="press-body">
+    <div class="press-body rv d1">
       <span class="eyebrow on-dark">As Featured In</span>
       <h2>When Fit Becomes<br>the Innovation</h2>
       <div class="dek">How One Ophthalmologist Is Redefining Eyewear</div>
@@ -412,6 +418,14 @@
   navClose.addEventListener('click', closeNav);
   document.querySelectorAll('.nav-overlay a').forEach(a => a.addEventListener('click', closeNav));
   document.addEventListener('keydown', (e) => { if (e.key === 'Escape') closeNav(); });
+
+  /* scroll reveal */
+  const obs = new IntersectionObserver(entries => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) { entry.target.classList.add('in'); obs.unobserve(entry.target); }
+    });
+  }, { threshold: .12 });
+  document.querySelectorAll('.rv').forEach(el => obs.observe(el));
 </script>
 
 </body>
