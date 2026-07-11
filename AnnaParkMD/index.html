@@ -169,6 +169,24 @@
     display:block;font-family:'Outfit',sans-serif;font-style:normal;font-size:13px;
     color:var(--ink-soft);margin-top:12px;letter-spacing:0.02em;
   }
+  .letter-kicker{
+    font-family:'Bebas Neue',sans-serif;letter-spacing:0.18em;font-size:13px;
+    color:var(--navy);margin-bottom:14px;
+  }
+  .letter{
+    background:var(--offwhite);border:1px solid var(--line);border-left:3px solid var(--navy);
+    border-radius:4px;padding:44px 48px;margin-bottom:36px;
+  }
+  .letter p{
+    font-family:'Playfair Display',serif;font-style:italic;font-size:18px;
+    line-height:1.75;color:var(--ink);margin-bottom:20px;
+  }
+  .letter p.salutation{font-size:19px;margin-bottom:24px;}
+  .letter p.signoff{margin-bottom:0;}
+  .letter .signature{
+    font-family:'Playfair Display',serif;font-style:italic;font-weight:600;
+    font-size:21px;color:var(--navy);
+  }
   .stat-row{display:flex;gap:44px;margin-top:40px;flex-wrap:wrap;}
   .stat{border-top:2px solid var(--navy);padding-top:10px;min-width:140px;}
   .stat .num{font-family:'Bebas Neue',sans-serif;font-size:28px;color:var(--navy);letter-spacing:0.02em;text-transform:uppercase;}
@@ -221,6 +239,8 @@
     .hero-copy h1{font-size:36px;}
     .practice-grid{grid-template-columns:1fr;}
     .practice-card,.noonshop-card{padding:32px 26px;}
+    .letter{padding:32px 26px;}
+    .letter p{font-size:16px;}
     .nav-overlay a{font-size:34px;}
     .nav-overlay{gap:28px;}
   }
@@ -272,12 +292,18 @@
     <span class="eyebrow">About Anna Park, MD</span>
     <h2 style="font-size:34px;margin-bottom:22px;">Twenty years behind the exam chair.</h2>
     <div class="about-text">
-      <p>For more than two decades, Anna Park, MD has practiced ophthalmology — including 17 years caring for patients in Washington, DC. She recently relocated her practice to Silver Spring Eye to be closer to family, carrying a lighter, post-pandemic schedule and the same commitment to patient trust she built over nearly two decades in DC.</p>
-      <blockquote>
-        "Like some of you, I've struggled to find glasses that felt truly comfortable, especially with a higher prescription."
-        <cite>— Anna Park, MD, in a letter to her patients</cite>
-      </blockquote>
-      <p>Outside the exam room, Anna Park, MD is also the founder of <a href="#noonshop" style="color:var(--navy);border-bottom:1px solid var(--navy);">Noon Shop Eyewear</a>, a lightweight eyewear brand born from patterns she noticed in her own patients.</p>
+      <p>For more than two decades, Anna Park, MD has practiced ophthalmology — including 17 years caring for patients in Washington, DC before relocating her practice to Silver Spring Eye. In her own words:</p>
+      <div class="letter-kicker">A Letter to Her Patients</div>
+      <div class="letter">
+        <p class="salutation">To My Patients,</p>
+        <p>Many of you know I've proudly served your eye care needs for 17 years in Washington, DC. It's been an incredible journey, and your trust has always been a privilege.</p>
+        <p>Recently, I made the move to Silver Spring Eye - a decision fueled by wanting to be closer to family. I've been touched that some of you've even followed me there!</p>
+        <p>With a lighter schedule post-pandemic, I found myself at a crossroads. One long-held dream bubbled up: comfortable, stylish glasses!</p>
+        <p>Like some of you, I've struggled to find glasses that felt truly comfortable, especially with a higher prescription. So, in 2023, I took a leap and launched a company, Noon Shop, to bring amazing Korean-designed eyeglasses to the US.</p>
+        <p>These lightweight, stylish frames are a dream to wear all day long. They might not be for everyone, but sometimes the perfect fit is just a try away!</p>
+        <p>Curious to see what I'm talking about? Schedule an appointment at Noon Shop to see these new eyeglasses for yourself, and of course, find me at Silver Spring Eye for your medical eye care!</p>
+        <p class="signoff">Warmly,<br><span class="signature">Anna Park, MD</span></p>
+      </div>
       <div class="stat-row">
         <div class="stat"><div class="num">20+</div><div class="label">Years in Ophthalmology</div></div>
         <div class="stat"><div class="num">Board-Certified</div><div class="label">Ophthalmologist</div></div>
