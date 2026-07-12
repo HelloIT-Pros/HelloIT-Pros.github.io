@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Gateway Performance Platform - Scope of Work</title>
+<style>
+  :root{--navy:#0b1f3a;--gold:#b45309;--ink:#1f2937;--grey:#5b6470;--line:#d7dee8;--zebra:#f5f7fa;--red:#b42318;--bg:#ffffff}
+  *{box-sizing:border-box}
+  body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Arial,sans-serif;color:var(--ink);background:var(--bg);
+    line-height:1.55;margin:0}
+  .wrap{max-width:920px;margin:0 auto;padding:32px 24px 64px}
+  header.top{border-bottom:3px solid var(--gold);padding-bottom:16px;margin-bottom:8px}
+  h1{color:var(--navy);font-size:26px;margin:0 0 2px}
+  .sub{color:var(--gold);font-weight:700;font-size:16px;margin:0}
+  .meta{color:var(--grey);font-size:13px;margin-top:8px}
+  h2{color:var(--navy);font-size:18px;margin:30px 0 8px;border-bottom:1px solid var(--line);padding-bottom:5px}
+  h3{color:var(--navy);font-size:14px;margin:18px 0 6px}
+  p{margin:6px 0}
+  ul{margin:6px 0 10px;padding-left:20px}
+  li{margin:4px 0}
+  table{width:100%;border-collapse:collapse;margin:8px 0 14px;font-size:13px}
+  th{background:var(--navy);color:#fff;text-align:left;padding:7px 9px;font-size:12px;vertical-align:top}
+  td{padding:7px 9px;border:1px solid var(--line);vertical-align:top}
+  tr:nth-child(even) td{background:var(--zebra)}
+  td.tile{font-weight:700;color:var(--navy);white-space:nowrap}
+  code{background:#eef2f8;color:var(--navy);padding:1px 5px;border-radius:3px;font-size:12px}
+  .dont li b{color:var(--red)}
+  .note{background:#fff8ed;border-left:3px solid var(--gold);padding:2px 10px;display:inline-block;margin:2px 0}
+  .tag{display:inline-block;background:#eef2f8;color:var(--navy);border:1px solid var(--line);border-radius:4px;
+    padding:1px 7px;font-size:11px;font-weight:700;margin-right:4px}
+  .foot{color:var(--grey);font-size:12px;font-style:italic;margin-top:26px;border-top:1px solid var(--line);padding-top:10px}
+  @media print{.wrap{max-width:none}h2{page-break-after:avoid}table{page-break-inside:avoid}}
+</style></head>
+<body><div class="wrap">
+
+<header class="top">
+  <h1>Gateway Performance Platform</h1>
+  <p class="sub">Scope of Work</p>
+  <p class="meta">Prepared by HelloIT Pros for Gateway Management Services. Based on the July 10, 2026 review with Mike and follow-up clarifications.</p>
+</header>
+
+<h2>1. Overview</h2>
+<p>Stand up the Gateway Performance Platform as a hosted, login-gated application with two views (Owner and Regional), user management, filters, three years of history, and a data pipeline fed by property reports emailed to the system parser. This document lists the platform requirements plus, for each view, what to show, how much detail, where the data is best sourced, and what should not be shown.</p>
+
+<h2>2. Views and Access Model</h2>
+<p>The platform has two views. Users are assigned to a view based on the properties they are allowed to see.</p>
+<table>
+  <tr><th style="width:22%">View</th><th style="width:30%">Who sees it</th><th>What it covers</th></tr>
+  <tr><td class="tile">Owner View</td><td>Property owners</td><td>An owner sees only the property or properties they own. One owner can be assigned multiple properties if applicable. Owners never see another owner's property.</td></tr>
+  <tr><td class="tile">Regional View</td><td>Executives and management (Gateway staff)</td><td>A regional roll-up across multiple properties. Staff see only the properties assigned to them, not necessarily the whole portfolio.</td></tr>
+</table>
+<h3>2.1 User management (to be built)</h3>
+<ul>
+  <li>Create and manage user accounts (owners, executives, management staff).</li>
+  <li>Assign each user to a view and to one or more specific properties.</li>
+  <li>Enforce access so users only see data for their assigned properties.</li>
+  <li>Login / authentication for all users.</li>
+</ul>
+
+<h2>3. Filters and History</h2>
+<ul>
+  <li><b>Three years of history.</b> The platform retains three years of data for every property.</li>
+  <li><b>Timeframe selector.</b> Users pick the time window within the three-year history (for example a specific month, quarter, or year).</li>
+  <li><b>Property selector.</b> Users pick one or multiple properties they are allowed to see. Owners default to their own property; management can multi-select across their region.</li>
+  <li><b>Occupancy comparisons.</b> With three years stored, occupancy can be compared vs. the 3-month average, vs. the same time last year, and across the multi-year trend.</li>
+</ul>
+
+<h2>4. Data Ingestion (to be built)</h2>
+<ul>
+  <li>Reports come from RealPage / OneSite, either pulled manually or sent automatically by a scheduled email scheduler, and are emailed to the platform.</li>
+  <li>Build an email intake that receives those reports and hands them to the system parser.</li>
+  <li>The parser reads each report, maps it to the data model, and stores it against the correct property and period.</li>
+  <li>Note: OneSite data is near real-time and reports can be scheduled to run and send daily, so the same intake supports a daily cadence later.</li>
+</ul>
+
+<h2>5. Owner View</h2>
+<p>Owners want a clean, high-level picture. Tiles are summary numbers. Deep detail lives in the monthly report package they download, not in the tiles.</p>
+<h3>5.1 Show</h3>
+<table>
+  <tr><th style="width:20%">Tile</th><th style="width:26%">Best source</th><th style="width:38%">What to show (detail)</th><th style="width:16%">History and refresh</th></tr>
+  <tr><td class="tile">Occupancy Rate</td><td>Rent Roll Detail (summary) and Availability</td><td>Percent occupied, with change vs. 3-month average and vs. same time last year.</td><td>3 years stored. Daily.</td></tr>
+  <tr><td class="tile">Total Income</td><td>General Ledger (income accounts)</td><td>Single income total for the period. High-level only.</td><td>Current period. Daily.</td></tr>
+  <tr><td class="tile">Delinquency Rate</td><td>Delinquent and Prepaid, "Current Balance"</td><td>Current-month resident rent owed divided by total monthly billed rent; show the dollars owed. Tenant rent only (no late fees, damages, or subsidy).</td><td>Current, end of day. Run daily.</td></tr>
+  <tr><td class="tile">Capital Expenditures</td><td>GL <code>6589-XXXX</code> and <code>9120-XXXX</code></td><td>Period total; list the capital projects on click.</td><td>Current period. Daily.</td></tr>
+  <tr><td class="tile">Operating Cash</td><td>GL <code>1116-1000</code></td><td>Current cash balance.</td><td>As of today. Daily.</td></tr>
+  <tr><td class="tile">Reserve for Replacement</td><td>GL <code>1183-1000</code></td><td>Current reserve balance.</td><td>As of today. Daily.</td></tr>
+  <tr><td class="tile">Tax and Insurance Reserve</td><td>GL <code>1180-1000</code></td><td>Current reserve balance.</td><td>As of today. Daily.</td></tr>
+  <tr><td class="tile">Open Payables</td><td>Source to be confirmed, pending Claudia (Bill Analysis Report / GL code?)</td><td>Current amount owed to vendors. <span class="note">Current value is wrong; keep the tile, fix the source.</span></td><td>As of today. Daily.</td></tr>
+  <tr><td class="tile">Income vs. Expenses (chart)</td><td>General Ledger</td><td>High-level bar of income vs. expenses (with capital). The high-level view.</td><td>Current period.</td></tr>
+  <tr><td class="tile">Expense Categories (chart)</td><td>GL expense accounts</td><td>Granular expense breakdown. Place directly next to Income vs. Expenses so owners can move from high-level to detail.</td><td>Current period.</td></tr>
+  <tr><td class="tile">Owner Document Repository</td><td>Monthly report package (uploaded by Claudia)</td><td>One combined file per month, one line each (for example "July 2026 Monthly Reporting"), with a month filter to download any month.</td><td>Keep every month.</td></tr>
+</table>
+<h3>5.2 Do not show (Owner)</h3>
+<ul class="dont">
+  <li><b>Income Breakdown donut</b> (rent vs. assistance vs. misc): irrelevant and a duplicate of Total Income; in affordable housing owners do not track the split.</li>
+  <li><b>Variance Analysis</b> (Actual vs. Budget): on hold; opens a can of worms with owners (for example depreciation). Revisit later, tailored.</li>
+  <li><b>Security deposits tile</b>: irrelevant to owners.</li>
+  <li><b>Net profit / accumulated profit / custom financials</b>: owners do this themselves from the monthly report package.</li>
+</ul>
+
+<h2>6. Regional View</h2>
+<p>The working view for executives and management. The two most important numbers are Occupancy and Current Rent Delinquency, shown side by side. Below are the working lists staff act on daily.</p>
+<h3>6.1 Show, top boxes</h3>
+<table>
+  <tr><th style="width:20%">Tile</th><th style="width:26%">Best source</th><th style="width:38%">What to show (detail)</th><th style="width:16%">History and refresh</th></tr>
+  <tr><td class="tile">Occupancy</td><td>Rent Roll and Availability</td><td>Occupied / total and percent. Click opens a side panel with Availability detail: unit number, days vacant, move-out date, offline-unit flag (is it the same unit vacant month after month).</td><td>3 years stored. Daily. Drill to unit level.</td></tr>
+  <tr><td class="tile">Current Rent Delinquency</td><td>Delinquent and Prepaid, "Current Balance"</td><td>Total current tenant rent owed, placed directly next to Occupancy (the two most important operational data points).</td><td>Current, end of day. Daily.</td></tr>
+  <tr><td class="tile">Operating Cash</td><td>GL <code>1116-1000</code></td><td>Current cash balance.</td><td>As of today. Daily.</td></tr>
+  <tr><td class="tile">Reserve for Replacement (reserve cash)</td><td>GL <code>1183-1000</code></td><td>Current reserve balance.</td><td>As of today. Daily.</td></tr>
+</table>
+<h3>6.2 Show, working lists</h3>
+<table>
+  <tr><th style="width:20%">Panel</th><th style="width:26%">Best source</th><th style="width:38%">What to show (detail)</th><th style="width:16%">History and refresh</th></tr>
+  <tr><td class="tile">Vacant Units</td><td>Availability Report</td><td>Per unit: days vacant, move-out date, offline flag. Flag units over 90 days.</td><td>Daily.</td></tr>
+  <tr><td class="tile">Pending Move-Ins</td><td>Rent Roll (move-in dates)</td><td>Unit, resident, scheduled move-in date.</td><td>Daily.</td></tr>
+  <tr><td class="tile">Pending Move-Outs</td><td>Rent Roll move-out / notices</td><td>Unit, resident, scheduled move-out date. Needs notice-to-vacate dates (see items to confirm).</td><td>Daily.</td></tr>
+  <tr><td class="tile">Delinquency Detail</td><td>Delinquent and Prepaid</td><td>Per tenant: unit, name, current rent balance owed; flag chronic-late tenants. Real names behind login; anonymized in any public demo.</td><td>Current, end of day. Daily.</td></tr>
+  <tr><td class="tile">Below Required Deposit</td><td>Rent Roll Detail</td><td>Per unit: required deposit vs. on hand vs. shortfall.</td><td>Daily.</td></tr>
+  <tr><td class="tile">Certification Expiration</td><td>Recertification Report</td><td>Recerts coming due over the next 12 months.</td><td>From the recert report.</td></tr>
+  <tr><td class="tile">Upcoming Recertifications</td><td>Recertification Report</td><td>Next 90 days: unit, resident, recert due date. Volume runs about 3 to 5 per month.</td><td>90-day forward window.</td></tr>
+</table>
+<h3>6.3 Do not show / de-prioritize (Regional)</h3>
+<ul class="dont">
+  <li><b>Tax and Insurance Reserve, Open Payables, other GL accounts</b>: accounting items, not operational; keep them off the top row.</li>
+  <li><b>Open Work Orders</b>: no source report identified in the current data; omit for v1 unless a work-order report is provided.</li>
+  <li><b>Miscellaneous income (MTD)</b>: low operational value; omit unless specifically wanted.</li>
+</ul>
+
+<h2>7. Data Sources Summary</h2>
+<table>
+  <tr><th style="width:32%">Report</th><th>Feeds</th></tr>
+  <tr><td class="tile">General Ledger Report</td><td>Operating Cash (1116-1000), Reserve for Replacement (1183-1000), Tax and Insurance (1180-1000), income, expenses, Capital Expenditures (6589-XXXX and 9120-XXXX).</td></tr>
+  <tr><td class="tile">Delinquent and Prepaid</td><td>Current rent delinquency, the "Current Balance" total (tenant rent only). Consolidate the three split reports run per property into one.</td></tr>
+  <tr><td class="tile">Rent Roll Detail</td><td>Occupancy / vacancy cross-check, move-in dates, deposits.</td></tr>
+  <tr><td class="tile">Availability Report</td><td>Vacancy drill-down: unit, days vacant, move-out date, offline flag.</td></tr>
+  <tr><td class="tile">All Units (Excel version)</td><td>Unit attributes: square footage, floor plan, bedroom size.</td></tr>
+  <tr><td class="tile">Recertification Report</td><td>Certification expiration and upcoming recertifications.</td></tr>
+  <tr><td class="tile">Monthly Owner Reporting package</td><td>One combined monthly file for owner download.</td></tr>
+</table>
+<p><span class="tag">DROP</span> Box Score and Management Fee Summary reports (unused and return blank).</p>
+
+<h2>8. Ongoing Platform Management</h2>
+<p>Included in year 1 as part of the monthly management bundle:</p>
+<ul>
+  <li><b>Adding new properties</b> to the platform as Gateway takes on new management.</li>
+  <li><b>Removing properties</b> that are no longer managed.</li>
+  <li><b>Database management and cleanup</b>: keeping property, unit, and report data accurate and consistent over time.</li>
+  <li><b>Hosting, security, monitoring, and continuous development</b> of new features throughout year 1.</li>
+</ul>
+
+<h2>9. Items to Confirm</h2>
+<ul>
+  <li><b>Open Payables source</b>: pending Claudia (Mike emailing; Prakash and Felipe cc'd). The number shown today is wrong.</li>
+  <li><b>Recertification report</b>: confirm the exact report name and format feeding certification expiration and upcoming recerts.</li>
+  <li><b>Pending Move-Outs source</b>: confirm where notice-to-vacate / move-out dates come from.</li>
+  <li><b>Historical data</b>: provide up to three years of prior reports per property to backfill history and occupancy comparisons.</li>
+  <li><b>Property, owner, and staff mapping</b>: the list of properties per owner and per staff member, to configure access.</li>
+  <li><b>Email intake</b>: confirm the address / mailbox that reports will be emailed to for the parser.</li>
+</ul>
+
+<h2>10. Investment</h2>
+<table>
+  <tr><th style="width:26%">Item</th><th style="width:52%">Description</th><th style="width:22%">Cost</th></tr>
+  <tr><td class="tile">Initial Investment</td><td>Full design, development, testing, and deployment of the Gateway Performance Platform: Owner and Regional views, user management, property and timeframe filters, three years of history, and email-to-parser data ingestion.</td><td><b>$10,575</b> one-time</td></tr>
+  <tr><td class="tile">HelloIT Management Bundle</td><td>Hosting, new features and security, platform management, database management and cleanup, adding and removing properties, and continuous development of the platform throughout year 1.</td><td>$495 <span style="color:var(--grey)">less $125 multi-tenant discount</span><br><b>$370</b> / month</td></tr>
+</table>
+
+<p class="foot">Prepared by HelloIT Pros for Gateway Management Services.</p>
+</div></body></html>
