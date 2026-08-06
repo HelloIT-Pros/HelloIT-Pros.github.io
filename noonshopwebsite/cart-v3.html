@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Your Bag | Noon Shop</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Outfit:wght@200;300;400;500&family=Playfair+Display:ital,wght@0,400;1,400&display=swap" rel="stylesheet">
+<style>
+:root{
+  --white:#FFFFFF;--cool:#F4F5F5;--stone:#EDEAE3;--ink:#1C1C1C;
+  --ink2:#2F2F2F;
+  --line:rgba(28,28,28,.12);--mut:rgba(28,28,28,.72);--mut2:rgba(28,28,28,.56);
+  --navy:#202A44;--navy-lt:#3D4F72;--navy-dk:#111828;
+  --D:'Bebas Neue',sans-serif;--B:'Outfit',sans-serif;--P:'Playfair Display',Georgia,serif;
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+body{background:var(--white);color:var(--ink);font-family:var(--B);font-weight:400;-webkit-font-smoothing:antialiased;}
+a{color:inherit;text-decoration:none;}img{display:block;max-width:100%;}
+
+nav{position:fixed;top:0;left:0;right:0;z-index:200;display:flex;justify-content:space-between;align-items:center;padding:14px 60px;background:rgba(255,255,255,.92);backdrop-filter:blur(16px);box-shadow:0 1px 0 var(--line);}
+.nav-logo{font-family:var(--D);font-size:19px;letter-spacing:.2em;color:var(--ink);display:flex;align-items:center;}
+.nav-logo-img{height:45px;width:auto;display:block;}
+.footer-logo-img{height:32px;width:auto;filter:brightness(0) invert(1);opacity:.92;}
+.nav-links{display:flex;gap:36px;align-items:center;}
+.nav-link{font-size:13px;font-weight:500;letter-spacing:.14em;text-transform:uppercase;color:var(--ink2);}
+.nav-link:hover{color:var(--navy);}
+.nav-cart{font-size:13px;font-weight:500;letter-spacing:.13em;text-transform:uppercase;color:var(--navy);display:flex;gap:7px;align-items:center;}
+.item-img{position:relative;}
+.item-sw{position:absolute;bottom:7px;right:7px;width:18px;height:18px;border-radius:50%;border:2px solid var(--white);box-shadow:0 1px 4px rgba(0,0,0,.25);}
+.cart-count{font-family:var(--D);font-size:13px;color:var(--navy);}
+
+.head{padding:120px 60px 0;}
+.head-eyebrow{font-size:11px;letter-spacing:.3em;text-transform:uppercase;color:var(--navy);margin-bottom:14px;}
+.head h1{font-family:var(--D);font-size:clamp(48px,7vw,88px);letter-spacing:.02em;line-height:.9;}
+.head h1 em{font-family:var(--P);font-style:italic;font-weight:400;color:var(--navy);font-size:.5em;}
+
+.wrap{display:grid;grid-template-columns:1.5fr .9fr;gap:56px;padding:40px 60px 100px;align-items:start;}
+
+/* line items */
+.items{border-top:1px solid var(--line);}
+.item{display:grid;grid-template-columns:120px 1fr auto;gap:24px;padding:28px 0;border-bottom:1px solid var(--line);align-items:center;}
+.item-img{width:120px;height:120px;background:var(--cool);border-radius:8px;display:flex;align-items:center;justify-content:center;}
+.item-img img{width:80%;object-fit:contain;}
+.item-coll{font-size:10px;letter-spacing:.2em;text-transform:uppercase;color:var(--mut2);margin-bottom:6px;}
+.item-name{font-family:var(--D);font-size:28px;letter-spacing:.04em;color:var(--ink);line-height:1;}
+.item-weight{font-size:12px;color:var(--navy);margin-top:8px;}
+.item-remove{font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--mut2);cursor:pointer;margin-top:12px;display:inline-block;}
+.item-remove:hover{color:var(--navy);}
+.item-right{text-align:right;display:flex;flex-direction:column;align-items:flex-end;gap:14px;}
+.item-price{font-family:var(--D);font-size:22px;letter-spacing:.03em;}
+.qty{display:flex;align-items:center;border:1px solid var(--line);border-radius:40px;overflow:hidden;}
+.qty button{width:34px;height:38px;background:none;border:none;font-size:16px;cursor:pointer;font-family:var(--B);color:var(--ink);}
+.qty span{width:32px;text-align:center;font-size:14px;}
+
+.empty{padding:80px 0;text-align:center;border-top:1px solid var(--line);border-bottom:1px solid var(--line);}
+.empty p{color:var(--mut);margin-bottom:24px;}
+
+/* summary */
+.summary{background:var(--cool);border-radius:12px;padding:36px 34px;position:sticky;top:88px;}
+.summary h2{font-family:var(--D);font-size:26px;letter-spacing:.04em;margin-bottom:24px;}
+.sum-row{display:flex;justify-content:space-between;font-size:14px;color:var(--mut);padding:10px 0;}
+.sum-row.total{border-top:1px solid var(--line);margin-top:12px;padding-top:18px;font-size:18px;color:var(--ink);}
+.sum-row.total span:last-child{font-family:var(--D);font-size:26px;}
+.checkout-btn{display:flex;align-items:center;justify-content:center;gap:11px;width:100%;background:var(--navy);color:#fff;font-size:12px;font-weight:500;letter-spacing:.18em;text-transform:uppercase;padding:17px;border-radius:40px;border:none;cursor:pointer;margin-top:24px;transition:background .2s;}
+.checkout-btn:hover{background:var(--navy-lt);}
+.sum-perks{margin-top:24px;display:flex;flex-direction:column;gap:12px;}
+.perk{display:flex;gap:10px;align-items:flex-start;font-size:12.5px;color:var(--mut);line-height:1.5;}
+.perk::before{content:'';width:7px;height:7px;border-radius:50%;background:var(--navy);margin-top:5px;flex-shrink:0;}
+.cont{display:inline-flex;align-items:center;gap:8px;margin-top:20px;font-size:11px;letter-spacing:.16em;text-transform:uppercase;color:var(--navy);}
+
+footer{background:var(--ink);color:#fff;padding:48px 60px;display:flex;justify-content:space-between;flex-wrap:wrap;gap:12px;}
+.footer-logo{font-family:var(--D);font-size:20px;letter-spacing:.2em;color:rgba(255,255,255,.85);}
+.footer-copy{font-size:11px;color:rgba(255,255,255,.3);}
+
+@media (max-width:960px){
+  nav{padding:12px 22px;}.nav-links{display:none;}
+  .head{padding:96px 24px 0;}
+  .wrap{grid-template-columns:1fr;gap:32px;padding:32px 24px 72px;}
+  .summary{position:static;}
+  .item{grid-template-columns:90px 1fr;gap:16px;}
+  .item-img{width:90px;height:90px;}
+  .item-right{grid-column:1/-1;flex-direction:row;justify-content:space-between;align-items:center;}
+  footer{padding:36px 24px;}
+}
+
+/* MOBILE MENU */
+.nav-burger{display:none;flex-direction:column;gap:5px;background:none;border:none;cursor:pointer;padding:6px;margin-left:14px;}
+.nav-burger span{width:24px;height:2px;background:var(--ink);display:block;}
+.mobile-menu{position:fixed;inset:0;background:var(--navy-dk);z-index:300;flex-direction:column;justify-content:center;padding:48px 32px;transform:translateX(100%);transition:transform .4s cubic-bezier(.4,0,.2,1);display:flex;}
+.mobile-menu .mm-sub{font-size:11px;letter-spacing:.22em;text-transform:uppercase;color:#9FB0D0;margin-bottom:20px;}
+.mobile-menu a{font-family:var(--D);font-size:32px;letter-spacing:.04em;color:#fff;padding:13px 0;border-bottom:1px solid rgba(255,255,255,.1);}
+.mobile-menu.open{transform:translateX(0);}
+.mm-close{position:absolute;top:22px;right:24px;font-size:12px;letter-spacing:.18em;text-transform:uppercase;color:#9FB0D0;background:none;border:none;cursor:pointer;}
+@media(min-width:961px){.mobile-menu{display:none !important;}}
+@media(max-width:960px){.nav-burger{display:flex;}}
+
+/* ANNOUNCEMENT BAR */
+body{padding-top:38px;}
+nav{top:38px;}
+.annbar{position:fixed;top:0;left:0;right:0;height:38px;z-index:250;background:var(--navy);color:#fff;display:flex;align-items:center;justify-content:center;text-align:center;padding:0 16px;font-size:11px;letter-spacing:.08em;}
+.annbar b{font-weight:600;}
+.annbar .code{color:#9FB0D0;font-weight:600;letter-spacing:.12em;}
+@media(max-width:960px){ .annbar{font-size:10px;letter-spacing:.04em;} }
+
+.ann-short{display:none;}
+@media(max-width:560px){.ann-full{display:none;}.ann-short{display:inline;}}
+</style>
+</head>
+<body>
+<div class="mobile-menu" id="mobileMenu">
+  <button class="mm-close" onclick="toggleMenu(false)">Close ✕</button>
+  <div class="mm-sub">Noon Shop</div>
+  <a href="shop-v3.html">Shop</a>
+  <a href="shop-v3.html?view=bestsellers">Bestsellers</a>
+  <a href="fit-guide-v3.html">Find Your Fit</a>
+  <a href="story-v3.html">Our Story</a>
+  <a href="cart-v3.html">Cart</a>
+</div>
+
+
+<div class="annbar"><span class="ann-full">Free shipping on every order&nbsp;·&nbsp;<b>10% off your first pair</b> with code <span class="code">NOON10</span></span><span class="ann-short"><b>10% off your first pair</b>&nbsp;·&nbsp;code <span class="code">NOON10</span></span></div>
+<nav>
+  <a href="index-v3.html" class="nav-logo"><img src="NoonShopLogoEtsy.png" alt="Noon Shop" class="nav-logo-img"></a>
+  <div class="nav-links">
+      <a href="shop-v3.html" class="nav-link">Shop</a>
+      <a href="shop-v3.html?view=bestsellers" class="nav-link">Bestsellers</a>
+      <a href="fit-guide-v3.html" class="nav-link">Find Your Fit</a>
+      <a href="story-v3.html" class="nav-link">Our Story</a>
+    </div>
+  <a href="cart-v3.html" class="nav-cart"><svg class="nav-bag" width="21" height="21" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-label="Cart"><path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/><path d="M3 6h18"/><path d="M16 10a4 4 0 0 1-8 0"/></svg><span class="cart-count" id="cartCount">0</span></a>
+  <button class="nav-burger" onclick="toggleMenu(true)" aria-label="Open menu"><span></span><span></span><span></span></button>
+</nav>
+
+<div class="head">
+  <div class="head-eyebrow">Your Selection</div>
+  <h1>YOUR <em>bag</em></h1>
+</div>
+
+<div class="wrap">
+  <div id="itemsCol"></div>
+  <aside class="summary" id="summary"></aside>
+</div>
+
+<footer>
+  <a href="index-v3.html" class="footer-logo"><img src="NoonShopLogoEtsy.png" alt="Noon Shop" class="footer-logo-img"></a>
+  <div class="footer-copy"><a href="terms-v3.html">Terms &amp; Policies</a> · © 2026 Noon Shop · Founded by Anna Park, MD</div>
+</footer>
+
+<script>
+const IMG='../Noonshop/assets/product/';
+function getCart(){try{return JSON.parse(localStorage.getItem('noonCart')||'[]');}catch(e){return [];}}
+function setCart(c){localStorage.setItem('noonCart',JSON.stringify(c));render();}
+function money(n){return '$'+n.toLocaleString();}
+function weightWord(n){return n<=8?'featherlight':n<=10?'so light':'light';}
+/* Reflect the chosen colour on the stand-in image with a subtle tint until per-colour photography exists. */
+const SW={black:'#1C1C1C',tortoise:'linear-gradient(135deg,#8A5A2B,#3D2614)',crystal:'#E7E7E1',gold:'#C2A35A',silver:'#B8BCC2',brown:'#6B4A2F',navy:'#202A44',olive:'#6B6B47',rose:'#C98B7E'};
+const TINT={black:'none',silver:'grayscale(.5) brightness(1.05)',crystal:'grayscale(.35) brightness(1.12)',gold:'sepia(.55) saturate(1.25) hue-rotate(-12deg)',tortoise:'sepia(.6) saturate(1.35) hue-rotate(-18deg) brightness(.92)',brown:'sepia(.65) saturate(1.2) hue-rotate(-20deg) brightness(.9)',navy:'saturate(1.1) hue-rotate(190deg) brightness(.9)',olive:'sepia(.5) hue-rotate(30deg) saturate(1.1)',rose:'sepia(.4) saturate(1.3) hue-rotate(310deg)'};
+
+function setQty(name,d){
+  const c=getCart();const it=c.find(i=>i.name===name);if(!it)return;
+  it.qty=Math.max(1,it.qty+d);setCart(c);
+}
+function remove(name){setCart(getCart().filter(i=>i.name!==name));}
+
+function render(){
+  const c=getCart();
+  const count=c.reduce((s,i)=>s+i.qty,0);
+  document.querySelectorAll('.cart-count').forEach(e=>e.textContent=count);
+  const itemsCol=document.getElementById('itemsCol');
+  const summary=document.getElementById('summary');
+
+  if(!c.length){
+    itemsCol.innerHTML=`<div class="empty"><p>Your bag is empty, every great pair starts with the right fit.</p><a href="shop-v3.html" class="checkout-btn" style="display:inline-flex;width:auto;padding:16px 32px;">Shop Frames →</a></div>`;
+    summary.innerHTML='';summary.style.display='none';return;
+  }
+  summary.style.display='block';
+
+  itemsCol.innerHTML=`<div class="items">${c.map(i=>`
+    <div class="item">
+      <div class="item-img"><img src="${IMG}${i.img}" style="filter:${(i.colorKey&&TINT[i.colorKey])||'none'}" onerror="this.style.display='none'">${i.swatch?`<span class="item-sw" style="background:${i.swatch}" title="${i.color||''}"></span>`:''}</div>
+      <div>
+        <div class="item-coll">${i.coll}${i.sku?' · SKU '+i.sku:''}</div>
+        <a href="product-v3.html?frame=${i.name.toLowerCase()}"><div class="item-name">${i.name.toUpperCase()}</div></a>
+        <div class="item-weight">${i.color?i.color+' · ':''}${i.weight}g · ${weightWord(i.weight)}</div>
+        <span class="item-remove" onclick="remove('${i.name}')">Remove</span>
+      </div>
+      <div class="item-right">
+        <div class="item-price">${money(i.price*i.qty)}</div>
+        <div class="qty"><button onclick="setQty('${i.name}',-1)">−</button><span>${i.qty}</span><button onclick="setQty('${i.name}',1)">+</button></div>
+      </div>
+    </div>`).join('')}</div>
+    <a class="cont" href="shop-v3.html">← Continue shopping</a>`;
+
+  const subtotal=c.reduce((s,i)=>s+i.price*i.qty,0);
+  summary.innerHTML=`
+    <h2>Order Summary</h2>
+    <div class="sum-row"><span>Subtotal</span><span>${money(subtotal)}</span></div>
+    <div class="sum-row"><span>Shipping</span><span>Free</span></div>
+    <div class="sum-row"><span>Lenses</span><span>Demo lenses included</span></div>
+    <div class="sum-row total"><span>Total</span><span>${money(subtotal)}</span></div>
+    <button class="checkout-btn" onclick="location.href='checkout-v3.html'">Checkout →</button>
+    <div class="sum-perks">
+      <div class="perk">Free shipping both ways, always.</div>
+      <div class="perk">30-day fit guarantee, if it doesn't sit right, send it back.</div>
+      <div class="perk">Every frame backed by Anna Park's clinical fit standard.</div>
+    </div>`;
+}
+render();
+</script>
+<script>function toggleMenu(o){var m=document.getElementById("mobileMenu");if(m){m.classList.toggle("open",o);document.body.style.overflow=o?"hidden":"";}}</script>
+</body>
+</html>

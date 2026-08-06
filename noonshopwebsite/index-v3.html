@@ -1,0 +1,894 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Noon Shop | Eyewear Engineered to Fit. Light Enough to Forget.</title>
+<meta name="description" content="Ophthalmologist-founded eyewear built around fit. Lightweight titanium and stainless steel frames that feel weightless on your face. Founded by Anna Park, MD.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Outfit:wght@200;300;400;500&family=Playfair+Display:ital,wght@0,400;1,400&display=swap" rel="stylesheet">
+<style>
+/* ── TOKENS · NAVY / WHITE SYSTEM ── */
+:root {
+  --white:    #FFFFFF;
+  --cool:     #F4F5F5;
+  --stone:    #EDEAE3;
+  --ink:      #1C1C1C;
+  --ink2:     #2F2F2F;
+  --line:     rgba(28,28,28,.12);
+  --line-d:   rgba(255,255,255,.12);
+  --mut:      rgba(28,28,28,.72);
+  --mut2:     rgba(28,28,28,.56);
+  --navy:     #202A44;
+  --navy-lt:  #3D4F72;
+  --navy-dk:  #111828;
+  --D: 'Bebas Neue', sans-serif;
+  --B: 'Outfit', sans-serif;
+  --P: 'Playfair Display', Georgia, serif;
+}
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+body { background: var(--white); color: var(--ink); font-family: var(--B); font-weight: 400; overflow-x: hidden; -webkit-font-smoothing: antialiased; }
+a { color: inherit; text-decoration: none; }
+img { display: block; max-width: 100%; }
+
+/* ── NAV ── */
+nav {
+  position: fixed; top: 0; left: 0; right: 0; z-index: 200;
+  display: flex; justify-content: space-between; align-items: center;
+  padding: 20px 60px; transition: background .3s, padding .3s, box-shadow .3s;
+}
+nav.scrolled { background: rgba(255,255,255,.92); backdrop-filter: blur(16px); padding: 14px 60px; box-shadow: 0 1px 0 var(--line); }
+.nav-logo { font-family: var(--D); font-size: 19px; letter-spacing: .2em; color: var(--ink); display: flex; align-items: center; }
+.nav-logo-img { height: 45px; width: auto; display: block; transition: filter .3s; }
+.footer-logo-img { height: 34px; width: auto; filter: brightness(0) invert(1); opacity: .92; }
+.nav-links { display: flex; gap: 36px; align-items: center; }
+.nav-link { font-size: 13px; font-weight: 500; letter-spacing: .14em; text-transform: uppercase; color: var(--mut); transition: color .2s; }
+.nav-link:hover { color: var(--navy); }
+.nav-right { display: flex; align-items: center; gap: 22px; }
+.nav-cart { font-size: 13px; font-weight: 500; letter-spacing: .13em; text-transform: uppercase; color: var(--mut); display: flex; gap: 7px; align-items: center; }
+.nav-cart:hover { color: var(--navy); }
+.cart-count { font-family: var(--D); font-size: 13px; color: var(--navy); }
+
+/* light nav over the dark hero (until scrolled) */
+#nav .nav-logo, #nav .nav-link, #nav .nav-cart { color: #fff; }
+#nav .nav-logo-img { filter: brightness(0) invert(1); }
+#nav .nav-link:hover { color: #9FB0D0; }
+#nav .cart-count { color: #fff; }
+#nav .nav-burger span { background: #fff; }
+#nav.scrolled .nav-logo { color: var(--ink); }
+#nav.scrolled .nav-logo-img { filter: none; }
+#nav.scrolled .nav-link, #nav.scrolled .nav-cart { color: var(--ink2); }
+#nav.scrolled .nav-link:hover { color: var(--navy); }
+#nav.scrolled .cart-count { color: var(--navy); }
+#nav.scrolled .nav-burger span { background: var(--ink); }
+
+/* ── REVEAL ── */
+.rv { opacity: 0; transform: translateY(26px); transition: opacity .8s ease, transform .8s ease; }
+.rv.in { opacity: 1; transform: translateY(0); }
+.rv.d1 { transition-delay: .1s; } .rv.d2 { transition-delay: .2s; } .rv.d3 { transition-delay: .3s; }
+
+/* ── SHARED ── */
+.tag { font-size: 11px; font-weight: 500; letter-spacing: .3em; text-transform: uppercase; color: var(--navy); margin-bottom: 40px; display: flex; align-items: center; gap: 14px; }
+.tag::before { content: ''; width: 30px; height: 1px; background: var(--navy); }
+.tag.on-dark { color: #9FB0D0; }
+.tag.on-dark::before { background: #9FB0D0; }
+.h-d { font-family: var(--D); font-size: clamp(48px,6.5vw,104px); letter-spacing: .02em; line-height: .9; color: var(--ink); }
+.h-d em { display: block; font-family: var(--P); font-style: italic; font-weight: 400; font-size: clamp(32px,4.5vw,64px); line-height: 1.15; letter-spacing: -.01em; color: var(--navy); margin-top: 6px; }
+.lede { font-size: 15px; line-height: 1.85; color: var(--mut); max-width: 540px; margin-top: 26px; }
+.btn-navy { display: inline-flex; align-items: center; gap: 11px; font-size: 11px; font-weight: 500; letter-spacing: .2em; text-transform: uppercase; background: var(--navy); color: #fff; padding: 14px 30px; border-radius: 40px; border: none; cursor: pointer; transition: background .2s, transform .2s; }
+.btn-navy:hover { background: var(--navy-lt); transform: translateY(-1px); }
+.btn-ghost { display: inline-flex; align-items: center; gap: 11px; font-size: 11px; font-weight: 500; letter-spacing: .2em; text-transform: uppercase; color: var(--navy); border: 1px solid var(--line); padding: 13px 30px; border-radius: 40px; transition: border-color .2s, color .2s; }
+.btn-ghost:hover { border-color: var(--navy); }
+.link-arrow { font-size: 11px; letter-spacing: .2em; text-transform: uppercase; color: var(--navy); display: inline-flex; align-items: center; gap: 9px; transition: gap .2s; }
+.link-arrow::after { content: '→'; transition: transform .2s; }
+.link-arrow:hover { gap: 13px; }
+
+/* ── HERO ── */
+.hero { position: relative; min-height: 92vh; display: flex; align-items: flex-end; overflow: hidden; }
+.hero-bg { position: absolute; inset: 0; z-index: 0; }
+.hero-bg img { width: 100%; height: 100%; object-fit: cover; object-position: 62% 32%; }
+.hero-bg::after { content: ''; position: absolute; inset: 0; background: linear-gradient(90deg, rgba(17,24,40,.46) 0%, rgba(17,24,40,.18) 34%, transparent 58%), linear-gradient(0deg, rgba(17,24,40,.32) 0%, transparent 34%); }
+.hero-content { position: relative; z-index: 1; padding: 0 60px 88px; max-width: 820px; text-shadow: 0 2px 24px rgba(17,24,40,.35); }
+.hero-eyebrow { font-size: 11px; letter-spacing: .28em; text-transform: uppercase; color: #9FB0D0; margin-bottom: 22px; display: flex; align-items: center; gap: 12px; }
+.hero-eyebrow::before { content: ''; width: 26px; height: 1px; background: #9FB0D0; }
+.hero-h1 { font-family: var(--D); font-size: clamp(64px,9vw,150px); line-height: .84; letter-spacing: .02em; color: #fff; }
+.hero-h1 em { display: block; font-family: var(--P); font-style: italic; font-weight: 400; font-size: clamp(38px,5.5vw,88px); line-height: 1.05; color: #9FB0D0; margin-top: 8px; }
+.hero-sub { font-size: 16px; line-height: 1.8; color: rgba(255,255,255,.8); max-width: 460px; margin-top: 28px; }
+.hero-ctas { display: flex; gap: 12px; margin-top: 36px; }
+.hero-ctas .btn-ghost { color: #fff; border-color: rgba(255,255,255,.4); }
+.hero-ctas .btn-ghost:hover { border-color: #fff; }
+.hero-badge { position: absolute; bottom: 88px; right: 60px; z-index: 1; background: rgba(17,24,40,.5); backdrop-filter: blur(8px); border: 1px solid rgba(255,255,255,.25); padding: 14px 20px; border-radius: 10px; }
+.hero-badge-v { font-family: var(--D); font-size: 24px; letter-spacing: .04em; color: #fff; line-height: 1; }
+.hero-badge-l { font-size: 10px; letter-spacing: .16em; text-transform: uppercase; color: rgba(255,255,255,.7); margin-top: 5px; }
+
+/* ── WEIGHTLESS ── */
+.weightless { background: var(--cool); color: var(--ink); padding: 100px 60px; text-align: center; }
+.weightless-eyebrow { font-size: 11px; letter-spacing: .3em; text-transform: uppercase; color: var(--navy); margin-bottom: 26px; }
+.weightless-lead { font-family: var(--P); font-style: italic; font-size: clamp(30px,4vw,56px); line-height: 1.2; color: var(--ink); max-width: 820px; margin: 0 auto; }
+.weightless-lead em { color: var(--navy); font-style: normal; }
+.weightless-grid { display: grid; grid-template-columns: repeat(3,1fr); margin-top: 72px; border-top: 1px solid var(--line); }
+.wprop { padding: 48px 40px 8px; text-align: center; border-right: 1px solid var(--line); }
+.wprop:last-child { border-right: none; }
+.wprop-icon { height: 92px; display: flex; align-items: center; justify-content: center; color: var(--navy); }
+.wprop-icon svg { height: 92px; width: auto; }
+.wprop-t { font-size: 14px; font-weight: 600; letter-spacing: .18em; text-transform: uppercase; color: var(--ink); margin: 24px 0 12px; }
+.wprop-b { font-size: 15px; line-height: 1.7; color: var(--mut); max-width: 300px; margin: 0 auto; }
+
+/* ── NAVY TRANSITION BAND ── */
+.navband { background: var(--navy); color: #fff; padding: 84px 60px; text-align: center; }
+.navband-eyebrow { font-size: 11px; letter-spacing: .3em; text-transform: uppercase; color: #9FB0D0; margin-bottom: 26px; }
+.navband-line { font-family: var(--P); font-style: italic; font-size: clamp(26px,3.4vw,46px); line-height: 1.25; color: #fff; max-width: 860px; margin: 0 auto; }
+.navband-line em { color: #9FB0D0; font-style: normal; }
+.navband-attr { font-size: 11px; letter-spacing: .2em; text-transform: uppercase; color: rgba(255,255,255,.4); margin-top: 28px; }
+
+/* ── SECTION ── */
+.sec { padding: 120px 60px; }
+.sec.cool { background: var(--cool); }
+
+/* ── FEATURED PRODUCTS ── */
+.feat { padding: 110px 60px; }
+.feat-head { display: flex; justify-content: space-between; align-items: flex-end; gap: 24px; flex-wrap: wrap; margin-bottom: 52px; }
+.feat-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 24px; }
+.feat-all { display: flex; justify-content: center; margin-top: 52px; }
+.pcard { background: var(--white); border: 1px solid var(--line); border-radius: 8px; overflow: hidden; transition: box-shadow .25s, transform .25s; display: flex; flex-direction: column; }
+.pcard:hover { box-shadow: 0 18px 46px rgba(28,28,28,.10); transform: translateY(-4px); }
+.pcard-img { aspect-ratio: 1/1; background: var(--cool); position: relative; overflow: hidden; }
+.pcard-layer { position: absolute; inset: 0; transition: opacity .45s ease; }
+.pcard-face { width: 100%; height: 100%; object-fit: cover; object-position: center top; }
+.pcard-prod { background: var(--cool); opacity: 0; }
+.pcard-prod img { width: 100%; height: 100%; object-fit: cover; }
+.pcard:hover .pcard-face { opacity: 0; }
+.pcard:hover .pcard-prod { opacity: 1; }
+.pcard-tryon { position: absolute; bottom: 14px; left: 14px; z-index: 3; display: inline-flex; align-items: center; gap: 6px; font-size: 9px; letter-spacing: .12em; text-transform: uppercase; color: #fff; background: var(--navy); padding: 7px 12px; border-radius: 20px; border: none; cursor: pointer; opacity: 0; transition: opacity .25s, background .2s; }
+.pcard:hover .pcard-tryon { opacity: 1; }
+.pcard-tryon:hover { background: var(--navy-lt); }
+.pcard-tryon svg { width: 13px; height: 13px; }
+@media(max-width:960px){ .pcard-tryon{ opacity: 1; } }
+.pcard-badge { position: absolute; top: 14px; left: 14px; z-index: 4; font-size: 9px; letter-spacing: .14em; text-transform: uppercase; background: var(--navy); color: #fff; padding: 5px 11px; border-radius: 20px; }
+.pcard-weight { position: absolute; bottom: 14px; right: 14px; z-index: 4; font-size: 10px; letter-spacing: .06em; color: var(--mut); background: rgba(255,255,255,.88); padding: 5px 11px; border-radius: 20px; }
+.pcard-body { padding: 22px 22px 24px; display: flex; flex-direction: column; flex: 1; }
+.pcard-coll { font-size: 9px; letter-spacing: .18em; text-transform: uppercase; color: var(--mut2); margin-bottom: 7px; }
+.pcard-name { font-family: var(--D); font-size: 28px; letter-spacing: .04em; color: var(--ink); line-height: 1; margin-bottom: 7px; }
+.pcard-tag { font-family: var(--P); font-style: italic; font-size: 13px; color: var(--navy); margin-bottom: 18px; }
+.pcard-foot { margin-top: auto; display: flex; justify-content: space-between; align-items: center; }
+.pcard-price { font-family: var(--D); font-size: 22px; letter-spacing: .03em; color: var(--ink); }
+.pcard-cta { font-size: 10px; letter-spacing: .16em; text-transform: uppercase; color: var(--navy); border: 1px solid var(--line); padding: 8px 16px; border-radius: 40px; transition: all .2s; }
+.pcard:hover .pcard-cta { background: var(--navy); border-color: var(--navy); color: #fff; }
+
+/* ── FIT MAP (interactive face) ── */
+.fitmap { display: grid; grid-template-columns: 1.02fr .98fr; gap: 52px; margin-top: 56px; align-items: center; }
+.fitmap-stage { position: relative; border-radius: 8px; overflow: hidden; background: var(--cool); aspect-ratio: 1/1; }
+.fitmap-stage > img { width: 100%; height: 100%; object-fit: cover; object-position: center top; }
+.hotspot { position: absolute; width: 30px; height: 30px; border-radius: 50%; border: 2px solid #fff; background: rgba(32,42,68,.5); color: #fff; font-size: 12px; font-weight: 500; display: flex; align-items: center; justify-content: center; cursor: pointer; transform: translate(-50%,-50%); box-shadow: 0 2px 10px rgba(0,0,0,.25); animation: hpulse 2.6s infinite; transition: background .2s, transform .2s; }
+.hotspot:hover, .hotspot.active { background: var(--navy); animation: none; transform: translate(-50%,-50%) scale(1.12); }
+@keyframes hpulse { 0% { box-shadow: 0 0 0 0 rgba(255,255,255,.55); } 70% { box-shadow: 0 0 0 13px rgba(255,255,255,0); } 100% { box-shadow: 0 0 0 0 rgba(255,255,255,0); } }
+.fitmap-detail { min-height: 300px; }
+.fmd-step { font-size: 11px; letter-spacing: .24em; text-transform: uppercase; color: var(--navy); margin-bottom: 18px; }
+.fmd-title { font-family: var(--D); font-size: clamp(30px,3.2vw,46px); letter-spacing: .03em; color: var(--ink); line-height: .95; margin-bottom: 8px; }
+.fmd-sub { font-family: var(--P); font-style: italic; font-size: 17px; color: var(--navy); margin-bottom: 22px; }
+.fmd-problem { font-size: 15px; line-height: 1.8; color: var(--mut); margin-bottom: 24px; }
+.fmd-fix { border-left: 2px solid var(--navy); padding: 16px 20px; background: rgba(32,42,68,.05); border-radius: 0 6px 6px 0; }
+.fmd-fix-l { font-size: 10px; letter-spacing: .2em; text-transform: uppercase; color: var(--navy); margin-bottom: 7px; }
+.fmd-fix-b { font-size: 14px; line-height: 1.7; color: var(--ink); }
+.fmd-hint { font-size: 12px; letter-spacing: .04em; color: var(--mut2); margin-top: 26px; display: flex; align-items: center; gap: 8px; }
+.fmd-hint::before { content: ''; width: 8px; height: 8px; border-radius: 50%; background: var(--navy); flex-shrink: 0; }
+
+/* ── COLLECTIONS ── */
+.coll { display: grid; grid-template-columns: repeat(3,1fr); gap: 1px; background: var(--line); margin-top: 60px; }
+.coll-panel { background: var(--white); padding: 44px 38px 40px; display: flex; flex-direction: column; }
+.coll-num { font-size: 10px; letter-spacing: .26em; text-transform: uppercase; color: var(--mut2); margin-bottom: 16px; }
+.coll-name { font-family: var(--D); font-size: clamp(36px,3.4vw,52px); letter-spacing: .03em; line-height: .9; color: var(--ink); margin-bottom: 8px; }
+.coll-tag { font-family: var(--P); font-style: italic; font-size: 15px; color: var(--navy); margin-bottom: 20px; }
+.coll-body { font-size: 13.5px; line-height: 1.8; color: var(--mut); margin-bottom: 24px; }
+.coll-cities { font-size: 11px; letter-spacing: .12em; text-transform: uppercase; color: var(--navy-lt); margin-bottom: 28px; line-height: 1.7; }
+.coll-img { aspect-ratio: 5/4; background: var(--cool); border-radius: 6px; overflow: hidden; margin-bottom: 22px; display: flex; align-items: center; justify-content: center; }
+.coll-img img { width: 88%; object-fit: contain; transition: transform .5s ease; }
+.coll-panel:hover .coll-img img { transform: scale(1.05); }
+.coll-foot { margin-top: auto; }
+
+/* ── FIT INTERVIEW ── */
+.interview { background: var(--navy-dk); color: #fff; padding: 110px 60px; min-height: 88vh; display: flex; align-items: center; justify-content: center; }
+.iv-inner { width: 100%; max-width: 760px; text-align: center; }
+.iv-progress { display: flex; gap: 8px; justify-content: center; margin-bottom: 44px; }
+.iv-dot { width: 36px; height: 3px; border-radius: 3px; background: rgba(255,255,255,.16); transition: background .3s; }
+.iv-dot.done { background: #9FB0D0; }
+.iv-dot.active { background: #fff; }
+.iv-eyebrow { font-size: 11px; letter-spacing: .26em; text-transform: uppercase; color: #9FB0D0; margin-bottom: 22px; }
+.iv-q { font-family: var(--P); font-style: italic; font-size: clamp(28px,4vw,52px); line-height: 1.2; color: #fff; margin-bottom: 14px; }
+.iv-hint { font-size: 14px; line-height: 1.7; color: rgba(255,255,255,.5); max-width: 480px; margin: 0 auto 44px; }
+.iv-opts { display: flex; gap: 14px; justify-content: center; flex-wrap: wrap; }
+.iv-opt { min-width: 180px; padding: 22px 26px; border: 1px solid rgba(255,255,255,.18); border-radius: 10px; background: rgba(255,255,255,.03); cursor: pointer; transition: all .2s; text-align: left; }
+.iv-opt:hover { border-color: #9FB0D0; background: rgba(159,176,208,.10); transform: translateY(-2px); }
+.iv-opt { position: relative; }
+.iv-opt.selected { border-color: #9FB0D0; background: rgba(159,176,208,.16); }
+.iv-opt.selected::after { content: '✓'; position: absolute; top: 12px; right: 14px; font-size: 13px; color: #9FB0D0; }
+.iv-opt-t { font-family: var(--D); font-size: 22px; letter-spacing: .04em; color: #fff; margin-bottom: 6px; }
+.iv-opt-d { font-size: 12px; line-height: 1.5; color: rgba(255,255,255,.5); }
+.iv-continue { margin-top: 40px; display: flex; flex-direction: column; align-items: center; gap: 14px; }
+.iv-multi-note { font-size: 11px; letter-spacing: .16em; text-transform: uppercase; color: rgba(255,255,255,.35); }
+.btn-light:disabled { opacity: .35; cursor: default; transform: none; }
+.iv-back { margin-top: 40px; font-size: 11px; letter-spacing: .18em; text-transform: uppercase; color: rgba(255,255,255,.4); cursor: pointer; background: none; border: none; font-family: var(--B); }
+.iv-back:hover { color: #fff; }
+.iv-back[hidden] { visibility: hidden; }
+/* result */
+.iv-result-label { font-size: 11px; letter-spacing: .28em; text-transform: uppercase; color: #9FB0D0; margin-bottom: 20px; }
+.iv-result-h { font-family: var(--D); font-size: clamp(40px,5vw,72px); letter-spacing: .03em; line-height: .92; color: #fff; margin-bottom: 24px; }
+.iv-result-tags { display: flex; gap: 10px; justify-content: center; flex-wrap: wrap; margin-bottom: 40px; }
+.iv-result-tag { font-size: 11px; letter-spacing: .12em; text-transform: uppercase; color: #fff; border: 1px solid rgba(159,176,208,.4); padding: 8px 16px; border-radius: 40px; }
+.btn-light { display: inline-flex; align-items: center; gap: 11px; font-size: 11px; font-weight: 500; letter-spacing: .2em; text-transform: uppercase; background: #fff; color: var(--navy); padding: 16px 34px; border-radius: 40px; border: none; cursor: pointer; transition: transform .2s; }
+.btn-light:hover { transform: translateY(-1px); }
+
+/* ── REVIEWS ── */
+.rev-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 24px; margin-top: 56px; }
+.rev-card { background: var(--white); border: 1px solid var(--line); border-radius: 4px; padding: 34px 30px; }
+.rev-tags { display: flex; gap: 6px; flex-wrap: wrap; margin-bottom: 20px; }
+.rev-tag { font-size: 9px; letter-spacing: .14em; text-transform: uppercase; background: rgba(32,42,68,.07); color: var(--navy); padding: 4px 10px; border-radius: 20px; }
+.rev-quote { font-family: var(--P); font-style: italic; font-size: 16px; line-height: 1.6; color: var(--ink); margin-bottom: 24px; }
+.rev-quote em { color: var(--navy); font-style: normal; }
+.rev-meta { display: flex; align-items: center; gap: 12px; }
+.rev-avatar { width: 38px; height: 38px; border-radius: 50%; overflow: hidden; background: var(--cool); flex-shrink: 0; }
+.rev-avatar img { width: 100%; height: 100%; object-fit: cover; object-position: center top; }
+.rev-name { font-size: 12px; color: var(--ink); }
+.rev-frame { font-size: 11px; color: var(--mut2); margin-top: 2px; }
+
+/* ── TRY-ON PROMO ── */
+.tryonpromo { background: var(--navy); color: #fff; display: grid; grid-template-columns: 1fr 1fr; align-items: stretch; }
+.tryonpromo-img { position: relative; overflow: hidden; min-height: 480px; background: var(--cool); }
+.tryonpromo-stage { position: absolute; inset: 0; overflow: hidden; background: var(--cool); }
+.ts-model { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: center top; transition: opacity .7s ease; }
+.ts-frame { position: absolute; pointer-events: none; z-index: 2; transition: opacity .35s ease; filter: drop-shadow(0 6px 14px rgba(0,0,0,.35)); }
+.tryonpromo-tag { position: absolute; top: 22px; left: 22px; z-index: 4; display: inline-flex; align-items: center; gap: 8px; font-size: 10px; letter-spacing: .16em; text-transform: uppercase; color: var(--navy); background: rgba(255,255,255,.92); padding: 8px 14px; border-radius: 40px; }
+.tryonpromo-tag .dot { width: 7px; height: 7px; border-radius: 50%; background: #2e7d4f; }
+.tryonpromo-body { padding: 88px 64px; display: flex; flex-direction: column; justify-content: center; }
+.tryonpromo-eyebrow { font-size: 11px; letter-spacing: .3em; text-transform: uppercase; color: #9FB0D0; margin-bottom: 22px; }
+.tryonpromo-h { font-family: var(--D); font-size: clamp(40px,5vw,76px); letter-spacing: .02em; line-height: .92; color: #fff; }
+.tryonpromo-h em { font-family: var(--P); font-style: italic; font-weight: 400; color: #9FB0D0; font-size: .62em; }
+.tryonpromo-p { font-size: 15px; line-height: 1.8; color: rgba(255,255,255,.62); max-width: 440px; margin: 22px 0 18px; }
+.tryonpromo-points { display: flex; flex-direction: column; gap: 10px; margin-bottom: 34px; }
+.tryonpromo-point { display: flex; gap: 11px; align-items: center; font-size: 13.5px; color: rgba(255,255,255,.78); }
+.tryonpromo-point svg { width: 16px; height: 16px; color: #9FB0D0; flex-shrink: 0; }
+
+/* ── FOUNDER (the one dark moment) ── */
+.founder { display: grid; grid-template-columns: 1fr 1fr; min-height: 78vh; }
+.founder-img { overflow: hidden; background: var(--cool); }
+.founder-img img { width: 100%; height: 100%; object-fit: cover; object-position: center top; }
+.founder-body { background: var(--navy-dk); color: #fff; padding: 88px 72px; display: flex; flex-direction: column; justify-content: center; }
+.founder-pull { font-family: var(--P); font-style: italic; font-size: clamp(22px,2.6vw,36px); line-height: 1.35; color: #fff; margin-bottom: 32px; }
+.founder-pull em { color: #9FB0D0; font-style: normal; }
+.founder-attr { font-size: 11px; letter-spacing: .2em; text-transform: uppercase; color: rgba(255,255,255,.4); margin-bottom: 40px; }
+.founder-text { font-size: 14px; line-height: 1.85; color: rgba(255,255,255,.55); max-width: 400px; margin-bottom: 32px; }
+
+/* ── FOOTER ── */
+footer { background: var(--ink); color: #fff; padding: 72px 60px 48px; }
+.footer-top { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 52px; }
+.footer-logo { font-family: var(--D); font-size: 22px; letter-spacing: .2em; color: rgba(255,255,255,.85); }
+.footer-tagline { font-family: var(--P); font-style: italic; font-size: 13px; color: rgba(255,255,255,.4); margin-top: 10px; }
+.footer-cols { display: grid; grid-template-columns: repeat(4,1fr); gap: 40px; }
+.footer-col-h { font-size: 10px; letter-spacing: .24em; text-transform: uppercase; color: #9FB0D0; margin-bottom: 18px; }
+.footer-links { list-style: none; display: flex; flex-direction: column; gap: 10px; }
+.footer-links a { font-size: 13px; color: rgba(255,255,255,.45); transition: color .2s; }
+.footer-links a:hover { color: #fff; }
+.footer-bottom { display: flex; justify-content: space-between; padding-top: 36px; margin-top: 40px; border-top: 1px solid rgba(255,255,255,.1); }
+.footer-copy { font-size: 11px; color: rgba(255,255,255,.3); letter-spacing: .06em; }
+.footer-founder { font-size: 11px; color: rgba(255,255,255,.35); font-style: italic; }
+
+/* ── MOBILE ── */
+@media (max-width: 960px) {
+  nav, nav.scrolled { padding: 14px 22px; }
+  .nav-links { display: none; }
+  .hero { min-height: 86vh; flex-direction: column; align-items: stretch; justify-content: flex-end; }
+  .hero-content { order: 1; padding: 0 24px 18px; }
+  .hero-bg img { object-position: 66% 26%; }
+  .hero-bg::after { background: linear-gradient(0deg, rgba(17,24,40,.80) 0%, rgba(17,24,40,.34) 34%, transparent 62%), linear-gradient(90deg, rgba(17,24,40,.42) 0%, transparent 72%); }
+  .hero-badge { position: static; order: 2; align-self: flex-start; top: auto; bottom: auto; right: auto; margin: 0 24px 30px; padding: 11px 16px; }
+  .hero-badge-v { font-size: 22px; }
+  .hero-sub { margin-top: 20px; }
+  .weightless { padding: 72px 24px; }
+  .weightless-grid { grid-template-columns: 1fr; margin-top: 48px; }
+  .wprop { border-right: none; border-bottom: 1px solid var(--line); padding: 36px 20px; }
+  .wprop:last-child { border-bottom: none; }
+  .feat { padding: 72px 24px; }
+  .feat-head { flex-direction: column; align-items: flex-start; }
+  .feat-grid { grid-template-columns: 1fr; gap: 18px; }
+  .sec { padding: 72px 24px; }
+  .coll, .rev-grid { grid-template-columns: 1fr; }
+  .fitmap { grid-template-columns: 1fr; gap: 32px; }
+  .fitmap-detail { min-height: 0; }
+  .interview { padding: 80px 24px; min-height: auto; }
+  .iv-opts { flex-direction: column; }
+  .iv-opt { min-width: 0; width: 100%; }
+  .founder { grid-template-columns: 1fr; }
+  .founder-img { aspect-ratio: 4/3; }
+  .tryonpromo { grid-template-columns: 1fr; }
+  .tryonpromo-img { min-height: 0; aspect-ratio: 4/3; }
+  .tryonpromo-body { padding: 56px 24px; }
+  .founder-body { padding: 56px 28px; }
+  footer { padding: 56px 24px 40px; }
+  .footer-top { flex-direction: column; gap: 20px; }
+  .footer-cols { grid-template-columns: 1fr 1fr; gap: 28px; }
+  .footer-bottom { flex-direction: column; gap: 8px; }
+}
+@media (max-width: 560px) { .footer-cols { grid-template-columns: 1fr; } .hero-ctas { flex-direction: column; align-items: flex-start; } }
+
+/* MOBILE MENU */
+.nav-burger{display:none;flex-direction:column;gap:5px;background:none;border:none;cursor:pointer;padding:6px;margin-left:14px;}
+.nav-burger span{width:24px;height:2px;background:var(--ink);display:block;}
+.mobile-menu{position:fixed;inset:0;background:var(--navy-dk);z-index:300;flex-direction:column;justify-content:center;padding:48px 32px;transform:translateX(100%);transition:transform .4s cubic-bezier(.4,0,.2,1);display:flex;}
+.mobile-menu .mm-sub{font-size:11px;letter-spacing:.22em;text-transform:uppercase;color:#9FB0D0;margin-bottom:20px;}
+.mobile-menu a{font-family:var(--D);font-size:32px;letter-spacing:.04em;color:#fff;padding:13px 0;border-bottom:1px solid rgba(255,255,255,.1);}
+.mobile-menu.open{transform:translateX(0);}
+.mm-close{position:absolute;top:22px;right:24px;font-size:12px;letter-spacing:.18em;text-transform:uppercase;color:#9FB0D0;background:none;border:none;cursor:pointer;}
+@media(min-width:961px){.mobile-menu{display:none !important;}}
+@media(max-width:960px){.nav-burger{display:flex;}}
+
+/* ANNOUNCEMENT BAR */
+body{padding-top:38px;}
+nav{top:38px;}
+.annbar{position:fixed;top:0;left:0;right:0;height:38px;z-index:250;background:var(--navy);color:#fff;display:flex;align-items:center;justify-content:center;text-align:center;padding:0 16px;font-size:11px;letter-spacing:.08em;}
+.annbar b{font-weight:600;}
+.annbar .code{color:#9FB0D0;font-weight:600;letter-spacing:.12em;}
+@media(max-width:960px){ .annbar{font-size:10px;letter-spacing:.04em;} }
+
+.ann-short{display:none;}
+@media(max-width:560px){.ann-full{display:none;}.ann-short{display:inline;}}
+</style>
+</head>
+<body>
+<div class="mobile-menu" id="mobileMenu">
+  <button class="mm-close" onclick="toggleMenu(false)">Close ✕</button>
+  <div class="mm-sub">Noon Shop</div>
+  <a href="shop-v3.html">Shop</a>
+  <a href="shop-v3.html?view=bestsellers">Bestsellers</a>
+  <a href="fit-guide-v3.html">Find Your Fit</a>
+  <a href="story-v3.html">Our Story</a>
+  <a href="cart-v3.html">Cart</a>
+</div>
+
+
+<!-- ── NAV ── -->
+<div class="annbar"><span class="ann-full">Free shipping on every order&nbsp;·&nbsp;<b>10% off your first pair</b> with code <span class="code">NOON10</span></span><span class="ann-short"><b>10% off your first pair</b>&nbsp;·&nbsp;code <span class="code">NOON10</span></span></div>
+<nav id="nav">
+  <a href="index-v3.html" class="nav-logo"><img src="NoonShopLogoEtsy.png" alt="Noon Shop" class="nav-logo-img"></a>
+  <div class="nav-links">
+      <a href="shop-v3.html" class="nav-link">Shop</a>
+      <a href="shop-v3.html?view=bestsellers" class="nav-link">Bestsellers</a>
+      <a href="fit-guide-v3.html" class="nav-link">Find Your Fit</a>
+      <a href="story-v3.html" class="nav-link">Our Story</a>
+    </div>
+  <div class="nav-right">
+    <a href="cart-v3.html" class="nav-cart"><svg class="nav-bag" width="21" height="21" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-label="Cart"><path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/><path d="M3 6h18"/><path d="M16 10a4 4 0 0 1-8 0"/></svg><span class="cart-count">0</span></a>
+  </div>
+  <button class="nav-burger" onclick="toggleMenu(true)" aria-label="Open menu"><span></span><span></span><span></span></button>
+</nav>
+
+<!-- ── HERO ── -->
+<section class="hero">
+  <div class="hero-bg">
+    <img src="../Noonshop/assets/editorial/editorial-1a.png" alt="Noon Shop editorial"
+      onerror="this.parentElement.style.background='#111828'">
+  </div>
+  <div class="hero-badge">
+    <div class="hero-badge-v">100,000+</div>
+    <div class="hero-badge-l">Frames worn worldwide</div>
+  </div>
+  <div class="hero-content">
+    <div class="hero-eyebrow">Founded by Anna Park, MD · Ophthalmologist</div>
+    <h1 class="hero-h1">
+      FIT IS
+      <em>fundamental.</em>
+    </h1>
+    <p class="hero-sub">Eyewear engineered around your face, so light it feels like nothing at all.</p>
+    <div class="hero-ctas">
+      <a href="shop-v3.html" class="btn-navy">Shop Frames</a>
+      <a href="fit-guide-v3.html" class="btn-ghost">Find My Fit</a>
+    </div>
+  </div>
+</section>
+
+<!-- ── WEIGHTLESS ── -->
+<section class="weightless">
+  <div class="weightless-eyebrow rv">The Noon Shop Difference</div>
+  <div class="weightless-lead rv d1">You put them on once and forget they're there. <em>That's the whole point.</em></div>
+  <div class="weightless-grid">
+    <div class="wprop rv d1">
+      <div class="wprop-icon">
+        <!-- Featherlight: glasses lifted by a feather -->
+        <svg viewBox="0 0 80 64" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round">
+          <circle cx="28" cy="44" r="10"/>
+          <circle cx="54" cy="44" r="10"/>
+          <path d="M38 42c2-2 6-2 8 0"/>
+          <path d="M18 42 12 39"/>
+          <path d="M64 42 70 39"/>
+          <path d="M50 30C52 18 60 10 70 8"/>
+          <path d="M70 8c-9 1-14 7-16 15"/>
+          <path d="M70 8c1 9-3 15-11 18"/>
+          <path d="M60 12 64 11M57 18 62 17M55 24 60 24"/>
+        </svg>
+      </div>
+      <div class="wprop-t">Featherlight</div>
+      <div class="wprop-b">Just 8 to 12 grams of beta-titanium and surgical-grade steel, about as light as two sheets of paper on your face.</div>
+    </div>
+    <div class="wprop rv d2">
+      <div class="wprop-icon">
+        <!-- Thin Profile: eyewear in side profile, slim frame + thinness caliper -->
+        <svg viewBox="0 0 80 64" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M20 16c-5 9-5 23 0 32"/>
+          <circle cx="22" cy="27" r="1.5" fill="currentColor" stroke="none"/>
+          <path d="M22 24 62 22c6 0 8 4 8 10"/>
+          <path d="M22 30 61 28"/>
+          <path d="M12 24 12 36"/><path d="M9 27 12 24 15 27"/><path d="M9 33 12 36 15 33"/>
+        </svg>
+      </div>
+      <div class="wprop-t">Thin Profile</div>
+      <div class="wprop-b">Temples as thin as a coin's edge and refined fronts. Real presence, none of the bulk you've worn before.</div>
+    </div>
+    <div class="wprop rv d3">
+      <div class="wprop-icon">
+        <!-- Facial structure: face with glasses + 3 fit points -->
+        <svg viewBox="0 0 80 64" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M40 6c12 0 18 9 17 21-1 9-4 16-8 22-3 4-6 7-9 7s-6-3-9-7c-4-6-7-13-8-22C22 15 28 6 40 6Z"/>
+          <circle cx="31" cy="30" r="6"/>
+          <circle cx="49" cy="30" r="6"/>
+          <path d="M37 29c2-1.5 4-1.5 6 0"/>
+          <path d="M25 28 22 27M55 28 58 27"/>
+          <circle cx="40" cy="28" r="2" fill="currentColor" stroke="none"/>
+          <circle cx="56" cy="34" r="2" fill="currentColor" stroke="none"/>
+          <circle cx="49" cy="44" r="2" fill="currentColor" stroke="none"/>
+        </svg>
+      </div>
+      <div class="wprop-t">Built for Real Faces</div>
+      <div class="wprop-b">Bridge, cheekbone, and face width, engineered for your face, not approximated for an average.</div>
+    </div>
+  </div>
+</section>
+
+<!-- ── FEATURED PRODUCTS ── -->
+<section class="feat">
+  <div class="feat-head">
+    <div>
+      <div class="tag rv">Most Loved</div>
+      <h2 class="h-d rv d1" style="margin-bottom:0">Featured frames.<br><em>Light enough to forget.</em></h2>
+    </div>
+  </div>
+  <div class="feat-grid rv d2">
+    <a class="pcard" href="product-v3.html?frame=austin">
+      <div class="pcard-img">
+        <div class="pcard-badge">Bestseller</div>
+        <img class="pcard-layer pcard-face" src="../Noonshop/assets/refined/woman-front-1.png" alt="Austin on model" onerror="this.parentElement.style.background='#EDEAE3'">
+        <div class="pcard-layer pcard-prod"><img src="../Noonshop/assets/product/dormann-panto.png" alt="Austin frame" onerror="this.style.display='none'"></div>
+        <button class="pcard-tryon" onclick="event.preventDefault();event.stopPropagation();location.href='product-v3.html?frame=austin&tryon=1'"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/><circle cx="12" cy="13" r="4"/></svg>Try On</button>
+        <div class="pcard-weight">9g · so light</div>
+      </div>
+      <div class="pcard-body">
+        <div class="pcard-coll">Dormann · SKU DR12408</div>
+        <div class="pcard-name">AUSTIN</div>
+        <div class="pcard-tag">Featherlight TR90 panto</div>
+        <div class="pcard-foot"><span class="pcard-price">$285</span><span class="pcard-cta">View</span></div>
+      </div>
+    </a>
+    <a class="pcard" href="product-v3.html?frame=zurich">
+      <div class="pcard-img">
+        <div class="pcard-badge">Featherlight</div>
+        <img class="pcard-layer pcard-face" src="../Noonshop/assets/faces/east-asian-man-front.png" alt="Zurich on model" onerror="this.parentElement.style.background='#EDEAE3'">
+        <div class="pcard-layer pcard-prod"><img src="../Noonshop/assets/product/steel-brown-rect.png" alt="Zurich frame" onerror="this.style.display='none'"></div>
+        <button class="pcard-tryon" onclick="event.preventDefault();event.stopPropagation();location.href='product-v3.html?frame=zurich&tryon=1'"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/><circle cx="12" cy="13" r="4"/></svg>Try On</button>
+        <div class="pcard-weight">8g · so light</div>
+      </div>
+      <div class="pcard-body">
+        <div class="pcard-coll">Steel Brown · SKU SB28755</div>
+        <div class="pcard-name">ZURICH</div>
+        <div class="pcard-tag">Thin stainless rectangle</div>
+        <div class="pcard-foot"><span class="pcard-price">$320</span><span class="pcard-cta">View</span></div>
+      </div>
+    </a>
+    <a class="pcard" href="product-v3.html?frame=frankfurt">
+      <div class="pcard-img">
+        <img class="pcard-layer pcard-face" src="../Noonshop/assets/refined/asian-man-front.png" alt="Frankfurt on model" onerror="this.parentElement.style.background='#EDEAE3'">
+        <div class="pcard-layer pcard-prod"><img src="../Noonshop/assets/product/classic-round.png" alt="Frankfurt frame" onerror="this.style.display='none'"></div>
+        <button class="pcard-tryon" onclick="event.preventDefault();event.stopPropagation();location.href='product-v3.html?frame=frankfurt&tryon=1'"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/><circle cx="12" cy="13" r="4"/></svg>Try On</button>
+        <div class="pcard-weight">8g · so light</div>
+      </div>
+      <div class="pcard-body">
+        <div class="pcard-coll">Steel Brown · SKU SB29488</div>
+        <div class="pcard-name">FRANKFURT</div>
+        <div class="pcard-tag">Round wire, low-bridge</div>
+        <div class="pcard-foot"><span class="pcard-price">$330</span><span class="pcard-cta">View</span></div>
+      </div>
+    </a>
+    <a class="pcard" href="product-v3.html?frame=prague">
+      <div class="pcard-img">
+        <div class="pcard-badge">Luxury</div>
+        <img class="pcard-layer pcard-face" src="../Noonshop/assets/faces/caucasian-woman-front.png" alt="Prague on model" onerror="this.parentElement.style.background='#EDEAE3'">
+        <div class="pcard-layer pcard-prod"><img src="../Noonshop/assets/product/frames-white-1.png" alt="Prague frame" onerror="this.src='../Noonshop/assets/product/thin-rect-2.png'"></div>
+        <button class="pcard-tryon" onclick="event.preventDefault();event.stopPropagation();location.href='product-v3.html?frame=prague&tryon=1'"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/><circle cx="12" cy="13" r="4"/></svg>Try On</button>
+        <div class="pcard-weight">11g · so light</div>
+      </div>
+      <div class="pcard-body">
+        <div class="pcard-coll">DeNova · SKU DO41209</div>
+        <div class="pcard-name">PRAGUE</div>
+        <div class="pcard-tag">Refined acetate rectangle</div>
+        <div class="pcard-foot"><span class="pcard-price">$385</span><span class="pcard-cta">View</span></div>
+      </div>
+    </a>
+    <a class="pcard" href="product-v3.html?frame=portland">
+      <div class="pcard-img">
+        <img class="pcard-layer pcard-face" src="../Noonshop/assets/refined/asian-woman-1.png" alt="Portland on model" onerror="this.parentElement.style.background='#EDEAE3'">
+        <div class="pcard-layer pcard-prod"><img src="../Noonshop/assets/product/dormann-panto-brown.png" alt="Portland frame" onerror="this.style.display='none'"></div>
+        <button class="pcard-tryon" onclick="event.preventDefault();event.stopPropagation();location.href='product-v3.html?frame=portland&tryon=1'"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/><circle cx="12" cy="13" r="4"/></svg>Try On</button>
+        <div class="pcard-weight">10g · so light</div>
+      </div>
+      <div class="pcard-body">
+        <div class="pcard-coll">Dormann · SKU DR12658</div>
+        <div class="pcard-name">PORTLAND</div>
+        <div class="pcard-tag">Rounded keyhole bridge</div>
+        <div class="pcard-foot"><span class="pcard-price">$295</span><span class="pcard-cta">View</span></div>
+      </div>
+    </a>
+    <a class="pcard" href="product-v3.html?frame=geneva">
+      <div class="pcard-img">
+        <div class="pcard-badge">Featherlight</div>
+        <img class="pcard-layer pcard-face" src="../Noonshop/assets/faces/east-asian-woman.png" alt="Geneva on model" onerror="this.parentElement.style.background='#EDEAE3'">
+        <div class="pcard-layer pcard-prod"><img src="../Noonshop/assets/product/thin-rect-2.png" alt="Geneva frame" onerror="this.style.display='none'"></div>
+        <button class="pcard-tryon" onclick="event.preventDefault();event.stopPropagation();location.href='product-v3.html?frame=geneva&tryon=1'"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/><circle cx="12" cy="13" r="4"/></svg>Try On</button>
+        <div class="pcard-weight">8g · so light</div>
+      </div>
+      <div class="pcard-body">
+        <div class="pcard-coll">Steel Brown · SKU SB29013</div>
+        <div class="pcard-name">GENEVA</div>
+        <div class="pcard-tag">Slim oval, silicone pads</div>
+        <div class="pcard-foot"><span class="pcard-price">$330</span><span class="pcard-cta">View</span></div>
+      </div>
+    </a>
+  </div>
+  <div class="feat-all rv d3"><a href="shop-v3.html" class="btn-navy">Shop All Frames →</a></div>
+</section>
+
+<!-- ── NAVY TRANSITION BAND ── -->
+<section class="navband">
+  <div class="navband-eyebrow rv">Why Fit Comes First</div>
+  <p class="navband-line rv d1">A frame you forget you're wearing <em>is the frame that fits.</em></p>
+  <div class="navband-attr rv d2">Anna Park, MD · Founder</div>
+</section>
+
+<!-- ── FIT DIFFERENCE ── -->
+<section class="sec">
+  <div class="tag rv">Find Your Fit</div>
+  <h2 class="h-d rv d1">Most frames were never<br><em>made for your face.</em></h2>
+  <p class="lede rv d1">
+    For decades, eyewear was built around one average face, and the rest of us learned to live with
+    frames that slide, pinch, and shift all day. Tap a point on her face to see exactly where standard
+    frames go wrong, and how Anna Park engineered Noon Shop to fix it.
+  </p>
+  <div class="rv d1" style="margin-top:28px"><a href="#interview" class="btn-navy">Find My Fit in 60 Seconds →</a></div>
+
+  <div class="fitmap rv d2">
+    <div class="fitmap-stage">
+      <img src="../Noonshop/assets/refined/woman-front-1.png" alt="Where frames go wrong" onerror="this.parentElement.style.background='#EDEAE3'">
+      <button class="hotspot" data-point="0" style="left:50%; top:42%">1</button>
+      <button class="hotspot" data-point="1" style="left:68%; top:39%">2</button>
+      <button class="hotspot" data-point="2" style="left:39%; top:57%">3</button>
+      <button class="hotspot" data-point="3" style="left:40%; top:40%">4</button>
+    </div>
+    <div class="fitmap-detail" id="fitmapDetail"></div>
+  </div>
+</section>
+
+<!-- ── FIT INTERVIEW ── -->
+<section class="interview" id="interview">
+  <div class="iv-inner">
+    <div class="iv-progress" id="ivProgress"></div>
+    <div id="ivStage"></div>
+    <button class="iv-back" id="ivBack" onclick="ivPrev()" hidden>← Back</button>
+  </div>
+</section>
+
+<!-- ── REVIEWS ── -->
+<section class="sec cool">
+  <div class="tag rv">Worn & Trusted</div>
+  <h2 class="h-d rv d1">Real faces.<br><em>Real fit.</em></h2>
+  <div class="rev-grid rv d2">
+    <div class="rev-card">
+      <div class="rev-tags"><span class="rev-tag">Low Bridge</span><span class="rev-tag">Featherlight</span></div>
+      <p class="rev-quote">"Finally a frame that doesn't slide down by noon. The first pair I've genuinely <em>forgotten I was wearing</em>."</p>
+      <div class="rev-meta">
+        <div class="rev-avatar"><img src="../Noonshop/assets/faces/east-asian-man-front.png" alt="" onerror="this.parentElement.style.background='#ddd'"></div>
+        <div><div class="rev-name">David K.</div><div class="rev-frame">Dormann · Nashville</div></div>
+      </div>
+    </div>
+    <div class="rev-card">
+      <div class="rev-tags"><span class="rev-tag">High Cheekbones</span><span class="rev-tag">All-Day</span></div>
+      <p class="rev-quote">"Eleven hours of meetings and I never touched them once. My optometrist actually commented on <em>how well they fit</em>."</p>
+      <div class="rev-meta">
+        <div class="rev-avatar"><img src="../Noonshop/assets/faces/caucasian-woman-front.png" alt="" onerror="this.parentElement.style.background='#ddd'"></div>
+        <div><div class="rev-name">Sarah M.</div><div class="rev-frame">Steel Brown · Zurich</div></div>
+      </div>
+    </div>
+    <div class="rev-card">
+      <div class="rev-tags"><span class="rev-tag">Low Bridge</span><span class="rev-tag">Lightweight</span></div>
+      <p class="rev-quote">"The first pair I've ever looked forward to putting on. So light it's almost not there. Anna Park built something <em>genuinely different</em>."</p>
+      <div class="rev-meta">
+        <div class="rev-avatar"><img src="../Noonshop/assets/refined/asian-man-front.png" alt="" onerror="this.parentElement.style.background='#ddd'"></div>
+        <div><div class="rev-name">Ravi T.</div><div class="rev-frame">Steel Brown · Frankfurt</div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── TRY-ON PROMO ── -->
+<section class="tryonpromo">
+  <div class="tryonpromo-body">
+    <div class="tryonpromo-eyebrow">Virtual Try-On</div>
+    <h2 class="tryonpromo-h">See them on.<br><em>Right in your browser.</em></h2>
+    <p class="tryonpromo-p">Tap try-on, allow your camera, and a Noon Shop frame appears on your face in real time, so you can see the fit and the look before you ever check out.</p>
+    <div class="tryonpromo-points">
+      <div class="tryonpromo-point"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>Try frames on in seconds</div>
+      <div class="tryonpromo-point"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>Works on your phone and your laptop</div>
+      <div class="tryonpromo-point"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>Your camera never leaves your device</div>
+    </div>
+    <div><a href="product-v3.html?frame=austin&tryon=1" class="btn-light">Try a Pair On →</a></div>
+  </div>
+  <div class="tryonpromo-img">
+    <div class="tryonpromo-tag"><span class="dot"></span>Live in your browser</div>
+    <div class="tryonpromo-stage" id="toShowcase">
+      <img class="ts-model" id="tsModelA" alt="Virtual try-on">
+      <img class="ts-model" id="tsModelB" alt="" style="opacity:0">
+    </div>
+  </div>
+</section>
+
+<!-- ── FOUNDER (dark moment) ── -->
+<section class="founder">
+  <div class="founder-img">
+    <img src="../Noonshop/assets/anna-headshot-2026-2.jpg" alt="Anna Park, MD" onerror="this.parentElement.style.background='#EDEAE3'">
+  </div>
+  <div class="founder-body">
+    <div class="tag on-dark rv">Our Founder</div>
+    <p class="founder-pull rv d1">"I watched patient after patient leave with a perfect prescription, and a frame that <em>negated half of it</em> by sliding off their nose."</p>
+    <div class="founder-attr rv d2">Anna Park, MD · Ophthalmologist · Founder</div>
+    <p class="founder-text rv d2">After more than twenty years in ophthalmology, Anna Park set out to change how eyewear fits, curating and developing frames engineered for a broader range of faces, in lightweight medical-grade materials. More than 100,000 frames later, Noon Shop is headquartered in Silver Spring, Maryland, still built on a single conviction: the frame is as important as the prescription.</p>
+    <a href="story-v3.html" class="link-arrow rv d3" style="color:#9FB0D0">Read Anna's Story</a>
+  </div>
+</section>
+
+<!-- ── FOOTER ── -->
+<footer>
+  <div class="footer-top">
+    <div>
+      <a href="index-v3.html" class="footer-logo"><img src="NoonShopLogoEtsy.png" alt="Noon Shop" class="footer-logo-img"></a>
+      <div class="footer-tagline">"The frame that belongs on your face."</div>
+    </div>
+  </div>
+  <div class="footer-cols">
+    <div>
+      <div class="footer-col-h">Shop</div>
+      <ul class="footer-links">
+        <li><a href="shop-v3.html">All Frames</a></li>
+        <li><a href="shop-v3.html?collection=dormann">Dormann</a></li>
+        <li><a href="shop-v3.html?collection=steel-brown">Steel Brown</a></li>
+        <li><a href="shop-v3.html?collection=denova">DeNova</a></li>
+      </ul>
+    </div>
+    <div>
+      <div class="footer-col-h">Learn</div>
+      <ul class="footer-links">
+        <li><a href="fit-guide-v3.html">Fit Guide</a></li>
+        <li><a href="fit-guide-v3.html#measure">How to Measure</a></li>
+      </ul>
+    </div>
+    <div>
+      <div class="footer-col-h">Brand</div>
+      <ul class="footer-links">
+        <li><a href="story-v3.html">Our Story</a></li>
+        <li><a href="story-v3.html#founder">Anna Park, MD</a></li>
+      </ul>
+    </div>
+    <div>
+      <div class="footer-col-h">Support</div>
+      <ul class="footer-links">
+        <li><a href="terms-v3.html#returns">Returns &amp; Exchanges</a></li>
+        <li><a href="terms-v3.html#shipping">Shipping</a></li>
+        <li><a href="terms-v3.html#warranty">Warranty</a></li>
+        <li><a href="terms-v3.html">Terms &amp; Policies</a></li>
+        <li><a href="https://www.noonshop.com" target="_blank">noonshop.com</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <div class="footer-copy">© 2026 Noon Shop · All rights reserved</div>
+    <div class="footer-founder">Founded by Anna Park, MD · Ophthalmologist</div>
+  </div>
+</footer>
+
+<script>
+/* nav scroll */
+window.addEventListener('scroll', () => {
+  document.getElementById('nav').classList.toggle('scrolled', scrollY > 50);
+});
+/* cart count */
+(function(){let n=0;try{n=JSON.parse(localStorage.getItem('noonCart')||'[]').reduce((s,i)=>s+i.qty,0);}catch(e){}document.querySelectorAll('.cart-count').forEach(e=>e.textContent=n);})();
+/* reveal */
+const obs = new IntersectionObserver(es => {
+  es.forEach(e => { if (e.isIntersecting) { e.target.classList.add('in'); obs.unobserve(e.target); } });
+}, { threshold: .08 });
+document.querySelectorAll('.rv').forEach(el => obs.observe(el));
+/* ── FIT INTERVIEW ── */
+const IV_Q = [
+  { key:'bridge', eyebrow:'Question 1 of 5 · Bridge',
+    q:'How does your nose bridge sit?',
+    hint:'The bridge is where most frames fail, sliding down all day. This is the single most important answer.',
+    opts:[
+      { val:'low',    t:'Low / Flat',  d:'Glasses tend to slide down my nose.' },
+      { val:'medium', t:'Medium',      d:'Pretty standard, no strong issues.' },
+      { val:'high',   t:'High',        d:'A defined, prominent bridge.' },
+    ]},
+  { key:'width', eyebrow:'Question 2 of 5 · Width',
+    q:'And the width of your face?',
+    hint:'Temple length decides whether a frame grips or slips. We size to your actual width, not an average.',
+    opts:[
+      { val:'narrow',   t:'Narrower',  d:'Frames often feel too wide on me.' },
+      { val:'standard', t:'Standard',  d:'Most frames sit about right.' },
+      { val:'wide',     t:'Wider',     d:'Frames often feel tight at the temples.' },
+    ]},
+  { key:'cheekbone', eyebrow:'Question 3 of 5 · Cheekbones',
+    q:'How prominent are your cheekbones?',
+    hint:'Frames that rest on the cheekbones shift with every smile. Rim height is engineered for clearance.',
+    opts:[
+      { val:'prominent', t:'Prominent', d:'Frames sometimes touch my cheeks.' },
+      { val:'moderate',  t:'Moderate',  d:'Somewhere in the middle.' },
+      { val:'low',       t:'Low',       d:'Flatter cheekbones, plenty of clearance.' },
+    ]},
+  { key:'shape', eyebrow:'Question 4 of 5 · Style',
+    q:'Which shape feels most like you?',
+    hint:'Fit comes first, but the frame should still feel like yours.',
+    opts:[
+      { val:'round',    t:'Round',     d:'Soft, classic, approachable.' },
+      { val:'rect',     t:'Rectangle', d:'Clean, sharp, modern.' },
+      { val:'cat',      t:'Cat-eye',   d:'Expressive, with a little lift.' },
+    ]},
+  { key:'use', eyebrow:'Question 5 of 5 · Life',
+    q:'Where will you wear them most?',
+    hint:'So we can lead with the frames that fit your day, not just your face.',
+    opts:[
+      { val:'everyday',  t:'Everyday',   d:'My all-day, go-anywhere pair.' },
+      { val:'screen',    t:'At a screen',d:'Long hours, comfort is everything.' },
+      { val:'statement', t:'To stand out',d:'I want them noticed.' },
+    ]},
+];
+
+const ivAns = {};
+let ivStep = 0;
+
+function ivRenderProgress() {
+  const p = document.getElementById('ivProgress');
+  p.innerHTML = IV_Q.map((_,i) =>
+    `<div class="iv-dot ${i<ivStep?'done':''} ${i===ivStep?'active':''}"></div>`).join('');
+}
+
+function ivRender() {
+  const back = document.getElementById('ivBack');
+  const stage = document.getElementById('ivStage');
+  if (ivStep >= IV_Q.length) { ivRenderResult(); return; }
+  ivRenderProgress();
+  back.hidden = ivStep === 0;
+  const cur = IV_Q[ivStep];
+  const sel = ivAns[cur.key] || [];
+  const lastStep = ivStep === IV_Q.length - 1;
+  stage.innerHTML = `
+    <div class="iv-eyebrow">${cur.eyebrow}</div>
+    <div class="iv-q">${cur.q}</div>
+    <p class="iv-hint">${cur.hint}</p>
+    <div class="iv-opts">
+      ${cur.opts.map(o => `<div class="iv-opt ${sel.includes(o.val)?'selected':''}" data-val="${o.val}"><div class="iv-opt-t">${o.t}</div><div class="iv-opt-d">${o.d}</div></div>`).join('')}
+    </div>
+    <div class="iv-continue">
+      <span class="iv-multi-note">Select all that apply</span>
+      <button class="btn-light" id="ivNextBtn" ${sel.length?'':'disabled'} onclick="ivNext()">${lastStep?'See My Frames':'Continue'} →</button>
+    </div>`;
+  stage.querySelectorAll('.iv-opt').forEach(el => el.addEventListener('click', () => {
+    let arr = ivAns[cur.key] || [];
+    const v = el.dataset.val;
+    arr = arr.includes(v) ? arr.filter(x => x !== v) : [...arr, v];
+    ivAns[cur.key] = arr;
+    el.classList.toggle('selected');
+    document.getElementById('ivNextBtn').disabled = arr.length === 0;
+  }));
+}
+
+function ivNext() { ivStep++; ivRender(); }
+function ivPrev() { if (ivStep > 0) { ivStep--; ivRender(); } }
+
+function ivRenderResult() {
+  document.getElementById('ivBack').hidden = false;
+  document.getElementById('ivProgress').innerHTML =
+    IV_Q.map(() => `<div class="iv-dot done"></div>`).join('');
+  const first = k => (ivAns[k] && ivAns[k][0]) || null;
+  const map = {
+    bridge:    { low:'Low Bridge', medium:'Standard Bridge', high:'High Bridge' },
+    width:     { narrow:'Narrow Width', standard:'Standard Width', wide:'Wide Width' },
+    cheekbone: { prominent:'High Cheekbones', moderate:'Moderate Cheekbones', low:'Low Cheekbones' },
+  };
+  const label = map.bridge[first('bridge')] || 'Your Fit';
+  const tags = [];
+  ['bridge','width','cheekbone'].forEach(k => (ivAns[k]||[]).forEach(v => { if (map[k][v]) tags.push(map[k][v]); }));
+  const fit = {};
+  ['bridge','width','cheekbone'].forEach(k => { const f = first(k); if (f) fit[k] = f; });
+  sessionStorage.setItem('fitProfile', JSON.stringify(fit));
+  const q = new URLSearchParams(fit).toString();
+  document.getElementById('ivStage').innerHTML = `
+    <div class="iv-result-label">Your Fit Profile</div>
+    <div class="iv-result-h">${label}, built for.</div>
+    <div class="iv-result-tags">${tags.map(t=>`<span class="iv-result-tag">${t}</span>`).join('')}</div>
+    <p class="iv-hint">We've matched the lightweight frames engineered for exactly this face. Let's see them.</p>
+    <a class="btn-light" href="shop-v3.html${q?'?'+q:''}">Show My Frames →</a>`;
+}
+
+if (document.getElementById('interview')) ivRender();
+
+/* ── INTERACTIVE FACE / FIT MAP ── */
+const FIT_POINTS = [
+  { step:'Point 01 · The Bridge', title:'IT SLIDES DOWN', sub:'The number-one reason glasses fail.',
+    problem:'When the bridge is too wide for your nose, the whole frame creeps down all day. As it drops, the lenses fall out of line with your eyes, quietly undoing the prescription you paid for.',
+    fix:'An adjustable, low-bridge-optimized nose support that grips gently and holds the optics exactly where they belong.' },
+  { step:'Point 02 · The Temples', title:'IT PINCHES', sub:'Pressure behind the ears.',
+    problem:'Temples sized for an "average" head squeeze a wider face or slip on a narrower one, leaving sore spots behind the ears and red marks by mid-afternoon.',
+    fix:'Temple length and flex tuned to your actual face width, so the frame holds securely without ever gripping.' },
+  { step:'Point 03 · The Cheekbones', title:'IT RESTS & SMUDGES', sub:'Frames that sit on your cheeks.',
+    problem:'On higher cheekbones, deep lenses land on the cheeks, shifting every time you smile and smudging the lens you just cleaned.',
+    fix:'Rim height engineered for clearance, so the frame floats above the cheekbone and stays settled and still.' },
+  { step:'Point 04 · The Optics', title:'IT BLURS THE EDGES', sub:'When the lens centre drifts.',
+    problem:'A frame that will not sit straight pushes the optical centre away from your pupil. The sharpest part of your prescription drifts off-target, and your eyes strain to compensate.',
+    fix:'A frame that sits true keeps the optical centre on your pupil, clarity edge to edge, exactly as it was prescribed.' },
+];
+
+const fmDetail = document.getElementById('fitmapDetail');
+function fmRender(i) {
+  document.querySelectorAll('.hotspot').forEach(h => h.classList.toggle('active', +h.dataset.point === i));
+  const p = FIT_POINTS[i];
+  fmDetail.innerHTML = `
+    <div class="fmd-step">${p.step}</div>
+    <div class="fmd-title">${p.title}</div>
+    <div class="fmd-sub">${p.sub}</div>
+    <p class="fmd-problem">${p.problem}</p>
+    <div class="fmd-fix">
+      <div class="fmd-fix-l">How Noon Shop fixes it</div>
+      <div class="fmd-fix-b">${p.fix}</div>
+    </div>
+    <div class="fmd-hint">Tap each numbered point on her face</div>
+    <div style="margin-top:26px"><a href="#interview" class="btn-navy">Find My Fit in 60 Seconds →</a></div>`;
+}
+if (fmDetail) {
+  document.querySelectorAll('.hotspot').forEach(h => {
+    const i = +h.dataset.point;
+    h.addEventListener('click', () => fmRender(i));
+    h.addEventListener('mouseenter', () => fmRender(i));
+  });
+  fmRender(0);
+}
+</script>
+<script>function toggleMenu(o){var m=document.getElementById("mobileMenu");if(m){m.classList.toggle("open",o);document.body.style.overflow=o?"hidden":"";}}</script>
+<script>
+/* ── TRY-ON SHOWCASE (crossfading faces) ── */
+(function(){
+  const stage=document.getElementById('toShowcase'); if(!stage) return;
+  const A=document.getElementById('tsModelA'),B=document.getElementById('tsModelB');
+  const FACE='../Noonshop/assets/';
+  const models=[
+    'refined/woman-front-1.png',
+    'faces/east-asian-man-front.png',
+    'faces/caucasian-woman-front.png',
+    'refined/asian-man-front.png',
+    'faces/east-asian-woman.png',
+    'refined/asian-woman-1.png',
+  ];
+  let showA=true,mi=0;
+  A.src=FACE+models[0];
+  setInterval(()=>{
+    mi=(mi+1)%models.length;
+    const cur=showA?A:B,nxt=showA?B:A;
+    nxt.src=FACE+models[mi]; nxt.style.opacity=1; cur.style.opacity=0; showA=!showA;
+  },2600);
+})();
+</script>
+</body>
+</html>

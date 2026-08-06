@@ -1,0 +1,477 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Frame | Noon Shop</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Outfit:wght@200;300;400;500&family=Playfair+Display:ital,wght@0,400;1,400&display=swap" rel="stylesheet">
+<style>
+:root{
+  --white:#FFFFFF;--cool:#F4F5F5;--stone:#EDEAE3;--ink:#1C1C1C;--ink2:#2F2F2F;
+  --line:rgba(28,28,28,.12);--mut:rgba(28,28,28,.72);--mut2:rgba(28,28,28,.56);
+  --navy:#202A44;--navy-lt:#3D4F72;--navy-dk:#111828;
+  --D:'Bebas Neue',sans-serif;--B:'Outfit',sans-serif;--P:'Playfair Display',Georgia,serif;
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+html{scroll-behavior:smooth;}
+body{background:var(--white);color:var(--ink);font-family:var(--B);font-weight:400;-webkit-font-smoothing:antialiased;}
+a{color:inherit;text-decoration:none;}img{display:block;max-width:100%;}
+
+/* NAV */
+nav{position:fixed;top:0;left:0;right:0;z-index:200;display:flex;justify-content:space-between;align-items:center;padding:14px 60px;background:rgba(255,255,255,.92);backdrop-filter:blur(16px);box-shadow:0 1px 0 var(--line);}
+.nav-logo{font-family:var(--D);font-size:19px;letter-spacing:.2em;color:var(--ink);display:flex;align-items:center;}
+.nav-logo-img{height:45px;width:auto;display:block;}
+.footer-logo-img{height:32px;width:auto;filter:brightness(0) invert(1);opacity:.92;}
+.nav-links{display:flex;gap:36px;align-items:center;}
+.nav-link{font-size:13px;font-weight:500;letter-spacing:.14em;text-transform:uppercase;color:var(--ink2);transition:color .2s;}
+.nav-link:hover{color:var(--navy);}
+.nav-cart{font-size:13px;font-weight:500;letter-spacing:.13em;text-transform:uppercase;color:var(--ink2);display:flex;gap:7px;align-items:center;}
+.cart-count{font-family:var(--D);font-size:13px;color:var(--navy);}
+
+/* CRUMB */
+.crumb{padding:96px 60px 0;font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--mut2);}
+.crumb a:hover{color:var(--navy);}
+
+/* PDP */
+.pdp{display:grid;grid-template-columns:1.1fr .9fr;gap:64px;padding:32px 60px 100px;align-items:start;}
+.gallery{position:sticky;top:88px;}
+.gal-main{position:relative;aspect-ratio:1/1;background:var(--cool);border-radius:10px;overflow:hidden;display:flex;align-items:center;justify-content:center;}
+.gal-tryon{position:absolute;bottom:14px;right:14px;z-index:3;display:inline-flex;align-items:center;gap:7px;font-size:10px;letter-spacing:.12em;text-transform:uppercase;color:#fff;background:var(--navy);padding:9px 15px;border-radius:40px;border:none;cursor:pointer;transition:background .2s;box-shadow:0 4px 14px rgba(0,0,0,.18);}
+.gal-tryon:hover{background:var(--navy-lt);}
+.gal-tryon svg{width:14px;height:14px;}
+.gal-main img{width:100%;height:100%;object-fit:cover;object-position:center top;}
+.gal-main img.contain{width:84%;height:auto;object-fit:contain;}
+.gal-thumbs{display:flex;gap:12px;margin-top:14px;}
+.gal-thumb{width:84px;height:84px;border-radius:8px;overflow:hidden;background:var(--cool);border:1px solid var(--line);cursor:pointer;display:flex;align-items:center;justify-content:center;transition:border-color .2s;}
+.gal-thumb.active{border-color:var(--navy);}
+.gal-thumb img{width:100%;height:100%;object-fit:cover;object-position:center top;}
+.gal-thumb img.contain{width:80%;height:auto;object-fit:contain;}
+
+.info-coll{font-size:11px;letter-spacing:.22em;text-transform:uppercase;color:var(--navy);margin-bottom:12px;}
+.info-name{font-family:var(--D);font-size:clamp(48px,6vw,84px);letter-spacing:.03em;line-height:.9;color:var(--ink);}
+.info-tagline{font-size:15px;line-height:1.65;color:var(--mut);margin-top:12px;max-width:440px;}
+.info-price{font-family:var(--D);font-size:32px;letter-spacing:.03em;color:var(--ink);margin:24px 0;}
+.info-rule{height:1px;background:var(--line);margin:0 0 24px;}
+
+/* weightless callout */
+.weight-callout{display:flex;align-items:center;gap:16px;background:rgba(32,42,68,.05);border-radius:10px;padding:18px 22px;margin-bottom:26px;}
+.weight-ico{width:42px;height:42px;flex-shrink:0;color:var(--navy);}
+.weight-ico svg{width:100%;height:100%;}
+.weight-v{font-family:var(--D);font-size:26px;letter-spacing:.03em;color:var(--navy);line-height:1;}
+.weight-t{font-size:12px;letter-spacing:.06em;color:var(--mut);margin-top:3px;}
+
+.fit-tags{display:flex;flex-direction:column;gap:11px;margin-bottom:28px;padding:18px 20px;background:rgba(32,42,68,.04);border-radius:10px;}
+.fit-tag{display:flex;align-items:center;gap:11px;font-size:14px;color:var(--ink);}
+.fit-tag svg{width:18px;height:18px;color:var(--navy);flex-shrink:0;}
+
+/* colour variants */
+.variant{margin-bottom:24px;}
+.variant-label{font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--mut);margin-bottom:12px;}
+.variant-label b{color:var(--ink);font-weight:500;}
+.swatches{display:flex;gap:10px;}
+.sw-btn{width:34px;height:34px;border-radius:50%;border:1px solid rgba(28,28,28,.18);cursor:pointer;padding:0;transition:box-shadow .2s;}
+.sw-btn.active{box-shadow:0 0 0 2px var(--white),0 0 0 4px var(--navy);}
+
+/* try-on button */
+.btn-tryon{display:flex;align-items:center;justify-content:center;gap:10px;width:100%;font-size:11px;font-weight:500;letter-spacing:.16em;text-transform:uppercase;color:#fff;background:var(--navy-lt);padding:15px 30px;border-radius:40px;border:none;cursor:pointer;margin-bottom:10px;transition:background .2s;}
+.btn-tryon:hover{background:var(--navy);}
+.btn-tryon svg{width:18px;height:18px;}
+
+/* TRY-ON MODAL */
+.tryon-modal{position:fixed;inset:0;background:rgba(17,24,40,.82);backdrop-filter:blur(6px);z-index:400;display:none;align-items:center;justify-content:center;padding:24px;}
+.tryon-modal.open{display:flex;}
+.tryon-card{background:var(--white);border-radius:16px;overflow:hidden;width:100%;max-width:880px;display:grid;grid-template-columns:1.15fr .85fr;max-height:92vh;}
+.tryon-stage{position:relative;background:#0d0d0d;display:flex;align-items:center;justify-content:center;overflow:hidden;min-height:420px;}
+.tryon-stage video{width:100%;height:100%;object-fit:cover;transform:scaleX(-1);}
+.tryon-stage .fallimg{width:100%;height:100%;object-fit:cover;object-position:center top;}
+.tryon-frameimg{position:absolute;pointer-events:none;width:46%;left:50%;top:38%;transform:translate(-50%,-50%);filter:drop-shadow(0 6px 16px rgba(0,0,0,.45));}
+.tryon-frameimg svg{width:100%;height:auto;display:block;overflow:visible;}
+.tryon-close{position:absolute;top:14px;right:14px;z-index:5;background:rgba(255,255,255,.92);border:none;width:34px;height:34px;border-radius:50%;font-size:15px;cursor:pointer;color:var(--ink);}
+.tryon-side{padding:34px 30px;display:flex;flex-direction:column;}
+.tryon-badge{display:inline-flex;align-items:center;gap:8px;font-size:10px;letter-spacing:.16em;text-transform:uppercase;color:var(--navy);background:rgba(32,42,68,.08);padding:7px 13px;border-radius:40px;align-self:flex-start;margin-bottom:18px;}
+.tryon-badge .dot{width:7px;height:7px;border-radius:50%;background:#2e7d4f;}
+.tryon-h{font-family:var(--D);font-size:34px;letter-spacing:.03em;line-height:.95;margin-bottom:8px;}
+.tryon-p{font-size:13px;line-height:1.7;color:var(--mut);margin-bottom:22px;}
+.tryon-ctrl{margin-bottom:16px;}
+.tryon-ctrl label{font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:var(--mut2);display:block;margin-bottom:7px;}
+.tryon-ctrl input[type=range]{width:100%;accent-color:var(--navy);}
+.tryon-note{font-size:11px;line-height:1.6;color:var(--mut2);margin-top:auto;padding-top:18px;}
+@media(max-width:760px){.tryon-card{grid-template-columns:1fr;max-height:94vh;overflow-y:auto;}.tryon-stage{aspect-ratio:3/4;min-height:0;}}
+
+.qty-row{display:flex;align-items:center;gap:16px;margin-bottom:14px;}
+.qty{display:flex;align-items:center;border:1px solid var(--line);border-radius:40px;overflow:hidden;}
+.qty button{width:40px;height:44px;background:none;border:none;font-size:18px;color:var(--ink);cursor:pointer;font-family:var(--B);}
+.qty span{width:38px;text-align:center;font-size:15px;}
+.btn-navy{flex:1;display:inline-flex;align-items:center;justify-content:center;gap:11px;font-size:12px;font-weight:500;letter-spacing:.18em;text-transform:uppercase;background:var(--navy);color:#fff;padding:16px 30px;border-radius:40px;border:none;cursor:pointer;transition:background .2s;}
+.btn-navy:hover{background:var(--navy-lt);}
+.btn-ghost{display:flex;align-items:center;justify-content:center;gap:10px;font-size:11px;font-weight:500;letter-spacing:.18em;text-transform:uppercase;color:var(--navy);border:1px solid var(--line);padding:14px 30px;border-radius:40px;width:100%;transition:border-color .2s;}
+.btn-ghost:hover{border-color:var(--navy);}
+.ship-note{font-size:12px;color:var(--mut2);text-align:center;margin-top:14px;}
+
+/* clinical note */
+.clinical{border-left:2px solid var(--navy);background:rgba(32,42,68,.04);border-radius:0 8px 8px 0;padding:22px 24px;margin-top:30px;}
+.clinical-l{font-size:10px;letter-spacing:.2em;text-transform:uppercase;color:var(--navy);margin-bottom:10px;}
+.clinical-b{font-family:var(--P);font-style:italic;font-size:16px;line-height:1.6;color:var(--ink);}
+.clinical-a{font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--mut2);margin-top:12px;}
+
+/* specs */
+.specs{margin-top:30px;}
+.spec{display:flex;border-bottom:1px solid var(--line);padding:13px 0;}
+.spec-k{font-size:10px;letter-spacing:.18em;text-transform:uppercase;color:var(--mut2);width:130px;flex-shrink:0;padding-top:2px;}
+.spec-v{font-size:14px;color:var(--ink);}
+
+/* description */
+.desc{margin-top:24px;font-size:14px;line-height:1.85;color:var(--mut);}
+
+/* RELATED */
+.related{background:var(--cool);padding:90px 60px;}
+.related-h{display:flex;justify-content:space-between;align-items:flex-end;margin-bottom:40px;}
+.related-h h2{font-family:var(--D);font-size:clamp(32px,4vw,52px);letter-spacing:.03em;color:var(--ink);}
+.related-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:20px;}
+.rcard{background:var(--white);border:1px solid var(--line);border-radius:8px;overflow:hidden;transition:transform .2s,box-shadow .2s;}
+.rcard:hover{transform:translateY(-3px);box-shadow:0 12px 32px rgba(28,28,28,.08);}
+.rcard-img{aspect-ratio:1/1;background:var(--cool);position:relative;overflow:hidden;}
+.rcard-layer{position:absolute;inset:0;transition:opacity .45s ease;}
+.rcard-face{width:100%;height:100%;object-fit:cover;object-position:center top;}
+.rcard-prod{background:var(--cool);opacity:0;display:flex;align-items:center;justify-content:center;}
+.rcard-prod img{width:84%;object-fit:contain;}
+.rcard:hover .rcard-face{opacity:0;}
+.rcard:hover .rcard-prod{opacity:1;}
+.rcard-b{padding:16px 18px 20px;}
+.rcard-coll{font-size:9px;letter-spacing:.18em;text-transform:uppercase;color:var(--mut2);}
+.rcard-name{font-family:var(--D);font-size:22px;letter-spacing:.04em;color:var(--ink);margin:4px 0;}
+.rcard-price{font-family:var(--D);font-size:18px;letter-spacing:.03em;color:var(--ink);margin-top:2px;}
+.rcard-wt{font-size:11px;color:var(--mut2);margin-top:4px;}
+
+/* link to story */
+.story-band{background:var(--navy);color:#fff;padding:80px 60px;text-align:center;}
+.story-band-l{font-family:var(--P);font-style:italic;font-size:clamp(22px,3vw,38px);line-height:1.3;max-width:780px;margin:0 auto 26px;}
+.story-band-l em{color:#9FB0D0;font-style:normal;}
+.btn-light{display:inline-flex;align-items:center;gap:10px;font-size:11px;font-weight:500;letter-spacing:.2em;text-transform:uppercase;background:#fff;color:var(--navy);padding:14px 30px;border-radius:40px;}
+
+/* FOOTER */
+footer{background:var(--ink);color:#fff;padding:56px 60px 40px;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:16px;}
+.footer-logo{font-family:var(--D);font-size:20px;letter-spacing:.2em;color:rgba(255,255,255,.85);}
+.footer-copy{font-size:11px;color:rgba(255,255,255,.3);}
+
+/* TOAST */
+.toast{position:fixed;bottom:28px;left:50%;transform:translateX(-50%) translateY(120px);background:var(--navy);color:#fff;padding:14px 26px;border-radius:40px;font-size:13px;letter-spacing:.04em;z-index:500;transition:transform .35s ease;box-shadow:0 10px 30px rgba(0,0,0,.2);}
+.toast.show{transform:translateX(-50%) translateY(0);}
+
+@media (max-width:960px){
+  nav{padding:12px 22px;}.nav-links{display:none;}
+  .crumb{padding:84px 24px 0;}
+  .pdp{grid-template-columns:minmax(0,1fr);gap:32px;padding:24px 24px 72px;}
+  .pdp > *{min-width:0;}
+  .gallery{position:static;min-width:0;}
+  .gal-thumbs{flex-wrap:wrap;}
+  .gal-thumb{width:64px;height:64px;}
+  .related{padding:64px 24px;}.related-grid{grid-template-columns:1fr 1fr;}
+  .story-band{padding:60px 24px;}
+  footer{padding:44px 24px;}
+}
+@media (max-width:560px){.related-grid{grid-template-columns:1fr 1fr;}}
+
+/* MOBILE MENU */
+.nav-burger{display:none;flex-direction:column;gap:5px;background:none;border:none;cursor:pointer;padding:6px;margin-left:14px;}
+.nav-burger span{width:24px;height:2px;background:var(--ink);display:block;}
+.mobile-menu{position:fixed;inset:0;background:var(--navy-dk);z-index:300;flex-direction:column;justify-content:center;padding:48px 32px;transform:translateX(100%);transition:transform .4s cubic-bezier(.4,0,.2,1);display:flex;}
+.mobile-menu .mm-sub{font-size:11px;letter-spacing:.22em;text-transform:uppercase;color:#9FB0D0;margin-bottom:20px;}
+.mobile-menu a{font-family:var(--D);font-size:32px;letter-spacing:.04em;color:#fff;padding:13px 0;border-bottom:1px solid rgba(255,255,255,.1);}
+.mobile-menu.open{transform:translateX(0);}
+.mm-close{position:absolute;top:22px;right:24px;font-size:12px;letter-spacing:.18em;text-transform:uppercase;color:#9FB0D0;background:none;border:none;cursor:pointer;}
+@media(min-width:961px){.mobile-menu{display:none !important;}}
+@media(max-width:960px){.nav-burger{display:flex;}}
+
+/* ANNOUNCEMENT BAR */
+body{padding-top:38px;}
+nav{top:38px;}
+.annbar{position:fixed;top:0;left:0;right:0;height:38px;z-index:250;background:var(--navy);color:#fff;display:flex;align-items:center;justify-content:center;text-align:center;padding:0 16px;font-size:11px;letter-spacing:.08em;}
+.annbar b{font-weight:600;}
+.annbar .code{color:#9FB0D0;font-weight:600;letter-spacing:.12em;}
+@media(max-width:960px){ .annbar{font-size:10px;letter-spacing:.04em;} }
+
+.ann-short{display:none;}
+@media(max-width:560px){.ann-full{display:none;}.ann-short{display:inline;}}
+</style>
+</head>
+<body>
+<div class="mobile-menu" id="mobileMenu">
+  <button class="mm-close" onclick="toggleMenu(false)">Close ✕</button>
+  <div class="mm-sub">Noon Shop</div>
+  <a href="shop-v3.html">Shop</a>
+  <a href="shop-v3.html?view=bestsellers">Bestsellers</a>
+  <a href="fit-guide-v3.html">Find Your Fit</a>
+  <a href="story-v3.html">Our Story</a>
+  <a href="cart-v3.html">Cart</a>
+</div>
+
+
+<div class="annbar"><span class="ann-full">Free shipping on every order&nbsp;·&nbsp;<b>10% off your first pair</b> with code <span class="code">NOON10</span></span><span class="ann-short"><b>10% off your first pair</b>&nbsp;·&nbsp;code <span class="code">NOON10</span></span></div>
+<nav>
+  <a href="index-v3.html" class="nav-logo"><img src="NoonShopLogoEtsy.png" alt="Noon Shop" class="nav-logo-img"></a>
+  <div class="nav-links">
+      <a href="shop-v3.html" class="nav-link">Shop</a>
+      <a href="shop-v3.html?view=bestsellers" class="nav-link">Bestsellers</a>
+      <a href="fit-guide-v3.html" class="nav-link">Find Your Fit</a>
+      <a href="story-v3.html" class="nav-link">Our Story</a>
+    </div>
+  <a href="cart-v3.html" class="nav-cart"><svg class="nav-bag" width="21" height="21" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-label="Cart"><path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/><path d="M3 6h18"/><path d="M16 10a4 4 0 0 1-8 0"/></svg><span class="cart-count" id="cartCount">0</span></a>
+  <button class="nav-burger" onclick="toggleMenu(true)" aria-label="Open menu"><span></span><span></span><span></span></button>
+</nav>
+
+<div class="crumb"><a href="shop-v3.html">Shop</a> / <span id="crumbColl">Collection</span> / <span id="crumbName">Frame</span></div>
+
+<section class="pdp">
+  <div class="gallery">
+    <div class="gal-main">
+      <img id="galMain" src="" alt="">
+      <button class="gal-tryon" onclick="openTryOn()"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/><circle cx="12" cy="13" r="4"/></svg>Try On</button>
+    </div>
+    <div class="gal-thumbs" id="galThumbs"></div>
+  </div>
+  <div class="info" id="info"></div>
+</section>
+
+<!-- RELATED -->
+<section class="related">
+  <div class="related-h">
+    <h2>You may also fit</h2>
+    <a href="shop-v3.html" class="nav-link" style="color:var(--navy)">View all →</a>
+  </div>
+  <div class="related-grid" id="related"></div>
+</section>
+
+<!-- STORY BAND -->
+<section class="story-band">
+  <p class="story-band-l">Every Noon Shop frame is the work of an ophthalmologist who spent twenty years watching frames fail. <em>This one was engineered so yours won't.</em></p>
+  <a href="story-v3.html" class="btn-light">Meet Anna Park →</a>
+</section>
+
+<footer>
+  <a href="index-v3.html" class="footer-logo"><img src="NoonShopLogoEtsy.png" alt="Noon Shop" class="footer-logo-img"></a>
+  <div class="footer-copy"><a href="terms-v3.html">Terms &amp; Policies</a> · © 2026 Noon Shop · Founded by Anna Park, MD</div>
+</footer>
+
+<!-- VIRTUAL TRY-ON -->
+<div class="tryon-modal" id="tryonModal">
+  <div class="tryon-card">
+    <div class="tryon-stage" id="tryonStage">
+      <button class="tryon-close" onclick="closeTryOn()">✕</button>
+      <video id="tryonVideo" autoplay playsinline muted></video>
+      <img class="fallimg" id="tryonFall" style="display:none" alt="Try-on preview">
+      <div class="tryon-frameimg" id="tryonFrameImg"></div>
+    </div>
+    <div class="tryon-side">
+      <div class="tryon-badge"><span class="dot"></span>Live · Right in your browser</div>
+      <div class="tryon-h" id="tryonName">FRAME</div>
+      <p class="tryon-p">Allow camera access, then use the sliders to sit the frame on your face.</p>
+      <div class="tryon-ctrl"><label>Frame size</label><input type="range" id="toSize" min="26" max="68" value="46"></div>
+      <div class="tryon-ctrl"><label>Position</label><input type="range" id="toTop" min="22" max="58" value="38"></div>
+      <button class="btn-navy" style="margin-top:6px" onclick="tryonAddCart()">Add to Bag</button>
+      <div class="tryon-note" id="tryonNote">Your camera stays on your device, nothing is uploaded or stored.</div>
+    </div>
+  </div>
+</div>
+
+<div class="toast" id="toast">Added to your bag</div>
+
+<script>
+const IMG='../Noonshop/assets/product/';
+const FACE='../Noonshop/assets/';
+const CATALOG=[
+  {name:'Austin', sku:'DR12408',desc:"A featherlight TR90 panto with a keyhole bridge that sits light and stays put.",coll:'dormann',collLabel:'Dormann',price:285,weight:9,material:'TR90 front · beta-titanium temples',origin:'South Korea',tagline:'Featherlight TR90 panto',bridge:'low',cheekbone:'moderate',width:'standard',shape:'panto',prod:'dormann-panto.png',face:'refined/woman-front-1.png',clinical:'The keyhole bridge and adjustable pads make Austin one of the most forgiving frames I have designed for a lower nose bridge, without ever giving up optical alignment.'},
+  {name:'Portland', sku:'DR12658',desc:"A softly rounded frame shaped for narrower faces and lower nose bridges.",coll:'dormann',collLabel:'Dormann',price:295,weight:10,material:'TR90 · beta-titanium temples',origin:'South Korea',tagline:'Rounded keyhole bridge',bridge:'low',cheekbone:'low',width:'narrow',shape:'round',prod:'dormann-panto-brown.png',face:'refined/asian-woman-1.png',clinical:'A softer, narrower fit. Portland sits beautifully on a narrower face where most frames slide wide.'},
+  {name:'Nashville', sku:'DR13127',desc:"A clean soft-square in TR90 with our screwless snap hinge.",coll:'dormann',collLabel:'Dormann',price:285,weight:9,material:'TR90 front · beta-titanium temples',origin:'South Korea',tagline:'Soft square, snap hinge',bridge:'medium',cheekbone:'moderate',width:'standard',shape:'square',prod:'classic-round.png',face:'faces/caucasian-man.png',clinical:'The screwless snap hinge means no loose parts and no pressure points, it simply holds.'},
+  {name:'Savannah', sku:'DR13594',desc:"Warm acetate round with generous rim clearance for higher cheekbones.",coll:'dormann',collLabel:'Dormann',price:275,weight:11,material:'Warm acetate · beta-titanium temples',origin:'South Korea',tagline:'Warm acetate round',bridge:'low',cheekbone:'prominent',width:'wide',shape:'round',prod:'gold-round-1.png',face:'faces/east-asian-woman.png',clinical:'Generous rim clearance keeps Savannah off prominent cheekbones, even on a wider face.'},
+  {name:'Charleston', sku:'DR14072',desc:"A minimal cat-eye with lift and engineered cheekbone clearance.",coll:'dormann',collLabel:'Dormann',price:295,weight:10,material:'TR90 · beta-titanium temples',origin:'South Korea',tagline:'Minimal cat-eye',bridge:'medium',cheekbone:'prominent',width:'narrow',shape:'cat-eye',prod:'cat-eye.png',face:'refined/asian-woman-1.png',clinical:'A lifted cat-eye with the rim height engineered to clear the cheek, expression without contact.'},
+  {name:'Zurich', sku:'SB28755',desc:"Eight grams of thin German steel, our lightest everyday rectangle.",coll:'steel-brown',collLabel:'Steel Brown',price:320,weight:8,material:'German stainless steel',origin:'Germany · designed w/ W. Proksch',tagline:'Thin stainless rectangle',bridge:'medium',cheekbone:'prominent',width:'wide',shape:'rectangle',prod:'steel-brown-rect.png',face:'faces/east-asian-man-front.png',clinical:'At eight grams, Zurich disappears. The thin stainless front is the lightest serious frame I prescribe.'},
+  {name:'Geneva', sku:'SB29013',desc:"A slim steel oval with low-bridge silicone pads that grip gently.",coll:'steel-brown',collLabel:'Steel Brown',price:330,weight:8,material:'German stainless · silicone pads',origin:'Germany · designed w/ W. Proksch',tagline:'Slim oval, silicone pads',bridge:'low',cheekbone:'moderate',width:'standard',shape:'oval',prod:'thin-rect-2.png',face:'faces/east-asian-woman.png',clinical:'Low-bridge silicone pads grip gently, Geneva stays put on a flatter bridge all day.'},
+  {name:'Frankfurt', sku:'SB29488',desc:"A fine round wire with a low-set bridge, quiet and weightless.",coll:'steel-brown',collLabel:'Steel Brown',price:330,weight:8,material:'German stainless steel',origin:'Germany · designed w/ W. Proksch',tagline:'Round wire, low-bridge',bridge:'low',cheekbone:'moderate',width:'narrow',shape:'round',prod:'classic-round.png',face:'refined/asian-man-front.png',clinical:'A fine round wire with a low-set bridge, quiet, precise, and weightless.'},
+  {name:'Munich', sku:'SB30176',desc:"A squared steel browline with real presence, sized for wider faces.",coll:'steel-brown',collLabel:'Steel Brown',price:345,weight:9,material:'German stainless · acetate browline',origin:'Germany · designed w/ W. Proksch',tagline:'Squared steel browline',bridge:'high',cheekbone:'low',width:'wide',shape:'browline',prod:'gold-round-2.png',face:'faces/ambiguous-man.png',clinical:'Structured but light, the browline gives presence on a wider face without the weight.'},
+  {name:'Amsterdam', sku:'SB30642',desc:"A compact steel rectangle scaled precisely for narrower faces.",coll:'steel-brown',collLabel:'Steel Brown',price:320,weight:8,material:'German stainless steel',origin:'Germany · designed w/ W. Proksch',tagline:'Compact rectangle',bridge:'medium',cheekbone:'low',width:'narrow',shape:'rectangle',prod:'thin-rect.png',face:'faces/caucasian-woman-front.png',clinical:'Compact and exact, sized for a narrower face that standard rectangles overwhelm.'},
+  {name:'Prague', sku:'DO41209',desc:"Our most refined rectangle, premium Italian acetate on beta-titanium, impeccably finished.",coll:'denova',collLabel:'DeNova',price:385,weight:11,material:'Premium Italian acetate · beta-titanium temples',origin:'Noon Shop atelier',tagline:'Refined acetate rectangle',bridge:'medium',cheekbone:'moderate',width:'standard',shape:'rectangle',prod:'frames-white-1.png',face:'faces/caucasian-woman-front.png',clinical:'DeNova is where fit meets true luxury, Prague carries our finest finish with the balance I insist on.'},
+  {name:'Vienna', sku:'DO41773',desc:"A softly rounded frame in the finest materials, gold-accented and quietly opulent.",coll:'denova',collLabel:'DeNova',price:395,weight:12,material:'Premium Italian acetate · beta-titanium, gold-accented',origin:'Noon Shop atelier',tagline:'Rounded, gold-accented',bridge:'medium',cheekbone:'moderate',width:'wide',shape:'round',prod:'gold-round-1.png',face:'faces/ambiguous-man.png',clinical:'Even at its most luxurious, fit comes first, Vienna sits light and true on a wider face.'},
+  {name:'Budapest', sku:'DO42158',desc:"A keyhole panto elevated with premium hand-finished Italian acetate.",coll:'denova',collLabel:'DeNova',price:410,weight:11,material:'Premium Italian acetate · beta-titanium temples',origin:'Noon Shop atelier',tagline:'Keyhole panto, refined',bridge:'low',cheekbone:'prominent',width:'standard',shape:'panto',prod:'frames-white-2.png',face:'refined/woman-front-1.png',clinical:'A low keyhole bridge with cheek clearance, dressed in our finest materials.'},
+  {name:'Dubrovnik', sku:'DO42690',desc:"A sculpted square in the finest materials, restrained, exacting, luxurious.",coll:'denova',collLabel:'DeNova',price:385,weight:12,material:'Premium Italian acetate · beta-titanium temples',origin:'Noon Shop atelier',tagline:'Sculpted square',bridge:'high',cheekbone:'low',width:'narrow',shape:'square',prod:'classic-round.png',face:'faces/caucasian-man.png',clinical:'Precision for a narrower face, finished to the standard DeNova is known for.'},
+  {name:'Krakow', sku:'DO43025',desc:"An elevated cat-eye, crafted from premium hand-finished Italian acetate.",coll:'denova',collLabel:'DeNova',price:420,weight:11,material:'Premium Italian acetate · beta-titanium temples',origin:'Noon Shop atelier',tagline:'Elevated cat-eye',bridge:'medium',cheekbone:'prominent',width:'wide',shape:'cat-eye',prod:'cat-eye.png',face:'faces/east-asian-woman.png',clinical:'The lift you want and the clearance you need, in the premium DeNova build.'},
+];
+
+const FIT_LABEL={bridge:{low:'Low Bridge',medium:'Standard Bridge',high:'High Bridge'},width:{narrow:'Narrow Width',standard:'Standard Width',wide:'Wide Width'},cheekbone:{prominent:'High-Cheekbone Clearance',moderate:'Moderate Cheekbone',low:'Low Cheekbone'}};
+
+function getParam(k){return new URLSearchParams(location.search).get(k);}
+let P=CATALOG.find(p=>p.name.toLowerCase()===(getParam('frame')||'').toLowerCase())||CATALOG[0];
+
+function money(n){return '$'+n;}
+function weightWord(n){return n<=8?'featherlight':n<=10?'so light':'light';}
+function weightCompare(n){return n<=8?'About as light as two sheets of paper.':n<=10?'About the weight of two credit cards.':'About the weight of a single AAA battery.';}
+
+/* colour variants */
+const SW={black:'#1C1C1C',tortoise:'linear-gradient(135deg,#8A5A2B,#3D2614)',crystal:'#E7E7E1',gold:'#C2A35A',silver:'#B8BCC2',brown:'#6B4A2F',navy:'#202A44',olive:'#6B6B47',rose:'#C98B7E'};
+const VARIANTS={
+  Austin:['black','tortoise','crystal'],Portland:['brown','black','gold'],Nashville:['silver','black','navy'],
+  Savannah:['gold','tortoise','brown'],Charleston:['black','rose','crystal'],
+  Zurich:['silver','black','navy'],Geneva:['silver','gold','black'],Frankfurt:['silver','black','navy'],
+  Munich:['gold','silver','black'],Amsterdam:['black','silver','navy'],
+  Prague:['black','tortoise','crystal'],Vienna:['tortoise','black','olive'],Budapest:['tortoise','brown','black'],
+  Dubrovnik:['crystal','black','silver'],Krakow:['tortoise','black','rose'],
+};
+function cap(s){return s? s.charAt(0).toUpperCase()+s.slice(1) : '';}
+let selColor=(VARIANTS[P.name]||['black'])[0];
+function pickColor(k,el){selColor=k;document.getElementById('selColorName').textContent=cap(k);document.querySelectorAll('.sw-btn').forEach(b=>b.classList.remove('active'));el.classList.add('active');}
+
+/* gallery */
+let galImgs=[];
+function buildGallery(){
+  galImgs=[
+    {src:FACE+P.face,contain:false},
+    {src:IMG+P.prod,contain:true},
+    {src:IMG+'macro-hinge-1.png',contain:false},
+    {src:IMG+'macro-detail.png',contain:false},
+  ];
+  setMain(0);
+  document.getElementById('galThumbs').innerHTML=galImgs.map((g,i)=>
+    `<div class="gal-thumb ${i===0?'active':''}" data-i="${i}"><img class="${g.contain?'contain':''}" src="${g.src}" onerror="this.style.display='none'"></div>`).join('');
+  document.querySelectorAll('.gal-thumb').forEach(t=>t.addEventListener('click',()=>setMain(+t.dataset.i)));
+}
+function setMain(i){
+  const g=galImgs[i];const m=document.getElementById('galMain');
+  m.src=g.src;m.className=g.contain?'contain':'';
+  document.querySelectorAll('.gal-thumb').forEach(t=>t.classList.toggle('active',+t.dataset.i===i));
+}
+
+let qty=1;
+function renderInfo(){
+  document.title=P.name+', Noon Shop';
+  document.getElementById('crumbColl').textContent=P.collLabel;
+  document.getElementById('crumbName').textContent=P.name;
+  const tags=[FIT_LABEL.width[P.width], FIT_LABEL.bridge[P.bridge]];
+  if(P.cheekbone==='prominent') tags.push('Best for high cheekbones');
+  if(P.coll!=='steel-brown') tags.push('Best for high prescriptions');
+  document.getElementById('info').innerHTML=`
+    <div class="info-coll">${P.collLabel} Collection</div>
+    <div class="info-name">${P.name.toUpperCase()}</div>
+    <div class="info-tagline">${P.desc}</div>
+    <div class="info-price">${money(P.price)}</div>
+    <div class="info-rule"></div>
+    <div class="weight-callout">
+      <div class="weight-ico"><svg viewBox="0 0 80 64" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="28" cy="44" r="10"/><circle cx="54" cy="44" r="10"/><path d="M38 42c2-2 6-2 8 0"/><path d="M18 42 12 39"/><path d="M64 42 70 39"/><path d="M50 30C52 18 60 10 70 8"/><path d="M70 8c-9 1-14 7-16 15"/><path d="M70 8c1 9-3 15-11 18"/></svg></div>
+      <div><div class="weight-v">${P.weight} grams</div><div class="weight-t">${weightCompare(P.weight)}</div></div>
+    </div>
+    <div class="fit-tags">${tags.map(t=>`<div class="fit-tag"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>${t}</div>`).join('')}</div>
+    <div class="variant">
+      <div class="variant-label">Color, <b id="selColorName">${cap(selColor)}</b></div>
+      <div class="swatches">${(VARIANTS[P.name]||['black']).map((k,i)=>`<button class="sw-btn ${i===0?'active':''}" data-c="${k}" style="background:${SW[k]}" title="${cap(k)}" onclick="pickColor('${k}',this)"></button>`).join('')}</div>
+    </div>
+    <div class="qty-row">
+      <div class="qty"><button onclick="setQty(-1)">−</button><span id="qtyV">1</span><button onclick="setQty(1)">+</button></div>
+      <button class="btn-navy" onclick="addCart()">Add to Bag, ${money(P.price)}</button>
+    </div>
+    <div class="ship-note">Free shipping & 30-day fit guarantee · Try them at home</div>
+    <div class="clinical">
+      <div class="clinical-l">Anna Park · Clinical Note</div>
+      <div class="clinical-b">"${P.clinical}"</div>
+      <div class="clinical-a">Anna Park, MD · Founder</div>
+    </div>
+    <div class="specs">
+      <div class="spec"><div class="spec-k">SKU</div><div class="spec-v">${P.sku}</div></div>
+      <div class="spec"><div class="spec-k">Collection</div><div class="spec-v">${P.collLabel}</div></div>
+      <div class="spec"><div class="spec-k">Material</div><div class="spec-v">${P.material}</div></div>
+      <div class="spec"><div class="spec-k">Weight</div><div class="spec-v">${P.weight} g · ${weightWord(P.weight)} — ${weightCompare(P.weight).replace(/^About /,'about ').replace(/\.$/,'')}</div></div>
+      <div class="spec"><div class="spec-k">Origin</div><div class="spec-v">${P.origin}</div></div>
+      <div class="spec"><div class="spec-k">Lenses</div><div class="spec-v">Demo lenses fitted, ready for your optician's prescription</div></div>
+      <div class="spec"><div class="spec-k">In the box</div><div class="spec-v">Frame, protective case &amp; microfiber cloth</div></div>
+    </div>`;
+}
+function setQty(d){qty=Math.max(1,qty+d);document.getElementById('qtyV').textContent=qty;}
+
+/* CART */
+function getCart(){try{return JSON.parse(localStorage.getItem('noonCart')||'[]');}catch(e){return [];}}
+function setCart(c){localStorage.setItem('noonCart',JSON.stringify(c));updateCount();}
+function updateCount(){const n=getCart().reduce((s,i)=>s+i.qty,0);document.querySelectorAll('.cart-count').forEach(e=>e.textContent=n);}
+function addCart(){
+  const c=getCart();const ex=c.find(i=>i.name===P.name&&i.color===cap(selColor));
+  if(ex)ex.qty+=qty;else c.push({name:P.name,sku:P.sku,coll:P.collLabel,color:cap(selColor),colorKey:selColor,swatch:SW[selColor],price:P.price,weight:P.weight,img:P.prod,qty:qty});
+  setCart(c);
+  const t=document.getElementById('toast');t.textContent=`${P.name} · ${cap(selColor)} added to your bag`;t.classList.add('show');
+  setTimeout(()=>t.classList.remove('show'),2200);
+}
+
+/* ── VIRTUAL TRY-ON ── */
+// A clean, transparent SVG frame outline (shape-matched) is overlaid on the live
+// camera, so there is no opaque photo box covering the face. Not a real AR fit,
+// a convincing demo, per spec.
+function frameSVG(shape){
+  const L=68,R=172,cy=46,rx=44,ry=34,stroke='#202A44',fill='rgba(32,42,68,0.10)';
+  let lens;
+  if(shape==='rectangle'||shape==='square'){
+    const rad=shape==='square'?6:15;
+    lens=c=>`<rect x="${c-rx}" y="${cy-ry+4}" width="${rx*2}" height="${(ry-4)*2}" rx="${rad}" ry="${rad}"/>`;
+  } else if(shape==='cat-eye'){
+    lens=c=>`<path d="M ${c-rx} ${cy+4} Q ${c-rx} ${cy+ry} ${c} ${cy+ry} Q ${c+rx} ${cy+ry} ${c+rx+8} ${cy-ry+2} Q ${c+rx} ${cy-ry} ${c} ${cy-ry} Q ${c-rx} ${cy-ry} ${c-rx} ${cy+4} Z"/>`;
+  } else if(shape==='oval'){
+    lens=c=>`<ellipse cx="${c}" cy="${cy}" rx="${rx}" ry="${ry-6}"/>`;
+  } else { /* round, panto */
+    lens=c=>`<ellipse cx="${c}" cy="${cy}" rx="${rx-2}" ry="${ry}"/>`;
+  }
+  const brow = shape==='browline'
+    ? `<path d="M ${L-rx} ${cy-ry} Q ${L} ${cy-ry-7} ${L+rx} ${cy-ry}" fill="none" stroke-width="8"/><path d="M ${R-rx} ${cy-ry} Q ${R} ${cy-ry-7} ${R+rx} ${cy-ry}" fill="none" stroke-width="8"/>` : '';
+  return `<svg viewBox="0 0 240 92" fill="${fill}" stroke="${stroke}" stroke-width="4" stroke-linejoin="round" stroke-linecap="round">
+    ${lens(L)}${lens(R)}
+    <path d="M ${L+rx-4} ${cy-4} Q 120 ${cy-13} ${R-rx+4} ${cy-4}" fill="none"/>
+    <path d="M ${L-rx+2} ${cy-6} L 6 ${cy-15}" fill="none"/>
+    <path d="M ${R+rx-2} ${cy-6} L 234 ${cy-15}" fill="none"/>
+    ${brow}
+  </svg>`;
+}
+let toStream=null;
+function openTryOn(){
+  const m=document.getElementById('tryonModal');
+  document.getElementById('tryonName').textContent=P.name.toUpperCase();
+  document.getElementById('tryonFrameImg').innerHTML=frameSVG(P.shape);
+  m.classList.add('open');document.body.style.overflow='hidden';
+  const size=document.getElementById('toSize'),top=document.getElementById('toTop');
+  const upd=()=>{const f=document.getElementById('tryonFrameImg');f.style.width=size.value+'%';f.style.top=top.value+'%';};
+  size.oninput=upd;top.oninput=upd;upd();
+  startCam();
+}
+function startCam(){
+  const v=document.getElementById('tryonVideo'),fall=document.getElementById('tryonFall');
+  if(navigator.mediaDevices&&navigator.mediaDevices.getUserMedia){
+    navigator.mediaDevices.getUserMedia({video:{facingMode:'user'},audio:false}).then(s=>{
+      toStream=s;v.srcObject=s;v.style.display='';fall.style.display='none';
+      document.getElementById('tryonNote').textContent='Your camera stays on your device, nothing is uploaded or stored.';
+    }).catch(()=>showFallback());
+  } else showFallback();
+}
+function showFallback(){
+  const v=document.getElementById('tryonVideo'),fall=document.getElementById('tryonFall');
+  v.style.display='none';fall.style.display='';fall.src=FACE+P.face;
+  document.getElementById('tryonNote').textContent='Camera unavailable here, showing a model preview. With camera access, this becomes a live mirror.';
+}
+function closeTryOn(){
+  document.getElementById('tryonModal').classList.remove('open');document.body.style.overflow='';
+  if(toStream){toStream.getTracks().forEach(t=>t.stop());toStream=null;}
+}
+function tryonAddCart(){addCart();closeTryOn();}
+
+/* related: same collection, others */
+function renderRelated(){
+  const rel=CATALOG.filter(p=>p.coll===P.coll&&p.name!==P.name).slice(0,4);
+  document.getElementById('related').innerHTML=rel.map(p=>`
+    <a class="rcard" href="product-v3.html?frame=${p.name.toLowerCase()}">
+      <div class="rcard-img">
+        <img class="rcard-layer rcard-face" src="${FACE}${p.face}" alt="${p.name} on model" onerror="this.style.opacity=0">
+        <div class="rcard-layer rcard-prod"><img src="${IMG}${p.prod}" alt="${p.name} frame" onerror="this.style.display='none'"></div>
+      </div>
+      <div class="rcard-b"><div class="rcard-coll">${p.collLabel} · SKU ${p.sku}</div><div class="rcard-name">${p.name.toUpperCase()}</div><div class="rcard-price">${money(p.price)}</div><div class="rcard-wt">${p.weight}g · ${weightWord(p.weight)}</div></div>
+    </a>`).join('');
+}
+
+buildGallery();renderInfo();renderRelated();updateCount();
+if(getParam('tryon')) setTimeout(openTryOn,250);
+</script>
+<script>function toggleMenu(o){var m=document.getElementById("mobileMenu");if(m){m.classList.toggle("open",o);document.body.style.overflow=o?"hidden":"";}}</script>
+</body>
+</html>

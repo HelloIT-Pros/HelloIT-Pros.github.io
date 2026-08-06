@@ -1,0 +1,457 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Shop Frames | Noon Shop</title>
+<meta name="description" content="Lightweight TR90, titanium and stainless steel eyewear, named for the world's cities. Filter by fit, cheekbone, face width, and prescription.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Outfit:wght@200;300;400;500&family=Playfair+Display:ital,wght@0,400;1,400&display=swap" rel="stylesheet">
+<style>
+:root {
+  --white:#FFFFFF; --cool:#F4F5F5; --stone:#EDEAE3; --ink:#1C1C1C; --ink2:#2F2F2F;
+  --line:rgba(28,28,28,.12); --mut:rgba(28,28,28,.72); --mut2:rgba(28,28,28,.56);
+  --navy:#202A44; --navy-lt:#3D4F72; --navy-dk:#111828;
+  --D:'Bebas Neue',sans-serif; --B:'Outfit',sans-serif; --P:'Playfair Display',Georgia,serif;
+}
+*,*::before,*::after { box-sizing:border-box; margin:0; padding:0; }
+html { scroll-behavior:smooth; }
+body { background:var(--white); color:var(--ink); font-family:var(--B); font-weight:400; -webkit-font-smoothing:antialiased; }
+a { color:inherit; text-decoration:none; }
+img { display:block; max-width:100%; }
+
+/* NAV */
+nav { position:fixed; top:0; left:0; right:0; z-index:200; display:flex; justify-content:space-between; align-items:center; padding:14px 60px; background:rgba(255,255,255,.92); backdrop-filter:blur(16px); box-shadow:0 1px 0 var(--line); }
+.nav-logo { font-family:var(--D); font-size:19px; letter-spacing:.2em; color:var(--ink); display:flex; align-items:center; }
+.nav-logo-img { height:45px; width:auto; display:block; }
+.footer-logo-img { height:34px; width:auto; filter:brightness(0) invert(1); opacity:.92; }
+.nav-links { display:flex; gap:36px; align-items:center; }
+.nav-link { font-size:13px; font-weight:500; letter-spacing:.14em; text-transform:uppercase; color:var(--ink2); transition:color .2s; }
+.nav-link:hover, .nav-link.active { color:var(--navy); }
+.nav-cart { font-size:13px; font-weight:500; letter-spacing:.13em; text-transform:uppercase; color:var(--ink2); display:flex; gap:7px; align-items:center; }
+.cart-count { font-family:var(--D); font-size:13px; color:var(--navy); }
+
+/* HEADER */
+.shop-head { padding:128px 60px 40px; }
+.shop-eyebrow { font-size:11px; letter-spacing:.3em; text-transform:uppercase; color:var(--navy); margin-bottom:18px; display:flex; align-items:center; gap:14px; }
+.shop-eyebrow::before { content:''; width:30px; height:1px; background:var(--navy); }
+.shop-title { font-family:var(--D); font-size:clamp(48px,7vw,96px); letter-spacing:.02em; line-height:.9; color:var(--ink); }
+.shop-title em { font-family:var(--P); font-style:italic; font-weight:400; color:var(--navy); font-size:.62em; }
+.shop-sub { font-size:16px; line-height:1.75; color:var(--mut); max-width:580px; margin-top:20px; }
+
+/* TABS */
+.coll-tabs { display:flex; gap:8px; flex-wrap:wrap; padding:0 60px; margin-bottom:32px; }
+.coll-tab { font-size:11px; letter-spacing:.16em; text-transform:uppercase; padding:10px 22px; border:1px solid var(--line); border-radius:40px; color:var(--mut); cursor:pointer; background:transparent; font-family:var(--B); transition:all .2s; }
+.coll-tab:hover { border-color:var(--navy); color:var(--navy); }
+.coll-tab.active { background:var(--navy); border-color:var(--navy); color:#fff; }
+
+/* LAYOUT */
+.shop-body { display:grid; grid-template-columns:220px 1fr; gap:40px; padding:0 60px 100px; align-items:start; }
+.filters { position:sticky; top:88px; }
+.filter-group { margin-bottom:28px; padding-bottom:24px; border-bottom:1px solid var(--line); }
+.filter-group:last-child { border-bottom:none; }
+.filter-title { font-size:10px; letter-spacing:.22em; text-transform:uppercase; color:var(--ink); margin-bottom:14px; }
+.filter-opt { display:flex; align-items:center; gap:10px; font-size:14px; color:var(--mut); padding:7px 0; cursor:pointer; transition:color .2s; }
+.filter-opt:hover { color:var(--navy); }
+.filter-opt .box { width:14px; height:14px; border:1px solid var(--line); border-radius:3px; flex-shrink:0; transition:all .2s; }
+.filter-opt.active { color:var(--ink); }
+.filter-opt.active .box { background:var(--navy); border-color:var(--navy); }
+.filter-opt .sw { width:15px; height:15px; border-radius:50%; flex-shrink:0; border:1px solid rgba(28,28,28,.18); transition:box-shadow .2s; }
+.filter-opt.active .sw { box-shadow:0 0 0 2px var(--white), 0 0 0 3.5px var(--navy); }
+.filter-reset { font-size:11px; letter-spacing:.14em; text-transform:uppercase; color:var(--navy); cursor:pointer; margin-top:4px; }
+.filter-note { font-size:11px; line-height:1.5; color:var(--mut2); margin-top:8px; }
+.reset-top { font-size:11px; letter-spacing:.14em; text-transform:uppercase; color:var(--navy); background:transparent; border:1px solid var(--line); border-radius:40px; padding:8px 16px; cursor:pointer; font-family:var(--B); transition:all .2s; }
+.reset-top:hover { border-color:var(--navy); background:var(--navy); color:#fff; }
+.reset-top[hidden] { display:none; }
+.filter-more-toggle { display:flex; align-items:center; justify-content:space-between; width:100%; font-size:11px; font-weight:500; letter-spacing:.14em; text-transform:uppercase; color:var(--navy); background:transparent; border:none; border-top:1px solid var(--line); padding:18px 0 6px; margin-bottom:24px; cursor:pointer; font-family:var(--B); }
+.filter-more-toggle .chev { transition:transform .25s; font-size:14px; color:var(--navy); }
+.filters-more { display:none; }
+.filters.more-open .filters-more { display:block; }
+.filters.more-open .filter-more-toggle .chev { transform:rotate(180deg); }
+.filter-toggle { display:none; align-items:center; justify-content:space-between; width:100%; font-size:12px; letter-spacing:.14em; text-transform:uppercase; color:var(--ink); background:var(--white); border:1px solid var(--line); border-radius:40px; padding:14px 22px; cursor:pointer; font-family:var(--B); margin-bottom:18px; }
+.filter-toggle .chev { transition:transform .25s; font-size:14px; color:var(--navy); }
+.filters.open .filter-toggle .chev { transform:rotate(180deg); }
+
+/* GRID */
+.grid-head { display:flex; justify-content:space-between; align-items:center; margin-bottom:20px; }
+.grid-count { font-size:12px; letter-spacing:.08em; color:var(--mut2); }
+.grid { display:grid; grid-template-columns:repeat(3,1fr); gap:24px; }
+.card { background:var(--white); border:1px solid var(--line); border-radius:6px; overflow:hidden; transition:box-shadow .25s, transform .25s; cursor:pointer; }
+.card:hover { box-shadow:0 14px 40px rgba(28,28,28,.08); transform:translateY(-3px); }
+.card-img { aspect-ratio:1/1; background:var(--cool); display:flex; align-items:center; justify-content:center; position:relative; overflow:hidden; }
+.card-img img { width:88%; object-fit:contain; transition:transform .5s ease; }
+.card:hover .card-img img { transform:scale(1.05); }
+.card-badge { position:absolute; top:12px; left:12px; font-size:9px; letter-spacing:.14em; text-transform:uppercase; background:var(--navy); color:#fff; padding:4px 10px; border-radius:20px; }
+.card-weight { position:absolute; bottom:12px; right:12px; font-size:10px; letter-spacing:.08em; color:var(--mut); background:rgba(255,255,255,.85); padding:4px 9px; border-radius:20px; }
+.card-tryon { position:absolute; bottom:12px; left:12px; display:inline-flex; align-items:center; gap:6px; font-size:9px; letter-spacing:.12em; text-transform:uppercase; color:#fff; background:var(--navy); padding:6px 11px; border-radius:20px; border:none; cursor:pointer; opacity:0; transform:translateY(6px); transition:opacity .2s, transform .2s, background .2s; }
+.card:hover .card-tryon { opacity:1; transform:translateY(0); }
+.card-tryon:hover { background:var(--navy-lt); }
+.card-tryon svg { width:13px; height:13px; }
+@media(max-width:960px){ .card-tryon{ opacity:1; transform:none; } }
+.card-body { padding:18px 20px 22px; }
+.card-coll { font-size:9px; letter-spacing:.18em; text-transform:uppercase; color:var(--mut2); margin-bottom:6px; }
+.card-name { font-family:var(--D); font-size:24px; letter-spacing:.04em; color:var(--ink); line-height:1; margin-bottom:6px; }
+.card-tag { font-family:var(--B); font-size:13px; color:var(--navy); margin-bottom:8px; }
+.card-sku { font-size:10px; letter-spacing:.1em; color:var(--mut2); margin-bottom:12px; }
+.card-foot { display:flex; justify-content:space-between; align-items:center; }
+.card-price { font-family:var(--D); font-size:20px; letter-spacing:.03em; color:var(--ink); }
+.card-fit { display:flex; gap:5px; }
+.card-fit span { font-size:9px; letter-spacing:.08em; color:var(--mut); border:1px solid var(--line); padding:3px 8px; border-radius:20px; }
+.empty { padding:60px 0; text-align:center; color:var(--mut); grid-column:1/-1; }
+
+/* home-style product card: model first, frame on hover */
+.pcard{background:var(--white);border:1px solid var(--line);border-radius:8px;overflow:hidden;transition:box-shadow .25s,transform .25s;display:flex;flex-direction:column;}
+.pcard:hover{box-shadow:0 18px 46px rgba(28,28,28,.10);transform:translateY(-4px);}
+.pcard-img{aspect-ratio:1/1;background:var(--cool);position:relative;overflow:hidden;}
+.pcard-layer{position:absolute;inset:0;transition:opacity .45s ease;}
+.pcard-face{width:100%;height:100%;object-fit:cover;object-position:center top;}
+.pcard-prod{background:var(--cool);opacity:0;display:flex;align-items:center;justify-content:center;}
+.pcard-prod img{width:88%;height:auto;object-fit:contain;}
+.pcard:hover .pcard-face{opacity:0;}
+.pcard:hover .pcard-prod{opacity:1;}
+.pcard-tryon{position:absolute;bottom:14px;left:14px;z-index:3;display:inline-flex;align-items:center;gap:6px;font-size:9px;letter-spacing:.12em;text-transform:uppercase;color:#fff;background:var(--navy);padding:7px 12px;border-radius:20px;border:none;cursor:pointer;opacity:0;transition:opacity .25s,background .2s;}
+.pcard:hover .pcard-tryon{opacity:1;}
+.pcard-tryon:hover{background:var(--navy-lt);}
+.pcard-tryon svg{width:13px;height:13px;}
+@media(max-width:960px){.pcard-tryon{opacity:1;}}
+.pcard-badge{position:absolute;top:14px;left:14px;z-index:4;font-size:9px;letter-spacing:.14em;text-transform:uppercase;background:var(--navy);color:#fff;padding:5px 11px;border-radius:20px;}
+.pcard-weight{position:absolute;bottom:14px;right:14px;z-index:4;font-size:10px;letter-spacing:.06em;color:var(--mut);background:rgba(255,255,255,.88);padding:5px 11px;border-radius:20px;}
+.pcard-body{padding:22px 22px 24px;display:flex;flex-direction:column;flex:1;}
+.pcard-coll{font-size:9px;letter-spacing:.18em;text-transform:uppercase;color:var(--mut2);margin-bottom:7px;}
+.pcard-name{font-family:var(--D);font-size:28px;letter-spacing:.04em;color:var(--ink);line-height:1;margin-bottom:7px;}
+.pcard-tag{font-family:var(--B);font-size:13px;color:var(--navy);margin-bottom:18px;}
+.pcard-foot{margin-top:auto;display:flex;justify-content:space-between;align-items:center;}
+.pcard-price{font-family:var(--D);font-size:22px;letter-spacing:.03em;color:var(--ink);}
+.pcard-cta{font-size:10px;letter-spacing:.16em;text-transform:uppercase;color:var(--navy);border:1px solid var(--line);padding:8px 16px;border-radius:40px;transition:all .2s;}
+.pcard:hover .pcard-cta{background:var(--navy);border-color:var(--navy);color:#fff;}
+
+/* FOOTER */
+footer { background:var(--ink); color:#fff; padding:64px 60px 44px; }
+.footer-top { display:flex; justify-content:space-between; margin-bottom:44px; }
+.footer-logo { font-family:var(--D); font-size:22px; letter-spacing:.2em; color:rgba(255,255,255,.85); }
+.footer-tagline { font-family:var(--P); font-style:italic; font-size:13px; color:rgba(255,255,255,.4); margin-top:10px; }
+.footer-bottom { display:flex; justify-content:space-between; padding-top:32px; border-top:1px solid rgba(255,255,255,.1); }
+.footer-copy { font-size:11px; color:rgba(255,255,255,.3); }
+.footer-founder { font-size:11px; color:rgba(255,255,255,.35); font-style:italic; }
+
+@media (max-width:960px) {
+  nav { padding:12px 22px; }
+  .nav-links { display:none; }
+  .shop-head { padding:96px 24px 32px; }
+  .coll-tabs { padding:0 24px; }
+  .shop-body { grid-template-columns:1fr; gap:24px; padding:0 24px 72px; }
+  .filters { position:static; display:block; margin-bottom:8px; }
+  .filter-toggle { display:flex; }
+  .filters .filter-group { display:none; }
+  .filters.open .filter-group { display:block; }
+  .filters .filter-more-toggle { display:none; }
+  .filters.open .filter-more-toggle { display:flex; }
+  .grid { grid-template-columns:1fr; }
+  footer { padding:48px 24px 36px; }
+  .footer-top, .footer-bottom { flex-direction:column; gap:12px; }
+}
+@media (max-width:560px) { .grid { grid-template-columns:1fr; } }
+
+/* MOBILE MENU */
+.nav-burger{display:none;flex-direction:column;gap:5px;background:none;border:none;cursor:pointer;padding:6px;margin-left:14px;}
+.nav-burger span{width:24px;height:2px;background:var(--ink);display:block;}
+.mobile-menu{position:fixed;inset:0;background:var(--navy-dk);z-index:300;flex-direction:column;justify-content:center;padding:48px 32px;transform:translateX(100%);transition:transform .4s cubic-bezier(.4,0,.2,1);display:flex;}
+.mobile-menu .mm-sub{font-size:11px;letter-spacing:.22em;text-transform:uppercase;color:#9FB0D0;margin-bottom:20px;}
+.mobile-menu a{font-family:var(--D);font-size:32px;letter-spacing:.04em;color:#fff;padding:13px 0;border-bottom:1px solid rgba(255,255,255,.1);}
+.mobile-menu.open{transform:translateX(0);}
+.mm-close{position:absolute;top:22px;right:24px;font-size:12px;letter-spacing:.18em;text-transform:uppercase;color:#9FB0D0;background:none;border:none;cursor:pointer;}
+@media(min-width:961px){.mobile-menu{display:none !important;}}
+@media(max-width:960px){.nav-burger{display:flex;}}
+
+/* ANNOUNCEMENT BAR */
+body{padding-top:38px;}
+nav{top:38px;}
+.annbar{position:fixed;top:0;left:0;right:0;height:38px;z-index:250;background:var(--navy);color:#fff;display:flex;align-items:center;justify-content:center;text-align:center;padding:0 16px;font-size:11px;letter-spacing:.08em;}
+.annbar b{font-weight:600;}
+.annbar .code{color:#9FB0D0;font-weight:600;letter-spacing:.12em;}
+@media(max-width:960px){ .annbar{font-size:10px;letter-spacing:.04em;} }
+
+.ann-short{display:none;}
+@media(max-width:560px){.ann-full{display:none;}.ann-short{display:inline;}}
+</style>
+</head>
+<body>
+<div class="mobile-menu" id="mobileMenu">
+  <button class="mm-close" onclick="toggleMenu(false)">Close ✕</button>
+  <div class="mm-sub">Noon Shop</div>
+  <a href="shop-v3.html">Shop</a>
+  <a href="shop-v3.html?view=bestsellers">Bestsellers</a>
+  <a href="fit-guide-v3.html">Find Your Fit</a>
+  <a href="story-v3.html">Our Story</a>
+  <a href="cart-v3.html">Cart</a>
+</div>
+
+
+<div class="annbar"><span class="ann-full">Free shipping on every order&nbsp;·&nbsp;<b>10% off your first pair</b> with code <span class="code">NOON10</span></span><span class="ann-short"><b>10% off your first pair</b>&nbsp;·&nbsp;code <span class="code">NOON10</span></span></div>
+<nav>
+  <a href="index-v3.html" class="nav-logo"><img src="NoonShopLogoEtsy.png" alt="Noon Shop" class="nav-logo-img"></a>
+  <div class="nav-links">
+      <a href="shop-v3.html" class="nav-link active">Shop</a>
+      <a href="shop-v3.html?view=bestsellers" class="nav-link">Bestsellers</a>
+      <a href="fit-guide-v3.html" class="nav-link">Find Your Fit</a>
+      <a href="story-v3.html" class="nav-link">Our Story</a>
+    </div>
+  <a href="cart-v3.html" class="nav-cart"><svg class="nav-bag" width="21" height="21" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-label="Cart"><path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/><path d="M3 6h18"/><path d="M16 10a4 4 0 0 1-8 0"/></svg><span class="cart-count">0</span></a>
+  <button class="nav-burger" onclick="toggleMenu(true)" aria-label="Open menu"><span></span><span></span><span></span></button>
+</nav>
+
+<header class="shop-head">
+  <div class="shop-eyebrow">Named for the world's cities</div>
+  <h1 class="shop-title" id="shopTitle">SHOP <em>frames</em></h1>
+  <p class="shop-sub" id="shopSub">Lightweight TR90, titanium and stainless steel, engineered around how a frame actually sits on your face. Filter by what your face needs, then find the frame that feels like nothing at all.</p>
+</header>
+
+<div class="coll-tabs" id="collTabs">
+  <button class="coll-tab" data-coll="all">All Frames</button>
+  <button class="coll-tab" data-coll="dormann">Dormann</button>
+  <button class="coll-tab" data-coll="steel-brown">Steel Brown</button>
+  <button class="coll-tab" data-coll="denova">DeNova</button>
+</div>
+
+<div class="shop-body">
+  <aside class="filters" id="filters">
+    <button class="filter-toggle" id="filterToggle" onclick="document.getElementById('filters').classList.toggle('open')"><span>Filter Frames</span><span class="chev">▾</span></button>
+    <!-- PRIMARY filters (always visible) -->
+    <div class="filter-group" data-filter="shape">
+      <div class="filter-title">Frame Shape</div>
+      <div class="filter-opt" data-val="round"><span class="box"></span>Round</div>
+      <div class="filter-opt" data-val="rectangle"><span class="box"></span>Rectangle</div>
+      <div class="filter-opt" data-val="square"><span class="box"></span>Square</div>
+      <div class="filter-opt" data-val="cat-eye"><span class="box"></span>Cat-Eye</div>
+      <div class="filter-opt" data-val="oval"><span class="box"></span>Oval</div>
+      <div class="filter-opt" data-val="panto"><span class="box"></span>Panto</div>
+      <div class="filter-opt" data-val="browline"><span class="box"></span>Browline</div>
+    </div>
+    <div class="filter-group" data-filter="width">
+      <div class="filter-title">Face Width</div>
+      <div class="filter-opt" data-val="narrow"><span class="box"></span>Narrow</div>
+      <div class="filter-opt" data-val="standard"><span class="box"></span>Standard</div>
+      <div class="filter-opt" data-val="wide"><span class="box"></span>Wide</div>
+    </div>
+    <div class="filter-group" data-filter="color">
+      <div class="filter-title">Color</div>
+      <div class="filter-opt" data-val="black"><span class="sw" style="background:#1C1C1C"></span>Black</div>
+      <div class="filter-opt" data-val="brown"><span class="sw" style="background:#6B4A2F"></span>Brown</div>
+      <div class="filter-opt" data-val="tortoise"><span class="sw" style="background:linear-gradient(135deg,#8A5A2B,#3D2614)"></span>Tortoise</div>
+      <div class="filter-opt" data-val="gold"><span class="sw" style="background:#C2A35A"></span>Gold</div>
+      <div class="filter-opt" data-val="silver"><span class="sw" style="background:#B8BCC2"></span>Silver</div>
+      <div class="filter-opt" data-val="crystal"><span class="sw" style="background:#E7E7E1"></span>Crystal</div>
+    </div>
+    <div class="filter-group" data-filter="price">
+      <div class="filter-title">Price</div>
+      <div class="filter-opt" data-val="under300"><span class="box"></span>Under $300</div>
+      <div class="filter-opt" data-val="mid"><span class="box"></span>$300 &ndash; $360</div>
+      <div class="filter-opt" data-val="over360"><span class="box"></span>$360 &amp; up</div>
+    </div>
+
+    <!-- SECONDARY filters (behind Show more) -->
+    <button class="filter-more-toggle" id="filterMoreToggle" onclick="toggleMoreFilters()"><span id="filterMoreLabel">Show more filters</span><span class="chev">▾</span></button>
+    <div class="filters-more" id="filtersMore">
+      <div class="filter-group" data-filter="cheek">
+        <div class="filter-title">Cheekbones</div>
+        <div class="filter-opt" data-val="yes"><span class="box"></span>Best for high cheekbones</div>
+        <div class="filter-note">Shorter-front frames that sit clear of prominent cheekbones.</div>
+      </div>
+      <div class="filter-group" data-filter="rx">
+        <div class="filter-title">Prescription</div>
+        <div class="filter-opt" data-val="yes"><span class="box"></span>Best for high prescriptions</div>
+        <div class="filter-note">Non-metal frames that carry a high myopia (&minus;6.00 and up) prescription with less lens thickness on show.</div>
+      </div>
+      <div class="filter-group" data-filter="material">
+        <div class="filter-title">Material</div>
+        <div class="filter-opt" data-val="tr90"><span class="box"></span>TR90</div>
+        <div class="filter-opt" data-val="steel"><span class="box"></span>Stainless Steel</div>
+        <div class="filter-opt" data-val="acetate"><span class="box"></span>Acetate</div>
+        <div class="filter-note">Dormann &amp; DeNova temples are beta-titanium. Metal frames are nickel and/or stainless steel.</div>
+      </div>
+      <div class="filter-group" data-filter="weight">
+        <div class="filter-title">Weight</div>
+        <div class="filter-opt" data-val="feather"><span class="box"></span>Featherlight (8g)</div>
+        <div class="filter-opt" data-val="solight"><span class="box"></span>So Light (9&ndash;10g)</div>
+        <div class="filter-opt" data-val="light"><span class="box"></span>Light (11&ndash;12g)</div>
+      </div>
+    </div>
+    <div class="filter-group">
+      <div class="filter-reset" id="resetFilters">Reset filters ×</div>
+    </div>
+  </aside>
+
+  <main>
+    <div class="grid-head">
+      <div class="grid-count" id="gridCount"></div>
+      <button class="reset-top" id="resetFiltersTop" hidden>Reset filters ×</button>
+    </div>
+    <div class="grid" id="grid"></div>
+  </main>
+</div>
+
+<footer>
+  <div class="footer-top">
+    <div>
+      <a href="index-v3.html" class="footer-logo"><img src="NoonShopLogoEtsy.png" alt="Noon Shop" class="footer-logo-img"></a>
+      <div class="footer-tagline">"The frame that belongs on your face."</div>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <div class="footer-copy"><a href="terms-v3.html">Terms &amp; Policies</a> · © 2026 Noon Shop · All rights reserved</div>
+    <div class="footer-founder">Founded by Anna Park, MD · Ophthalmologist</div>
+  </div>
+</footer>
+
+<script>
+/* ── PRODUCT DATA · cities by continent ── */
+const IMG = '../Noonshop/assets/product/';
+const FACE = '../Noonshop/assets/';
+// On-model shot shown first; the frame image fades in on hover (matches the home grid).
+const FACES = {
+  Austin:'refined/woman-front-1.png', Portland:'refined/asian-woman-1.png', Nashville:'faces/caucasian-man.png', Savannah:'faces/east-asian-woman.png', Charleston:'refined/asian-woman-1.png',
+  Zurich:'faces/east-asian-man-front.png', Geneva:'faces/east-asian-woman.png', Frankfurt:'refined/asian-man-front.png', Munich:'faces/ambiguous-man.png', Amsterdam:'faces/caucasian-woman-front.png',
+  Prague:'faces/caucasian-woman-front.png', Vienna:'faces/ambiguous-man.png', Budapest:'refined/woman-front-1.png', Dubrovnik:'faces/caucasian-man.png', Krakow:'faces/east-asian-woman.png',
+};
+const PRODUCTS = [
+  // Dormann · The Americas · TR90 fronts, beta-titanium temples, playful
+  { name:'Austin',    color:'black',  sku:'DR12408', coll:'dormann', collLabel:'Dormann', tag:'Featherlight TR90 panto', price:285, weight:'9g',  img:'dormann-panto.png',       bridge:'low',    cheekbone:'moderate', width:'standard', shape:'panto',     material:'tr90',    badge:'Featherlight' },
+  { name:'Portland',  color:'brown',  sku:'DR12658', coll:'dormann', collLabel:'Dormann', tag:'Rounded keyhole bridge', price:295, weight:'10g', img:'dormann-panto-brown.png', bridge:'low',    cheekbone:'low',      width:'narrow',   shape:'round',     material:'tr90',    badge:'' },
+  { name:'Nashville', color:'silver', sku:'DR13127', coll:'dormann', collLabel:'Dormann', tag:'Soft square, snap hinge', price:285, weight:'9g',  img:'classic-round.png',       bridge:'medium', cheekbone:'moderate', width:'standard', shape:'square',    material:'tr90',    badge:'' },
+  { name:'Savannah',  color:'gold',   sku:'DR13594', coll:'dormann', collLabel:'Dormann', tag:'Warm acetate round', price:275, weight:'11g', img:'gold-round-1.png',        bridge:'low',    cheekbone:'prominent',width:'wide',     shape:'round',     material:'acetate', badge:'' },
+  { name:'Charleston',color:'black',  sku:'DR14072', coll:'dormann', collLabel:'Dormann', tag:'Minimal cat-eye', price:295, weight:'10g', img:'cat-eye.png',             bridge:'medium', cheekbone:'prominent',width:'narrow',   shape:'cat-eye',   material:'tr90',    badge:'' },
+  // Steel Brown · West Europe · German stainless steel, quiet precision
+  { name:'Zurich',    color:'silver', sku:'SB28755', coll:'steel-brown', collLabel:'Steel Brown', tag:'Thin stainless rectangle', price:320, weight:'8g', img:'thin-rect.png',     bridge:'medium', cheekbone:'prominent',width:'wide',     shape:'rectangle', material:'steel',   badge:'Featherlight' },
+  { name:'Geneva',    color:'silver', sku:'SB29013', coll:'steel-brown', collLabel:'Steel Brown', tag:'Slim oval, silicone pads', price:330, weight:'8g', img:'thin-rect-2.png',    bridge:'low',    cheekbone:'moderate', width:'standard', shape:'oval',      material:'steel',   badge:'' },
+  { name:'Frankfurt', color:'silver', sku:'SB29488', coll:'steel-brown', collLabel:'Steel Brown', tag:'Round wire, low-bridge', price:330, weight:'8g', img:'classic-round.png',  bridge:'low',    cheekbone:'moderate', width:'narrow',   shape:'round',     material:'steel',   badge:'' },
+  { name:'Munich',    color:'gold',   sku:'SB30176', coll:'steel-brown', collLabel:'Steel Brown', tag:'Squared steel browline', price:345, weight:'9g', img:'gold-round-2.png',    bridge:'high',   cheekbone:'low',      width:'wide',     shape:'browline',  material:'steel',   badge:'' },
+  { name:'Amsterdam', color:'black',  sku:'SB30642', coll:'steel-brown', collLabel:'Steel Brown', tag:'Compact rectangle', price:320, weight:'8g', img:'thin-rect.png',           bridge:'medium', cheekbone:'low',      width:'narrow',   shape:'rectangle', material:'steel',   badge:'' },
+  // DeNova · East Europe · premium acetate, beta-titanium temples, most luxurious
+  { name:'Prague',    color:'black',    sku:'DO41209', coll:'denova', collLabel:'DeNova', tag:'Refined acetate rectangle', price:385, weight:'11g', img:'thin-rect-2.png',     bridge:'medium', cheekbone:'moderate', width:'standard', shape:'rectangle', material:'acetate', badge:'Luxury' },
+  { name:'Vienna',    color:'tortoise', sku:'DO41773', coll:'denova', collLabel:'DeNova', tag:'Rounded, gold-accented', price:395, weight:'12g', img:'gold-round-1.png',     bridge:'medium', cheekbone:'moderate', width:'wide',     shape:'round',     material:'acetate', badge:'' },
+  { name:'Budapest',  color:'tortoise', sku:'DO42158', coll:'denova', collLabel:'DeNova', tag:'Keyhole panto, refined', price:410, weight:'11g', img:'dormann-panto.png',   bridge:'low',    cheekbone:'prominent',width:'standard', shape:'panto',     material:'acetate', badge:'' },
+  { name:'Dubrovnik', color:'crystal',  sku:'DO42690', coll:'denova', collLabel:'DeNova', tag:'Sculpted square', price:385, weight:'12g', img:'classic-round.png',  bridge:'high',   cheekbone:'low',      width:'narrow',   shape:'square',    material:'acetate', badge:'' },
+  { name:'Krakow',    color:'tortoise', sku:'DO43025', coll:'denova', collLabel:'DeNova', tag:'Elevated cat-eye', price:420, weight:'11g', img:'cat-eye.png',       bridge:'medium', cheekbone:'prominent',width:'wide',     shape:'cat-eye',   material:'acetate', badge:'' },
+];
+
+const COLL_META = {
+  'all':        { title:'SHOP <em>frames</em>', sub:'Lightweight TR90, titanium and stainless steel, engineered around how a frame actually sits on your face. Filter by what your face needs, then find the frame that feels like nothing at all.' },
+  'dormann':    { title:'DORM<em>ann</em>', sub:'The Americas. TR90 fronts on beta-titanium temples with a patented screwless snap hinge, playful, minimal, and barely there. Named for cities across the New World.' },
+  'steel-brown':{ title:'STEEL <em>brown</em>', sub:'West Europe. Medical-grade German stainless steel, engineered with Wolfgang Proksch. Thin, refined, and weightless. Named for the precision capitals of Western Europe.' },
+  'denova':     { title:'DE<em>nova</em>', sub:'East Europe. Noon Shop\'s most luxurious house, premium acetate on beta-titanium temples with the most exacting craftsmanship. Named for the storied cities of Eastern Europe.' },
+};
+const VIEW_META = {
+  'bestsellers':{ title:'BEST <em>sellers</em>', sub:'The frames our customers reach for most, the ones that fit a little of everyone.' },
+  'light':      { title:'FEATHER<em>weight</em>', sub:'Our lightest frames, sorted by weight. Eight to twelve grams of titanium and stainless steel, light enough to forget you have them on.' },
+};
+const BEST = ['Austin','Zurich','Frankfurt','Prague','Portland','Geneva'];
+
+let activeColl = 'all';
+let activeView = null;
+// Nose-bridge removed as a filter (adjustable nosepads); cheekbone reworked to a single
+// high-cheekbone flag (derived from lens height + shape); prescription (high-myopia) added.
+const FILTER_KEYS = ['cheek','width','shape','material','color','weight','rx','price'];
+const filters = { cheek:[], width:[], shape:[], material:[], color:[], weight:[], rx:[], price:[] };
+function priceBucket(n){ return n < 300 ? 'under300' : n <= 360 ? 'mid' : 'over360'; }
+function weightBucket(n){ return n <= 8 ? 'feather' : n <= 10 ? 'solight' : 'light'; }
+function weightWord(n){ return n <= 8 ? 'featherlight' : n <= 10 ? 'so light' : 'light'; }
+// High cheekbones: shorter-front shapes sit clear of the cheek (was cheekbone:'prominent').
+function cheekFriendly(p){ return p.cheekbone === 'prominent'; }
+// High prescriptions / high myopia (-6.00+): non-metal frames (acetate, TR90) hide thick
+// lenses better; thin metal frames are not ideal.
+function rxFriendly(p){ return p.material === 'acetate' || p.material === 'tr90'; }
+function pval(p,k){
+  if (k==='price') return priceBucket(p.price);
+  if (k==='weight') return weightBucket(parseInt(p.weight));
+  if (k==='cheek') return cheekFriendly(p) ? 'yes' : 'no';
+  if (k==='rx') return rxFriendly(p) ? 'yes' : 'no';
+  return p[k];
+}
+
+function applyFitProfile() {
+  const params = new URLSearchParams(location.search);
+  if (params.get('collection')) activeColl = params.get('collection');
+  if (params.get('view') && VIEW_META[params.get('view')]) activeView = params.get('view');
+  if (params.get('width')) filters.width = [params.get('width')];
+  if (params.get('cheek')) filters.cheek = [params.get('cheek')];
+  if (params.get('rx')) filters.rx = [params.get('rx')];
+  try {
+    const saved = JSON.parse(sessionStorage.getItem('fitProfile') || '{}');
+    if (saved.width && !filters.width.length) filters.width = [saved.width];
+    if (saved.cheekbone === 'prominent' && !filters.cheek.length) filters.cheek = ['yes'];
+  } catch(e) {}
+}
+
+function render() {
+  const meta = (activeView && VIEW_META[activeView]) || COLL_META[activeColl] || COLL_META.all;
+  document.getElementById('shopTitle').innerHTML = meta.title;
+  document.getElementById('shopSub').textContent = meta.sub;
+  document.querySelectorAll('.coll-tab').forEach(t => t.classList.toggle('active', !activeView && t.dataset.coll === activeColl));
+  document.querySelectorAll('.filter-opt').forEach(o => {
+    const grp = o.closest('[data-filter]').dataset.filter;
+    o.classList.toggle('active', (filters[grp]||[]).includes(o.dataset.val));
+  });
+
+  let items = PRODUCTS.filter(p => activeView ? true : (activeColl === 'all' || p.coll === activeColl));
+  if (activeView === 'bestsellers') items = items.filter(p => BEST.includes(p.name));
+  FILTER_KEYS.forEach(k => { if (filters[k].length) items = items.filter(p => filters[k].includes(pval(p,k))); });
+  if (activeView === 'light') items = items.slice().sort((a,b) => parseInt(a.weight) - parseInt(b.weight));
+
+  const grid = document.getElementById('grid');
+  document.getElementById('gridCount').textContent = items.length + (items.length === 1 ? ' frame' : ' frames');
+  document.getElementById('resetFiltersTop').hidden = !FILTER_KEYS.some(k => filters[k].length);
+  if (!items.length) { grid.innerHTML = '<div class="empty">No frames match every filter at once. Try loosening one, every face has frames built for it.</div>'; return; }
+
+  grid.innerHTML = items.map(p => `
+    <a class="pcard" href="product-v3.html?frame=${p.name.toLowerCase()}">
+      <div class="pcard-img">
+        ${p.badge ? `<div class="pcard-badge">${p.badge}</div>` : ''}
+        <img class="pcard-layer pcard-face" src="${FACE}${FACES[p.name]||''}" alt="${p.name} on model" onerror="this.style.opacity=0">
+        <div class="pcard-layer pcard-prod"><img src="${IMG}${p.img}" alt="${p.name} frame" onerror="this.style.display='none'"></div>
+        <button class="pcard-tryon" onclick="event.preventDefault();event.stopPropagation();location.href='product-v3.html?frame=${p.name.toLowerCase()}&tryon=1'"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/><circle cx="12" cy="13" r="4"/></svg>Try On</button>
+        <div class="pcard-weight">${p.weight} · ${weightWord(parseInt(p.weight))}</div>
+      </div>
+      <div class="pcard-body">
+        <div class="pcard-coll">${p.collLabel} · SKU ${p.sku}</div>
+        <div class="pcard-name">${p.name.toUpperCase()}</div>
+        <div class="pcard-tag">${p.tag}</div>
+        <div class="pcard-foot">
+          <div class="pcard-price">$${p.price}</div>
+          <div class="pcard-cta">View</div>
+        </div>
+      </div>
+    </a>`).join('');
+}
+
+/* events */
+document.querySelectorAll('.coll-tab').forEach(t => t.addEventListener('click', () => { activeColl = t.dataset.coll; activeView = null; render(); }));
+document.querySelectorAll('.filter-opt').forEach(o => o.addEventListener('click', () => {
+  const grp = o.closest('[data-filter]').dataset.filter, v = o.dataset.val, arr = filters[grp];
+  const i = arr.indexOf(v); if (i >= 0) arr.splice(i,1); else arr.push(v);
+  render();
+}));
+const SECONDARY_FILTERS = ['cheek','rx','material','weight'];
+function toggleMoreFilters(){
+  const open = document.getElementById('filters').classList.toggle('more-open');
+  document.getElementById('filterMoreLabel').textContent = open ? 'Show fewer filters' : 'Show more filters';
+}
+function syncMoreFilters(){
+  if (SECONDARY_FILTERS.some(k => filters[k].length)) {
+    document.getElementById('filters').classList.add('more-open');
+    document.getElementById('filterMoreLabel').textContent = 'Show fewer filters';
+  }
+}
+function resetAllFilters(){ FILTER_KEYS.forEach(k => filters[k] = []); render(); }
+document.getElementById('resetFilters').addEventListener('click', resetAllFilters);
+document.getElementById('resetFiltersTop').addEventListener('click', resetAllFilters);
+
+function updateCartCount(){let n=0;try{n=JSON.parse(localStorage.getItem('noonCart')||'[]').reduce((s,i)=>s+i.qty,0);}catch(e){}document.querySelectorAll('.cart-count').forEach(e=>e.textContent=n);}
+
+applyFitProfile();
+syncMoreFilters();
+render();
+updateCartCount();
+</script>
+<script>function toggleMenu(o){var m=document.getElementById("mobileMenu");if(m){m.classList.toggle("open",o);document.body.style.overflow=o?"hidden":"";}}</script>
+</body>
+</html>
