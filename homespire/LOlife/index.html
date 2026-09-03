@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <title>LO Life — Homespire Mortgage</title>
+  <meta name="description" content="Your one-stop shop for every link, portal, and shortcut you need at Homespire." />
+
+  <link rel="manifest" href="manifest.webmanifest" />
+  <meta name="theme-color" content="#0D2A4A" />
+
+  <!-- iOS home screen support (Safari ignores the manifest for some of this) -->
+  <link rel="apple-touch-icon" href="icons/apple-touch-icon.png" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+  <meta name="apple-mobile-web-app-title" content="LO Life" />
+
+  <link rel="stylesheet" href="css/styles.css" />
+</head>
+<body>
+  <header class="app-header">
+    <div class="brand"><span class="dot"></span><span id="brand-name">LO Life</span></div>
+    <h1 id="greeting">Welcome</h1>
+    <p class="subtitle" id="subtitle">Everything you need at Homespire, in one place.</p>
+  </header>
+
+  <div class="install-wrap" style="max-width:640px;margin:0 auto;padding:16px 16px 0;">
+    <div class="install-banner" id="install-banner" hidden>
+      <p class="install-copy">Install LO Life for one-tap access.</p>
+      <div class="actions">
+        <button class="btn btn-primary install-action">Install</button>
+        <button class="btn btn-ghost install-dismiss">Not now</button>
+      </div>
+    </div>
+  </div>
+
+  <main id="main"></main>
+
+  <p id="org-name" style="display:none"></p>
+
+  <script src="js/data.js"></script>
+  <script src="js/app.js"></script>
+</body>
+</html>

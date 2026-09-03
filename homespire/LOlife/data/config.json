@@ -1,0 +1,59 @@
+{
+  "appName": "LO Life",
+  "org": "Homespire Mortgage",
+  "categories": [
+    { "id": "my-business", "label": "My Business", "icon": "💼", "order": 1 },
+    { "id": "loan-app", "label": "Loan Origination", "icon": "📋", "order": 2 },
+    { "id": "payroll", "label": "Payroll & HR", "icon": "💰", "order": 3 },
+    { "id": "marketing", "label": "Marketing & Resources", "icon": "📣", "order": 4 },
+    { "id": "portals", "label": "Other Portals", "icon": "🔗", "order": 5 }
+  ],
+  "genericLinks": [
+    { "id": "g-encompass", "categoryId": "loan-app", "label": "Encompass", "url": "https://encompass.homespiremortgage.com", "order": 1 },
+    { "id": "g-pos", "categoryId": "loan-app", "label": "Borrower Portal / POS", "url": "https://apply.homespiremortgage.com", "order": 2 },
+    { "id": "g-pricing", "categoryId": "loan-app", "label": "Pricing Engine", "url": "https://example.com/pricing", "order": 3 },
+
+    { "id": "g-adp", "categoryId": "payroll", "label": "Payroll (ADP)", "url": "https://workforcenow.adp.com", "order": 1 },
+    { "id": "g-benefits", "categoryId": "payroll", "label": "Benefits Portal", "url": "https://example.com/benefits", "order": 2 },
+    { "id": "g-hr-help", "categoryId": "payroll", "label": "HR Help Desk", "url": "mailto:hr@homespiremortgage.com", "order": 3 },
+
+    { "id": "g-brand", "categoryId": "marketing", "label": "Brand & Logo Library", "url": "https://example.com/brand-library", "order": 1 },
+    { "id": "g-flyers", "categoryId": "marketing", "label": "Flyer & Co-Brand Builder", "url": "https://example.com/flyer-builder", "order": 2 },
+    { "id": "g-social", "categoryId": "marketing", "label": "Social Media Content Hub", "url": "https://example.com/social-hub", "order": 3 },
+
+    { "id": "g-email", "categoryId": "portals", "label": "Email / Outlook", "url": "https://outlook.office.com", "order": 1 },
+    { "id": "g-teams", "categoryId": "portals", "label": "Microsoft Teams", "url": "https://teams.microsoft.com", "order": 2 },
+    { "id": "g-title", "categoryId": "portals", "label": "Title Company Portal", "url": "https://example.com/title-portal", "order": 3 },
+    { "id": "g-crm", "categoryId": "portals", "label": "CRM", "url": "https://example.com/crm", "order": 4 }
+  ],
+  "los": [
+    {
+      "slug": "maria-lopez",
+      "name": "Maria Lopez",
+      "title": "Loan Officer, NMLS #123456",
+      "customLinks": [
+        { "id": "c-apply", "categoryId": "my-business", "label": "My Application Link", "url": "https://apply.homespiremortgage.com/maria-lopez", "order": 1 },
+        { "id": "c-card", "categoryId": "my-business", "label": "My Digital Business Card", "url": "https://homespiremortgage.com/lo/maria-lopez", "order": 2 },
+        { "id": "c-calendar", "categoryId": "my-business", "label": "Book Time With Me", "url": "https://calendly.com/maria-lopez-homespire", "order": 3 }
+      ]
+    },
+    {
+      "slug": "james-carter",
+      "name": "James Carter",
+      "title": "Loan Officer, NMLS #654321",
+      "customLinks": [
+        { "id": "c-apply", "categoryId": "my-business", "label": "My Application Link", "url": "https://apply.homespiremortgage.com/james-carter", "order": 1 },
+        { "id": "c-card", "categoryId": "my-business", "label": "My Digital Business Card", "url": "https://homespiremortgage.com/lo/james-carter", "order": 2 }
+      ]
+    },
+    {
+      "slug": "demo",
+      "name": "Demo LO",
+      "title": "Sample Profile (for testing)",
+      "customLinks": [
+        { "id": "c-apply", "categoryId": "my-business", "label": "My Application Link", "url": "https://apply.homespiremortgage.com/demo", "order": 1 },
+        { "id": "c-card", "categoryId": "my-business", "label": "My Digital Business Card", "url": "https://homespiremortgage.com/lo/demo", "order": 2 }
+      ]
+    }
+  ]
+}

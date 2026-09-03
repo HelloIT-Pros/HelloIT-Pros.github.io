@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>LO Life — Admin</title>
+  <link rel="stylesheet" href="css/styles.css" />
+  <style>
+    body { background: var(--bg); }
+    .admin-header {
+      background: var(--navy); color: #fff; padding: 20px;
+    }
+    .admin-header h1 { margin: 0 0 4px; font-size: 20px; }
+    .admin-header p { margin: 0; font-size: 13px; color: rgba(255,255,255,0.75); }
+    .status-pill {
+      display: inline-block; font-size: 12px; font-weight: 600;
+      padding: 3px 10px; border-radius: 999px; margin-left: 8px;
+    }
+    .status-draft { background: #FDECEA; color: #B3261E; }
+    .status-clean { background: #E6F4EA; color: #1E7E34; }
+  </style>
+</head>
+<body>
+  <header class="admin-header">
+    <h1>LO Life — Admin <span id="status-pill" class="status-pill status-clean">No unsaved changes</span></h1>
+    <p>Manage the links every LO sees, and each LO's personal shortcuts. This edits a local draft — click <strong>Export config.json</strong> and redeploy to publish it. See README.md.</p>
+  </header>
+
+  <div class="admin-shell">
+    <div class="admin-toolbar">
+      <button class="btn btn-primary" id="export-btn">⬇ Export config.json</button>
+      <button class="btn btn-ghost" id="copy-json-btn">Copy JSON</button>
+      <button class="btn btn-ghost" id="reset-btn">Discard local changes</button>
+      <a class="btn btn-ghost" href="index.html" style="text-decoration:none;display:inline-flex;align-items:center;">View app ↗</a>
+    </div>
+
+    <section class="admin-section">
+      <h2>Categories</h2>
+      <h3>The sections every LO sees, in order.</h3>
+      <div id="categories-list"></div>
+      <button class="btn btn-ghost" id="add-category-btn">+ Add category</button>
+    </section>
+
+    <section class="admin-section">
+      <h2>Generic links</h2>
+      <h3>Shown to every LO, same for everyone.</h3>
+      <div id="generic-links-list"></div>
+      <button class="btn btn-ghost" id="add-generic-link-btn">+ Add generic link</button>
+    </section>
+
+    <section class="admin-section">
+      <h2>Loan officers</h2>
+      <h3>Each LO's install link and personal shortcuts.</h3>
+      <div id="los-list"></div>
+      <button class="btn btn-ghost" id="add-lo-btn">+ Add loan officer</button>
+    </section>
+  </div>
+
+  <script src="js/data.js"></script>
+  <script src="js/admin.js"></script>
+</body>
+</html>
