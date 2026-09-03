@@ -7,6 +7,7 @@
 
 let state = null;
 let dirty = false;
+let selectedLoSlug = null;
 
 function uid(prefix) {
   return `${prefix}-${Date.now().toString(36)}${Math.random().toString(36).slice(2, 6)}`;
@@ -159,43 +160,101 @@ document.getElementById("add-generic-link-btn").addEventListener("click", () => 
 
 // ---------- LOs ----------
 
+function renderLoSelector() {
+  const selector = document.getElementById("lo-selector");
+  const sorted = [...state.los].sort((a, b) => (a.name || "").localeCompare(b.name || ""));
+
+  if (!selectedLoSlug || !state.los.some((l) => l.slug === selectedLoSlug)) {
+    selectedLoSlug = sorted[0] ? sorted[0].slug : null;
+  }
+
+  selector.innerHTML =
+    sorted
+      .map(
+        (lo) =>
+          `<option value="${escapeHtml(lo.slug)}" ${lo.slug === selectedLoSlug ? "selected" : ""}>${escapeHtml(lo.name || lo.slug)}</option>`
+      )
+      .join("") || `<option value="">No loan officers yet</option>`;
+}
+
 function renderLOs() {
+  renderLoSelector();
+
   const container = document.getElementById("los-list");
-  container.innerHTML = state.los
-    .map((lo) => {
-      const installUrl = `${location.origin}${location.pathname.replace("admin.html", "index.html")}?lo=${encodeURIComponent(lo.slug)}`;
-      return `
-      <div class="lo-block" data-lo="${escapeHtml(lo.slug)}">
-        <div class="lo-block-header">
-          <strong>${escapeHtml(lo.name || "Unnamed LO")}</strong>
-          <button class="icon-btn" data-action="remove-lo">✕ Remove</button>
-        </div>
-        <div class="row" style="grid-template-columns: 1fr 1fr 1fr;">
-          <input data-field="name" value="${escapeHtml(lo.name)}" placeholder="Full name" />
-          <input data-field="title" value="${escapeHtml(lo.title || "")}" placeholder="Title / NMLS #" />
-          <input data-field="slug" value="${escapeHtml(lo.slug)}" placeholder="url-slug" />
-        </div>
-        <p class="small-note">Install link: <span class="lo-link-url">${escapeHtml(installUrl)}</span>
-          <button class="btn btn-ghost copy-install-btn" data-url="${escapeHtml(installUrl)}" style="padding:2px 8px;">Copy</button>
-        </p>
-        <div class="custom-links" data-slug="${escapeHtml(lo.slug)}">
-          ${lo.customLinks
-            .map(
-              (l) => `
+  const lo = state.los.find((l) => l.slug === selectedLoSlug);
+
+  if (!lo) {
+    container.innerHTML = `<p class="small-note">No loan officers yet — click "+ Add loan officer" above to create one.</p>`;
+    return;
+  }
+
+  const installUrl = `${location.origin}${location.pathname.replace("admin.html", "index.html")}?lo=${encodeURIComponent(lo.slug)}`;
+  const catsSorted = [...state.categories].sort((a, b) => a.order - b.order);
+  const firstName = (lo.name || "this LO").split(" ")[0];
+
+  container.innerHTML = `
+    <div class="lo-block" data-lo="${escapeHtml(lo.slug)}">
+      <div class="lo-block-header">
+        <strong>${escapeHtml(lo.name || "Unnamed LO")}</strong>
+        <button class="icon-btn" data-action="remove-lo">✕ Remove</button>
+      </div>
+      <div class="row" style="grid-template-columns: 1fr 1fr 1fr;">
+        <input data-field="name" value="${escapeHtml(lo.name)}" placeholder="Full name" />
+        <input data-field="title" value="${escapeHtml(lo.title || "")}" placeholder="Title / NMLS #" />
+        <input data-field="slug" value="${escapeHtml(lo.slug)}" placeholder="url-slug" />
+      </div>
+      <p class="small-note">Install link: <span class="lo-link-url">${escapeHtml(installUrl)}</span>
+        <button class="btn btn-ghost copy-install-btn" data-url="${escapeHtml(installUrl)}" style="padding:2px 8px;">Copy</button>
+      </p>
+
+      ${catsSorted
+        .map((cat) => {
+          const generic = state.genericLinks
+            .filter((g) => g.categoryId === cat.id)
+            .sort((a, b) => (a.order || 0) - (b.order || 0));
+          const custom = lo.customLinks
+            .filter((c) => c.categoryId === cat.id)
+            .sort((a, b) => (a.order || 0) - (b.order || 0));
+
+          return `
+          <div class="lo-category-block" data-category-id="${escapeHtml(cat.id)}">
+            <h3>${cat.icon || ""} ${escapeHtml(cat.label)}</h3>
+            ${
+              generic.length
+                ? generic
+                    .map(
+                      (g) => `
+              <div class="generic-preview-row">
+                <span class="badge-shared">Shared</span>
+                <span class="glabel">${escapeHtml(g.label)}</span>
+                <span class="lo-link-url">${escapeHtml(g.url)}</span>
+              </div>`
+                    )
+                    .join("")
+                : `<p class="small-note">No shared links in this category yet.</p>`
+            }
+            ${custom
+              .map(
+                (l) => `
             <div class="row" data-kind="custom" data-id="${escapeHtml(l.id)}">
               <select data-field="categoryId">${categoryOptions(l.categoryId)}</select>
               <input data-field="label" value="${escapeHtml(l.label)}" placeholder="Label" />
               <input data-field="url" class="lo-link-url" value="${escapeHtml(l.url)}" placeholder="https://..." />
               <button class="icon-btn" data-action="remove-link">✕</button>
             </div>`
-            )
-            .join("")}
-        </div>
-        <button class="btn btn-ghost add-custom-link-btn" style="margin-top:6px;">+ Add link for ${escapeHtml(lo.name || "this LO")}</button>
-      </div>`;
-    })
-    .join("");
+              )
+              .join("")}
+            <button class="btn btn-ghost add-in-category-btn" data-action="add-link-in-category" data-category-id="${escapeHtml(cat.id)}">+ Add ${escapeHtml(firstName)}'s link here</button>
+          </div>`;
+        })
+        .join("")}
+    </div>`;
 }
+
+document.getElementById("lo-selector").addEventListener("change", (e) => {
+  selectedLoSlug = e.target.value || null;
+  renderLOs();
+});
 
 document.getElementById("los-list").addEventListener("input", (e) => {
   const loBlock = e.target.closest(".lo-block");
@@ -236,6 +295,7 @@ document.getElementById("los-list").addEventListener("click", (e) => {
   if (e.target.dataset.action === "remove-lo") {
     if (!confirm(`Remove ${lo.name}? This deletes their custom links too.`)) return;
     state.los = state.los.filter((l) => l.slug !== lo.slug);
+    selectedLoSlug = null; // renderLOs() will pick a new default
     markDirty();
     renderLOs();
     return;
@@ -249,14 +309,14 @@ document.getElementById("los-list").addEventListener("click", (e) => {
     return;
   }
 
-  if (e.target.classList.contains("add-custom-link-btn")) {
-    if (!state.categories.length) return alert("Add a category first.");
+  if (e.target.dataset.action === "add-link-in-category") {
+    const categoryId = e.target.dataset.categoryId;
     lo.customLinks.push({
       id: uid("c"),
-      categoryId: state.categories[0].id,
+      categoryId,
       label: "New link",
       url: "https://",
-      order: lo.customLinks.length + 1,
+      order: lo.customLinks.filter((l) => l.categoryId === categoryId).length + 1,
     });
     markDirty();
     renderLOs();
@@ -274,12 +334,14 @@ document.getElementById("los-list").addEventListener("click", (e) => {
 document.getElementById("add-lo-btn").addEventListener("click", () => {
   const name = prompt("New LO's full name?");
   if (!name) return;
+  const slug = uniqueSlug(slugify(name));
   state.los.push({
-    slug: uniqueSlug(slugify(name)),
+    slug,
     name,
     title: "",
     customLinks: [],
   });
+  selectedLoSlug = slug; // jump straight to them — this is where they'll see every generic link they already have
   markDirty();
   renderLOs();
 });
