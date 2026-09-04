@@ -1,7 +1,7 @@
 // Bump this on every deploy that changes any cached file. It is what
 // invalidates old caches on LOs' phones. A stale bump means they keep
 // seeing yesterday's app shell.
-const CACHE_VERSION = "homespire360-v5";
+const CACHE_VERSION = "homespire360-v6";
 const SHELL_CACHE = `${CACHE_VERSION}-shell`;
 const DATA_CACHE = `${CACHE_VERSION}-data`;
 
@@ -49,35 +49,40 @@ self.addEventListener("fetch", (event) => {
     return; // let cross-origin (the actual portal/marketing links) hit the network untouched
   }
 
-  if (url.pathname.endsWith("data/config.json") || url.pathname.includes("/photos/")) {
-    // Network-first: LOs should see fresh links (and LO headshots added later
-    // via admin, without us hardcoding each filename below) the moment
-    // they're online, but the app still works offline on the last-known copy.
-    event.respondWith(
-      fetch(event.request)
-        .then((res) => {
-          const copy = res.clone();
-          caches.open(DATA_CACHE).then((cache) => cache.put(event.request, copy));
-          return res;
-        })
-        .catch(() => caches.match(event.request))
-    );
-    return;
-  }
+  const isData =
+    url.pathname.endsWith("data/config.json") || url.pathname.includes("/photos/");
+  const cacheName = isData ? DATA_CACHE : SHELL_CACHE;
 
-  // App shell: cache-first for instant loads, refresh the cache in the background.
+  /*
+   * Network first for everything, with the cache as the offline fallback only.
+   *
+   * The shell used to be cache-first for instant loads, which cost us: a phone
+   * that had installed the app kept booting a build from days earlier, showing
+   * the old name and no headshot, with nothing on screen to reveal it was
+   * stale. While this app is being changed daily, being current matters more
+   * than saving a round trip on launch.
+   */
   event.respondWith(
-    caches.match(event.request).then((cached) => {
-      const network = fetch(event.request)
-        .then((res) => {
-          if (res.ok) {
-            const copy = res.clone();
-            caches.open(SHELL_CACHE).then((cache) => cache.put(event.request, copy));
-          }
-          return res;
+    fetch(event.request)
+      .then((res) => {
+        // fetch() resolves for 404 and 500 too, so guard on ok. Caching an
+        // error page would outlive whatever caused it and is exactly how a
+        // moved folder turns into a permanently broken install.
+        if (!res.ok) {
+          return caches.match(event.request).then((cached) => cached || res);
+        }
+        const copy = res.clone();
+        caches.open(cacheName).then((cache) => cache.put(event.request, copy));
+        return res;
+      })
+      .catch(() =>
+        caches.match(event.request).then((cached) => {
+          if (cached) return cached;
+          // Offline with nothing cached for this exact request: for a page
+          // navigation, the precached shell is still better than a dead tab.
+          if (event.request.mode === "navigate") return caches.match("index.html");
+          return Response.error();
         })
-        .catch(() => cached);
-      return cached || network;
-    })
+      )
   );
 });

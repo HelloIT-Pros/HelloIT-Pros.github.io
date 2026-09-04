@@ -352,7 +352,7 @@ function renderProfile() {
       </div>
     </section>
 
-    <p class="foot-note">${escapeHtml(appConfig.org || "")}<br />Prototype build</p>`;
+    <p class="foot-note">${escapeHtml(appConfig.org || "")}<br />Prototype build ${escapeHtml(BUILD)}</p>`;
 }
 
 function renderPicker(notice) {
@@ -433,6 +433,7 @@ function renderAll() {
   el("page-title").textContent = head.title;
   el("page-sub").textContent = head.sub;
   renderTabBar();
+  renderDraftNote();
   renderInstallSlot();
   renderTools();
   renderMain();
@@ -504,6 +505,14 @@ function triggerInstall() {
   });
 }
 
+function renderDraftNote() {
+  const note = el("draft-note");
+  if (!note) return;
+  note.innerHTML = isDraftPreview()
+    ? `<div class="draft-banner">${icon("search")}<span>Previewing unpublished admin changes. Loan officers still see the published links.</span></div>`
+    : "";
+}
+
 function renderInstallSlot() {
   const slot = el("install-slot");
   if (!slot) return;
@@ -556,7 +565,7 @@ async function init() {
   });
 
   try {
-    appConfig = await loadConfig();
+    appConfig = await loadConfig({ allowDraft: isDraftPreview() });
   } catch (err) {
     el("main").innerHTML = emptyState(
       "close",

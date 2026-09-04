@@ -386,6 +386,37 @@ main {
   background: var(--surface);
 }
 
+/* ---------- Draft preview banner ---------- */
+
+#draft-note {
+  max-width: 640px;
+  margin: 0 auto;
+}
+
+#draft-note:not(:empty) {
+  padding: 16px var(--pad) 0;
+}
+
+.draft-banner {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  background: rgba(245, 200, 66, 0.16);
+  border: 1px solid rgba(245, 200, 66, 0.5);
+  border-radius: 14px;
+  padding: 11px 13px;
+  font-size: 13px;
+  line-height: 1.4;
+}
+
+.draft-banner .icon {
+  width: 17px;
+  height: 17px;
+  flex: 0 0 auto;
+  margin-top: 1px;
+  color: #8a6a00;
+}
+
 /* ---------- Install prompt ---------- */
 
 .install-card {

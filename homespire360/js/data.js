@@ -19,19 +19,37 @@ const LOCAL_DRAFT_KEY = "lolife_config_draft_v1";
 const LAST_LO_KEY = "lolife_last_lo";
 const FAVORITES_KEY_PREFIX = "lolife_favorites_";
 
-/** Fetch the published config, falling back to a local admin draft if newer edits exist. */
-async function loadConfig() {
-  const draft = readDraft();
+/* Shown in the Profile footer. Bump with the service worker cache version so a
+   phone can be identified as stale by looking at it. */
+const BUILD = "v6";
+
+/**
+ * Fetch the published config.
+ *
+ * The admin screen keeps an unpublished working copy in localStorage. That
+ * draft is admin state, not app state: the LO view used to prefer it whenever
+ * one existed, which meant anyone who had ever opened the admin got a
+ * permanently frozen view of the app, showing whatever the data looked like
+ * when they last edited, with nothing on screen to explain why. So the draft
+ * is now opt in. The admin passes allowDraft, and the app only passes it when
+ * ?draft is in the URL, in which case it says so on screen.
+ */
+async function loadConfig({ allowDraft = false } = {}) {
+  const draft = allowDraft ? readDraft() : null;
   try {
     const res = await fetch(CONFIG_URL, { cache: "no-store" });
     if (!res.ok) throw new Error("config fetch failed: " + res.status);
     const published = await res.json();
-    // If an admin draft exists locally, prefer it (this device is mid-edit / testing an unpublished change).
     return draft || published;
   } catch (err) {
     if (draft) return draft;
     throw err;
   }
+}
+
+/** True when the app was opened to preview the admin's unpublished draft. */
+function isDraftPreview() {
+  return new URLSearchParams(window.location.search).has("draft") && Boolean(readDraft());
 }
 
 function readDraft() {

@@ -71,6 +71,7 @@ function paintStaticButtons() {
   document.getElementById("copy-json-btn").innerHTML = `${icon("copy")}<span>Copy JSON</span>`;
   document.getElementById("reset-btn").innerHTML = `${icon("refresh")}<span>Discard local changes</span>`;
   document.getElementById("view-app-btn").innerHTML = `${icon("external")}<span>View app</span>`;
+  document.getElementById("preview-draft-btn").innerHTML = `${icon("search")}<span>Preview draft</span>`;
   document.getElementById("add-category-btn").innerHTML = `${icon("plus")}<span>Add category</span>`;
   document.getElementById("add-generic-link-btn").innerHTML = `${icon("plus")}<span>Add shared link</span>`;
   document.getElementById("add-lo-btn").innerHTML = `${icon("plus")}<span>Add loan officer</span>`;
@@ -461,7 +462,7 @@ document.getElementById("reset-btn").addEventListener("click", async () => {
 /* ---------- Boot ---------- */
 
 async function boot() {
-  state = await loadConfig();
+  state = await loadConfig({ allowDraft: true });
   paintStaticButtons();
   renderCategories();
   renderGenericLinks();
