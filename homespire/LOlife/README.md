@@ -29,10 +29,26 @@ admin.html          the screen used to manage links
 manifest.webmanifest, service-worker.js   installable plus offline
 data/config.json    the link data: categories, shared links, LO roster
 js/icons.js         the line icon set (no emoji anywhere in the product)
+brand/              the Homespire mark, source of truth for the app icon
 photos/             LO headshots
 css/, js/, icons/   everything else
-scripts/            icon generator
+scripts/            icon generator, run it after changing the brand mark
 ```
+
+## App icon
+
+Every icon in `icons/` is generated from `brand/homespire-mark.png` by
+`scripts/make_icons.py`. Do not hand-edit the files in `icons/`, replace the
+brand mark and rerun the script:
+
+```bash
+cd scripts && python3 make_icons.py
+```
+
+It emits two families. The `any` icons are full bleed, framed the way the brand
+file frames the mark. The `maskable` icons shrink the mark to 58% of the canvas
+so Android can crop it to a circle or squircle without clipping the roof or the
+legs, which is checked against the documented 80% safe zone.
 
 ## How the LO app is laid out
 

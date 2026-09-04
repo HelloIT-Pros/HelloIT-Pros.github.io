@@ -1,7 +1,7 @@
 // Bump this on every deploy that changes any cached file. It is what
 // invalidates old caches on LOs' phones. A stale bump means they keep
 // seeing yesterday's app shell.
-const CACHE_VERSION = "homespire360-v4";
+const CACHE_VERSION = "homespire360-v5";
 const SHELL_CACHE = `${CACHE_VERSION}-shell`;
 const DATA_CACHE = `${CACHE_VERSION}-data`;
 
@@ -20,6 +20,7 @@ const SHELL_FILES = [
   "icons/icon-maskable-192.png",
   "icons/icon-maskable-512.png",
   "icons/apple-touch-icon.png",
+  "icons/favicon-32.png",
 ];
 
 self.addEventListener("install", (event) => {
