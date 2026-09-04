@@ -2,23 +2,113 @@
   "appName": "Homespire 360",
   "org": "Homespire Mortgage",
   "categories": [
-    { "id": "my-business", "label": "My Business", "icon": "briefcase", "order": 1 },
-    { "id": "loan-tools", "label": "Loan Tools", "icon": "fileText", "order": 2 },
-    { "id": "loan-origination", "label": "Loan Origination Systems", "icon": "clipboard", "order": 3 },
-    { "id": "marketing-sales", "label": "Marketing & Sales Tools", "icon": "megaphone", "order": 4 },
-    { "id": "company-resources", "label": "Resources", "icon": "building", "order": 5 },
-    { "id": "social-reviews", "label": "My Social & Reviews", "icon": "star", "order": 6 },
-    { "id": "payroll", "label": "Payroll & HR", "icon": "banknote", "order": 7 }
+    {
+      "id": "my-business",
+      "label": "My Business",
+      "icon": "briefcase",
+      "order": 1
+    },
+    {
+      "id": "loan-tools",
+      "label": "Loan Tools",
+      "icon": "fileText",
+      "order": 2
+    },
+    {
+      "id": "loan-origination",
+      "label": "Loan Origination Systems",
+      "icon": "clipboard",
+      "order": 3
+    },
+    {
+      "id": "marketing-sales",
+      "label": "Marketing & Sales Tools",
+      "icon": "megaphone",
+      "order": 4
+    },
+    {
+      "id": "company-resources",
+      "label": "Resources",
+      "icon": "building",
+      "order": 5
+    },
+    {
+      "id": "social-reviews",
+      "label": "My Social & Reviews",
+      "icon": "star",
+      "order": 6
+    },
+    {
+      "id": "payroll",
+      "label": "Payroll & HR",
+      "icon": "banknote",
+      "order": 7
+    }
   ],
   "genericLinks": [
-    { "id": "g-pos", "categoryId": "loan-tools", "label": "Borrower Portal / POS", "url": "https://apply.homespiremortgage.com", "order": 3 },
-    { "id": "g-te", "categoryId": "marketing-sales", "label": "Total Expert", "url": "https://totalexpert.net/dashboard#/overview", "order": 1 },
-    { "id": "g-ai-assistant", "categoryId": "marketing-sales", "label": "AI Assistant", "url": "https://ai.nfmlending.com/", "order": 4 },
-    { "id": "g-insite", "categoryId": "company-resources", "label": "InSite", "url": "https://nfmlending.sharepoint.com/Sites/nfmintranet", "order": 1 },
-    { "id": "g-hub", "categoryId": "company-resources", "label": "HUB", "url": "https://homespire01.sharepoint.com/sites/hub", "order": 2 },
-    { "id": "g-cigna", "categoryId": "payroll", "label": "Benefits (Cigna)", "url": "https://my.cigna.com/web/public/guest", "order": 1 },
-    { "id": "g-paycom", "categoryId": "payroll", "label": "Paycom", "url": "https://www.paycom.com/", "order": 2 },
-    { "id": "g-compensafe", "categoryId": "payroll", "label": "CompenSafe", "url": "https://nfmlending.compensafe.com/", "order": 3 }
+    {
+      "id": "g-pos",
+      "categoryId": "loan-tools",
+      "label": "Borrower Portal / POS",
+      "url": "https://apply.homespiremortgage.com",
+      "order": 3
+    },
+    {
+      "id": "g-te",
+      "categoryId": "marketing-sales",
+      "label": "Total Expert",
+      "url": "https://totalexpert.net/dashboard#/overview",
+      "order": 1
+    },
+    {
+      "id": "g-ai-assistant",
+      "categoryId": "marketing-sales",
+      "label": "AI Assistant",
+      "url": "https://ai.nfmlending.com/",
+      "order": 4
+    },
+    {
+      "id": "g-insite",
+      "categoryId": "company-resources",
+      "label": "InSite",
+      "url": "https://nfmlending.sharepoint.com/Sites/nfmintranet",
+      "order": 1
+    },
+    {
+      "id": "g-hub",
+      "categoryId": "company-resources",
+      "label": "HUB",
+      "url": "https://homespire01.sharepoint.com/sites/hub",
+      "order": 2
+    },
+    {
+      "id": "g-cigna",
+      "categoryId": "payroll",
+      "label": "Benefits (Cigna)",
+      "url": "https://my.cigna.com/web/public/guest",
+      "order": 1
+    },
+    {
+      "id": "g-paycom",
+      "categoryId": "payroll",
+      "label": "Paycom",
+      "url": "https://www.paycom.com/",
+      "order": 2
+    },
+    {
+      "id": "g-compensafe",
+      "categoryId": "payroll",
+      "label": "CompenSafe",
+      "url": "https://nfmlending.compensafe.com/",
+      "order": 3
+    },
+    {
+      "id": "g-performance",
+      "categoryId": "company-resources",
+      "label": "Performance",
+      "url": "https://performance.homespiremortgage.com/auth/login",
+      "order": 3
+    }
   ],
   "los": [
     {
@@ -27,18 +117,90 @@
       "title": "Loan Officer",
       "photo": "photos/amy-leblanc.png",
       "customLinks": [
-        { "id": "c-card", "categoryId": "my-business", "label": "Digital Business Card", "url": "https://hihello.com/p/e681111c-b394-4104-a8e2-ae868e531ad4", "order": 1 },
-        { "id": "c-apply", "categoryId": "my-business", "label": "My Loan Application", "url": "https://apply.homespirehomeloans.com/app/aleblanc", "order": 2 },
-        { "id": "c-loanservices", "categoryId": "loan-tools", "label": "Loan Services", "url": "https://apply.homespirehomeloans.com/loanservices", "order": 1 },
-        { "id": "c-upload", "categoryId": "loan-tools", "label": "Upload Docs", "url": "https://bp.homespirehomeloans.com/sdu", "order": 2 },
-        { "id": "c-buyersedge", "categoryId": "marketing-sales", "label": "Buyer's Edge", "url": "https://pages.homespiremortgage.com/amy-leblanc/buyers-edge", "order": 2 },
-        { "id": "c-spotlight", "categoryId": "marketing-sales", "label": "Product Spotlight", "url": "https://pages.homespiremortgage.com/amy-leblanc/spotlight", "order": 3 },
-        { "id": "c-reviews", "categoryId": "social-reviews", "label": "Reviews (Experience.com)", "url": "https://www.experience.com/reviews/amy-leblanc-464091", "order": 1 },
-        { "id": "c-ig", "categoryId": "social-reviews", "label": "Instagram", "url": "https://www.instagram.com/yourmortgagegirl_amylynne/", "order": 2 },
-        { "id": "c-fb", "categoryId": "social-reviews", "label": "Facebook", "url": "https://www.facebook.com/amy.s.leblanc", "order": 3 },
-        { "id": "c-li", "categoryId": "social-reviews", "label": "LinkedIn", "url": "https://www.linkedin.com/in/amy-leblanc-lo/", "order": 4 },
-        { "id": "c-website", "categoryId": "social-reviews", "label": "My Website Bio", "url": "https://homespirehomeloans.com/loanoriginator/amy-leblanc/", "order": 5 },
-        { "id": "c-loanlab", "categoryId": "company-resources", "label": "The Loan Lab (Team Chat)", "url": "https://teams.microsoft.com/l/chat/19:8393ae1c002c40e29fced1b0c9bbc94d@thread.v2/conversations?context=%7B%22contextType%22%3A%22chat%22%7D", "order": 3 }
+        {
+          "id": "c-card",
+          "categoryId": "my-business",
+          "label": "Digital Business Card",
+          "url": "https://hihello.com/p/e681111c-b394-4104-a8e2-ae868e531ad4",
+          "order": 1
+        },
+        {
+          "id": "c-apply",
+          "categoryId": "my-business",
+          "label": "My Loan Application",
+          "url": "https://apply.homespirehomeloans.com/app/aleblanc",
+          "order": 2
+        },
+        {
+          "id": "c-loanservices",
+          "categoryId": "loan-tools",
+          "label": "Loan Services",
+          "url": "https://apply.homespirehomeloans.com/loanservices",
+          "order": 1
+        },
+        {
+          "id": "c-upload",
+          "categoryId": "loan-tools",
+          "label": "Upload Docs",
+          "url": "https://bp.homespirehomeloans.com/sdu",
+          "order": 2
+        },
+        {
+          "id": "c-buyersedge",
+          "categoryId": "marketing-sales",
+          "label": "Buyer's Edge",
+          "url": "https://pages.homespiremortgage.com/amy-leblanc/buyers-edge",
+          "order": 2
+        },
+        {
+          "id": "c-spotlight",
+          "categoryId": "marketing-sales",
+          "label": "Product Spotlight",
+          "url": "https://pages.homespiremortgage.com/amy-leblanc/spotlight",
+          "order": 3
+        },
+        {
+          "id": "c-reviews",
+          "categoryId": "social-reviews",
+          "label": "Reviews (Experience.com)",
+          "url": "https://www.experience.com/reviews/amy-leblanc-464091",
+          "order": 1
+        },
+        {
+          "id": "c-ig",
+          "categoryId": "social-reviews",
+          "label": "Instagram",
+          "url": "https://www.instagram.com/yourmortgagegirl_amylynne/",
+          "order": 2
+        },
+        {
+          "id": "c-fb",
+          "categoryId": "social-reviews",
+          "label": "Facebook",
+          "url": "https://www.facebook.com/amy.s.leblanc",
+          "order": 3
+        },
+        {
+          "id": "c-li",
+          "categoryId": "social-reviews",
+          "label": "LinkedIn",
+          "url": "https://www.linkedin.com/in/amy-leblanc-lo/",
+          "order": 4
+        },
+        {
+          "id": "c-website",
+          "categoryId": "social-reviews",
+          "label": "My Website Bio",
+          "url": "https://homespirehomeloans.com/loanoriginator/amy-leblanc/",
+          "order": 5
+        },
+        {
+          "id": "c-loanlab",
+          "categoryId": "company-resources",
+          "label": "The Loan Lab (Team Chat)",
+          "url": "https://teams.microsoft.com/l/chat/19:8393ae1c002c40e29fced1b0c9bbc94d@thread.v2/conversations?context=%7B%22contextType%22%3A%22chat%22%7D",
+          "order": 4
+        }
       ]
     },
     {
@@ -46,8 +208,20 @@
       "name": "Demo LO",
       "title": "Sample Profile (for testing)",
       "customLinks": [
-        { "id": "c-apply", "categoryId": "my-business", "label": "My Application Link", "url": "https://apply.homespiremortgage.com/demo", "order": 1 },
-        { "id": "c-card", "categoryId": "my-business", "label": "My Digital Business Card", "url": "https://homespiremortgage.com/lo/demo", "order": 2 }
+        {
+          "id": "c-apply",
+          "categoryId": "my-business",
+          "label": "My Application Link",
+          "url": "https://apply.homespiremortgage.com/demo",
+          "order": 1
+        },
+        {
+          "id": "c-card",
+          "categoryId": "my-business",
+          "label": "My Digital Business Card",
+          "url": "https://homespiremortgage.com/lo/demo",
+          "order": 2
+        }
       ]
     }
   ]
