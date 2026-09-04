@@ -1,8 +1,9 @@
 /**
- * Homespire 360 — admin screen.
- * Edits an in-memory `state` object (same shape as config.json), autosaves
- * to a localStorage draft on every change, and can export the result as a
- * downloadable config.json to redeploy. No backend, no login — see README.
+ * Homespire 360 admin screen.
+ *
+ * Edits an in-memory `state` object (same shape as config.json), autosaves to a
+ * localStorage draft on every change, and exports the result as a downloadable
+ * config.json to redeploy. No backend, no login. See README.md.
  */
 
 let state = null;
@@ -35,7 +36,7 @@ function markDirty() {
   dirty = true;
   saveDraft(state);
   const pill = document.getElementById("status-pill");
-  pill.textContent = "Unsaved changes — export to publish";
+  pill.textContent = "Unsaved changes. Export to publish.";
   pill.className = "status-pill status-draft";
 }
 
@@ -55,7 +56,27 @@ function categoryOptions(selectedId) {
     .join("");
 }
 
-// ---------- Categories ----------
+function iconOptions(selectedName) {
+  const current = resolveIconName(selectedName);
+  return ICON_CHOICES.map(
+    (choice) =>
+      `<option value="${choice.name}" ${choice.name === current ? "selected" : ""}>${choice.label}</option>`
+  ).join("");
+}
+
+/* ---------- static button labels (icons plus text) ---------- */
+
+function paintStaticButtons() {
+  document.getElementById("export-btn").innerHTML = `${icon("download")}<span>Export config.json</span>`;
+  document.getElementById("copy-json-btn").innerHTML = `${icon("copy")}<span>Copy JSON</span>`;
+  document.getElementById("reset-btn").innerHTML = `${icon("refresh")}<span>Discard local changes</span>`;
+  document.getElementById("view-app-btn").innerHTML = `${icon("external")}<span>View app</span>`;
+  document.getElementById("add-category-btn").innerHTML = `${icon("plus")}<span>Add category</span>`;
+  document.getElementById("add-generic-link-btn").innerHTML = `${icon("plus")}<span>Add shared link</span>`;
+  document.getElementById("add-lo-btn").innerHTML = `${icon("plus")}<span>Add loan officer</span>`;
+}
+
+/* ---------- Categories ---------- */
 
 function renderCategories() {
   const list = document.getElementById("categories-list");
@@ -63,33 +84,47 @@ function renderCategories() {
   list.innerHTML = sorted
     .map(
       (c) => `
-    <div class="row" data-kind="category" data-id="${escapeHtml(c.id)}">
-      <input data-field="icon" value="${escapeHtml(c.icon || "")}" placeholder="Icon" maxlength="4" />
+    <div class="frow" data-kind="category" data-id="${escapeHtml(c.id)}">
+      <select data-field="icon">${iconOptions(c.icon)}</select>
       <input data-field="label" value="${escapeHtml(c.label)}" placeholder="Category name" />
       <input data-field="order" type="number" value="${c.order}" placeholder="Order" />
-      <button class="icon-btn" data-action="remove">✕</button>
+      <button class="del-btn" data-action="remove" type="button" aria-label="Remove category">${icon("trash")}</button>
     </div>`
     )
     .join("");
 }
 
 document.getElementById("categories-list").addEventListener("input", (e) => {
-  const row = e.target.closest(".row");
+  const row = e.target.closest(".frow");
   if (!row) return;
   const cat = state.categories.find((c) => c.id === row.dataset.id);
   const field = e.target.dataset.field;
   cat[field] = field === "order" ? Number(e.target.value) || 0 : e.target.value;
   markDirty();
+  if (field === "icon" || field === "label") renderLOs();
+});
+
+document.getElementById("categories-list").addEventListener("change", (e) => {
+  if (e.target.dataset.field !== "icon") return;
+  const row = e.target.closest(".frow");
+  const cat = state.categories.find((c) => c.id === row.dataset.id);
+  cat.icon = e.target.value;
+  markDirty();
+  renderLOs();
 });
 
 document.getElementById("categories-list").addEventListener("click", (e) => {
-  if (e.target.dataset.action !== "remove") return;
-  const row = e.target.closest(".row");
+  const btn = e.target.closest('[data-action="remove"]');
+  if (!btn) return;
+  const row = btn.closest(".frow");
   const id = row.dataset.id;
   const inUse =
     state.genericLinks.some((l) => l.categoryId === id) ||
     state.los.some((lo) => lo.customLinks.some((l) => l.categoryId === id));
-  if (inUse && !confirm("Links still use this category. Remove it anyway? Those links will stop showing until re-categorized.")) {
+  if (
+    inUse &&
+    !confirm("Links still use this category. Remove it anyway? Those links stop showing until you re-categorize them.")
+  ) {
     return;
   }
   state.categories = state.categories.filter((c) => c.id !== id);
@@ -103,15 +138,16 @@ document.getElementById("add-category-btn").addEventListener("click", () => {
   state.categories.push({
     id: uid("cat"),
     label: "New Category",
-    icon: "🔗",
+    icon: "link",
     order: state.categories.length + 1,
   });
   markDirty();
   renderCategories();
   renderGenericLinks();
+  renderLOs();
 });
 
-// ---------- Generic links ----------
+/* ---------- Shared links ---------- */
 
 function renderGenericLinks() {
   const list = document.getElementById("generic-links-list");
@@ -119,30 +155,41 @@ function renderGenericLinks() {
   list.innerHTML = sorted
     .map(
       (l) => `
-    <div class="row" data-kind="generic" data-id="${escapeHtml(l.id)}">
+    <div class="frow" data-kind="generic" data-id="${escapeHtml(l.id)}">
       <select data-field="categoryId">${categoryOptions(l.categoryId)}</select>
       <input data-field="label" value="${escapeHtml(l.label)}" placeholder="Label" />
-      <input data-field="url" class="lo-link-url" value="${escapeHtml(l.url)}" placeholder="https://..." />
-      <button class="icon-btn" data-action="remove">✕</button>
+      <input data-field="url" class="mono" value="${escapeHtml(l.url)}" placeholder="https://" />
+      <button class="del-btn" data-action="remove" type="button" aria-label="Remove link">${icon("trash")}</button>
     </div>`
     )
     .join("");
 }
 
 document.getElementById("generic-links-list").addEventListener("input", (e) => {
-  const row = e.target.closest(".row");
+  const row = e.target.closest(".frow");
   if (!row) return;
   const link = state.genericLinks.find((l) => l.id === row.dataset.id);
   link[e.target.dataset.field] = e.target.value;
   markDirty();
 });
 
+document.getElementById("generic-links-list").addEventListener("change", (e) => {
+  if (e.target.dataset.field !== "categoryId") return;
+  const row = e.target.closest(".frow");
+  const link = state.genericLinks.find((l) => l.id === row.dataset.id);
+  link.categoryId = e.target.value;
+  markDirty();
+  renderLOs();
+});
+
 document.getElementById("generic-links-list").addEventListener("click", (e) => {
-  if (e.target.dataset.action !== "remove") return;
-  const row = e.target.closest(".row");
+  const btn = e.target.closest('[data-action="remove"]');
+  if (!btn) return;
+  const row = btn.closest(".frow");
   state.genericLinks = state.genericLinks.filter((l) => l.id !== row.dataset.id);
   markDirty();
   renderGenericLinks();
+  renderLOs();
 });
 
 document.getElementById("add-generic-link-btn").addEventListener("click", () => {
@@ -156,9 +203,10 @@ document.getElementById("add-generic-link-btn").addEventListener("click", () => 
   });
   markDirty();
   renderGenericLinks();
+  renderLOs();
 });
 
-// ---------- LOs ----------
+/* ---------- Loan officers ---------- */
 
 function renderLoSelector() {
   const selector = document.getElementById("lo-selector");
@@ -184,7 +232,7 @@ function renderLOs() {
   const lo = state.los.find((l) => l.slug === selectedLoSlug);
 
   if (!lo) {
-    container.innerHTML = `<p class="small-note">No loan officers yet — click "+ Add loan officer" above to create one.</p>`;
+    container.innerHTML = `<p class="small-note">No loan officers yet. Click Add loan officer above to create one.</p>`;
     return;
   }
 
@@ -193,22 +241,30 @@ function renderLOs() {
   const firstName = (lo.name || "this LO").split(" ")[0];
 
   container.innerHTML = `
-    <div class="lo-block" data-lo="${escapeHtml(lo.slug)}">
-      <div class="lo-block-header">
+    <div class="lo-card" data-lo="${escapeHtml(lo.slug)}">
+      <div class="lo-card-head">
         <strong>${escapeHtml(lo.name || "Unnamed LO")}</strong>
-        <button class="icon-btn" data-action="remove-lo">✕ Remove</button>
+        <button class="del-btn" data-action="remove-lo" type="button">${icon("trash")}<span>Remove</span></button>
       </div>
-      <div class="row" style="grid-template-columns: 1fr 1fr 1fr;">
+
+      <div class="frow" style="grid-template-columns: 1fr 1fr 1fr;">
         <input data-field="name" value="${escapeHtml(lo.name)}" placeholder="Full name" />
-        <input data-field="title" value="${escapeHtml(lo.title || "")}" placeholder="Title / NMLS #" />
+        <input data-field="title" value="${escapeHtml(lo.title || "")}" placeholder="Title or NMLS #" />
         <input data-field="slug" value="${escapeHtml(lo.slug)}" placeholder="url-slug" />
       </div>
-      <div class="row" style="grid-template-columns: auto 1fr;">
-        ${lo.photo ? `<img src="${escapeHtml(lo.photo)}" alt="" class="avatar" style="width:32px;height:32px;">` : `<span class="avatar" style="width:32px;height:32px;background:#EEF2F7;"></span>`}
-        <input data-field="photo" value="${escapeHtml(lo.photo || "")}" placeholder="Photo URL (e.g. photos/${escapeHtml(lo.slug)}.png)" />
+
+      <div class="photo-row">
+        ${
+          lo.photo
+            ? `<img class="photo-thumb" src="${escapeHtml(lo.photo)}" alt="" />`
+            : `<span class="photo-thumb">${icon("user")}</span>`
+        }
+        <input data-field="photo" value="${escapeHtml(lo.photo || "")}" placeholder="Headshot path, for example photos/${escapeHtml(lo.slug)}.png" />
       </div>
-      <p class="small-note">Install link: <span class="lo-link-url">${escapeHtml(installUrl)}</span>
-        <button class="btn btn-ghost copy-install-btn" data-url="${escapeHtml(installUrl)}" style="padding:2px 8px;">Copy</button>
+
+      <p class="small-note">
+        Install link: <span class="mono">${escapeHtml(installUrl)}</span>
+        <button class="btn btn-outline copy-install-btn" data-url="${escapeHtml(installUrl)}" type="button">Copy</button>
       </p>
 
       ${catsSorted
@@ -221,17 +277,17 @@ function renderLOs() {
             .sort((a, b) => (a.order || 0) - (b.order || 0));
 
           return `
-          <div class="lo-category-block" data-category-id="${escapeHtml(cat.id)}">
-            <h3>${cat.icon || ""} ${escapeHtml(cat.label)}</h3>
+          <div class="cat-block" data-category-id="${escapeHtml(cat.id)}">
+            <h3>${icon(resolveIconName(cat.icon))}<span>${escapeHtml(cat.label)}</span></h3>
             ${
               generic.length
                 ? generic
                     .map(
                       (g) => `
-              <div class="generic-preview-row">
-                <span class="badge-shared">Shared</span>
-                <span class="glabel">${escapeHtml(g.label)}</span>
-                <span class="lo-link-url">${escapeHtml(g.url)}</span>
+              <div class="shared-row">
+                <span class="tag">Shared</span>
+                <span class="lbl">${escapeHtml(g.label)}</span>
+                <span class="mono">${escapeHtml(g.url)}</span>
               </div>`
                     )
                     .join("")
@@ -240,15 +296,15 @@ function renderLOs() {
             ${custom
               .map(
                 (l) => `
-            <div class="row" data-kind="custom" data-id="${escapeHtml(l.id)}">
+            <div class="frow" data-kind="custom" data-id="${escapeHtml(l.id)}">
               <select data-field="categoryId">${categoryOptions(l.categoryId)}</select>
               <input data-field="label" value="${escapeHtml(l.label)}" placeholder="Label" />
-              <input data-field="url" class="lo-link-url" value="${escapeHtml(l.url)}" placeholder="https://..." />
-              <button class="icon-btn" data-action="remove-link">✕</button>
+              <input data-field="url" class="mono" value="${escapeHtml(l.url)}" placeholder="https://" />
+              <button class="del-btn" data-action="remove-link" type="button" aria-label="Remove link">${icon("trash")}</button>
             </div>`
               )
               .join("")}
-            <button class="btn btn-ghost add-in-category-btn" data-action="add-link-in-category" data-category-id="${escapeHtml(cat.id)}">+ Add ${escapeHtml(firstName)}'s link here</button>
+            <button class="btn-add" data-action="add-link-in-category" data-category-id="${escapeHtml(cat.id)}" type="button">${icon("plus")}<span>Add a link for ${escapeHtml(firstName)}</span></button>
           </div>`;
         })
         .join("")}
@@ -261,13 +317,13 @@ document.getElementById("lo-selector").addEventListener("change", (e) => {
 });
 
 document.getElementById("los-list").addEventListener("input", (e) => {
-  const loBlock = e.target.closest(".lo-block");
-  if (!loBlock) return;
-  const lo = state.los.find((l) => l.slug === loBlock.dataset.lo);
-  const linkRow = e.target.closest('.row[data-kind="custom"]');
+  const loCard = e.target.closest(".lo-card");
+  if (!loCard) return;
+  const lo = state.los.find((l) => l.slug === loCard.dataset.lo);
+  const linkRowEl = e.target.closest('.frow[data-kind="custom"]');
 
-  if (linkRow) {
-    const link = lo.customLinks.find((l) => l.id === linkRow.dataset.id);
+  if (linkRowEl) {
+    const link = lo.customLinks.find((l) => l.id === linkRowEl.dataset.id);
     link[e.target.dataset.field] = e.target.value;
     markDirty();
     return;
@@ -275,54 +331,72 @@ document.getElementById("los-list").addEventListener("input", (e) => {
 
   const field = e.target.dataset.field;
   if (!field) return;
+
   if (field === "slug") {
     const newSlug = slugify(e.target.value);
     if (newSlug && newSlug !== lo.slug && !state.los.some((l) => l.slug === newSlug)) {
       lo.slug = newSlug;
       markDirty();
-      renderLOs(); // refresh install link + data-lo attribute
+      renderLOs();
     }
     return;
   }
+
   lo[field] = e.target.value;
   markDirty();
+
   if (field === "photo") {
-    const preview = loBlock.querySelector(".row img.avatar, .row span.avatar");
-    if (preview && preview.tagName === "IMG") {
-      preview.src = lo.photo;
+    const thumb = loCard.querySelector(".photo-thumb");
+    if (thumb && thumb.tagName === "IMG") {
+      thumb.src = lo.photo;
     } else if (lo.photo) {
-      renderLOs(); // swap the empty placeholder for a real <img> once a URL is entered
+      renderLOs();
     }
+    return;
   }
-  // name/title changes don't need a full re-render to stay usable,
-  // but keep the header + input focus in sync where it matters:
-  loBlock.querySelector(".lo-block-header strong").textContent = lo.name || "Unnamed LO";
+
+  loCard.querySelector(".lo-card-head strong").textContent = lo.name || "Unnamed LO";
+});
+
+document.getElementById("los-list").addEventListener("change", (e) => {
+  if (e.target.dataset.field !== "categoryId") return;
+  const loCard = e.target.closest(".lo-card");
+  const lo = state.los.find((l) => l.slug === loCard.dataset.lo);
+  const linkRowEl = e.target.closest('.frow[data-kind="custom"]');
+  if (!linkRowEl) return;
+  const link = lo.customLinks.find((l) => l.id === linkRowEl.dataset.id);
+  link.categoryId = e.target.value;
+  markDirty();
+  renderLOs();
 });
 
 document.getElementById("los-list").addEventListener("click", (e) => {
-  const loBlock = e.target.closest(".lo-block");
-  if (!loBlock) return;
-  const lo = state.los.find((l) => l.slug === loBlock.dataset.lo);
+  const loCard = e.target.closest(".lo-card");
+  if (!loCard) return;
+  const lo = state.los.find((l) => l.slug === loCard.dataset.lo);
 
-  if (e.target.dataset.action === "remove-lo") {
+  const removeLo = e.target.closest('[data-action="remove-lo"]');
+  if (removeLo) {
     if (!confirm(`Remove ${lo.name}? This deletes their custom links too.`)) return;
     state.los = state.los.filter((l) => l.slug !== lo.slug);
-    selectedLoSlug = null; // renderLOs() will pick a new default
+    selectedLoSlug = null;
     markDirty();
     renderLOs();
     return;
   }
 
-  if (e.target.dataset.action === "remove-link") {
-    const row = e.target.closest(".row");
+  const removeLink = e.target.closest('[data-action="remove-link"]');
+  if (removeLink) {
+    const row = removeLink.closest(".frow");
     lo.customLinks = lo.customLinks.filter((l) => l.id !== row.dataset.id);
     markDirty();
     renderLOs();
     return;
   }
 
-  if (e.target.dataset.action === "add-link-in-category") {
-    const categoryId = e.target.dataset.categoryId;
+  const addInCategory = e.target.closest('[data-action="add-link-in-category"]');
+  if (addInCategory) {
+    const categoryId = addInCategory.dataset.categoryId;
     lo.customLinks.push({
       id: uid("c"),
       categoryId,
@@ -335,10 +409,11 @@ document.getElementById("los-list").addEventListener("click", (e) => {
     return;
   }
 
-  if (e.target.classList.contains("copy-install-btn")) {
-    navigator.clipboard?.writeText(e.target.dataset.url).then(() => {
-      e.target.textContent = "Copied!";
-      setTimeout(() => (e.target.textContent = "Copy"), 1200);
+  const copyBtn = e.target.closest(".copy-install-btn");
+  if (copyBtn) {
+    navigator.clipboard?.writeText(copyBtn.dataset.url).then(() => {
+      copyBtn.textContent = "Copied";
+      setTimeout(() => (copyBtn.textContent = "Copy"), 1200);
     });
   }
 });
@@ -347,18 +422,13 @@ document.getElementById("add-lo-btn").addEventListener("click", () => {
   const name = prompt("New LO's full name?");
   if (!name) return;
   const slug = uniqueSlug(slugify(name));
-  state.los.push({
-    slug,
-    name,
-    title: "",
-    customLinks: [],
-  });
-  selectedLoSlug = slug; // jump straight to them — this is where they'll see every generic link they already have
+  state.los.push({ slug, name, title: "", photo: "", customLinks: [] });
+  selectedLoSlug = slug;
   markDirty();
   renderLOs();
 });
 
-// ---------- Export / reset ----------
+/* ---------- Export and reset ---------- */
 
 document.getElementById("export-btn").addEventListener("click", () => {
   const blob = new Blob([JSON.stringify(state, null, 2)], { type: "application/json" });
@@ -370,15 +440,15 @@ document.getElementById("export-btn").addEventListener("click", () => {
   a.click();
   a.remove();
   URL.revokeObjectURL(url);
-  markClean("Exported — replace data/config.json and redeploy");
+  markClean("Exported. Replace data/config.json, then redeploy.");
 });
 
 document.getElementById("copy-json-btn").addEventListener("click", () => {
   navigator.clipboard?.writeText(JSON.stringify(state, null, 2));
   const btn = document.getElementById("copy-json-btn");
-  const original = btn.textContent;
-  btn.textContent = "Copied!";
-  setTimeout(() => (btn.textContent = original), 1200);
+  const original = btn.innerHTML;
+  btn.innerHTML = `${icon("check")}<span>Copied</span>`;
+  setTimeout(() => (btn.innerHTML = original), 1200);
 });
 
 document.getElementById("reset-btn").addEventListener("click", async () => {
@@ -388,15 +458,17 @@ document.getElementById("reset-btn").addEventListener("click", async () => {
   markClean();
 });
 
-// ---------- Boot ----------
+/* ---------- Boot ---------- */
 
 async function boot() {
   state = await loadConfig();
+  paintStaticButtons();
   renderCategories();
   renderGenericLinks();
   renderLOs();
-  markClean(readDraft() ? "Unsaved changes — export to publish" : "No unsaved changes");
-  if (readDraft()) {
+  const hasDraft = Boolean(readDraft());
+  markClean(hasDraft ? "Unsaved changes. Export to publish." : "No unsaved changes");
+  if (hasDraft) {
     document.getElementById("status-pill").className = "status-pill status-draft";
   }
 }

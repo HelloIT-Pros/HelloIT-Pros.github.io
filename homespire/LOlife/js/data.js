@@ -1,11 +1,11 @@
 /**
- * Homespire 360 — shared data layer.
+ * Homespire 360 shared data layer.
  *
  * Prototype storage model: a single config.json file is the source of truth,
  * checked into this deployed site. The admin screen edits a *working copy* in
  * localStorage (so edits don't vanish on refresh) and lets you export the
  * merged result back to data/config.json for redeploy. There is no live
- * backend — that's a deliberate MVP choice, see README.md.
+ * backend, which is a deliberate MVP choice. See README.md.
  */
 
 function escapeHtml(str) {
@@ -79,7 +79,7 @@ function buildLinksByCategory(config, lo) {
 
   const push = (link, mine) => {
     const cat = cats[link.categoryId];
-    if (!cat) return; // orphaned categoryId — skip rather than crash
+    if (!cat) return; // orphaned categoryId, skip rather than crash
     if (!grouped[cat.id]) grouped[cat.id] = { category: cat, links: [] };
     grouped[cat.id].links.push({ ...link, mine });
   };

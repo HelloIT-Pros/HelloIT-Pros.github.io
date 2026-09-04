@@ -1,129 +1,139 @@
-# Homespire 360 — prototype
+# Homespire 360 (prototype)
 
-A one-stop-shop PWA for Homespire loan officers: install it once, get every
-link you need — payroll, Encompass, marketing resources, your own
-application link, your digital business card — organized in one place.
+An installable app for Homespire loan officers: install it once, get every link
+you need in one place. Shared company links plus the links unique to that LO.
 
-This is a **prototype built to test one thing**: whether "generic links
-everyone shares + custom links unique to each LO" is a model that actually
-makes sense once real LOs are using it. Everything here is scoped to make
-that test possible with the least amount of infrastructure — no login, no
-backend, no accounts to set up. Real Entra SSO and a real admin backend are
-the next step *after* this validates, not part of it.
+This is a **prototype built to test one thing**: whether "shared links everyone
+gets, plus custom links unique to each LO" is a model that holds up once real
+LOs use it. Everything is scoped to make that test possible with the least
+infrastructure: no login, no backend, no accounts. Real Entra SSO and a real
+admin backend come after this validates, not before.
 
-## What's in the box
+## Live URLs
+
+| What | Where |
+| --- | --- |
+| LO app | https://helloit-pros.github.io/homespire/LOlife/ |
+| Admin | https://helloit-pros.github.io/homespire/LOlife/admin.html |
+| Amy's install link | https://helloit-pros.github.io/homespire/LOlife/index.html?lo=amy-leblanc |
+
+The folder is still named `LOlife` on purpose. The app was renamed to Homespire
+360, but the URL stayed put so home screen icons that are already installed
+keep working.
+
+## What is in the box
 
 ```
-index.html        the app every LO opens (?lo=their-slug)
-admin.html         the screen you use to manage links
-manifest.webmanifest, service-worker.js   what makes it installable + offline
-data/config.json   the actual link data — categories, generic links, LO roster
-css/, js/, icons/  everything else
+index.html          the app every LO opens (?lo=their-slug)
+admin.html          the screen used to manage links
+manifest.webmanifest, service-worker.js   installable plus offline
+data/config.json    the link data: categories, shared links, LO roster
+js/icons.js         the line icon set (no emoji anywhere in the product)
+photos/             LO headshots
+css/, js/, icons/   everything else
+scripts/            icon generator
 ```
+
+## How the LO app is laid out
+
+Four tabs in a fixed bottom bar:
+
+- **Home** every link the LO can reach, grouped by category, with pill filters
+  across the top to narrow to one category
+- **Mine** only the links that belong to that LO
+- **Search** type-ahead across every link they can reach
+- **Profile** headshot, name, title, link counts, and switch profile
+
+Links that belong to the LO carry a purple "Mine" badge and a purple icon tile.
+Shared links are neutral gray. That contrast is deliberate: the validation test
+is partly about whether LOs understand what is theirs versus what is everyone's.
 
 ## How identity works (no login)
 
 Each LO gets their own link:
 
 ```
-https://<your-deployed-url>/index.html?lo=maria-lopez
+https://helloit-pros.github.io/homespire/LOlife/index.html?lo=amy-leblanc
 ```
 
-That's the link they tap once to install. After that, the app remembers
-them on that phone (it stores the slug locally), so `/index.html` alone
-keeps working too. If someone opens the app with no slug and no memory of
-one, they get a simple "who are you?" picker instead of a broken screen —
-useful for testing on a shared device.
-
-Three sample LOs are seeded in `data/config.json` (`maria-lopez`,
-`james-carter`, `demo`) so you can try this immediately after deploying.
+That is the link they tap once to install. After that the app remembers them on
+that phone (the slug is stored locally), so opening the app with no parameters
+keeps working. Someone who opens the app with no slug and no memory of one gets
+a "who are you" picker instead of a broken screen, which is useful for testing
+on a shared device.
 
 ## How the admin screen works (no backend)
 
 Open `admin.html`. You can:
 
-- Add/edit/remove the categories every LO sees (Payroll, Loan Origination, etc.)
-- Add/edit/remove generic links (shown to everyone)
-- Add LOs and manage each one's personal links, and copy their install link
+- Add, edit, and remove the categories every LO sees, each with a line icon
+  picked from a dropdown
+- Add, edit, and remove shared links (shown to everyone)
+- Add LOs, set their headshot path, manage their personal links, and copy their
+  install link
 
-Every change is saved instantly to a **local draft** in your browser
-(`localStorage`) so you never lose work by accident — but it is *not* live
-for anyone else yet. When you're ready to publish:
+Every change saves instantly to a **local draft** in your browser
+(`localStorage`) so nothing is lost on refresh, but it is not live for anyone
+else yet. To publish:
 
-1. Click **Export config.json** — downloads the updated file.
-2. Replace `data/config.json` in this project with the downloaded file.
-3. Redeploy (see below). That's it — every LO's app picks up the change
-   next time they're online (the service worker checks for a fresh
-   `config.json` on every load).
+1. Click **Export config.json**, which downloads the updated file.
+2. Replace `data/config.json` with the downloaded file.
+3. Commit and push. Every LO picks up the change the next time they are online,
+   because the service worker checks for a fresh `config.json` on every load.
 
-This is a deliberate MVP tradeoff: no server means no live sync between
-admin and LOs, but also nothing to host, secure, or maintain for a test
-that's about the *link model*, not the admin tooling. If the model tests
-well, replacing this with a real backend + Entra SSO is a data-shape-compatible
-upgrade, not a rewrite — `config.json`'s shape is the same shape a real
-database would hold.
-
-## Deploying it (pick one, all free, ~2 minutes)
-
-**Netlify (drag-and-drop, easiest):**
-1. Go to https://app.netlify.com/drop
-2. Drag this whole `lo-life-pwa` folder onto the page.
-3. You get a live HTTPS URL immediately. Redeploy by dragging the folder
-   again any time you export a new `config.json`.
-
-**Vercel:**
-```
-npm i -g vercel
-cd lo-life-pwa
-vercel --prod
-```
-
-**GitHub Pages:**
-1. Push this folder to a GitHub repo.
-2. Repo Settings → Pages → deploy from the branch/folder.
-3. Your URL is `https://<username>.github.io/<repo>/`.
-
-Whichever you pick, once it's live, hand each LO their `?lo=slug` link.
+No server means no live sync between admin and LOs, but also nothing to host,
+secure, or maintain for a test that is about the link model, not the admin
+tooling. If the model holds, swapping in a real backend plus Entra SSO is a
+data-shape-compatible upgrade rather than a rewrite: `config.json` already has
+the shape a real database would hold.
 
 ## Installing it on a phone
 
-- **Android (Chrome):** open the link → a banner appears → tap **Install**.
-- **iPhone (Safari):** open the link → tap the Share icon → **Add to Home
-  Screen**. iOS doesn't allow apps to trigger this automatically, so the
-  app shows a one-line instruction banner instead.
+- **iPhone (Safari):** open the link, tap Share, then Add to Home Screen. iOS
+  does not let a web app trigger this, so the app shows a one line instruction
+  instead.
+- **Android (Chrome):** open the link, then tap Install in the banner.
 
-Once installed, it opens full-screen, no browser bar — like a real app.
+Once installed it opens full screen with no browser bar.
 
 ## Running the validation test
 
-This prototype exists to test the riskiest assumption: **can a real LO
-find what they need without help, using the generic+custom link model?**
+The riskiest assumption: **can a real LO find what they need without help,
+using the shared plus custom link model?**
 
-1. Deploy it and fill in `data/config.json` with a few real LOs' actual
-   links via `admin.html`.
-2. Hand 3-5 real LOs their personal install link. Don't explain the app —
-   that's the point.
-3. Watch (or ask afterward): could they get to their top 5 destinations
-   in a couple of taps, without asking anyone which link was theirs?
-4. If yes — the model holds, invest in the real backend + SSO + push
-   notifications. If they get confused about what's "theirs" vs shared,
-   or a category doesn't match how they think, that's the signal to fix
-   *before* building the real thing.
+1. Fill in real links for a few real LOs through `admin.html`.
+2. Hand 3 to 5 LOs their personal install link. Do not explain the app. That is
+   the point.
+3. Watch, or ask afterward: could they reach their top five destinations in a
+   couple of taps without asking which link was theirs?
+4. If yes, the model holds and the real backend, SSO, and push notifications are
+   worth building. If they get confused about what is theirs versus shared, or a
+   category does not match how they think, fix that before building the real
+   thing.
 
-## Explicitly not in this prototype (by design)
+## Not in this prototype, by design
 
-- Real login / Entra SSO (identity is a slug in the URL for now)
-- A live, synced backend (admin exports, you redeploy)
-- Push notifications / news / announcements (planned for after MVP)
-- Digital business card generation (links to an existing one, doesn't build one)
+- Real login or Entra SSO. Identity is a slug in the URL for now.
+- A live synced backend. The admin exports, you redeploy.
+- Push notifications, news, and announcements. Planned for after MVP, and the
+  first feature that needs real server infrastructure.
+- Digital business card generation. The app links to an existing card.
 
-## Testing locally before you deploy
+## Open items
 
-Any static file server works — service workers need `http://localhost` or
-HTTPS, they won't register over `file://`.
+- Borrower Portal / POS still points at a placeholder URL and needs the real one.
+- "The Loan Lab (Team Chat)" is filed under Amy's own links, not shared, until
+  it is confirmed that every LO can open that Teams group chat deep link.
+- Payroll and HR holds one item (Cigna benefits). Worth deciding whether it
+  folds into Company Resources.
+
+## Testing locally
+
+Service workers need `http://localhost` or HTTPS. They do not register over
+`file://`.
 
 ```bash
 cd lo-life-pwa
 python3 -m http.server 8080
-# open http://localhost:8080/index.html?lo=maria-lopez
+# open http://localhost:8080/index.html?lo=amy-leblanc
 ```

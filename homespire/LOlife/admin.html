@@ -3,62 +3,57 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Homespire 360 — Admin</title>
+  <title>Homespire 360 Admin</title>
+  <meta name="theme-color" content="#FFFFFF" />
   <link rel="stylesheet" href="css/styles.css" />
-  <style>
-    body { background: var(--bg); }
-    .admin-header {
-      background: var(--navy); color: #fff; padding: 20px;
-    }
-    .admin-header h1 { margin: 0 0 4px; font-size: 20px; }
-    .admin-header p { margin: 0; font-size: 13px; color: rgba(255,255,255,0.75); }
-    .status-pill {
-      display: inline-block; font-size: 12px; font-weight: 600;
-      padding: 3px 10px; border-radius: 999px; margin-left: 8px;
-    }
-    .status-draft { background: #FDECEA; color: #B3261E; }
-    .status-clean { background: #E6F4EA; color: #1E7E34; }
-  </style>
 </head>
 <body>
-  <header class="admin-header">
-    <h1>Homespire 360 — Admin <span id="status-pill" class="status-pill status-clean">No unsaved changes</span></h1>
-    <p>Manage the links every LO sees, and each LO's personal shortcuts. This edits a local draft — click <strong>Export config.json</strong> and redeploy to publish it. See README.md.</p>
+  <header class="admin-head">
+    <div class="brandline"><span class="brand-dot"></span><span>Homespire 360</span></div>
+    <h1>Admin <span id="status-pill" class="status-pill status-clean">No unsaved changes</span></h1>
+    <p>
+      Manage the links every LO sees, and each LO's personal shortcuts. This edits a local draft.
+      Click Export config.json, then redeploy to publish it.
+    </p>
   </header>
 
   <div class="admin-shell">
     <div class="admin-toolbar">
-      <button class="btn btn-primary" id="export-btn">⬇ Export config.json</button>
-      <button class="btn btn-ghost" id="copy-json-btn">Copy JSON</button>
-      <button class="btn btn-ghost" id="reset-btn">Discard local changes</button>
-      <a class="btn btn-ghost" href="index.html" style="text-decoration:none;display:inline-flex;align-items:center;">View app ↗</a>
+      <button class="btn btn-primary" id="export-btn" type="button"></button>
+      <button class="btn btn-outline" id="copy-json-btn" type="button"></button>
+      <button class="btn btn-outline" id="reset-btn" type="button"></button>
+      <a class="btn btn-outline" id="view-app-btn" href="index.html"></a>
     </div>
 
     <section class="admin-section">
       <h2>Categories</h2>
-      <h3>The sections every LO sees, in order.</h3>
+      <p class="sub">The sections every LO sees, in order. Each one gets a line icon.</p>
       <div id="categories-list"></div>
-      <button class="btn btn-ghost" id="add-category-btn">+ Add category</button>
+      <button class="btn-add" id="add-category-btn" type="button"></button>
     </section>
 
     <section class="admin-section">
-      <h2>Generic links</h2>
-      <h3>Shown to every LO, same for everyone.</h3>
+      <h2>Shared links</h2>
+      <p class="sub">Shown to every LO, identical for everyone.</p>
       <div id="generic-links-list"></div>
-      <button class="btn btn-ghost" id="add-generic-link-btn">+ Add generic link</button>
+      <button class="btn-add" id="add-generic-link-btn" type="button"></button>
     </section>
 
     <section class="admin-section">
       <h2>Loan officers</h2>
-      <h3>Each LO's install link and personal shortcuts — plus a preview of the generic links they already get, so you don't duplicate one by accident.</h3>
+      <p class="sub">
+        Pick one LO to edit. Each category shows the shared links they already get, so you do not
+        duplicate one by accident.
+      </p>
       <div class="admin-toolbar">
-        <select id="lo-selector"></select>
-        <button class="btn btn-ghost" id="add-lo-btn">+ Add loan officer</button>
+        <select class="lo-select" id="lo-selector"></select>
+        <button class="btn-add" id="add-lo-btn" type="button"></button>
       </div>
       <div id="los-list"></div>
     </section>
   </div>
 
+  <script src="js/icons.js"></script>
   <script src="js/data.js"></script>
   <script src="js/admin.js"></script>
 </body>

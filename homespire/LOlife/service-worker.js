@@ -1,7 +1,7 @@
-// Bump this on every deploy that changes any cached file — it's what
+// Bump this on every deploy that changes any cached file. It is what
 // invalidates old caches on LOs' phones. A stale bump means they keep
 // seeing yesterday's app shell.
-const CACHE_VERSION = "lo-life-v2";
+const CACHE_VERSION = "homespire360-v3";
 const SHELL_CACHE = `${CACHE_VERSION}-shell`;
 const DATA_CACHE = `${CACHE_VERSION}-data`;
 
@@ -11,6 +11,7 @@ const SHELL_FILES = [
   "admin.html",
   "manifest.webmanifest",
   "css/styles.css",
+  "js/icons.js",
   "js/data.js",
   "js/app.js",
   "js/admin.js",
