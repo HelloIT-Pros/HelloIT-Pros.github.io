@@ -101,6 +101,27 @@
       "label": "Performance",
       "url": "https://performance.homespiremortgage.com/auth/login",
       "order": 3
+    },
+    {
+      "id": "g-mtn8rh0h9isx",
+      "categoryId": "payroll",
+      "label": "401k",
+      "url": "https://www.principal.com/",
+      "order": 9
+    },
+    {
+      "id": "g-mtn8tltr3q2r",
+      "categoryId": "payroll",
+      "label": "MetLife",
+      "url": "https://www.metlife.com/",
+      "order": 10
+    },
+    {
+      "id": "g-mtn8x87c9ma8",
+      "categoryId": "payroll",
+      "label": "Benefits Guide",
+      "url": "https://www.nfmbenefits.com/benefits-guide/2026/",
+      "order": 11
     }
   ],
   "los": [
