@@ -276,9 +276,24 @@ main {
 .row {
   display: flex;
   align-items: center;
-  gap: 12px;
-  padding: 13px 14px;
   width: 100%;
+}
+
+.row.has-fav {
+  padding-right: 6px;
+}
+
+.row + .row {
+  border-top: 1px solid var(--border);
+}
+
+.row-inner {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex: 1;
+  min-width: 0;
+  padding: 13px 14px;
   text-align: left;
   text-decoration: none;
   color: var(--text);
@@ -288,11 +303,11 @@ main {
   cursor: pointer;
 }
 
-.row + .row {
-  border-top: 1px solid var(--border);
+.row-inner.has-trailing {
+  padding-right: 4px;
 }
 
-.row:active {
+.row-inner:active {
   background: #f4f5f8;
 }
 
@@ -300,8 +315,8 @@ main {
   width: 36px;
   height: 36px;
   border-radius: 11px;
-  background: var(--surface);
-  color: #4b5563;
+  background: rgba(147, 51, 234, 0.1);
+  color: var(--purple-bright);
   display: grid;
   place-items: center;
   flex: 0 0 auto;
@@ -310,11 +325,6 @@ main {
 .row-icon .icon {
   width: 19px;
   height: 19px;
-}
-
-.row-icon.is-mine {
-  background: rgba(147, 51, 234, 0.1);
-  color: var(--purple-bright);
 }
 
 .row-body {
@@ -347,14 +357,33 @@ main {
   height: 17px;
 }
 
-.pill {
-  font-size: 11px;
-  font-weight: 700;
-  color: var(--purple-bright);
-  background: rgba(147, 51, 234, 0.1);
-  border-radius: 999px;
-  padding: 3px 9px;
+.fav-btn {
+  border: 0;
+  background: none;
+  padding: 9px;
+  color: #c9ccd3;
+  display: grid;
+  place-items: center;
+  cursor: pointer;
+  border-radius: 50%;
   flex: 0 0 auto;
+}
+
+.fav-btn .icon {
+  width: 19px;
+  height: 19px;
+}
+
+.fav-btn[aria-pressed="true"] {
+  color: var(--gold);
+}
+
+.fav-btn[aria-pressed="true"] .icon {
+  fill: currentColor;
+}
+
+.fav-btn:active {
+  background: var(--surface);
 }
 
 /* ---------- Install prompt ---------- */

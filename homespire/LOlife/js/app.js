@@ -2,16 +2,16 @@
  * Homespire 360 loan officer view.
  *
  * Four tabs, rendered as a native-style bottom bar:
- *   Home    every link they can reach, grouped by category, with pill filters
- *   Mine    only the links that belong to this LO
- *   Search  type-ahead across every link they can reach
- *   Profile headshot, name, title, and the switch-profile action
+ *   Home      every link they can reach, grouped by category, with pill filters
+ *   Favorites the links they starred, kept on this device
+ *   Search    type-ahead across every link they can reach
+ *   Profile   headshot, name, counts, and the switch-profile action
  */
 
-const VIEW_ORDER = ["home", "mine", "search", "profile"];
+const VIEW_ORDER = ["home", "favorites", "search", "profile"];
 const VIEW_META = {
   home: { label: "Home", icon: "home" },
-  mine: { label: "Mine", icon: "bookmark" },
+  favorites: { label: "Favorites", icon: "star" },
   search: { label: "Search", icon: "search" },
   profile: { label: "Profile", icon: "user" },
 };
@@ -23,6 +23,7 @@ let activeCategoryId = null;
 let searchQuery = "";
 let deferredInstallPrompt = null;
 let installDismissed = false;
+let favorites = new Set();
 
 /* ---------- helpers ---------- */
 
@@ -52,28 +53,48 @@ function el(id) {
 
 function linkRow(link, category, subtitle) {
   const iconName = resolveIconName(category && category.icon);
+  const starred = favorites.has(link.id);
   return `
-    <a class="row" href="${escapeHtml(link.url)}" target="_blank" rel="noopener noreferrer" data-link-id="${escapeHtml(link.id)}">
-      <span class="row-icon ${link.mine ? "is-mine" : ""}">${icon(iconName)}</span>
-      <span class="row-body">
-        <span class="row-title">${escapeHtml(link.label)}</span>
-        ${subtitle ? `<span class="row-sub">${escapeHtml(subtitle)}</span>` : ""}
-      </span>
-      ${link.mine ? `<span class="pill">Mine</span>` : ""}
-      <span class="row-go">${icon("external")}</span>
-    </a>`;
+    <div class="row has-fav">
+      <a class="row-inner has-trailing" href="${escapeHtml(link.url)}" target="_blank" rel="noopener noreferrer" data-link-id="${escapeHtml(link.id)}">
+        <span class="row-icon">${icon(iconName)}</span>
+        <span class="row-body">
+          <span class="row-title">${escapeHtml(link.label)}</span>
+          ${subtitle ? `<span class="row-sub">${escapeHtml(subtitle)}</span>` : ""}
+        </span>
+      </a>
+      <button class="fav-btn" type="button" data-link-id="${escapeHtml(link.id)}"
+              aria-pressed="${starred}" aria-label="${starred ? "Remove from favorites" : "Add to favorites"}">
+        ${icon("star")}
+      </button>
+    </div>`;
 }
 
 function actionRow(id, iconName, label, subtitle) {
   return `
-    <button class="row" type="button" id="${id}">
-      <span class="row-icon">${icon(iconName)}</span>
-      <span class="row-body">
-        <span class="row-title">${escapeHtml(label)}</span>
-        ${subtitle ? `<span class="row-sub">${escapeHtml(subtitle)}</span>` : ""}
-      </span>
-      <span class="row-go">${icon("chevron")}</span>
-    </button>`;
+    <div class="row">
+      <button class="row-inner" type="button" id="${id}">
+        <span class="row-icon">${icon(iconName)}</span>
+        <span class="row-body">
+          <span class="row-title">${escapeHtml(label)}</span>
+          ${subtitle ? `<span class="row-sub">${escapeHtml(subtitle)}</span>` : ""}
+        </span>
+        <span class="row-go">${icon("chevron")}</span>
+      </button>
+    </div>`;
+}
+
+function statRow(iconName, label, subtitle) {
+  return `
+    <div class="row">
+      <div class="row-inner">
+        <span class="row-icon">${icon(iconName)}</span>
+        <span class="row-body">
+          <span class="row-title">${escapeHtml(label)}</span>
+          <span class="row-sub">${escapeHtml(subtitle)}</span>
+        </span>
+      </div>
+    </div>`;
 }
 
 function groupMarkup(category, rowsHtml) {
@@ -111,8 +132,8 @@ function headerFor(view) {
   if (!currentLo) {
     return { title: "Welcome", sub: "Pick your name to load your shortcuts." };
   }
-  if (view === "mine") {
-    return { title: "My Links", sub: "The links and share pages that belong to you." };
+  if (view === "favorites") {
+    return { title: "Favorites", sub: "The links you starred, ready in one tap." };
   }
   if (view === "search") {
     return { title: "Search", sub: "Find any link in one tap." };
@@ -154,7 +175,7 @@ function renderTabBar() {
 function renderTools() {
   const tools = el("view-tools");
 
-  if (!currentLo || currentView === "profile" || currentView === "mine") {
+  if (!currentLo || currentView === "profile" || currentView === "favorites") {
     tools.innerHTML = "";
     return;
   }
@@ -228,16 +249,16 @@ function renderHome() {
     .join("");
 }
 
-function renderMine() {
+function renderFavorites() {
   const sections = buildLinksByCategory(appConfig, currentLo)
     .map((section) => ({
       category: section.category,
-      links: section.links.filter((link) => link.mine),
+      links: section.links.filter((link) => favorites.has(link.id)),
     }))
     .filter((section) => section.links.length);
 
   if (!sections.length) {
-    return emptyState("bookmark", "No personal links yet. Your admin can add them for you.");
+    return emptyState("star", "No favorites yet. Tap the star on any link to pin it here.");
   }
 
   return sections
@@ -293,8 +314,10 @@ function renderProfile() {
     ? `<img class="profile-photo" src="${escapeHtml(currentLo.photo)}" alt="${escapeHtml(currentLo.name)}" />`
     : `<div class="profile-photo-fallback">${escapeHtml(initialsOf(currentLo.name))}</div>`;
 
-  const mineCount = currentLo.customLinks ? currentLo.customLinks.length : 0;
-  const sharedCount = appConfig.genericLinks ? appConfig.genericLinks.length : 0;
+  const favCount = favorites.size;
+  const totalCount =
+    (appConfig.genericLinks ? appConfig.genericLinks.length : 0) +
+    (currentLo.customLinks ? currentLo.customLinks.length : 0);
 
   const installRow =
     !isStandalone() && (deferredInstallPrompt || isIOS())
@@ -316,20 +339,8 @@ function renderProfile() {
     <section class="group">
       <h2 class="group-title">Your links</h2>
       <div class="list">
-        <div class="row">
-          <span class="row-icon is-mine">${icon("bookmark")}</span>
-          <span class="row-body">
-            <span class="row-title">${mineCount} personal link${mineCount === 1 ? "" : "s"}</span>
-            <span class="row-sub">Only you see these</span>
-          </span>
-        </div>
-        <div class="row">
-          <span class="row-icon">${icon("users")}</span>
-          <span class="row-body">
-            <span class="row-title">${sharedCount} shared link${sharedCount === 1 ? "" : "s"}</span>
-            <span class="row-sub">Everyone at Homespire sees these</span>
-          </span>
-        </div>
+        ${statRow("star", `${favCount} favorite${favCount === 1 ? "" : "s"}`, "Starred on this device for one tap access")}
+        ${statRow("grid", `${totalCount} links available`, "Company links plus your own")}
       </div>
     </section>
 
@@ -368,20 +379,22 @@ function renderPicker(notice) {
           ${matches
             .map(
               (lo) => `
-            <button class="row" type="button" data-slug="${escapeHtml(lo.slug)}">
-              <span class="row-icon">${icon("user")}</span>
-              <span class="row-body">
-                <span class="row-title">${escapeHtml(lo.name)}</span>
-                ${lo.title ? `<span class="row-sub">${escapeHtml(lo.title)}</span>` : ""}
-              </span>
-              <span class="row-go">${icon("chevron")}</span>
-            </button>`
+            <div class="row">
+              <button class="row-inner" type="button" data-slug="${escapeHtml(lo.slug)}">
+                <span class="row-icon">${icon("user")}</span>
+                <span class="row-body">
+                  <span class="row-title">${escapeHtml(lo.name)}</span>
+                  ${lo.title ? `<span class="row-sub">${escapeHtml(lo.title)}</span>` : ""}
+                </span>
+                <span class="row-go">${icon("chevron")}</span>
+              </button>
+            </div>`
             )
             .join("")}
         </div>`
       : emptyState("search", "No match. Ask your admin to add you.");
 
-    list.querySelectorAll(".row").forEach((btn) => {
+    list.querySelectorAll(".row-inner").forEach((btn) => {
       btn.addEventListener("click", () => selectLO(btn.dataset.slug));
     });
   };
@@ -394,8 +407,8 @@ function renderPicker(notice) {
 
 function renderMain() {
   const main = el("main");
-  if (currentView === "mine") {
-    main.innerHTML = renderMine();
+  if (currentView === "favorites") {
+    main.innerHTML = renderFavorites();
     return;
   }
   if (currentView === "search") {
@@ -449,6 +462,35 @@ function switchProfile() {
   url.searchParams.delete("lo");
   localStorage.removeItem(LAST_LO_KEY);
   window.location.href = url.toString();
+}
+
+/* ---------- favorites ---------- */
+
+function wireFavoriteToggle() {
+  el("main").addEventListener("click", (event) => {
+    const btn = event.target.closest(".fav-btn");
+    if (!btn || !currentLo) return;
+    event.preventDefault();
+
+    const linkId = btn.dataset.linkId;
+    const on = toggleFavorite(currentLo.slug, linkId);
+    if (on) {
+      favorites.add(linkId);
+    } else {
+      favorites.delete(linkId);
+    }
+
+    if (currentView === "favorites") {
+      renderMain();
+      return;
+    }
+    // Same link can appear more than once (Home and Search), keep stars in sync.
+    document.querySelectorAll(".fav-btn").forEach((other) => {
+      if (other.dataset.linkId !== linkId) return;
+      other.setAttribute("aria-pressed", on ? "true" : "false");
+      other.setAttribute("aria-label", on ? "Remove from favorites" : "Add to favorites");
+    });
+  });
 }
 
 /* ---------- install prompt ---------- */
@@ -543,7 +585,9 @@ async function init() {
   if (lo) {
     currentLo = lo;
     setLastLoSlug(lo.slug);
+    favorites = new Set(getFavorites(lo.slug));
     currentView = "home";
+    wireFavoriteToggle();
     renderAll();
     el("avatar-btn").addEventListener("click", () => setView("profile"));
     return;

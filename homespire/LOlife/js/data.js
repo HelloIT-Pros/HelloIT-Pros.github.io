@@ -17,6 +17,7 @@ function escapeHtml(str) {
 const CONFIG_URL = "data/config.json";
 const LOCAL_DRAFT_KEY = "lolife_config_draft_v1";
 const LAST_LO_KEY = "lolife_last_lo";
+const FAVORITES_KEY_PREFIX = "lolife_favorites_";
 
 /** Fetch the published config, falling back to a local admin draft if newer edits exist. */
 async function loadConfig() {
@@ -58,6 +59,39 @@ function setLastLoSlug(slug) {
   localStorage.setItem(LAST_LO_KEY, slug);
 }
 
+/**
+ * Favorites are per device and per LO, kept in localStorage rather than in
+ * config.json: they are the LO's own choice, not something an admin sets.
+ * Link ids only need to be unique within one LO, which they are.
+ */
+function favoritesKey(slug) {
+  return `${FAVORITES_KEY_PREFIX}${slug}`;
+}
+
+function getFavorites(slug) {
+  if (!slug) return [];
+  try {
+    const raw = localStorage.getItem(favoritesKey(slug));
+    const parsed = raw ? JSON.parse(raw) : [];
+    return Array.isArray(parsed) ? parsed : [];
+  } catch {
+    return [];
+  }
+}
+
+/** Flips the favorite state for one link and returns the new state. */
+function toggleFavorite(slug, linkId) {
+  const current = getFavorites(slug);
+  const on = !current.includes(linkId);
+  const next = on ? [...current, linkId] : current.filter((id) => id !== linkId);
+  try {
+    localStorage.setItem(favoritesKey(slug), JSON.stringify(next));
+  } catch {
+    /* private mode or full storage, keep the in-memory state anyway */
+  }
+  return on;
+}
+
 function findLO(config, slug) {
   return config.los.find((lo) => lo.slug === slug) || null;
 }
@@ -71,7 +105,7 @@ function categoriesById(config) {
 /**
  * Merge generic links + this LO's custom links, grouped by category,
  * sorted by category order then link order. Custom links are flagged
- * mine:true so the UI can badge them.
+ * mine:true, which the admin screen uses. The LO view no longer badges it.
  */
 function buildLinksByCategory(config, lo) {
   const cats = categoriesById(config);

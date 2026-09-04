@@ -40,13 +40,15 @@ Four tabs in a fixed bottom bar:
 
 - **Home** every link the LO can reach, grouped by category, with pill filters
   across the top to narrow to one category
-- **Mine** only the links that belong to that LO
+- **Favorites** the links that LO starred
 - **Search** type-ahead across every link they can reach
-- **Profile** headshot, name, title, link counts, and switch profile
+- **Profile** headshot, name, link counts, and switch profile
 
-Links that belong to the LO carry a purple "Mine" badge and a purple icon tile.
-Shared links are neutral gray. That contrast is deliberate: the validation test
-is partly about whether LOs understand what is theirs versus what is everyone's.
+Every row shows a purple icon tile on the left and a star on the right. Tapping
+the star pins that link to the Favorites tab. Favorites are stored per device
+and per LO in `localStorage`, not in `config.json`, because they are the LO's own
+choice rather than something an admin sets. Nothing distinguishes shared links
+from personal ones in the LO view: they all just work.
 
 ## How identity works (no login)
 
@@ -124,8 +126,10 @@ using the shared plus custom link model?**
 - Borrower Portal / POS still points at a placeholder URL and needs the real one.
 - "The Loan Lab (Team Chat)" is filed under Amy's own links, not shared, until
   it is confirmed that every LO can open that Teams group chat deep link.
-- Payroll and HR holds one item (Cigna benefits). Worth deciding whether it
-  folds into Company Resources.
+- The Loan Origination Systems category is now empty, since Borrower Portal
+  moved into Loan Tools. It stays defined so real LOS links can go there, and
+  it stays hidden from the LO view while empty. Worth deleting if nothing is
+  coming.
 
 ## Testing locally
 

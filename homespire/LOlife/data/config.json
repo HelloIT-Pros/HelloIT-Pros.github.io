@@ -6,19 +6,19 @@
     { "id": "loan-tools", "label": "Loan Tools", "icon": "fileText", "order": 2 },
     { "id": "loan-origination", "label": "Loan Origination Systems", "icon": "clipboard", "order": 3 },
     { "id": "marketing-sales", "label": "Marketing & Sales Tools", "icon": "megaphone", "order": 4 },
-    { "id": "company-resources", "label": "Company Resources", "icon": "building", "order": 5 },
+    { "id": "company-resources", "label": "Resources", "icon": "building", "order": 5 },
     { "id": "social-reviews", "label": "My Social & Reviews", "icon": "star", "order": 6 },
     { "id": "payroll", "label": "Payroll & HR", "icon": "banknote", "order": 7 }
   ],
   "genericLinks": [
+    { "id": "g-pos", "categoryId": "loan-tools", "label": "Borrower Portal / POS", "url": "https://apply.homespiremortgage.com", "order": 3 },
+    { "id": "g-te", "categoryId": "marketing-sales", "label": "Total Expert", "url": "https://totalexpert.net/dashboard#/overview", "order": 1 },
+    { "id": "g-ai-assistant", "categoryId": "marketing-sales", "label": "AI Assistant", "url": "https://ai.nfmlending.com/", "order": 4 },
     { "id": "g-insite", "categoryId": "company-resources", "label": "InSite", "url": "https://nfmlending.sharepoint.com/Sites/nfmintranet", "order": 1 },
     { "id": "g-hub", "categoryId": "company-resources", "label": "HUB", "url": "https://homespire01.sharepoint.com/sites/hub", "order": 2 },
-    { "id": "g-paycom", "categoryId": "company-resources", "label": "Paycom", "url": "https://www.paycom.com/", "order": 3 },
-    { "id": "g-compensafe", "categoryId": "company-resources", "label": "CompenSafe", "url": "https://nfmlending.compensafe.com/", "order": 4 },
-    { "id": "g-ai-assistant", "categoryId": "company-resources", "label": "AI Assistant", "url": "https://ai.nfmlending.com/", "order": 5 },
-    { "id": "g-pos", "categoryId": "loan-origination", "label": "Borrower Portal / POS", "url": "https://apply.homespiremortgage.com", "order": 1 },
-    { "id": "g-te", "categoryId": "marketing-sales", "label": "Total Expert", "url": "https://totalexpert.net/dashboard#/overview", "order": 1 },
-    { "id": "g-cigna", "categoryId": "payroll", "label": "Benefits (Cigna)", "url": "https://my.cigna.com/web/public/guest", "order": 1 }
+    { "id": "g-cigna", "categoryId": "payroll", "label": "Benefits (Cigna)", "url": "https://my.cigna.com/web/public/guest", "order": 1 },
+    { "id": "g-paycom", "categoryId": "payroll", "label": "Paycom", "url": "https://www.paycom.com/", "order": 2 },
+    { "id": "g-compensafe", "categoryId": "payroll", "label": "CompenSafe", "url": "https://nfmlending.compensafe.com/", "order": 3 }
   ],
   "los": [
     {
@@ -38,7 +38,7 @@
         { "id": "c-fb", "categoryId": "social-reviews", "label": "Facebook", "url": "https://www.facebook.com/amy.s.leblanc", "order": 3 },
         { "id": "c-li", "categoryId": "social-reviews", "label": "LinkedIn", "url": "https://www.linkedin.com/in/amy-leblanc-lo/", "order": 4 },
         { "id": "c-website", "categoryId": "social-reviews", "label": "My Website Bio", "url": "https://homespirehomeloans.com/loanoriginator/amy-leblanc/", "order": 5 },
-        { "id": "c-loanlab", "categoryId": "company-resources", "label": "The Loan Lab (Team Chat)", "url": "https://teams.microsoft.com/l/chat/19:8393ae1c002c40e29fced1b0c9bbc94d@thread.v2/conversations?context=%7B%22contextType%22%3A%22chat%22%7D", "order": 1 }
+        { "id": "c-loanlab", "categoryId": "company-resources", "label": "The Loan Lab (Team Chat)", "url": "https://teams.microsoft.com/l/chat/19:8393ae1c002c40e29fced1b0c9bbc94d@thread.v2/conversations?context=%7B%22contextType%22%3A%22chat%22%7D", "order": 3 }
       ]
     },
     {
