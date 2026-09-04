@@ -358,9 +358,12 @@ function renderProfile() {
 
   const qrLink = findQrLink();
   const favCount = favorites.size;
+  /* Count what the LO can actually reach. Rows still waiting on a URL are the
+     admin's to-do list, not links, and counting them would tell an LO they have
+     more than they can see. */
   const totalCount =
-    (appConfig.genericLinks ? appConfig.genericLinks.length : 0) +
-    (currentLo.customLinks ? currentLo.customLinks.length : 0);
+    (appConfig.genericLinks || []).filter(hasUrl).length +
+    (currentLo.customLinks || []).filter(hasUrl).length;
 
   const installRow =
     !isStandalone() && (deferredInstallPrompt || isIOS())
@@ -583,7 +586,10 @@ function closeQr() {
 
 function findQrLink() {
   if (!currentLo || !currentLo.customLinks) return null;
-  return currentLo.customLinks.find((l) => l.kind === "qr" && l.image) || null;
+  /* hasUrl matters as much as the image: a template row that nobody has filled
+     in yet still names an image file that was never generated, and rendering it
+     puts a broken picture on Profile and asks the network for a 404. */
+  return currentLo.customLinks.find((l) => l.kind === "qr" && l.image && hasUrl(l)) || null;
 }
 
 function wireQrSheet() {

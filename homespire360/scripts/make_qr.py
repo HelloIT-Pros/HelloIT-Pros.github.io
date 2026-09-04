@@ -83,9 +83,16 @@ if __name__ == "__main__":
         sys.exit('No links with "kind": "qr" in config.json, nothing to generate.')
 
     failures = []
+    waiting = []
     for lo, link in found:
-        if not link.get("image") or not link.get("url"):
-            failures.append(f'{lo["slug"]}: qr link needs both "url" and "image"')
+        # A new LO starts with a QR row and no URL: the code cannot exist until
+        # someone pastes the card address. That is a normal waiting state, not
+        # a failure, so note it and move on.
+        if not (link.get("url") or "").strip():
+            waiting.append(f'{lo["slug"]}: no URL yet, nothing to encode')
+            continue
+        if not link.get("image"):
+            failures.append(f'{lo["slug"]}: qr link has a URL but no "image" path')
             continue
 
         path = os.path.join(ROOT, link["image"])
@@ -100,9 +107,14 @@ if __name__ == "__main__":
         else:
             failures.append(f'{link["image"]} decoded to {decoded!r}, expected {link["url"]!r}')
 
+    if waiting:
+        print("\nWAITING on a URL, nothing generated for:")
+        for w in waiting:
+            print("  " + w)
+
     if failures:
         print("\nFAILED:")
         for f in failures:
             print("  " + f)
         sys.exit(1)
-    print(f"\n{len(found)} QR code(s) generated and verified.")
+    print(f"\n{len(found) - len(waiting)} QR code(s) generated and verified.")

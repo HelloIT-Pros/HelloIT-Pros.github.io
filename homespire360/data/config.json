@@ -1,6 +1,5 @@
 {
   "appName": "Homespire 360",
-  "templateSlug": "amy-leblanc",
   "org": "Homespire Mortgage",
   "categories": [
     {
@@ -48,13 +47,6 @@
   ],
   "genericLinks": [
     {
-      "id": "g-pos",
-      "categoryId": "loan-tools",
-      "label": "Borrower Portal / POS",
-      "url": "https://apply.homespiremortgage.com",
-      "order": 3
-    },
-    {
       "id": "g-te",
       "categoryId": "marketing-sales",
       "label": "Total Expert",
@@ -85,7 +77,7 @@
     {
       "id": "g-cigna",
       "categoryId": "payroll",
-      "label": "Benefits (Cigna)",
+      "label": "Cigna",
       "url": "https://my.cigna.com/web/public/guest",
       "order": 1
     },
@@ -139,7 +131,8 @@
           "categoryId": "loan-tools",
           "label": "Loan Services",
           "url": "https://apply.homespirehomeloans.com/loanservices",
-          "order": 1
+          "order": 1,
+          "shareable": true
         },
         {
           "id": "c-upload",
@@ -242,6 +235,108 @@
           "shareable": true
         }
       ]
+    },
+    {
+      "slug": "edwin-oquendo",
+      "name": "Edwin Oquendo",
+      "title": "Loan Officer",
+      "photo": "",
+      "customLinks": [
+        {
+          "id": "c-mtn8m45lwkvh",
+          "categoryId": "my-business",
+          "label": "Digital Business Card",
+          "url": "",
+          "order": 1,
+          "shareable": true
+        },
+        {
+          "id": "c-mtn8m45lz5rt",
+          "categoryId": "my-business",
+          "label": "My Loan Application",
+          "url": "https://apply.homespirehomeloans.com/app/eoquendo",
+          "order": 2,
+          "shareable": true
+        },
+        {
+          "id": "c-mtn8m45lzleh",
+          "categoryId": "my-business",
+          "label": "My QR Code",
+          "url": "",
+          "order": 3,
+          "kind": "qr",
+          "image": "qr/edwin-oquendo.png"
+        },
+        {
+          "id": "c-mtn8m45l8ndi",
+          "categoryId": "loan-tools",
+          "label": "Loan Services",
+          "url": "https://apply.homespirehomeloans.com/loanservices",
+          "order": 1,
+          "shareable": true
+        },
+        {
+          "id": "c-mtn8m45l68do",
+          "categoryId": "loan-tools",
+          "label": "Upload Docs",
+          "url": "https://bp.homespirehomeloans.com/sdu",
+          "order": 2,
+          "shareable": true
+        },
+        {
+          "id": "c-mtn8m45l3z86",
+          "categoryId": "marketing-sales",
+          "label": "Product Spotlight",
+          "url": "https://pages.homespiremortgage.com/edwin-oquendo/spotlight",
+          "order": 3,
+          "shareable": true
+        },
+        {
+          "id": "c-mtn8m45lrm8g",
+          "categoryId": "company-resources",
+          "label": "The Loan Lab (Team Chat)",
+          "url": "",
+          "order": 4
+        },
+        {
+          "id": "c-mtn8m45ltonh",
+          "categoryId": "social-reviews",
+          "label": "Reviews (Experience.com)",
+          "url": "",
+          "order": 1,
+          "shareable": true
+        },
+        {
+          "id": "c-mtn8m45l5efy",
+          "categoryId": "social-reviews",
+          "label": "Instagram",
+          "url": "",
+          "order": 2
+        },
+        {
+          "id": "c-mtn8m45lnyql",
+          "categoryId": "social-reviews",
+          "label": "Facebook",
+          "url": "",
+          "order": 3
+        },
+        {
+          "id": "c-mtn8m45latqy",
+          "categoryId": "social-reviews",
+          "label": "LinkedIn",
+          "url": "",
+          "order": 4
+        },
+        {
+          "id": "c-mtn8m45luub3",
+          "categoryId": "social-reviews",
+          "label": "My Website Bio",
+          "url": "https://homespirehomeloans.com/loanoriginator/edwin-oquendo/",
+          "order": 5,
+          "shareable": true
+        }
+      ]
     }
-  ]
+  ],
+  "templateSlug": "amy-leblanc"
 }
