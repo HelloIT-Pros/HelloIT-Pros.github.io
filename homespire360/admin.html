@@ -9,51 +9,37 @@
   <link rel="apple-touch-icon" href="icons/apple-touch-icon.png" />
   <link rel="stylesheet" href="css/styles.css" />
 </head>
-<body>
-  <header class="admin-head">
-    <div class="brandline"><span class="brand-dot"></span><span>Homespire 360</span></div>
-    <h1>Admin <span id="status-pill" class="status-pill status-clean">No unsaved changes</span></h1>
-    <p>
-      Manage the links every LO sees, and each LO's personal shortcuts. This edits a local draft.
-      Click Export config.json, then redeploy to publish it.
-    </p>
-  </header>
-
-  <div class="admin-shell">
-    <div class="admin-toolbar">
+<body class="admin">
+  <header class="admin-bar">
+    <div class="admin-bar-id">
+      <div class="brandline"><span class="brand-dot"></span><span>Homespire 360</span></div>
+      <h1>Admin</h1>
+    </div>
+    <div class="admin-bar-actions">
+      <span id="status-pill" class="status-pill status-clean">No unsaved changes</span>
       <button class="btn btn-primary" id="export-btn" type="button"></button>
       <button class="btn btn-outline" id="copy-json-btn" type="button"></button>
-      <button class="btn btn-outline" id="reset-btn" type="button"></button>
-      <a class="btn btn-outline" id="view-app-btn" href="index.html"></a>
       <a class="btn btn-outline" id="preview-draft-btn" href="index.html?draft=1"></a>
+      <a class="btn btn-outline" id="view-app-btn" href="index.html"></a>
+      <button class="btn btn-quiet" id="reset-btn" type="button"></button>
     </div>
+  </header>
 
-    <section class="admin-section">
-      <h2>Categories</h2>
-      <p class="sub">The sections every LO sees, in order. Each one gets a line icon.</p>
-      <div id="categories-list"></div>
-      <button class="btn-add" id="add-category-btn" type="button"></button>
-    </section>
+  <div class="admin-body">
+    <aside class="admin-rail">
+      <p class="rail-group">Setup</p>
+      <div id="rail-setup"></div>
 
-    <section class="admin-section">
-      <h2>Shared links</h2>
-      <p class="sub">Shown to every LO, identical for everyone.</p>
-      <div id="generic-links-list"></div>
-      <button class="btn-add" id="add-generic-link-btn" type="button"></button>
-    </section>
-
-    <section class="admin-section">
-      <h2>Loan officers</h2>
-      <p class="sub">
-        Pick one LO to edit. Each category shows the shared links they already get, so you do not
-        duplicate one by accident.
-      </p>
-      <div class="admin-toolbar">
-        <select class="lo-select" id="lo-selector"></select>
-        <button class="btn-add" id="add-lo-btn" type="button"></button>
+      <div class="rail-group-head">
+        <p class="rail-group">Loan officers <span class="rail-count" id="rail-count"></span></p>
+        <button class="rail-add" id="add-lo-btn" type="button" aria-label="Add loan officer"></button>
       </div>
-      <div id="los-list"></div>
-    </section>
+      <div class="add-lo" id="add-lo-form" hidden></div>
+      <div class="rail-filter" id="rail-filter" hidden></div>
+      <div id="rail-los"></div>
+    </aside>
+
+    <main class="admin-detail" id="detail"></main>
   </div>
 
   <script src="js/icons.js"></script>

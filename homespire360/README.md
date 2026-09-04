@@ -136,13 +136,26 @@ on a shared device.
 
 ## How the admin screen works (no backend)
 
-Open `admin.html`. You can:
+Open `admin.html`. It is master and detail: the left rail lists what can be
+edited and the right panel shows one subject at a time.
 
-- Add, edit, and remove the categories every LO sees, each with a line icon
-  picked from a dropdown
-- Add, edit, and remove shared links (shown to everyone)
-- Add LOs, set their headshot path, manage their personal links, and copy their
-  install link
+The rail holds two setup views plus one row per loan officer:
+
+- **Categories** the groups every LO sees, each with a line icon and an order
+- **Shared links** the links every LO gets, no setup per person
+- **one row per LO** avatar, name, title, and how many personal links they have,
+  with a search box once the roster passes five
+
+Selecting an LO gives their identity fields, their install link with a Copy
+button, their own links as editable rows, and the shared links they inherit
+behind a collapsed disclosure. That collapse is the point: an LO's own links are
+what an admin came to change, and the shared ones are the same for everybody, so
+they should not be nine rows in the way. Links are grouped under a category
+heading rather than rendered as one block per category, so an empty category
+costs nothing to look at.
+
+Adding an LO takes a name. The slug and the install link are derived from it,
+and everything else is editable after.
 
 Every change saves instantly to a **local draft** in your browser
 (`localStorage`) so nothing is lost on refresh, but it is not live for anyone
