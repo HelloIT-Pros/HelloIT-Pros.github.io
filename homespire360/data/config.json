@@ -207,6 +207,15 @@
           "label": "The Loan Lab (Team Chat)",
           "url": "https://teams.microsoft.com/l/chat/19:8393ae1c002c40e29fced1b0c9bbc94d@thread.v2/conversations?context=%7B%22contextType%22%3A%22chat%22%7D",
           "order": 4
+        },
+        {
+          "id": "c-qr",
+          "categoryId": "my-business",
+          "kind": "qr",
+          "label": "My QR Code",
+          "url": "https://hihello.com/p/e681111c-b394-4104-a8e2-ae868e531ad4?sharer_id=zaBlcdMzbeX0GMJOqZgmB7rbVJa2",
+          "image": "qr/amy-leblanc.png",
+          "order": 3
         }
       ]
     },

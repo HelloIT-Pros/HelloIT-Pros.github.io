@@ -321,7 +321,7 @@ function renderLOs() {
             ${custom
               .map(
                 (l) => `
-            <div class="frow has-toggle" data-kind="custom" data-id="${escapeHtml(l.id)}">
+            <div class="frow has-toggle${l.kind === "qr" ? " is-qr-row" : ""}" data-kind="custom" data-id="${escapeHtml(l.id)}">
               <select data-field="categoryId">${categoryOptions(l.categoryId)}</select>
               <input data-field="label" value="${escapeHtml(l.label)}" placeholder="Label" />
               <input data-field="url" class="mono" value="${escapeHtml(l.url)}" placeholder="https://" />
@@ -330,6 +330,11 @@ function renderLOs() {
             </div>`
               )
               .join("")}
+            ${
+              custom.some((l) => l.kind === "qr")
+                ? `<p class="small-note">The QR row's image is generated from its URL by <span class="mono">scripts/make_qr.py</span>. Change the URL and rerun that script, or the code will still scan to the old address.</p>`
+                : ""
+            }
             <button class="btn-add" data-action="add-link-in-category" data-category-id="${escapeHtml(cat.id)}" type="button">${icon("plus")}<span>Add a link for ${escapeHtml(firstName)}</span></button>
           </div>`;
         })

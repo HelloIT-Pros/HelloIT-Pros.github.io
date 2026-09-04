@@ -41,8 +41,9 @@ data/config.json    the link data: categories, shared links, LO roster
 js/icons.js         the line icon set (no emoji anywhere in the product)
 brand/              the Homespire mark, source of truth for the app icon
 photos/             LO headshots
+qr/                 generated QR codes, one per LO
 css/, js/, icons/   everything else
-scripts/            icon generator, run it after changing the brand mark
+scripts/            make_icons.py and make_qr.py, both generate committed assets
 ```
 
 ## App icon
@@ -91,6 +92,33 @@ worst it invites sending a borrower a link to a staff login page. It is on for
 the seven links an LO actually sends out: her business card, her application
 link, secure document upload, Buyer's Edge, Product Spotlight, her reviews, and
 her bio page.
+
+## QR codes
+
+An LO's QR is a row in My Business and a section on Profile. It is not a link:
+tapping it shows the code full screen on a white ground, as large as the screen
+allows, so someone standing in front of her can scan it. The screen is held
+awake while it is open where the browser supports that, since a code is no use
+if the display sleeps mid-scan.
+
+The images are generated, not exported by hand:
+
+```bash
+cd scripts && python3 make_qr.py
+```
+
+That reads `data/config.json`, finds every link with `"kind": "qr"`, encodes its
+`url`, drops the Homespire mark in the middle, and writes the file named by its
+`image` field. Error correction is set to H so the centred mark cannot break
+it, and every code is decoded again before the script exits, because a QR that
+scans to the wrong place is worse than no QR.
+
+Generating rather than storing an export means the code can never drift out of
+sync with the URL, and a new LO costs one command instead of a manual export
+from another tool. If the URL changes in the admin, rerun the script.
+
+Amy's encodes her HiHello card including its `sharer_id` parameter, which is how
+HiHello attributes a scan back to her, so it is kept verbatim.
 
 ## How identity works (no login)
 

@@ -51,7 +51,34 @@ function el(id) {
 
 /* ---------- shared row markup ---------- */
 
+function qrRow(link) {
+  /*
+   * A QR row is not a link: tapping it shows the code on screen for someone
+   * standing in front of her, rather than opening anything. It uses the code
+   * itself as the leading tile so it reads as a QR at a glance instead of
+   * looking like one more shortcut.
+   */
+  const starred = favorites.has(link.id);
+  return `
+    <div class="row has-fav">
+      <button class="row-inner has-trailing is-qr" type="button" data-qr-id="${escapeHtml(link.id)}">
+        <span class="row-icon qr-thumb"><img src="${escapeHtml(link.image)}" alt="" /></span>
+        <span class="row-body">
+          <span class="row-title">${escapeHtml(link.label)}</span>
+          <span class="row-sub">Tap to show it full screen for scanning</span>
+        </span>
+        <span class="qr-tag">QR</span>
+      </button>
+      <button class="fav-btn" type="button" data-link-id="${escapeHtml(link.id)}"
+              aria-pressed="${starred}" aria-label="${starred ? "Remove from favorites" : "Add to favorites"}">
+        ${icon("star")}
+      </button>
+    </div>`;
+}
+
 function linkRow(link, category, subtitle) {
+  if (link.kind === "qr" && link.image) return qrRow(link);
+
   const iconName = resolveIconName(category && category.icon);
   const starred = favorites.has(link.id);
 
@@ -329,6 +356,7 @@ function renderProfile() {
     ? `<img class="profile-photo" src="${escapeHtml(currentLo.photo)}" alt="${escapeHtml(currentLo.name)}" />`
     : `<div class="profile-photo-fallback">${escapeHtml(initialsOf(currentLo.name))}</div>`;
 
+  const qrLink = findQrLink();
   const favCount = favorites.size;
   const totalCount =
     (appConfig.genericLinks ? appConfig.genericLinks.length : 0) +
@@ -358,6 +386,26 @@ function renderProfile() {
         ${statRow("grid", `${totalCount} links available`, "Company links plus your own")}
       </div>
     </section>
+
+    ${
+      qrLink
+        ? `<section class="group">
+      <h2 class="group-title">Share in person</h2>
+      <div class="list">
+        <div class="row">
+          <button class="row-inner" type="button" data-qr-id="${escapeHtml(qrLink.id)}">
+            <span class="row-icon qr-thumb"><img src="${escapeHtml(qrLink.image)}" alt="" /></span>
+            <span class="row-body">
+              <span class="row-title">${escapeHtml(qrLink.label)}</span>
+              <span class="row-sub">Show it full screen for scanning</span>
+            </span>
+            <span class="row-go">${icon("chevron")}</span>
+          </button>
+        </div>
+      </div>
+    </section>`
+        : ""
+    }
 
     <section class="group">
       <h2 class="group-title">Settings</h2>
@@ -480,6 +528,77 @@ function switchProfile() {
   window.location.href = url.toString();
 }
 
+/* ---------- QR viewer ---------- */
+
+let wakeLock = null;
+
+/**
+ * Show one LO's QR full screen so a customer can scan it off her phone.
+ *
+ * Pure white ground and as large as the screen allows, because a camera needs
+ * contrast and size. The screen is also held awake where the browser supports
+ * it, since the code is useless if the display sleeps while she is holding the
+ * phone out.
+ */
+function openQr(link) {
+  const sheet = el("qr-sheet");
+  if (!sheet || !link) return;
+
+  sheet.innerHTML = `
+    <div class="qr-sheet-inner">
+      <button class="qr-close" type="button" aria-label="Close">${icon("close")}</button>
+      <img class="qr-full" src="${escapeHtml(link.image)}" alt="QR code for ${escapeHtml(currentLo.name)}" />
+      <p class="qr-name">${escapeHtml(currentLo.name)}</p>
+      <p class="qr-hint">Point a phone camera at this to save my details</p>
+    </div>`;
+
+  sheet.hidden = false;
+  document.body.classList.add("sheet-open");
+  sheet.querySelector(".qr-close").focus();
+
+  if (navigator.wakeLock && navigator.wakeLock.request) {
+    navigator.wakeLock
+      .request("screen")
+      .then((lock) => {
+        wakeLock = lock;
+      })
+      .catch(() => {
+        /* not supported or refused, the code still shows */
+      });
+  }
+}
+
+function closeQr() {
+  const sheet = el("qr-sheet");
+  if (!sheet || sheet.hidden) return;
+  sheet.hidden = true;
+  sheet.innerHTML = "";
+  document.body.classList.remove("sheet-open");
+
+  if (wakeLock) {
+    wakeLock.release().catch(() => {});
+    wakeLock = null;
+  }
+}
+
+function findQrLink() {
+  if (!currentLo || !currentLo.customLinks) return null;
+  return currentLo.customLinks.find((l) => l.kind === "qr" && l.image) || null;
+}
+
+function wireQrSheet() {
+  const sheet = el("qr-sheet");
+  sheet.addEventListener("click", (event) => {
+    // The backdrop and the close button both dismiss; the code itself does not.
+    if (event.target.closest(".qr-close") || !event.target.closest(".qr-sheet-inner")) {
+      closeQr();
+    }
+  });
+  document.addEventListener("keydown", (event) => {
+    if (event.key === "Escape") closeQr();
+  });
+}
+
 /* ---------- sharing ---------- */
 
 /**
@@ -542,6 +661,14 @@ function copyLink(btn, url) {
 
 function wireRowActions() {
   el("main").addEventListener("click", (event) => {
+    const qrTrigger = event.target.closest("[data-qr-id]");
+    if (qrTrigger) {
+      event.preventDefault();
+      const link = (currentLo.customLinks || []).find((l) => l.id === qrTrigger.dataset.qrId);
+      openQr(link);
+      return;
+    }
+
     const share = event.target.closest(".share-btn");
     if (share) {
       event.preventDefault();
@@ -677,6 +804,7 @@ async function init() {
     favorites = new Set(getFavorites(lo.slug));
     currentView = "home";
     wireRowActions();
+    wireQrSheet();
     renderAll();
     el("avatar-btn").addEventListener("click", () => setView("profile"));
     return;
