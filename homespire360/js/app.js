@@ -54,6 +54,20 @@ function el(id) {
 function linkRow(link, category, subtitle) {
   const iconName = resolveIconName(category && category.icon);
   const starred = favorites.has(link.id);
+
+  /*
+   * Only outward-facing links get a share button. An LO sends her application
+   * link and her business card to borrowers all day; sharing InSite or Paycom
+   * to a borrower is meaningless, and a share icon on all 21 rows would be
+   * clutter that invites the wrong send. The admin decides per link.
+   */
+  const shareBtn = link.shareable
+    ? `<button class="share-btn" type="button"
+               data-share-url="${escapeHtml(link.url)}"
+               data-share-label="${escapeHtml(link.label)}"
+               aria-label="Share ${escapeHtml(link.label)}">${icon("share")}</button>`
+    : "";
+
   return `
     <div class="row has-fav">
       <a class="row-inner has-trailing" href="${escapeHtml(link.url)}" target="_blank" rel="noopener noreferrer" data-link-id="${escapeHtml(link.id)}">
@@ -63,6 +77,7 @@ function linkRow(link, category, subtitle) {
           ${subtitle ? `<span class="row-sub">${escapeHtml(subtitle)}</span>` : ""}
         </span>
       </a>
+      ${shareBtn}
       <button class="fav-btn" type="button" data-link-id="${escapeHtml(link.id)}"
               aria-pressed="${starred}" aria-label="${starred ? "Remove from favorites" : "Add to favorites"}">
         ${icon("star")}
@@ -465,10 +480,75 @@ function switchProfile() {
   window.location.href = url.toString();
 }
 
+/* ---------- sharing ---------- */
+
+/**
+ * Hand a link to whatever the phone can send it with.
+ *
+ * On an installed iOS app navigator.share opens the native sheet, so she can
+ * drop her application link straight into a text message. Everywhere else
+ * (desktop, or a browser without the API) it falls back to copying the URL,
+ * which is what the share sheet would mostly be used for anyway.
+ *
+ * navigator.share must be called in the same tick as the tap or the browser
+ * treats it as not user-initiated, so nothing is awaited before it.
+ */
+function shareLink(btn) {
+  const url = btn.dataset.shareUrl;
+  const label = btn.dataset.shareLabel || "";
+
+  if (navigator.share) {
+    navigator.share({ title: label, url }).catch((err) => {
+      // Dismissing the sheet rejects with AbortError. That is not a failure.
+      if (err && err.name === "AbortError") return;
+      copyLink(btn, url);
+    });
+    return;
+  }
+
+  copyLink(btn, url);
+}
+
+function copyLink(btn, url) {
+  const confirmCopy = () => {
+    btn.innerHTML = icon("check");
+    btn.classList.add("is-done");
+    setTimeout(() => {
+      btn.innerHTML = icon("share");
+      btn.classList.remove("is-done");
+    }, 1400);
+  };
+
+  if (navigator.clipboard && navigator.clipboard.writeText) {
+    navigator.clipboard.writeText(url).then(confirmCopy, () => {});
+    return;
+  }
+
+  // Last resort for older browsers with no clipboard API.
+  const field = document.createElement("input");
+  field.value = url;
+  document.body.appendChild(field);
+  field.select();
+  try {
+    document.execCommand("copy");
+    confirmCopy();
+  } catch {
+    /* nothing left to try, the link is still tappable */
+  }
+  field.remove();
+}
+
 /* ---------- favorites ---------- */
 
-function wireFavoriteToggle() {
+function wireRowActions() {
   el("main").addEventListener("click", (event) => {
+    const share = event.target.closest(".share-btn");
+    if (share) {
+      event.preventDefault();
+      shareLink(share);
+      return;
+    }
+
     const btn = event.target.closest(".fav-btn");
     if (!btn || !currentLo) return;
     event.preventDefault();
@@ -596,7 +676,7 @@ async function init() {
     setLastLoSlug(lo.slug);
     favorites = new Set(getFavorites(lo.slug));
     currentView = "home";
-    wireFavoriteToggle();
+    wireRowActions();
     renderAll();
     el("avatar-btn").addEventListener("click", () => setView("profile"));
     return;

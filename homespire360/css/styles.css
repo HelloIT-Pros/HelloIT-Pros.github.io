@@ -357,7 +357,8 @@ main {
   height: 17px;
 }
 
-.fav-btn {
+.fav-btn,
+.share-btn {
   border: 0;
   background: none;
   padding: 9px;
@@ -367,6 +368,23 @@ main {
   cursor: pointer;
   border-radius: 50%;
   flex: 0 0 auto;
+}
+
+.share-btn {
+  color: var(--purple-bright);
+}
+
+.share-btn .icon {
+  width: 18px;
+  height: 18px;
+}
+
+.share-btn:active {
+  background: rgba(147, 51, 234, 0.1);
+}
+
+.share-btn.is-done {
+  color: #1e7e34;
 }
 
 .fav-btn .icon {
@@ -688,6 +706,10 @@ main {
   margin-bottom: 8px;
 }
 
+.frow.has-toggle {
+  grid-template-columns: 1fr 1fr 1fr auto auto;
+}
+
 .frow input,
 .frow select {
   width: 100%;
@@ -704,6 +726,26 @@ main {
 .frow select:focus {
   outline: none;
   border-color: var(--purple-bright);
+}
+
+.share-toggle {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--muted);
+  white-space: nowrap;
+  cursor: pointer;
+  user-select: none;
+}
+
+.share-toggle input {
+  width: 15px;
+  height: 15px;
+  margin: 0;
+  accent-color: var(--purple-bright);
+  cursor: pointer;
 }
 
 .del-btn {
@@ -886,5 +928,9 @@ main {
 @media (min-width: 720px) {
   .frow {
     grid-template-columns: 1fr 1fr 2fr auto;
+  }
+
+  .frow.has-toggle {
+    grid-template-columns: 1fr 1fr 2fr auto auto;
   }
 }

@@ -21,7 +21,7 @@ const FAVORITES_KEY_PREFIX = "lolife_favorites_";
 
 /* Shown in the Profile footer. Bump with the service worker cache version so a
    phone can be identified as stale by looking at it. */
-const BUILD = "v6";
+const BUILD = "v7";
 
 /**
  * Fetch the published config.

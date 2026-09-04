@@ -56,6 +56,19 @@ function categoryOptions(selectedId) {
     .join("");
 }
 
+/**
+ * The per-link share toggle. Off by default: most links are internal tools and
+ * a share button on those is clutter that invites sending the wrong thing to a
+ * borrower. Turn it on for anything outward facing.
+ */
+function shareToggle(link) {
+  return `
+    <label class="share-toggle" title="Show a share button on this link in the app">
+      <input type="checkbox" data-field="shareable" ${link.shareable ? "checked" : ""} />
+      <span>Share</span>
+    </label>`;
+}
+
 function iconOptions(selectedName) {
   const current = resolveIconName(selectedName);
   return ICON_CHOICES.map(
@@ -156,10 +169,11 @@ function renderGenericLinks() {
   list.innerHTML = sorted
     .map(
       (l) => `
-    <div class="frow" data-kind="generic" data-id="${escapeHtml(l.id)}">
+    <div class="frow has-toggle" data-kind="generic" data-id="${escapeHtml(l.id)}">
       <select data-field="categoryId">${categoryOptions(l.categoryId)}</select>
       <input data-field="label" value="${escapeHtml(l.label)}" placeholder="Label" />
       <input data-field="url" class="mono" value="${escapeHtml(l.url)}" placeholder="https://" />
+      ${shareToggle(l)}
       <button class="del-btn" data-action="remove" type="button" aria-label="Remove link">${icon("trash")}</button>
     </div>`
     )
@@ -175,9 +189,19 @@ document.getElementById("generic-links-list").addEventListener("input", (e) => {
 });
 
 document.getElementById("generic-links-list").addEventListener("change", (e) => {
-  if (e.target.dataset.field !== "categoryId") return;
+  const field = e.target.dataset.field;
+  if (field !== "categoryId" && field !== "shareable") return;
   const row = e.target.closest(".frow");
   const link = state.genericLinks.find((l) => l.id === row.dataset.id);
+
+  if (field === "shareable") {
+    link.shareable = e.target.checked;
+    if (!e.target.checked) delete link.shareable;
+    markDirty();
+    renderLOs();
+    return;
+  }
+
   link.categoryId = e.target.value;
   markDirty();
   renderLOs();
@@ -297,10 +321,11 @@ function renderLOs() {
             ${custom
               .map(
                 (l) => `
-            <div class="frow" data-kind="custom" data-id="${escapeHtml(l.id)}">
+            <div class="frow has-toggle" data-kind="custom" data-id="${escapeHtml(l.id)}">
               <select data-field="categoryId">${categoryOptions(l.categoryId)}</select>
               <input data-field="label" value="${escapeHtml(l.label)}" placeholder="Label" />
               <input data-field="url" class="mono" value="${escapeHtml(l.url)}" placeholder="https://" />
+              ${shareToggle(l)}
               <button class="del-btn" data-action="remove-link" type="button" aria-label="Remove link">${icon("trash")}</button>
             </div>`
               )
@@ -360,12 +385,21 @@ document.getElementById("los-list").addEventListener("input", (e) => {
 });
 
 document.getElementById("los-list").addEventListener("change", (e) => {
-  if (e.target.dataset.field !== "categoryId") return;
+  const field = e.target.dataset.field;
+  if (field !== "categoryId" && field !== "shareable") return;
   const loCard = e.target.closest(".lo-card");
   const lo = state.los.find((l) => l.slug === loCard.dataset.lo);
   const linkRowEl = e.target.closest('.frow[data-kind="custom"]');
   if (!linkRowEl) return;
   const link = lo.customLinks.find((l) => l.id === linkRowEl.dataset.id);
+
+  if (field === "shareable") {
+    link.shareable = e.target.checked;
+    if (!e.target.checked) delete link.shareable;
+    markDirty();
+    return; // no re-render, it would drop focus off the checkbox
+  }
+
   link.categoryId = e.target.value;
   markDirty();
   renderLOs();

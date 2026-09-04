@@ -122,14 +122,16 @@
           "categoryId": "my-business",
           "label": "Digital Business Card",
           "url": "https://hihello.com/p/e681111c-b394-4104-a8e2-ae868e531ad4",
-          "order": 1
+          "order": 1,
+          "shareable": true
         },
         {
           "id": "c-apply",
           "categoryId": "my-business",
           "label": "My Loan Application",
           "url": "https://apply.homespirehomeloans.com/app/aleblanc",
-          "order": 2
+          "order": 2,
+          "shareable": true
         },
         {
           "id": "c-loanservices",
@@ -143,28 +145,32 @@
           "categoryId": "loan-tools",
           "label": "Upload Docs",
           "url": "https://bp.homespirehomeloans.com/sdu",
-          "order": 2
+          "order": 2,
+          "shareable": true
         },
         {
           "id": "c-buyersedge",
           "categoryId": "marketing-sales",
           "label": "Buyer's Edge",
           "url": "https://pages.homespiremortgage.com/amy-leblanc/buyers-edge",
-          "order": 2
+          "order": 2,
+          "shareable": true
         },
         {
           "id": "c-spotlight",
           "categoryId": "marketing-sales",
           "label": "Product Spotlight",
           "url": "https://pages.homespiremortgage.com/amy-leblanc/spotlight",
-          "order": 3
+          "order": 3,
+          "shareable": true
         },
         {
           "id": "c-reviews",
           "categoryId": "social-reviews",
           "label": "Reviews (Experience.com)",
           "url": "https://www.experience.com/reviews/amy-leblanc-464091",
-          "order": 1
+          "order": 1,
+          "shareable": true
         },
         {
           "id": "c-ig",
@@ -192,7 +198,8 @@
           "categoryId": "social-reviews",
           "label": "My Website Bio",
           "url": "https://homespirehomeloans.com/loanoriginator/amy-leblanc/",
-          "order": 5
+          "order": 5,
+          "shareable": true
         },
         {
           "id": "c-loanlab",
@@ -213,14 +220,16 @@
           "categoryId": "my-business",
           "label": "My Application Link",
           "url": "https://apply.homespiremortgage.com/demo",
-          "order": 1
+          "order": 1,
+          "shareable": true
         },
         {
           "id": "c-card",
           "categoryId": "my-business",
           "label": "My Digital Business Card",
           "url": "https://homespiremortgage.com/lo/demo",
-          "order": 2
+          "order": 2,
+          "shareable": true
         }
       ]
     }

@@ -76,6 +76,22 @@ and per LO in `localStorage`, not in `config.json`, because they are the LO's ow
 choice rather than something an admin sets. Nothing distinguishes shared links
 from personal ones in the LO view: they all just work.
 
+## Sharing
+
+Outward-facing links also carry a share button. Tapping it opens the phone's
+native share sheet, so an LO can drop her application link straight into a text
+message without loading the page and copying the URL out of the address bar.
+Where there is no share API, such as most desktop browsers, it copies the link
+and confirms on the button instead.
+
+Sharing is per link, set by the `shareable` flag in `config.json` and toggled by
+the Share checkbox in the admin. It is off by default and should stay off for
+internal tools. A share button on InSite or Paycom is clutter at best, and at
+worst it invites sending a borrower a link to a staff login page. It is on for
+the seven links an LO actually sends out: her business card, her application
+link, secure document upload, Buyer's Edge, Product Spotlight, her reviews, and
+her bio page.
+
 ## How identity works (no login)
 
 Each LO gets their own link:
@@ -150,6 +166,13 @@ using the shared plus custom link model?**
 ## Open items
 
 - Borrower Portal / POS still points at a placeholder URL and needs the real one.
+  It also sounds borrower-facing, so it may want the share flag once the real
+  URL is in.
+- Loan Services and Upload Docs are filed as personal links, but neither URL
+  contains anything identifying the LO. If those pages really are the same for
+  everyone they belong in shared links, where every LO would get them for free.
+- Sharing is on for seven of Amy's links. Loan Services and her social profiles
+  are off pending a decision on whether she sends those to clients.
 - "The Loan Lab (Team Chat)" is filed under Amy's own links, not shared, until
   it is confirmed that every LO can open that Teams group chat deep link.
 - The Loan Origination Systems category is now empty, since Borrower Portal
