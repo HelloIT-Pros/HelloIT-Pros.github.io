@@ -275,6 +275,35 @@ using the shared plus custom link model?**
   it stays hidden from the LO view while empty. Worth deleting if nothing is
   coming.
 
+## Staleness, and why the worker looks the way it does
+
+Every wrong-looking-app bug in this project has come from the service worker,
+so it is worth knowing what it does and why.
+
+- **Network first, cache only as the offline fallback.** It used to be cache
+  first for instant launches, which meant an installed phone booted a build
+  from days earlier, showing the old name and no headshot, with nothing on
+  screen to say it was stale.
+- **Only `res.ok` responses are cached**, because `fetch()` resolves for a 404
+  too, and caching an error page outlives whatever caused it. Cross-origin
+  images are the exception: an opaque response reports `ok` false even when it
+  is fine, so those are judged on response type.
+- **Requests are made with `cache: "no-cache"`.** GitHub Pages serves assets
+  with `max-age=600` and a plain `fetch()` is answered from the browser's own
+  HTTP cache, so "network first" was still handing back a build up to ten
+  minutes old: the worker asked the network, the network never got asked. A
+  conditional request is nearly free with an ETag and means a deploy reaches a
+  phone on its next load.
+- **`CACHE_VERSION` and `BUILD` are bumped together** on every deploy that
+  changes a cached file. The build stamp shows in the Profile footer, so a
+  stale phone can be identified by looking at it rather than by guessing.
+
+`tests/` is not a thing here, but `sw-test.mjs`, `admin-test.mjs` and
+`app-smoke.mjs` in the working directory cover this. The worker's cache mode
+is asserted against the source rather than observed, because Chromium under
+automation revalidates everything and the observable version of that check
+passes even with the bug put back.
+
 ## Testing locally
 
 Service workers need `http://localhost` or HTTPS. They do not register over

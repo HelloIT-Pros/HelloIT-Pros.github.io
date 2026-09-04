@@ -1,7 +1,7 @@
 // Bump this on every deploy that changes any cached file. It is what
 // invalidates old caches on LOs' phones. A stale bump means they keep
 // seeing yesterday's app shell.
-const CACHE_VERSION = "homespire360-v12";
+const CACHE_VERSION = "homespire360-v13";
 const SHELL_CACHE = `${CACHE_VERSION}-shell`;
 const DATA_CACHE = `${CACHE_VERSION}-data`;
 
@@ -56,7 +56,12 @@ self.addEventListener("fetch", (event) => {
    * rather than in this repo, and an installed app opened with no signal should
    * still show the LO their own face rather than a gap where it was.
    */
-  if (crossOrigin && event.request.destination !== "image") return;
+  /* `destination` is the reliable signal but is missing on older Safari, so
+     fall back to the file extension there rather than losing the headshot. */
+  const looksLikeImage =
+    event.request.destination === "image" ||
+    /\.(png|jpe?g|webp|gif|svg)$/i.test(url.pathname);
+  if (crossOrigin && !looksLikeImage) return;
 
   const isData =
     crossOrigin ||
@@ -74,8 +79,31 @@ self.addEventListener("fetch", (event) => {
    * stale. While this app is being changed daily, being current matters more
    * than saving a round trip on launch.
    */
+  /*
+   * Revalidate rather than trusting the HTTP cache.
+   *
+   * GitHub Pages serves assets with max-age=600, and a plain fetch() is
+   * answered from the browser's own HTTP cache, so "network first" was still
+   * handing back a build up to ten minutes old: the worker asked the network,
+   * the network never got asked. cache: "no-cache" forces a conditional
+   * request, which an ETag makes almost free, and means a deploy reaches a
+   * phone on its next load instead of when a timer happens to expire.
+   *
+   * The Request is rebuilt from the URL rather than from event.request because
+   * a navigation request cannot be cloned with a different cache mode. Cache
+   * writes still key off the original request.
+   */
+  const asked = crossOrigin
+    ? event.request
+    : new Request(url.href, {
+        cache: "no-cache",
+        credentials: "same-origin",
+        headers: event.request.headers,
+        redirect: "follow",
+      });
+
   event.respondWith(
-    fetch(event.request)
+    fetch(asked)
       .then((res) => {
         // fetch() resolves for 404 and 500 too, so guard on ok. Caching an
         // error page would outlive whatever caused it and is exactly how a
