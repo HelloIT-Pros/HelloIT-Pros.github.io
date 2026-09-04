@@ -1,83 +1,26 @@
-// Bump this on every deploy that changes any cached file. It is what
-// invalidates old caches on LOs' phones. A stale bump means they keep
-// seeing yesterday's app shell.
-const CACHE_VERSION = "homespire360-v5";
-const SHELL_CACHE = `${CACHE_VERSION}-shell`;
-const DATA_CACHE = `${CACHE_VERSION}-data`;
-
-const SHELL_FILES = [
-  "./",
-  "index.html",
-  "admin.html",
-  "manifest.webmanifest",
-  "css/styles.css",
-  "js/icons.js",
-  "js/data.js",
-  "js/app.js",
-  "js/admin.js",
-  "icons/icon-192.png",
-  "icons/icon-512.png",
-  "icons/icon-maskable-192.png",
-  "icons/icon-maskable-512.png",
-  "icons/apple-touch-icon.png",
-  "icons/favicon-32.png",
-];
-
-self.addEventListener("install", (event) => {
-  event.waitUntil(
-    caches.open(SHELL_CACHE).then((cache) => cache.addAll(SHELL_FILES))
-  );
+/*
+ * The app moved to /homespire360/. This file exists only to retire the service
+ * worker that was registered under the old scope. Without it, a copy already
+ * installed on someone's phone keeps serving its cached shell offline and never
+ * sees the redirect.
+ *
+ * Browsers re-fetch this file on their normal update check, so an installed
+ * copy picks this up on a launch while online, clears itself, and reloads onto
+ * the new address.
+ */
+self.addEventListener("install", () => {
   self.skipWaiting();
 });
 
 self.addEventListener("activate", (event) => {
   event.waitUntil(
-    caches.keys().then((keys) =>
-      Promise.all(
-        keys
-          .filter((key) => key !== SHELL_CACHE && key !== DATA_CACHE)
-          .map((key) => caches.delete(key))
-      )
-    )
-  );
-  self.clients.claim();
-});
+    (async () => {
+      const keys = await caches.keys();
+      await Promise.all(keys.map((key) => caches.delete(key)));
+      await self.registration.unregister();
 
-self.addEventListener("fetch", (event) => {
-  const url = new URL(event.request.url);
-  if (event.request.method !== "GET" || url.origin !== self.location.origin) {
-    return; // let cross-origin (the actual portal/marketing links) hit the network untouched
-  }
-
-  if (url.pathname.endsWith("data/config.json") || url.pathname.includes("/photos/")) {
-    // Network-first: LOs should see fresh links (and LO headshots added later
-    // via admin, without us hardcoding each filename below) the moment
-    // they're online, but the app still works offline on the last-known copy.
-    event.respondWith(
-      fetch(event.request)
-        .then((res) => {
-          const copy = res.clone();
-          caches.open(DATA_CACHE).then((cache) => cache.put(event.request, copy));
-          return res;
-        })
-        .catch(() => caches.match(event.request))
-    );
-    return;
-  }
-
-  // App shell: cache-first for instant loads, refresh the cache in the background.
-  event.respondWith(
-    caches.match(event.request).then((cached) => {
-      const network = fetch(event.request)
-        .then((res) => {
-          if (res.ok) {
-            const copy = res.clone();
-            caches.open(SHELL_CACHE).then((cache) => cache.put(event.request, copy));
-          }
-          return res;
-        })
-        .catch(() => cached);
-      return cached || network;
-    })
+      const windows = await self.clients.matchAll({ type: "window" });
+      windows.forEach((client) => client.navigate(client.url));
+    })()
   );
 });

@@ -13,13 +13,23 @@ admin backend come after this validates, not before.
 
 | What | Where |
 | --- | --- |
-| LO app | https://helloit-pros.github.io/homespire/LOlife/ |
-| Admin | https://helloit-pros.github.io/homespire/LOlife/admin.html |
-| Amy's install link | https://helloit-pros.github.io/homespire/LOlife/index.html?lo=amy-leblanc |
+| LO app | https://helloit-pros.github.io/homespire360/ |
+| Admin | https://helloit-pros.github.io/homespire360/admin.html |
+| Amy's install link | https://helloit-pros.github.io/homespire360/index.html?lo=amy-leblanc |
 
-The folder is still named `LOlife` on purpose. The app was renamed to Homespire
-360, but the URL stayed put so home screen icons that are already installed
-keep working.
+The app used to live at `/homespire/LOlife/`, named after the original concept.
+That path still holds a redirect page, so shared links, bookmarks, and copies
+already installed on a phone still reach the app. The redirect carries the
+`?lo=` slug across, and it retires the service worker that was registered under
+the old scope, without which an installed copy would keep serving its own
+cached shell and never follow the move.
+
+Favorites and the remembered profile survive the move on their own: both paths
+sit on the same origin, so they share `localStorage`.
+
+Anyone who already installed the app should still delete and re-add the home
+screen icon. That is what picks up the new address and the new app icon, since
+iOS caches both at install time.
 
 ## What is in the box
 
@@ -71,7 +81,7 @@ from personal ones in the LO view: they all just work.
 Each LO gets their own link:
 
 ```
-https://helloit-pros.github.io/homespire/LOlife/index.html?lo=amy-leblanc
+https://helloit-pros.github.io/homespire360/index.html?lo=amy-leblanc
 ```
 
 That is the link they tap once to install. After that the app remembers them on

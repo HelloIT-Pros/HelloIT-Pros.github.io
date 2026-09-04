@@ -2,49 +2,97 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
-  <title>Homespire 360</title>
-  <meta name="description" content="Every link, portal, and shortcut you need at Homespire, in one place." />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Homespire 360 has moved</title>
+  <link rel="icon" type="image/png" sizes="32x32" href="/homespire360/icons/favicon-32.png" />
+  <noscript><meta http-equiv="refresh" content="0; url=/homespire360/" /></noscript>
+  <style>
+    :root { color-scheme: light; }
+    body {
+      margin: 0;
+      min-height: 100vh;
+      display: grid;
+      place-items: center;
+      padding: 24px;
+      background: #fff;
+      color: #0f1115;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+      -webkit-font-smoothing: antialiased;
+      text-align: center;
+    }
+    .wrap { max-width: 320px; }
+    img { width: 64px; height: 64px; border-radius: 16px; display: block; margin: 0 auto 18px; }
+    h1 { font-size: 19px; font-weight: 800; letter-spacing: -0.01em; margin: 0 0 6px; }
+    p { font-size: 14px; line-height: 1.5; color: #6b7280; margin: 0 0 18px; }
+    a {
+      display: inline-block;
+      background: #2e0a5a;
+      color: #fff;
+      text-decoration: none;
+      font-size: 14px;
+      font-weight: 700;
+      padding: 11px 18px;
+      border-radius: 999px;
+    }
+  </style>
+  <script>
+    /*
+     * This is the app's old address. It stays here so shared links, bookmarks,
+     * and already-installed copies still reach the right place.
+     *
+     * The service worker registered under this old scope has to be retired
+     * first, otherwise an installed copy keeps serving its own cached shell
+     * and never follows the redirect. Favorites and the remembered profile
+     * survive the move on their own: both paths are the same origin, so they
+     * share localStorage.
+     */
+    (function () {
+      var target = "/homespire360/index.html" + window.location.search + window.location.hash;
 
-  <link rel="manifest" href="manifest.webmanifest" />
-  <meta name="theme-color" content="#FFFFFF" />
+      function go() {
+        window.location.replace(target);
+      }
 
-  <link rel="icon" type="image/png" sizes="32x32" href="icons/favicon-32.png" />
-  <link rel="icon" type="image/png" sizes="192x192" href="icons/icon-192.png" />
+      if (!("serviceWorker" in navigator)) {
+        go();
+        return;
+      }
 
-  <!-- iOS home screen support (Safari ignores the manifest for some of this) -->
-  <link rel="apple-touch-icon" href="icons/apple-touch-icon.png" />
-  <meta name="apple-mobile-web-app-capable" content="yes" />
-  <meta name="apple-mobile-web-app-status-bar-style" content="default" />
-  <meta name="apple-mobile-web-app-title" content="Homespire 360" />
+      var moved = false;
+      function once() {
+        if (moved) return;
+        moved = true;
+        go();
+      }
 
-  <link rel="stylesheet" href="css/styles.css" />
+      // Never hang on a slow unregister.
+      setTimeout(once, 1200);
+
+      navigator.serviceWorker
+        .getRegistrations()
+        .then(function (regs) {
+          return Promise.all(regs.map(function (reg) { return reg.unregister(); }));
+        })
+        .then(function () {
+          if (!window.caches || !caches.keys) return null;
+          return caches.keys().then(function (keys) {
+            return Promise.all(keys.map(function (key) { return caches.delete(key); }));
+          });
+        })
+        .then(once, once);
+    })();
+  </script>
 </head>
-<body class="app">
-  <header class="app-bar">
-    <button class="avatar-btn" id="avatar-btn" type="button" aria-label="Open profile">
-      <img id="avatar-img" alt="" hidden />
-      <span class="avatar-initials" id="avatar-initials"></span>
-    </button>
-  </header>
-
-  <div class="page-head">
-    <div class="brandline"><span class="brand-dot"></span><span id="brand-name">Homespire 360</span></div>
-    <h1 class="page-title" id="page-title">Welcome</h1>
-    <p class="page-sub" id="page-sub"></p>
+<body>
+  <div class="wrap">
+    <img src="/homespire360/icons/icon-192.png" alt="" />
+    <h1>Homespire 360 has moved</h1>
+    <p>Taking you to its new address now.</p>
+    <a id="go" href="/homespire360/">Open Homespire 360</a>
   </div>
-
-  <div id="install-slot"></div>
-  <div id="view-tools"></div>
-
-  <main id="main"></main>
-
-  <nav class="tab-bar" id="tab-bar" hidden></nav>
-
-  <p id="org-name" hidden></p>
-
-  <script src="js/icons.js"></script>
-  <script src="js/data.js"></script>
-  <script src="js/app.js"></script>
+  <script>
+    document.getElementById("go").href =
+      "/homespire360/index.html" + window.location.search + window.location.hash;
+  </script>
 </body>
 </html>

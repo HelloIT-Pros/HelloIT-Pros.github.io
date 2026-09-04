@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <title>Homespire 360</title>
+  <meta name="description" content="Every link, portal, and shortcut you need at Homespire, in one place." />
+
+  <link rel="manifest" href="manifest.webmanifest" />
+  <meta name="theme-color" content="#FFFFFF" />
+
+  <link rel="icon" type="image/png" sizes="32x32" href="icons/favicon-32.png" />
+  <link rel="icon" type="image/png" sizes="192x192" href="icons/icon-192.png" />
+
+  <!-- iOS home screen support (Safari ignores the manifest for some of this) -->
+  <link rel="apple-touch-icon" href="icons/apple-touch-icon.png" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="default" />
+  <meta name="apple-mobile-web-app-title" content="Homespire 360" />
+
+  <link rel="stylesheet" href="css/styles.css" />
+</head>
+<body class="app">
+  <header class="app-bar">
+    <button class="avatar-btn" id="avatar-btn" type="button" aria-label="Open profile">
+      <img id="avatar-img" alt="" hidden />
+      <span class="avatar-initials" id="avatar-initials"></span>
+    </button>
+  </header>
+
+  <div class="page-head">
+    <div class="brandline"><span class="brand-dot"></span><span id="brand-name">Homespire 360</span></div>
+    <h1 class="page-title" id="page-title">Welcome</h1>
+    <p class="page-sub" id="page-sub"></p>
+  </div>
+
+  <div id="install-slot"></div>
+  <div id="view-tools"></div>
+
+  <main id="main"></main>
+
+  <nav class="tab-bar" id="tab-bar" hidden></nav>
+
+  <p id="org-name" hidden></p>
+
+  <script src="js/icons.js"></script>
+  <script src="js/data.js"></script>
+  <script src="js/app.js"></script>
+</body>
+</html>
