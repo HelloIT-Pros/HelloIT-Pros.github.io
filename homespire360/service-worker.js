@@ -1,7 +1,7 @@
 // Bump this on every deploy that changes any cached file. It is what
 // invalidates old caches on LOs' phones. A stale bump means they keep
 // seeing yesterday's app shell.
-const CACHE_VERSION = "homespire360-v11";
+const CACHE_VERSION = "homespire360-v12";
 const SHELL_CACHE = `${CACHE_VERSION}-shell`;
 const DATA_CACHE = `${CACHE_VERSION}-data`;
 
@@ -45,11 +45,21 @@ self.addEventListener("activate", (event) => {
 
 self.addEventListener("fetch", (event) => {
   const url = new URL(event.request.url);
-  if (event.request.method !== "GET" || url.origin !== self.location.origin) {
-    return; // let cross-origin (the actual portal/marketing links) hit the network untouched
-  }
+  if (event.request.method !== "GET") return;
+
+  const crossOrigin = url.origin !== self.location.origin;
+
+  /*
+   * Cross-origin requests normally go straight to the network: they are the
+   * actual portal and marketing links, and caching those is not this app's job.
+   * Images are the exception. A headshot can now live on the company website
+   * rather than in this repo, and an installed app opened with no signal should
+   * still show the LO their own face rather than a gap where it was.
+   */
+  if (crossOrigin && event.request.destination !== "image") return;
 
   const isData =
+    crossOrigin ||
     url.pathname.endsWith("data/config.json") ||
     url.pathname.includes("/photos/") ||
     url.pathname.includes("/qr/");
@@ -70,7 +80,10 @@ self.addEventListener("fetch", (event) => {
         // fetch() resolves for 404 and 500 too, so guard on ok. Caching an
         // error page would outlive whatever caused it and is exactly how a
         // moved folder turns into a permanently broken install.
-        if (!res.ok) {
+        /* An opaque cross-origin image response reports status 0 and ok false
+           even when it is perfectly good, so judge those on type instead. */
+        const usable = res.ok || res.type === "opaque";
+        if (!usable) {
           return caches.match(event.request).then((cached) => cached || res);
         }
         const copy = res.clone();

@@ -40,7 +40,7 @@ manifest.webmanifest, service-worker.js   installable plus offline
 data/config.json    the link data: categories, shared links, LO roster
 js/icons.js         the line icon set (no emoji anywhere in the product)
 brand/              the Homespire mark, source of truth for the app icon
-photos/             LO headshots
+photos/             LO headshots committed here, when they are not linked
 qr/                 generated QR codes, one per LO
 css/, js/, icons/   everything else
 scripts/            make_icons.py and make_qr.py, both generate committed assets
@@ -153,6 +153,28 @@ what an admin came to change, and the shared ones are the same for everybody, so
 they should not be nine rows in the way. Links are grouped under a category
 heading rather than rendered as one block per category, so an empty category
 costs nothing to look at.
+
+### Headshots
+
+The headshot field takes either a URL or a path. A URL is the low friction
+option and the one to reach for first: the company website already hosts a
+square headshot for each LO, so pointing at it costs nothing and needs no
+export, resize, or commit.
+
+```
+https://homespirehomeloans.com/wp-content/uploads/2026/01/Edwin-Oquendo_2026_500x500.png
+photos/amy-leblanc.png
+```
+
+The tradeoff is that a URL can break in ways a committed file cannot: moved,
+renamed, or typed slightly wrong. So the admin loads it and says whether it
+resolves, along with its dimensions and whether it is square, and both the app
+and the admin fall back to initials rather than ever rendering a broken image.
+The service worker caches the image even though it is cross-origin, so an
+installed app opened with no signal still shows the LO their own face.
+
+Commit a file under `photos/` instead when the site has no usable headshot, or
+when the app must not depend on that site staying up.
 
 ### One LO is the template
 

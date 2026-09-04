@@ -160,11 +160,20 @@ function renderIdentity() {
   const img = el("avatar-img");
   const ini = el("avatar-initials");
   if (currentLo && currentLo.photo) {
+    /* A headshot can be a URL on another site now, so it can fail in ways a
+       committed file cannot: moved, renamed, or typed slightly wrong. Fall back
+       to initials rather than leaving a broken image in the corner of the app. */
+    img.onerror = () => {
+      img.hidden = true;
+      ini.textContent = initialsOf(currentLo.name);
+    };
     img.src = currentLo.photo;
     img.alt = currentLo.name;
     img.hidden = false;
     ini.textContent = "";
   } else {
+    img.onerror = null;
+    img.removeAttribute("src");
     img.hidden = true;
     ini.textContent = currentLo ? initialsOf(currentLo.name) : "";
   }
@@ -353,7 +362,7 @@ function renderSearchResults() {
 
 function renderProfile() {
   const photo = currentLo.photo
-    ? `<img class="profile-photo" src="${escapeHtml(currentLo.photo)}" alt="${escapeHtml(currentLo.name)}" />`
+    ? `<img class="profile-photo" id="profile-photo" src="${escapeHtml(currentLo.photo)}" alt="${escapeHtml(currentLo.name)}" />`
     : `<div class="profile-photo-fallback">${escapeHtml(initialsOf(currentLo.name))}</div>`;
 
   const qrLink = findQrLink();
@@ -484,6 +493,15 @@ function renderMain() {
   }
   if (currentView === "profile") {
     main.innerHTML = renderProfile();
+    const shot = el("profile-photo");
+    if (shot) {
+      shot.addEventListener("error", () => {
+        const fallback = document.createElement("div");
+        fallback.className = "profile-photo-fallback";
+        fallback.textContent = initialsOf(currentLo.name);
+        shot.replaceWith(fallback);
+      });
+    }
     const switchBtn = el("switch-profile-btn");
     if (switchBtn) switchBtn.addEventListener("click", switchProfile);
     const installBtn = el("profile-install-btn");

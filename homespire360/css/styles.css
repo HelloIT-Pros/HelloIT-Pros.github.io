@@ -1456,6 +1456,27 @@ body.admin {
   border-color: var(--purple-bright);
 }
 
+.field-note {
+  font-size: 11.5px;
+  line-height: 1.45;
+  color: var(--muted);
+}
+
+.field-note-ok {
+  color: #1e7e34;
+}
+
+.field-note-bad {
+  color: var(--danger);
+}
+
+/* An LO's headshot can be a URL on another site, so it can fail to load.
+   Never show the browser's broken image icon in its place. */
+.rail-avatar,
+.lo-avatar {
+  overflow: hidden;
+}
+
 .install-box {
   display: flex;
   align-items: center;

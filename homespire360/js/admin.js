@@ -539,7 +539,7 @@ function renderLoDetail(lo) {
   const links = [...lo.customLinks].sort(byCategoryThenOrder);
   const shared = [...state.genericLinks].sort(byCategoryThenOrder);
   const avatar = lo.photo
-    ? `<img class="lo-avatar" src="${escapeHtml(lo.photo)}" alt="" />`
+    ? `<img class="lo-avatar" id="lo-avatar" src="${escapeHtml(lo.photo)}" alt="" />`
     : `<span class="lo-avatar">${icon("user")}</span>`;
   const install = installUrlFor(lo.slug);
   const hasQr = links.some((l) => l.kind === "qr");
@@ -564,8 +564,13 @@ function renderLoDetail(lo) {
           <input data-field="title" value="${escapeHtml(lo.title || "")}" placeholder="Loan Officer" /></label>
         <label class="field"><span>URL slug</span>
           <input data-field="slug" class="mono" value="${escapeHtml(lo.slug)}" placeholder="first-last" /></label>
-        <label class="field"><span>Headshot path</span>
-          <input data-field="photo" class="mono" value="${escapeHtml(lo.photo || "")}" placeholder="photos/${escapeHtml(lo.slug)}.png" /></label>
+        <label class="field"><span>Headshot</span>
+          <input data-field="photo" class="mono" value="${escapeHtml(lo.photo || "")}" placeholder="https://... or photos/${escapeHtml(lo.slug)}.png" />
+          <span class="field-note" id="photo-note">${
+            lo.photo
+              ? `Checking...`
+              : `A link to the headshot on the company site, or a file committed under <span class="mono">photos/</span>.`
+          }</span></label>
       </div>
 
       <div class="install-box">
@@ -660,6 +665,49 @@ function renderDetail() {
     return;
   }
   panel.innerHTML = renderLoDetail(lo);
+  checkPhoto();
+}
+
+/**
+ * Say whether the headshot actually resolves. A path to a committed file is
+ * either there or not; a URL on another site can also be moved, renamed, or
+ * typed slightly wrong, and the only honest way to know is to load it. Without
+ * this the admin shows a broken image and leaves you guessing whose fault it is.
+ */
+let photoCheckToken = 0;
+function checkPhoto() {
+  const note = $("photo-note");
+  const shot = $("lo-avatar");
+  const lo = currentLo();
+  if (!note || !lo) return;
+
+  const value = (lo.photo || "").trim();
+  const token = ++photoCheckToken;
+
+  if (!value) {
+    note.className = "field-note";
+    note.innerHTML = `A link to the headshot on the company site, or a file committed under <span class="mono">photos/</span>.`;
+    return;
+  }
+
+  note.className = "field-note";
+  note.textContent = "Checking...";
+
+  const probe = new Image();
+  probe.onload = () => {
+    if (token !== photoCheckToken) return; // a newer keystroke already won
+    note.className = "field-note field-note-ok";
+    note.textContent = `Loads, ${probe.naturalWidth} by ${probe.naturalHeight}. ${
+      probe.naturalWidth === probe.naturalHeight ? "Square, which is what the app crops to." : "Not square, so the app will crop it to a circle from the centre."
+    }`;
+    if (shot && shot.tagName === "IMG") shot.src = value;
+  };
+  probe.onerror = () => {
+    if (token !== photoCheckToken) return;
+    note.className = "field-note field-note-bad";
+    note.textContent = "Will not load. The app falls back to initials, so this is safe to leave, but the link is wrong.";
+  };
+  probe.src = value;
 }
 
 function renderAll() {
@@ -693,6 +741,28 @@ document.querySelector(".admin-rail").addEventListener("click", (e) => {
   const nav = item.dataset.nav;
   select(nav === "lo" ? { type: "lo", slug: item.dataset.slug } : { type: nav, slug: null });
 });
+
+/**
+ * A headshot that will not load must never render as the browser's broken image
+ * icon. Error events do not bubble, but they do capture, so one listener per
+ * container covers every avatar through any number of re-renders.
+ */
+function swapBrokenAvatar(root, cls) {
+  root.addEventListener(
+    "error",
+    (e) => {
+      const el = e.target;
+      if (!el || el.tagName !== "IMG" || !el.classList.contains(cls)) return;
+      const span = document.createElement("span");
+      span.className = cls;
+      span.innerHTML = icon("user");
+      el.replaceWith(span);
+    },
+    true
+  );
+}
+swapBrokenAvatar(document.querySelector(".admin-rail"), "rail-avatar");
+swapBrokenAvatar($("detail"), "lo-avatar");
 
 $("rail-filter").addEventListener("input", (e) => {
   if (e.target.id !== "lo-filter") return;
@@ -832,12 +902,10 @@ $("detail").addEventListener("input", (e) => {
     return;
   }
   if (field === "photo") {
-    const shot = document.querySelector(".lo-avatar");
-    if (shot && shot.tagName === "IMG") {
-      shot.src = lo.photo;
-    } else if (lo.photo) {
-      renderDetail();
-    }
+    /* Do not point the visible avatar at a half typed URL, it just flickers a
+       broken image. The probe swaps it in once the value actually loads. */
+    if (!lo.photo) renderDetail();
+    checkPhoto();
     renderRail();
   }
 });
