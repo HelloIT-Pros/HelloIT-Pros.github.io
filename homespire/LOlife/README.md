@@ -1,4 +1,4 @@
-# LO Life — prototype
+# Homespire 360 — prototype
 
 A one-stop-shop PWA for Homespire loan officers: install it once, get every
 link you need — payroll, Encompass, marketing resources, your own
@@ -63,32 +63,27 @@ well, replacing this with a real backend + Entra SSO is a data-shape-compatible
 upgrade, not a rewrite — `config.json`'s shape is the same shape a real
 database would hold.
 
-## Deploying it
+## Deploying it (pick one, all free, ~2 minutes)
 
-This copy lives in the `HelloIT-Pros.github.io` repo, under
-`homespire/LOlife/`. GitHub Pages serves it automatically at:
+**Netlify (drag-and-drop, easiest):**
+1. Go to https://app.netlify.com/drop
+2. Drag this whole `lo-life-pwa` folder onto the page.
+3. You get a live HTTPS URL immediately. Redeploy by dragging the folder
+   again any time you export a new `config.json`.
 
+**Vercel:**
 ```
-https://helloit-pros.github.io/homespire/LOlife/
-```
-
-To publish a change: edit the files in this folder, then from inside the
-repo:
-
-```bash
-git add homespire/LOlife
-git commit -m "LOlife: <what changed>"
-git push
+npm i -g vercel
+cd lo-life-pwa
+vercel --prod
 ```
 
-GitHub Pages picks it up within about a minute of the push. No separate
-hosting account, build step, or dashboard needed.
+**GitHub Pages:**
+1. Push this folder to a GitHub repo.
+2. Repo Settings → Pages → deploy from the branch/folder.
+3. Your URL is `https://<username>.github.io/<repo>/`.
 
-If you ever want a standalone deployment instead (its own domain, its own
-repo), any static host works the same way — Netlify drag-and-drop
-(https://app.netlify.com/drop), Vercel (`vercel --prod`), or a plain
-`git clone` into GitHub Pages elsewhere. The app doesn't assume it's hosted
-at any particular path.
+Whichever you pick, once it's live, hand each LO their `?lo=slug` link.
 
 ## Installing it on a phone
 

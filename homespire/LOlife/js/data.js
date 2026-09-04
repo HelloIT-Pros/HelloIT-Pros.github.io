@@ -1,5 +1,5 @@
 /**
- * LO Life — shared data layer.
+ * Homespire 360 — shared data layer.
  *
  * Prototype storage model: a single config.json file is the source of truth,
  * checked into this deployed site. The admin screen edits a *working copy* in

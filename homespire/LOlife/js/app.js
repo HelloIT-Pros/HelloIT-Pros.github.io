@@ -4,16 +4,25 @@ function getSlugFromUrl() {
 }
 
 function renderHeader(config, lo) {
-  document.getElementById("brand-name").textContent = config.appName || "LO Life";
+  document.getElementById("brand-name").textContent = config.appName || "Homespire 360";
   document.getElementById("org-name").textContent = config.org || "";
   const title = document.getElementById("greeting");
   const subtitle = document.getElementById("subtitle");
+  const avatar = document.getElementById("avatar");
   if (lo) {
     title.textContent = `Hi, ${lo.name.split(" ")[0]}`;
     subtitle.textContent = lo.title || "Your shortcuts, all in one place.";
+    if (lo.photo) {
+      avatar.src = lo.photo;
+      avatar.alt = lo.name;
+      avatar.hidden = false;
+    } else {
+      avatar.hidden = true;
+    }
   } else {
     title.textContent = "Welcome";
     subtitle.textContent = "Everything you need at Homespire, in one place.";
+    avatar.hidden = true;
   }
 }
 
@@ -80,18 +89,63 @@ function renderLinks(config, lo) {
     )
     .join("");
 
-  if (lo) {
-    const footer = document.createElement("footer");
-    footer.className = "hint";
-    footer.innerHTML = `Not you? <button class="switch-user" id="switch-user-btn" style="display:inline">Switch profile</button>`;
-    main.appendChild(footer);
-    document.getElementById("switch-user-btn").addEventListener("click", () => {
-      const url = new URL(window.location.href);
-      url.searchParams.delete("lo");
-      localStorage.removeItem(LAST_LO_KEY);
-      window.location.href = url.toString();
-    });
+}
+
+function switchProfile() {
+  const url = new URL(window.location.href);
+  url.searchParams.delete("lo");
+  localStorage.removeItem(LAST_LO_KEY);
+  window.location.href = url.toString();
+}
+
+function renderProfile(config, lo) {
+  const main = document.getElementById("main");
+  main.innerHTML = `
+    <div class="profile-card">
+      ${lo.photo ? `<img src="${escapeHtml(lo.photo)}" alt="${escapeHtml(lo.name)}" class="avatar-large" />` : ""}
+      <h2>${escapeHtml(lo.name)}</h2>
+      <p class="role">${escapeHtml(lo.title || "")}</p>
+    </div>
+    <p class="profile-section-title">Account</p>
+    <button class="link-card" id="switch-user-btn" style="width:100%;text-align:left;font:inherit;">
+      <span class="link-icon">🔁</span>
+      <span class="link-label">Switch profile</span>
+      <span class="link-chevron">›</span>
+    </button>
+    <p class="small-note" style="padding:0 4px;">${escapeHtml(config.org || "")}</p>
+  `;
+  document.getElementById("switch-user-btn").addEventListener("click", switchProfile);
+}
+
+let currentView = "home";
+
+function renderView(config, lo) {
+  if (currentView === "profile") {
+    renderProfile(config, lo);
+  } else {
+    renderLinks(config, lo);
   }
+}
+
+function setupBottomNav(config, lo) {
+  const nav = document.getElementById("bottom-nav");
+  if (!lo) {
+    nav.hidden = true;
+    document.body.classList.remove("has-bottom-nav");
+    return;
+  }
+  nav.hidden = false;
+  document.body.classList.add("has-bottom-nav");
+  nav.querySelectorAll(".nav-item").forEach((btn) => {
+    btn.classList.toggle("active", btn.dataset.view === currentView);
+    btn.onclick = () => {
+      if (currentView === btn.dataset.view) return;
+      currentView = btn.dataset.view;
+      nav.querySelectorAll(".nav-item").forEach((b) => b.classList.toggle("active", b === btn));
+      renderView(config, lo);
+      window.scrollTo(0, 0);
+    };
+  });
 }
 
 function setupInstallBanner() {
@@ -105,7 +159,7 @@ function setupInstallBanner() {
     deferredPrompt = e;
     banner.hidden = false;
     banner.querySelector(".install-copy").textContent =
-      "Install LO Life on your home screen for one-tap access.";
+      "Install Homespire 360 on your home screen for one-tap access.";
     banner.querySelector(".install-action").textContent = "Install";
   });
 
@@ -125,7 +179,7 @@ function setupInstallBanner() {
   if (isIOS()) {
     banner.hidden = false;
     banner.querySelector(".install-copy").textContent =
-      "Add LO Life to your home screen: tap Share, then “Add to Home Screen.”";
+      "Add Homespire 360 to your home screen: tap Share, then “Add to Home Screen.”";
     banner.querySelector(".install-action").style.display = "none";
   }
 }
@@ -157,8 +211,10 @@ async function init() {
   if (lo) setLastLoSlug(lo.slug);
 
   renderHeader(config, lo);
+  setupBottomNav(config, lo);
   if (lo) {
-    renderLinks(config, lo);
+    currentView = "home";
+    renderView(config, lo);
   } else {
     renderPicker(config);
   }

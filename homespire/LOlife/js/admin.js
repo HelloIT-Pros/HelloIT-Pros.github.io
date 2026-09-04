@@ -1,5 +1,5 @@
 /**
- * LO Life — admin screen.
+ * Homespire 360 — admin screen.
  * Edits an in-memory `state` object (same shape as config.json), autosaves
  * to a localStorage draft on every change, and can export the result as a
  * downloadable config.json to redeploy. No backend, no login — see README.
@@ -203,6 +203,10 @@ function renderLOs() {
         <input data-field="title" value="${escapeHtml(lo.title || "")}" placeholder="Title / NMLS #" />
         <input data-field="slug" value="${escapeHtml(lo.slug)}" placeholder="url-slug" />
       </div>
+      <div class="row" style="grid-template-columns: auto 1fr;">
+        ${lo.photo ? `<img src="${escapeHtml(lo.photo)}" alt="" class="avatar" style="width:32px;height:32px;">` : `<span class="avatar" style="width:32px;height:32px;background:#EEF2F7;"></span>`}
+        <input data-field="photo" value="${escapeHtml(lo.photo || "")}" placeholder="Photo URL (e.g. photos/${escapeHtml(lo.slug)}.png)" />
+      </div>
       <p class="small-note">Install link: <span class="lo-link-url">${escapeHtml(installUrl)}</span>
         <button class="btn btn-ghost copy-install-btn" data-url="${escapeHtml(installUrl)}" style="padding:2px 8px;">Copy</button>
       </p>
@@ -282,8 +286,16 @@ document.getElementById("los-list").addEventListener("input", (e) => {
   }
   lo[field] = e.target.value;
   markDirty();
+  if (field === "photo") {
+    const preview = loBlock.querySelector(".row img.avatar, .row span.avatar");
+    if (preview && preview.tagName === "IMG") {
+      preview.src = lo.photo;
+    } else if (lo.photo) {
+      renderLOs(); // swap the empty placeholder for a real <img> once a URL is entered
+    }
+  }
   // name/title changes don't need a full re-render to stay usable,
-  // but keep the header + install link in sync:
+  // but keep the header + input focus in sync where it matters:
   loBlock.querySelector(".lo-block-header strong").textContent = lo.name || "Unnamed LO";
 });
 

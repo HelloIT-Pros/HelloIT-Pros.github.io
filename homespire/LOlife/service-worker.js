@@ -1,7 +1,7 @@
 // Bump this on every deploy that changes any cached file — it's what
 // invalidates old caches on LOs' phones. A stale bump means they keep
 // seeing yesterday's app shell.
-const CACHE_VERSION = "lo-life-v1";
+const CACHE_VERSION = "lo-life-v2";
 const SHELL_CACHE = `${CACHE_VERSION}-shell`;
 const DATA_CACHE = `${CACHE_VERSION}-data`;
 
@@ -47,9 +47,10 @@ self.addEventListener("fetch", (event) => {
     return; // let cross-origin (the actual portal/marketing links) hit the network untouched
   }
 
-  if (url.pathname.endsWith("data/config.json")) {
-    // Network-first: LOs should see fresh links the moment they're online,
-    // but the app still works offline on the last-known copy.
+  if (url.pathname.endsWith("data/config.json") || url.pathname.includes("/photos/")) {
+    // Network-first: LOs should see fresh links (and LO headshots added later
+    // via admin, without us hardcoding each filename below) the moment
+    // they're online, but the app still works offline on the last-known copy.
     event.respondWith(
       fetch(event.request)
         .then((res) => {

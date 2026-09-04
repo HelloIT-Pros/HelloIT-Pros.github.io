@@ -1,7 +1,9 @@
 :root {
-  --navy: #0D2A4A;
-  --navy-dark: #081b30;
-  --gold: #C9A25A;
+  /* Brand accents pulled from the 2026-2027 roadmap deck — app stays mostly
+     white/light; these are used sparingly for header, badges, and active states. */
+  --navy: #2E0A5A;       /* deep purple, replaces the earlier placeholder navy */
+  --navy-dark: #160329;  /* deepest purple, used for pressed/darker states */
+  --gold: #F5C842;       /* brand gold, replaces the earlier placeholder gold */
   --bg: #F5F6F8;
   --card: #FFFFFF;
   --text: #1A1F27;
@@ -9,6 +11,7 @@
   --border: #E4E7EB;
   --danger: #B3261E;
   --radius: 14px;
+  --bottom-nav-height: 60px;
   color-scheme: light;
 }
 
@@ -49,8 +52,36 @@ body { padding-bottom: env(safe-area-inset-bottom, 0); }
   display: inline-block;
 }
 
+.app-header .identity {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-top: 10px;
+}
+
+.avatar {
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 2px solid rgba(255,255,255,0.5);
+  flex-shrink: 0;
+  background: rgba(255,255,255,0.15);
+}
+
+.avatar-large {
+  width: 96px;
+  height: 96px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 3px solid var(--card);
+  box-shadow: 0 2px 10px rgba(0,0,0,0.12);
+  display: block;
+  margin: 0 auto 12px;
+}
+
 .app-header h1 {
-  margin: 10px 0 2px;
+  margin: 0 0 2px;
   font-size: 26px;
   line-height: 1.2;
 }
@@ -76,6 +107,69 @@ main {
   max-width: 640px;
   margin: 0 auto;
   padding: 16px 16px 40px;
+}
+
+body.has-bottom-nav main {
+  padding-bottom: calc(var(--bottom-nav-height) + 40px + env(safe-area-inset-bottom, 0px));
+}
+
+.bottom-nav {
+  position: fixed;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: calc(var(--bottom-nav-height) + env(safe-area-inset-bottom, 0px));
+  padding-bottom: env(safe-area-inset-bottom, 0px);
+  background: #fff;
+  border-top: 1px solid var(--border);
+  display: flex;
+  z-index: 20;
+}
+
+.nav-item {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 2px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: var(--muted);
+  font-size: 11px;
+  font-weight: 600;
+}
+
+.nav-item .nav-icon { font-size: 20px; line-height: 1; }
+
+.nav-item.active { color: var(--navy); }
+.nav-item.active .nav-icon { filter: none; }
+
+.profile-card {
+  text-align: center;
+  padding: 24px 20px 8px;
+}
+
+.profile-card h2 {
+  margin: 0 0 2px;
+  font-size: 19px;
+}
+
+.profile-card .role {
+  color: var(--muted);
+  font-size: 13px;
+  margin: 0 0 20px;
+}
+
+.profile-section-title {
+  font-size: 13px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: var(--muted);
+  margin: 4px 4px 8px;
+  text-align: left;
 }
 
 .install-banner {
@@ -159,7 +253,7 @@ main {
   font-weight: 700;
   text-transform: uppercase;
   color: var(--navy);
-  background: rgba(201,162,90,0.25);
+  background: rgba(245,200,66,0.35);
   border-radius: 999px;
   padding: 2px 8px;
   margin-left: 6px;
