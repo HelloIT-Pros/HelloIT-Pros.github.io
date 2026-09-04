@@ -7,19 +7,25 @@
  *
  * Layout is master and detail: a left rail lists what can be edited (setup,
  * then one row per loan officer) and the right panel shows only the thing
- * selected. The previous single column rendered every category block for every
- * LO at once, which meant scrolling past seven headings and a read-only copy of
- * every shared link to reach one field. Selecting one subject at a time is what
- * lets this hold 50 LOs instead of about 3.
+ * selected.
+ *
+ * One LO is the template. Every other LO's link set is built from it, so
+ * adding someone is not 13 rows of typing: the categories, the labels and the
+ * share defaults come from the template, and where the template's URL contains
+ * that LO's own name or slug the new URL is filled in too. What is left is the
+ * handful of URLs only a person can know.
  */
 
 let state = null;
 let dirty = false;
 
-/* What the right panel is showing. type: "categories" | "shared" | "lo". */
+/* What the right panel is showing. type: "categories" | "shared" | "template" | "lo". */
 let selection = { type: "shared", slug: null };
 
 let loFilter = "";
+
+/* Link ids whose label cell is a free text input rather than the dropdown. */
+const customLabelIds = new Set();
 
 /* Below this many LOs a search box is just another control to read past. */
 const FILTER_THRESHOLD = 6;
@@ -101,6 +107,141 @@ function installUrlFor(slug) {
   return `${location.origin}${base}?lo=${encodeURIComponent(slug)}`;
 }
 
+function filledCount(lo) {
+  return lo.customLinks.filter(hasUrl).length;
+}
+
+/* ---------- the template ---------- */
+
+function templateSlug() {
+  if (state.templateSlug && state.los.some((l) => l.slug === state.templateSlug)) {
+    return state.templateSlug;
+  }
+  const first = sortedLos()[0];
+  return first ? first.slug : null;
+}
+
+function templateLo() {
+  return state.los.find((l) => l.slug === templateSlug()) || null;
+}
+
+function isTemplateLo(lo) {
+  return lo && lo.slug === templateSlug();
+}
+
+/**
+ * Only company systems get their URLs filled in for a new LO. Those follow a
+ * convention, so the address can be worked out from the person's name. A
+ * third party profile cannot: an Instagram handle, a LinkedIn vanity URL, a
+ * HiHello card id and an Experience.com account number are all chosen by the
+ * person or issued by that service, and a plausible looking wrong link is
+ * worse than a blank row someone has to fill in.
+ */
+const DEFAULT_AUTOFILL_DOMAINS = ["homespiremortgage.com", "homespirehomeloans.com"];
+
+function autofillDomains() {
+  return state.autofillDomains && state.autofillDomains.length
+    ? state.autofillDomains
+    : DEFAULT_AUTOFILL_DOMAINS;
+}
+
+function isCompanyUrl(url) {
+  try {
+    const host = new URL(url).hostname.toLowerCase();
+    return autofillDomains().some((d) => host === d || host.endsWith("." + d));
+  } catch {
+    return false;
+  }
+}
+
+/**
+ * The name-derived strings that show up inside an LO's own URLs. Longest first,
+ * so "amy-leblanc" is matched before "aleblanc" can match part of it.
+ */
+function tokensFor(lo) {
+  const parts = (lo.name || "").trim().split(/\s+/);
+  const clean = (s) => s.toLowerCase().replace(/[^a-z]/g, "");
+  const first = clean(parts[0] || "");
+  const last = clean(parts.slice(1).join(""));
+  const pairs = [
+    ["slug", lo.slug || ""],
+    ["initialLast", first && last ? first[0] + last : ""],
+  ].filter(([, value]) => value.length >= 4);
+  return pairs.sort((a, b) => b[1].length - a[1].length);
+}
+
+/**
+ * Turn one company URL into a pattern by swapping the template LO's own name
+ * out of it. A company URL with no name in it is the same for everyone, so it
+ * carries across as it stands. Anything off a company domain returns null and
+ * stays blank.
+ */
+function derivePattern(url, lo) {
+  if (!url || !isCompanyUrl(url)) return null;
+  let out = url;
+  tokensFor(lo).forEach(([key, value]) => {
+    if (out.toLowerCase().includes(value)) {
+      out = out.replace(new RegExp(value, "gi"), `{${key}}`);
+    }
+  });
+  return out;
+}
+
+function applyPattern(pattern, lo) {
+  let out = pattern;
+  const map = Object.fromEntries(tokensFor(lo));
+  Object.keys(map).forEach((key) => {
+    out = out.split(`{${key}}`).join(map[key]);
+  });
+  return /\{\w+\}/.test(out) ? "" : out; // a token this LO has no value for
+}
+
+/** One entry per row a new LO should start with, read off the template LO. */
+function linkTemplate() {
+  const src = templateLo();
+  if (!src) return [];
+  return [...src.customLinks].sort(byCategoryThenOrder).map((l) => ({
+    categoryId: l.categoryId,
+    label: l.label,
+    shareable: Boolean(l.shareable),
+    kind: l.kind || null,
+    image: l.image || null,
+    urlPattern: derivePattern(l.url, src),
+    order: l.order || 0,
+  })).map((t) => ({ ...t, perLo: Boolean(t.urlPattern && /\{\w+\}/.test(t.urlPattern)) }));
+}
+
+function templateEntry(categoryId, label) {
+  return linkTemplate().find((t) => t.categoryId === categoryId && t.label === label) || null;
+}
+
+function templateLinkFor(entry, lo) {
+  const link = {
+    id: uid("c"),
+    categoryId: entry.categoryId,
+    label: entry.label,
+    url: entry.urlPattern ? applyPattern(entry.urlPattern, lo) : "",
+    order: entry.order,
+  };
+  if (entry.shareable) link.shareable = true;
+  if (entry.kind) link.kind = entry.kind;
+  if (entry.image) link.image = entry.image.split(templateSlug()).join(lo.slug);
+  return link;
+}
+
+/** Template rows this LO has no row for yet, matched on category and label. */
+function missingTemplateEntries(lo) {
+  const have = new Set(lo.customLinks.map((l) => `${l.categoryId}||${l.label}`));
+  return linkTemplate().filter((t) => !have.has(`${t.categoryId}||${t.label}`));
+}
+
+/** True when this URL is exactly what the template would have filled in. */
+function isAutofilled(link, lo) {
+  const entry = templateEntry(link.categoryId, link.label);
+  if (!entry || !entry.urlPattern || !link.url) return false;
+  return applyPattern(entry.urlPattern, lo) === link.url;
+}
+
 /* ---------- shared field markup ---------- */
 
 function categoryOptions(selectedId) {
@@ -112,6 +253,20 @@ function categoryOptions(selectedId) {
     .join("");
 }
 
+/**
+ * Labels come from the template so the same destination is called the same
+ * thing for every LO. Anything genuinely one-off goes through Custom label.
+ */
+function labelOptions(categoryId, current) {
+  const known = [...new Set(linkTemplate().filter((t) => t.categoryId === categoryId).map((t) => t.label))];
+  if (current && !known.includes(current)) known.unshift(current);
+  return (
+    known
+      .map((l) => `<option value="${escapeHtml(l)}" ${l === current ? "selected" : ""}>${escapeHtml(l)}</option>`)
+      .join("") + `<option value="__custom__">Custom label...</option>`
+  );
+}
+
 function iconOptions(selectedName) {
   const current = resolveIconName(selectedName);
   return ICON_CHOICES.map(
@@ -121,31 +276,39 @@ function iconOptions(selectedName) {
 }
 
 /**
- * The per-link share toggle. Off by default: most links are internal tools and
- * a share button on those is clutter that invites sending the wrong thing to a
- * borrower. Turn it on for anything outward facing.
+ * The per-link share switch. Off by default for internal tools: a share button
+ * on those is clutter that invites sending a borrower a staff login page. New
+ * LOs inherit the template's setting per label, so this rarely needs touching.
  */
-function shareToggle(link) {
+function shareSwitch(link) {
   return `
-    <label class="share-toggle" title="Show a share button on this link in the app">
+    <label class="switch" title="Show a share button on this link in the app">
       <input type="checkbox" data-field="shareable" ${link.shareable ? "checked" : ""} />
-      <span>Share</span>
+      <span class="switch-track"><span class="switch-knob"></span></span>
     </label>`;
 }
 
-/**
- * Label and URL lead, because those are what gets edited. Category comes after
- * them: the rows are already grouped under a category heading, so the select is
- * there to move a link, not to tell you where it is.
- */
-function linkRowMarkup(link, kind) {
+function labelCell(link, useDropdown) {
+  if (!useDropdown || customLabelIds.has(link.id)) {
+    return `<input data-field="label" value="${escapeHtml(link.label)}" placeholder="Label" aria-label="Label" />`;
+  }
+  return `<select data-field="label" aria-label="Label">${labelOptions(link.categoryId, link.label)}</select>`;
+}
+
+/** Category, then label, then URL, then share. */
+function linkRowMarkup(link, kind, lo) {
   const isQr = link.kind === "qr";
+  const needsUrl = !hasUrl(link);
+  const auto = lo && isAutofilled(link, lo);
   return `
-    <div class="frow has-toggle${isQr ? " is-qr-row" : ""}" data-kind="${kind}" data-id="${escapeHtml(link.id)}">
-      <input data-field="label" value="${escapeHtml(link.label)}" placeholder="Label" aria-label="Label" />
-      <input data-field="url" class="mono" value="${escapeHtml(link.url)}" placeholder="https://" aria-label="URL" />
+    <div class="frow has-toggle${isQr ? " is-qr-row" : ""}${needsUrl ? " needs-url" : ""}" data-kind="${kind}" data-id="${escapeHtml(link.id)}">
       <select class="quiet-select" data-field="categoryId" aria-label="Category">${categoryOptions(link.categoryId)}</select>
-      ${shareToggle(link)}
+      ${labelCell(link, kind === "custom")}
+      <span class="url-cell">
+        <input data-field="url" class="mono" value="${escapeHtml(link.url || "")}" placeholder="${needsUrl ? "Paste the URL" : "https://"}" aria-label="URL" />
+        ${auto ? `<span class="auto-tag" title="Filled in from the template using this LO's name. Worth a check.">Auto</span>` : ""}
+      </span>
+      ${shareSwitch(link)}
       <button class="del-btn" data-action="${kind === "custom" ? "remove-link" : "remove-generic"}" type="button" aria-label="Remove ${escapeHtml(link.label)}">${icon("trash")}</button>
     </div>`;
 }
@@ -154,7 +317,7 @@ function linkRowMarkup(link, kind) {
 function linkTableHead() {
   return `
     <div class="table-head">
-      <span>Label</span><span>URL</span><span>Category</span><span>Share</span><span></span>
+      <span>Category</span><span>Label</span><span>URL</span><span>Share</span><span></span>
     </div>`;
 }
 
@@ -163,7 +326,7 @@ function linkTableHead() {
  * grouping stays legible without rendering a heading for every category
  * whether or not it holds anything.
  */
-function groupedLinkRows(links, kind) {
+function groupedLinkRows(links, kind, lo) {
   let lastCategory = null;
   return links
     .map((link) => {
@@ -172,14 +335,14 @@ function groupedLinkRows(links, kind) {
           ? ""
           : `<p class="group-label">${escapeHtml(catLabel(link.categoryId))}</p>`;
       lastCategory = link.categoryId;
-      return head + linkRowMarkup(link, kind);
+      return head + linkRowMarkup(link, kind, lo);
     })
     .join("");
 }
 
 /* ---------- left rail ---------- */
 
-function railItem({ nav, slug, name, sub, iconName, photo, active }) {
+function railItem({ nav, slug, name, sub, iconName, photo, active, tag }) {
   const avatar = photo
     ? `<img class="rail-avatar" src="${escapeHtml(photo)}" alt="" />`
     : `<span class="rail-avatar">${icon(iconName || "user")}</span>`;
@@ -187,7 +350,7 @@ function railItem({ nav, slug, name, sub, iconName, photo, active }) {
     <button class="rail-item" type="button" data-nav="${nav}" ${slug ? `data-slug="${escapeHtml(slug)}"` : ""} ${active ? 'aria-current="true"' : ""}>
       ${avatar}
       <span class="rail-text">
-        <span class="rail-name">${escapeHtml(name)}</span>
+        <span class="rail-name">${escapeHtml(name)}${tag ? `<span class="rail-tag">${escapeHtml(tag)}</span>` : ""}</span>
         <span class="rail-sub">${escapeHtml(sub)}</span>
       </span>
     </button>`;
@@ -196,6 +359,7 @@ function railItem({ nav, slug, name, sub, iconName, photo, active }) {
 function renderRail() {
   const catCount = state.categories.length;
   const sharedCount = state.genericLinks.length;
+  const tpl = templateLo();
 
   $("rail-setup").innerHTML =
     railItem({
@@ -211,6 +375,13 @@ function renderRail() {
       sub: `${sharedCount} ${sharedCount === 1 ? "link" : "links"} every LO gets`,
       iconName: "users",
       active: selection.type === "shared",
+    }) +
+    railItem({
+      nav: "template",
+      name: "New LO template",
+      sub: tpl ? `${linkTemplate().length} rows, from ${tpl.name}` : "No template LO yet",
+      iconName: "copy",
+      active: selection.type === "template",
     });
 
   const all = sortedLos();
@@ -240,15 +411,17 @@ function renderRail() {
 
   $("rail-los").innerHTML = shown
     .map((lo) => {
-      const count = lo.customLinks.length;
-      const bits = [lo.title, `${count} ${count === 1 ? "link" : "links"}`].filter(Boolean);
+      const total = lo.customLinks.length;
+      const gap = total - filledCount(lo);
+      const bits = [lo.title, gap ? `${gap} need a URL` : `${total} ${total === 1 ? "link" : "links"}`];
       return railItem({
         nav: "lo",
         slug: lo.slug,
         name: lo.name || lo.slug,
-        sub: bits.join(" · "),
+        sub: bits.filter(Boolean).join(" · "),
         photo: lo.photo,
         active: selection.type === "lo" && selection.slug === lo.slug,
+        tag: isTemplateLo(lo) ? "Template" : "",
       });
     })
     .join("");
@@ -297,7 +470,66 @@ function renderSharedDetail() {
         </div>
         <button class="btn btn-outline btn-sm" data-action="add-generic" type="button">${icon("plus")}<span>Add link</span></button>
       </div>
-      ${links.length ? linkTableHead() + groupedLinkRows(links, "generic") : `<p class="panel-empty">No shared links yet.</p>`}
+      ${links.length ? linkTableHead() + groupedLinkRows(links, "generic", null) : `<p class="panel-empty">No shared links yet.</p>`}
+    </section>`;
+}
+
+/* ---------- detail: the template ---------- */
+
+function renderTemplateDetail() {
+  const tpl = templateLo();
+  const entries = linkTemplate();
+  const options = sortedLos()
+    .map(
+      (lo) =>
+        `<option value="${escapeHtml(lo.slug)}" ${lo.slug === templateSlug() ? "selected" : ""}>${escapeHtml(lo.name || lo.slug)}</option>`
+    )
+    .join("");
+
+  let lastCategory = null;
+  const rows = entries
+    .map((t) => {
+      const head =
+        t.categoryId === lastCategory
+          ? ""
+          : `<p class="group-label">${escapeHtml(catLabel(t.categoryId))}</p>`;
+      lastCategory = t.categoryId;
+      const url = t.urlPattern
+        ? `<span class="mono">${escapeHtml(t.urlPattern)}</span>`
+        : `<span class="mono faint-text">Blank until someone pastes it</span>`;
+      const source = t.urlPattern
+        ? t.perLo
+          ? `<span class="tag tag-auto">Auto per LO</span>`
+          : `<span class="tag tag-auto">Same for all</span>`
+        : `<span class="tag">Paste per LO</span>`;
+      return `${head}
+        <div class="tpl-row">
+          <span class="lbl">${escapeHtml(t.label)}</span>
+          ${url}
+          ${source}
+          <span class="tag">${t.shareable ? "Share on" : "Share off"}</span>
+        </div>`;
+    })
+    .join("");
+
+  return `
+    <section class="panel">
+      <div class="panel-head">
+        <div>
+          <h2>New LO template</h2>
+          <p class="panel-sub">Every new loan officer starts with these rows: same categories, same labels, same share settings. It is read off one LO rather than kept separately, so there is nothing to maintain twice.</p>
+        </div>
+      </div>
+
+      <label class="field field-inline"><span>Template LO</span>
+        <select id="template-select">${options || `<option value="">No loan officers yet</option>`}</select></label>
+
+      ${
+        entries.length
+          ? `<p class="small-note">A new LO's URL is filled in wherever the address sits on a company domain (${escapeHtml(autofillDomains().join(", "))}): with their own name swapped in where ${escapeHtml(tpl ? firstNameOf(tpl) : "the template LO")}'s appears, or copied as it stands where the URL is the same for everyone. Anything on a third party service stays blank, because a handle or an account id cannot be worked out from a name and a wrong link is worse than an empty row. A blank row never shows in the app.</p>
+             ${rows}`
+          : `<p class="panel-empty">The template LO has no personal links yet.</p>`
+      }
     </section>`;
 }
 
@@ -311,13 +543,15 @@ function renderLoDetail(lo) {
     : `<span class="lo-avatar">${icon("user")}</span>`;
   const install = installUrlFor(lo.slug);
   const hasQr = links.some((l) => l.kind === "qr");
+  const gap = links.length - filledCount(lo);
+  const missing = missingTemplateEntries(lo);
 
   return `
     <section class="panel lo-identity" data-lo="${escapeHtml(lo.slug)}">
       <div class="lo-head">
         ${avatar}
         <div class="lo-head-text">
-          <h2>${escapeHtml(lo.name || "Unnamed LO")}</h2>
+          <h2>${escapeHtml(lo.name || "Unnamed LO")}${isTemplateLo(lo) ? `<span class="rail-tag">Template</span>` : ""}</h2>
           <p class="panel-sub">${escapeHtml(lo.title || "No title set")}</p>
         </div>
         <button class="del-btn del-btn-labelled" data-action="remove-lo" type="button">${icon("trash")}<span>Remove</span></button>
@@ -345,13 +579,25 @@ function renderLoDetail(lo) {
       <div class="panel-head">
         <div>
           <h2>${escapeHtml(firstNameOf(lo))}'s own links</h2>
-          <p class="panel-sub">Only ${escapeHtml(firstNameOf(lo))} sees these, on top of the shared links below.</p>
+          <p class="panel-sub">${
+            gap
+              ? `${gap} of ${links.length} still need a URL. A row with no URL does not show in the app, so it is safe to leave one for later.`
+              : `Only ${escapeHtml(firstNameOf(lo))} sees these, on top of the shared links below.`
+          }</p>
         </div>
         <button class="btn btn-outline btn-sm" data-action="add-link" type="button">${icon("plus")}<span>Add link</span></button>
       </div>
       ${
+        missing.length
+          ? `<div class="tpl-prompt">
+               <p>${missing.length} template ${missing.length === 1 ? "row is" : "rows are"} missing for ${escapeHtml(firstNameOf(lo))}.</p>
+               <button class="btn btn-primary btn-sm" data-action="fill-template" type="button">${icon("plus")}<span>Add the missing ${missing.length}</span></button>
+             </div>`
+          : ""
+      }
+      ${
         links.length
-          ? linkTableHead() + groupedLinkRows(links, "custom")
+          ? linkTableHead() + groupedLinkRows(links, "custom", lo)
           : `<p class="panel-empty">No personal links yet.</p>`
       }
       ${
@@ -400,6 +646,10 @@ function renderDetail() {
     panel.innerHTML = renderSharedDetail();
     return;
   }
+  if (selection.type === "template") {
+    panel.innerHTML = renderTemplateDetail();
+    return;
+  }
 
   const lo = currentLo();
   if (!lo) {
@@ -419,6 +669,7 @@ function renderAll() {
 
 function select(next) {
   selection = next;
+  customLabelIds.clear();
   renderAll();
   $("detail").scrollTop = 0;
 }
@@ -463,13 +714,19 @@ function showAddLoForm(show) {
     box.innerHTML = "";
     return;
   }
+  const tpl = templateLo();
+  const count = linkTemplate().length;
   box.innerHTML = `
     <input id="new-lo-name" placeholder="Full name" aria-label="New loan officer's full name" />
     <div class="add-lo-actions">
       <button class="btn btn-primary btn-sm" id="create-lo-btn" type="button">Add</button>
       <button class="btn btn-quiet btn-sm" id="cancel-lo-btn" type="button">Cancel</button>
     </div>
-    <p class="add-lo-note">The slug and install link come from the name. Everything else is editable after.</p>`;
+    <p class="add-lo-note">${
+      tpl && count
+        ? `Starts with all ${count} rows from ${escapeHtml(tpl.name)}, URLs filled in where they can be derived from the name.`
+        : `The slug and install link come from the name.`
+    }</p>`;
   $("new-lo-name").focus();
 }
 
@@ -481,7 +738,13 @@ function createLo() {
     return;
   }
   const slug = uniqueSlug(slugify(name));
-  state.los.push({ slug, name, title: "", photo: "", customLinks: [] });
+  const lo = { slug, name, title: "", photo: "", customLinks: [] };
+  lo.title = (templateLo() && templateLo().title) || "";
+  /* Photo stays blank on purpose. Pointing it at a file nobody has added yet
+     would put a broken image in the rail and in the app; the empty state falls
+     back to a person icon, and the field's placeholder says where to put it. */
+  lo.customLinks = linkTemplate().map((entry) => templateLinkFor(entry, lo));
+  state.los.push(lo);
   showAddLoForm(false);
   markDirty();
   select({ type: "lo", slug });
@@ -515,20 +778,23 @@ $("detail").addEventListener("input", (e) => {
     return;
   }
 
-  if (row && row.dataset.kind === "generic") {
-    const link = state.genericLinks.find((l) => l.id === row.dataset.id);
-    if (!link) return;
-    link[field] = e.target.value;
-    markDirty();
-    return;
-  }
-
-  if (row && row.dataset.kind === "custom") {
+  if (row && (row.dataset.kind === "generic" || row.dataset.kind === "custom")) {
+    const isGeneric = row.dataset.kind === "generic";
     const lo = currentLo();
-    const link = lo && lo.customLinks.find((l) => l.id === row.dataset.id);
+    const list = isGeneric ? state.genericLinks : lo ? lo.customLinks : [];
+    const link = list.find((l) => l.id === row.dataset.id);
     if (!link) return;
     link[field] = e.target.value;
     markDirty();
+    if (field === "url") {
+      /* The row's own state changed: it may no longer be blank, and it is no
+         longer whatever the template filled in. Repaint just this row's marks
+         rather than the panel, which would take the caret with it. */
+      row.classList.toggle("needs-url", !hasUrl(link));
+      const tag = row.querySelector(".auto-tag");
+      if (tag) tag.remove();
+      if (!isGeneric) renderRail();
+    }
     return;
   }
 
@@ -540,6 +806,7 @@ $("detail").addEventListener("input", (e) => {
   if (field === "slug") {
     const next = slugify(e.target.value);
     if (!next || next === lo.slug || state.los.some((l) => l.slug === next)) return;
+    if (state.templateSlug === lo.slug) state.templateSlug = next;
     lo.slug = next;
     selection.slug = next;
     const url = installUrlFor(next);
@@ -586,9 +853,16 @@ $("detail").addEventListener(
   true
 );
 
-/* ---------- detail events: selects and checkboxes ---------- */
+/* ---------- detail events: selects and switches ---------- */
 
 $("detail").addEventListener("change", (e) => {
+  if (e.target.id === "template-select") {
+    state.templateSlug = e.target.value;
+    markDirty();
+    renderAll();
+    return;
+  }
+
   const field = e.target.dataset.field;
   if (!field) return;
   const row = e.target.closest(".frow");
@@ -614,13 +888,42 @@ $("detail").addEventListener("change", (e) => {
     link.shareable = e.target.checked;
     if (!e.target.checked) delete link.shareable;
     markDirty();
-    return; // no re-render, it would drop focus off the checkbox
+    return; // no re-render, it would drop focus off the switch
   }
 
   if (field === "categoryId") {
     link.categoryId = e.target.value;
     markDirty();
     renderDetail(); // the row moves under its new category label
+    return;
+  }
+
+  /* Label picked from the dropdown. Choosing a template label brings the rest
+     of that row's setup with it: the share default, and the URL where it can
+     be derived from this LO's name. */
+  if (field === "label" && e.target.tagName === "SELECT") {
+    if (e.target.value === "__custom__") {
+      customLabelIds.add(link.id);
+      renderDetail();
+      const box = document.querySelector(`.frow[data-id="${link.id}"] input[data-field="label"]`);
+      if (box) {
+        box.focus();
+        box.select();
+      }
+      return;
+    }
+    link.label = e.target.value;
+    const entry = !isGeneric && lo ? templateEntry(link.categoryId, link.label) : null;
+    if (entry) {
+      if (entry.shareable) link.shareable = true;
+      else delete link.shareable;
+      if (!hasUrl(link) && entry.urlPattern) link.url = applyPattern(entry.urlPattern, lo);
+      if (entry.kind) link.kind = entry.kind;
+      if (entry.image) link.image = entry.image.split(templateSlug()).join(lo.slug);
+    }
+    markDirty();
+    renderDetail();
+    if (!isGeneric) renderRail();
   }
 });
 
@@ -680,7 +983,7 @@ $("detail").addEventListener("click", (e) => {
       id: uid("g"),
       categoryId: sortedCategories()[0].id,
       label: "New link",
-      url: "https://",
+      url: "",
       order: state.genericLinks.length + 1,
     });
     markDirty();
@@ -697,14 +1000,22 @@ $("detail").addEventListener("click", (e) => {
 
   if (!lo) return;
 
+  if (action === "fill-template") {
+    missingTemplateEntries(lo).forEach((entry) => lo.customLinks.push(templateLinkFor(entry, lo)));
+    markDirty();
+    renderAll();
+    return;
+  }
+
   if (action === "add-link") {
     if (!state.categories.length) return alert("Add a category first.");
     const categoryId = sortedCategories()[0].id;
+    const known = linkTemplate().filter((t) => t.categoryId === categoryId);
     lo.customLinks.push({
       id: uid("c"),
       categoryId,
-      label: "New link",
-      url: "https://",
+      label: known.length ? known[0].label : "New link",
+      url: "",
       order: lo.customLinks.filter((l) => l.categoryId === categoryId).length + 1,
     });
     markDirty();
@@ -762,10 +1073,12 @@ $("reset-btn").addEventListener("click", async () => {
 
 async function boot() {
   state = await loadConfig({ allowDraft: true });
+  if (!state.templateSlug) state.templateSlug = templateSlug(); // older drafts
   paintStaticButtons();
 
   const first = sortedLos()[0];
   selection = first ? { type: "lo", slug: first.slug } : { type: "shared", slug: null };
+  customLabelIds.clear();
 
   renderAll();
 

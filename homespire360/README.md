@@ -154,8 +154,40 @@ they should not be nine rows in the way. Links are grouped under a category
 heading rather than rendered as one block per category, so an empty category
 costs nothing to look at.
 
-Adding an LO takes a name. The slug and the install link are derived from it,
-and everything else is editable after.
+### One LO is the template
+
+Adding a loan officer takes a name, not 13 rows of typing. One LO is marked as
+the template (`templateSlug` in `config.json`, Amy today), and every new LO is
+built from theirs: same categories, same labels, same share settings. The
+template is read off that LO rather than stored separately, so there is nothing
+to keep in step by hand.
+
+URLs are filled in where they can be worked out, and only where they can:
+
+- On a company domain (`autofillDomains` in `config.json`) with the template
+  LO's name or slug in the path, the new LO's own name goes in and the row is
+  tagged **Auto** so it still gets a look.
+- On a company domain with no name in it, the URL is the same for everyone and
+  carries across as it stands.
+- On any third party service, the row is left blank. An Instagram handle, a
+  LinkedIn vanity URL, a HiHello card id and an Experience.com account number
+  are issued by that service or chosen by the person, and a plausible looking
+  wrong link is worse than an empty row someone has to fill in.
+
+For Amy's set that means six of thirteen rows are ready with no typing.
+
+A row with no URL does not show in the app, so a half-finished LO is safe to
+hand out or leave for later: they see the shared links and whatever of their own
+is filled in, never a row that goes nowhere. The admin counts what is left, in
+the rail and above the rows.
+
+Labels come from the template as a dropdown, so the same destination is called
+the same thing for every LO and nobody types "Buyers Edge" one week and "Buyer's
+Edge" the next. Picking a template label also brings its share default and its
+derivable URL with it. Anything genuinely one-off goes through **Custom label**.
+
+An LO who predates the template, or who was half created before it existed, gets
+a one-click **Add the missing N** prompt rather than needing the rows rebuilt.
 
 Every change saves instantly to a **local draft** in your browser
 (`localStorage`) so nothing is lost on refresh, but it is not live for anyone

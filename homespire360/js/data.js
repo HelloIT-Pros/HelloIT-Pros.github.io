@@ -21,7 +21,7 @@ const FAVORITES_KEY_PREFIX = "lolife_favorites_";
 
 /* Shown in the Profile footer. Bump with the service worker cache version so a
    phone can be identified as stale by looking at it. */
-const BUILD = "v9";
+const BUILD = "v10";
 
 /**
  * Fetch the published config.
@@ -110,6 +110,12 @@ function toggleFavorite(slug, linkId) {
   return on;
 }
 
+/** A link is only real once it has somewhere to go. */
+function hasUrl(link) {
+  const url = (link.url || "").trim();
+  return url !== "" && url !== "https://" && url !== "http://";
+}
+
 function findLO(config, slug) {
   return config.los.find((lo) => lo.slug === slug) || null;
 }
@@ -132,6 +138,10 @@ function buildLinksByCategory(config, lo) {
   const push = (link, mine) => {
     const cat = cats[link.categoryId];
     if (!cat) return; // orphaned categoryId, skip rather than crash
+    /* A new LO starts with the whole template of rows and no URLs yet. Those
+       are a to-do list for the admin, not links: showing them would give the
+       LO rows that go nowhere while their setup is half done. */
+    if (!hasUrl(link)) return;
     if (!grouped[cat.id]) grouped[cat.id] = { category: cat, links: [] };
     grouped[cat.id].links.push({ ...link, mine });
   };

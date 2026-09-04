@@ -1,7 +1,7 @@
 // Bump this on every deploy that changes any cached file. It is what
 // invalidates old caches on LOs' phones. A stale bump means they keep
 // seeing yesterday's app shell.
-const CACHE_VERSION = "homespire360-v9";
+const CACHE_VERSION = "homespire360-v10";
 const SHELL_CACHE = `${CACHE_VERSION}-shell`;
 const DATA_CACHE = `${CACHE_VERSION}-data`;
 
