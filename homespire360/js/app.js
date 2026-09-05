@@ -298,10 +298,11 @@ function renderHome() {
     .map((section) =>
       groupMarkup(
         section.category,
-        section.links.map((link) => linkRow(link, section.category)).join("") +
-          (section.category.id === pipelineCat && typeof pipelineRowMarkup === "function"
-            ? pipelineRowMarkup()
-            : "")
+        /* First in its group, not last. It is the reason to open the app, and
+           an LO should not scroll past six shortcuts to reach it. */
+        (section.category.id === pipelineCat && typeof pipelineRowMarkup === "function"
+          ? pipelineRowMarkup()
+          : "") + section.links.map((link) => linkRow(link, section.category)).join("")
       )
     )
     .join("");
