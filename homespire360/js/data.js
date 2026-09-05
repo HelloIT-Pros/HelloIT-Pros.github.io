@@ -16,12 +16,16 @@ function escapeHtml(str) {
 
 const CONFIG_URL = "data/config.json";
 const LOCAL_DRAFT_KEY = "lolife_config_draft_v1";
+/* The published config the draft was started from, and where a draft goes when
+   it turns out to be based on something older than what is published now. */
+const DRAFT_BASE_KEY = "lolife_draft_base_v1";
+const DRAFT_STASH_KEY = "lolife_config_draft_stash_v1";
 const LAST_LO_KEY = "lolife_last_lo";
 const FAVORITES_KEY_PREFIX = "lolife_favorites_";
 
 /* Shown in the Profile footer. Bump with the service worker cache version so a
    phone can be identified as stale by looking at it. */
-const BUILD = "v13";
+const BUILD = "v14";
 
 /**
  * Fetch the published config.
@@ -67,6 +71,82 @@ function saveDraft(config) {
 
 function clearDraft() {
   localStorage.removeItem(LOCAL_DRAFT_KEY);
+  localStorage.removeItem(DRAFT_BASE_KEY);
+}
+
+/**
+ * A cheap content fingerprint, used to tell an edit in progress from an
+ * abandoned one.
+ *
+ * A draft is only safe to prefer over the published config if it was started
+ * from the config that is published now. If the published config has moved on
+ * since, the draft is behind it, and silently loading it means the admin shows
+ * fewer LOs than the app is actually serving while inviting you to export and
+ * overwrite the difference. So the draft records what it was based on, and
+ * anything that does not match is treated as a conflict rather than as truth.
+ */
+function fingerprint(obj) {
+  const str = JSON.stringify(obj);
+  let hash = 0;
+  for (let i = 0; i < str.length; i += 1) {
+    hash = (hash * 31 + str.charCodeAt(i)) | 0;
+  }
+  return `${str.length}:${(hash >>> 0).toString(36)}`;
+}
+
+function readDraftBase() {
+  try {
+    return localStorage.getItem(DRAFT_BASE_KEY) || "";
+  } catch {
+    return "";
+  }
+}
+
+function writeDraftBase(value) {
+  try {
+    localStorage.setItem(DRAFT_BASE_KEY, value);
+  } catch {
+    /* private mode, the conflict check just degrades to treating drafts as stale */
+  }
+}
+
+/** Park a draft that is behind the published config, without throwing it away. */
+function stashDraft(config) {
+  try {
+    localStorage.setItem(DRAFT_STASH_KEY, JSON.stringify(config, null, 2));
+  } catch {
+    /* nothing to do, it stays in memory for this session */
+  }
+}
+
+function readStashedDraft() {
+  try {
+    const raw = localStorage.getItem(DRAFT_STASH_KEY);
+    return raw ? JSON.parse(raw) : null;
+  } catch {
+    return null;
+  }
+}
+
+function clearStashedDraft() {
+  localStorage.removeItem(DRAFT_STASH_KEY);
+}
+
+/**
+ * Everything `b` has that `a` does not. Used to say out loud what loading or
+ * exporting one version instead of the other would cost.
+ */
+function configDiff(a, b) {
+  const has = (list, key, value) => list.some((x) => x[key] === value);
+  return {
+    los: b.los.filter((l) => !has(a.los, "slug", l.slug)).map((l) => l.name || l.slug),
+    shared: b.genericLinks.filter((l) => !has(a.genericLinks, "id", l.id)).map((l) => l.label),
+    categories: b.categories.filter((c) => !has(a.categories, "id", c.id)).map((c) => c.label),
+  };
+}
+
+function diffIsEmpty(diff) {
+  return !diff.los.length && !diff.shared.length && !diff.categories.length;
 }
 
 function getLastLoSlug() {

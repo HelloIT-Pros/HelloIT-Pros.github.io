@@ -213,7 +213,23 @@ a one-click **Add the missing N** prompt rather than needing the rows rebuilt.
 
 Every change saves instantly to a **local draft** in your browser
 (`localStorage`) so nothing is lost on refresh, but it is not live for anyone
-else yet. To publish:
+else yet.
+
+That draft records which published config it was started from, and this matters.
+A draft is only the truth if the thing it was based on is still what is
+published. This screen used to prefer any saved draft, which meant one left in a
+browser weeks earlier loaded as if it were current: the admin showed one loan
+officer while the app was serving three, and the status pill invited an export
+that would have deleted the other two along with three shared links. Now a draft
+whose base no longer matches is parked rather than loaded, the published version
+opens instead, and a bar across the top names exactly what the parked copy is
+missing, with one button to open it anyway and one to discard it.
+
+Export has its own guard for the same reason: it replaces the published config
+wholesale, so anything live that is missing from what you are exporting is named
+before it goes, not after.
+
+To publish:
 
 1. Click **Export config.json**, which downloads the updated file.
 2. Replace `data/config.json` with the downloaded file.

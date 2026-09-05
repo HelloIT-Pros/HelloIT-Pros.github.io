@@ -19,6 +19,12 @@
 let state = null;
 let dirty = false;
 
+/* The published config as fetched at boot, kept so the admin can always say
+   what an export would add or remove rather than just writing over it. */
+let publishedConfig = null;
+let publishedFingerprint = "";
+let conflictDraft = null;
+
 /* What the right panel is showing. type: "categories" | "shared" | "template" | "lo". */
 let selection = { type: "shared", slug: null };
 
@@ -1110,6 +1116,26 @@ $("detail").addEventListener("click", (e) => {
 /* ---------- Export and reset ---------- */
 
 $("export-btn").addEventListener("click", () => {
+  /* Last line of defence. Exporting replaces the published config wholesale, so
+     anything live that is not in this state disappears from every LO's app.
+     Name it before that happens rather than after. */
+  const losing = configDiff(state, publishedConfig);
+  if (!diffIsEmpty(losing)) {
+    const parts = [];
+    if (losing.los.length) parts.push(`loan officers: ${losing.los.join(", ")}`);
+    if (losing.shared.length) parts.push(`shared links: ${losing.shared.join(", ")}`);
+    if (losing.categories.length) parts.push(`categories: ${losing.categories.join(", ")}`);
+    if (
+      !confirm(
+        `This export drops things that are live in the app right now.\n\n${parts.join(
+          "\n"
+        )}\n\nPublishing it removes them for every LO. Continue?`
+      )
+    ) {
+      return;
+    }
+  }
+
   const blob = new Blob([JSON.stringify(state, null, 2)], { type: "application/json" });
   const url = URL.createObjectURL(blob);
   const a = document.createElement("a");
@@ -1133,15 +1159,47 @@ $("copy-json-btn").addEventListener("click", () => {
 $("reset-btn").addEventListener("click", async () => {
   if (!confirm("Discard local changes and reload the published config.json?")) return;
   clearDraft();
+  clearStashedDraft();
+  conflictDraft = null;
   await boot();
   markClean();
 });
 
 /* ---------- Boot ---------- */
 
+/**
+ * Decide what to open, and never quietly open something behind the live app.
+ *
+ * A draft is only the truth if it was started from the config that is
+ * published now. This screen used to prefer any saved draft, which meant a
+ * draft left in a browser weeks ago loaded as if it were current: the admin
+ * showed one loan officer while the app was serving three, with the status pill
+ * inviting an export that would have deleted the other two and three shared
+ * links. So a draft whose base does not match gets parked, the published config
+ * opens instead, and the difference is spelled out on screen.
+ */
 async function boot() {
-  state = await loadConfig({ allowDraft: true });
+  publishedConfig = await loadConfig();
+  publishedFingerprint = fingerprint(publishedConfig);
+
+  const draft = readDraft();
+  const base = readDraftBase();
+  conflictDraft = null;
+
+  if (draft && base && base === publishedFingerprint) {
+    state = draft; // a genuine edit in progress against the current published config
+  } else if (draft) {
+    conflictDraft = draft;
+    stashDraft(draft);
+    clearDraft();
+    state = publishedConfig;
+  } else {
+    state = publishedConfig;
+    conflictDraft = readStashedDraft(); // a conflict flagged earlier and not yet resolved
+  }
+
   if (!state.templateSlug) state.templateSlug = templateSlug(); // older drafts
+  writeDraftBase(publishedFingerprint);
   paintStaticButtons();
 
   const first = sortedLos()[0];
@@ -1149,12 +1207,73 @@ async function boot() {
   customLabelIds.clear();
 
   renderAll();
+  renderConflictBar();
 
-  const hasDraft = Boolean(readDraft());
-  markClean(hasDraft ? "Unsaved changes. Export to publish." : "No unsaved changes");
-  if (hasDraft) {
+  const editing = state !== publishedConfig;
+  markClean(editing ? "Unsaved changes. Export to publish." : "No unsaved changes");
+  if (editing) {
     $("status-pill").className = "status-pill status-draft";
   }
 }
+
+/* ---------- the parked draft ---------- */
+
+function renderConflictBar() {
+  const bar = $("conflict-bar");
+  if (!bar) return;
+
+  if (!conflictDraft || state === conflictDraft) {
+    bar.hidden = true;
+    bar.innerHTML = "";
+    return;
+  }
+
+  const missing = configDiff(conflictDraft, publishedConfig);
+  const extra = configDiff(publishedConfig, conflictDraft);
+  const list = (label, items) =>
+    items.length ? `<li><strong>${escapeHtml(label)}:</strong> ${escapeHtml(items.join(", "))}</li>` : "";
+
+  bar.hidden = false;
+  bar.innerHTML = `
+    <div class="conflict-body">
+      <p class="conflict-lead">This browser had unpublished edits from an earlier session, started from a version of the app that has since changed. The published version is open, so nothing live has been touched.</p>
+      <ul class="conflict-list">
+        ${
+          diffIsEmpty(missing)
+            ? `<li>Those edits are not missing anything that is published.</li>`
+            : `${list("Not in those edits", missing.los)}${list("Shared links not in those edits", missing.shared)}${list("Categories not in those edits", missing.categories)}`
+        }
+        ${list("Only in those edits", extra.los)}${list("Shared links only in those edits", extra.shared)}
+      </ul>
+      <div class="conflict-actions">
+        <button class="btn btn-outline btn-sm" data-conflict="restore" type="button">Open those edits instead</button>
+        <button class="btn btn-quiet btn-sm" data-conflict="drop" type="button">Discard them</button>
+      </div>
+    </div>`;
+}
+
+document.addEventListener("click", (e) => {
+  const btn = e.target.closest("[data-conflict]");
+  if (!btn) return;
+
+  if (btn.dataset.conflict === "restore") {
+    state = conflictDraft;
+    if (!state.templateSlug) state.templateSlug = templateSlug();
+    saveDraft(state);
+    const first = sortedLos()[0];
+    selection = first ? { type: "lo", slug: first.slug } : { type: "shared", slug: null };
+    renderAll();
+    renderConflictBar();
+    markDirty();
+    return;
+  }
+
+  if (btn.dataset.conflict === "drop") {
+    if (!confirm("Discard those earlier edits for good?")) return;
+    conflictDraft = null;
+    clearStashedDraft();
+    renderConflictBar();
+  }
+});
 
 boot();

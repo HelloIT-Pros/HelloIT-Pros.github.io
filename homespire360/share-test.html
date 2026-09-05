@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <title>Share test</title>
+  <meta name="theme-color" content="#FFFFFF" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <link rel="apple-touch-icon" href="icons/apple-touch-icon.png" />
+  <style>
+    /*
+     * Throwaway probe. Deliberately self contained: no styles.css, no app JS.
+     * If this page behaves differently from the app, the difference should be
+     * the thing being tested and nothing else.
+     */
+    * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+    body {
+      margin: 0;
+      padding: calc(env(safe-area-inset-top, 0px) + 20px) 16px 40px;
+      font: 15px/1.5 -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      color: #0f1115;
+      background: #fff;
+    }
+    h1 { font-size: 20px; margin: 0 0 4px; letter-spacing: -0.02em; }
+    .sub { color: #6b7280; font-size: 13px; margin: 0 0 18px; }
+    .card { border: 1px solid #e7e9ee; border-radius: 14px; padding: 14px; margin-bottom: 14px; }
+    .card h2 { font-size: 13px; margin: 0 0 10px; text-transform: uppercase; letter-spacing: 0.08em; color: #9aa1ac; }
+    button {
+      display: block; width: 100%; margin-bottom: 8px; padding: 14px 16px;
+      font: inherit; font-weight: 700; border: 0; border-radius: 12px;
+      background: #2e0a5a; color: #fff; cursor: pointer;
+    }
+    button.secondary { background: #fff; color: #0f1115; border: 1px solid #e7e9ee; }
+    button:disabled { opacity: 0.45; }
+    .env { display: grid; grid-template-columns: auto 1fr; gap: 4px 12px; font-size: 13px; }
+    .env dt { color: #6b7280; }
+    .env dd { margin: 0; font-weight: 600; word-break: break-word; }
+    .yes { color: #1e7e34; }
+    .no { color: #b3261e; }
+    #log { font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-size: 11.5px; white-space: pre-wrap; word-break: break-word; margin: 0; }
+    .hint { font-size: 12.5px; color: #6b7280; margin: 10px 0 0; }
+  </style>
+</head>
+<body>
+  <h1>Share test</h1>
+  <p class="sub">Proving a generated PDF reaches Outlook from this device before anything is built on top of it.</p>
+
+  <div class="card">
+    <h2>Environment</h2>
+    <dl class="env" id="env"></dl>
+    <p class="hint">Run this twice: once in Safari, then again from the icon after Add to Home Screen. The installed case is the one in doubt.</p>
+  </div>
+
+  <div class="card">
+    <h2>The tests</h2>
+    <button id="btn-sync" disabled>1. Share PDF, made in advance</button>
+    <button id="btn-async" disabled>2. Share PDF, made on tap</button>
+    <button class="secondary" id="btn-text">3. Share a text file</button>
+    <button class="secondary" id="btn-download" disabled>4. Download the PDF instead</button>
+    <p class="hint">
+      1 and 2 differ only in whether the PDF exists before the tap. iOS can drop
+      the user gesture across an await, so if 1 works and 2 does not, the real
+      feature has to build the file before the Send button is live. 3 separates
+      "files cannot be shared" from "PDFs cannot be shared". 4 confirms the PDF
+      is valid when nothing is shared at all.
+    </p>
+  </div>
+
+  <div class="card">
+    <h2>Log</h2>
+    <pre id="log">Loading pdf-lib...</pre>
+  </div>
+
+  <script src="vendor/pdf-lib.min.js"></script>
+  <script>
+    const logEl = document.getElementById("log");
+    let lines = [];
+    function log(msg) {
+      const t = new Date().toLocaleTimeString([], { hour12: false });
+      lines.push(`${t}  ${msg}`);
+      logEl.textContent = lines.join("\n");
+    }
+
+    /* ---------- environment ---------- */
+
+    const standalone =
+      window.matchMedia("(display-mode: standalone)").matches || window.navigator.standalone === true;
+
+    const env = {
+      "Opened as": standalone ? "installed app" : "browser tab",
+      "navigator.share": typeof navigator.share === "function",
+      "navigator.canShare": typeof navigator.canShare === "function",
+      "Secure context": window.isSecureContext,
+      "Service worker": Boolean(navigator.serviceWorker && navigator.serviceWorker.controller),
+      "pdf-lib": typeof PDFLib !== "undefined",
+    };
+    document.getElementById("env").innerHTML = Object.entries(env)
+      .map(([k, v]) => {
+        const val =
+          typeof v === "boolean"
+            ? `<span class="${v ? "yes" : "no"}">${v ? "yes" : "no"}</span>`
+            : v;
+        return `<dt>${k}</dt><dd>${val}</dd>`;
+      })
+      .join("");
+
+    /* ---------- make a small real PDF ---------- */
+
+    async function makePdf() {
+      const { PDFDocument, StandardFonts, rgb } = PDFLib;
+      const doc = await PDFDocument.create();
+      const page = doc.addPage([612, 792]); // US Letter
+      const font = await doc.embedFont(StandardFonts.Helvetica);
+      page.drawText("Homespire 360 share test", { x: 72, y: 700, size: 18, font, color: rgb(0.18, 0.04, 0.35) });
+      page.drawText(new Date().toString(), { x: 72, y: 674, size: 11, font, color: rgb(0.35, 0.35, 0.4) });
+      const bytes = await doc.save();
+      return new File([bytes], "homespire-share-test.pdf", { type: "application/pdf" });
+    }
+
+    /* One made up front, so a tap can call share() with nothing awaited in
+       between and the user gesture survives. */
+    let readyFile = null;
+
+    (async () => {
+      if (typeof PDFLib === "undefined") {
+        log("FAIL  pdf-lib did not load. Nothing else here will work.");
+        return;
+      }
+      try {
+        const t0 = performance.now();
+        readyFile = await makePdf();
+        log(`pdf-lib ready. Test PDF built in ${Math.round(performance.now() - t0)}ms, ${readyFile.size} bytes.`);
+        document.getElementById("btn-sync").disabled = false;
+        document.getElementById("btn-async").disabled = false;
+        document.getElementById("btn-download").disabled = false;
+
+        if (typeof navigator.canShare === "function") {
+          log(`canShare({files}) says ${navigator.canShare({ files: [readyFile] })}`);
+        } else {
+          log("canShare is missing, so a share can only be judged by trying it.");
+        }
+      } catch (err) {
+        log(`FAIL  could not build a PDF: ${err.name}: ${err.message}`);
+      }
+    })();
+
+    /* ---------- the share attempts ---------- */
+
+    function report(label, err) {
+      if (!err) {
+        log(`${label}: share() resolved. Check that the file actually arrived in Outlook.`);
+        return;
+      }
+      if (err.name === "AbortError") {
+        /* Dismissing the sheet rejects with AbortError. That is a cancel, not a
+           failure, and reading it as a failure would condemn a working setup. */
+        log(`${label}: AbortError. That means the sheet opened and was dismissed, which counts as working.`);
+        return;
+      }
+      log(`${label}: ${err.name}: ${err.message}`);
+    }
+
+    document.getElementById("btn-sync").addEventListener("click", () => {
+      if (!navigator.share) return log("1: navigator.share does not exist here.");
+      log("1: calling share() with the file already in hand, nothing awaited first.");
+      navigator
+        .share({ files: [readyFile], title: "Pre-approval letter", text: "Test attachment" })
+        .then(() => report("1"))
+        .catch((err) => report("1", err));
+    });
+
+    document.getElementById("btn-async").addEventListener("click", async () => {
+      if (!navigator.share) return log("2: navigator.share does not exist here.");
+      log("2: building the PDF first, then sharing. This is the case that can lose the gesture.");
+      try {
+        const file = await makePdf();
+        log(`2: built ${file.size} bytes, now calling share().`);
+        await navigator.share({ files: [file], title: "Pre-approval letter", text: "Test attachment" });
+        report("2");
+      } catch (err) {
+        report("2", err);
+      }
+    });
+
+    document.getElementById("btn-text").addEventListener("click", () => {
+      if (!navigator.share) return log("3: navigator.share does not exist here.");
+      const file = new File(["Homespire 360 share test\n" + new Date().toString()], "share-test.txt", {
+        type: "text/plain",
+      });
+      log("3: sharing a plain text file.");
+      navigator
+        .share({ files: [file], title: "Text test" })
+        .then(() => report("3"))
+        .catch((err) => report("3", err));
+    });
+
+    document.getElementById("btn-download").addEventListener("click", () => {
+      const url = URL.createObjectURL(readyFile);
+      const a = document.createElement("a");
+      a.href = url;
+      a.download = readyFile.name;
+      document.body.appendChild(a);
+      a.click();
+      a.remove();
+      setTimeout(() => URL.revokeObjectURL(url), 4000);
+      log("4: download triggered. If the PDF opens, the file itself is fine.");
+    });
+  </script>
+</body>
+</html>
