@@ -131,12 +131,14 @@ function pipelineTilesMarkup() {
     coverage = "in this data";
   }
 
+  /* Read-only on purpose. They are a status line, not navigation: My Pipeline
+     sits directly beneath them and is the one thing to tap. */
   const tile = (label, value, note, lead) => `
-    <button class="tile${lead ? " lead" : ""}" type="button" data-open-pipeline="1">
+    <div class="tile${lead ? " lead" : ""}">
       <span class="tile-label">${escapeHtml(label)}</span>
       <span class="tile-value">${escapeHtml(value)}</span>
       <span class="tile-note">${escapeHtml(note)}</span>
-    </button>`;
+    </div>`;
 
   return `
     <div class="tile-head">
@@ -580,14 +582,6 @@ function handleImportFile(input) {
   reader.readAsText(file);
 }
 
-function wirePipelineTiles() {
-  const slot = document.getElementById("stats-slot");
-  if (!slot) return;
-  slot.addEventListener("click", (e) => {
-    if (e.target.closest("[data-open-pipeline]")) openPipeline();
-  });
-}
-
 function renderPipelineTiles() {
   const slot = document.getElementById("stats-slot");
   if (!slot) return;
@@ -685,7 +679,6 @@ function wirePipelineSheet() {
 
 async function initPipeline() {
   wirePipelineSheet();
-  wirePipelineTiles();
   /* An import always wins. The sample exists so the feature is never an empty
      screen, not to compete with the LO's own data. */
   pipelineData = loadPipeline();
