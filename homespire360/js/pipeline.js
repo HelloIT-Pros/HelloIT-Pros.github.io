@@ -227,6 +227,53 @@ function loansForLo(loans, lo) {
 
 /* ---------- device storage ---------- */
 
+/**
+ * The sample that ships in this repo.
+ *
+ * Dates are stored as offsets from the day it is viewed rather than as fixed
+ * dates, so a committed sample never rots into a screen full of overdue loans.
+ * It is flagged sample:true all the way through and labelled on screen, because
+ * a demo that cannot be told from real data is how someone quotes a fake number
+ * in a real meeting.
+ */
+const SAMPLE_URL = "data/pipeline-sample.json";
+
+function offsetToIso(days, today = new Date()) {
+  if (days === undefined || days === null) return null;
+  const d = new Date(today.getFullYear(), today.getMonth(), today.getDate(), 12);
+  d.setDate(d.getDate() + days);
+  return d.toISOString().slice(0, 10);
+}
+
+async function loadSamplePipeline() {
+  try {
+    const res = await fetch(SAMPLE_URL, { cache: "no-store" });
+    if (!res.ok) return null;
+    const raw = await res.json();
+    const loans = (raw.loans || []).map((l) => ({
+      loanNumber: l.loanNumber,
+      borrowerName: l.borrowerName,
+      loanOfficer: l.loanOfficer,
+      nmls: l.nmls || "",
+      milestone: l.milestone,
+      loanPurpose: l.loanPurpose,
+      loanType: l.loanType,
+      loanAmount: l.loanAmount,
+      estClosingDate: offsetToIso(l.estClosingOffsetDays),
+      closedDateRaw: null,
+      appraisalOrdered: offsetToIso(l.appraisalOrderedOffsetDays),
+      rateLockExpires: offsetToIso(l.rateLockOffsetDays),
+      fundsReleased: offsetToIso(l.fundedOffsetDays),
+      cdSent: offsetToIso(l.cdSentOffsetDays),
+      loanProcessor: l.loanProcessor || "",
+      channel: l.channel || "",
+    }));
+    return { loans, sample: true, importedAt: new Date().toISOString(), fileName: "", officers: 0 };
+  } catch {
+    return null;
+  }
+}
+
 function loadPipeline() {
   try {
     const raw = localStorage.getItem(PIPELINE_KEY);

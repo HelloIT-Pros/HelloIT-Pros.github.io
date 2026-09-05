@@ -291,6 +291,45 @@ using the shared plus custom link model?**
   it stays hidden from the LO view while empty. Worth deleting if nothing is
   coming.
 
+## My Pipeline, and where loan data is allowed to live
+
+The pipeline screens read an Encompass CSV export. That file is named
+borrowers, loan amounts, loan types, closing dates and interest rates, and this
+site is public, so it can never be committed: anything in the repo is world
+readable and permanent in git history whatever a later commit does.
+
+Two datasets, two jobs.
+
+**The sample**, `data/pipeline-sample.json`, ships in the repo and loads when
+nothing has been imported, so the feature is never an empty screen. Nothing in
+it comes from a real record. `scripts/make_sample_pipeline.py` generates it from
+the *shape* of a real export: the amount distribution, the milestone and loan
+type mix, how far out closings sit, and how sparse the optional columns are. It
+is flagged `sample: true` and labelled on every screen it reaches, because a
+demo that cannot be told from real data is how a fabricated number ends up
+quoted in a real meeting. Its dates are offsets from the day it is viewed rather
+than fixed dates, so a committed sample never rots into a screen of overdue
+loans.
+
+**Real data** is imported by the LO on her own device and kept in that
+browser's `localStorage`. Nothing uploads. A refresh means importing again,
+which is the right cost for a prototype; production is the same screens reading
+from a database behind SSO, at which point only `loadPipeline` changes.
+
+The interest rate column is dropped at parse time rather than hidden, so there
+is no rate in storage for a later feature to leak.
+
+`no-pii-check.py` runs before every deploy and refuses to ship if a CSV, an
+Encompass header or a rate column reaches the repo, or if any sample record
+matches a real one.
+
+Two things about the export worth knowing, both of which produced wrong screens
+before they were understood. `CurrentMilestone` still reads "Funding" after the
+money has gone out, so completion keys off `FundingFundsReleased` instead;
+trusting the milestone showed finished loans as overdue. And `ClosedDate` is not
+a closed date: it equals `EstClosingDate` on 306 of 313 rows in a real export,
+so it is carried but never labelled as closed anywhere.
+
 ## Staleness, and why the worker looks the way it does
 
 Every wrong-looking-app bug in this project has come from the service worker,

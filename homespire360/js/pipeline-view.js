@@ -76,11 +76,13 @@ function addDays(iso, days) {
 
 function pipelineRowMarkup() {
   const loans = myLoans();
-  const sub = pipelineData
-    ? `${loans.length} loan${loans.length === 1 ? "" : "s"} from the ${pShortDate(
+  const sub = !pipelineData
+    ? "Import your pipeline to see it here"
+    : pipelineData.sample
+    ? `${loans.length} sample loan${loans.length === 1 ? "" : "s"}, tap to use your own`
+    : `${loans.length} loan${loans.length === 1 ? "" : "s"} from the ${pShortDate(
         pipelineData.importedAt.slice(0, 10)
-      )} import`
-    : "Import your pipeline to see it here";
+      )} import`;
   return `
     <div class="row">
       <button class="row-inner has-trailing" type="button" id="open-pipeline-btn">
@@ -97,6 +99,14 @@ function pipelineRowMarkup() {
 function myLoans() {
   if (!pipelineData || !currentLo) return [];
   return loansForLo(pipelineData.loans, currentLo);
+}
+
+/* A demo that cannot be told from real data is how a fabricated number ends up
+   quoted in a real meeting. The sample says so on every screen it reaches. */
+function sampleBanner() {
+  return pipelineData && pipelineData.sample
+    ? `<p class="sample-banner">${icon("shield")}<span>Sample data. Not real loans.</span></p>`
+    : "";
 }
 
 /* ---------- sheet plumbing ---------- */
@@ -184,6 +194,7 @@ function renderPipelineList() {
 
   openSheet(`
     ${sheetHeader("My Pipeline", "", "Close")}
+    ${sampleBanner()}
     <div class="stat-pair">
       <div class="stat-card lead">
         <div class="stat-label">In process</div>
@@ -193,7 +204,7 @@ function renderPipelineList() {
       <div class="stat-card">
         <div class="stat-label">Funded</div>
         <div class="stat-value">${pCompact(stats.fundedVolume)}</div>
-        <div class="stat-note">${stats.funded} in this export</div>
+        <div class="stat-note">${stats.funded} ${pipelineData && pipelineData.sample ? "in this sample" : "in this export"}</div>
       </div>
     </div>
     <div class="chip-row">${chip("all", "All")}${chip("soon", "Closing soon")}${chip("started", "Started")}${chip("approval", "Approval")}${chip("funded", "Funded")}</div>
@@ -204,9 +215,15 @@ function renderPipelineList() {
           : emptyState("chart", "No loans match this filter.")
       }
       <p class="import-footer">
-        ${escapeHtml(`${pipelineData.loans.length} loans on this device from ${pipelineData.fileName || "an import"}, ${pLongDate(pipelineData.importedAt.slice(0, 10))}.`)}
-        <button class="linky" type="button" data-reimport="1">Import a newer file</button>
-        <button class="linky danger" type="button" data-forget="1">Remove from this device</button>
+        ${
+          pipelineData.sample
+            ? "Sample data that ships with the app. No real loan is in it."
+            : escapeHtml(
+                `${pipelineData.loans.length} loans on this device from ${pipelineData.fileName || "an import"}, ${pLongDate(pipelineData.importedAt.slice(0, 10))}.`
+              )
+        }
+        <button class="linky" type="button" data-reimport="1">${pipelineData.sample ? "Import your pipeline" : "Import a newer file"}</button>
+        ${pipelineData.sample ? "" : `<button class="linky danger" type="button" data-forget="1">Remove from this device</button>`}
       </p>
     </div>`);
 }
@@ -215,10 +232,11 @@ function whenPill(loan) {
   if (isFunded(loan)) return `<span class="pill pill-funded">Funded ${pShortDate(loan.fundsReleased)}</span>`;
   const d = daysUntil(loan.estClosingDate);
   if (d === null) return "";
-  if (d < 0) return `<span class="pill pill-soon">${Math.abs(d)} days overdue</span>`;
+  const days = (n) => `${n} day${n === 1 ? "" : "s"}`;
+  if (d < 0) return `<span class="pill pill-soon">${days(Math.abs(d))} overdue</span>`;
   if (d === 0) return `<span class="pill pill-soon">Closes today</span>`;
-  if (d <= 7) return `<span class="pill pill-soon">in ${d} days</span>`;
-  return `<span class="pill pill-when">in ${d} days</span>`;
+  if (d <= 7) return `<span class="pill pill-soon">in ${days(d)}</span>`;
+  return `<span class="pill pill-when">in ${days(d)}</span>`;
 }
 
 function milestonePill(loan) {
@@ -274,6 +292,7 @@ function renderLoanDetail(loan) {
 
   openSheet(`
     ${sheetHeader(loan.borrowerName, "", "Pipeline")}
+    ${sampleBanner()}
     <div class="sheet-body">
       <div class="loan-hero">
         <span class="initials big">${escapeHtml(pInitials(loan.borrowerName))}</span>
@@ -340,6 +359,7 @@ function renderLetterEditor() {
 
   openSheet(`
     ${sheetHeader("Pre-approval letter", letterValues.borrowerName, "Loan")}
+    ${sampleBanner()}
     <div class="sheet-body">
       <div class="locked-strip">
         <div><span class="fact-label">Borrower</span><span class="fact-value">${escapeHtml(letterValues.borrowerName)}</span></div>
@@ -539,9 +559,11 @@ function wirePipelineSheet() {
     if (e.target.closest("[data-forget]")) {
       if (!confirm("Remove the pipeline from this device? You can import it again.")) return;
       clearPipeline();
-      pipelineData = null;
       closeSheet();
-      renderAll();
+      loadSamplePipeline().then((sample) => {
+        pipelineData = sample;
+        renderAll();
+      });
     }
   });
 
@@ -579,7 +601,13 @@ function wirePipelineSheet() {
   });
 }
 
-function initPipeline() {
-  pipelineData = loadPipeline();
+async function initPipeline() {
   wirePipelineSheet();
+  /* An import always wins. The sample exists so the feature is never an empty
+     screen, not to compete with the LO's own data. */
+  pipelineData = loadPipeline();
+  if (!pipelineData) {
+    pipelineData = await loadSamplePipeline();
+    if (pipelineData) renderAll(); // the My Business row now has a count
+  }
 }
