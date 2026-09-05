@@ -67,6 +67,24 @@
   </div>
 
   <div class="card">
+    <h2>Show the PDF, then use the iOS share button</h2>
+    <button class="secondary" id="btn-newtab" disabled>5. Open the PDF in a new tab</button>
+    <button class="secondary" id="btn-inline" disabled>6. Show the PDF on this page</button>
+    <button class="secondary" id="btn-samepage" disabled>7. Replace this page with the PDF</button>
+    <div id="frame-slot"></div>
+    <p class="hint">
+      These test the other route: display the PDF and let iOS provide the share
+      button, rather than calling share from the app. The thing that can fail
+      here is the display, not the sharing. Safari has a long history of
+      rendering a generated PDF as a blank page, and an installed app may refuse
+      to open a new tab at all. For each of these the log only records what the
+      browser reported. <strong>You have to tell me what you actually saw: the
+      letter, a blank page, or nothing happening.</strong> 7 leaves the app, so
+      use the app switcher to come back.
+    </p>
+  </div>
+
+  <div class="card">
     <h2>Log</h2>
     <pre id="log">Loading pdf-lib...</pre>
   </div>
@@ -130,9 +148,9 @@
         const t0 = performance.now();
         readyFile = await makePdf();
         log(`pdf-lib ready. Test PDF built in ${Math.round(performance.now() - t0)}ms, ${readyFile.size} bytes.`);
-        document.getElementById("btn-sync").disabled = false;
-        document.getElementById("btn-async").disabled = false;
-        document.getElementById("btn-download").disabled = false;
+        ["btn-sync", "btn-async", "btn-download", "btn-newtab", "btn-inline", "btn-samepage"].forEach(
+          (id) => (document.getElementById(id).disabled = false)
+        );
 
         if (typeof navigator.canShare === "function") {
           log(`canShare({files}) says ${navigator.canShare({ files: [readyFile] })}`);
@@ -192,6 +210,38 @@
         .share({ files: [file], title: "Text test" })
         .then(() => report("3"))
         .catch((err) => report("3", err));
+    });
+
+    /* ---------- display it and let iOS do the sharing ---------- */
+
+    /* One URL reused by all three, revoked late. Revoking too early is a
+       classic way to make the viewer show a blank page. */
+    let viewUrl = null;
+    const urlFor = () => {
+      if (!viewUrl) viewUrl = URL.createObjectURL(readyFile);
+      return viewUrl;
+    };
+
+    document.getElementById("btn-newtab").addEventListener("click", () => {
+      const win = window.open(urlFor(), "_blank");
+      if (!win) {
+        log("5: window.open returned null. The tab was blocked, which is common in an installed app.");
+        return;
+      }
+      log("5: a tab was opened. Did the letter render, and is there a share button on it?");
+    });
+
+    document.getElementById("btn-inline").addEventListener("click", () => {
+      const slot = document.getElementById("frame-slot");
+      slot.innerHTML = `<iframe src="${urlFor()}" style="width:100%;height:420px;border:1px solid #e7e9ee;border-radius:12px;margin-top:8px"></iframe>`;
+      log("6: an iframe was inserted. On iOS this often shows blank even when the PDF is fine. Look below.");
+    });
+
+    document.getElementById("btn-samepage").addEventListener("click", () => {
+      log("7: navigating this page to the PDF. Use the app switcher to come back.");
+      setTimeout(() => {
+        window.location.href = urlFor();
+      }, 400);
     });
 
     document.getElementById("btn-download").addEventListener("click", () => {
