@@ -232,7 +232,10 @@
           "image": "qr/amy-leblanc.png",
           "order": 3
         }
-      ]
+      ],
+      "nmls": "1405094",
+      "phone": "(225) 445-0530",
+      "email": "aleblanc@homespiremortgage.com"
     },
     {
       "slug": "demo",
@@ -255,7 +258,10 @@
           "order": 2,
           "shareable": true
         }
-      ]
+      ],
+      "nmls": "",
+      "phone": "",
+      "email": ""
     },
     {
       "slug": "edwin-oquendo",
@@ -356,8 +362,12 @@
           "order": 5,
           "shareable": true
         }
-      ]
+      ],
+      "nmls": "",
+      "phone": "",
+      "email": ""
     }
   ],
-  "templateSlug": "amy-leblanc"
+  "templateSlug": "amy-leblanc",
+  "pipelineCategoryId": "my-business"
 }

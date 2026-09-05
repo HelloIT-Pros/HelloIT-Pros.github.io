@@ -570,6 +570,12 @@ function renderLoDetail(lo) {
           <input data-field="title" value="${escapeHtml(lo.title || "")}" placeholder="Loan Officer" /></label>
         <label class="field"><span>URL slug</span>
           <input data-field="slug" class="mono" value="${escapeHtml(lo.slug)}" placeholder="first-last" /></label>
+        <label class="field"><span>NMLS #</span>
+          <input data-field="nmls" value="${escapeHtml(lo.nmls || "")}" placeholder="1405094" /></label>
+        <label class="field"><span>Phone</span>
+          <input data-field="phone" value="${escapeHtml(lo.phone || "")}" placeholder="(225) 555-0100" /></label>
+        <label class="field"><span>Email</span>
+          <input data-field="email" class="mono" value="${escapeHtml(lo.email || "")}" placeholder="name@homespiremortgage.com" /></label>
         <label class="field"><span>Headshot</span>
           <input data-field="photo" class="mono" value="${escapeHtml(lo.photo || "")}" placeholder="https://... or photos/${escapeHtml(lo.slug)}.png" />
           <span class="field-note" id="photo-note">${
@@ -816,6 +822,11 @@ function createLo() {
   const slug = uniqueSlug(slugify(name));
   const lo = { slug, name, title: "", photo: "", customLinks: [] };
   lo.title = (templateLo() && templateLo().title) || "";
+  /* Blank, not copied: NMLS, phone and email are the three things on a letter
+     that must never carry another LO's identity. */
+  lo.nmls = "";
+  lo.phone = "";
+  lo.email = "";
   /* Photo stays blank on purpose. Pointing it at a file nobody has added yet
      would put a broken image in the rail and in the app; the empty state falls
      back to a person icon, and the field's placeholder says where to put it. */

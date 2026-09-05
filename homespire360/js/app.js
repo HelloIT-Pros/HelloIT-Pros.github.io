@@ -290,11 +290,18 @@ function renderHome() {
   if (!sections.length) {
     return emptyState("link", "No links here yet. Your admin can add them.");
   }
+  /* My Pipeline is a screen, not a link, so it is not in config.json. It rides
+     in the category named by pipelineCategoryId rather than being hardcoded to
+     one id, so renaming or reordering categories cannot strand it. */
+  const pipelineCat = appConfig.pipelineCategoryId || "my-business";
   return sections
     .map((section) =>
       groupMarkup(
         section.category,
-        section.links.map((link) => linkRow(link, section.category)).join("")
+        section.links.map((link) => linkRow(link, section.category)).join("") +
+          (section.category.id === pipelineCat && typeof pipelineRowMarkup === "function"
+            ? pipelineRowMarkup()
+            : "")
       )
     )
     .join("");
@@ -685,6 +692,12 @@ function copyLink(btn, url) {
 
 function wireRowActions() {
   el("main").addEventListener("click", (event) => {
+    if (event.target.closest("#open-pipeline-btn")) {
+      event.preventDefault();
+      openPipeline();
+      return;
+    }
+
     const qrTrigger = event.target.closest("[data-qr-id]");
     if (qrTrigger) {
       event.preventDefault();
@@ -829,6 +842,7 @@ async function init() {
     currentView = "home";
     wireRowActions();
     wireQrSheet();
+    if (typeof initPipeline === "function") initPipeline();
     renderAll();
     el("avatar-btn").addEventListener("click", () => setView("profile"));
     return;
