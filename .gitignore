@@ -5,3 +5,6 @@
 # Encrypted framework — keep editable source local only
 Noonshop/content-framework.source.html
 .DS_Store
+
+# Pipeline exports are real borrower data and this repo is public.
+*.csv

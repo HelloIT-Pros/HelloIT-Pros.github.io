@@ -159,9 +159,19 @@ function renderImportScreen() {
           uploaded and it does not leave this device. To refresh it later, import
           a newer file.
         </p>
+        <p class="import-note">
+          On an iPhone the file lives under Browse in the Files app, including
+          anything synced from OneDrive.
+        </p>
         <label class="btn btn-primary import-btn">
           ${icon("download")}<span>Choose a CSV file</span>
-          <input type="file" id="pipeline-file" accept=".csv,text/csv" hidden />
+          <!-- iOS matches the accept list against the file's UTI, and a CSV
+               arriving through OneDrive or Mail often reports as plain text or
+               nothing at all. A narrow accept list greys the file out in the
+               picker with no explanation, so this stays deliberately wide. -->
+          <input type="file" id="pipeline-file"
+                 accept=".csv,.txt,text/csv,text/plain,text/comma-separated-values,application/csv,application/vnd.ms-excel"
+                 hidden />
         </label>
         <p class="import-problems" id="import-problems" hidden></p>
       </div>
