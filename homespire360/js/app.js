@@ -275,6 +275,9 @@ function renderTools() {
         const isActive = (other.dataset.category || null) === activeCategoryId;
         other.setAttribute("aria-pressed", isActive ? "true" : "false");
       });
+      /* The production tiles belong to the unfiltered view, so they have to be
+         repainted with the list rather than left behind above it. */
+      if (typeof renderPipelineTiles === "function") renderPipelineTiles();
       renderMain();
     });
   });
@@ -527,6 +530,7 @@ function renderAll() {
   renderTabBar();
   renderDraftNote();
   renderInstallSlot();
+  if (typeof renderPipelineTiles === "function") renderPipelineTiles();
   renderTools();
   renderMain();
 }

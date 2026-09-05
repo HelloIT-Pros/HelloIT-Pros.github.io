@@ -96,6 +96,61 @@ function pipelineRowMarkup() {
     </div>`;
 }
 
+/**
+ * The four numbers, on Home, above everything else.
+ *
+ * Two of them are exact. The funded pair is only ever as good as the export:
+ * a month-to-date pipeline snapshot carries a few days of funding, not a year,
+ * so the tile is labelled with the period the data actually covers rather than
+ * with the period someone hoped for. A dashboard that says "year to date" over
+ * three days of September is worse than no dashboard, because it gets repeated
+ * in a meeting.
+ */
+function pipelineTilesMarkup() {
+  if (!pipelineData || !currentLo) return "";
+  const loans = myLoans();
+  if (!loans.length) return "";
+
+  const active = loans.filter((l) => !isFunded(l));
+  const funded = loans.filter(isFunded);
+  const sum = (list) => list.reduce((n, l) => n + (l.loanAmount || 0), 0);
+
+  const fundedDates = funded.map((l) => l.fundsReleased).filter(Boolean).sort();
+  const earliest = fundedDates[0];
+  const thisYear = String(new Date().getFullYear());
+  let coverage;
+  if (!funded.length) {
+    coverage = "none in this data";
+  } else if (earliest && earliest.startsWith(thisYear) && earliest.slice(5, 7) === "01") {
+    coverage = "this year";
+  } else if (earliest) {
+    /* Say the real window. It is how you notice the export is not what you
+       thought it was. */
+    coverage = `since ${pShortDate(earliest)}`;
+  } else {
+    coverage = "in this data";
+  }
+
+  const tile = (label, value, note, lead) => `
+    <button class="tile${lead ? " lead" : ""}" type="button" data-open-pipeline="1">
+      <span class="tile-label">${escapeHtml(label)}</span>
+      <span class="tile-value">${escapeHtml(value)}</span>
+      <span class="tile-note">${escapeHtml(note)}</span>
+    </button>`;
+
+  return `
+    <div class="tile-head">
+      <span>My production</span>
+      ${pipelineData.sample ? `<span class="tile-sample">Sample</span>` : ""}
+    </div>
+    <div class="tile-grid">
+      ${tile("In pipeline", String(active.length), active.length === 1 ? "loan" : "loans", true)}
+      ${tile("Pipeline volume", pCompact(sum(active)), "in process", true)}
+      ${tile("Funded", String(funded.length), funded.length === 1 ? "loan" : "loans")}
+      ${tile("Funded volume", pCompact(sum(funded)), coverage)}
+    </div>`;
+}
+
 function myLoans() {
   if (!pipelineData || !currentLo) return [];
   return loansForLo(pipelineData.loans, currentLo);
@@ -525,6 +580,23 @@ function handleImportFile(input) {
   reader.readAsText(file);
 }
 
+function wirePipelineTiles() {
+  const slot = document.getElementById("stats-slot");
+  if (!slot) return;
+  slot.addEventListener("click", (e) => {
+    if (e.target.closest("[data-open-pipeline]")) openPipeline();
+  });
+}
+
+function renderPipelineTiles() {
+  const slot = document.getElementById("stats-slot");
+  if (!slot) return;
+  /* Only on the unfiltered Home view. Narrowed to Loan Tools, a production
+     summary is just noise above the thing you came for. */
+  const show = currentView === "home" && !activeCategoryId;
+  slot.innerHTML = show ? pipelineTilesMarkup() : "";
+}
+
 function wirePipelineSheet() {
   const sheet = pipeEl();
 
@@ -613,6 +685,7 @@ function wirePipelineSheet() {
 
 async function initPipeline() {
   wirePipelineSheet();
+  wirePipelineTiles();
   /* An import always wins. The sample exists so the feature is never an empty
      screen, not to compete with the LO's own data. */
   pipelineData = loadPipeline();

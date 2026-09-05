@@ -2186,3 +2186,83 @@ body.sheet-open {
 }
 
 .linky.danger { color: var(--danger); }
+
+
+/* ---------- production tiles on Home ---------- */
+
+.tile-head {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  max-width: 640px;
+  margin: 16px auto 8px;
+  padding: 0 var(--pad);
+  font-size: 10.5px;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--faint);
+}
+
+/* Numbers on a home screen get read aloud in meetings. If they are not real,
+   the screen has to say so where the numbers are, not somewhere else. */
+.tile-sample {
+  letter-spacing: 0.04em;
+  color: #8a5a00;
+  background: #fff4e0;
+  border-radius: 999px;
+  padding: 2px 8px;
+}
+
+.tile-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 9px;
+  max-width: 640px;
+  margin: 0 auto;
+  padding: 0 var(--pad);
+}
+
+.tile {
+  display: flex;
+  flex-direction: column;
+  gap: 1px;
+  padding: 12px 13px;
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  background: var(--card);
+  font: inherit;
+  text-align: left;
+  color: var(--text);
+  cursor: pointer;
+}
+
+.tile.lead {
+  background: var(--purple);
+  border-color: var(--purple);
+  color: #fff;
+}
+
+.tile:active { transform: scale(0.985); }
+
+.tile-label {
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  opacity: 0.72;
+}
+
+.tile-value {
+  font-size: 24px;
+  font-weight: 800;
+  letter-spacing: -0.025em;
+  line-height: 1.15;
+  margin-top: 4px;
+}
+
+.tile-note { font-size: 11.5px; opacity: 0.72; }
+
+@media (min-width: 520px) {
+  .tile-grid { grid-template-columns: repeat(4, 1fr); }
+}
