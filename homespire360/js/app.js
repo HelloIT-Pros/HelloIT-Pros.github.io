@@ -863,7 +863,41 @@ async function init() {
   renderPicker();
 }
 
-document.addEventListener("DOMContentLoaded", init);
+/* ---------- launch screen ---------- */
+
+/*
+ * Below the minimum it reads as a flicker rather than a launch; above the
+ * maximum it reads as a hang. The splash is tied to the app actually being
+ * ready, not to a timer, so on a warm cache it is brief and on a cold one it
+ * covers the wait instead of showing a half-built screen.
+ */
+const SPLASH_MIN_MS = 550;
+const SPLASH_MAX_MS = 4000;
+const splashStart = Date.now();
+let splashHidden = false;
+
+function hideSplash() {
+  if (splashHidden) return;
+  splashHidden = true;
+  const splash = el("splash");
+  if (!splash) return;
+  const wait = Math.max(0, SPLASH_MIN_MS - (Date.now() - splashStart));
+  setTimeout(() => {
+    splash.classList.add("is-gone");
+    /* Removed, not just faded. A transparent fixed layer left over the app
+       swallows every tap, which is exactly how the QR sheet broke once. */
+    setTimeout(() => splash.remove(), 480);
+  }, wait);
+}
+
+/* A config fetch that never resolves must not leave an LO staring at a logo. */
+setTimeout(hideSplash, SPLASH_MAX_MS);
+
+document.addEventListener("DOMContentLoaded", () => {
+  /* finally, because init has several early returns including the error path,
+     and every one of them still means the splash has done its job. */
+  Promise.resolve(init()).finally(hideSplash);
+});
 
 if ("serviceWorker" in navigator) {
   window.addEventListener("load", () => {
