@@ -2325,6 +2325,14 @@ body.sheet-open {
 
 @media (min-width: 520px) {
   .tile-grid { grid-template-columns: repeat(4, 1fr); }
+  /* Four across is narrower per tile than two across on a phone, so the
+     funded labels need a little less tracking to stay on one line. A wrapped
+     label pushes its value down and breaks the row's alignment. */
+  .tile-flip .tile-label {
+    font-size: 9.5px;
+    letter-spacing: 0.04em;
+    padding-right: 16px;
+  }
 }
 
 
