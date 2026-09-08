@@ -871,8 +871,8 @@ async function init() {
  * ready, not to a timer, so on a warm cache it is brief and on a cold one it
  * covers the wait instead of showing a half-built screen.
  */
-const SPLASH_MIN_MS = 550;
-const SPLASH_MAX_MS = 4000;
+const SPLASH_MIN_MS = 1500;
+const SPLASH_MAX_MS = 4500;
 const splashStart = Date.now();
 let splashHidden = false;
 
@@ -886,7 +886,7 @@ function hideSplash() {
     splash.classList.add("is-gone");
     /* Removed, not just faded. A transparent fixed layer left over the app
        swallows every tap, which is exactly how the QR sheet broke once. */
-    setTimeout(() => splash.remove(), 480);
+    setTimeout(() => splash.remove(), 760);
   }, wait);
 }
 

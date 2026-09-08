@@ -43,6 +43,27 @@ const COLUMNS = {
 /** Deliberately not imported. Named so the omission is a decision on the page. */
 const DROPPED_COLUMNS = ["InterestRate"];
 
+/*
+ * Columns the export does not carry yet.
+ *
+ * Purchase price and the assistant's details are coming to the export but are
+ * not in it today. They are read here so that the day those columns appear, no
+ * code changes: a file with them is richer, a file without them behaves exactly
+ * as it does now. Unlike COLUMNS these are never reported as missing, because
+ * their absence is the normal case rather than a malformed file.
+ *
+ * THE NAMES BELOW ARE PROVISIONAL. Whoever builds the export decides the real
+ * headers; check these against the first file that has them.
+ */
+const FUTURE_COLUMNS = {
+  purchasePrice: "PurchasePrice",
+  processorEmail: "LoanProcessorEmail",
+  processorPhone: "LoanProcessorPhone",
+  loaName: "LoanOfficerAssistant",
+  loaEmail: "LoanOfficerAssistantEmail",
+  loaPhone: "LoanOfficerAssistantPhone",
+};
+
 /* ---------- parsing ---------- */
 
 /**
@@ -120,7 +141,7 @@ function parsePipelineCsv(text) {
   for (let i = 1; i < lines.length; i += 1) {
     const cells = splitCsvLine(lines[i]);
     const at = (key) => {
-      const col = COLUMNS[key];
+      const col = COLUMNS[key] || FUTURE_COLUMNS[key];
       const pos = index[col];
       return pos === undefined ? "" : (cells[pos] || "").trim();
     };
@@ -152,6 +173,13 @@ function parsePipelineCsv(text) {
       cdSent: dateOnly(at("cdSent")),
       loanProcessor: at("loanProcessor"),
       channel: at("channel"),
+      /* Not in today's export. Blank until the columns arrive. */
+      purchasePrice: Number(at("purchasePrice").replace(/[$,]/g, "")) || 0,
+      processorEmail: at("processorEmail"),
+      processorPhone: at("processorPhone"),
+      loaName: at("loaName"),
+      loaEmail: at("loaEmail"),
+      loaPhone: at("loaPhone"),
     });
   }
 
@@ -221,6 +249,59 @@ function fundedTotals(loans, today = new Date()) {
     };
   };
   return { month: tally(month), year: tally(year) };
+}
+
+/**
+ * Purchase price, down payment and LTV for one loan.
+ *
+ * Computed rather than stored so they can never contradict the two numbers
+ * they come from. Returns null when the price is missing, which is every loan
+ * in today's export, and the detail screen then shows neither row rather than
+ * showing a down payment of the entire loan amount.
+ */
+function loanEquity(loan) {
+  const price = Number(loan.purchasePrice) || 0;
+  const amount = Number(loan.loanAmount) || 0;
+  if (!price || !amount) return null;
+  /* A loan larger than the price is a data error, not a negative down payment. */
+  if (amount > price) return null;
+  return { price, downPayment: price - amount, ltv: amount / price };
+}
+
+function teamSlug(name) {
+  return String(name || "").trim().toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/(^-|-$)/g, "");
+}
+
+/**
+ * Who else is on this file.
+ *
+ * Contact details are resolved in three steps, in this order:
+ *   1. the loan's own columns, once the export carries them
+ *   2. the directory in config.json, keyed by a slug of the person's name
+ *   3. nothing, in which case the person is still listed by name with no
+ *      contact actions offered
+ *
+ * Step 2 is the bridge. A real export today gives a processor name and nothing
+ * else, so the directory is what turns that name into something tappable
+ * without waiting on the export to change.
+ */
+function teamForLoan(loan, directory) {
+  const dir = directory || {};
+  const out = [];
+  const add = (role, name, phone, email) => {
+    const person = String(name || "").trim();
+    if (!person) return;
+    const known = dir[teamSlug(person)] || {};
+    out.push({
+      role,
+      name: person,
+      phone: String(phone || known.phone || "").trim(),
+      email: String(email || known.email || "").trim(),
+    });
+  };
+  add("Processor", loan.loanProcessor, loan.processorPhone, loan.processorEmail);
+  add("Loan officer assistant", loan.loaName, loan.loaPhone, loan.loaEmail);
+  return out;
 }
 
 /** Soonest first, funded loans last: an LO reads this list to plan a day. */
@@ -309,6 +390,12 @@ async function loadSamplePipeline() {
       cdSent: offsetToIso(l.cdSentOffsetDays),
       loanProcessor: l.loanProcessor || "",
       channel: l.channel || "",
+      purchasePrice: l.purchasePrice || 0,
+      processorEmail: l.processorEmail || "",
+      processorPhone: l.processorPhone || "",
+      loaName: l.loaName || "",
+      loaEmail: l.loaEmail || "",
+      loaPhone: l.loaPhone || "",
     }));
     return { loans, sample: true, importedAt: new Date().toISOString(), fileName: "", officers: 0 };
   } catch {

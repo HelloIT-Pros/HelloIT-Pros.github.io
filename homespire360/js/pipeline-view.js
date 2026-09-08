@@ -185,6 +185,90 @@ function sampleBanner() {
     : "";
 }
 
+/* ---------- who else is on the file ---------- */
+
+/** Digits only. tel: and sms: choke on parentheses and spaces. */
+const pDigits = (v) => String(v || "").replace(/[^0-9+]/g, "");
+
+/**
+ * The file team: small avatars under the loan header that expand into contact
+ * rows.
+ *
+ * Deliberately quiet. The LO came to this screen for the loan, not the roster,
+ * so collapsed this is one line of initials and a word. It only earns space
+ * once tapped.
+ *
+ * The two group actions open a compose window addressed to everyone on the
+ * file. They do not send anything: the mail or messages app opens with the
+ * recipients and a subject filled in, and the LO writes and sends it herself.
+ */
+function teamStripMarkup(team, loan) {
+  if (!team.length) return "";
+
+  const emails = team.map((m) => m.email).filter(Boolean);
+  const phones = team.map((m) => pDigits(m.phone)).filter(Boolean);
+  const subject = encodeURIComponent(
+    `${loan.borrowerName}${loan.loanNumber ? ` (loan ${loan.loanNumber})` : ""}`
+  );
+
+  const person = (m) => `
+    <li class="team-person">
+      <span class="team-avatar" aria-hidden="true">${escapeHtml(pInitials(m.name))}</span>
+      <span class="team-who">
+        <span class="team-name">${escapeHtml(m.name)}</span>
+        <span class="team-role">${escapeHtml(m.role)}</span>
+      </span>
+      <span class="team-acts">
+        ${
+          m.phone
+            ? `<a class="team-act" href="tel:${escapeHtml(pDigits(m.phone))}" aria-label="Call ${escapeHtml(m.name)}">${icon("phone")}</a>`
+            : ""
+        }
+        ${
+          m.email
+            ? `<a class="team-act" href="mailto:${escapeHtml(m.email)}?subject=${subject}" aria-label="Email ${escapeHtml(m.name)}">${icon("mail")}</a>`
+            : ""
+        }
+      </span>
+    </li>`;
+
+  /* Singular when there is one person to reach, because "Email both" over one
+     name reads as a bug. */
+  const bothEmail = emails.length > 1 ? "Email both" : "Email";
+  const bothText = phones.length > 1 ? "Text both" : "Text";
+
+  const actions =
+    emails.length || phones.length
+      ? `<div class="team-group">
+          ${
+            emails.length
+              ? `<a class="btn btn-quiet" href="mailto:${escapeHtml(emails.join(","))}?subject=${subject}">${icon("mail")}<span>${bothEmail}</span></a>`
+              : ""
+          }
+          ${
+            phones.length
+              ? `<a class="btn btn-quiet" href="sms:${escapeHtml(phones.join(","))}">${icon("phone")}<span>${bothText}</span></a>`
+              : ""
+          }
+        </div>`
+      : `<p class="team-none">No contact details on file for this loan yet.</p>`;
+
+  return `
+    <div class="team-strip">
+      <button class="team-toggle" type="button" data-team aria-expanded="false" aria-controls="team-panel">
+        <span class="team-avatars">
+          ${team.map((m) => `<span class="team-avatar sm" aria-hidden="true">${escapeHtml(pInitials(m.name))}</span>`).join("")}
+        </span>
+        <span class="team-label">On this file</span>
+        <span class="team-chevron">${icon("chevron")}</span>
+      </button>
+      <div class="team-panel" id="team-panel" hidden>
+        <ul class="team-list">${team.map(person).join("")}</ul>
+        ${actions}
+      </div>
+    </div>`;
+}
+
 /* ---------- sheet plumbing ---------- */
 
 function openSheet(html) {
@@ -356,6 +440,8 @@ function loanRowMarkup(loan) {
 
 function renderLoanDetail(loan) {
   openLoan = loan;
+  const equity = loanEquity(loan);
+  const team = teamForLoan(loan, appConfig && appConfig.team);
 
   /* Only rows the export actually filled. A detail screen full of blanks
      teaches an LO that the app does not know anything. */
@@ -365,6 +451,10 @@ function renderLoanDetail(loan) {
     ["Purpose", loan.loanPurpose],
     ["Loan type", loan.loanType],
     ["Loan amount", loan.loanAmount ? pMoney(loan.loanAmount) : ""],
+    /* Both come from the purchase price, which today's export does not carry,
+       so on a real import these two rows are simply absent rather than wrong. */
+    ["Purchase price", equity ? pMoney(equity.price) : ""],
+    ["Down payment", equity ? pMoney(equity.downPayment) : ""],
     ["Estimated closing", pLongDate(loan.estClosingDate)],
     ["Funds released", pLongDate(loan.fundsReleased)],
     ["Rate lock expires", pLongDate(loan.rateLockExpires)],
@@ -388,6 +478,7 @@ function renderLoanDetail(loan) {
         <span class="initials big">${escapeHtml(pInitials(loan.borrowerName))}</span>
         <span class="loan-hero-meta">${milestonePill(loan)}${whenPill(loan)}</span>
       </div>
+      ${teamStripMarkup(team, loan)}
       ${alert}
       <div class="list fact-list">
         ${facts
@@ -403,7 +494,7 @@ function renderLoanDetail(loan) {
       <button class="btn btn-primary wide" type="button" data-letter="1">
         ${icon("fileText")}<span>Pre-approval letter</span>
       </button>
-      <p class="import-footer">Everything above is what the export carries for this loan.</p>
+      <p class="import-footer">From your imported pipeline, plus the contact details Homespire keeps for the file team.</p>
     </div>`);
 }
 
@@ -651,6 +742,20 @@ function wirePipelineSheet() {
 
   sheet.addEventListener("click", (e) => {
     if (e.target.closest("[data-close]")) return closeSheet();
+
+    /* Toggled in place rather than re-rendered: a re-render would scroll the
+       sheet back to the top, away from the thing just tapped. */
+    const teamBtn = e.target.closest("[data-team]");
+    if (teamBtn) {
+      const panel = sheet.querySelector(".team-panel");
+      if (panel) {
+        const open = panel.hidden;
+        panel.hidden = !open;
+        teamBtn.setAttribute("aria-expanded", String(open));
+        teamBtn.closest(".team-strip").classList.toggle("is-open", open);
+      }
+      return;
+    }
 
     if (e.target.closest("[data-back]")) {
       if (letterValues) {

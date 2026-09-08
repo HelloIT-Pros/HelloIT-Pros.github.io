@@ -2277,7 +2277,8 @@ body.sheet-open {
   cursor: pointer;
   -webkit-tap-highlight-color: transparent;
   transform-style: preserve-3d;
-  transition: transform 0.55s cubic-bezier(0.2, 0.7, 0.2, 1);
+  /* Slow enough to read as one card turning rather than a value swap. */
+  transition: transform 0.95s cubic-bezier(0.28, 0.62, 0.2, 1);
 }
 
 .tile-flip .flip-face {
@@ -2324,4 +2325,162 @@ body.sheet-open {
 
 @media (min-width: 520px) {
   .tile-grid { grid-template-columns: repeat(4, 1fr); }
+}
+
+
+/* ---------- Who else is on the file ---------- */
+
+/*
+ * Quiet by design. The LO opened this screen for the loan, so collapsed this is
+ * a row of initials and two words. It only takes space once it is tapped.
+ */
+.team-strip {
+  margin: 12px 0 2px;
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  background: var(--card);
+  overflow: hidden;
+}
+
+.team-toggle {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  width: 100%;
+  padding: 9px 12px;
+  border: 0;
+  background: none;
+  font: inherit;
+  color: var(--text);
+  cursor: pointer;
+  text-align: left;
+}
+
+.team-toggle:active { background: var(--surface); }
+
+.team-avatars {
+  display: flex;
+  flex: 0 0 auto;
+}
+
+/* Overlapped, so two people read as a group rather than as two list items. */
+.team-avatars .team-avatar + .team-avatar { margin-left: -7px; }
+
+.team-avatar {
+  width: 26px;
+  height: 26px;
+  border-radius: 50%;
+  background: rgba(147, 51, 234, 0.12);
+  color: var(--purple);
+  border: 1.5px solid var(--card);
+  display: grid;
+  place-items: center;
+  font-size: 9.5px;
+  font-weight: 800;
+  letter-spacing: 0.02em;
+  flex: 0 0 auto;
+}
+
+.team-label {
+  flex: 1;
+  min-width: 0;
+  font-size: 12.5px;
+  font-weight: 600;
+  color: var(--muted);
+}
+
+.team-chevron {
+  color: var(--faint);
+  display: grid;
+  place-items: center;
+  transition: transform 0.25s ease;
+}
+
+.team-chevron .icon { width: 16px; height: 16px; }
+
+/* The chevron points along the list once the list is showing. */
+.team-strip.is-open .team-chevron { transform: rotate(90deg); }
+
+.team-panel {
+  border-top: 1px solid var(--border);
+  padding: 4px 12px 12px;
+}
+
+.team-panel[hidden] { display: none !important; }
+
+.team-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.team-person {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 9px 0;
+}
+
+.team-person + .team-person { border-top: 1px solid var(--border); }
+
+.team-who { flex: 1; min-width: 0; }
+
+.team-name {
+  display: block;
+  font-size: 14px;
+  font-weight: 600;
+  line-height: 1.25;
+}
+
+.team-role {
+  display: block;
+  font-size: 11.5px;
+  color: var(--muted);
+  margin-top: 1px;
+}
+
+.team-acts {
+  display: flex;
+  gap: 2px;
+  flex: 0 0 auto;
+}
+
+.team-act {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  display: grid;
+  place-items: center;
+  color: var(--purple-bright);
+  text-decoration: none;
+}
+
+.team-act .icon { width: 17px; height: 17px; }
+.team-act:active { background: rgba(147, 51, 234, 0.1); }
+
+.team-group {
+  display: flex;
+  gap: 8px;
+  margin-top: 10px;
+}
+
+/* Not primary buttons. Messaging the team is a convenience on this screen, and
+   the pre-approval letter below is the action that matters. */
+.btn-quiet {
+  flex: 1;
+  justify-content: center;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  color: var(--text);
+  font-size: 13.5px;
+  text-decoration: none;
+}
+
+.btn-quiet .icon { width: 16px; height: 16px; }
+.btn-quiet:active { background: #eef0f4; }
+
+.team-none {
+  margin: 10px 0 2px;
+  font-size: 12px;
+  color: var(--muted);
 }

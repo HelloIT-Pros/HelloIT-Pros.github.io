@@ -369,5 +369,36 @@
     }
   ],
   "templateSlug": "amy-leblanc",
-  "pipelineCategoryId": "my-business"
+  "pipelineCategoryId": "my-business",
+  "team": {
+    "_note": "Contact details for file members, keyed by a slug of the name as it appears in the export. Used only until the export carries these columns itself. See teamForLoan in js/pipeline.js.",
+    "r-alvarez": {
+      "phone": "(225) 555-0142",
+      "email": "ralvarez@homespiremortgage.com"
+    },
+    "t-nakashima": {
+      "phone": "(225) 555-0178",
+      "email": "tnakashima@homespiremortgage.com"
+    },
+    "k-boyd": {
+      "phone": "(225) 555-0196",
+      "email": "kboyd@homespiremortgage.com"
+    },
+    "m-okafor": {
+      "phone": "(225) 555-0121",
+      "email": "mokafor@homespiremortgage.com"
+    },
+    "j-castellanos": {
+      "phone": "(225) 555-0233",
+      "email": "jcastellanos@homespiremortgage.com"
+    },
+    "p-nguyen": {
+      "phone": "(225) 555-0247",
+      "email": "pnguyen@homespiremortgage.com"
+    },
+    "s-abiodun": {
+      "phone": "(225) 555-0259",
+      "email": "sabiodun@homespiremortgage.com"
+    }
+  }
 }

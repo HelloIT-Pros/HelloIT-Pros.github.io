@@ -43,6 +43,11 @@ Halvorsen Adeyemi Winterbourne Espinoza Tanaka Rutherford Olawale Petrov Guzman 
 
 PROCESSORS = ["R Alvarez", "T Nakashima", "K Boyd", "M Okafor", "", "", ""]
 
+# Loan officer assistants. Not in today's export either, so the sample supplies
+# them and config.json holds their contact details. Sparse on purpose: a file
+# with no assistant assigned is normal and the screen has to handle it.
+ASSISTANTS = ["J Castellanos", "P Nguyen", "S Abiodun", "", ""]
+
 # The app's own roster. A sample pipeline for someone who is not in the app
 # would just be dead rows.
 # "loans" is the live book. "closedYtd" is loans already funded earlier in the
@@ -87,6 +92,16 @@ def an_amount():
     return max(45000, int(round(base / 1000) * 1000) + random.randint(-999, 999))
 
 
+def a_price(loan_amount):
+    """
+    A plausible purchase price for a given loan amount: LTV between 80% and
+    97%, rounded the way a contract price actually looks.
+    """
+    ltv = random.choice([0.80, 0.85, 0.90, 0.95, 0.9650, 0.97])
+    price = loan_amount / ltv
+    return int(round(price / 500) * 500)
+
+
 def build():
     used = set()
     loans = []
@@ -107,19 +122,28 @@ def build():
                 else random.randint(2, 58)
             )
 
+            amount = an_amount()
+            purpose = random.choice(PURPOSES)
             loan = {
                 "loanNumber": f"7{random.randint(1000000000, 9999999999)}",
                 "borrowerName": a_name(used),
                 "loanOfficer": officer["name"],
                 "nmls": officer["nmls"],
                 "milestone": milestone,
-                "loanPurpose": random.choice(PURPOSES),
+                "loanPurpose": purpose,
                 "loanType": random.choice(LOAN_TYPES),
-                "loanAmount": an_amount(),
+                "loanAmount": amount,
                 "estClosingOffsetDays": offset,
                 "loanProcessor": random.choice(PROCESSORS),
+                "loaName": random.choice(ASSISTANTS),
                 "channel": "NFM Lending",
             }
+            # A purchase price above the loan amount, so down payment has
+            # something real to derive from. A refinance gets none, which is
+            # correct: there is no purchase, and the screen must handle the
+            # rows simply being absent.
+            if purpose == "Purchase":
+                loan["purchasePrice"] = a_price(amount)
             # Optional columns are sparse in a real export, and a screen built
             # against a fully populated sample breaks on the real thing.
             if funded:
@@ -146,22 +170,26 @@ def build():
         # which is what a real year to date should do.
         for _ in range(officer.get("closedYtd", 0)):
             fund_offset = -random.randint(20, 230)
-            loans.append(
-                {
-                    "loanNumber": f"7{random.randint(1000000000, 9999999999)}",
-                    "borrowerName": a_name(used),
-                    "loanOfficer": officer["name"],
-                    "nmls": officer["nmls"],
-                    "milestone": "Funding",
-                    "loanPurpose": random.choice(PURPOSES),
-                    "loanType": random.choice(LOAN_TYPES),
-                    "loanAmount": an_amount(),
-                    "estClosingOffsetDays": fund_offset + random.randint(0, 3),
-                    "fundedOffsetDays": fund_offset,
-                    "loanProcessor": random.choice(PROCESSORS),
-                    "channel": "NFM Lending",
-                }
-            )
+            amount = an_amount()
+            purpose = random.choice(PURPOSES)
+            closed = {
+                "loanNumber": f"7{random.randint(1000000000, 9999999999)}",
+                "borrowerName": a_name(used),
+                "loanOfficer": officer["name"],
+                "nmls": officer["nmls"],
+                "milestone": "Funding",
+                "loanPurpose": purpose,
+                "loanType": random.choice(LOAN_TYPES),
+                "loanAmount": amount,
+                "estClosingOffsetDays": fund_offset + random.randint(0, 3),
+                "fundedOffsetDays": fund_offset,
+                "loanProcessor": random.choice(PROCESSORS),
+                "loaName": random.choice(ASSISTANTS),
+                "channel": "NFM Lending",
+            }
+            if purpose == "Purchase":
+                closed["purchasePrice"] = a_price(amount)
+            loans.append(closed)
 
     return {
         "sample": True,

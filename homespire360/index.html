@@ -44,7 +44,9 @@
       padding-bottom: 6vh;
       background: linear-gradient(160deg, #160329 0%, #370C66 100%);
       opacity: 1;
-      transition: opacity 420ms ease;
+      /* Held longer and released more gently, so the launch reads as an
+         intentional screen rather than a flash. */
+      transition: opacity 700ms cubic-bezier(0.4, 0, 0.2, 1);
     }
 
     /* Two soft glows, offset the way the deck places them. */
