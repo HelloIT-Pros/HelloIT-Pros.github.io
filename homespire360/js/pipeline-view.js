@@ -26,6 +26,10 @@ let previewStale = true;
 /* Which period the funded tiles are showing. Month by default on every
    launch, per the product decision, so a flip is never a sticky surprise. */
 let fundedPeriod = "month";
+/* Which team members the send icons will reach, and the subject they carry.
+   Rebuilt every time a loan detail is rendered. */
+let teamSelected = new Set();
+let teamSubject = "";
 
 const pipeEl = () => document.getElementById("pipeline-sheet");
 
@@ -209,53 +213,46 @@ const pDigits = (v) => String(v || "").replace(/[^0-9+]/g, "");
 function teamStripMarkup(team, loan) {
   if (!team.length) return "";
 
-  const emails = team.map((m) => m.email).filter(Boolean);
-  const phones = team.map((m) => pDigits(m.phone)).filter(Boolean);
   const subject = encodeURIComponent(
     `${loan.borrowerName}${loan.loanNumber ? ` (loan ${loan.loanNumber})` : ""}`
   );
 
-  const person = (m) => `
+  /* Everyone starts selected, so reaching the whole file is still one tap and
+     selection is only work when you actually want a subset. */
+  teamSelected = new Set(team.map((_, i) => i));
+  teamSubject = subject;
+
+  /* Calling is the one action that cannot be done as a group, so it stays on
+     the person. Email and text are group actions and live at the bottom, which
+     also stops the same mail icon appearing twice on one row. */
+  const person = (m, i) => `
     <li class="team-person">
+      <label class="team-pick">
+        <input type="checkbox" data-team-pick="${i}" checked
+          aria-label="Include ${escapeHtml(m.name)}" />
+        <span class="team-box" aria-hidden="true">${icon("check")}</span>
+      </label>
       <span class="team-avatar" aria-hidden="true">${escapeHtml(pInitials(m.name))}</span>
       <span class="team-who">
         <span class="team-name">${escapeHtml(m.name)}</span>
-        <span class="team-role">${escapeHtml(m.role)}</span>
+        <span class="team-role">${escapeHtml(m.role)}${m.email || m.phone ? "" : " · no contact details"}</span>
       </span>
-      <span class="team-acts">
-        ${
-          m.phone
-            ? `<a class="team-act" href="tel:${escapeHtml(pDigits(m.phone))}" aria-label="Call ${escapeHtml(m.name)}">${icon("phone")}</a>`
-            : ""
-        }
-        ${
-          m.email
-            ? `<a class="team-act" href="mailto:${escapeHtml(m.email)}?subject=${subject}" aria-label="Email ${escapeHtml(m.name)}">${icon("mail")}</a>`
-            : ""
-        }
-      </span>
+      ${
+        m.phone
+          ? `<a class="team-act" href="tel:${escapeHtml(pDigits(m.phone))}" aria-label="Call ${escapeHtml(m.name)}">${icon("phone")}</a>`
+          : ""
+      }
     </li>`;
 
-  /* Singular when there is one person to reach, because "Email both" over one
-     name reads as a bug. */
-  const bothEmail = emails.length > 1 ? "Email both" : "Email";
-  const bothText = phones.length > 1 ? "Text both" : "Text";
+  const reachable = team.some((m) => m.email || m.phone);
 
-  const actions =
-    emails.length || phones.length
-      ? `<div class="team-group">
-          ${
-            emails.length
-              ? `<a class="btn btn-quiet" href="mailto:${escapeHtml(emails.join(","))}?subject=${subject}">${icon("mail")}<span>${bothEmail}</span></a>`
-              : ""
-          }
-          ${
-            phones.length
-              ? `<a class="btn btn-quiet" href="sms:${escapeHtml(phones.join(","))}">${icon("phone")}<span>${bothText}</span></a>`
-              : ""
-          }
-        </div>`
-      : `<p class="team-none">No contact details on file for this loan yet.</p>`;
+  const actions = reachable
+    ? `<div class="team-send-bar">
+        <span class="team-count" data-team-count aria-live="polite"></span>
+        <a class="team-send" data-team-mail aria-label="Email the selected team members">${icon("mail")}</a>
+        <a class="team-send" data-team-sms aria-label="Text the selected team members">${icon("message")}</a>
+      </div>`
+    : `<p class="team-none">No contact details on file for this loan yet.</p>`;
 
   return `
     <div class="team-strip">
@@ -263,7 +260,7 @@ function teamStripMarkup(team, loan) {
         <span class="team-avatars">
           ${team.map((m) => `<span class="team-avatar sm" aria-hidden="true">${escapeHtml(pInitials(m.name))}</span>`).join("")}
         </span>
-        <span class="team-label">Team Members on file</span>
+        <span class="team-label">Team members</span>
         <span class="team-chevron">${icon("chevron")}</span>
       </button>
       <div class="team-panel" id="team-panel" hidden>
@@ -271,6 +268,47 @@ function teamStripMarkup(team, loan) {
         ${actions}
       </div>
     </div>`;
+}
+
+/**
+ * Point the two send icons at whoever is currently ticked.
+ *
+ * The icons are anchors so the phone treats them as links, which is what makes
+ * the handoff to Mail and Messages reliable. When a channel has nobody to reach,
+ * the href is removed rather than pointing somewhere useless, and the icon is
+ * marked disabled: a mail button that opens an empty compose window is worse
+ * than one that is visibly unavailable.
+ */
+function syncTeamSend() {
+  const sheet = pipeEl();
+  if (!sheet || !openLoan) return;
+  const team = teamForLoan(openLoan, appConfig && appConfig.team);
+  const picked = team.filter((_, i) => teamSelected.has(i));
+
+  const emails = picked.map((m) => m.email).filter(Boolean);
+  const phones = picked.map((m) => pDigits(m.phone)).filter(Boolean);
+
+  const countEl = sheet.querySelector("[data-team-count]");
+  if (countEl) {
+    countEl.textContent = picked.length
+      ? `${picked.length} of ${team.length} selected`
+      : "Nobody selected";
+  }
+
+  const set = (el, href) => {
+    if (!el) return;
+    if (href) {
+      el.setAttribute("href", href);
+      el.removeAttribute("aria-disabled");
+    } else {
+      el.removeAttribute("href");
+      el.setAttribute("aria-disabled", "true");
+    }
+  };
+  set(sheet.querySelector("[data-team-mail]"),
+    emails.length ? `mailto:${emails.join(",")}?subject=${teamSubject}` : "");
+  set(sheet.querySelector("[data-team-sms]"),
+    phones.length ? `sms:${phones.join(",")}` : "");
 }
 
 /* ---------- sheet plumbing ---------- */
@@ -801,6 +839,12 @@ function wirePipelineSheet() {
 
     /* Toggled in place rather than re-rendered: a re-render would scroll the
        sheet back to the top, away from the thing just tapped. */
+    const teamSend = e.target.closest("[data-team-mail], [data-team-sms]");
+    if (teamSend && teamSend.getAttribute("aria-disabled") === "true") {
+      e.preventDefault();
+      return;
+    }
+
     const teamBtn = e.target.closest("[data-team]");
     if (teamBtn) {
       const panel = sheet.querySelector(".team-panel");
@@ -809,6 +853,7 @@ function wirePipelineSheet() {
         panel.hidden = !open;
         teamBtn.setAttribute("aria-expanded", String(open));
         teamBtn.closest(".team-strip").classList.toggle("is-open", open);
+        if (open) syncTeamSend();
       }
       return;
     }
@@ -860,6 +905,14 @@ function wirePipelineSheet() {
   });
 
   sheet.addEventListener("change", (e) => {
+    const pick = e.target.closest("[data-team-pick]");
+    if (pick) {
+      const i = Number(pick.dataset.teamPick);
+      if (pick.checked) teamSelected.add(i);
+      else teamSelected.delete(i);
+      syncTeamSend();
+      return;
+    }
     if (e.target.id === "pipeline-file") handleImportFile(e.target);
   });
 

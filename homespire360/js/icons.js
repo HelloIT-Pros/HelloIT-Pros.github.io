@@ -63,6 +63,9 @@ const ICON_PATHS = {
   copy:
     '<rect x="9" y="9" width="12" height="12" rx="2.4"/><path d="M15 6.2V5.4A2.4 2.4 0 0 0 12.6 3H5.4A2.4 2.4 0 0 0 3 5.4v7.2A2.4 2.4 0 0 0 5.4 15h.8"/>',
   check: '<path d="M4.8 12.6 9.6 17.4 19.2 6.6"/>',
+  /* A speech bubble, for a text message. Distinct from `phone`, which is a
+     call, and from `mail`, which is an envelope. */
+  message: '<path d="M4 5.6A2.6 2.6 0 0 1 6.6 3h10.8A2.6 2.6 0 0 1 20 5.6v6.8a2.6 2.6 0 0 1-2.6 2.6H9l-5 4v-4z"/>',
 };
 
 /** Older saved drafts stored emoji in config.icon. Map them to real icons. */

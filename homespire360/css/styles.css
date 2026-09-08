@@ -2486,12 +2486,6 @@ body.sheet-open {
   margin-top: 1px;
 }
 
-.team-acts {
-  display: flex;
-  gap: 2px;
-  flex: 0 0 auto;
-}
-
 .team-act {
   width: 36px;
   height: 36px;
@@ -2505,26 +2499,99 @@ body.sheet-open {
 .team-act .icon { width: 17px; height: 17px; }
 .team-act:active { background: rgba(147, 51, 234, 0.1); }
 
-.team-group {
-  display: flex;
-  gap: 8px;
-  margin-top: 10px;
+/* ---------- selecting who to message ---------- */
+
+.team-pick {
+  /* The real checkbox is absolutely positioned over the drawn box, so this has
+     to be its containing block or it lands somewhere else on the sheet. */
+  position: relative;
+  display: grid;
+  place-items: center;
+  flex: 0 0 auto;
+  cursor: pointer;
+  padding: 4px;
+  margin: -4px 0 -4px -4px;
 }
 
-/* Not primary buttons. Messaging the team is a convenience on this screen, and
-   the pre-approval letter below is the action that matters. */
-.btn-quiet {
+/* The real checkbox stays in the accessibility tree and keeps keyboard and
+   screen reader behaviour; the visible box is drawn beside it. */
+.team-pick input {
+  position: absolute;
+  opacity: 0;
+  width: 22px;
+  height: 22px;
+  margin: 0;
+}
+
+.team-box {
+  width: 21px;
+  height: 21px;
+  border-radius: 6px;
+  border: 1.5px solid #cfd3db;
+  background: #fff;
+  display: grid;
+  place-items: center;
+  color: #fff;
+}
+
+.team-box .icon {
+  width: 14px;
+  height: 14px;
+  opacity: 0;
+  stroke-width: 3;
+}
+
+.team-pick input:checked + .team-box {
+  background: var(--purple-bright);
+  border-color: var(--purple-bright);
+}
+
+.team-pick input:checked + .team-box .icon { opacity: 1; }
+
+.team-pick input:focus-visible + .team-box {
+  outline: 2px solid var(--purple-bright);
+  outline-offset: 2px;
+}
+
+.team-send-bar {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin-top: 10px;
+  padding-top: 10px;
+  border-top: 1px solid var(--border);
+}
+
+.team-count {
   flex: 1;
-  justify-content: center;
+  min-width: 0;
+  font-size: 12px;
+  color: var(--muted);
+}
+
+.team-send {
+  width: 40px;
+  height: 40px;
+  border-radius: 12px;
+  display: grid;
+  place-items: center;
   background: var(--surface);
   border: 1px solid var(--border);
-  color: var(--text);
-  font-size: 13.5px;
+  color: var(--purple-bright);
   text-decoration: none;
+  flex: 0 0 auto;
 }
 
-.btn-quiet .icon { width: 16px; height: 16px; }
-.btn-quiet:active { background: #eef0f4; }
+.team-send .icon { width: 18px; height: 18px; }
+.team-send:active { background: #eef0f4; }
+
+/* Nobody to reach on this channel. Visibly unavailable beats opening an empty
+   compose window. */
+.team-send[aria-disabled="true"] {
+  color: #c9ccd3;
+  background: #fbfbfc;
+  pointer-events: none;
+}
 
 .team-none {
   margin: 10px 0 2px;
