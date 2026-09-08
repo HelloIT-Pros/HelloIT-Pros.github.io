@@ -45,10 +45,14 @@ PROCESSORS = ["R Alvarez", "T Nakashima", "K Boyd", "M Okafor", "", "", ""]
 
 # The app's own roster. A sample pipeline for someone who is not in the app
 # would just be dead rows.
+# "loans" is the live book. "closedYtd" is loans already funded earlier in the
+# year, which exist only so the funded tiles have something different to say
+# when they are flipped from the month to the year. A real export barely carries
+# any funded history, so without these the flip would look broken in the demo.
 OFFICERS = [
-    {"name": "Amy LeBlanc", "nmls": "1405094", "loans": 9},
-    {"name": "Edwin Oquendo", "nmls": "931021", "loans": 7},
-    {"name": "Demo LO", "nmls": "", "loans": 4},
+    {"name": "Amy LeBlanc", "nmls": "1405094", "loans": 9, "closedYtd": 11},
+    {"name": "Edwin Oquendo", "nmls": "931021", "loans": 7, "closedYtd": 8},
+    {"name": "Demo LO", "nmls": "", "loans": 4, "closedYtd": 3},
 ]
 
 
@@ -96,7 +100,7 @@ def build():
             # Days from "today" at render time, so the sample never goes stale
             # and starts reading as a pile of overdue loans.
             offset = (
-                random.randint(-11, -1)
+                random.randint(-6, -1)
                 if funded
                 else random.randint(4, 74)
                 if milestone == "Started"
@@ -119,7 +123,14 @@ def build():
             # Optional columns are sparse in a real export, and a screen built
             # against a fully populated sample breaks on the real thing.
             if funded:
-                loan["fundedOffsetDays"] = offset - random.randint(0, 3)
+                # Anchored to a day of the current month rather than to a day
+                # offset, so the month to date tile is never empty when the app
+                # is opened in the first week of a month. The loader clamps a
+                # day that has not arrived yet back to today.
+                day = random.choice([2, 3, 5, 6, 9, 11, 14])
+                loan["fundedMonthDay"] = day
+                loan["estClosingMonthDay"] = day
+                loan.pop("estClosingOffsetDays", None)
             if random.random() < 0.25:
                 loan["appraisalOrderedOffsetDays"] = offset - random.randint(14, 40)
             if random.random() < 0.25:
@@ -127,6 +138,30 @@ def build():
             if random.random() < 0.12:
                 loan["cdSentOffsetDays"] = offset - random.randint(2, 8)
             loans.append(loan)
+
+        # Funded earlier in the year. Spread from roughly three weeks back to
+        # about eight months back, so the year figure is meaningfully larger
+        # than the month figure. Offsets rather than fixed dates means the
+        # oldest of these fall out of the year total as the calendar turns,
+        # which is what a real year to date should do.
+        for _ in range(officer.get("closedYtd", 0)):
+            fund_offset = -random.randint(20, 230)
+            loans.append(
+                {
+                    "loanNumber": f"7{random.randint(1000000000, 9999999999)}",
+                    "borrowerName": a_name(used),
+                    "loanOfficer": officer["name"],
+                    "nmls": officer["nmls"],
+                    "milestone": "Funding",
+                    "loanPurpose": random.choice(PURPOSES),
+                    "loanType": random.choice(LOAN_TYPES),
+                    "loanAmount": an_amount(),
+                    "estClosingOffsetDays": fund_offset + random.randint(0, 3),
+                    "fundedOffsetDays": fund_offset,
+                    "loanProcessor": random.choice(PROCESSORS),
+                    "channel": "NFM Lending",
+                }
+            )
 
     return {
         "sample": True,

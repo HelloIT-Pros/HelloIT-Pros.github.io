@@ -23,6 +23,9 @@ let letterValues = null;
 let previewFile = null;
 let previewUrl = null;
 let previewStale = true;
+/* Which period the funded tiles are showing. Month by default on every
+   launch, per the product decision, so a flip is never a sticky surprise. */
+let fundedPeriod = "month";
 
 const pipeEl = () => document.getElementById("pipeline-sheet");
 
@@ -99,12 +102,15 @@ function pipelineRowMarkup() {
 /**
  * The four numbers, on Home, above everything else.
  *
- * Two of them are exact. The funded pair is only ever as good as the export:
- * a month-to-date pipeline snapshot carries a few days of funding, not a year,
- * so the tile is labelled with the period the data actually covers rather than
- * with the period someone hoped for. A dashboard that says "year to date" over
- * three days of September is worse than no dashboard, because it gets repeated
- * in a meeting.
+ * The two pipeline tiles are read only: they are a status line, not navigation,
+ * and My Pipeline sits directly beneath them as the one thing to tap.
+ *
+ * The two funded tiles are different. They carry two periods, month to date on
+ * the front and year to date on the back, and tapping either one flips both so
+ * the pair never shows one period for units and another for volume. Both faces
+ * are rendered up front and the flip is a class on the grid, so the animation
+ * is not interrupted by a re-render and the chosen period survives a category
+ * chip changing the view.
  */
 function pipelineTilesMarkup() {
   if (!pipelineData || !currentLo) return "";
@@ -112,27 +118,9 @@ function pipelineTilesMarkup() {
   if (!loans.length) return "";
 
   const active = loans.filter((l) => !isFunded(l));
-  const funded = loans.filter(isFunded);
   const sum = (list) => list.reduce((n, l) => n + (l.loanAmount || 0), 0);
+  const totals = fundedTotals(loans);
 
-  const fundedDates = funded.map((l) => l.fundsReleased).filter(Boolean).sort();
-  const earliest = fundedDates[0];
-  const thisYear = String(new Date().getFullYear());
-  let coverage;
-  if (!funded.length) {
-    coverage = "none in this data";
-  } else if (earliest && earliest.startsWith(thisYear) && earliest.slice(5, 7) === "01") {
-    coverage = "this year";
-  } else if (earliest) {
-    /* Say the real window. It is how you notice the export is not what you
-       thought it was. */
-    coverage = `since ${pShortDate(earliest)}`;
-  } else {
-    coverage = "in this data";
-  }
-
-  /* Read-only on purpose. They are a status line, not navigation: My Pipeline
-     sits directly beneath them and is the one thing to tap. */
   const tile = (label, value, note, lead) => `
     <div class="tile${lead ? " lead" : ""}">
       <span class="tile-label">${escapeHtml(label)}</span>
@@ -140,16 +128,47 @@ function pipelineTilesMarkup() {
       <span class="tile-note">${escapeHtml(note)}</span>
     </div>`;
 
+  /* Not an emoji and not a spinner: two arrows turning, which is the only thing
+     at this size that reads as "this card has another side". */
+  const FLIP_GLYPH = `
+    <svg class="flip-mark" viewBox="0 0 24 24" width="13" height="13" fill="none"
+      stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+      <path d="M3 10a7 7 0 0 1 12-4l3 3" /><path d="M18 4v5h-5" />
+      <path d="M21 14a7 7 0 0 1-12 4l-3-3" /><path d="M6 20v-5h5" />
+    </svg>`;
+
+  /* The mark lives inside each face rather than on the button. On the button it
+     rotates with the card and lands mirrored on the opposite corner; inside a
+     face it is hidden with that face and sits correctly on both sides. */
+  const face = (label, value, period, back) => `
+    <span class="flip-face${back ? " flip-back" : ""}" aria-hidden="${back ? "true" : "false"}">
+      ${FLIP_GLYPH}
+      <span class="tile-label">${escapeHtml(label)}</span>
+      <span class="tile-value">${escapeHtml(value)}</span>
+      <span class="tile-note">${escapeHtml(period)}</span>
+    </span>`;
+
+  /* One button, two faces. Each face states its own period on the note line, so
+     a number is never on screen without the period attached to it. The period
+     sits there rather than in the label because "FUNDED VOLUME (MONTH)" wraps
+     to two lines at phone width, which pushed the two values out of alignment. */
+  const flipTile = (name, monthValue, yearValue) => `
+    <button type="button" class="tile tile-flip" data-flip
+      aria-label="${escapeHtml(name)}. Showing ${fundedPeriod === "year" ? "year" : "month"} to date. Tap to show the ${fundedPeriod === "year" ? "month" : "year"}.">
+      ${face(name, monthValue, "month to date", false)}
+      ${face(name, yearValue, "year to date", true)}
+    </button>`;
+
   return `
     <div class="tile-head">
       <span>My production</span>
       ${pipelineData.sample ? `<span class="tile-sample">Sample</span>` : ""}
     </div>
-    <div class="tile-grid">
+    <div class="tile-grid${fundedPeriod === "year" ? " is-flipped" : ""}">
       ${tile("In pipeline", String(active.length), active.length === 1 ? "loan" : "loans", true)}
       ${tile("Pipeline volume", pCompact(sum(active)), "in process", true)}
-      ${tile("Funded", String(funded.length), funded.length === 1 ? "loan" : "loans")}
-      ${tile("Funded volume", pCompact(sum(funded)), coverage)}
+      ${flipTile("Funded units", String(totals.month.units), String(totals.year.units))}
+      ${flipTile("Funded volume", pCompact(totals.month.volume), pCompact(totals.year.volume))}
     </div>`;
 }
 
@@ -238,6 +257,7 @@ function renderImportScreen() {
 function renderPipelineList() {
   const loans = sortForPipeline(myLoans());
   const stats = pipelineStats(loans);
+  const monthFunded = fundedTotals(loans).month;
 
   const counts = {
     all: loans.length,
@@ -268,10 +288,13 @@ function renderPipelineList() {
         <div class="stat-value">${pCompact(stats.activeVolume)}</div>
         <div class="stat-note">${stats.active} loan${stats.active === 1 ? "" : "s"}</div>
       </div>
+      <!-- Month to date, matching the Home tile's default face. Two screens
+           showing different periods under the same word "Funded" is how a
+           number gets quoted wrongly, so the period is in the label. -->
       <div class="stat-card">
-        <div class="stat-label">Funded</div>
-        <div class="stat-value">${pCompact(stats.fundedVolume)}</div>
-        <div class="stat-note">${stats.funded} ${pipelineData && pipelineData.sample ? "in this sample" : "in this export"}</div>
+        <div class="stat-label">Funded this month</div>
+        <div class="stat-value">${pCompact(monthFunded.volume)}</div>
+        <div class="stat-note">${monthFunded.units} loan${monthFunded.units === 1 ? "" : "s"}</div>
       </div>
     </div>
     <div class="chip-row">${chip("all", "All")}${chip("soon", "Closing soon")}${chip("started", "Started")}${chip("approval", "Approval")}${chip("funded", "Funded")}</div>
@@ -591,6 +614,38 @@ function renderPipelineTiles() {
   slot.innerHTML = show ? pipelineTilesMarkup() : "";
 }
 
+/**
+ * Flip both funded tiles between month and year.
+ *
+ * The class goes on the grid rather than the tile so one tap moves the pair,
+ * and the markup is not rebuilt, so the transition actually runs. The aria
+ * labels are patched in place for the same reason. fundedPeriod is what makes
+ * the choice survive the next full re-render.
+ */
+function wireProductionTiles() {
+  const slot = document.getElementById("stats-slot");
+  if (!slot) return;
+  slot.addEventListener("click", (e) => {
+    if (!e.target.closest("[data-flip]")) return;
+    fundedPeriod = fundedPeriod === "year" ? "month" : "year";
+    const grid = slot.querySelector(".tile-grid");
+    if (grid) grid.classList.toggle("is-flipped", fundedPeriod === "year");
+    slot.querySelectorAll("[data-flip]").forEach((btn) => {
+      const name = (btn.getAttribute("aria-label") || "").split(".")[0];
+      const now = fundedPeriod === "year" ? "year" : "month";
+      const next = fundedPeriod === "year" ? "month" : "year";
+      btn.setAttribute("aria-label", `${name}. Showing ${now} to date. Tap to show the ${next}.`);
+    });
+    /* Only the visible face should be reachable by a screen reader. */
+    slot.querySelectorAll(".tile-flip").forEach((btn) => {
+      const front = btn.querySelector(".flip-face:not(.flip-back)");
+      const back = btn.querySelector(".flip-back");
+      if (front) front.setAttribute("aria-hidden", fundedPeriod === "year" ? "true" : "false");
+      if (back) back.setAttribute("aria-hidden", fundedPeriod === "year" ? "false" : "true");
+    });
+  });
+}
+
 function wirePipelineSheet() {
   const sheet = pipeEl();
 
@@ -679,6 +734,7 @@ function wirePipelineSheet() {
 
 async function initPipeline() {
   wirePipelineSheet();
+  wireProductionTiles();
   /* An import always wins. The sample exists so the feature is never an empty
      screen, not to compete with the LO's own data. */
   pipelineData = loadPipeline();

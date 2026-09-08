@@ -2221,6 +2221,9 @@ body.sheet-open {
   max-width: 640px;
   margin: 0 auto;
   padding: 0 var(--pad);
+  /* Gives the funded tiles' flip real depth. The two pipeline tiles carry no
+     transform, so this does nothing to them. */
+  perspective: 1000px;
 }
 
 .tile {
@@ -2257,6 +2260,67 @@ body.sheet-open {
 }
 
 .tile-note { font-size: 11.5px; opacity: 0.72; }
+
+/*
+ * The funded tiles flip between month to date and year to date.
+ *
+ * Both faces sit in the same grid cell rather than being absolutely
+ * positioned, so the card's height is the taller of the two faces and no magic
+ * number has to be kept in step with the type. The rotation is on the button
+ * itself, so the border and background turn with the content.
+ */
+.tile-flip {
+  position: relative;
+  display: grid;
+  text-align: left;
+  font: inherit;
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+  transform-style: preserve-3d;
+  transition: transform 0.55s cubic-bezier(0.2, 0.7, 0.2, 1);
+}
+
+.tile-flip .flip-face {
+  grid-area: 1 / 1;
+  /* Its own containing block. The rotated back face already establishes one,
+     so anchoring the mark to the button instead makes it land in two different
+     places on the two sides. */
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: 1px;
+  -webkit-backface-visibility: hidden;
+  backface-visibility: hidden;
+}
+
+.tile-flip .flip-back { transform: rotateY(180deg); }
+
+.tile-grid.is-flipped .tile-flip { transform: rotateY(180deg); }
+
+/* A tile that turns needs to say so before it is touched, without becoming a
+   button that competes with My Pipeline for attention. */
+.tile-flip .flip-mark {
+  position: absolute;
+  top: 1px;
+  right: 0;
+  opacity: 0.28;
+  pointer-events: none;
+}
+
+/* The label shares its line with that mark, so it stops short of it. */
+.tile-flip .tile-label { padding-right: 18px; }
+
+.tile-flip:active { transform: scale(0.985); }
+.tile-grid.is-flipped .tile-flip:active { transform: rotateY(180deg) scale(0.985); }
+
+.tile-flip:focus-visible {
+  outline: 2px solid var(--purple);
+  outline-offset: 2px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .tile-flip { transition: none; }
+}
 
 @media (min-width: 520px) {
   .tile-grid { grid-template-columns: repeat(4, 1fr); }

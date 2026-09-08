@@ -197,6 +197,32 @@ function pipelineStats(loans, today = new Date()) {
   };
 }
 
+/**
+ * Funded units and volume for the current month and the current year.
+ *
+ * Keyed off fundsReleased for the same reason isFunded is: it is the only date
+ * in the export that proves the money actually went out. String prefix matching
+ * on the ISO date avoids constructing a Date per loan and avoids timezone drift
+ * pulling a loan funded on the 1st back into the previous month.
+ *
+ * Note what a real export will do here. Encompass pipeline exports carry almost
+ * no funded history, so year and month will read the same until a funded loans
+ * report covering the year is imported. That is a data problem, not a display
+ * one, and this returns whatever the imported file can support.
+ */
+function fundedTotals(loans, today = new Date()) {
+  const year = String(today.getFullYear());
+  const month = `${year}-${String(today.getMonth() + 1).padStart(2, "0")}`;
+  const tally = (prefix) => {
+    const hits = loans.filter((l) => l.fundsReleased && l.fundsReleased.startsWith(prefix));
+    return {
+      units: hits.length,
+      volume: hits.reduce((n, l) => n + (l.loanAmount || 0), 0),
+    };
+  };
+  return { month: tally(month), year: tally(year) };
+}
+
 /** Soonest first, funded loans last: an LO reads this list to plan a day. */
 function sortForPipeline(loans, today = new Date()) {
   return [...loans].sort((a, b) => {
@@ -245,6 +271,22 @@ function offsetToIso(days, today = new Date()) {
   return d.toISOString().slice(0, 10);
 }
 
+/**
+ * A given day of the *current* month, clamped so it is never in the future.
+ *
+ * A day offset cannot express "this month": viewed on the 2nd, minus six days
+ * is last month, and the month to date figures in the sample would read zero
+ * through the first week of every month. Anchoring a few sample fundings to a
+ * day of the current month keeps the month face populated whenever it is
+ * opened, without any fixed date that can rot.
+ */
+function monthDayToIso(day, today = new Date()) {
+  if (day === undefined || day === null) return null;
+  const wanted = Math.min(Math.max(1, Number(day) || 1), today.getDate());
+  const d = new Date(today.getFullYear(), today.getMonth(), wanted, 12);
+  return d.toISOString().slice(0, 10);
+}
+
 async function loadSamplePipeline() {
   try {
     const res = await fetch(SAMPLE_URL, { cache: "no-store" });
@@ -259,11 +301,11 @@ async function loadSamplePipeline() {
       loanPurpose: l.loanPurpose,
       loanType: l.loanType,
       loanAmount: l.loanAmount,
-      estClosingDate: offsetToIso(l.estClosingOffsetDays),
+      estClosingDate: offsetToIso(l.estClosingOffsetDays) || monthDayToIso(l.estClosingMonthDay),
       closedDateRaw: null,
       appraisalOrdered: offsetToIso(l.appraisalOrderedOffsetDays),
       rateLockExpires: offsetToIso(l.rateLockOffsetDays),
-      fundsReleased: offsetToIso(l.fundedOffsetDays),
+      fundsReleased: offsetToIso(l.fundedOffsetDays) || monthDayToIso(l.fundedMonthDay),
       cdSent: offsetToIso(l.cdSentOffsetDays),
       loanProcessor: l.loanProcessor || "",
       channel: l.channel || "",
