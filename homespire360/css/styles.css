@@ -2023,6 +2023,14 @@ body.sheet-open {
 .fact-label { color: var(--muted); flex: 0 0 auto; }
 .fact-value { font-weight: 600; text-align: right; min-width: 0; word-break: break-word; }
 
+/* "Not on file yet" is a status, not a number. Styled so it cannot be misread
+   as a value, while the row itself still proves the field exists. */
+.fact-value.is-status {
+  font-weight: 500;
+  font-style: italic;
+  color: var(--faint);
+}
+
 /* ---------- the letter editor ---------- */
 
 .locked-strip {
@@ -2235,7 +2243,38 @@ body.sheet-open {
   border-radius: 14px;
   background: var(--card);
   color: var(--text);
+  /* Every tile is a button now: the pipeline pair navigates, the funded pair
+     turns over. Reset the control styling rather than the layout. */
+  font: inherit;
+  text-align: left;
+  cursor: pointer;
+  -webkit-appearance: none;
 }
+
+.tile.lead:active { transform: scale(0.985); }
+
+.tile:focus-visible {
+  outline: 2px solid var(--purple-bright);
+  outline-offset: 2px;
+}
+
+/* A chevron, so the pipeline tiles read as somewhere to go. */
+.tile.lead { position: relative; }
+
+.tile.lead::after {
+  content: "";
+  position: absolute;
+  top: 15px;
+  right: 13px;
+  width: 6px;
+  height: 6px;
+  border-right: 1.5px solid currentColor;
+  border-bottom: 1.5px solid currentColor;
+  transform: rotate(-45deg);
+  opacity: 0.5;
+}
+
+.tile.lead .tile-label { padding-right: 16px; }
 
 .tile.lead {
   background: var(--purple);

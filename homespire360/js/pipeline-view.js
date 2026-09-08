@@ -102,8 +102,7 @@ function pipelineRowMarkup() {
 /**
  * The four numbers, on Home, above everything else.
  *
- * The two pipeline tiles are read only: they are a status line, not navigation,
- * and My Pipeline sits directly beneath them as the one thing to tap.
+ * The two pipeline tiles open My Pipeline, which is the screen they summarise.
  *
  * The two funded tiles are different. They carry two periods, month to date on
  * the front and year to date on the back, and tapping either one flips both so
@@ -121,12 +120,17 @@ function pipelineTilesMarkup() {
   const sum = (list) => list.reduce((n, l) => n + (l.loanAmount || 0), 0);
   const totals = fundedTotals(loans);
 
+  /* The two pipeline tiles open My Pipeline. They summarise that screen, so
+     tapping the summary going to the thing it summarises is the one behaviour
+     nobody has to be taught. The funded pair does not navigate, because tapping
+     those turns them over. */
   const tile = (label, value, note, lead) => `
-    <div class="tile${lead ? " lead" : ""}">
+    <button type="button" class="tile${lead ? " lead" : ""}" data-open-pipeline
+      aria-label="${escapeHtml(label)}, ${escapeHtml(value)} ${escapeHtml(note)}. Open My Pipeline.">
       <span class="tile-label">${escapeHtml(label)}</span>
       <span class="tile-value">${escapeHtml(value)}</span>
       <span class="tile-note">${escapeHtml(note)}</span>
-    </div>`;
+    </button>`;
 
   /* Not an emoji and not a spinner: two arrows turning, which is the only thing
      at this size that reads as "this card has another side". */
@@ -259,7 +263,7 @@ function teamStripMarkup(team, loan) {
         <span class="team-avatars">
           ${team.map((m) => `<span class="team-avatar sm" aria-hidden="true">${escapeHtml(pInitials(m.name))}</span>`).join("")}
         </span>
-        <span class="team-label">On this file</span>
+        <span class="team-label">Team Members on file</span>
         <span class="team-chevron">${icon("chevron")}</span>
       </button>
       <div class="team-panel" id="team-panel" hidden>
@@ -445,15 +449,32 @@ function renderLoanDetail(loan) {
 
   /* Only rows the export actually filled. A detail screen full of blanks
      teaches an LO that the app does not know anything. */
+  /*
+   * Purchase price is always on this screen, even when there is no value.
+   *
+   * It used to be dropped along with every other empty row, and the result was
+   * that a loan with no price looked like a screen that had forgotten to show
+   * it. So the row is always rendered and it says why it is empty: not
+   * applicable on a refinance, and not on file yet on a purchase, since the
+   * export does not carry the column. The third element marks a value as a
+   * status rather than data, so it can be styled as one.
+   */
+  const isRefi = /refinance/i.test(loan.loanPurpose || "");
+  const priceRow = equity
+    ? [pMoney(equity.price), false]
+    : isRefi
+    ? ["Not applicable on a refinance", true]
+    : [Number(loan.purchasePrice) > 0 ? "Check the loan amount" : "Not on file yet", true];
+
   const facts = [
     ["Loan number", loan.loanNumber],
     ["Milestone", loan.milestone],
     ["Purpose", loan.loanPurpose],
     ["Loan type", loan.loanType],
     ["Loan amount", loan.loanAmount ? pMoney(loan.loanAmount) : ""],
-    /* Both come from the purchase price, which today's export does not carry,
-       so on a real import these two rows are simply absent rather than wrong. */
-    ["Purchase price", equity ? pMoney(equity.price) : ""],
+    ["Purchase price", priceRow[0], priceRow[1]],
+    /* Derived, so it appears only when there is something to derive it from.
+       A second placeholder row saying the same thing twice is noise. */
     ["Down payment", equity ? pMoney(equity.downPayment) : ""],
     ["Estimated closing", pLongDate(loan.estClosingDate)],
     ["Funds released", pLongDate(loan.fundsReleased)],
@@ -483,10 +504,10 @@ function renderLoanDetail(loan) {
       <div class="list fact-list">
         ${facts
           .map(
-            ([label, value]) => `
+            ([label, value, isStatus]) => `
           <div class="fact">
             <span class="fact-label">${escapeHtml(label)}</span>
-            <span class="fact-value">${escapeHtml(value)}</span>
+            <span class="fact-value${isStatus ? " is-status" : ""}">${escapeHtml(value)}</span>
           </div>`
           )
           .join("")}
@@ -717,6 +738,7 @@ function wireProductionTiles() {
   const slot = document.getElementById("stats-slot");
   if (!slot) return;
   slot.addEventListener("click", (e) => {
+    if (e.target.closest("[data-open-pipeline]")) return openPipeline();
     if (!e.target.closest("[data-flip]")) return;
     fundedPeriod = fundedPeriod === "year" ? "month" : "year";
     const grid = slot.querySelector(".tile-grid");
