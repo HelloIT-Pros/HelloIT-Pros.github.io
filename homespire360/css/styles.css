@@ -2531,3 +2531,27 @@ body.sheet-open {
   font-size: 12px;
   color: var(--muted);
 }
+
+
+/* A feature that does not apply to this loan, said rather than hidden. Sits
+   where its button would have been, at the weight of a note. */
+.feature-na {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  margin: 14px 0 2px;
+  padding: 12px 14px;
+  border: 1px dashed var(--border);
+  border-radius: 14px;
+  background: var(--surface);
+  color: var(--muted);
+  font-size: 13px;
+  line-height: 1.35;
+}
+
+.feature-na .icon {
+  width: 17px;
+  height: 17px;
+  flex: 0 0 auto;
+  opacity: 0.7;
+}

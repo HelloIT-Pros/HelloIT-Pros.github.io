@@ -512,9 +512,17 @@ function renderLoanDetail(loan) {
           )
           .join("")}
       </div>
-      <button class="btn btn-primary wide" type="button" data-letter="1">
-        ${icon("fileText")}<span>Pre-approval letter</span>
-      </button>
+      ${
+        isRefi
+          ? /* A refinance has no purchase to be pre-approved for, so the letter
+               does not apply. Said out loud rather than silently omitted: a
+               button that vanishes with no explanation is how the purchase
+               price row got reported as a missing feature. */
+            `<p class="feature-na">${icon("fileText")}<span>Pre-approval letters apply to purchase loans only.</span></p>`
+          : `<button class="btn btn-primary wide" type="button" data-letter="1">
+              ${icon("fileText")}<span>Pre-approval letter</span>
+            </button>`
+      }
       <p class="import-footer">From your imported pipeline, plus the contact details Homespire keeps for the file team.</p>
     </div>`);
 }
@@ -522,6 +530,10 @@ function renderLoanDetail(loan) {
 /* ---------- screen 3: the letter ---------- */
 
 function startLetter(loan) {
+  /* Guarded here as well as in the markup. The button is the only route today,
+     but a letter on a refinance is wrong in the copy itself, not just missing
+     a purchase price, so this must not become reachable by accident. */
+  if (!loan || /refinance/i.test(loan.loanPurpose || "")) return;
   letterValues = {
     borrowerName: loan.borrowerName,
     loanType: loan.loanType || loan.loanPurpose || "mortgage",
@@ -734,11 +746,33 @@ function renderPipelineTiles() {
  * labels are patched in place for the same reason. fundedPeriod is what makes
  * the choice survive the next full re-render.
  */
+/**
+ * Scroll the My Pipeline row into view on the page behind the sheet.
+ *
+ * Not a navigation on its own: the sheet is what the tap opens. This is so the
+ * page underneath is already at the right place when the sheet is dismissed.
+ */
+function revealPipelineRow() {
+  const row = document.getElementById("open-pipeline-btn");
+  if (!row || typeof row.scrollIntoView !== "function") return;
+  try {
+    row.scrollIntoView({ block: "center", behavior: "smooth" });
+  } catch {
+    row.scrollIntoView();
+  }
+}
+
 function wireProductionTiles() {
   const slot = document.getElementById("stats-slot");
   if (!slot) return;
   slot.addEventListener("click", (e) => {
-    if (e.target.closest("[data-open-pipeline]")) return openPipeline();
+    if (e.target.closest("[data-open-pipeline]")) {
+      /* Open the sheet, and bring the My Pipeline row into view behind it, so
+         closing the sheet leaves you at that section rather than back at the
+         top of Home. */
+      revealPipelineRow();
+      return openPipeline();
+    }
     if (!e.target.closest("[data-flip]")) return;
     fundedPeriod = fundedPeriod === "year" ? "month" : "year";
     const grid = slot.querySelector(".tile-grid");
