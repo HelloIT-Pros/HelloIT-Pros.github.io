@@ -2701,3 +2701,72 @@ body.sheet-open {
   flex: 0 0 auto;
   opacity: 0.7;
 }
+
+
+/* ---------- Prospects note on the pipeline tiles ---------- */
+
+/* A second, quieter line under the note. Leads live here so they are visible
+   without being added into a production number. */
+.tile-extra {
+  display: block;
+  margin-top: 3px;
+  font-size: 10.5px;
+  font-weight: 600;
+  opacity: 0.62;
+}
+
+/* ---------- Real data warning ---------- */
+
+/* The mirror of the sample banner. A local build holds real borrower names, and
+   whoever is holding the phone should know before they show it to anyone. */
+.sample-banner.is-real {
+  color: #7a1f1f;
+  background: #fdecea;
+}
+
+/* ---------- Reaching the borrower ---------- */
+
+.borrower-strip {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin: 12px 0 0;
+  padding: 9px 6px 9px 13px;
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  background: var(--card);
+}
+
+.borrower-who { flex: 1; min-width: 0; }
+
+.borrower-label {
+  display: block;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--faint);
+}
+
+.borrower-name {
+  display: block;
+  font-size: 14px;
+  font-weight: 600;
+  line-height: 1.25;
+  margin-top: 1px;
+}
+
+.borrower-acts { display: flex; gap: 2px; flex: 0 0 auto; }
+
+.borrower-act {
+  width: 38px;
+  height: 38px;
+  border-radius: 50%;
+  display: grid;
+  place-items: center;
+  color: var(--purple-bright);
+  text-decoration: none;
+}
+
+.borrower-act .icon { width: 18px; height: 18px; }
+.borrower-act:active { background: rgba(147, 51, 234, 0.1); }

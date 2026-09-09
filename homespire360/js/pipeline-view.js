@@ -123,20 +123,25 @@ function pipelineTilesMarkup() {
   const loans = myLoans();
   if (!loans.length) return "";
 
-  const active = loans.filter((l) => !isFunded(l));
+  /* Prospects are leads, not production. They are excluded from both numbers
+     and named underneath, so the count is honest and the leads are not hidden. */
+  const active = loans.filter(isActivePipeline);
+  const prospects = loans.filter(isProspect);
   const sum = (list) => list.reduce((n, l) => n + (l.loanAmount || 0), 0);
   const totals = fundedTotals(loans);
+  const prospectNote = prospects.length ? `${prospects.length} in prospects` : "";
 
   /* The two pipeline tiles open My Pipeline. They summarise that screen, so
      tapping the summary going to the thing it summarises is the one behaviour
      nobody has to be taught. The funded pair does not navigate, because tapping
      those turns them over. */
-  const tile = (label, value, note, lead) => `
+  const tile = (label, value, note, lead, extra) => `
     <button type="button" class="tile${lead ? " lead" : ""}" data-open-pipeline
-      aria-label="${escapeHtml(label)}, ${escapeHtml(value)} ${escapeHtml(note)}. Open My Pipeline.">
+      aria-label="${escapeHtml(label)}, ${escapeHtml(value)} ${escapeHtml(note)}${extra ? `, ${escapeHtml(extra)}` : ""}. Open My Pipeline.">
       <span class="tile-label">${escapeHtml(label)}</span>
       <span class="tile-value">${escapeHtml(value)}</span>
       <span class="tile-note">${escapeHtml(note)}</span>
+      ${extra ? `<span class="tile-extra">${escapeHtml(extra)}</span>` : ""}
     </button>`;
 
   /* Not an emoji and not a spinner: two arrows turning, which is the only thing
@@ -176,8 +181,8 @@ function pipelineTilesMarkup() {
       ${pipelineData.sample ? `<span class="tile-sample">Sample</span>` : ""}
     </div>
     <div class="tile-grid${fundedPeriod === "year" ? " is-flipped" : ""}">
-      ${tile("In pipeline", String(active.length), active.length === 1 ? "loan" : "loans", true)}
-      ${tile("Pipeline volume", pCompact(sum(active)), "in process", true)}
+      ${tile("In pipeline", String(active.length), active.length === 1 ? "loan" : "loans", true, prospectNote)}
+      ${tile("Pipeline volume", pCompact(sum(active)), "in process", true, prospects.length ? pCompact(sum(prospects)) + " in prospects" : "")}
       ${flipTile("Funded units", String(totals.month.units), String(totals.year.units))}
       ${flipTile("Funded volume", pCompact(totals.month.volume), pCompact(totals.year.volume))}
     </div>`;
@@ -191,9 +196,45 @@ function myLoans() {
 /* A demo that cannot be told from real data is how a fabricated number ends up
    quoted in a real meeting. The sample says so on every screen it reaches. */
 function sampleBanner() {
-  return pipelineData && pipelineData.sample
-    ? `<p class="sample-banner">${icon("shield")}<span>Sample data. Not real loans.</span></p>`
-    : "";
+  if (!pipelineData) return "";
+  if (pipelineData.sample) {
+    return `<p class="sample-banner">${icon("shield")}<span>Sample data. Not real loans.</span></p>`;
+  }
+  /* The opposite warning, and just as important. A local build carries real
+     borrower data, and whoever is holding the phone should know that before
+     they hand it to anyone. */
+  if (pipelineData.local) {
+    return `<p class="sample-banner is-real">${icon("shield")}<span>Real borrower data. Local build, nothing uploaded.</span></p>`;
+  }
+  return "";
+}
+
+/**
+ * The borrower's own contact details, when the export carries them.
+ *
+ * One row, two actions, no expanding: reaching the borrower is the most common
+ * thing an LO does from a loan, so it does not deserve a disclosure triangle.
+ * Both are plain links that hand off to the phone's dialler and mail app.
+ */
+function borrowerStripMarkup(loan) {
+  const phone = pDigits(loan.borrowerPhone);
+  const email = String(loan.borrowerEmail || "").trim();
+  if (!phone && !email) return "";
+  const subject = encodeURIComponent(
+    `${loan.borrowerName}${loan.loanNumber ? ` (loan ${loan.loanNumber})` : ""}`
+  );
+  return `
+    <div class="borrower-strip">
+      <span class="borrower-who">
+        <span class="borrower-label">Borrower</span>
+        <span class="borrower-name">${escapeHtml(loan.borrowerName)}</span>
+      </span>
+      <span class="borrower-acts">
+        ${phone ? `<a class="borrower-act" href="tel:${escapeHtml(phone)}" aria-label="Call ${escapeHtml(loan.borrowerName)}">${icon("phone")}</a>` : ""}
+        ${phone ? `<a class="borrower-act" href="sms:${escapeHtml(phone)}" aria-label="Text ${escapeHtml(loan.borrowerName)}">${icon("message")}</a>` : ""}
+        ${email ? `<a class="borrower-act" href="mailto:${escapeHtml(email)}?subject=${subject}" aria-label="Email ${escapeHtml(loan.borrowerName)}">${icon("mail")}</a>` : ""}
+      </span>
+    </div>`;
 }
 
 /* ---------- who else is on the file ---------- */
@@ -388,11 +429,14 @@ function renderPipelineList() {
   const stats = pipelineStats(loans);
   const monthFunded = fundedTotals(loans).month;
 
+  /* Folder first, because that is the distinction that changes what a number
+     means. Milestone filters follow, and only where they have members. */
   const counts = {
     all: loans.length,
-    soon: loans.filter((l) => !isFunded(l) && daysUntil(l.estClosingDate) <= 14).length,
-    started: loans.filter((l) => !isFunded(l) && l.milestone === "Started").length,
-    approval: loans.filter((l) => !isFunded(l) && l.milestone === "Approval").length,
+    active: loans.filter(isActivePipeline).length,
+    prospects: loans.filter(isProspect).length,
+    soon: loans.filter((l) => isActivePipeline(l) && daysUntil(l.estClosingDate) <= 14).length,
+    approval: loans.filter((l) => isActivePipeline(l) && l.milestone === "Approval").length,
     funded: stats.funded,
   };
   const chip = (id, label) =>
@@ -402,10 +446,12 @@ function renderPipelineList() {
 
   const shown = loans.filter((l) => {
     if (pipelineFilter === "all") return true;
-    if (pipelineFilter === "funded") return isFunded(l);
-    if (isFunded(l)) return false;
+    if (pipelineFilter === "prospects") return isProspect(l);
+    if (pipelineFilter === "funded") return isFunded(l) && !isProspect(l);
+    if (pipelineFilter === "active") return isActivePipeline(l);
+    if (!isActivePipeline(l)) return false;
     if (pipelineFilter === "soon") return daysUntil(l.estClosingDate) <= 14;
-    return l.milestone === (pipelineFilter === "started" ? "Started" : "Approval");
+    return l.milestone === "Approval";
   });
 
   openSheet(`
@@ -417,16 +463,24 @@ function renderPipelineList() {
         <div class="stat-value">${pCompact(stats.activeVolume)}</div>
         <div class="stat-note">${stats.active} loan${stats.active === 1 ? "" : "s"}</div>
       </div>
-      <!-- Month to date, matching the Home tile's default face. Two screens
-           showing different periods under the same word "Funded" is how a
-           number gets quoted wrongly, so the period is in the label. -->
-      <div class="stat-card">
-        <div class="stat-label">Funded this month</div>
-        <div class="stat-value">${pCompact(monthFunded.volume)}</div>
-        <div class="stat-note">${monthFunded.units} loan${monthFunded.units === 1 ? "" : "s"}</div>
-      </div>
+      ${
+        stats.prospects
+          ? /* When the export is mostly leads, the second card is far more
+               useful as the lead count than as a funded figure this export
+               does not carry. */
+            `<div class="stat-card">
+              <div class="stat-label">Prospects</div>
+              <div class="stat-value">${pCompact(stats.prospectVolume)}</div>
+              <div class="stat-note">${stats.prospects} lead${stats.prospects === 1 ? "" : "s"}</div>
+            </div>`
+          : `<div class="stat-card">
+              <div class="stat-label">Funded this month</div>
+              <div class="stat-value">${pCompact(monthFunded.volume)}</div>
+              <div class="stat-note">${monthFunded.units} loan${monthFunded.units === 1 ? "" : "s"}</div>
+            </div>`
+      }
     </div>
-    <div class="chip-row">${chip("all", "All")}${chip("soon", "Closing soon")}${chip("started", "Started")}${chip("approval", "Approval")}${chip("funded", "Funded")}</div>
+    <div class="chip-row">${chip("all", "All")}${chip("active", "Active")}${chip("prospects", "Prospects")}${chip("soon", "Closing soon")}${chip("approval", "Approval")}${chip("funded", "Funded")}</div>
     <div class="sheet-body">
       ${
         shown.length
@@ -509,6 +563,7 @@ function renderLoanDetail(loan) {
 
   const facts = [
     ["Loan number", loan.loanNumber],
+    ["Folder", loan.folder],
     ["Milestone", loan.milestone],
     ["Purpose", loan.loanPurpose],
     ["Loan type", loan.loanType],
@@ -516,7 +571,10 @@ function renderLoanDetail(loan) {
     ["Purchase price", priceRow[0], priceRow[1]],
     /* Derived, so it appears only when there is something to derive it from.
        A second placeholder row saying the same thing twice is noise. */
-    ["Down payment", equity ? pMoney(equity.downPayment) : ""],
+    ["Down payment", equity ? pMoney(equity.downPayment) + (equity.derivedDown ? " (calculated)" : "") : ""],
+    ["Property", loan.propertyAddress],
+    ["Application taken", pLongDate(loan.applicationDate)],
+    ["File started", pLongDate(loan.fileStarted)],
     ["Estimated closing", pLongDate(loan.estClosingDate)],
     ["Funds released", pLongDate(loan.fundsReleased)],
     ["Rate lock expires", pLongDate(loan.rateLockExpires)],
@@ -540,6 +598,7 @@ function renderLoanDetail(loan) {
         <span class="initials big">${escapeHtml(pInitials(loan.borrowerName))}</span>
         <span class="loan-hero-meta">${milestonePill(loan)}${whenPill(loan)}</span>
       </div>
+      ${borrowerStripMarkup(loan)}
       ${teamStripMarkup(team, loan)}
       ${alert}
       <div class="list fact-list">
@@ -586,7 +645,9 @@ function startLetter(loan) {
        Never guessed: a plausible wrong price on a pre-approval is worse than
        an obvious blank. */
     purchasePrice: equity ? equity.price : "",
-    propertyAddress: "",
+    /* The Active export carries the subject property, so the letter starts with
+       it filled in instead of blank. Still editable, like everything else. */
+    propertyAddress: loan.propertyAddress || "",
     letterDate: todayIso(),
     conditions: ["", ""],
   };
@@ -1010,7 +1071,10 @@ async function initPipeline() {
      screen, not to compete with the LO's own data. */
   pipelineData = loadPipeline();
   if (!pipelineData) {
-    pipelineData = await loadSamplePipeline();
+    /* Order matters. A device import always wins, because it is what the LO
+       chose. Failing that, a local build's real data, then the synthetic
+       sample, so a public build behaves exactly as it did before. */
+    pipelineData = (await loadLocalPipeline()) || (await loadSamplePipeline());
     if (pipelineData) renderAll(); // the My Business row now has a count
   }
 }

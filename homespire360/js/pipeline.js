@@ -40,6 +40,36 @@ const COLUMNS = {
   cdSent: "CDSentDateTime",
 };
 
+/*
+ * Columns the richer "Active" export carries.
+ *
+ * Read when present, never reported as missing, because the older month to date
+ * export does not have them. This is what finally supplies purchase price,
+ * property address, the loan partners and the folder a file sits in, all of
+ * which the app previously had to fake or leave blank.
+ */
+const EXTRA_COLUMNS = {
+  purchasePrice: "PurchasePrice",
+  downPaymentAmount: "DownPaymentAmount",
+  appraisedValue: "AppraisedValue",
+  folder: "LoanFolderName",
+  street: "SubjectPropertyStreet",
+  city: "SubjectPropertyCity",
+  stateCode: "SubjectPropertyState",
+  zip: "SubjectPropertyZIP",
+  partner1: "LoanTeamMemberNameLoanPartner1",
+  partner2: "LoanTeamMemberNameLoanPartner2",
+  fileStarted: "DateFileStarted",
+  applicationDate: "GFEApplicationDate",
+  borrowerPhone: "BorrCell",
+  borrowerEmail: "BorrEmail",
+};
+
+/* The folder Encompass keeps the file in. "Prospects" is a lead, not a live
+   loan, and the two must never be added together in a production number. */
+const PROSPECT_FOLDER = "Prospects";
+const ACTIVE_FOLDER = "My Pipeline";
+
 /** Deliberately not imported. Named so the omission is a decision on the page. */
 const DROPPED_COLUMNS = ["InterestRate"];
 
@@ -141,7 +171,7 @@ function parsePipelineCsv(text) {
   for (let i = 1; i < lines.length; i += 1) {
     const cells = splitCsvLine(lines[i]);
     const at = (key) => {
-      const col = COLUMNS[key] || FUTURE_COLUMNS[key];
+      const col = COLUMNS[key] || EXTRA_COLUMNS[key] || FUTURE_COLUMNS[key];
       const pos = index[col];
       return pos === undefined ? "" : (cells[pos] || "").trim();
     };
@@ -153,6 +183,20 @@ function parsePipelineCsv(text) {
     }
 
     const amount = Number(at("loanAmount").replace(/[$,]/g, ""));
+    const money = (key) => {
+      const v = Number(at(key).replace(/[$,]/g, ""));
+      return Number.isFinite(v) ? v : 0;
+    };
+    /* One line, assembled from four columns, and only the parts that are
+       there. A trailing comma with no city is worse than a short address. */
+    const address = [
+      at("street"),
+      [at("city"), at("stateCode")].filter(Boolean).join(", "),
+      at("zip"),
+    ]
+      .map((part) => part.trim())
+      .filter(Boolean)
+      .join(", ");
     loans.push({
       loanNumber: at("loanNumber"),
       borrowerName: name,
@@ -173,8 +217,28 @@ function parsePipelineCsv(text) {
       cdSent: dateOnly(at("cdSent")),
       loanProcessor: at("loanProcessor"),
       channel: at("channel"),
-      /* Not in today's export. Blank until the columns arrive. */
-      purchasePrice: Number(at("purchasePrice").replace(/[$,]/g, "")) || 0,
+
+      purchasePrice: money("purchasePrice"),
+      /* Encompass keeps its own down payment, and on many rows it does not
+         equal price minus loan amount. It is the system of record, so it wins
+         when present and the subtraction is only the fallback. */
+      downPaymentAmount: money("downPaymentAmount"),
+      appraisedValue: money("appraisedValue"),
+      propertyAddress: address,
+      folder: at("folder") || "",
+      fileStarted: dateOnly(at("fileStarted")),
+      applicationDate: dateOnly(at("applicationDate")),
+
+      /* Borrower contact, so the LO can reach them from the loan. Kept because
+         it is her own book on her own device; it is never uploaded, exactly
+         like everything else here. */
+      borrowerPhone: at("borrowerPhone"),
+      borrowerEmail: at("borrowerEmail"),
+
+      /* Loan partners, the export's name for the assistants on a file. */
+      partner1: at("partner1"),
+      partner2: at("partner2"),
+
       processorEmail: at("processorEmail"),
       processorPhone: at("processorPhone"),
       loaName: at("loaName"),
@@ -197,6 +261,26 @@ function isFunded(loan) {
   return Boolean(loan.fundsReleased);
 }
 
+/**
+ * A prospect is a lead, not a loan in flight.
+ *
+ * The Active export is overwhelmingly prospects: 5684 of 5808 rows in the first
+ * one we saw. Counting them in "In pipeline" would turn a production number
+ * into a lead count, so every aggregate here excludes them and the UI shows
+ * them as their own folder.
+ *
+ * A file with no folder column at all is treated as active, because the older
+ * export has no folders and every row in it is a live loan.
+ */
+function isProspect(loan) {
+  return String(loan.folder || "").trim() === PROSPECT_FOLDER;
+}
+
+/** Live loans: not a prospect, not already funded. */
+function isActivePipeline(loan) {
+  return !isProspect(loan) && !isFunded(loan);
+}
+
 function daysUntil(iso, today = new Date()) {
   if (!iso) return null;
   const target = new Date(iso + "T12:00:00");
@@ -205,13 +289,17 @@ function daysUntil(iso, today = new Date()) {
 }
 
 function pipelineStats(loans, today = new Date()) {
-  const active = loans.filter((l) => !isFunded(l));
-  const funded = loans.filter(isFunded);
+  /* Prospects are excluded from every number here. See isProspect. */
+  const active = loans.filter(isActivePipeline);
+  const funded = loans.filter((l) => isFunded(l) && !isProspect(l));
+  const prospects = loans.filter(isProspect);
   const sum = (list) => list.reduce((n, l) => n + (l.loanAmount || 0), 0);
   return {
     total: loans.length,
     active: active.length,
     activeVolume: sum(active),
+    prospects: prospects.length,
+    prospectVolume: sum(prospects),
     funded: funded.length,
     fundedVolume: sum(funded),
     closingSoon: active.filter((l) => {
@@ -242,7 +330,7 @@ function fundedTotals(loans, today = new Date()) {
   const year = String(today.getFullYear());
   const month = `${year}-${String(today.getMonth() + 1).padStart(2, "0")}`;
   const tally = (prefix) => {
-    const hits = loans.filter((l) => l.fundsReleased && l.fundsReleased.startsWith(prefix));
+    const hits = loans.filter((l) => !isProspect(l) && l.fundsReleased && l.fundsReleased.startsWith(prefix));
     return {
       units: hits.length,
       volume: hits.reduce((n, l) => n + (l.loanAmount || 0), 0),
@@ -265,7 +353,21 @@ function loanEquity(loan) {
   if (!price || !amount) return null;
   /* A loan larger than the price is a data error, not a negative down payment. */
   if (amount > price) return null;
-  return { price, downPayment: price - amount, ltv: amount / price };
+  /*
+   * Encompass carries its own DownPaymentAmount, and on most rows it does not
+   * equal price minus loan amount: seller credits, financed fees and gift funds
+   * all sit in the gap. It is the system of record, so it wins when present and
+   * the subtraction is only the fallback. `derivedDown` says which one this is,
+   * so the screen can be honest about it.
+   */
+  const stated = Number(loan.downPaymentAmount) || 0;
+  const useStated = stated > 0 && stated <= price;
+  return {
+    price,
+    downPayment: useStated ? stated : price - amount,
+    derivedDown: !useStated,
+    ltv: amount / price,
+  };
 }
 
 function teamSlug(name) {
@@ -301,7 +403,18 @@ function teamForLoan(loan, directory) {
   };
   add("Processor", loan.loanProcessor, loan.processorPhone, loan.processorEmail);
   add("Loan officer assistant", loan.loaName, loan.loaPhone, loan.loaEmail);
-  return out;
+  /* The Active export's name for the same role. Two partners can be named on a
+     file, so both are listed and the directory fills in their details. */
+  add("Loan partner", loan.partner1, "", "");
+  add("Loan partner", loan.partner2, "", "");
+  /* The same person can arrive as both a processor and a partner. */
+  const seen = new Set();
+  return out.filter((m) => {
+    const key = teamSlug(m.name);
+    if (seen.has(key)) return false;
+    seen.add(key);
+    return true;
+  });
 }
 
 /** Soonest first, funded loans last: an LO reads this list to plan a day. */
@@ -398,6 +511,63 @@ async function loadSamplePipeline() {
       loaPhone: l.loaPhone || "",
     }));
     return { loans, sample: true, importedAt: new Date().toISOString(), fileName: "", officers: 0 };
+  } catch {
+    return null;
+  }
+}
+
+/**
+ * A real pipeline baked into a local build.
+ *
+ * data/pipeline-local.json does not exist on the public site and never will:
+ * it is real borrower data, so it is gitignored and no-pii-check.py refuses to
+ * ship if it ever appears in the repo. On the public site this fetch 404s and
+ * the app falls back to the synthetic sample exactly as before.
+ *
+ * It is flagged sample:false, so nothing in the UI calls it sample data. That
+ * matters in both directions: a demo must never look real, and real numbers
+ * must never be dismissed as a demo.
+ */
+const LOCAL_URL = "data/pipeline-local.json";
+
+/**
+ * Is this a local build?
+ *
+ * The public site must never so much as ask for the real data file. Gating on
+ * the host means the request only happens on a machine serving the app itself,
+ * and it keeps a 404 out of the console on every public launch. Private LAN
+ * addresses count, so a build served from a laptop can be opened on a phone on
+ * the same network, which is the only way to see it on a real device.
+ */
+function isLocalBuild(host = window.location.hostname) {
+  return (
+    host === "localhost" ||
+    host === "127.0.0.1" ||
+    host === "[::1]" ||
+    host === "::1" ||
+    host === "" ||
+    host.endsWith(".local") ||
+    /^10\./.test(host) ||
+    /^192\.168\./.test(host) ||
+    /^172\.(1[6-9]|2\d|3[01])\./.test(host)
+  );
+}
+
+async function loadLocalPipeline() {
+  if (!isLocalBuild()) return null;
+  try {
+    const res = await fetch(LOCAL_URL, { cache: "no-store" });
+    if (!res.ok) return null;
+    const raw = await res.json();
+    if (!Array.isArray(raw.loans) || !raw.loans.length) return null;
+    return {
+      loans: raw.loans,
+      sample: false,
+      local: true,
+      importedAt: raw.generatedAt || new Date().toISOString(),
+      fileName: raw.sourceFile || "",
+      officers: [...new Set(raw.loans.map((l) => l.loanOfficer).filter(Boolean))].length,
+    };
   } catch {
     return null;
   }
