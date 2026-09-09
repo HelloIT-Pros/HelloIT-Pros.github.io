@@ -1269,6 +1269,21 @@ document.addEventListener("click", (e) => {
 
   if (btn.dataset.conflict === "restore") {
     state = conflictDraft;
+    /*
+     * A stashed draft predates whatever is published now, so it can be missing
+     * whole top level keys that were added since. Export stringifies state as
+     * it stands, which means restoring an old draft and exporting it would
+     * silently drop them: `team` and `pipelineCategoryId` were both added after
+     * drafts like this could have been saved. The export guard only compares
+     * LOs, shared links and categories, so it would not catch it either.
+     *
+     * Anything the published config has and the draft does not is carried
+     * across. The draft's own values always win, because they are the edit in
+     * progress.
+     */
+    Object.keys(publishedConfig || {}).forEach((key) => {
+      if (!(key in state)) state[key] = publishedConfig[key];
+    });
     if (!state.templateSlug) state.templateSlug = templateSlug();
     saveDraft(state);
     const first = sortedLos()[0];
