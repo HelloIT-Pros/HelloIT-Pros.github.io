@@ -76,6 +76,36 @@ function wrapText(text, font, size, width) {
  * the numbers they came from. Returned for the editor to display; neither
  * appears on the letter.
  */
+/**
+ * The letter's expiration: always 60 calendar days from the day it is made.
+ *
+ * Not business days, not two months. There is no field for it and the LO cannot
+ * override it, so the only input is the letter date.
+ */
+const LETTER_VALID_DAYS = 60;
+
+function letterExpiration(iso) {
+  const from = iso || new Date().toISOString().slice(0, 10);
+  const d = new Date(`${from}T12:00:00`);
+  d.setDate(d.getDate() + LETTER_VALID_DAYS);
+  return d.toISOString().slice(0, 10);
+}
+
+/**
+ * What the letter will leave out as it stands.
+ *
+ * Advisory, not a gate. Nothing here blocks a preview or a send: the LO decides
+ * which fields matter for the letter she is writing, and a price change often
+ * needs no new address.
+ */
+function letterOmissions(values) {
+  const out = [];
+  if (!Number(values.purchasePrice)) out.push("purchase price");
+  if (!Number(values.loanAmount)) out.push("loan amount");
+  if (!String(values.propertyAddress || "").trim()) out.push("property address");
+  return out;
+}
+
 function letterDerived(values) {
   const price = Number(values.purchasePrice) || 0;
   const amount = Number(values.loanAmount) || 0;
@@ -186,25 +216,37 @@ async function buildLetterPdf(values, officer) {
     page.drawText(l, { x: LETTER_MARGIN, y, size: 11, font: bold, color: INK });
     y -= 15;
   }
-  for (const l of wrapText(`Property:  ${values.propertyAddress}`, body, 10.5, LETTER_BODY_W)) {
-    page.drawText(l, { x: LETTER_MARGIN, y, size: 10.5, font: body, color: INK });
-    y -= 14;
+  if (String(values.propertyAddress || "").trim()) {
+    for (const l of wrapText(`Property:  ${values.propertyAddress}`, body, 10.5, LETTER_BODY_W)) {
+      page.drawText(l, { x: LETTER_MARGIN, y, size: 10.5, font: body, color: INK });
+      y -= 14;
+    }
   }
   y -= 16;
 
   /* Lender first, deliberately. "Marcus and Dana Whitfield has been approved"
      is wrong, and guessing plurality from a name is a losing game, so the
      sentence is built to have no subject-verb agreement to get wrong. */
+  /* Revision 2 copy, approved 8 September 2026. The loan type is followed by
+     the fixed word "loan", so the value must never contain it. */
   paragraph(
-    `Homespire Home Loans has pre-approved ${values.borrowerName} for a ${values.loanType}. ` +
-      `This pre-approval follows a full review of credit, income and asset documentation. ` +
-      `It is not a pre-qualification.`
+    `Homespire Home Loans has pre-approved ${values.borrowerName} for a ${values.loanType} loan. ` +
+      `This pre-approval follows a full review of credit, income and asset documentation.`
   );
 
-  factRow("Pre-approved purchase price, up to", letterMoney(values.purchasePrice), { emphasis: true });
-  factRow("Loan amount, up to", letterMoney(values.loanAmount), { emphasis: true });
-  factRow("Prepared to close within", `${values.closingDays} days of contract acceptance`);
-  factRow("This pre-approval is valid through", letterLongDate(values.expirationDate), { emphasis: true });
+  /* A row with no value is omitted rather than printed as $0. The letter has to
+     render from whatever the LO has filled in, because the preview is always
+     available and always shows the letter as it stands. */
+  if (Number(values.purchasePrice) > 0) {
+    factRow("Pre-approved purchase price, up to", letterMoney(values.purchasePrice), { emphasis: true });
+  }
+  if (Number(values.loanAmount) > 0) {
+    factRow("Loan amount, up to", letterMoney(values.loanAmount), { emphasis: true });
+  }
+  /* Always 60 calendar days from the day the letter is generated. Computed here
+     rather than passed in, so it cannot arrive stale from an editor that was
+     left open, and so there is nothing for anyone to override. */
+  factRow("This pre-approval is valid through", letterLongDate(letterExpiration(values.letterDate)), { emphasis: true });
 
   y -= 6;
   paragraph(
@@ -217,6 +259,13 @@ async function buildLetterPdf(values, officer) {
   bullet("A satisfactory appraisal at or above the purchase price");
   bullet("Clear and marketable title");
   bullet("An executed purchase contract");
+  bullet("Verified assets and cash to close");
+  /* Up to two conditions the LO adds. A blank one produces no bullet at all. */
+  (values.conditions || [])
+    .map((c) => String(c || "").trim())
+    .filter(Boolean)
+    .slice(0, 2)
+    .forEach(bullet);
   y -= 14;
 
   paragraph(

@@ -558,7 +558,7 @@ function renderLoanDetail(loan) {
                price row got reported as a missing feature. */
             `<p class="feature-na">${icon("fileText")}<span>Pre-approval letters apply to purchase loans only.</span></p>`
           : `<button class="btn btn-primary wide" type="button" data-letter="1">
-              ${icon("fileText")}<span>Pre-approval letter</span>
+              ${icon("fileText")}<span>Modify pre-approval letter</span>
             </button>`
       }
       <p class="import-footer">From your imported pipeline, plus the contact details Homespire keeps for the file team.</p>
@@ -572,42 +572,60 @@ function startLetter(loan) {
      but a letter on a refinance is wrong in the copy itself, not just missing
      a purchase price, so this must not become reachable by accident. */
   if (!loan || /refinance/i.test(loan.loanPurpose || "")) return;
+  const equity = loanEquity(loan);
   letterValues = {
     borrowerName: loan.borrowerName,
-    loanType: loan.loanType || loan.loanPurpose || "mortgage",
+    /* Editable. A file can change from FHA to conventional without anything
+       else about it changing, and that changes one sentence of the letter. */
+    loanType: loan.loanType || "Conventional",
     loanAmount: loan.loanAmount || 0,
-    /* Not in the export. Both are fields the LO edits anyway, so they start
-       empty rather than guessed: a plausible wrong price on a pre-approval is
-       worse than an obvious blank. */
-    purchasePrice: "",
+    /* Prefilled from the loan when the pipeline knows it, blank otherwise.
+       Never guessed: a plausible wrong price on a pre-approval is worse than
+       an obvious blank. */
+    purchasePrice: equity ? equity.price : "",
     propertyAddress: "",
     letterDate: todayIso(),
-    expirationDate: addDays(todayIso(), 60),
-    closingDays: 21,
+    conditions: ["", ""],
   };
   dropPreview();
   renderLetterEditor();
 }
 
-function letterMissing() {
-  const missing = [];
-  if (!Number(letterValues.purchasePrice)) missing.push("purchase price");
-  if (!String(letterValues.propertyAddress).trim()) missing.push("property address");
-  if (!Number(letterValues.loanAmount)) missing.push("loan amount");
-  if (!letterValues.expirationDate) missing.push("expiration date");
-  return missing;
+/* The loan types the letter can name. The record's own value is added if it is
+   not one of these, so an unusual type from the export is never silently
+   replaced with something else. */
+const LETTER_LOAN_TYPES = ["Conventional", "FHA", "VA", "USDA", "Jumbo"];
+
+function loanTypeOptions(current) {
+  const list = LETTER_LOAN_TYPES.slice();
+  if (current && !list.includes(current)) list.unshift(current);
+  return list
+    .map(
+      (t) =>
+        `<option value="${escapeHtml(t)}"${t === current ? " selected" : ""}>${escapeHtml(t)}</option>`
+    )
+    .join("");
 }
 
+/**
+ * The letter editor.
+ *
+ * Nothing here is mandatory. An LO reissuing a letter after a price change does
+ * not need to retype the address, and one switching FHA to conventional may
+ * change nothing else, so every field is optional and the preview is always
+ * available. What the letter would leave out is stated as a note, not enforced
+ * as a gate: blocking the preview until every box was full was the previous
+ * behaviour and it made a partial letter impossible to even look at.
+ */
 function renderLetterEditor() {
   const derived = letterDerived(letterValues);
-  const missing = letterMissing();
-  const canPreview = missing.length === 0 && derived.valid;
+  const omitted = letterOmissions(letterValues);
 
   const derivedText = !Number(letterValues.purchasePrice)
-    ? "Enter a purchase price to see these."
+    ? "Add a purchase price to see the down payment."
     : derived.valid
     ? `${pMoney(derived.downPayment)} down, ${(derived.ltv * 100).toFixed(1)}% LTV`
-    : `Loan amount is larger than the purchase price. That would put the down payment at ${pMoney(derived.downPayment)}.`;
+    : `The loan amount is larger than the purchase price. Check both before sending.`;
 
   openSheet(`
     ${sheetHeader("Pre-approval letter", letterValues.borrowerName, "Loan")}
@@ -615,9 +633,14 @@ function renderLetterEditor() {
     <div class="sheet-body">
       <div class="locked-strip">
         <div><span class="fact-label">Borrower</span><span class="fact-value">${escapeHtml(letterValues.borrowerName)}</span></div>
-        <div><span class="fact-label">Loan type</span><span class="fact-value">${escapeHtml(letterValues.loanType)}</span></div>
-        <p class="locked-note">${icon("shield")}<span>From the pipeline. Not editable here.</span></p>
+        <div>
+          <span class="fact-label">Valid through</span>
+          <span class="fact-value">${escapeHtml(pLongDate(letterExpiration(letterValues.letterDate)))}</span>
+        </div>
+        <p class="locked-note">${icon("shield")}<span>The borrower comes from the pipeline. Every letter is valid for 60 days from the day it is made.</span></p>
       </div>
+
+      <p class="lfield-lead">Change whatever needs changing. Anything you leave alone stays as it is, and anything left empty is simply left off the letter.</p>
 
       <label class="lfield">
         <span>Purchase price</span>
@@ -628,23 +651,33 @@ function renderLetterEditor() {
         <input type="number" inputmode="numeric" data-lf="loanAmount" value="${escapeHtml(letterValues.loanAmount)}" />
       </label>
       <label class="lfield">
-        <span>Property address</span>
-        <input type="text" data-lf="propertyAddress" value="${escapeHtml(letterValues.propertyAddress)}" placeholder="4218 Longmeadow Drive, Baton Rouge, LA 70808" />
+        <span>Loan type</span>
+        <select data-lf="loanType">${loanTypeOptions(letterValues.loanType)}</select>
       </label>
       <label class="lfield">
-        <span>Valid through</span>
-        <input type="date" data-lf="expirationDate" value="${escapeHtml(letterValues.expirationDate)}" />
+        <span>Property address</span>
+        <input type="text" data-lf="propertyAddress" value="${escapeHtml(letterValues.propertyAddress)}" placeholder="4218 Longmeadow Drive, Baton Rouge, LA 70808" />
       </label>
 
       <p class="derived ${derived.valid ? "" : "bad"}">${escapeHtml(derivedText)}</p>
 
-      ${
-        missing.length
-          ? `<p class="import-problems">Still needed: ${escapeHtml(missing.join(", "))}.</p>`
-          : ""
-      }
+      <p class="lfield-group-label">Extra conditions, if any</p>
+      <label class="lfield">
+        <span class="sr-only">First extra condition</span>
+        <input type="text" maxlength="140" data-lf="condition1" value="${escapeHtml(letterValues.conditions[0] || "")}" placeholder="Receipt of the 2025 federal tax return" />
+      </label>
+      <label class="lfield">
+        <span class="sr-only">Second extra condition</span>
+        <input type="text" maxlength="140" data-lf="condition2" value="${escapeHtml(letterValues.conditions[1] || "")}" placeholder="Optional" />
+      </label>
 
-      <button class="btn btn-outline wide" type="button" data-preview="1" ${canPreview ? "" : "disabled"}>
+      <p class="lfield-note"${omitted.length ? "" : " hidden"}>${
+        omitted.length
+          ? `${icon("clipboard")}<span>As it stands the letter will not show: ${escapeHtml(omitted.join(", "))}. That is fine if it does not apply.</span>`
+          : ""
+      }</p>
+
+      <button class="btn btn-outline wide" type="button" data-preview="1">
         ${icon("search")}<span>${previewStale ? "Preview the letter" : "Preview again"}</span>
       </button>
 
@@ -923,26 +956,47 @@ function wirePipelineSheet() {
   sheet.addEventListener("input", (e) => {
     const field = e.target.dataset.lf;
     if (!field || !letterValues) return;
-    letterValues[field] = e.target.value;
+    if (field === "condition1" || field === "condition2") {
+      letterValues.conditions[field === "condition1" ? 0 : 1] = e.target.value;
+    } else {
+      letterValues[field] = e.target.value;
+    }
 
     if (!previewStale) {
       previewStale = true;
       document.getElementById("preview-slot").innerHTML = previewSlotMarkup();
     }
 
+    /* Patched in place rather than re-rendered: a re-render would take focus
+       out of the field being typed into. */
     const derived = letterDerived(letterValues);
     const note = sheet.querySelector(".derived");
     if (note) {
       note.classList.toggle("bad", !derived.valid);
       note.textContent = !Number(letterValues.purchasePrice)
-        ? "Enter a purchase price to see these."
+        ? "Add a purchase price to see the down payment."
         : derived.valid
         ? `${pMoney(derived.downPayment)} down, ${(derived.ltv * 100).toFixed(1)}% LTV`
-        : `Loan amount is larger than the purchase price. That would put the down payment at ${pMoney(derived.downPayment)}.`;
+        : "The loan amount is larger than the purchase price. Check both before sending.";
     }
 
-    const btn = sheet.querySelector("[data-preview]");
-    if (btn) btn.disabled = letterMissing().length > 0 || !derived.valid;
+    /* What the letter will leave off has to track what is in the fields right
+       now, or it goes stale the moment something is cleared. */
+    const omitted = letterOmissions(letterValues);
+    const omitNote = sheet.querySelector(".lfield-note");
+    if (omitNote) {
+      if (omitted.length) {
+        omitNote.hidden = false;
+        omitNote.innerHTML = `${icon("clipboard")}<span>As it stands the letter will not show: ${escapeHtml(
+          omitted.join(", ")
+        )}. That is fine if it does not apply.</span>`;
+      } else {
+        omitNote.hidden = true;
+      }
+    }
+
+    /* Preview is never gated. The LO decides which fields matter for the letter
+       she is writing, and a partial letter still has to be previewable. */
   });
 }
 
