@@ -83,7 +83,10 @@ function addDays(iso, days) {
 
 function pipelineRowMarkup() {
   const loans = myLoans();
-  const sub = !pipelineData
+  /* An LO who is not in the sample has no loans to summarise, and "0 sample
+     loans" reads as a broken screen rather than as an empty one. Say the same
+     thing as having no pipeline at all, because that is the situation. */
+  const sub = !pipelineData || !loans.length
     ? "Import your pipeline to see it here"
     : pipelineData.sample
     ? `${loans.length} sample loan${loans.length === 1 ? "" : "s"}, tap to use your own`

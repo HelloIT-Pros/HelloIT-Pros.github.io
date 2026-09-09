@@ -57,6 +57,7 @@ ASSISTANTS = ["J Castellanos", "P Nguyen", "S Abiodun", "", ""]
 OFFICERS = [
     {"name": "Amy LeBlanc", "nmls": "1405094", "loans": 9, "closedYtd": 11},
     {"name": "Edwin Oquendo", "nmls": "931021", "loans": 7, "closedYtd": 8},
+    {"name": "Nick Stacy", "nmls": "1756053", "loans": 8, "closedYtd": 9},
     {"name": "Demo LO", "nmls": "", "loans": 4, "closedYtd": 3},
 ]
 

@@ -366,6 +366,120 @@
       "nmls": "",
       "phone": "",
       "email": ""
+    },
+    {
+      "slug": "nick-stacy",
+      "name": "Nick Stacy",
+      "title": "Branch Manager",
+      "photo": "https://homespirehomeloans.com/wp-content/uploads/2026/01/NickStacy_500x500px_v2.1.png",
+      "customLinks": [
+        {
+          "id": "c-mtu5scvdgodc",
+          "categoryId": "my-business",
+          "label": "Digital Business Card",
+          "url": "https://hihello.com/p/5ba1ca5f-aba5-4fa3-9eda-cb673529c81b",
+          "order": 1,
+          "shareable": true
+        },
+        {
+          "id": "c-mtu5scvd2i95",
+          "categoryId": "my-business",
+          "label": "My Loan Application",
+          "url": "https://apply.homespirehomeloans.com/app/nstacy",
+          "order": 2,
+          "shareable": true
+        },
+        {
+          "id": "c-mtu5scvduf6j",
+          "categoryId": "my-business",
+          "label": "My QR Code",
+          "url": "https://hihello.com/p/5ba1ca5f-aba5-4fa3-9eda-cb673529c81b",
+          "order": 3,
+          "kind": "qr",
+          "image": "qr/nick-stacy.png"
+        },
+        {
+          "id": "c-mtu5scvdv4cs",
+          "categoryId": "loan-tools",
+          "label": "Loan Services",
+          "url": "https://apply.homespirehomeloans.com/loanservices",
+          "order": 1,
+          "shareable": true
+        },
+        {
+          "id": "c-mtu5scvd0zu8",
+          "categoryId": "loan-tools",
+          "label": "Upload Docs",
+          "url": "https://bp.homespirehomeloans.com/sdu",
+          "order": 2,
+          "shareable": true
+        },
+        {
+          "id": "c-mtu5scvdxtg3",
+          "categoryId": "marketing-sales",
+          "label": "Buyer's Edge",
+          "url": "",
+          "order": 2
+        },
+        {
+          "id": "c-mtu5scvdmixf",
+          "categoryId": "marketing-sales",
+          "label": "Product Spotlight",
+          "url": "https://pages.homespiremortgage.com/nick-stacy/spotlight",
+          "order": 3,
+          "shareable": true
+        },
+        {
+          "id": "c-mtu5scvd6op4",
+          "categoryId": "company-resources",
+          "label": "The Loan Lab (Team Chat)",
+          "url": "https://teams.microsoft.com/l/chat/19:8393ae1c002c40e29fced1b0c9bbc94d@thread.v2/conversations?context=%7B%22contextType%22%3A%22chat%22%7D",
+          "order": 4
+        },
+        {
+          "id": "c-mtu5scvd55ii",
+          "categoryId": "social-reviews",
+          "label": "Reviews (Experience.com)",
+          "url": "https://www.experience.com/reviews/nickstacy",
+          "order": 1,
+          "shareable": true
+        },
+        {
+          "id": "c-mtu5scvd1yu4",
+          "categoryId": "social-reviews",
+          "label": "Instagram",
+          "url": "https://www.instagram.com/nickthehomeloanpro/",
+          "order": 2,
+          "shareable": true
+        },
+        {
+          "id": "c-mtu5scvd4kfd",
+          "categoryId": "social-reviews",
+          "label": "Facebook",
+          "url": "https://www.facebook.com/nickstacymortgage",
+          "order": 3,
+          "shareable": true
+        },
+        {
+          "id": "c-mtu5scvd0z8i",
+          "categoryId": "social-reviews",
+          "label": "LinkedIn",
+          "url": "https://www.linkedin.com/in/nick-stacy-mba-782a54119/",
+          "order": 4,
+          "shareable": true
+        },
+        {
+          "id": "c-mtu5scvdizjz",
+          "categoryId": "social-reviews",
+          "label": "My Website Bio",
+          "url": "https://homespirehomeloans.com/loanoriginator/nick-stacy/",
+          "order": 5,
+          "shareable": true
+        }
+      ],
+      "nmls": "1756053",
+      "phone": "937-829-0507",
+      "email": "nstacy@homespiremortgage.com"
     }
   ],
   "templateSlug": "amy-leblanc",
