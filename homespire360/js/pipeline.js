@@ -504,6 +504,20 @@ async function loadSamplePipeline() {
       loanProcessor: l.loanProcessor || "",
       channel: l.channel || "",
       purchasePrice: l.purchasePrice || 0,
+      /* Everything below is carried through rather than dropped, because a
+         field the sample cannot express is a screen nobody can demo. The
+         folder in particular decides prospect against active, so without it
+         the sample reads as one enormous live pipeline. */
+      downPaymentAmount: l.downPaymentAmount || 0,
+      appraisedValue: l.appraisedValue || 0,
+      propertyAddress: l.propertyAddress || "",
+      folder: l.folder || "",
+      fileStarted: offsetToIso(l.fileStartedOffsetDays),
+      applicationDate: offsetToIso(l.applicationOffsetDays),
+      borrowerPhone: l.borrowerPhone || "",
+      borrowerEmail: l.borrowerEmail || "",
+      partner1: l.partner1 || "",
+      partner2: l.partner2 || "",
       processorEmail: l.processorEmail || "",
       processorPhone: l.processorPhone || "",
       loaName: l.loaName || "",

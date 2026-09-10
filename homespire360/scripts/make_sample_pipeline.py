@@ -43,6 +43,34 @@ Halvorsen Adeyemi Winterbourne Espinoza Tanaka Rutherford Olawale Petrov Guzman 
 
 PROCESSORS = ["R Alvarez", "T Nakashima", "K Boyd", "M Okafor", "", "", ""]
 
+# Property addresses. Invented streets in real Maryland and Virginia towns, so
+# the screen shows a plausible address without pointing at anyone's house.
+STREETS = """Larkspur Kettlepond Windham Sable Ridge Amberleaf Quarry Bell Hollow Fenwick
+Stillwater Dunmore Highcroft Arrowwood Crestleigh Marbury Thistledown Ravensworth""".split()
+STREET_TYPES = ["Ct", "Ln", "Way", "Dr", "Rd", "Ter", "Pl"]
+TOWNS = [
+    ("Rockville", "MD", "20850"), ("Frederick", "MD", "21702"),
+    ("Columbia", "MD", "21044"), ("Bowie", "MD", "20716"),
+    ("Sterling", "VA", "20164"), ("Manassas", "VA", "20110"),
+    ("Woodbridge", "VA", "22191"), ("Silver Spring", "MD", "20904"),
+]
+
+
+def an_address():
+    st = f"{random.randint(100, 9899)} {random.choice(STREETS)} {random.choice(STREET_TYPES)}"
+    town, state, zip_code = random.choice(TOWNS)
+    return f"{st}, {town}, {state}, {zip_code}"
+
+
+def a_phone():
+    """555-01xx is the reserved fictional range, so no real line can be dialled."""
+    return f"(240) 555-01{random.randint(10, 99)}"
+
+
+def an_email(name):
+    handle = "".join(ch for ch in name.split()[0].lower() if ch.isalpha())
+    return f"{handle}{random.randint(2, 89)}@example.com"
+
 # Loan officer assistants. Not in today's export either, so the sample supplies
 # them and config.json holds their contact details. Sparse on purpose: a file
 # with no assistant assigned is normal and the screen has to handle it.
@@ -54,11 +82,14 @@ ASSISTANTS = ["J Castellanos", "P Nguyen", "S Abiodun", "", ""]
 # year, which exist only so the funded tiles have something different to say
 # when they are flipped from the month to the year. A real export barely carries
 # any funded history, so without these the flip would look broken in the demo.
+# "prospects" are leads sitting in the Prospects folder. A real Active export is
+# overwhelmingly leads, so a sample without them does not exercise the folder
+# filters or the prospects note on the tiles.
 OFFICERS = [
-    {"name": "Amy LeBlanc", "nmls": "1405094", "loans": 9, "closedYtd": 11},
-    {"name": "Edwin Oquendo", "nmls": "931021", "loans": 7, "closedYtd": 8},
-    {"name": "Nick Stacy", "nmls": "1756053", "loans": 8, "closedYtd": 9},
-    {"name": "Demo LO", "nmls": "", "loans": 4, "closedYtd": 3},
+    {"name": "Amy LeBlanc", "nmls": "1405094", "loans": 9, "closedYtd": 11, "prospects": 24},
+    {"name": "Edwin Oquendo", "nmls": "931021", "loans": 7, "closedYtd": 8, "prospects": 19},
+    {"name": "Nick Stacy", "nmls": "1756053", "loans": 8, "closedYtd": 9, "prospects": 31},
+    {"name": "Demo LO", "nmls": "", "loans": 4, "closedYtd": 3, "prospects": 6},
 ]
 
 
@@ -103,6 +134,28 @@ def a_price(loan_amount):
     return int(round(price / 500) * 500)
 
 
+def enrich(loan, address_odds=0.85, contact_odds=0.8):
+    """
+    The optional columns, at roughly the density a real export has them.
+
+    Two rules the screens are built against: a stated down payment wins over a
+    derived one, and a blank field has to be blank in the sample too, or the
+    "not on file yet" state never gets exercised.
+    """
+    price = loan.get("purchasePrice") or 0
+    if price and random.random() < 0.6:
+        loan["downPaymentAmount"] = int(round((price - loan["loanAmount"]) / 100) * 100)
+    if random.random() < address_odds:
+        loan["propertyAddress"] = an_address()
+    if random.random() < contact_odds:
+        loan["borrowerPhone"] = a_phone()
+    if random.random() < contact_odds - 0.1:
+        loan["borrowerEmail"] = an_email(loan["borrowerName"])
+    if random.random() < 0.3:
+        loan["partner1"] = random.choice([p for p in ASSISTANTS if p])
+    return loan
+
+
 def build():
     used = set()
     loans = []
@@ -138,6 +191,7 @@ def build():
                 "loanProcessor": random.choice(PROCESSORS),
                 "loaName": random.choice(ASSISTANTS),
                 "channel": "NFM Lending",
+                "folder": "My Pipeline",
             }
             # A purchase price above the loan amount, so down payment has
             # something real to derive from. A refinance gets none, which is
@@ -162,7 +216,10 @@ def build():
                 loan["rateLockOffsetDays"] = offset + random.randint(2, 21)
             if random.random() < 0.12:
                 loan["cdSentOffsetDays"] = offset - random.randint(2, 8)
-            loans.append(loan)
+            loan["fileStartedOffsetDays"] = offset - random.randint(30, 70)
+            if milestone != "Started":
+                loan["applicationOffsetDays"] = offset - random.randint(20, 55)
+            loans.append(enrich(loan))
 
         # Funded earlier in the year. Spread from roughly three weeks back to
         # about eight months back, so the year figure is meaningfully larger
@@ -187,10 +244,40 @@ def build():
                 "loanProcessor": random.choice(PROCESSORS),
                 "loaName": random.choice(ASSISTANTS),
                 "channel": "NFM Lending",
+                "folder": "My Pipeline",
             }
             if purpose == "Purchase":
                 closed["purchasePrice"] = a_price(amount)
-            loans.append(closed)
+            closed["fileStartedOffsetDays"] = fund_offset - random.randint(35, 80)
+            closed["applicationOffsetDays"] = fund_offset - random.randint(25, 60)
+            loans.append(enrich(closed))
+
+        # Leads. Started, mostly no closing date, a price and a down payment,
+        # and a property only sometimes: the shape a real Prospects folder has.
+        for _ in range(officer.get("prospects", 0)):
+            amount = an_amount()
+            purpose = random.choice(PURPOSES)
+            lead = {
+                "loanNumber": f"7{random.randint(1000000000, 9999999999)}",
+                "borrowerName": a_name(used),
+                "loanOfficer": officer["name"],
+                "nmls": officer["nmls"],
+                "milestone": "Started",
+                "loanPurpose": purpose,
+                "loanType": random.choice(LOAN_TYPES),
+                "loanAmount": amount,
+                "loanProcessor": "",
+                "loaName": random.choice(ASSISTANTS),
+                "channel": "NFM Lending",
+                "folder": "Prospects",
+            }
+            if purpose == "Purchase":
+                lead["purchasePrice"] = a_price(amount)
+            # A lead rarely has a closing date yet.
+            if random.random() < 0.08:
+                lead["estClosingOffsetDays"] = random.randint(20, 90)
+            lead["fileStartedOffsetDays"] = -random.randint(1, 120)
+            loans.append(enrich(lead, address_odds=0.35, contact_odds=0.7))
 
     return {
         "sample": True,
