@@ -1,0 +1,614 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Langston Lane Lead Flow | Gateway Management</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600&family=Archivo:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --pine:#1C3A32;
+  --pine-deep:#122720;
+  --pine-mid:#37564C;
+  --brass:#B8862F;
+  --brass-lit:#E0BC72;
+  --slate:#46564F;
+  --mist:#84948C;
+  --rule:#CCD3CD;
+  --rule-soft:#E1E6E1;
+  --paper:#EAEDE9;
+  --good:#2D6A4F;
+  --good-bg:#DFEDE4;
+  --watch:#8A6210;
+  --watch-bg:#F6EBD2;
+  --late:#A03D2B;
+  --late-bg:#F7E4DF;
+}
+*{box-sizing:border-box}
+html,body{margin:0;padding:0}
+body{
+  font-family:'Archivo',-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;
+  background:var(--paper);color:var(--pine);font-size:15px;line-height:1.5;
+  -webkit-font-smoothing:antialiased;
+}
+button{font-family:inherit;font-size:inherit;cursor:pointer}
+:focus-visible{outline:2px solid var(--brass);outline-offset:2px}
+.disp{font-family:'Fraunces',Georgia,serif;font-variation-settings:'SOFT' 0,'WONK' 0}
+.caps{font-size:10.5px;font-weight:600;letter-spacing:.2em;text-transform:uppercase}
+
+/* roof-pitch ornament, echoes the Equal Housing mark */
+.orn{display:flex;align-items:center;gap:10px;color:var(--brass)}
+.orn:before,.orn:after{content:"";height:1px;background:currentColor;flex:1;opacity:.5}
+.orn svg{flex:0 0 16px;display:block}
+
+/* ---------- chrome ---------- */
+.chrome{background:var(--pine-deep);color:#fff;border-top:3px solid var(--brass)}
+.chrome-bar{max-width:1240px;margin:0 auto;padding:15px 26px;display:flex;align-items:center;gap:22px;flex-wrap:wrap}
+.lockup{margin-right:auto;line-height:1}
+.lockup .g{font-family:'Fraunces',Georgia,serif;font-size:17px;letter-spacing:.24em;font-weight:500}
+.lockup .m{font-size:8.5px;letter-spacing:.32em;color:#7E958B;margin-top:6px;font-weight:600;text-transform:uppercase}
+.tag{border:1px solid #3C5C51;color:#9DB5AA;padding:3px 9px;font-size:10px;font-weight:700;letter-spacing:.14em;text-transform:uppercase}
+.chrome-note{font-size:12.5px;color:#7E958B}
+.seg{display:flex;border:1px solid #2D4B41}
+.seg button{background:none;border:0;color:#9DB5AA;padding:8px 17px;font-weight:600;font-size:13.5px}
+.seg button+button{border-left:1px solid #2D4B41}
+.seg button[aria-pressed="true"]{background:var(--brass);color:var(--pine-deep)}
+.linkish{background:none;border:0;color:#9DB5AA;font-size:12.5px;text-decoration:underline;text-underline-offset:4px;padding:6px 0}
+.linkish:hover{color:#fff}
+
+.assumptions{background:#0B1A15;border-top:1px solid #1E3A31;display:none}
+.assumptions.open{display:block}
+.assumptions-inner{max-width:1240px;margin:0 auto;padding:26px 26px 30px}
+.assumptions h3{margin:0 0 5px;font-family:'Fraunces',Georgia,serif;font-size:20px;font-weight:500;color:#fff}
+.assumptions p.lede{margin:0 0 20px;font-size:13px;color:#7E958B;max-width:64ch}
+.assump-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:22px 30px}
+.assump h4{margin:0 0 9px;color:var(--brass-lit)}
+.assump ul{margin:0;padding-left:15px;color:#AFC2B9;font-size:13px;line-height:1.65}
+
+/* ---------- stage ---------- */
+.stage{max-width:1240px;margin:0 auto;padding:34px 26px 80px}
+.view{display:none}
+.view.active{display:block}
+
+/* ---------- prospect ---------- */
+.phone-wrap{display:grid;grid-template-columns:minmax(0,384px) minmax(0,1fr);gap:50px;align-items:start}
+@media(max-width:880px){.phone-wrap{grid-template-columns:1fr;gap:30px}}
+.phone{width:384px;max-width:100%;background:#fff;border:1px solid var(--rule);border-radius:22px;overflow:hidden;box-shadow:0 1px 1px rgba(28,58,50,.05),0 16px 44px rgba(28,58,50,.14)}
+.phone-notch{height:28px;background:var(--pine);position:relative}
+.phone-notch:after{content:"";position:absolute;left:50%;top:9px;transform:translateX(-50%);width:80px;height:9px;background:var(--pine-deep);border-radius:5px}
+.screen{height:668px;overflow-y:auto;overflow-x:hidden}
+.screen::-webkit-scrollbar{width:0}
+
+.p-head{background:var(--pine);color:#fff;padding:20px 24px 24px;text-align:center;border-bottom:3px solid var(--brass)}
+.p-head .orn{margin-bottom:14px}
+.p-head h1{margin:0;font-family:'Fraunces',Georgia,serif;font-size:27px;font-weight:500;line-height:1.15}
+.p-head .loc{margin:12px 0 0;color:var(--brass-lit);font-size:9.5px;font-weight:600;letter-spacing:.24em;text-transform:uppercase}
+.p-head .sub{margin:9px 0 0;font-size:12.5px;color:#A6BBB2}
+
+.p-body{padding:24px}
+.p-body h2{margin:0 0 8px;font-family:'Fraunces',Georgia,serif;font-size:23px;font-weight:500;line-height:1.25}
+.p-body p{margin:0 0 17px;font-size:14.5px;color:var(--slate);line-height:1.6}
+
+.progress{display:flex;border-bottom:1px solid var(--rule-soft)}
+.progress i{flex:1;height:2px;background:var(--rule-soft)}
+.progress i.done{background:var(--brass)}
+
+.opt{display:block;width:100%;text-align:left;background:#fff;border:1px solid var(--rule);padding:14px 16px;margin-bottom:8px;font-size:15px;font-weight:500;color:var(--pine);transition:border-color .12s,background .12s}
+.opt:hover{border-color:var(--pine-mid);background:#FAFBFA}
+.opt[aria-pressed="true"]{border-color:var(--pine);background:#F4F8F5;box-shadow:inset 3px 0 0 var(--brass)}
+
+.field{margin-bottom:14px}
+.field label{display:block;font-size:12.5px;font-weight:600;margin-bottom:6px}
+.field input{width:100%;padding:12px 13px;border:1px solid var(--rule);font-size:15px;font-family:inherit;color:var(--pine);background:#fff}
+.field input:focus{border-color:var(--pine-mid);outline:none;box-shadow:0 0 0 3px rgba(184,134,47,.24)}
+
+.btn-primary{width:100%;background:var(--pine);color:#fff;border:0;padding:15px;font-weight:600;font-size:13px;letter-spacing:.14em;text-transform:uppercase;margin-top:4px}
+.btn-primary:hover{background:#264A40}
+.btn-back{background:none;border:0;color:var(--slate);font-size:13.5px;padding:14px 0 0;text-decoration:underline;text-underline-offset:3px}
+
+.note{background:#F4F6F4;border-left:2px solid var(--brass);padding:13px 15px;font-size:13px;color:var(--slate);line-height:1.6;margin:0 0 17px}
+.note strong{color:var(--pine);font-weight:600}
+
+.check{display:flex;gap:11px;align-items:flex-start;width:100%;text-align:left;background:#fff;border:1px solid var(--rule);padding:13px 15px;margin-bottom:7px;font-size:14.5px;color:var(--pine)}
+.check:hover{border-color:var(--pine-mid)}
+.check[aria-pressed="true"]{border-color:var(--pine);background:#F4F8F5}
+.box{flex:0 0 17px;height:17px;border:1.5px solid var(--mist);margin-top:2px;display:flex;align-items:center;justify-content:center}
+.check[aria-pressed="true"] .box{border-color:var(--pine);background:var(--pine)}
+.box svg{display:none;width:11px;height:11px}
+.check[aria-pressed="true"] .box svg{display:block}
+
+.outcome-mark{width:46px;height:46px;border:1px solid;display:flex;align-items:center;justify-content:center;margin-bottom:18px}
+.outcome-mark.open{border-color:var(--good);color:var(--good);background:var(--good-bg)}
+.outcome-mark.list{border-color:var(--watch);color:var(--watch);background:var(--watch-bg)}
+.outcome-mark.over{border-color:var(--pine-mid);color:var(--pine-mid);background:#EBEFEC}
+
+.steps{margin:0 0 20px;padding:0;list-style:none;counter-reset:s}
+.steps li{counter-increment:s;position:relative;padding-left:32px;margin-bottom:13px;font-size:14px;color:var(--slate);line-height:1.55}
+.steps li:before{content:counter(s);position:absolute;left:0;top:0;width:21px;height:21px;border:1px solid var(--brass);display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;color:var(--pine);background:#fff}
+.steps li strong{color:var(--pine);font-weight:600}
+
+.p-foot{border-top:1px solid var(--rule-soft);margin-top:8px;padding:18px 24px 26px;text-align:center}
+.p-foot .lock{line-height:1;margin-bottom:12px}
+.p-foot .lock .g{font-family:'Fraunces',Georgia,serif;font-size:13px;letter-spacing:.24em;color:var(--pine);font-weight:500}
+.p-foot .lock .m{font-size:7.5px;letter-spacing:.3em;color:var(--mist);margin-top:5px;font-weight:600;text-transform:uppercase}
+.eho{display:flex;align-items:flex-start;gap:9px;text-align:left;margin-top:14px}
+.eho span{font-size:10.5px;color:var(--mist);line-height:1.45}
+
+/* ---------- prospect side ---------- */
+.side>.orn{margin-bottom:16px;max-width:130px}
+.side h2{margin:0 0 10px;font-family:'Fraunces',Georgia,serif;font-size:32px;font-weight:500;line-height:1.18}
+.side>p{margin:0 0 30px;color:var(--slate);font-size:15px;max-width:58ch;line-height:1.6}
+.branch{border-top:1px solid var(--rule);padding-top:19px;margin-bottom:20px}
+.branch h3{margin:0 0 7px;font-size:15px;font-weight:700;display:flex;align-items:center;gap:10px}
+.branch p{margin:0;font-size:14px;color:var(--slate);max-width:58ch;line-height:1.6}
+.pill{font-size:10px;font-weight:700;padding:3px 8px;letter-spacing:.1em;text-transform:uppercase}
+.pill.open{background:var(--good-bg);color:var(--good)}
+.pill.list{background:var(--watch-bg);color:var(--watch)}
+.pill.over{background:#E5EAE6;color:var(--pine-mid)}
+.jump{border:1px solid var(--rule);background:#fff;padding:8px 14px;font-size:11px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--pine);margin-top:13px}
+.jump:hover{border-color:var(--pine);background:var(--pine);color:#fff}
+
+/* ---------- dashboard ---------- */
+.dash-head{margin-bottom:22px}
+.dash-head .orn{max-width:120px;margin-bottom:14px}
+.dash-head h2{margin:0;font-family:'Fraunces',Georgia,serif;font-size:34px;font-weight:500}
+.dash-head .loc{margin:10px 0 0;font-size:10px;font-weight:600;letter-spacing:.2em;text-transform:uppercase;color:var(--mist)}
+
+.statband{background:var(--pine);color:#fff;display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));margin-bottom:20px}
+.stat{padding:20px 24px;border-right:1px solid #37564C}
+.stat:last-child{border-right:0}
+.stat .n{font-family:'Fraunces',Georgia,serif;font-size:33px;font-weight:500;line-height:1}
+.stat .n.bad{color:#EFA694}
+.stat .l{font-size:12.5px;color:#B2C5BC;margin-top:9px}
+.stat .d{font-size:11px;color:#7E958B;margin-top:4px}
+
+.guard{display:flex;gap:12px;align-items:flex-start;background:#fff;border:1px solid var(--rule);border-left:3px solid var(--brass);padding:14px 17px;margin-bottom:26px;font-size:13.5px;color:var(--slate);line-height:1.55}
+.guard svg{flex:0 0 17px;margin-top:2px;color:var(--pine)}
+.guard strong{color:var(--pine);font-weight:600}
+
+.tabs{display:flex;border-bottom:1px solid var(--rule)}
+.tabs button{background:none;border:0;padding:11px 19px;font-size:11px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--slate);border-bottom:2px solid transparent;margin-bottom:-1px}
+.tabs button[aria-pressed="true"]{color:var(--pine);border-bottom-color:var(--brass)}
+.tabs .count{display:inline-block;background:var(--rule-soft);color:var(--pine-mid);font-size:11px;font-weight:700;padding:1px 6px;margin-left:7px;letter-spacing:0}
+
+.panel{display:none}
+.panel.active{display:block}
+.table-wrap{background:#fff;border:1px solid var(--rule);border-top:0;overflow-x:auto}
+table{width:100%;border-collapse:collapse;min-width:900px}
+thead th{text-align:left;font-size:10px;font-weight:700;letter-spacing:.13em;text-transform:uppercase;color:var(--slate);padding:12px 18px;border-bottom:1px solid var(--rule);background:#FAFBFA;white-space:nowrap}
+tbody tr{border-bottom:1px solid var(--rule-soft);cursor:pointer}
+tbody tr:last-child{border-bottom:0}
+tbody tr:hover{background:#F7F9F7}
+tbody tr.sel{background:#F1F6F2}
+td{padding:14px 18px;font-size:14px;vertical-align:top}
+.name{font-weight:600}
+.meta{font-size:12.5px;color:var(--mist);margin-top:2px}
+
+.score{display:flex;align-items:center;gap:10px}
+.score b{font-family:'Fraunces',Georgia,serif;font-size:21px;font-weight:500;width:28px}
+.bar{width:44px;height:4px;background:var(--rule-soft);overflow:hidden}
+.bar i{display:block;height:100%;background:var(--pine)}
+.bar i.mid{background:#7A8F86}
+.bar i.low{background:var(--rule)}
+
+.chips{display:flex;flex-wrap:wrap;gap:4px}
+.chip{font-size:11.5px;padding:2px 7px;background:#EBEFEC;color:var(--pine-mid);white-space:nowrap}
+.chip.hi{background:var(--good-bg);color:var(--good)}
+.chip.flag{background:#F1E8D8;color:#7A5B1B}
+
+.clock{display:inline-flex;align-items:center;gap:7px;font-size:13.5px;font-weight:600;white-space:nowrap}
+.dot{width:7px;height:7px;flex:0 0 7px;transform:rotate(45deg)}
+.clock.g{color:var(--good)} .clock.g .dot{background:var(--good)}
+.clock.a{color:var(--watch)} .clock.a .dot{background:var(--watch)}
+.clock.r{color:var(--late)} .clock.r .dot{background:var(--late)}
+
+.status{font-size:12.5px;color:var(--mist)}
+.status b{display:block;color:var(--pine);font-weight:600;font-size:13.5px;margin-bottom:1px}
+
+/* ---------- drawer ---------- */
+.drawer{position:fixed;top:0;right:0;height:100%;width:428px;max-width:92vw;background:#fff;border-left:1px solid var(--rule);box-shadow:-16px 0 46px rgba(28,58,50,.17);transform:translateX(100%);transition:transform .2s ease;z-index:40;display:flex;flex-direction:column}
+.drawer.open{transform:translateX(0)}
+@media(prefers-reduced-motion:reduce){.drawer{transition:none}}
+.drawer-head{padding:22px 24px 18px;border-bottom:3px solid var(--brass);background:var(--pine);color:#fff;position:relative}
+.drawer-head h3{margin:0;font-family:'Fraunces',Georgia,serif;font-size:23px;font-weight:500}
+.drawer-head .sub{font-size:12.5px;color:#A6BBB2;margin-top:5px}
+.drawer-close{position:absolute;top:18px;right:18px;background:none;border:0;color:#A6BBB2;padding:4px}
+.drawer-close:hover{color:#fff}
+.drawer-body{padding:22px 24px 44px;overflow-y:auto;flex:1}
+.dsec{margin-bottom:26px}
+.dsec h4{margin:0 0 11px;color:var(--slate)}
+.kv{display:flex;justify-content:space-between;gap:14px;padding:8px 0;border-bottom:1px solid var(--rule-soft);font-size:13.5px}
+.kv span{color:var(--slate)}
+.kv b{font-weight:600;text-align:right}
+.calc{background:#F6F8F6;border:1px solid var(--rule-soft);padding:15px 17px}
+.calc .row{display:flex;justify-content:space-between;gap:12px;font-size:13px;padding:4px 0;color:var(--slate)}
+.calc .row b{color:var(--pine);font-weight:600}
+.calc .tot{border-top:1px solid var(--rule);margin-top:8px;padding-top:9px;font-size:14px;font-weight:700;color:var(--pine)}
+.tl{list-style:none;margin:0;padding:0}
+.tl li{position:relative;padding:0 0 17px 21px;border-left:1px solid var(--rule);font-size:13.5px;color:var(--slate)}
+.tl li:last-child{border-left-color:transparent;padding-bottom:0}
+.tl li:before{content:"";position:absolute;left:-4px;top:5px;width:7px;height:7px;background:var(--mist);transform:rotate(45deg)}
+.tl li.now:before{background:var(--brass)}
+.tl li b{display:block;color:var(--pine);font-weight:600}
+.tl li .t{font-size:12px;color:var(--mist);margin-top:1px}
+.scrim{position:fixed;inset:0;background:rgba(28,58,50,.3);z-index:35;display:none}
+.scrim.open{display:block}
+
+.footnote{margin-top:22px;font-size:12.5px;color:var(--mist);max-width:76ch;line-height:1.65}
+</style>
+</head>
+<body>
+
+<div class="chrome">
+  <div class="chrome-bar">
+    <div class="lockup"><div class="g">GATEWAY</div><div class="m">Management</div></div>
+    <span class="tag">Prototype</span>
+    <span class="chrome-note">Sample data. Nothing here is a real inquiry.</span>
+    <div class="seg" role="group" aria-label="Switch view">
+      <button id="tab-p" aria-pressed="true">What the prospect sees</button>
+      <button id="tab-d" aria-pressed="false">What you see</button>
+    </div>
+    <button class="linkish" id="toggle-assump">Assumptions</button>
+  </div>
+  <div class="assumptions" id="assump">
+    <div class="assumptions-inner">
+      <h3>Every number below is assumed, not supplied by Gateway</h3>
+      <p class="lede">Replace these before this goes in front of anyone outside the room. The income limits drive the qualification logic, so a wrong limit produces wrong prioritization.</p>
+      <div class="assump-grid">
+        <div class="assump"><h4 class="caps">Property setup</h4><ul><li>3 bedroom units available now</li><li>4 bedroom waiting list closed</li><li>Rent assumed income based, not a fixed AMI band</li></ul></div>
+        <div class="assump"><h4 class="caps">Income limits, placeholder</h4><ul><li>3 people: $80,400</li><li>4 people: $89,340</li><li>5 people: $96,480</li><li>6 or more: $103,680</li></ul></div>
+        <div class="assump"><h4 class="caps">Scoring weights</h4><ul><li>Income within limit: 25</li><li>Active voucher: 25</li><li>Move in urgency: up to 20</li><li>Household fits bedroom size: 15</li><li>Documents gathered: up to 15</li></ul></div>
+        <div class="assump"><h4 class="caps">Not built, on purpose</h4><ul><li>No official application</li><li>No waiting list of record</li><li>No income documents collected</li><li>No eligibility determination</li></ul></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="stage">
+
+  <section class="view active" id="view-p">
+    <div class="phone-wrap">
+      <div><div class="phone"><div class="phone-notch"></div><div class="screen" id="screen"></div></div></div>
+      <div class="side">
+        <div class="orn"><svg viewBox="0 0 24 12" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M2 10L12 2l10 8"/></svg></div>
+        <h2>Six questions, then the path splits</h2>
+        <p>The same ad click lands everyone here. What they answer decides where they go, which is the part Gateway cannot do today. Walk the flow, or jump straight to an ending.</p>
+
+        <div class="branch">
+          <h3><span class="pill open">Available now</span> Applies</h3>
+          <p>Wants 3 bedrooms, income inside the limit. Gets next steps, a document checklist, and a callback commitment. Enters the queue at the top.</p>
+          <button class="jump" data-jump="open">Jump to this ending</button>
+        </div>
+        <div class="branch">
+          <h3><span class="pill list">Waiting list closed</span> Joins the interest list</h3>
+          <p>Wants 4 bedrooms. Today this person calls, hears no, and is gone. Here they are captured and told plainly that the list confers no position. When the list opens, the property follows its Tenant Selection Plan, not this list.</p>
+          <button class="jump" data-jump="list">Jump to this ending</button>
+        </div>
+        <div class="branch">
+          <h3><span class="pill over">Above the limit</span> Still submits</h3>
+          <p>Income reads above the published limit. The screen says so plainly and still lets them submit. Nothing here rejects anyone. Eligibility is determined by staff on the real application.</p>
+          <button class="jump" data-jump="over">Jump to this ending</button>
+        </div>
+
+        <p class="footnote">Language access and accessible formats are missing from this prototype and are not optional in the real build. Anyone must still be able to inquire and apply by phone, on paper, or in person.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="view" id="view-d">
+    <div class="dash-head">
+      <div class="orn"><svg viewBox="0 0 24 12" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M2 10L12 2l10 8"/></svg></div>
+      <h2>Langston Lane Apartments</h2>
+      <p class="loc">Washington, DC &nbsp;&middot;&nbsp; Last 7 days</p>
+    </div>
+
+    <div class="statband">
+      <div class="stat"><div class="n">34</div><div class="l">New inquiries</div><div class="d">21 qualified on income</div></div>
+      <div class="stat"><div class="n">3m</div><div class="l">Median time to first text</div><div class="d">Automatic, no staff action</div></div>
+      <div class="stat"><div class="n bad">6h 40m</div><div class="l">Median time to first call</div><div class="d">Target is under 1 hour</div></div>
+      <div class="stat"><div class="n">18</div><div class="l">On the 4 bedroom interest list</div><div class="d">Not reachable before</div></div>
+    </div>
+
+    <div class="guard">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+      <div><strong>Ranking sets callback order only.</strong> It does not determine eligibility, waiting list position, or who gets a unit. Those stay in OneSite under each property's Tenant Selection Plan. Every score is rule based and shows its reasons. Nothing is scored or rejected automatically.</div>
+    </div>
+
+    <div class="tabs" role="group" aria-label="Lead lists">
+      <button id="t-q" aria-pressed="true">Call queue <span class="count" id="c-q">0</span></button>
+      <button id="t-i" aria-pressed="false">4 bedroom interest list <span class="count" id="c-i">0</span></button>
+    </div>
+
+    <div class="panel active" id="pan-q">
+      <div class="table-wrap"><table>
+        <thead><tr><th>Priority</th><th>Household</th><th>Why it ranks here</th><th>Waiting on a call</th><th>Last touch</th></tr></thead>
+        <tbody id="rows-q"></tbody>
+      </table></div>
+    </div>
+    <div class="panel" id="pan-i">
+      <div class="table-wrap"><table>
+        <thead><tr><th>Priority</th><th>Household</th><th>Why it ranks here</th><th>Joined</th><th>Status</th></tr></thead>
+        <tbody id="rows-i"></tbody>
+      </table></div>
+      <p class="footnote">These households asked about 4 bedrooms while the list was closed. They hold no position and are told so at signup. When the list opens, notification follows the Tenant Selection Plan and the Affirmative Fair Housing Marketing Plan. This list is a contact record, not a queue.</p>
+    </div>
+
+    <p class="footnote">Speed to lead is measured from form submission to first human call. The automatic text goes out in under a minute regardless, which buys the staff time but does not replace the call.</p>
+  </section>
+</div>
+
+<div class="scrim" id="scrim"></div>
+<aside class="drawer" id="drawer" aria-hidden="true">
+  <div class="drawer-head">
+    <h3 id="d-name"></h3>
+    <div class="sub" id="d-sub"></div>
+    <button class="drawer-close" id="d-close" aria-label="Close">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M18 6L6 18M6 6l12 12"/></svg>
+    </button>
+  </div>
+  <div class="drawer-body" id="d-body"></div>
+</aside>
+
+<script>
+var LIMITS={3:80400,4:89340,5:96480,6:103680};
+function limitFor(n){return LIMITS[Math.min(Math.max(n,3),6)];}
+function money(n){return '$'+n.toLocaleString('en-US');}
+
+var tabP=document.getElementById('tab-p'),tabD=document.getElementById('tab-d');
+function setView(v){
+  tabP.setAttribute('aria-pressed',v==='p');tabD.setAttribute('aria-pressed',v==='d');
+  document.getElementById('view-p').classList.toggle('active',v==='p');
+  document.getElementById('view-d').classList.toggle('active',v==='d');
+  closeDrawer();
+}
+tabP.onclick=function(){setView('p')};
+tabD.onclick=function(){setView('d')};
+document.getElementById('toggle-assump').onclick=function(){document.getElementById('assump').classList.toggle('open');};
+
+var A={beds:null,size:null,income:null,voucher:null,when:null,docs:[]};
+var step=0, screen=document.getElementById('screen');
+var INCOME_BANDS=[{l:'Under $30,000',v:25000},{l:'$30,000 to $45,000',v:37500},{l:'$45,000 to $60,000',v:52500},{l:'$60,000 to $75,000',v:67500},{l:'$75,000 to $90,000',v:82500},{l:'Over $90,000',v:105000}];
+var DOCS=['Photo ID for every adult','Recent pay stubs or benefit letters','Social Security cards for everyone','Contact for your current landlord'];
+var BEDS=['3 bedrooms','4 bedrooms','Not sure yet'];
+var SIZES=['1 or 2 people','3 people','4 people','5 people','6 or more people'];
+var SIZEV=[2,3,4,5,6];
+var WHENS=['Within 30 days','In 1 to 2 months','In 2 to 3 months','More than 3 months','Just looking for now'];
+var VOUCH=['Yes, I have one now','I have applied but do not have one','No','Not sure'];
+var ROOF='<svg viewBox="0 0 24 12" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M2 10L12 2l10 8"/></svg>';
+
+function prog(n){var s='<div class="progress">';for(var i=1;i<=7;i++)s+='<i class="'+(i<=n?'done':'')+'"></i>';return s+'</div>';}
+function head(){
+  return '<div class="p-head"><div class="orn">'+ROOF+'</div>'+
+    '<h1>Langston Lane<br>Apartments</h1>'+
+    '<p class="loc">Washington, DC</p>'+
+    '<p class="sub">3 and 4 bedroom apartments. Rent based on income.</p></div>';
+}
+function foot(){
+  return '<div class="p-foot"><div class="lock"><div class="g">GATEWAY</div><div class="m">Management</div></div>'+
+  '<div class="eho"><svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#84948C" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"><path d="M3 10.5L12 3l9 7.5"/><path d="M5.5 9.5V21h13V9.5"/><path d="M10 21v-6h4v6"/></svg>'+
+  '<span>Equal Housing Opportunity. Gateway Management does not discriminate on the basis of race, color, religion, sex, national origin, familial status, or disability.</span></div></div>';
+}
+function optList(opts,key){
+  return opts.map(function(o,i){
+    var val=typeof o==='string'?o:o.l, cur=(typeof o==='string'?o:o.v);
+    return '<button class="opt" aria-pressed="'+(A[key]===cur)+'" data-k="'+key+'" data-i="'+i+'">'+val+'</button>';
+  }).join('');
+}
+function back(){return '<button class="btn-back" id="bk">Go back</button>';}
+
+function render(){
+  var h='';
+  if(step===0){
+    h=head()+'<div class="p-body"><h2>See if you qualify</h2>'+
+      '<p>Six questions, about a minute. You will not be asked for documents or a Social Security number here.</p>'+
+      '<div class="note">Rent at Langston Lane is based on what your household earns. <strong>Income limits apply.</strong> For a family of four, total household income is generally up to '+money(LIMITS[4])+' a year.</div>'+
+      '<button class="btn-primary" id="go">Start</button></div>'+foot();
+  } else if(step===1){
+    h=head()+prog(1)+'<div class="p-body"><h2>How many bedrooms do you need?</h2><p>This tells us whether we have something open right now.</p>'+optList(BEDS,'beds')+'</div>';
+  } else if(step===2){
+    h=head()+prog(2)+'<div class="p-body"><h2>How many people will live in the home?</h2><p>Count everyone, adults and children.</p>'+
+      SIZES.map(function(s,i){return '<button class="opt" aria-pressed="'+(A.size===SIZEV[i])+'" data-k="size" data-i="'+i+'">'+s+'</button>';}).join('')+back()+'</div>';
+  } else if(step===3){
+    var lim=limitFor(A.size||4);
+    h=head()+prog(3)+'<div class="p-body"><h2>About how much does your household earn in a year?</h2><p>Everyone in the home, before taxes. An estimate is fine.</p>'+
+      '<div class="note">For a household of '+(A.size>=6?'6 or more':A.size)+', the limit is about <strong>'+money(lim)+'</strong> a year.</div>'+optList(INCOME_BANDS,'income')+back()+'</div>';
+  } else if(step===4){
+    h=head()+prog(4)+'<div class="p-body"><h2>Do you have a housing voucher or other rental assistance?</h2><p>Sometimes called Section 8 or Housing Choice Voucher.</p>'+optList(VOUCH,'voucher')+back()+'</div>';
+  } else if(step===5){
+    h=head()+prog(5)+'<div class="p-body"><h2>When do you need to move?</h2><p>This helps us call the people with the shortest timeline first.</p>'+optList(WHENS,'when')+back()+'</div>';
+  } else if(step===6){
+    h=head()+prog(6)+'<div class="p-body"><h2>Which of these do you already have?</h2><p>Nothing is uploaded here. Having these ready makes the real application much faster.</p>'+
+      DOCS.map(function(d,i){return '<button class="check" aria-pressed="'+(A.docs.indexOf(i)>-1)+'" data-doc="'+i+'"><span class="box"><svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg></span>'+d+'</button>';}).join('')+
+      '<button class="btn-primary" id="go" style="margin-top:15px">Continue</button>'+back()+'</div>';
+  } else if(step===7){
+    h=head()+prog(7)+'<div class="p-body"><h2>How should we reach you?</h2><p>Someone from the leasing office will follow up.</p>'+
+      '<div class="field"><label for="f1">Your name</label><input id="f1" value="Yolanda Reyes"></div>'+
+      '<div class="field"><label for="f2">Mobile number</label><input id="f2" value="(202) 555-0148"></div>'+
+      '<div class="field"><label for="f3">Email, if you have one</label><input id="f3" value="yreyes@example.com"></div>'+
+      '<p style="font-size:12px;color:#84948C;margin:2px 0 15px;line-height:1.5">Reply STOP at any time to stop text messages.</p>'+
+      '<button class="btn-primary" id="go">Send my information</button>'+back()+'</div>';
+  } else { h=outcome(); }
+  screen.innerHTML=h;screen.scrollTop=0;wire();
+}
+
+function outcome(){
+  var wantsFour=A.beds==='4 bedrooms', over=A.income>limitFor(A.size||4), mark, body;
+  if(wantsFour){
+    mark='<div class="outcome-mark list"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M12 7v5l3 2"/><circle cx="12" cy="12" r="9"/></svg></div>';
+    body='<h2>You are on the notify list for 4 bedrooms</h2>'+
+      '<p>Our 4 bedroom waiting list is closed right now, so no new applications are being taken for that size.</p>'+
+      '<div class="note"><strong>This does not hold a place on the waiting list.</strong> It only means we have your contact information and will reach out when the list opens. When it does, applications are taken the way our Tenant Selection Plan requires.</div>'+
+      '<ul class="steps"><li><strong>We will text you</strong> the day the 4 bedroom list opens.</li><li><strong>Meanwhile</strong>, ask us about 3 bedrooms if a smaller home could work.</li><li><strong>You can call</strong> the leasing office any time to ask where things stand.</li></ul>';
+  } else if(over){
+    mark='<div class="outcome-mark over"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M12 8v5"/><path d="M12 16.5v.01"/><circle cx="12" cy="12" r="9"/></svg></div>';
+    body='<h2>We have your information</h2>'+
+      '<p>The income you entered is above the published limit for a household of your size, which is about '+money(limitFor(A.size||4))+' a year.</p>'+
+      '<div class="note">That estimate does not decide anything. Income is counted in a specific way and only staff can determine eligibility on a full application. <strong>If you would like to apply, you still can.</strong></div>'+
+      '<ul class="steps"><li><strong>Someone will call you</strong> to go through how income is counted.</li><li><strong>Ask about our other properties</strong>, which have different limits.</li></ul>';
+  } else {
+    mark='<div class="outcome-mark open"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg></div>';
+    body='<h2>You look like a fit. We are calling you.</h2>'+
+      '<p>Based on what you told us, 3 bedrooms at Langston Lane may work for your household.</p>'+
+      '<div class="note">A text is on its way now. <strong>Someone from the leasing office will call within one business hour.</strong></div>'+
+      '<ul class="steps"><li><strong>Answer the call.</strong> It comes from (202) 678-4509.</li><li><strong>Start gathering</strong> photo ID, recent pay stubs or benefit letters, and Social Security cards for everyone in the home.</li><li><strong>Fill out the application</strong> with staff. Nothing you entered here is an application.</li></ul>';
+  }
+  return head()+'<div class="p-body">'+mark+body+'<button class="btn-primary" id="rs">Start over</button></div>'+foot();
+}
+
+function wire(){
+  var go=document.getElementById('go'); if(go) go.onclick=function(){step++;render();};
+  var bk=document.getElementById('bk'); if(bk) bk.onclick=function(){step--;render();};
+  var rs=document.getElementById('rs'); if(rs) rs.onclick=function(){A={beds:null,size:null,income:null,voucher:null,when:null,docs:[]};step=0;render();};
+  Array.prototype.forEach.call(screen.querySelectorAll('.opt'),function(b){
+    b.onclick=function(){
+      var k=b.dataset.k,i=+b.dataset.i;
+      if(k==='beds')A.beds=BEDS[i];
+      if(k==='size')A.size=SIZEV[i];
+      if(k==='income')A.income=INCOME_BANDS[i].v;
+      if(k==='voucher')A.voucher=VOUCH[i];
+      if(k==='when')A.when=WHENS[i];
+      step++;render();
+    };
+  });
+  Array.prototype.forEach.call(screen.querySelectorAll('.check'),function(b){
+    b.onclick=function(){
+      var i=+b.dataset.doc,p=A.docs.indexOf(i);
+      if(p>-1)A.docs.splice(p,1);else A.docs.push(i);
+      b.setAttribute('aria-pressed',A.docs.indexOf(i)>-1);
+    };
+  });
+}
+Array.prototype.forEach.call(document.querySelectorAll('[data-jump]'),function(b){
+  b.onclick=function(){
+    var j=b.dataset.jump;
+    if(j==='open')A={beds:'3 bedrooms',size:4,income:52500,voucher:VOUCH[0],when:WHENS[0],docs:[0,1,2]};
+    if(j==='list')A={beds:'4 bedrooms',size:6,income:67500,voucher:VOUCH[0],when:WHENS[0],docs:[0,1]};
+    if(j==='over')A={beds:'3 bedrooms',size:3,income:105000,voucher:VOUCH[2],when:WHENS[2],docs:[0]};
+    step=8;render();
+    document.getElementById('screen').scrollIntoView({behavior:'smooth',block:'center'});
+  };
+});
+render();
+
+function L(name,size,income,voucher,when,docs,waitH,status,lastTouch,owner,tl){
+  return {name:name,size:size,income:income,voucher:voucher,when:when,docs:docs,waitH:waitH,status:status,lastTouch:lastTouch,owner:owner,tl:tl};
+}
+var QUEUE=[
+  L('Shantel Rivers',6,68000,'Yes',0,4,0.4,'Appointment set','Thu 2:10pm','Regina, leasing',[['Inquiry received','Thu 9:02am'],['Automatic text sent','Thu 9:03am'],['Called, reached','Thu 9:26am'],['Tour booked for Monday 10am','Thu 2:10pm'],['Reminder text goes out Sunday','Scheduled',1]]),
+  L('Yolanda Reyes',3,44000,'Yes',0,2,19.2,'No call yet','Wed 4:41pm','Unassigned',[['Inquiry received','Wed 4:40pm'],['Automatic text sent','Wed 4:41pm'],['Prospect replied "yes please call me"','Wed 5:12pm'],['No call placed','19 hours and counting',1]]),
+  L('Curtis Nwankwo',6,61000,'Not sure',0,4,0.8,'Contacted','Thu 11:15am','Marcus, regional',[['Inquiry received','Thu 10:22am'],['Automatic text sent','Thu 10:23am'],['Called, reached','Thu 11:15am'],['Voucher question sent to compliance','Thu 11:20am'],['Follow up call Friday','Scheduled',1]]),
+  L('Priscilla Adjei',4,57000,'Yes',1,3,1.6,'Left voicemail','Thu 1:05pm','Regina, leasing',[['Inquiry received','Thu 11:30am'],['Automatic text sent','Thu 11:31am'],['Called, voicemail','Thu 1:05pm'],['Second call attempt Friday 9am','Scheduled',1]]),
+  L('Danielle Whitfield',4,52000,'Yes',0,4,0.2,'Application started','Wed 10:48am','Regina, leasing',[['Inquiry received','Wed 9:15am'],['Automatic text sent','Wed 9:16am'],['Called, reached','Wed 9:27am'],['Paper application handed over in office','Wed 10:48am'],['Document reminder text Friday','Scheduled',1]]),
+  L('Marcus Bell',5,71000,'No',1,3,0.7,'Contacted','Thu 3:30pm','Marcus, regional',[['Inquiry received','Thu 2:48pm'],['Automatic text sent','Thu 2:49pm'],['Called, reached','Thu 3:30pm'],['Nurture email with checklist','Scheduled',1]]),
+  L('Dominique Carter',3,49000,'No',0,2,6.3,'No call yet','Thu 8:12am','Unassigned',[['Inquiry received','Thu 8:11am'],['Automatic text sent','Thu 8:12am'],['No call placed','6 hours and counting',1]]),
+  L('Tanya Brooks',4,88000,'No',2,1,2.1,'Left voicemail','Wed 3:20pm','Regina, leasing',[['Inquiry received','Wed 1:10pm'],['Automatic text sent','Wed 1:11pm'],['Called, voicemail','Wed 3:20pm'],['Nurture sequence day 3','Scheduled',1]]),
+  L('Wesley Grant',4,95000,'No',2,2,4.4,'Contacted','Wed 6:02pm','Marcus, regional',[['Inquiry received','Wed 1:36pm'],['Automatic text sent','Wed 1:37pm'],['Called, reached','Wed 6:02pm'],['Explained how income is counted','Wed 6:09pm']]),
+  L('Regina Salas',2,38000,'No',4,0,9.1,'No answer','Tue 5:44pm','Unassigned',[['Inquiry received','Tue 8:40am'],['Automatic text sent','Tue 8:41am'],['Called, no answer','Tue 5:44pm'],['Nurture sequence day 7','Scheduled',1]]),
+  L('Andre Coleman',5,102000,'No',3,1,7.7,'Contacted','Tue 4:15pm','Marcus, regional',[['Inquiry received','Tue 8:30am'],['Automatic text sent','Tue 8:31am'],['Called, reached','Tue 4:15pm'],['Referred to a second property','Tue 4:22pm']]),
+  L('Leon Pryor',2,29000,'No',4,0,22.5,'No call yet','Tue 11:02am','Unassigned',[['Inquiry received','Tue 11:01am'],['Automatic text sent','Tue 11:02am'],['No call placed','Low priority',1]])
+];
+var INTEREST=[
+  L('Iris Delgado',8,54000,'Yes',0,3,0,'On the list','Joined Thursday','Interest list',[['Asked about 4 bedrooms','Thu 12:14pm'],['Told list is closed, joined notify list','Thu 12:15pm'],['Text when the list opens','Scheduled',1]]),
+  L('Nadine Okafor',7,49000,'Yes',0,2,0,'On the list','Joined Wednesday','Interest list',[['Asked about 4 bedrooms','Wed 3:02pm'],['Told list is closed, joined notify list','Wed 3:03pm'],['Text when the list opens','Scheduled',1]]),
+  L('Charmaine Beasley',7,63000,'Yes',2,2,0,'On the list','Joined Wednesday','Interest list',[['Asked about 4 bedrooms','Wed 9:41am'],['Told list is closed, joined notify list','Wed 9:42am'],['Text when the list opens','Scheduled',1]]),
+  L('Terrence Mabry',6,72000,'No',1,1,0,'On the list','Joined Tuesday','Interest list',[['Asked about 4 bedrooms','Tue 4:55pm'],['Told list is closed, joined notify list','Tue 4:56pm'],['Text when the list opens','Scheduled',1]]),
+  L('Kevin Holloway',5,58000,'Not sure',3,0,0,'On the list','Joined Monday','Interest list',[['Asked about 4 bedrooms','Mon 10:12am'],['Told list is closed, joined notify list','Mon 10:13am'],['Text when the list opens','Scheduled',1]])
+];
+
+function scoreOf(l){
+  var parts=[],t=0,lim=limitFor(l.size);
+  if(l.income<=lim){t+=25;parts.push(['Income within limit',25,1]);}
+  else parts.push(['Income above published limit',0,2]);
+  if(l.voucher==='Yes'){t+=25;parts.push(['Active voucher',25,1]);}
+  else if(l.voucher==='Not sure')parts.push(['Voucher status unclear',0,2]);
+  var wl=['Moving within 30 days','Moving in 1 to 2 months','Moving in 2 to 3 months','Moving in 3 months or more','Just looking'];
+  var wv=[20,12,6,2,0];
+  if(wv[l.when]>0){t+=wv[l.when];parts.push([wl[l.when],wv[l.when],l.when===0?1:0]);}
+  else parts.push([wl[l.when],0,0]);
+  if(l.size>=4){t+=15;parts.push(['Household fits 3 or 4 bedrooms',15,0]);}
+  else parts.push(['Household smaller than unit size',0,2]);
+  var dv=l.docs>=3?15:(l.docs>=1?7:0);
+  if(dv>0){t+=dv;parts.push([l.docs+' of 4 documents ready',dv,0]);}
+  else parts.push(['No documents gathered',0,0]);
+  return {total:t,parts:parts};
+}
+function clockClass(h){return h<1?'g':(h<4?'a':'r');}
+function clockText(h){
+  if(h<1)return Math.round(h*60)+' min';
+  if(h<24)return h.toFixed(1).replace('.0','')+' hrs';
+  return Math.round(h/24)+' days';
+}
+function rowHTML(l,isInterest){
+  var s=scoreOf(l), cls=s.total>=70?'':(s.total>=45?'mid':'low');
+  var chips=s.parts.filter(function(p){return p[1]>0||p[2]===2;}).slice(0,4).map(function(p){
+    return '<span class="chip '+(p[2]===1?'hi':(p[2]===2?'flag':''))+'">'+p[0]+'</span>';}).join('');
+  var c4=isInterest?'<span class="status">'+l.lastTouch+'</span>'
+    :'<span class="clock '+clockClass(l.waitH)+'"><span class="dot"></span>'+clockText(l.waitH)+'</span>';
+  var c5=isInterest?'<span class="status"><b>'+l.status+'</b>No waiting list position</span>'
+    :'<span class="status"><b>'+l.status+'</b>'+l.lastTouch+' &middot; '+l.owner+'</span>';
+  return '<tr data-n="'+l.name+'">'+
+    '<td><span class="score"><b>'+s.total+'</b><span class="bar"><i class="'+cls+'" style="width:'+s.total+'%"></i></span></span></td>'+
+    '<td><div class="name">'+l.name+'</div><div class="meta">'+l.size+' people &middot; '+money(l.income)+'</div></td>'+
+    '<td><div class="chips">'+chips+'</div></td><td>'+c4+'</td><td>'+c5+'</td></tr>';
+}
+var allLeads={};
+function paint(list,el,isInterest){
+  list.sort(function(a,b){return scoreOf(b).total-scoreOf(a).total;});
+  list.forEach(function(l){allLeads[l.name]={l:l,i:isInterest};});
+  document.getElementById(el).innerHTML=list.map(function(l){return rowHTML(l,isInterest);}).join('');
+}
+paint(QUEUE,'rows-q',false);paint(INTEREST,'rows-i',true);
+document.getElementById('c-q').textContent=QUEUE.length;
+document.getElementById('c-i').textContent=INTEREST.length;
+
+var tQ=document.getElementById('t-q'),tI=document.getElementById('t-i');
+function setTab(q){
+  tQ.setAttribute('aria-pressed',q);tI.setAttribute('aria-pressed',!q);
+  document.getElementById('pan-q').classList.toggle('active',q);
+  document.getElementById('pan-i').classList.toggle('active',!q);
+  closeDrawer();
+}
+tQ.onclick=function(){setTab(true)};
+tI.onclick=function(){setTab(false)};
+
+var drawer=document.getElementById('drawer'),scrim=document.getElementById('scrim');
+function closeDrawer(){
+  drawer.classList.remove('open');scrim.classList.remove('open');
+  drawer.setAttribute('aria-hidden','true');
+  Array.prototype.forEach.call(document.querySelectorAll('tbody tr'),function(r){r.classList.remove('sel')});
+}
+document.getElementById('d-close').onclick=closeDrawer;
+scrim.onclick=closeDrawer;
+document.addEventListener('keydown',function(e){if(e.key==='Escape')closeDrawer()});
+document.addEventListener('click',function(e){
+  var tr=e.target.closest('tbody tr'); if(!tr)return;
+  var rec=allLeads[tr.dataset.n]; if(!rec)return;
+  Array.prototype.forEach.call(document.querySelectorAll('tbody tr'),function(r){r.classList.remove('sel')});
+  tr.classList.add('sel'); openDrawer(rec.l,rec.i);
+});
+function kvRow(k,v){return '<div class="kv"><span>'+k+'</span><b>'+v+'</b></div>';}
+function openDrawer(l,isInterest){
+  var s=scoreOf(l);
+  var wl=['Within 30 days','In 1 to 2 months','In 2 to 3 months','More than 3 months','Just looking'];
+  document.getElementById('d-name').textContent=l.name;
+  document.getElementById('d-sub').innerHTML=isInterest
+    ? 'Interest list, 4 bedrooms. No waiting list position.' : l.status+' &middot; '+l.owner;
+  var kv=kvRow('Household size',l.size+' people')+kvRow('Stated income',money(l.income)+' a year')+
+    kvRow('Limit for this size',money(limitFor(l.size)))+kvRow('Voucher',l.voucher)+
+    kvRow('Needs to move',wl[l.when])+kvRow('Documents gathered',l.docs+' of 4');
+  var calc=s.parts.map(function(p){return '<div class="row"><span>'+p[0]+'</span><b>'+(p[1]>0?'+'+p[1]:'0')+'</b></div>';}).join('')+
+    '<div class="row tot"><span>Callback priority</span><b>'+s.total+' of 100</b></div>';
+  var tl=l.tl.map(function(t){return '<li class="'+(t[2]?'now':'')+'"><b>'+t[0]+'</b><span class="t">'+t[1]+'</span></li>';}).join('');
+  document.getElementById('d-body').innerHTML=
+    '<div class="dsec"><h4 class="caps">What they told us</h4>'+kv+'</div>'+
+    '<div class="dsec"><h4 class="caps">How this score was built</h4><div class="calc">'+calc+'</div>'+
+    '<p style="font-size:12px;color:#84948C;margin:11px 0 0;line-height:1.55">Rule based and fully visible. It sets who gets called first. It does not decide eligibility or who gets a unit.</p></div>'+
+    '<div class="dsec"><h4 class="caps">Everything that has happened</h4><ul class="tl">'+tl+'</ul></div>';
+  drawer.classList.add('open');scrim.classList.add('open');
+  drawer.setAttribute('aria-hidden','false');
+}
+</script>
+</body>
+</html>
