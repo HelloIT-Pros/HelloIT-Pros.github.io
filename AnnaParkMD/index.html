@@ -131,11 +131,11 @@
   .nav-overlay a:hover{opacity:1;color:#AFC0F0;}
 
   /* HERO */
-  .hero{display:grid;grid-template-columns:1fr 1fr;min-height:64vh;}
+  .hero{display:grid;grid-template-columns:1fr 1fr;min-height:56vh;}
   .hero-photo{overflow:hidden;background:var(--offwhite);}
   .hero-photo img{width:100%;height:100%;object-fit:cover;object-position:center 20%;}
   .hero-copy{
-    padding:56px 72px;display:flex;flex-direction:column;justify-content:center;
+    padding:44px 72px;display:flex;flex-direction:column;justify-content:center;
   }
   .hero-copy h1{font-size:46px;margin-bottom:10px;}
   .hero-copy .role{
@@ -148,7 +148,7 @@
   .hero-copy .press-note a{color:var(--navy);border-bottom:1px solid var(--navy);}
 
   /* PRESS */
-  .press{background:var(--black);color:#fff;padding:90px 0;}
+  .press{background:var(--black);color:#fff;padding:68px 0;}
   .press .wrap{display:grid;grid-template-columns:0.85fr 1.15fr;gap:70px;align-items:center;}
   .press-lockup{text-align:left;}
   .press-lockup .apac{
@@ -174,10 +174,8 @@
   }
 
   /* SECTION generic */
-  section.block{padding:96px 0;}
+  section.block{padding:68px 0;}
   section.block.alt{background:var(--offwhite);}
-  .section-head{max-width:640px;margin-bottom:52px;}
-  .section-head h2{font-size:36px;}
 
   /* ABOUT (text only) */
   .about-text{max-width:700px;}
@@ -185,27 +183,27 @@
   .about-text blockquote{
     font-family:'Playfair Display',serif;font-style:italic;font-size:22px;
     color:var(--ink);border-left:3px solid var(--navy);padding-left:24px;
-    margin:32px 0;
+    margin:24px 0;
   }
   .about-text blockquote cite{
     display:block;font-family:'Outfit',sans-serif;font-style:normal;font-size:13px;
     color:var(--ink-soft);margin-top:12px;letter-spacing:0.02em;
   }
-  .stat-row{display:flex;gap:44px;margin-top:40px;flex-wrap:wrap;}
+  .stat-row{display:flex;gap:44px;margin-top:28px;flex-wrap:wrap;}
   .stat{border-top:2px solid var(--navy);padding-top:10px;min-width:140px;}
   .stat .num{font-family:'Bebas Neue',sans-serif;font-size:28px;color:var(--navy);letter-spacing:0.02em;text-transform:uppercase;}
   .stat .label{font-size:13px;color:var(--ink-soft);}
 
   /* PRACTICE */
-  .practice-grid{display:grid;grid-template-columns:1.1fr 0.9fr;gap:56px;align-items:start;}
-  .practice-intro p{color:var(--ink-soft);font-size:17px;margin-bottom:28px;max-width:480px;}
-  .feature-list{display:flex;flex-direction:column;gap:22px;}
-  .feature-item{border-top:1px solid var(--line);padding-top:16px;}
+  .practice-grid{display:grid;grid-template-columns:1.1fr 0.9fr;gap:44px;align-items:start;}
+  .practice-intro p{color:var(--ink-soft);font-size:17px;margin-bottom:22px;max-width:480px;}
+  .feature-list{display:flex;flex-direction:column;gap:18px;}
+  .feature-item{border-top:1px solid var(--line);padding-top:14px;}
   .feature-item h4{font-family:'Outfit',sans-serif;font-weight:500;font-size:16px;color:var(--ink);margin-bottom:6px;}
   .feature-item p{font-size:14px;color:var(--ink-soft);margin-bottom:0;max-width:420px;}
   .practice-card{
     background:var(--white);border:1px solid var(--line);border-radius:4px;
-    padding:44px;
+    padding:36px;
   }
   .practice-card .kicker{font-family:'Bebas Neue',sans-serif;letter-spacing:0.18em;font-size:13px;color:var(--navy);margin-bottom:14px;}
   .practice-card h3{font-size:26px;margin-bottom:14px;}
@@ -213,7 +211,7 @@
 
   /* NOON SHOP (compact, secondary) */
   .noonshop-card{
-    border:1px solid var(--line);border-radius:4px;padding:40px 44px;max-width:760px;
+    border:1px solid var(--line);border-radius:4px;padding:36px 40px;max-width:760px;
   }
   .noonshop-card .kicker{font-family:'Bebas Neue',sans-serif;letter-spacing:0.18em;font-size:13px;color:var(--navy);margin-bottom:12px;}
   .noonshop-card h3{font-size:24px;margin-bottom:14px;}
@@ -223,7 +221,7 @@
   .noonshop-card .micro-stat strong{color:var(--navy);font-family:'Bebas Neue',sans-serif;letter-spacing:0.02em;font-size:15px;}
 
   /* FOOTER */
-  footer{background:var(--navy);color:#fff;padding:56px 0 36px;}
+  footer{background:var(--navy);color:#fff;padding:44px 0 28px;}
   footer .wrap{display:flex;justify-content:space-between;align-items:flex-start;flex-wrap:wrap;gap:24px;}
   footer .fbrand{font-family:'Playfair Display',serif;font-size:22px;margin-bottom:6px;}
   footer .froles{font-size:13px;color:#B9C0D4;}
@@ -238,11 +236,11 @@
   @media(max-width:860px){
     .hero{grid-template-columns:1fr;min-height:auto;}
     .hero-photo{aspect-ratio:4/3;}
-    .hero-copy{padding:56px 28px;}
-    .press .wrap{grid-template-columns:1fr;gap:40px;}
+    .hero-copy{padding:36px 28px;}
+    .press .wrap{grid-template-columns:1fr;gap:32px;}
     .hero-copy h1{font-size:36px;}
     .practice-grid{grid-template-columns:1fr;}
-    .practice-card,.noonshop-card{padding:32px 26px;}
+    .practice-card,.noonshop-card{padding:28px 24px;}
     .nav-overlay a{font-size:34px;}
     .nav-overlay{gap:28px;}
     .press-lockup .word{font-size:38px;}
@@ -316,7 +314,7 @@
 <section class="block alt" id="practice">
   <div class="wrap">
     <span class="eyebrow rv">My Practice</span>
-    <h2 class="rv" style="font-size:34px;margin-bottom:32px;">Care first. Comfort always.</h2>
+    <h2 class="rv" style="font-size:34px;margin-bottom:24px;">Care first. Comfort always.</h2>
     <div class="practice-grid">
       <div class="practice-intro">
         <p class="rv">Anna Park, MD believes an eye exam should feel comfortable — the kind of visit where questions get answered, and the visit feels like a partnership to maintain eye health. Her philosophy carried over from nearly two decades in Washington, DC to her current practice at Silver Spring Eye.</p>
@@ -348,7 +346,7 @@
 <section class="block" id="noonshop">
   <div class="wrap">
     <span class="eyebrow rv">Also From Anna Park, MD</span>
-    <h2 class="rv" style="font-size:30px;margin-bottom:32px;">Noon Shop Eyewear</h2>
+    <h2 class="rv" style="font-size:30px;margin-bottom:24px;">Noon Shop Eyewear</h2>
     <div class="noonshop-card rv d1">
       <div class="kicker">Eyewear, Engineered to Fit</div>
       <h3>A Frame That Finally Fits</h3>
