@@ -191,7 +191,7 @@ body{
 /* ═══ 06 · CAST ═══════════════════════════════════════════════ */
 .castrow{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:clamp(6px,1vw,16px)}
 .castrow figure{margin:0}
-.castrow .gen{aspect-ratio:1/1}
+.castrow .gen{aspect-ratio:7/6}
 .castrow .gen > img{object-position:center 26%}
 .castrow figcaption{margin-top:8px;color:var(--faint)}
 
@@ -235,58 +235,112 @@ body{
 .worn figure{margin:0}
 .worn figcaption{margin-top:8px;color:var(--faint)}
 
-/* ═══ 09 · LIVE ═══════════════════════════════════════════════ */
-.live{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:clamp(14px,2.4vw,36px);align-items:end}
-.chrome{border:.5px solid var(--line);background:var(--paper);overflow:hidden;color:var(--ink)}
-.chrome .bar2{display:flex;align-items:center;gap:7px;padding:7px 11px;border-bottom:.5px solid rgba(8,8,10,.08);
-  background:var(--mist)}
+/* ═══ 09 · IT LANDS ═══════════════════════════════════════════
+   Solis on the left, the storefront on the right, and every field
+   of the product card flying in off the beam in publish order.   */
+.push{display:grid;grid-template-columns:auto minmax(0,1fr) auto;
+  gap:clamp(8px,1.4vw,22px);align-items:center}
+
+.emitter{display:flex;align-items:center;gap:clamp(6px,.9vw,12px)}
+.emitter .stack{display:grid;justify-items:center;gap:7px}
+.core{width:15px;height:15px;border-radius:50%;background:var(--fg);position:relative}
+.core::before,.core::after{content:"";position:absolute;inset:-11px;
+  border:1px solid var(--line);border-radius:50%;animation:ring 2.2s ease-out infinite}
+.core::after{animation-delay:1.1s}
+@keyframes ring{0%{transform:scale(.35);opacity:1}100%{transform:scale(2.1);opacity:0}}
+.beamline{position:relative;width:clamp(44px,6vw,90px);height:1px;background:var(--line);
+  margin-right:calc(-1 * clamp(8px,1.4vw,22px))}
+.pk{position:absolute;top:-2px;left:0;width:20px;height:5px;border-radius:3px;opacity:0;
+  background:linear-gradient(90deg,transparent,var(--fg))}
+.is-live .pk{animation:fly 1.35s cubic-bezier(.45,0,.55,1) var(--d,0s) infinite}
+@keyframes fly{0%{left:-16%;opacity:0}14%{opacity:1}84%{opacity:1}100%{left:100%;opacity:0}}
+
+/* a field arriving on the storefront */
+.land{position:relative;opacity:0;transform:translateX(-22px);
+  transition:opacity .4s var(--e) var(--d,0s),transform .56s var(--eOut) var(--d,0s)}
+.is-live .land{opacity:1;transform:none}
+.land::after{content:"";position:absolute;inset:-3px -7px;background:currentColor;
+  opacity:0;pointer-events:none}
+.is-live .land::after{animation:flash .6s ease-out var(--d,0s)}
+@keyframes flash{0%{opacity:.18}100%{opacity:0}}
+
+.chrome{position:relative;border:.5px solid var(--line);background:var(--paper);
+  overflow:hidden;color:var(--ink)}
+.chrome::before{content:"";position:absolute;left:0;top:0;bottom:0;width:2px;z-index:6;
+  background:var(--ink);opacity:0;pointer-events:none}
+.is-live .chrome::before{animation:hit .45s ease-out infinite}
+@keyframes hit{0%{opacity:.75}100%{opacity:0}}
+.chrome .bar2{display:flex;align-items:center;gap:7px;padding:6px 10px;
+  border-bottom:.5px solid rgba(8,8,10,.08);background:var(--mist)}
 .dot3{width:6px;height:6px;border-radius:50%;background:rgba(8,8,10,.16)}
-.url{flex:1;background:#fff;border:.5px solid rgba(8,8,10,.08);border-radius:100px;padding:4px 11px 3px;
-  font-family:'JetBrains Mono',monospace;font-size:9px;letter-spacing:.08em;color:rgba(8,8,10,.5)}
-.sf{padding:clamp(11px,1.5vw,20px)}
-.sfnav{display:flex;gap:clamp(9px,1.3vw,20px);align-items:center;padding-bottom:9px;
+.url{flex:1;background:#fff;border:.5px solid rgba(8,8,10,.08);border-radius:100px;
+  padding:3px 11px 2px;font-family:'JetBrains Mono',monospace;font-size:8.5px;
+  letter-spacing:.07em;color:rgba(8,8,10,.5);min-height:15px}
+.sf{padding:clamp(9px,1.3vw,17px)}
+.announce{text-align:center;padding:5px 0 7px;color:rgba(8,8,10,.55);
+  border-bottom:.5px solid rgba(8,8,10,.07);font-size:7.5px}
+.announce b{color:var(--ink);font-weight:400}
+.sfnav{display:flex;gap:clamp(7px,1.1vw,16px);align-items:center;padding:8px 0;
   border-bottom:.5px solid rgba(8,8,10,.08);
-  font-family:'JetBrains Mono',monospace;font-size:8px;letter-spacing:.18em;text-transform:uppercase;color:rgba(8,8,10,.42)}
-.sfnav .wm2{font-family:'Bebas Neue',sans-serif;font-size:13px;letter-spacing:.15em;color:var(--ink)}
+  font-family:'JetBrains Mono',monospace;font-size:7.5px;letter-spacing:.17em;
+  text-transform:uppercase;color:rgba(8,8,10,.42)}
+.sfnav .wm2{font-family:'Bebas Neue',sans-serif;font-size:12px;letter-spacing:.15em;color:var(--ink)}
 .sfnav .sp{margin-left:auto}
-.pdp{display:grid;grid-template-columns:1.05fr .95fr;gap:clamp(11px,1.7vw,28px);
-  padding-top:clamp(11px,1.6vh,20px);align-items:center}
-.pdp .hero{background:var(--mist);display:grid;place-items:center;padding:6% 9%;overflow:hidden;
-  min-height:clamp(112px,15vh,160px);max-height:clamp(140px,19vh,196px)}
-.pdp .hero img{width:100%;height:auto;max-height:100%;object-fit:contain}
-.sfgrid img{width:100%;height:auto;max-height:100%;object-fit:contain}
-.pdp h3{font-family:'Bebas Neue',sans-serif;font-weight:400;font-size:clamp(21px,2.4vw,36px);
-  letter-spacing:.016em;line-height:.94;text-transform:uppercase}
-.pdp .sub{font-family:'JetBrains Mono',monospace;font-size:8.5px;letter-spacing:.19em;text-transform:uppercase;
-  color:rgba(8,8,10,.42);margin-top:6px}
-.pdp .pr{font-size:clamp(13px,1vw,17px);margin-top:11px}
-.sw{display:flex;gap:5px;margin-top:11px}
-.sw i{width:14px;height:14px;border-radius:50%;border:.5px solid rgba(8,8,10,.16)}
-.pdp .cta{margin-top:13px;display:flex;gap:7px;flex-wrap:wrap}
-.pdp .cta span{border:.5px solid rgba(8,8,10,.2);border-radius:100px;padding:6px 13px 5px;
-  font-family:'JetBrains Mono',monospace;font-size:8px;letter-spacing:.17em;text-transform:uppercase;color:rgba(8,8,10,.6)}
-.pdp .cta span.fill{background:var(--ink);color:#fff;border-color:var(--ink)}
-.sfgrid{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:7px;margin-top:clamp(10px,1.5vh,18px);
-  padding-top:clamp(9px,1.4vh,16px);border-top:.5px solid rgba(8,8,10,.08)}
-.sfgrid div{background:var(--mist);aspect-ratio:4/3;display:grid;place-items:center;padding:11%;overflow:hidden;
-  opacity:0;transform:scale(.9);transition:opacity .45s var(--e) var(--d,0s),transform .55s var(--eOut) var(--d,0s)}
+
+.card{display:grid;grid-template-columns:minmax(0,.8fr) minmax(0,1fr);
+  gap:clamp(10px,1.5vw,24px);padding-top:clamp(9px,1.4vh,16px);align-items:start}
+.shotbox{aspect-ratio:5/4}
+.gen.lite{background:var(--mist)}
+.gen.lite .raw{filter:blur(20px) saturate(.16) brightness(1.12);transform:scale(1.06)}
+.chip{position:absolute;bottom:8px;z-index:4;border-radius:100px;padding:4px 9px 3px;
+  background:rgba(255,255,255,.93);color:var(--ink);font-size:7px;letter-spacing:.15em}
+.chip.tryon{left:8px}
+.chip.wt{right:8px}
+.meta{display:grid;gap:clamp(5px,.9vh,9px);align-content:start}
+.sku{color:rgba(8,8,10,.42);font-size:7.5px}
+.nm{font-family:'Bebas Neue',sans-serif;font-weight:400;text-transform:uppercase;
+  font-size:clamp(24px,3.1vw,48px);line-height:.94;letter-spacing:.016em;
+  transform:translateX(-22px) scale(1.09);filter:blur(5px)}
+.is-live .nm{transform:none;filter:none;
+  transition:opacity .5s var(--e) var(--d,0s),transform .74s var(--eOut) var(--d,0s),
+             filter .5s var(--e) var(--d,0s)}
+.desc{font-family:'Playfair Display',Georgia,serif;font-style:italic;
+  color:rgba(8,8,10,.55);font-size:clamp(11px,.92vw,15px);line-height:1.35}
+.priceline{display:flex;align-items:center;gap:12px;flex-wrap:wrap;margin-top:2px}
+.priceline .pv{font-size:clamp(15px,1.3vw,22px)}
+.priceline .view{margin-left:auto;border:.5px solid rgba(8,8,10,.2);border-radius:100px;
+  padding:5px 13px 4px;font-family:'JetBrains Mono',monospace;font-size:7.5px;
+  letter-spacing:.17em;text-transform:uppercase;color:rgba(8,8,10,.6)}
+.priceline .view.fill{background:var(--ink);color:#fff;border-color:var(--ink);margin-left:0}
+
+.sfgrid{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:6px;
+  margin-top:clamp(8px,1.3vh,15px);padding-top:clamp(8px,1.2vh,14px);
+  border-top:.5px solid rgba(8,8,10,.08)}
+.sfgrid div{background:var(--mist);aspect-ratio:2/1;display:grid;place-items:center;
+  padding:9%;overflow:hidden;position:relative;
+  opacity:0;transform:translateX(-18px);
+  transition:opacity .4s var(--e) var(--d,0s),transform .55s var(--eOut) var(--d,0s)}
 .is-live .sfgrid div{opacity:1;transform:none}
+.sfgrid img{width:100%;height:auto;max-height:100%;object-fit:contain}
 
-.phone{width:clamp(140px,14vw,200px);border:.5px solid var(--line);border-radius:21px;padding:6px;
-  background:var(--paper);flex:none}
-.phone .scr{border-radius:16px;overflow:hidden;background:var(--paper);color:var(--ink)}
-.phone .pn{display:flex;align-items:center;justify-content:space-between;padding:7px 9px;
-  border-bottom:.5px solid rgba(8,8,10,.08);font-family:'Bebas Neue',sans-serif;font-size:11px;letter-spacing:.13em}
-.phone .pn i{width:11px;height:1px;background:rgba(8,8,10,.42);display:block;
+.phone{width:clamp(126px,12.5vw,178px);border:.5px solid var(--line);border-radius:20px;
+  padding:6px;background:var(--paper);flex:none}
+.phone .scr{border-radius:15px;overflow:hidden;background:var(--paper);color:var(--ink)}
+.phone .pn{display:flex;align-items:center;justify-content:space-between;padding:6px 8px;
+  border-bottom:.5px solid rgba(8,8,10,.08);font-family:'Bebas Neue',sans-serif;
+  font-size:10px;letter-spacing:.13em}
+.phone .pn i{width:10px;height:1px;background:rgba(8,8,10,.42);display:block;
   box-shadow:0 4px 0 rgba(8,8,10,.42),0 -4px 0 rgba(8,8,10,.42)}
-.phone .gen{height:clamp(150px,23vh,210px)}
+.phone .gen{aspect-ratio:1/1}
 .phone .gen > img{object-position:center 18%}
-.phone .pf{padding:7px 9px;font-family:'JetBrains Mono',monospace;font-size:7px;letter-spacing:.14em;
-  text-transform:uppercase;color:rgba(8,8,10,.45);display:flex;justify-content:space-between}
+.phone .pf{padding:6px 8px;font-family:'JetBrains Mono',monospace;font-size:6.5px;
+  letter-spacing:.13em;text-transform:uppercase;color:rgba(8,8,10,.45);
+  display:flex;justify-content:space-between}
 
-.chanrow{display:flex;gap:clamp(7px,1.2vw,16px);flex-wrap:wrap;margin-top:clamp(12px,2vh,26px);
-  padding-top:clamp(11px,1.7vh,20px);border-top:.5px solid var(--line)}
-.chan{border:.5px solid var(--line);border-radius:100px;padding:8px 16px 7px;color:var(--mute);
+.chanrow{display:flex;gap:clamp(6px,1vw,14px);flex-wrap:wrap;
+  margin-top:clamp(10px,1.7vh,22px);padding-top:clamp(9px,1.4vh,17px);
+  border-top:.5px solid var(--line)}
+.chan{border:.5px solid var(--line);border-radius:100px;padding:7px 14px 6px;color:var(--mute);
   opacity:0;transform:translateX(-14px) scale(.96);
   transition:opacity .5s var(--e) var(--d,0s),transform .7s var(--eOut) var(--d,0s)}
 .is-live .chan{opacity:1;transform:none}
@@ -347,18 +401,21 @@ body{
   .compose .gen,.plate{height:min(32vh,300px)}
   .link{grid-auto-flow:column;justify-content:center;align-items:center}
   .beam{width:clamp(26px,5vw,52px);height:2px;background:linear-gradient(90deg,var(--line),var(--fg),var(--line))}
-  .live{grid-template-columns:1fr;gap:16px;justify-items:start}
-  .pdp{grid-template-columns:1fr}
+  .push{grid-template-columns:1fr;gap:14px;justify-items:start}
+  .emitter{flex-direction:row}
+  .beamline{width:clamp(60px,22vw,140px)}
+  .card{grid-template-columns:1fr}
+  .shotbox{aspect-ratio:16/10}
   .worn{grid-template-columns:repeat(2,minmax(0,1fr))}
   .worn .src{grid-column:1/-1;max-width:190px}
   .worn .gen{height:min(25vh,240px)}
-  .castrow{grid-template-columns:repeat(2,minmax(0,1fr))}
   .checks{grid-template-columns:1fr}
-  .phone{width:160px}
+  .phone{width:clamp(112px,25vw,150px)}
   .topline{max-width:none}
   .wrap.edge{height:auto;min-height:100dvh}
 }
 @media (max-width:560px){
+  .castrow{grid-template-columns:repeat(2,minmax(0,1fr))}
   .sfgrid{grid-template-columns:repeat(3,minmax(0,1fr))}
   .dots{display:none}
   .sfnav span:not(.wm2):not(.sp){display:none}
@@ -366,7 +423,9 @@ body{
 
 @media (prefers-reduced-motion:reduce){
   #deck{scroll-behavior:auto}
-  .r,.blk,.ray,.chan,.specs-l li,.checks li,.sfgrid div{opacity:1!important;transform:none!important;transition:none!important}
+  .r,.blk,.ray,.chan,.specs-l li,.checks li,.sfgrid div,.land{
+    opacity:1!important;transform:none!important;filter:none!important;transition:none!important}
+  .land::after,.pk,.core::before,.core::after,.chrome::before{animation:none!important;opacity:0}
   .checks .tk::after{transform:rotate(-45deg) scale(1)!important;transition:none!important}
   .gen .fin{clip-path:none!important;animation:none!important}
   .gen .raw,.gen .mesh,.gen .bar{animation:none!important;opacity:0}
@@ -562,51 +621,72 @@ body{
   </div>
 </section>
 
-<!-- ══ 09 · LIVE ═════════════════════════════════════════════ -->
-<section class="panel" id="p9" data-tone="light" data-label="Live" data-replay="1">
-  <p class="tag m">08 &middot; Live</p>
+<!-- ══ 09 · IT LANDS ════════════════════════════════════════ -->
+<section class="panel" id="p9" data-tone="light" data-label="It lands" data-replay="1">
+  <p class="tag m">08 &middot; It lands</p>
   <div class="wrap">
-    <h2 class="hd r" style="--d:.1s;margin-bottom:clamp(12px,2vh,26px)">On the store, the same minute
-      <span class="it">Shopify, responsive, try&ndash;on, feeds</span></h2>
-    <div class="live">
-      <div class="chrome r" style="--d:.28s">
+    <h2 class="hd r" style="--d:.1s;margin-bottom:clamp(10px,1.8vh,24px);font-size:clamp(28px,4vw,58px)">Pushed straight onto the store
+      <span class="it">photograph, name, description, price, in that order</span></h2>
+
+    <div class="push">
+      <div class="emitter r" style="--d:.15s">
+        <span class="stack"><span class="core"></span><span class="m" style="color:var(--faint)">Solis</span></span>
+        <span class="beamline">
+          <i class="pk" style="--d:0s"></i><i class="pk" style="--d:.45s"></i><i class="pk" style="--d:.9s"></i>
+        </span>
+      </div>
+
+      <div class="chrome r" style="--d:.25s">
         <div class="bar2"><i class="dot3"></i><i class="dot3"></i><i class="dot3"></i>
-          <span class="url">noonshop.com/products/nashville</span></div>
+          <span class="url"><span class="type" data-type="noonshop.com/products/nashville" data-delay="500"></span></span></div>
         <div class="sf">
-          <div class="sfnav"><span class="wm2">Noon Shop</span><span>Shop</span><span>Bestsellers</span>
-            <span>Find your fit</span><span>Our story</span><span class="sp">Bag (1)</span></div>
-          <div class="pdp">
-            <div class="hero"><img src="launch-assets/frame-cutout.png" alt="Nashville on the product page." width="663" height="222"></div>
-            <div>
-              <h3>Nashville</h3>
-              <p class="sub">Dormann &middot; DR22009 &middot; 49 &#9643; 21 &ndash; 143</p>
-              <p class="pr">$285 &middot; frames only, demo lenses fitted</p>
-              <div class="sw"><i style="background:#3b3a38"></i><i style="background:#8a6a4a"></i><i style="background:#c9c6c2"></i><i style="background:#2b3242"></i><i style="background:#b9a9ab"></i></div>
-              <div class="cta"><span class="fill">Add to bag</span><span>Try it on</span></div>
+          <p class="announce m land" style="--d:1s">Free shipping on every order &middot; <b>10% off your first pair</b> with code NOON10</p>
+          <div class="sfnav land" style="--d:1.15s"><span class="wm2">Noon Shop</span><span>Shop</span>
+            <span>Bestsellers</span><span>Find your fit</span><span>Our story</span><span class="sp">Bag (0)</span></div>
+
+          <div class="card">
+            <div class="gen lite shotbox" style="--dur:2s;--del:1.5s">
+              <img class="raw" src="launch-assets/hero-generated.jpg" alt="" aria-hidden="true">
+              <img class="fin" src="launch-assets/hero-generated.jpg" alt="Nashville, worn, on its product page.">
+              <span class="mesh"></span><span class="bar"></span>
+              <span class="chip tryon m land" style="--d:3.6s">Try on</span>
+              <span class="chip wt m land" style="--d:3.75s">13g &middot; so light</span>
+            </div>
+            <div class="meta">
+              <p class="sku m land" style="--d:3.75s">Dormann &middot; SKU DR22009</p>
+              <h3 class="nm land" style="--d:3.95s">Nashville</h3>
+              <p class="desc land" style="--d:4.25s">A fine wire panto with quiet proportion and a clean, considered presence.</p>
+              <div class="priceline">
+                <span class="pv land" style="--d:4.5s">$285</span>
+                <span class="m land" style="--d:4.5s;color:rgba(8,8,10,.45)">Frames only</span>
+                <span class="view land" style="--d:4.7s">View</span>
+              </div>
             </div>
           </div>
+
           <div class="sfgrid" id="sfgrid"></div>
         </div>
       </div>
-      <div class="phone r" style="--d:.45s">
+
+      <div class="phone r" style="--d:.4s">
         <div class="scr">
           <div class="pn"><span>Noon Shop</span><i></i></div>
-          <div class="gen" style="--dur:2s;--del:1.1s">
+          <div class="gen lite" style="--dur:1.8s;--del:2.4s">
             <img class="raw" src="launch-assets/worn-hana.jpg" alt="" aria-hidden="true">
-            <img class="fin" src="launch-assets/worn-hana.jpg" alt="Try-on running on the shopper's own camera.">
+            <img class="fin" src="launch-assets/worn-hana.jpg" alt="The same page on a phone.">
             <span class="mesh"></span><span class="bar"></span>
-            <span class="lbl m" style="padding:22px 9px 8px;font-size:7px">Try&ndash;on &middot; live camera</span>
           </div>
-          <div class="pf"><span>Nashville</span><span>$285</span></div>
+          <div class="pf"><span class="land" style="--d:4.4s">Nashville</span><span class="land" style="--d:4.5s">$285</span></div>
         </div>
       </div>
     </div>
+
     <div class="chanrow">
-      <span class="chan m" style="--d:1.5s">Google Shopping</span>
-      <span class="chan m" style="--d:1.62s">Meta &middot; Instagram</span>
-      <span class="chan m" style="--d:1.74s">Email</span>
-      <span class="chan m" style="--d:1.86s">Retargeting</span>
-      <span class="chan m" style="--d:1.98s;border-color:var(--fg);color:var(--fg)">The same approved photograph</span>
+      <span class="chan m" style="--d:5.3s">Google Shopping</span>
+      <span class="chan m" style="--d:5.42s">Meta &middot; Instagram</span>
+      <span class="chan m" style="--d:5.54s">Email</span>
+      <span class="chan m" style="--d:5.66s">Retargeting</span>
+      <span class="chan m" style="--d:5.8s;border-color:var(--fg);color:var(--fg)">The same approved photograph</span>
     </div>
   </div>
 </section>
@@ -1071,12 +1151,10 @@ body{
 
     if (p.id === 'p4') runReel();
 
-    if (p.id === 'p5') {
-      p.querySelectorAll('[data-type]').forEach(function(el){
-        if (reduced) { el.textContent = el.dataset.type; el.classList.add('done'); }
-        else runType(el);
-      });
-    }
+    p.querySelectorAll('[data-type]').forEach(function(el){
+      if (reduced) { el.textContent = el.dataset.type; el.classList.add('done'); }
+      else runType(el);
+    });
 
     p.querySelectorAll('[data-count]').forEach(runCount);
 
@@ -1107,7 +1185,7 @@ body{
   var sfgrid = document.getElementById('sfgrid');
   ['fr-02','fr-03','fr-04','fr-05','fr-06'].forEach(function(c, i){
     var dv = document.createElement('div');
-    dv.style.setProperty('--d', (0.8 + i * 0.12).toFixed(2) + 's');
+    dv.style.setProperty('--d', (4.9 + i * 0.1).toFixed(2) + 's');
     dv.innerHTML = '<img src="launch-assets/' + c + '.png" alt="" width="300" height="225" loading="lazy">';
     sfgrid.appendChild(dv);
   });
