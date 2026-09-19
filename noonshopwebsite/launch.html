@@ -137,8 +137,9 @@ body{
   letter-spacing:.016em;font-size:clamp(30px,5.4vw,92px);opacity:0;transform:translateY(18px)}
 .title-b .meet{font-family:'Bebas Neue',sans-serif;text-transform:uppercase;line-height:.9;
   letter-spacing:.016em;font-size:clamp(30px,5.4vw,92px)}
-.title-b .sub{font-family:'Playfair Display',Georgia,serif;font-style:italic;
-  font-size:clamp(17px,2.5vw,42px);line-height:1.2;color:var(--mute);margin-top:clamp(8px,1.4vh,18px)}
+.title-b .sub{font-family:'Bebas Neue',sans-serif;text-transform:uppercase;
+  font-size:clamp(15px,2.1vw,34px);line-height:1.1;letter-spacing:.15em;
+  color:var(--mute);margin-top:clamp(9px,1.6vh,20px)}
 .title-b{opacity:0;transform:translateY(18px)}
 .is-live .title-a{animation:titleA 5.2s var(--e) .4s forwards}
 .is-live .title-b{animation:titleB 1.5s var(--eOut) 4.9s forwards}
@@ -168,6 +169,12 @@ body{
   transition:opacity .6s var(--e) var(--d,0s),transform .7s var(--eOut) var(--d,0s)}
 .is-live .ray{opacity:1;transform:none}
 .ray.on{border-color:var(--fg);color:var(--fg);background:rgba(255,255,255,.07)}
+
+.eco{display:none;gap:clamp(7px,1.3vh,12px);margin-bottom:clamp(10px,1.8vh,20px)}
+.eco > div{display:grid;gap:3px}
+.eco .k{color:var(--fg)}
+.eco .v{color:var(--mute);letter-spacing:.1em;text-transform:none;line-height:1.55}
+@media (max-width:700px){ .eco{display:grid} }
 
 /* ═══ 04 · NAMED ══════════════════════════════════════════════ */
 #p4 .wrap{display:grid;place-items:center;text-align:center;gap:clamp(10px,2vh,26px)}
@@ -481,27 +488,33 @@ body{
     <div class="titles">
       <h1 class="title-a">Your frames,<br>sold across North America.</h1>
       <div class="title-b">
-        <p class="meet">Meet Noon Shop</p>
+        <p class="meet">This is Noon Shop</p>
         <p class="sub">Your AI powered growth engine</p>
       </div>
     </div>
   </div>
 </section>
 
-<!-- ══ 02 · THE HANDOVER ═══════════════════════════════════ -->
-<section class="panel" id="p2" data-tone="dark" data-label="The handover" data-replay="1">
-  <canvas class="stage" data-scene="folder"></canvas>
+<!-- ══ 02 · THE ECOSYSTEM ══════════════════════════════════ -->
+<section class="panel" id="p2" data-tone="dark" data-label="The ecosystem" data-replay="1">
+  <canvas class="stage" data-scene="sonar"></canvas>
   <div class="scrim"></div>
-  <p class="tag m">01 &middot; The handover</p>
+  <p class="tag m">01 &middot; The ecosystem</p>
   <div class="wrap edge">
     <div class="topline">
-      <h2 class="hd r" style="--d:.2s">One folder.<br>One connection.
-        <span class="it">your photographs and your sheet, straight into Solis</span></h2>
+      <h2 class="hd r" style="--d:.2s">One engine.<br>Every channel.
+        <span class="it">content, commerce and demand, out of one catalog</span></h2>
     </div>
-    <div class="readout r" style="--d:.5s">
-      <div class="m"><b data-live="styles">0</b>Styles received</div>
-      <div class="m"><b data-live="cw">0</b>Colorways</div>
-      <div class="m"><b>17 Sep</b>Last transfer</div>
+    <div>
+      <div class="eco">
+        <div class="r" style="--d:.6s"><span class="k m">Content</span>
+          <span class="v m">Naming &amp; SEO &middot; AI model photography &middot; Product copy</span></div>
+        <div class="r" style="--d:.72s"><span class="k m">Commerce</span>
+          <span class="v m">Shopify storefront &middot; Virtual try-on &middot; Orders &amp; fulfilment</span></div>
+        <div class="r" style="--d:.84s"><span class="k m">Reach</span>
+          <span class="v m">Google Shopping &middot; Social media &middot; Email &amp; SMS &middot; Paid &amp; retargeting</span></div>
+      </div>
+      <p class="m r" style="--d:.7s;color:var(--faint)">Your frames go in once. Everything downstream is handled.</p>
     </div>
   </div>
 </section>
@@ -513,8 +526,8 @@ body{
   <p class="tag m">02 &middot; The engine</p>
   <div class="wrap edge">
     <div class="topline">
-      <h2 class="hd r" style="--d:.2s">The cloud<br>feeds Solis
-        <span class="it">and Solis makes the product</span></h2>
+      <h2 class="hd r" style="--d:.2s">Your catalog<br>feeds Solis
+        <span class="it">the engine inside Noon Shop that makes the product</span></h2>
     </div>
     <div class="rays">
       <span class="ray m" style="--d:.7s">Name</span>
@@ -956,157 +969,114 @@ body{
     };
   }
 
-  /* ── the handover: a folder opens and its files cross to Solis ── */
-  function folderScene(ctx, dim){
-    var files = [], spawn = 0, flare = 0, op = 0, styles = 0, cws = 0;
-    var fx = 0, fy = 0, fw = 0, fh = 0, coreX = 0, coreY = 0, mouthX = 0, mouthY = 0;
-    var elStyles = document.querySelector('[data-live="styles"]');
-    var elCw     = document.querySelector('[data-live="cw"]');
-    var TAU = 6.2832;
+  /* ── the ecosystem, as a sonar: rings of capability pushed outward ── */
+  function sonarScene(ctx, dim){
+    var TAU = 6.2832, D = Math.PI / 180;
+    var RINGS = [
+      { r: 0.32, name: 'CONTENT', lit: 0, items: [
+        { t: 'Naming & SEO',          a: -52 },
+        { t: 'AI model photography',  a:  30 },
+        { t: 'Product copy',          a: 118 } ] },
+      { r: 0.62, name: 'COMMERCE', lit: 0, items: [
+        { t: 'Shopify storefront',    a: -20 },
+        { t: 'Virtual try-on',        a:  68 },
+        { t: 'Orders & fulfilment',   a: 150 } ] },
+      { r: 0.93, name: 'REACH', lit: 0, items: [
+        { t: 'Google Shopping',       a: -64 },
+        { t: 'Social media',          a:  -6 },
+        { t: 'Email & SMS',           a:  44 },
+        { t: 'Paid & retargeting',    a: 100 } ] }
+    ];
+    var pulses = [], spawn = 0, cx = 0, cy = 0, R = 0;
 
+    var labelled = true;
     function place(w, h){
+      /* below 700 the radial labels cannot fit round the rings, so the
+         capabilities move to a list in the markup and the dial goes quiet */
+      labelled = w > 700;
       var wide = w > 900;
-      fw = Math.min(wide ? w * 0.17 : w * 0.3, h * 0.29);
-      fh = fw * 0.76;
-      fx = wide ? w * 0.4 : w * 0.08;
-      fy = h * 0.5 - fh * 0.42;
-      coreX = wide ? w * 0.84 : w * 0.82;
-      coreY = h * 0.5;
-    }
-    function roundRect(x, y, w, h, r){
-      ctx.beginPath();
-      if (ctx.roundRect) ctx.roundRect(x, y, w, h, r);
-      else ctx.rect(x, y, w, h);
-    }
-    function newFile(){
-      var pool = ready();
-      var isSheet = Math.random() < 0.34 || !pool.length;
-      return {
-        t: 0,
-        life: 2.4 + Math.random() * 0.7,
-        lift: (Math.random() - 0.5) * fh * 1.5,
-        sheet: isSheet,
-        img: isSheet ? null : pool[(Math.random() * pool.length) | 0]
-      };
+      R = labelled ? Math.min(wide ? w * 0.25 : w * 0.3, h * 0.38)
+                   : Math.min(w * 0.3, h * 0.22);
+      cx = labelled ? (wide ? w * 0.55 : w * 0.5) : w * 0.5;
+      cy = h * (labelled ? 0.54 : 0.44);
     }
 
     return {
       resize: place,
       reset: function(){
-        files = []; spawn = 0.9; flare = 0; op = 0; styles = 0; cws = 0;
-        if (elStyles) elStyles.textContent = '0';
-        if (elCw) elCw.textContent = '0';
+        pulses = []; spawn = 0.2;
+        for (var i = 0; i < RINGS.length; i++) RINGS[i].lit = 0;
       },
       draw: function(dt, t){
         var d = dim();
-        if (!fw) place(d.w, d.h);
-        op = Math.min(1, op + dt * 1.4);                 /* the lid opens once */
-        var e = op * op * (3 - 2 * op);
-        var topY = fy + fh * 0.27 + e * fh * 0.07;
-        mouthX = fx + fw * 0.5; mouthY = topY;
+        if (!R) place(d.w, d.h);
 
-        /* the channel between the folder and the engine */
-        var chY = coreY;
-        ctx.strokeStyle = 'rgba(255,255,255,.1)'; ctx.lineWidth = 1;
-        ctx.beginPath(); ctx.moveTo(fx + fw, chY - fh * 0.34); ctx.lineTo(coreX, chY - fh * 0.34); ctx.stroke();
-        ctx.beginPath(); ctx.moveTo(fx + fw, chY + fh * 0.34); ctx.lineTo(coreX, chY + fh * 0.34); ctx.stroke();
-        for (var q = 0; q < 6; q++) {
-          var ph = (t * 0.5 + q / 6) % 1;
-          var qx = fx + fw + ph * (coreX - fx - fw);
-          ctx.fillStyle = 'rgba(255,255,255,' + (0.5 * Math.sin(ph * Math.PI)).toFixed(3) + ')';
-          ctx.fillRect(qx, chY - fh * 0.34 - 1, 14, 2);
-          ctx.fillRect(qx - 40, chY + fh * 0.34 - 1, 14, 2);
-        }
-
-        /* the folder: a tab, a back panel, and a front that leans open */
-        ctx.lineWidth = 1.2;
-        var gl = ctx.createRadialGradient(fx + fw / 2, fy + fh, 0, fx + fw / 2, fy + fh, fw * 0.85);
-        gl.addColorStop(0, 'rgba(255,255,255,.07)');
-        gl.addColorStop(1, 'rgba(255,255,255,0)');
-        ctx.fillStyle = gl;
-        ctx.beginPath(); ctx.arc(fx + fw / 2, fy + fh, fw * 0.85, 0, TAU); ctx.fill();
-
-        roundRect(fx + fw * 0.02, fy - fh * 0.17, fw * 0.4, fh * 0.28, 5);
-        ctx.fillStyle = 'rgba(255,255,255,.1)'; ctx.fill();
-        ctx.strokeStyle = 'rgba(255,255,255,.34)'; ctx.stroke();
-        roundRect(fx, fy, fw, fh, 7);
-        ctx.fillStyle = 'rgba(255,255,255,.07)'; ctx.fill();
-        ctx.strokeStyle = 'rgba(255,255,255,.3)'; ctx.stroke();
-
-        /* files in transit, drawn before the front flap so they rise out of it */
-        spawn -= dt;
-        if (spawn <= 0 && op > 0.8) {
-          files.push(newFile());
-          spawn = 0.42;
-          styles = Math.min(100, styles + 1 + ((Math.random() * 4) | 0));
-          cws = Math.min(441, cws + 4 + ((Math.random() * 14) | 0));
-          if (elStyles) elStyles.textContent = styles;
-          if (elCw) elCw.textContent = cws;
-        }
-        for (var i = files.length - 1; i >= 0; i--) {
-          var f = files[i];
-          f.t += dt;
-          var k = f.t / f.life;
-          if (k >= 1) { files.splice(i, 1); flare = 1; continue; }
-          var ease = k * k * (3 - 2 * k);
-          var px = mouthX + (coreX - mouthX) * ease;
-          var py = mouthY + (coreY - mouthY) * ease + Math.sin(k * Math.PI) * f.lift;
-          var sz = Math.min(d.w, d.h) * 0.1 * (1 - ease * 0.72);
-          var a = Math.min(1, k * 6) * (1 - Math.max(0, (k - 0.82) / 0.18));
-          if (f.sheet) {
-            roundRect(px - sz * 0.38, py - sz * 0.5, sz * 0.76, sz, 3);
-            ctx.fillStyle = 'rgba(244,244,243,' + (0.9 * a).toFixed(3) + ')'; ctx.fill();
-            ctx.strokeStyle = 'rgba(8,8,10,' + (0.14 * a).toFixed(3) + ')'; ctx.stroke();
-            ctx.fillStyle = 'rgba(8,8,10,' + (0.42 * a).toFixed(3) + ')';
-            for (var L = 0; L < 4; L++)
-              ctx.fillRect(px - sz * 0.26, py - sz * 0.3 + L * sz * 0.17, sz * (L === 3 ? 0.3 : 0.52), 1.4);
-          } else if (f.img && f.img.complete && f.img.naturalWidth) {
-            var iw = sz * 0.98, ih = iw * f.img.naturalHeight / f.img.naturalWidth;
-            roundRect(px - iw * 0.6, py - ih * 0.85, iw * 1.2, ih * 1.7, 3);
-            ctx.fillStyle = 'rgba(244,244,243,' + (0.9 * a).toFixed(3) + ')'; ctx.fill();
-            ctx.globalAlpha = a;
-            ctx.drawImage(f.img, px - iw / 2, py - ih / 2, iw, ih);
-            ctx.globalAlpha = 1;
-          }
-        }
-
-        /* the front flap, leaning toward the viewer, its top edge bowed */
-        var spread = e * fw * 0.09;
-        var bow = e * fh * 0.06;
-        ctx.beginPath();
-        ctx.moveTo(fx - spread, fy + fh);
-        ctx.lineTo(fx + fw + spread, fy + fh);
-        ctx.lineTo(fx + fw, topY);
-        ctx.quadraticCurveTo(fx + fw / 2, topY + bow, fx, topY);
-        ctx.closePath();
-        ctx.fillStyle = 'rgba(255,255,255,.17)'; ctx.fill();
-        ctx.strokeStyle = 'rgba(255,255,255,.46)'; ctx.stroke();
-        ctx.beginPath();
-        ctx.moveTo(fx, topY);
-        ctx.quadraticCurveTo(fx + fw / 2, topY + bow, fx + fw, topY);
-        ctx.strokeStyle = 'rgba(255,255,255,.7)'; ctx.lineWidth = 1.4; ctx.stroke();
+        /* the standing rings */
         ctx.lineWidth = 1;
-
-        /* Solis, taking delivery */
-        flare = Math.max(0, flare - dt * 1.6);
-        var beat = 0.5 + 0.5 * Math.sin(t * 2.1);
-        var g = ctx.createRadialGradient(coreX, coreY, 0, coreX, coreY, 90 + flare * 60);
-        g.addColorStop(0, 'rgba(255,255,255,' + (0.18 + flare * 0.32).toFixed(3) + ')');
-        g.addColorStop(1, 'rgba(255,255,255,0)');
-        ctx.fillStyle = g;
-        ctx.beginPath(); ctx.arc(coreX, coreY, 90 + flare * 60, 0, TAU); ctx.fill();
-        for (var rg = 0; rg < 3; rg++) {
-          ctx.beginPath();
-          ctx.arc(coreX, coreY, 20 + rg * 15 + beat * 5 + flare * 12, 0, TAU);
-          ctx.strokeStyle = 'rgba(255,255,255,' + (0.34 - rg * 0.09 + flare * 0.3).toFixed(3) + ')';
+        for (var i = 0; i < RINGS.length; i++) {
+          var ring = RINGS[i];
+          ctx.beginPath(); ctx.arc(cx, cy, R * ring.r, 0, TAU);
+          ctx.strokeStyle = 'rgba(255,255,255,' + (0.09 + ring.lit * 0.34).toFixed(3) + ')';
           ctx.stroke();
         }
-        ctx.beginPath(); ctx.arc(coreX, coreY, 5 + flare * 4, 0, TAU);
-        ctx.fillStyle = 'rgba(255,255,255,' + (0.82 + flare * 0.18).toFixed(2) + ')'; ctx.fill();
-        ctx.font = '500 9px "JetBrains Mono", monospace';
+
+        /* pulses travelling outward, lighting each ring as they cross it */
+        spawn -= dt;
+        if (spawn <= 0) { pulses.push({ r: 0 }); spawn = 1.5; }
+        for (var q = pulses.length - 1; q >= 0; q--) {
+          var pu = pulses[q], was = pu.r;
+          pu.r += dt * 0.34;
+          if (pu.r > 1.25) { pulses.splice(q, 1); continue; }
+          for (var j = 0; j < RINGS.length; j++)
+            if (was < RINGS[j].r && pu.r >= RINGS[j].r) RINGS[j].lit = 1;
+          var fade = Math.max(0, 1 - pu.r / 1.25);
+          ctx.beginPath(); ctx.arc(cx, cy, R * pu.r, 0, TAU);
+          ctx.strokeStyle = 'rgba(255,255,255,' + (0.4 * fade * fade).toFixed(3) + ')';
+          ctx.lineWidth = 1.6; ctx.stroke(); ctx.lineWidth = 1;
+        }
+
+        /* the capabilities sitting on their rings */
+        ctx.font = '500 10px "JetBrains Mono", monospace';
+        for (var k = 0; k < RINGS.length; k++) {
+          var rg = RINGS[k];
+          rg.lit = Math.max(0, rg.lit - dt * 0.34);
+          var la = 0.36 + rg.lit * 0.56;
+          for (var m = 0; m < rg.items.length; m++) {
+            var it = rg.items[m], ang = it.a * D;
+            var px = cx + Math.cos(ang) * R * rg.r;
+            var py = cy + Math.sin(ang) * R * rg.r;
+            ctx.beginPath(); ctx.arc(px, py, 2.4 + rg.lit * 1.4, 0, TAU);
+            ctx.fillStyle = 'rgba(255,255,255,' + (0.4 + rg.lit * 0.6).toFixed(3) + ')';
+            ctx.fill();
+            if (!labelled) continue;
+            var txt = it.t.toUpperCase(), tw = ctx.measureText(txt).width;
+            var right = Math.cos(ang) >= -0.05;
+            if (right && px + 10 + tw > d.w - 10) right = false;
+            else if (!right && px - 10 - tw < 10) right = true;
+            ctx.textAlign = right ? 'left' : 'right';
+            ctx.fillStyle = 'rgba(255,255,255,' + la.toFixed(3) + ')';
+            ctx.fillText(txt, px + (right ? 10 : -10), py + 3.5);
+          }
+          /* the ring's own name, above the ring where nothing else sits */
+          if (!labelled) continue;
+          ctx.textAlign = 'center';
+          ctx.fillStyle = 'rgba(255,255,255,' + (0.24 + rg.lit * 0.42).toFixed(3) + ')';
+          ctx.fillText(rg.name, cx, cy - R * rg.r - 7);
+        }
+        ctx.textAlign = 'left';
+
+        /* the engine at the middle of it */
+        var beat = 0.5 + 0.5 * Math.sin(t * 1.8);
+        var g = ctx.createRadialGradient(cx, cy, 0, cx, cy, R * 0.26);
+        g.addColorStop(0, 'rgba(255,255,255,.2)');
+        g.addColorStop(1, 'rgba(255,255,255,0)');
+        ctx.fillStyle = g;
+        ctx.beginPath(); ctx.arc(cx, cy, R * 0.26, 0, TAU); ctx.fill();
+        ctx.beginPath(); ctx.arc(cx, cy, 5 + beat * 1.8, 0, TAU);
+        ctx.fillStyle = 'rgba(255,255,255,.9)'; ctx.fill();
         ctx.textAlign = 'center';
-        ctx.fillStyle = 'rgba(255,255,255,.45)';
-        ctx.fillText('SOLIS', coreX, coreY + 74);
+        ctx.fillStyle = 'rgba(255,255,255,.62)';
+        ctx.fillText('NOON SHOP', cx, cy + 26);
         ctx.textAlign = 'left';
       }
     };
@@ -1224,7 +1194,7 @@ body{
     };
   }
 
-  var BUILDERS = { dust: dustScene, folder: folderScene, stream: streamScene, map: mapScene };
+  var BUILDERS = { dust: dustScene, sonar: sonarScene, stream: streamScene, map: mapScene };
   panels.forEach(function(p, i){
     var cv = p.querySelector('canvas[data-scene]');
     scenes[i] = cv ? mount(cv, BUILDERS[cv.dataset.scene]) : null;
