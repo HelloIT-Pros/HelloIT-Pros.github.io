@@ -448,32 +448,42 @@ body{
 
 <main id="deck">
 
-<!-- ══ 01 · OPEN ═════════════════════════════════════════════ -->
-<section class="panel" id="p1" data-tone="dark" data-label="Open">
-  <canvas class="stage" data-scene="dust"></canvas>
-  <div class="wrap">
-    <p class="m r" style="--d:.1s;color:var(--faint)">Noon Shop Eyewear &middot; September 2026</p>
-    <img class="floatframe" src="launch-assets/frame-cutout.png" alt="A wire panto frame, floating." width="663" height="222">
-    <h1 class="d r" style="--d:.5s;font-size:clamp(34px,7.4vw,124px)">One spreadsheet in.</h1>
-    <p class="it r" style="--d:.72s;font-size:clamp(22px,3.4vw,54px)">A whole store out.</p>
-    <p class="m r" style="--d:.95s;color:var(--faint)">Scroll, swipe or press &rarr;</p>
+<!-- ══ 01 · THE MARKET ══════════════════════════════════════ -->
+<section class="panel" id="p1" data-tone="dark" data-label="The market" data-replay="1">
+  <canvas class="stage" data-scene="map"></canvas>
+  <div class="scrim"></div>
+  <div class="wrap edge">
+    <div class="topline">
+      <p class="m r" style="--d:.1s;color:var(--faint);margin-bottom:clamp(10px,1.8vh,22px)">Noon Shop Eyewear &middot; The Build &middot; September 2026</p>
+      <h1 class="hd r" style="--d:.28s;font-size:clamp(30px,4.8vw,80px)">Your frames,<br>sold across<br>North America
+        <span class="it">named, photographed, written, published and sold by one engine</span></h1>
+    </div>
+    <div>
+      <div class="readout r" style="--d:.6s">
+        <div class="m"><b>80,000+</b>Units sold in Korea</div>
+        <div class="m"><b>100</b>Styles ready to publish</div>
+        <div class="m"><b>29</b>Cities in the registry</div>
+      </div>
+      <p class="m r" style="--d:.78s;color:var(--faint);margin-top:clamp(8px,1.4vh,16px)">
+        United States &middot; Canada &middot; Entrepreneur Asia Pacific, June 2026 &middot; scroll, swipe or press &rarr;</p>
+    </div>
   </div>
 </section>
 
-<!-- ══ 02 · SENSE ════════════════════════════════════════════ -->
-<section class="panel" id="p2" data-tone="dark" data-label="Sensing" data-replay="1">
-  <canvas class="stage" data-scene="radar"></canvas>
+<!-- ══ 02 · THE HANDOVER ═══════════════════════════════════ -->
+<section class="panel" id="p2" data-tone="dark" data-label="The handover" data-replay="1">
+  <canvas class="stage" data-scene="folder"></canvas>
   <div class="scrim"></div>
-  <p class="tag m">01 &middot; Sensing</p>
+  <p class="tag m">01 &middot; The handover</p>
   <div class="wrap edge">
     <div class="topline">
-      <h2 class="hd r" style="--d:.2s">Every frame<br>you have
-        <span class="it">found, read and pulled in</span></h2>
+      <h2 class="hd r" style="--d:.2s">One folder.<br>One connection.
+        <span class="it">your photographs and your sheet, straight into Solis</span></h2>
     </div>
     <div class="readout r" style="--d:.5s">
-      <div class="m"><b data-live="styles">0</b>Styles found</div>
+      <div class="m"><b data-live="styles">0</b>Styles received</div>
       <div class="m"><b data-live="cw">0</b>Colorways</div>
-      <div class="m"><b>17 Sep</b>Last sweep</div>
+      <div class="m"><b>17 Sep</b>Last transfer</div>
     </div>
   </div>
 </section>
@@ -695,7 +705,7 @@ body{
 <section class="panel" id="p10" data-tone="dark" data-label="Close">
   <canvas class="stage" data-scene="dust"></canvas>
   <div class="wrap">
-    <img class="floatframe" style="width:min(460px,66vw)" src="launch-assets/frame-cutout.png" alt="" aria-hidden="true">
+    <img class="floatframe" style="width:min(370px,58vw)" src="launch-assets/frame-cutout.png" alt="" aria-hidden="true">
     <h2 class="d r" style="--d:.3s;font-size:clamp(30px,6vw,100px)">One row in.<br>A sold pair out.</h2>
     <p class="it r" style="--d:.5s;font-size:clamp(18px,2.5vw,38px);color:var(--mute)">For one frame, or your entire catalog.</p>
     <div class="ctas r" style="--d:.68s">
@@ -725,6 +735,11 @@ body{
   var N = panels.length;
   var reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
+  /* ── North America, from Natural Earth 110m, Albers conic, resampled
+       to an even dotted coastline. x,y are per mille of the map box. ── */
+  var MAP_DOTS = '92,517 88,512 84,507 80,501 75,496 71,491 67,485 63,480 59,475 55,469 56,463 57,456 58,449 59,442 56,437 52,432 50,426 52,419 53,413 50,406 48,400 48,394 51,388 55,382 58,376 62,370 58,365 55,359 51,353 50,347 49,340 48,333 47,326 46,320 45,313 44,306 43,299 42,293 41,286 36,286 29,288 23,290 18,290 16,283 15,277 14,270 10,265 5,260 0,255 3,249 6,243 9,237 12,231 15,225 18,219 21,213 25,207 28,201 31,195 34,189 37,183 40,177 43,171 46,165 49,158 53,152 56,146 59,140 62,134 65,128 68,122 71,116 75,116 80,121 84,126 89,131 94,136 99,139 106,139 113,139 119,139 126,139 133,139 140,139 147,139 151,142 154,146 160,141 164,142 167,147 171,153 174,159 180,156 186,152 185,158 185,163 192,162 198,161 204,164 210,167 216,171 222,174 228,177 234,181 240,184 246,187 250,192 255,197 249,200 243,203 250,204 256,205 263,206 270,207 277,208 283,209 287,215 291,219 296,215 297,211 293,205 299,203 305,202 312,200 317,204 321,209 326,214 332,216 339,218 345,220 352,221 359,220 365,220 370,218 369,211 375,208 381,210 387,212 388,219 388,226 390,224 393,218 396,212 399,206 402,200 397,195 392,190 387,185 385,179 386,173 386,166 391,161 395,157 402,158 406,163 411,168 415,173 419,179 419,184 415,189 422,190 428,192 429,199 429,205 432,204 436,199 439,197 443,203 446,209 449,215 452,221 455,226 458,220 460,214 463,207 465,201 466,194 465,188 466,183 473,184 480,186 486,187 493,189 496,192 495,199 494,206 498,211 499,217 496,222 492,228 489,234 483,236 476,236 469,236 467,241 465,248 463,254 461,261 459,267 453,272 448,276 443,280 438,285 433,289 433,296 430,301 424,303 420,308 417,314 414,320 411,326 407,332 404,338 403,345 403,352 402,358 401,365 401,372 406,374 413,376 416,381 418,387 420,394 422,400 424,407 431,405 437,402 444,405 450,407 456,410 462,413 468,417 474,420 480,424 485,427 491,430 497,434 504,434 511,434 517,434 524,434 526,440 527,446 529,453 530,460 531,466 535,472 539,477 543,482 548,488 552,493 556,498 561,503 563,496 565,490 567,483 569,477 567,471 564,465 561,459 558,453 555,447 552,441 554,436 559,432 564,427 567,421 569,415 572,408 574,402 574,396 570,391 566,385 563,379 559,374 555,368 551,363 551,357 553,350 555,344 555,337 553,331 551,325 548,318 546,312 544,305 542,299 547,297 554,295 560,293 567,291 573,289 580,290 585,294 591,298 597,302 602,305 609,305 616,303 620,306 622,313 625,319 627,325 629,332 632,338 638,341 644,344 650,347 654,342 658,336 661,330 662,324 663,317 664,310 665,304 669,305 674,310 678,315 683,320 688,324 693,329 698,334 703,339 708,343 712,348 714,354 714,361 720,363 727,365 734,367 740,368 747,370 753,371 760,373 767,375 771,380 775,385 780,389 787,390 793,393 796,399 799,405 801,411 798,417 795,423 791,429 788,435 785,441 781,447 778,453 775,459 770,463 764,466 757,468 751,470 745,473 738,475 732,477 726,479 719,482 713,484 707,487 704,493 702,500 699,506 696,512 694,518 691,525 689,531 686,537 683,544 681,550 678,556 675,562 678,559 682,553 685,548 689,542 693,536 696,531 700,525 704,519 708,514 711,508 717,504 723,502 729,500 735,503 739,507 737,513 734,520 737,526 740,531 744,537 747,543 751,549 756,552 763,554 769,555 775,553 781,549 787,546 788,539 789,533 790,526 792,524 797,529 802,534 806,539 802,545 799,551 796,556 792,562 787,567 783,573 779,578 775,583 771,589 767,594 762,599 758,604 751,605 748,601 745,594 745,588 749,583 753,577 757,571 756,570 749,573 743,575 737,578 731,581 725,579 720,575 717,569 715,562 713,556 711,549 705,548 698,547 692,548 690,554 689,561 687,567 685,574 684,581 682,587 680,594 677,599 671,601 664,602 658,604 651,606 644,607 639,610 635,616 632,622 629,628 625,634 621,639 615,640 608,642 601,643 596,647 597,652 599,658 594,662 588,666 583,670 577,674 572,678 566,682 560,686 555,687 551,682 552,675 554,669 555,662 557,656 558,649 556,643 554,636 552,629 550,623 547,617 541,613 535,610 530,606 524,602 518,598 513,595 507,591 501,587 496,583 490,580 484,576 479,572 473,571 467,574 461,576 454,575 447,575 441,575 434,574 427,572 421,570 414,568 408,566 405,560 402,554 399,557 394,560 388,559 381,559 374,559 367,559 360,558 354,558 347,558 340,557 333,557 326,557 320,557 313,556 306,556 299,556 293,555 286,554 279,553 272,551 266,550 259,549 252,548 246,547 239,546 232,545 226,543 219,542 212,541 205,540 199,539 192,538 185,537 179,535 172,534 165,533 159,532 152,531 145,530 138,529 132,527 125,526 118,525 112,523 105,521 99,519 92,518 92,517 99,519 105,520 112,522 119,523 125,525 132,526 139,528 145,529 152,531 159,532 165,533 172,535 178,536 185,538 192,539 198,541 205,542 212,544 218,545 225,547 232,548 238,549 245,549 252,550 259,550 266,551 272,551 279,552 286,552 293,553 299,554 306,554 313,555 320,555 327,556 333,556 340,557 347,557 354,558 360,558 367,559 374,560 381,560 388,560 394,560 399,557 402,554 405,560 408,566 414,568 421,570 427,572 434,574 440,575 447,575 454,575 461,576 467,574 473,571 479,572 484,576 490,580 496,583 501,587 507,591 513,595 518,598 524,602 530,606 535,610 541,613 547,617 550,623 552,629 554,636 556,642 558,649 557,655 555,662 554,669 552,675 550,682 555,687 560,686 566,682 571,678 577,674 583,670 588,666 594,662 599,659 597,652 596,647 601,643 608,642 615,640 621,639 625,634 629,628 632,622 635,616 639,610 644,607 651,606 657,604 664,602 671,601 677,599 680,594 682,587 684,581 685,574 687,567 689,561 690,554 692,548 698,547 704,548 711,549 713,556 715,562 717,569 719,575 724,579 729,584 731,589 726,593 722,598 717,603 712,608 707,613 703,618 702,625 701,631 701,638 701,645 705,649 711,653 713,657 707,660 701,664 695,667 689,671 683,674 678,678 672,681 678,679 685,678 692,676 689,677 683,680 677,682 670,685 669,691 668,698 667,704 667,711 666,718 663,720 658,716 656,716 660,722 663,728 665,734 663,740 662,747 660,753 659,754 659,747 657,741 654,735 650,729 647,723 647,727 648,734 650,740 645,741 643,742 650,744 653,750 656,756 658,762 661,769 663,775 666,781 668,787 664,793 661,799 657,804 653,810 649,815 645,821 641,826 637,832 633,837 629,843 625,849 621,854 617,860 613,865 609,871 606,876 604,882 605,889 607,896 608,903 610,909 613,915 616,921 620,927 623,933 626,939 629,945 632,951 635,957 637,964 637,970 637,977 637,984 637,991 631,992 624,993 619,988 615,983 611,978 607,972 603,967 599,961 596,955 592,950 591,943 592,936 589,931 584,926 580,920 576,915 571,913 564,915 558,918 552,919 546,916 540,913 534,909 528,909 521,910 514,911 508,912 501,913 494,915 488,916 485,920 487,927 488,933 484,935 477,936 470,936 464,935 458,930 453,927 446,927 439,926 432,926 426,927 419,929 413,931 407,934 401,938 396,942 391,947 386,951 380,955 375,960 371,964 371,971 371,978 371,985 371,992 371,998 365,1000 359,997 352,995 346,992 341,988 339,982 337,975 334,969 331,963 327,958 323,952 319,947 315,941 311,935 307,930 303,924 297,924 290,925 286,930 282,935 277,936 272,932 266,928 261,924 259,918 257,911 254,905 250,899 246,894 241,889 237,884 232,881 225,880 218,879 211,878 209,883 205,885 198,884 191,883 184,882 178,881 171,880 165,878 159,874 154,870 148,866 143,862 137,858 132,854 126,850 121,846 114,844 108,843 101,843 94,842 87,841 83,837 80,831 78,825 75,818 73,812 69,807 63,803 58,799 52,795 46,791 44,785 43,779 42,772 41,765 40,758 39,752 38,745 37,738 36,732 35,725 34,718 33,711 32,705 30,698 29,691 28,685 27,678 26,671 29,665 31,658 34,652 36,646 38,639 41,633 43,627 46,620 48,614 50,607 53,601 55,595 58,588 60,582 62,576 63,569 63,562 64,555 65,549 66,542 67,535 67,528 72,529 78,531 84,535 84,542 85,548 85,552 88,545 90,539 92,532 92,525 92,519 506,139 511,134 516,135 522,138 528,141 534,144 540,147 546,144 552,141 559,143 565,145 572,147 578,149 584,152 589,157 594,161 599,165 594,170 590,175 594,177 600,178 607,179 614,180 621,180 626,184 632,188 638,191 644,189 648,191 647,197 646,204 645,211 644,218 642,222 636,219 630,216 624,213 618,209 612,209 606,213 607,219 611,224 617,227 623,230 629,233 635,236 639,241 643,247 647,252 648,259 646,263 639,262 633,260 626,259 619,257 613,256 617,259 622,263 628,268 633,272 638,276 642,279 635,278 628,278 621,277 614,276 608,276 601,275 595,273 589,269 583,266 577,263 571,259 565,256 560,253 559,258 552,260 546,262 539,265 533,262 531,257 533,251 536,246 543,244 549,242 556,240 563,239 564,233 565,226 565,219 566,212 566,206 562,200 558,195 551,193 545,192 538,190 532,188 533,184 529,181 523,178 517,174 511,172 505,175 499,179 493,181 486,181 479,181 472,181 465,180 459,179 452,178 445,177 439,175 436,171 440,166 437,165 431,164 430,157 429,150 432,144 435,138 439,133 444,130 451,128 456,127 453,134 455,139 459,142 461,136 465,131 471,128 477,125 483,127 488,131 493,136 493,143 497,144 503,141 414,39 420,38 427,36 434,35 440,33 447,32 453,30 460,28 467,27 473,25 480,24 486,22 493,20 500,19 506,17 513,16 520,14 526,12 533,11 539,9 546,8 553,6 559,4 566,3 572,1 576,1 571,5 565,8 559,12 554,16 550,19 557,17 559,17 554,21 549,26 544,30 539,35 534,39 528,42 521,44 515,47 509,49 502,52 507,55 512,59 507,63 501,67 496,72 491,76 493,79 499,80 497,84 491,87 486,91 479,91 472,92 465,92 458,92 452,93 445,93 438,93 431,94 428,89 434,86 439,84 436,78 442,77 448,78 455,79 451,77 445,74 438,72 442,68 447,64 453,60 448,56 443,53 447,51 454,50 460,48 467,47 468,47 461,47 455,48 448,49 441,49 434,49 428,47 422,44 415,42 318,136 320,142 322,149 324,155 327,161 329,168 335,171 340,175 346,179 352,183 352,189 346,191 339,191 340,198 339,202 333,200 326,198 320,196 313,194 306,194 300,195 293,195 286,195 279,195 272,196 266,196 259,196 255,190 250,185 246,180 241,175 237,170 240,168 247,169 253,169 260,169 267,169 269,169 262,167 256,165 249,163 243,161 236,160 232,155 235,152 241,151 248,150 242,148 235,145 229,143 229,139 234,134 239,129 245,127 252,125 259,124 264,126 264,131 266,133 272,132 279,133 283,138 288,139 294,135 297,140 300,146 303,153 304,150 304,144 305,137 309,133 315,135 223,99 229,102 234,106 240,109 246,113 252,116 257,120 253,122 247,124 240,126 234,128 228,131 224,136 219,141 213,143 206,143 199,144 195,139 191,134 187,128 186,123 191,118 195,113 200,109 205,104 202,97 204,95 211,96 218,98 388,51 395,49 401,47 408,45 414,47 421,49 427,52 433,54 440,57 446,59 446,62 441,66 435,70 429,73 422,73 416,73 409,73 403,70 404,66 402,62 396,59 390,57 385,54 440,120 433,119 427,118 420,117 413,116 410,110 409,104 403,100 397,98 391,95 384,93 383,88 389,88 396,88 403,89 409,90 416,91 421,95 427,100 432,104 438,103 445,103 452,102 459,101 465,100 472,99 479,98 485,98 491,101 490,108 485,111 478,113 471,114 465,116 458,117 452,118 445,119 809,425 809,431 809,438 809,445 809,452 810,454 813,448 819,448 821,453 824,455 831,454 838,452 844,451 848,455 849,461 852,462 856,460 861,465 865,470 869,476 871,482 872,489 870,494 863,495 858,494 855,488 852,482 850,485 848,492 847,498 842,502 841,499 843,493 838,492 831,492 825,495 819,497 812,500 806,503 800,506 800,499 800,493 794,490 794,483 794,476 795,470 795,463 795,456 796,449 796,443 800,437 803,431 806,424 809,420 313,98 320,98 325,99 323,106 320,110 313,111 306,111 299,111 292,112 286,112 279,110 273,107 278,105 285,104 282,102 276,101 269,99 262,98 256,96 250,95 255,91 261,87 267,83 272,86 278,90 284,93 290,97 296,100 302,101 303,98 299,92 300,87 306,87 310,92 313,98';
+  var MAP_CITIES = 'Vancouver|91|511;Toronto|592|644;Montreal|653|595;Boston|698|646;New York|669|686;Philadelphia|658|704;Detroit|550|677;Chicago|494|692;Nashville|515|800;Atlanta|554|842;Houston|398|927;Dallas|377|870;Austin|363|917;Phoenix|159|838;San Diego|85|837;Los Angeles|75|809';
+
   /* ── shared frame photography, preloaded for the canvas scenes ── */
   var FRAMES = ['fr-01','fr-02','fr-03','fr-04','fr-05','fr-06','fr-07','fr-08',
                 'cw-1','cw-2','cw-3','cw-4','cw-5','cw-6'];
@@ -749,12 +764,19 @@ body{
       var r = canvas.getBoundingClientRect();
       if (!r.width || !r.height) return;
       var dpr = Math.min(window.devicePixelRatio || 1, 2);
-      canvas.width  = Math.round(r.width  * dpr);
-      canvas.height = Math.round(r.height * dpr);
+      var pw = Math.round(r.width * dpr), ph = Math.round(r.height * dpr);
+      if (canvas.width !== pw || canvas.height !== ph) {
+        canvas.width = pw; canvas.height = ph;
+      }
       ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
       w = r.width; h = r.height;
       if (api.resize) api.resize(w, h);
     }
+
+    /* Sizing a canvas off a single call at start() is fragile: the box can
+       still be zero, and a later layout change is missed. Observing it means
+       the backing store always matches the box, whatever moves. */
+    if (window.ResizeObserver) new ResizeObserver(fit).observe(canvas);
 
     function loop(t){
       if (!running) return;
@@ -767,8 +789,8 @@ body{
     return {
       fit: fit,
       start: function(){
-        if (running) return;
         fit();
+        if (running) return;
         if (reduced) { ctx.clearRect(0, 0, w, h); api.draw(0, 0); return; }
         running = true; last = performance.now(); raf = requestAnimationFrame(loop);
       },
@@ -811,150 +833,249 @@ body{
     };
   }
 
-  /* ── the radar: the sweep finds frames, frames fall into the core ── */
-  function radarScene(ctx, dim){
-    var cx = 0, cy = 0, R = 0;
-    var sweep = -Math.PI / 2, targets = [], flare = 0, styles = 0, cws = 0;
-    var elStyles = document.querySelector('[data-live="styles"]');
-    var elCw     = document.querySelector('[data-live="cw"]');
+  /* ── the market: a sweep crosses the continent and lights the coast ── */
+  function mapScene(ctx, dim){
+    var pts = MAP_DOTS.split(' ').map(function(v){
+      var a = v.split(','); return [a[0] / 1000, a[1] / 1000];
+    });
+    var cities = MAP_CITIES.split(';').map(function(v){
+      var a = v.split('|'); return { n: a[0], x: a[1] / 1000, y: a[2] / 1000 };
+    });
+    var ang = new Float32Array(pts.length), lit = new Float32Array(pts.length);
+    var cang = new Float32Array(cities.length), clit = new Float32Array(cities.length);
+    var sx = 0, sy = 0, sc = 0, cx = 0, cy = 0, sweep = -Math.PI / 2;
+    var TAU = 6.2832;
 
-    function card(x, y, w, h, a){
-      var rr = Math.min(5, w * 0.06);
-      ctx.beginPath();
-      if (ctx.roundRect) ctx.roundRect(x, y, w, h, rr); else ctx.rect(x, y, w, h);
-      ctx.fillStyle = 'rgba(244,244,243,' + (0.9 * a).toFixed(3) + ')';
-      ctx.shadowColor = 'rgba(255,255,255,' + (0.3 * a).toFixed(3) + ')';
-      ctx.shadowBlur = 26;
-      ctx.fill();
-      ctx.shadowBlur = 0; ctx.shadowColor = 'transparent';
-    }
-    var slot = 0, SLOTS = 12;
-    function place(){
-      var pool = ready(); if (!pool.length) pool = imgs;
-      /* one target per bearing slot, so detections arrive spaced out
-         around the dial rather than piling into the same quadrant */
-      var i = slot++ % SLOTS;
-      return {
-        a: (i / SLOTS) * 6.2832 + (Math.random() - 0.5) * (6.2832 / SLOTS) * 0.55,
-        r: R * (0.34 + ((i % 3) * 0.2) + Math.random() * 0.14),
-        img: pool[(Math.random() * pool.length) | 0],
-        found: false, age: 0
-      };
-    }
-    function seed(w, h){
-      /* sit the display right of centre on wide screens, so the headline
-         on the left never has a frame drifting through it */
-      cx = w * (w > 900 ? 0.62 : 0.52);
-      cy = h * 0.5;
-      R = Math.min(w * 0.4, h * 0.46);
-      targets = []; slot = 0;
-      for (var i = 0; i < SLOTS; i++) targets.push(place());
+    function place(w, h){
+      var wide = w > 900;
+      sc = Math.min(wide ? w * 0.62 : w * 0.94, h * 0.84);
+      sx = wide ? w * 0.40 + (w * 0.60 - sc) / 2 : (w - sc) / 2;
+      sy = (h - sc) / 2;
+      cx = sx + sc * 0.5; cy = sy + sc * 0.48;
+      for (var i = 0; i < pts.length; i++) {
+        ang[i] = Math.atan2(sy + pts[i][1] * sc - cy, sx + pts[i][0] * sc - cx);
+        lit[i] = 0;
+      }
+      for (var j = 0; j < cities.length; j++) {
+        cang[j] = Math.atan2(sy + cities[j].y * sc - cy, sx + cities[j].x * sc - cx);
+        clit[j] = 0;
+      }
     }
 
     return {
-      resize: seed,
+      resize: place,
+      reset: function(){ sweep = -Math.PI / 2; lit.fill(0); clit.fill(0); },
+      draw: function(dt, t){
+        var d = dim();
+        if (!sc) place(d.w, d.h);
+        var prev = sweep;
+        sweep += dt * 0.5;
+        function passed(a){
+          var da = (a - prev) % TAU; if (da < 0) da += TAU;
+          return da <= (sweep - prev);
+        }
+
+        /* the sweep, same wedge as the radar so the two panels rhyme */
+        var R = sc * 0.82, SEG = 30, TRAIL = 1.15;
+        for (var s2 = 0; s2 < SEG; s2++) {
+          ctx.beginPath(); ctx.moveTo(cx, cy);
+          ctx.arc(cx, cy, R, sweep - TRAIL * (s2 + 1) / SEG, sweep - TRAIL * s2 / SEG);
+          ctx.closePath();
+          ctx.fillStyle = 'rgba(255,255,255,' + (0.035 * (1 - s2 / SEG)).toFixed(4) + ')';
+          ctx.fill();
+        }
+        ctx.beginPath(); ctx.moveTo(cx, cy);
+        ctx.lineTo(cx + Math.cos(sweep) * R, cy + Math.sin(sweep) * R);
+        ctx.strokeStyle = 'rgba(255,255,255,.3)'; ctx.lineWidth = 1; ctx.stroke();
+
+        /* the coastline: fillRect beats arc by a mile at 1400 dots a frame */
+        for (var i = 0; i < pts.length; i++) {
+          if (passed(ang[i])) lit[i] = 1;
+          else if (lit[i] > 0) lit[i] = Math.max(0, lit[i] - dt * 0.5);
+          var a = 0.26 + lit[i] * 0.74;
+          var px = sx + pts[i][0] * sc, py = sy + pts[i][1] * sc;
+          ctx.fillStyle = 'rgba(255,255,255,' + a.toFixed(3) + ')';
+          var r = 1.0 + lit[i] * 0.75;
+          ctx.fillRect(px - r, py - r, r * 2, r * 2);
+        }
+
+        /* the registry cities, pinging as the sweep reaches them */
+        ctx.font = '500 9px "JetBrains Mono", monospace';
+        ctx.textAlign = 'left';
+        for (var j = 0; j < cities.length; j++) {
+          if (passed(cang[j])) clit[j] = 1;
+          else if (clit[j] > 0) clit[j] = Math.max(0, clit[j] - dt * 0.26);
+          var k = clit[j];
+          var qx = sx + cities[j].x * sc, qy = sy + cities[j].y * sc;
+          if (k > 0.02) {
+            var ring = 3 + (1 - k) * 22;
+            ctx.beginPath(); ctx.arc(qx, qy, ring, 0, TAU);
+            ctx.strokeStyle = 'rgba(255,255,255,' + (k * 0.5).toFixed(3) + ')'; ctx.stroke();
+            ctx.fillStyle = 'rgba(255,255,255,' + (0.35 + k * 0.65).toFixed(3) + ')';
+            ctx.beginPath(); ctx.arc(qx, qy, 2.2 + k * 1.2, 0, TAU); ctx.fill();
+            ctx.fillStyle = 'rgba(255,255,255,' + (k * 0.8).toFixed(3) + ')';
+            ctx.fillText(cities[j].n.toUpperCase(), qx + 9, qy + 3.5);
+          } else {
+            ctx.fillStyle = 'rgba(255,255,255,.3)';
+            ctx.beginPath(); ctx.arc(qx, qy, 1.6, 0, TAU); ctx.fill();
+          }
+        }
+      }
+    };
+  }
+
+  /* ── the handover: a folder opens and its files cross to Solis ── */
+  function folderScene(ctx, dim){
+    var files = [], spawn = 0, flare = 0, op = 0, styles = 0, cws = 0;
+    var fx = 0, fy = 0, fw = 0, fh = 0, coreX = 0, coreY = 0, mouthX = 0, mouthY = 0;
+    var elStyles = document.querySelector('[data-live="styles"]');
+    var elCw     = document.querySelector('[data-live="cw"]');
+    var TAU = 6.2832;
+
+    function place(w, h){
+      var wide = w > 900;
+      fw = Math.min(wide ? w * 0.17 : w * 0.3, h * 0.29);
+      fh = fw * 0.76;
+      fx = wide ? w * 0.4 : w * 0.08;
+      fy = h * 0.5 - fh * 0.42;
+      coreX = wide ? w * 0.84 : w * 0.82;
+      coreY = h * 0.5;
+    }
+    function roundRect(x, y, w, h, r){
+      ctx.beginPath();
+      if (ctx.roundRect) ctx.roundRect(x, y, w, h, r);
+      else ctx.rect(x, y, w, h);
+    }
+    function newFile(){
+      var pool = ready();
+      var isSheet = Math.random() < 0.34 || !pool.length;
+      return {
+        t: 0,
+        life: 2.4 + Math.random() * 0.7,
+        lift: (Math.random() - 0.5) * fh * 1.5,
+        sheet: isSheet,
+        img: isSheet ? null : pool[(Math.random() * pool.length) | 0]
+      };
+    }
+
+    return {
+      resize: place,
       reset: function(){
-        styles = 0; cws = 0; flare = 0; sweep = -Math.PI / 2; slot = 0;
-        for (var i = 0; i < targets.length; i++) { targets[i].found = false; targets[i].age = 0; }
+        files = []; spawn = 0.9; flare = 0; op = 0; styles = 0; cws = 0;
         if (elStyles) elStyles.textContent = '0';
         if (elCw) elCw.textContent = '0';
       },
       draw: function(dt, t){
         var d = dim();
-        if (!R) seed(d.w, d.h);
+        if (!fw) place(d.w, d.h);
+        op = Math.min(1, op + dt * 1.4);                 /* the lid opens once */
+        var e = op * op * (3 - 2 * op);
+        var topY = fy + fh * 0.27 + e * fh * 0.07;
+        mouthX = fx + fw * 0.5; mouthY = topY;
 
-        /* graticule */
-        ctx.lineWidth = 1;
-        for (var k = 1; k <= 4; k++) {
-          ctx.beginPath(); ctx.arc(cx, cy, R * k / 4, 0, 6.2832);
-          ctx.strokeStyle = 'rgba(255,255,255,' + (k === 4 ? 0.1 : 0.05) + ')';
-          ctx.stroke();
-        }
-        for (var g = 0; g < 6; g++) {
-          var ga = g * Math.PI / 3;
-          ctx.beginPath(); ctx.moveTo(cx, cy);
-          ctx.lineTo(cx + Math.cos(ga) * R, cy + Math.sin(ga) * R);
-          ctx.strokeStyle = 'rgba(255,255,255,.035)'; ctx.stroke();
-        }
-
-        /* the sweep, a decaying wedge trailing the leading edge */
-        var prev = sweep;
-        sweep += dt * 0.62;
-        var SEG = 34, TRAIL = 1.25;
-        for (var s = 0; s < SEG; s++) {
-          ctx.beginPath(); ctx.moveTo(cx, cy);
-          ctx.arc(cx, cy, R, sweep - TRAIL * (s + 1) / SEG, sweep - TRAIL * s / SEG);
-          ctx.closePath();
-          ctx.fillStyle = 'rgba(255,255,255,' + (0.05 * (1 - s / SEG)).toFixed(4) + ')';
-          ctx.fill();
-        }
-        ctx.beginPath(); ctx.moveTo(cx, cy);
-        ctx.lineTo(cx + Math.cos(sweep) * R, cy + Math.sin(sweep) * R);
-        ctx.strokeStyle = 'rgba(255,255,255,.45)'; ctx.stroke();
-
-        /* did the leading edge cross this bearing since the last frame */
-        function passed(a){
-          var da = (a - prev) % 6.2832;
-          if (da < 0) da += 6.2832;
-          return da <= (sweep - prev);
+        /* the channel between the folder and the engine */
+        var chY = coreY;
+        ctx.strokeStyle = 'rgba(255,255,255,.1)'; ctx.lineWidth = 1;
+        ctx.beginPath(); ctx.moveTo(fx + fw, chY - fh * 0.34); ctx.lineTo(coreX, chY - fh * 0.34); ctx.stroke();
+        ctx.beginPath(); ctx.moveTo(fx + fw, chY + fh * 0.34); ctx.lineTo(coreX, chY + fh * 0.34); ctx.stroke();
+        for (var q = 0; q < 6; q++) {
+          var ph = (t * 0.5 + q / 6) % 1;
+          var qx = fx + fw + ph * (coreX - fx - fw);
+          ctx.fillStyle = 'rgba(255,255,255,' + (0.5 * Math.sin(ph * Math.PI)).toFixed(3) + ')';
+          ctx.fillRect(qx, chY - fh * 0.34 - 1, 14, 2);
+          ctx.fillRect(qx - 40, chY + fh * 0.34 - 1, 14, 2);
         }
 
-        for (var i = targets.length - 1; i >= 0; i--) {
-          var o = targets[i];
-          if (!o.found && passed(o.a)) {
-            o.found = true; o.age = 0;
-            styles = Math.min(100, styles + 1 + ((Math.random() * 9) | 0));
-            cws    = Math.min(441, cws + 3 + ((Math.random() * 40) | 0));
-            if (elStyles) elStyles.textContent = styles;
-            if (elCw) elCw.textContent = cws;
-          }
-          if (!o.found) continue;
-          o.age += dt;
+        /* the folder: a tab, a back panel, and a front that leans open */
+        ctx.lineWidth = 1.2;
+        var gl = ctx.createRadialGradient(fx + fw / 2, fy + fh, 0, fx + fw / 2, fy + fh, fw * 0.85);
+        gl.addColorStop(0, 'rgba(255,255,255,.07)');
+        gl.addColorStop(1, 'rgba(255,255,255,0)');
+        ctx.fillStyle = gl;
+        ctx.beginPath(); ctx.arc(fx + fw / 2, fy + fh, fw * 0.85, 0, TAU); ctx.fill();
 
-          /* the ping */
-          if (o.age < 0.8) {
-            var p = o.age / 0.8;
-            ctx.beginPath();
-            ctx.arc(cx + Math.cos(o.a) * o.r, cy + Math.sin(o.a) * o.r, 4 + p * 42, 0, 6.2832);
-            ctx.strokeStyle = 'rgba(255,255,255,' + (0.5 * (1 - p)).toFixed(3) + ')';
-            ctx.stroke();
-          }
+        roundRect(fx + fw * 0.02, fy - fh * 0.17, fw * 0.4, fh * 0.28, 5);
+        ctx.fillStyle = 'rgba(255,255,255,.1)'; ctx.fill();
+        ctx.strokeStyle = 'rgba(255,255,255,.34)'; ctx.stroke();
+        roundRect(fx, fy, fw, fh, 7);
+        ctx.fillStyle = 'rgba(255,255,255,.07)'; ctx.fill();
+        ctx.strokeStyle = 'rgba(255,255,255,.3)'; ctx.stroke();
 
-          /* the frame fades up where it was found, then falls inward */
-          var pull = o.age < 2.6 ? 0 : Math.min(1, (o.age - 2.6) / 1.5);
-          var ease = pull * pull * (3 - 2 * pull);
-          var tx = cx + Math.cos(o.a) * o.r * (1 - ease);
-          var ty = cy + Math.sin(o.a) * o.r * (1 - ease);
-          var up = Math.min(1, o.age / 0.55);
-          var alpha = up * (1 - ease * 0.92);
-          var scale = (0.55 + 0.45 * up) * (1 - ease * 0.78);
-
-          if (o.img.complete && o.img.naturalWidth) {
-            var iw = Math.min(d.w, d.h) * 0.19 * scale;
-            var ih = iw * o.img.naturalHeight / o.img.naturalWidth;
-            var a2 = Math.max(0, alpha);
-            card(tx - iw * 0.6, ty - ih * 0.8, iw * 1.2, ih * 1.6, a2);
-            ctx.globalAlpha = a2;
-            ctx.drawImage(o.img, tx - iw / 2, ty - ih / 2, iw, ih);
+        /* files in transit, drawn before the front flap so they rise out of it */
+        spawn -= dt;
+        if (spawn <= 0 && op > 0.8) {
+          files.push(newFile());
+          spawn = 0.42;
+          styles = Math.min(100, styles + 1 + ((Math.random() * 4) | 0));
+          cws = Math.min(441, cws + 4 + ((Math.random() * 14) | 0));
+          if (elStyles) elStyles.textContent = styles;
+          if (elCw) elCw.textContent = cws;
+        }
+        for (var i = files.length - 1; i >= 0; i--) {
+          var f = files[i];
+          f.t += dt;
+          var k = f.t / f.life;
+          if (k >= 1) { files.splice(i, 1); flare = 1; continue; }
+          var ease = k * k * (3 - 2 * k);
+          var px = mouthX + (coreX - mouthX) * ease;
+          var py = mouthY + (coreY - mouthY) * ease + Math.sin(k * Math.PI) * f.lift;
+          var sz = Math.min(d.w, d.h) * 0.1 * (1 - ease * 0.72);
+          var a = Math.min(1, k * 6) * (1 - Math.max(0, (k - 0.82) / 0.18));
+          if (f.sheet) {
+            roundRect(px - sz * 0.38, py - sz * 0.5, sz * 0.76, sz, 3);
+            ctx.fillStyle = 'rgba(244,244,243,' + (0.9 * a).toFixed(3) + ')'; ctx.fill();
+            ctx.strokeStyle = 'rgba(8,8,10,' + (0.14 * a).toFixed(3) + ')'; ctx.stroke();
+            ctx.fillStyle = 'rgba(8,8,10,' + (0.42 * a).toFixed(3) + ')';
+            for (var L = 0; L < 4; L++)
+              ctx.fillRect(px - sz * 0.26, py - sz * 0.3 + L * sz * 0.17, sz * (L === 3 ? 0.3 : 0.52), 1.4);
+          } else if (f.img && f.img.complete && f.img.naturalWidth) {
+            var iw = sz * 0.98, ih = iw * f.img.naturalHeight / f.img.naturalWidth;
+            roundRect(px - iw * 0.6, py - ih * 0.85, iw * 1.2, ih * 1.7, 3);
+            ctx.fillStyle = 'rgba(244,244,243,' + (0.9 * a).toFixed(3) + ')'; ctx.fill();
+            ctx.globalAlpha = a;
+            ctx.drawImage(f.img, px - iw / 2, py - ih / 2, iw, ih);
             ctx.globalAlpha = 1;
           }
-
-          if (pull >= 1) { flare = 1; targets[i] = place(); }
         }
 
-        /* the core: everything found ends up here */
-        flare = Math.max(0, flare - dt * 1.7);
-        var beat = 0.5 + 0.5 * Math.sin(t * 1.9);
-        var glow = ctx.createRadialGradient(cx, cy, 0, cx, cy, 70 + flare * 60);
-        glow.addColorStop(0, 'rgba(255,255,255,' + (0.16 + flare * 0.34).toFixed(3) + ')');
-        glow.addColorStop(1, 'rgba(255,255,255,0)');
-        ctx.fillStyle = glow;
-        ctx.beginPath(); ctx.arc(cx, cy, 70 + flare * 60, 0, 6.2832); ctx.fill();
+        /* the front flap, leaning toward the viewer, its top edge bowed */
+        var spread = e * fw * 0.09;
+        var bow = e * fh * 0.06;
+        ctx.beginPath();
+        ctx.moveTo(fx - spread, fy + fh);
+        ctx.lineTo(fx + fw + spread, fy + fh);
+        ctx.lineTo(fx + fw, topY);
+        ctx.quadraticCurveTo(fx + fw / 2, topY + bow, fx, topY);
+        ctx.closePath();
+        ctx.fillStyle = 'rgba(255,255,255,.17)'; ctx.fill();
+        ctx.strokeStyle = 'rgba(255,255,255,.46)'; ctx.stroke();
+        ctx.beginPath();
+        ctx.moveTo(fx, topY);
+        ctx.quadraticCurveTo(fx + fw / 2, topY + bow, fx + fw, topY);
+        ctx.strokeStyle = 'rgba(255,255,255,.7)'; ctx.lineWidth = 1.4; ctx.stroke();
+        ctx.lineWidth = 1;
 
-        ctx.beginPath(); ctx.arc(cx, cy, 5 + beat * 1.6 + flare * 7, 0, 6.2832);
-        ctx.fillStyle = 'rgba(255,255,255,' + (0.7 + flare * 0.3).toFixed(2) + ')'; ctx.fill();
-        ctx.beginPath(); ctx.arc(cx, cy, 15 + beat * 5 + flare * 16, 0, 6.2832);
-        ctx.strokeStyle = 'rgba(255,255,255,' + (0.2 + flare * 0.5).toFixed(2) + ')'; ctx.stroke();
+        /* Solis, taking delivery */
+        flare = Math.max(0, flare - dt * 1.6);
+        var beat = 0.5 + 0.5 * Math.sin(t * 2.1);
+        var g = ctx.createRadialGradient(coreX, coreY, 0, coreX, coreY, 90 + flare * 60);
+        g.addColorStop(0, 'rgba(255,255,255,' + (0.18 + flare * 0.32).toFixed(3) + ')');
+        g.addColorStop(1, 'rgba(255,255,255,0)');
+        ctx.fillStyle = g;
+        ctx.beginPath(); ctx.arc(coreX, coreY, 90 + flare * 60, 0, TAU); ctx.fill();
+        for (var rg = 0; rg < 3; rg++) {
+          ctx.beginPath();
+          ctx.arc(coreX, coreY, 20 + rg * 15 + beat * 5 + flare * 12, 0, TAU);
+          ctx.strokeStyle = 'rgba(255,255,255,' + (0.34 - rg * 0.09 + flare * 0.3).toFixed(3) + ')';
+          ctx.stroke();
+        }
+        ctx.beginPath(); ctx.arc(coreX, coreY, 5 + flare * 4, 0, TAU);
+        ctx.fillStyle = 'rgba(255,255,255,' + (0.82 + flare * 0.18).toFixed(2) + ')'; ctx.fill();
+        ctx.font = '500 9px "JetBrains Mono", monospace';
+        ctx.textAlign = 'center';
+        ctx.fillStyle = 'rgba(255,255,255,.45)';
+        ctx.fillText('SOLIS', coreX, coreY + 74);
+        ctx.textAlign = 'left';
       }
     };
   }
@@ -1071,7 +1192,7 @@ body{
     };
   }
 
-  var BUILDERS = { dust: dustScene, radar: radarScene, stream: streamScene };
+  var BUILDERS = { dust: dustScene, folder: folderScene, stream: streamScene, map: mapScene };
   panels.forEach(function(p, i){
     var cv = p.querySelector('canvas[data-scene]');
     scenes[i] = cv ? mount(cv, BUILDERS[cv.dataset.scene]) : null;
