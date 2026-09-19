@@ -91,8 +91,7 @@ body{
     linear-gradient(90deg,#08080A 0%,rgba(8,8,10,.82) 9%,rgba(8,8,10,0) 31%),
     linear-gradient(0deg,#08080A 0%,rgba(8,8,10,.62) 12%,rgba(8,8,10,0) 30%)}
 .scrim.far{background:
-    linear-gradient(90deg,rgba(8,8,10,.94) 0%,rgba(8,8,10,.8) 22%,rgba(8,8,10,.34) 40%,rgba(8,8,10,0) 56%),
-    linear-gradient(0deg,rgba(8,8,10,.97) 0%,rgba(8,8,10,.88) 15%,rgba(8,8,10,.34) 29%,rgba(8,8,10,0) 42%)}
+    radial-gradient(62% 54% at 50% 48%,rgba(8,8,10,.66),rgba(8,8,10,.28) 56%,rgba(8,8,10,0) 90%)}
 
 /* ── entrance motion ───────────────────────────────────────── */
 .r{opacity:0;transform:translateY(18px);transition:opacity .8s var(--e) var(--d,0s),transform .9s var(--eOut) var(--d,0s)}
@@ -128,8 +127,29 @@ body{
 .gen.gray .raw{filter:grayscale(1) brightness(.92) contrast(1.06);transform:none}
 .gen.gray .mesh{mix-blend-mode:multiply;background:repeating-linear-gradient(0deg,rgba(0,0,0,.1) 0 1px,transparent 1px 4px)}
 
-/* ═══ 01 · OPEN ═══════════════════════════════════════════════ */
-#p1 .wrap{display:grid;place-items:center;text-align:center;gap:clamp(14px,2.6vh,34px)}
+/* ═══ 01 · THE MARKET ═════════════════════════════════════════
+   Two titles stacked in one grid cell, so the second takes the
+   first one's place rather than pushing the layout around.      */
+#p1 .wrap{display:grid;place-items:center;text-align:center}
+.titles{display:grid;width:100%}
+.titles > *{grid-area:1/1;align-self:center;justify-self:center;text-align:center;width:100%}
+.title-a{font-family:'Bebas Neue',sans-serif;text-transform:uppercase;line-height:.9;
+  letter-spacing:.016em;font-size:clamp(30px,5.4vw,92px);opacity:0;transform:translateY(18px)}
+.title-b .meet{font-family:'Bebas Neue',sans-serif;text-transform:uppercase;line-height:.9;
+  letter-spacing:.016em;font-size:clamp(30px,5.4vw,92px)}
+.title-b .sub{font-family:'Playfair Display',Georgia,serif;font-style:italic;
+  font-size:clamp(17px,2.5vw,42px);line-height:1.2;color:var(--mute);margin-top:clamp(8px,1.4vh,18px)}
+.title-b{opacity:0;transform:translateY(18px)}
+.is-live .title-a{animation:titleA 5.2s var(--e) .4s forwards}
+.is-live .title-b{animation:titleB 1.5s var(--eOut) 4.9s forwards}
+@keyframes titleA{
+  0%{opacity:0;transform:translateY(18px)}
+  13%{opacity:1;transform:none}
+  76%{opacity:1;transform:none}
+  100%{opacity:0;transform:translateY(-20px)}}
+@keyframes titleB{
+  from{opacity:0;transform:translateY(18px)}
+  to{opacity:1;transform:none}}
 .floatframe{width:min(620px,78vw);filter:drop-shadow(0 30px 70px rgba(0,0,0,.85));
   animation:sway 13s ease-in-out infinite}
 @keyframes sway{
@@ -434,6 +454,8 @@ body{
   .gen .raw,.gen .mesh,.gen .bar{animation:none!important;opacity:0}
   .anchor::after,.beam,.floatframe{animation:none!important}
   .type::after{display:none}
+  .title-a{display:none}
+  .title-b{opacity:1!important;transform:none!important;animation:none!important}
   .reel ul{transition:none!important}
 }
 </style>
@@ -455,20 +477,13 @@ body{
 <section class="panel" id="p1" data-tone="dark" data-label="The market" data-replay="1">
   <canvas class="stage" data-scene="map"></canvas>
   <div class="scrim far"></div>
-  <div class="wrap edge">
-    <div class="topline">
-      <p class="m r" style="--d:.1s;color:var(--faint);margin-bottom:clamp(10px,1.8vh,22px)">Noon Shop Eyewear &middot; The Build &middot; September 2026</p>
-      <h1 class="hd r" style="--d:.28s;font-size:clamp(30px,4.8vw,80px)">Your frames,<br>sold across<br>North America
-        <span class="it">Meet Solis, your AI-powered growth engine</span></h1>
-    </div>
-    <div>
-      <div class="readout r" style="--d:.6s">
-        <div class="m"><b>100,000+</b>Units sold in Korea</div>
-        <div class="m"><b>100</b>Styles ready to publish</div>
-        <div class="m"><b>29</b>Cities in the registry</div>
+  <div class="wrap">
+    <div class="titles">
+      <h1 class="title-a">Your frames,<br>sold across North America.</h1>
+      <div class="title-b">
+        <p class="meet">Meet Noon Shop</p>
+        <p class="sub">Your AI powered growth engine</p>
       </div>
-      <p class="m r" style="--d:.78s;color:var(--faint);margin-top:clamp(8px,1.4vh,16px)">
-        United States &middot; Canada &middot; featured in Entrepreneur Asia Pacific, June 2026 &middot; scroll, swipe or press &rarr;</p>
     </div>
   </div>
 </section>
@@ -858,11 +873,11 @@ body{
       var wide = w > 900;
       /* the whole country, full bleed, with the type sitting over a
          dimmed west rather than the map being pushed off to one side */
-      var availW = wide ? w * 0.8 : w * 0.94;
-      var availH = h * (wide ? 0.62 : 0.46);
+      var availW = wide ? w * 0.86 : w * 0.94;
+      var availH = h * (wide ? 0.68 : 0.5);
       sc = Math.min(availW / spanX, availH / spanY);
-      var left = wide ? w * 0.19 + (w * 0.8 - spanX * sc) / 2 : (w - spanX * sc) / 2;
-      var top  = (h - spanY * sc) / 2 - h * (wide ? 0.05 : 0.03);
+      var left = (w - spanX * sc) / 2;
+      var top  = (h - spanY * sc) / 2;
       sx = left - bx0 * sc; sy = top - by0 * sc;
       cx = left + spanX * sc * 0.5; cy = top + spanY * sc * 0.5;
       for (var i = 0; i < pts.length; i++) {
@@ -889,26 +904,26 @@ body{
         }
 
         /* the sweep, same wedge as the radar so the two panels rhyme */
-        var R = Math.max(spanX, spanY) * sc * 0.78, SEG = 30, TRAIL = 1.15;
+        var R = Math.max(spanX, spanY) * sc * 0.78, SEG = 42, TRAIL = 1.05;
         for (var s2 = 0; s2 < SEG; s2++) {
           ctx.beginPath(); ctx.moveTo(cx, cy);
           ctx.arc(cx, cy, R, sweep - TRAIL * (s2 + 1) / SEG, sweep - TRAIL * s2 / SEG);
           ctx.closePath();
-          ctx.fillStyle = 'rgba(255,255,255,' + (0.035 * (1 - s2 / SEG)).toFixed(4) + ')';
+          ctx.fillStyle = 'rgba(255,255,255,' + (0.016 * Math.pow(1 - s2 / SEG, 1.7)).toFixed(4) + ')';
           ctx.fill();
         }
         ctx.beginPath(); ctx.moveTo(cx, cy);
         ctx.lineTo(cx + Math.cos(sweep) * R, cy + Math.sin(sweep) * R);
-        ctx.strokeStyle = 'rgba(255,255,255,.3)'; ctx.lineWidth = 1; ctx.stroke();
+        ctx.strokeStyle = 'rgba(255,255,255,.14)'; ctx.lineWidth = 1; ctx.stroke();
 
         /* the coastline: fillRect beats arc by a mile at 1400 dots a frame */
         for (var i = 0; i < pts.length; i++) {
           if (passed(ang[i])) lit[i] = 1;
           else if (lit[i] > 0) lit[i] = Math.max(0, lit[i] - dt * 0.5);
-          var a = 0.26 + lit[i] * 0.74;
+          var a = 0.17 + lit[i] * 0.38;
           var px = sx + pts[i][0] * sc, py = sy + pts[i][1] * sc;
           ctx.fillStyle = 'rgba(255,255,255,' + a.toFixed(3) + ')';
-          var r = 1.0 + lit[i] * 0.75;
+          var r = 0.9 + lit[i] * 0.35;
           ctx.fillRect(px - r, py - r, r * 2, r * 2);
         }
 
@@ -923,14 +938,18 @@ body{
           if (k > 0.02) {
             var ring = 3 + (1 - k) * 22;
             ctx.beginPath(); ctx.arc(qx, qy, ring, 0, TAU);
-            ctx.strokeStyle = 'rgba(255,255,255,' + (k * 0.5).toFixed(3) + ')'; ctx.stroke();
-            ctx.fillStyle = 'rgba(255,255,255,' + (0.35 + k * 0.65).toFixed(3) + ')';
-            ctx.beginPath(); ctx.arc(qx, qy, 2.2 + k * 1.2, 0, TAU); ctx.fill();
-            ctx.fillStyle = 'rgba(255,255,255,' + (k * 0.8).toFixed(3) + ')';
-            ctx.fillText(cities[j].n.toUpperCase(), qx + 9, qy + 3.5);
+            ctx.strokeStyle = 'rgba(255,255,255,' + (k * 0.26).toFixed(3) + ')'; ctx.stroke();
+            ctx.fillStyle = 'rgba(255,255,255,' + (0.22 + k * 0.42).toFixed(3) + ')';
+            ctx.beginPath(); ctx.arc(qx, qy, 2 + k * 0.9, 0, TAU); ctx.fill();
+            ctx.fillStyle = 'rgba(255,255,255,' + (k * 0.5).toFixed(3) + ')';
+            /* flip the label inboard near the right edge so it never clips */
+            var flip = qx > d.w - 130;
+            ctx.textAlign = flip ? 'right' : 'left';
+            ctx.fillText(cities[j].n.toUpperCase(), qx + (flip ? -9 : 9), qy + 3.5);
+            ctx.textAlign = 'left';
           } else {
-            ctx.fillStyle = 'rgba(255,255,255,.3)';
-            ctx.beginPath(); ctx.arc(qx, qy, 1.6, 0, TAU); ctx.fill();
+            ctx.fillStyle = 'rgba(255,255,255,.17)';
+            ctx.beginPath(); ctx.arc(qx, qy, 1.5, 0, TAU); ctx.fill();
           }
         }
       }
