@@ -322,9 +322,14 @@ body{
 .opacts i{width:7px;height:7px;border-radius:50%;border:1px solid rgba(8,8,10,.28)}
 
 @media (max-width:840px){
-  .flowlayer{grid-template-columns:1fr;align-content:center;gap:clamp(14px,3vh,30px)}
+  /* The mark and the window ride an inset:0 layer, which cannot push the
+     panel taller and so was free to sit straight on top of the headline.
+     Below 840 the layer starts under the copy instead of centring in it. */
+  .flowlayer{grid-template-columns:1fr;align-content:start;gap:clamp(12px,2.4vh,26px);
+    padding:clamp(150px,23vh,230px) var(--gut) calc(var(--railBot) + 12px)}
   .flowmark{justify-self:center;margin:0}
   .outstage{justify-self:center;margin:0;width:min(420px,86vw)}
+  .owbody{height:clamp(210px,34vh,320px)}
 }
 }
 
@@ -677,6 +682,7 @@ body{
 /* ═══ RESPONSIVE ══════════════════════════════════════════════ */
 @media (max-width:840px){
   .panel{align-items:flex-start}
+  @supports (align-items:safe center){.panel{align-items:safe center}}
   .wrap{padding-top:calc(var(--railTop) + 38px)}
   .compose{grid-template-columns:1fr;gap:12px;max-width:520px;margin-inline:auto}
   .compose .gen,.plate{height:min(30vh,280px)}
@@ -685,6 +691,7 @@ body{
   .push{grid-template-columns:1fr;gap:14px;justify-items:start}
   .card{grid-template-columns:1fr}
   .shotbox{aspect-ratio:16/10}
+  #p5 .hd{margin-bottom:clamp(24px,4.5vh,46px)!important}
   .understand{grid-template-columns:1fr;gap:clamp(14px,2.4vh,26px)}
   .specimen{grid-template-columns:repeat(2,minmax(0,1fr));gap:clamp(8px,2vw,18px)}
   .turnbox{grid-column:1/-1;grid-row:1;width:clamp(130px,42vw,220px)}
