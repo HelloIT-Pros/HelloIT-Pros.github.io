@@ -620,7 +620,6 @@ body{
 .is-live .stat i{animation:lampon .5s var(--e) calc(var(--d,0s) + .35s) forwards}
 @keyframes lampon{to{background:#16A34A;box-shadow:0 0 10px 2px rgba(22,163,74,.5)}}
 .stat b{font-weight:400;color:var(--fg);letter-spacing:.2em}
-.statusrow + .closer{margin-top:clamp(7px,1.1vh,14px)}
 
 /* ═══ 11 · CLOSE ═════════════════════════════════════════════ */
 #p10 .wrap{display:grid;place-items:center;text-align:center;gap:clamp(10px,1.8vh,24px)}
@@ -633,6 +632,17 @@ body{
   transition:color .3s,background .3s,border-color .3s}
 .ctas a:hover{color:var(--bg);background:var(--fg);border-color:var(--fg)}
 .ctas a.pri{background:var(--fg);color:var(--bg);border-color:var(--fg)}
+
+/* The close plays as a sequence: the mark, then the promise, then the ask.
+   The button animates itself rather than its row, so the row can never
+   report as overflow while it is offset, and once it has landed it breathes
+   in the accent to carry the eye to the one thing left to do. */
+#p10 .ctas a{opacity:0;transform:translateY(16px) scale(.97)}
+#p10.is-live .ctas a{animation:ctaIn .9s var(--eOut) 2.7s forwards,
+  ctaGlow 3.6s ease-in-out 3.9s infinite}
+@keyframes ctaIn{to{opacity:1;transform:none}}
+@keyframes ctaGlow{0%,100%{box-shadow:0 0 0 0 rgba(255,216,74,0)}
+  50%{box-shadow:0 0 34px 5px rgba(255,216,74,.32)}}
 
 /* ═══ CHROME ══════════════════════════════════════════════════ */
 .rail{position:fixed;top:0;left:0;right:0;height:var(--railTop);z-index:40;display:flex;align-items:center;
@@ -690,11 +700,44 @@ body{
   .wrap.edge{height:auto;min-height:100dvh}
 }
 @media (max-width:560px){
-  .castrow{grid-template-columns:repeat(2,minmax(0,1fr))}
-  .kit{grid-template-columns:repeat(2,minmax(0,1fr))}
-  .sfgrid{grid-template-columns:repeat(3,minmax(0,1fr))}
+  /* Four panels ran past the bottom of a phone. Each one is brought back
+     inside 100dvh here so the deck can be swiped end to end without any
+     panel scrolling inside itself. */
+
+  /* eight faces on two rows instead of four */
+  .castrow{grid-template-columns:repeat(4,minmax(0,1fr));gap:5px}
+  .castrow .gen{max-height:min(13vh,112px)}
+  .castrow figcaption{margin-top:4px;font-size:6.5px;letter-spacing:.12em}
+  .castrow .badge{top:4px;left:4px;padding:2px 6px 1px;font-size:6px;letter-spacing:.12em}
+
+  /* the generated pair shortens, and the verdict ledger tightens */
+  .compose .gen,.plate{height:min(21vh,190px)}
+  .checks li{padding:3px 0;gap:10px}
+  .checks .ck{font-size:7px;letter-spacing:.11em;line-height:1.5}
+  .checks b{font-size:11px}
+
+  /* the kit gives up its wide tiles so nine squares sit on three rows */
+  .kit{grid-template-columns:repeat(3,minmax(0,1fr));gap:5px}
+  .tile.wide{grid-column:span 1}
+  .tile .gen,.tile.wide .gen{aspect-ratio:1/1;max-height:min(12vh,104px)}
+  .tile figcaption{margin-top:4px;font-size:6.5px}
+
+  /* the phone mock only repeats the storefront sitting above it */
+  .phone{display:none}
+  /* the thumbnail strip under the card is decoration the panel cannot
+     afford at this height, and the hero shot loses a little too */
+  .sfgrid{display:none}
+  .shotbox{aspect-ratio:2/1}
+  .sf{padding:9px}
+  .stat{padding:5px 11px 4px;gap:6px}
+
   .dots{display:none}
   .sfnav span:not(.wm2):not(.sp){display:none}
+
+  /* the controls were 27-34px tall, under the 44px a thumb wants */
+  .nav{width:44px;height:44px;font-size:16px}
+  .replay{padding:14px 18px 13px}
+  .ctas a{padding:15px 26px 14px;font-size:10.5px}
 }
 
 @media (prefers-reduced-motion:reduce){
@@ -710,6 +753,7 @@ body{
   .tile .gen:not(.lite)::after,.ostshot::after{animation:none!important;opacity:0}
   .type::after{display:none}
   .title-a{display:none}
+  #p10 .ctas a{opacity:1!important;transform:none!important;animation:none!important}
   #p1 .stage,#p1 .scrim.far{animation:none!important;opacity:1}
   .title-b{opacity:1!important;transform:none!important;animation:none!important}
   .reel ul{transition:none!important}
@@ -1112,7 +1156,7 @@ body{
         <figcaption class="m">E&ndash;commerce</figcaption></figure>
     </div>
 
-    <p class="closer r" style="--d:3.3s">Weeks of creative production.<br class="brk">Generated in one intelligent workflow.</p>
+    <p class="closer r" style="--d:3.3s">Weeks of creative production. <br class="brk">Generated in one intelligent workflow.</p>
   </div>
 </section>
 
@@ -1175,7 +1219,6 @@ body{
       <span class="stat m" style="--d:5.86s"><i></i>Email<b>Sent</b></span>
       <span class="stat m" style="--d:6s"><i></i>Advertising<b>Active</b></span>
     </div>
-    <p class="closer r" style="--d:6.5s">From product data to market presence &mdash; automatically.</p>
   </div>
 </section>
 
@@ -1184,9 +1227,9 @@ body{
 <section class="panel" id="p10" data-tone="dark" data-label="Close">
   <canvas class="stage" data-scene="dust"></canvas>
   <div class="wrap">
-    <p class="mark r" style="--d:.25s"><span class="pip" aria-hidden="true"></span><span class="wordmark">SORA</span></p>
-    <p class="closing-sub r" style="--d:.5s">Your AI&ndash;powered growth engine for North America.</p>
-    <div class="ctas r" style="--d:.85s">
+    <p class="mark r" style="--d:.5s"><span class="pip" aria-hidden="true"></span><span class="wordmark">SORA</span></p>
+    <p class="closing-sub r" style="--d:1.5s">Your AI&ndash;powered growth engine for North America.</p>
+    <div class="ctas">
       <a class="pri" href="mailto:hello@noonshop.com?subject=Listing%20our%20catalog%20with%20Noon%20Shop">Connect your catalog</a>
     </div>
   </div>
