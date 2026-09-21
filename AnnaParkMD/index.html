@@ -135,9 +135,9 @@
   .hero-photo{overflow:hidden;background:var(--offwhite);}
   .hero-photo img{width:100%;height:100%;object-fit:cover;object-position:center 20%;}
   .hero-copy{
-    padding:44px 72px;display:flex;flex-direction:column;justify-content:center;
+    padding:34px 56px 34px 40px;display:flex;flex-direction:column;justify-content:center;
   }
-  .hero-copy h1{font-size:46px;margin-bottom:10px;}
+  .hero-copy h1{font-size:52px;margin-bottom:10px;}
   .hero-copy .role{
     font-family:'Outfit',sans-serif;font-weight:500;font-size:19px;
     color:var(--navy);margin-bottom:26px;
@@ -146,6 +146,24 @@
   .hero-copy .ctas{display:flex;gap:16px;flex-wrap:wrap;margin-bottom:22px;}
   .hero-copy .press-note{font-size:14px;color:var(--ink-soft);}
   .hero-copy .press-note a{color:var(--navy);border-bottom:1px solid var(--navy);}
+  .hero-copy .press-note + .press-note{margin-top:8px;}
+  .hero-copy .press-note strong{color:var(--navy);font-weight:500;}
+  .hero-extra{margin-top:32px;display:flex;flex-direction:column;gap:26px;max-width:520px;}
+  .hx-block{border-top:1px solid var(--line);padding-top:15px;}
+  .hx-label{font-family:'Bebas Neue',sans-serif;letter-spacing:0.2em;font-size:12px;color:var(--navy);margin-bottom:9px;}
+  .hx-rating{display:flex;align-items:baseline;gap:11px;}
+  .hx-score{font-family:'Playfair Display',serif;font-weight:600;font-size:32px;color:var(--ink);line-height:1;}
+  .hx-stars{color:var(--navy);font-size:15px;letter-spacing:0.12em;}
+  .hx-sub{font-size:13px;color:var(--ink-soft);margin-top:8px;line-height:1.7;}
+  .hx-sub a{color:var(--navy);border-bottom:1px solid var(--navy);}
+  .hx-quote{
+    font-family:'Playfair Display',serif;font-style:italic;font-size:22px;
+    color:var(--ink);border-left:2px solid var(--navy);padding-left:22px;line-height:1.45;
+  }
+  .hx-quote cite{
+    display:block;font-family:'Outfit',sans-serif;font-style:normal;font-size:12px;
+    color:var(--ink-soft);margin-top:10px;letter-spacing:0.02em;
+  }
 
   /* PRESS */
   .press{background:var(--black);color:#fff;padding:68px 0;}
@@ -208,10 +226,32 @@
   .practice-card .kicker{font-family:'Bebas Neue',sans-serif;letter-spacing:0.18em;font-size:13px;color:var(--navy);margin-bottom:14px;}
   .practice-card h3{font-size:26px;margin-bottom:14px;}
   .practice-card p{color:var(--ink-soft);font-size:15px;margin-bottom:24px;}
+  .practice-card .card-note{margin-top:18px;font-size:13px;color:var(--ink-soft);}
+  .practice-card .card-note a{color:var(--navy);border-bottom:1px solid var(--navy);}
+
+  /* REVIEWS */
+  .reviews-intro{color:var(--ink-soft);font-size:17px;max-width:640px;margin-bottom:30px;}
+  .review-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:18px;}
+  .review-card{
+    background:var(--white);border:1px solid var(--line);border-radius:4px;
+    padding:24px 22px;display:flex;flex-direction:column;
+    transition:border-color .2s ease, transform .2s ease, box-shadow .2s ease;
+  }
+  .review-card:hover{
+    border-color:var(--navy);transform:translateY(-3px);
+    box-shadow:0 10px 26px rgba(32,42,68,0.09);
+  }
+  .rc-source{font-family:'Bebas Neue',sans-serif;letter-spacing:0.18em;font-size:13px;color:var(--navy);margin-bottom:10px;}
+  .rc-score{font-family:'Playfair Display',serif;font-weight:600;font-size:34px;color:var(--ink);line-height:1;}
+  .rc-score span{font-family:'Outfit',sans-serif;font-weight:300;font-size:15px;color:var(--ink-soft);}
+  .rc-count{font-size:13px;color:var(--ink-soft);margin-top:8px;}
+  .rc-go{margin-top:auto;padding-top:16px;font-size:13px;color:var(--navy);letter-spacing:0.02em;}
+  .reviews-note{font-size:13px;color:var(--ink-soft);margin-top:24px;max-width:640px;}
 
   /* NOON SHOP (compact, secondary) */
   .noonshop-card{
-    border:1px solid var(--line);border-radius:4px;padding:36px 40px;max-width:760px;
+    background:var(--white);border:1px solid var(--line);border-radius:4px;
+    padding:36px 40px;max-width:760px;
   }
   .noonshop-card .kicker{font-family:'Bebas Neue',sans-serif;letter-spacing:0.18em;font-size:13px;color:var(--navy);margin-bottom:12px;}
   .noonshop-card h3{font-size:24px;margin-bottom:14px;}
@@ -236,11 +276,12 @@
   @media(max-width:860px){
     .hero{grid-template-columns:1fr;min-height:auto;}
     .hero-photo{aspect-ratio:4/3;}
-    .hero-copy{padding:36px 28px;}
+    .hero-copy{padding:30px 24px;}
     .press .wrap{grid-template-columns:1fr;gap:32px;}
     .hero-copy h1{font-size:36px;}
     .practice-grid{grid-template-columns:1fr;}
     .practice-card,.noonshop-card{padding:28px 24px;}
+    .review-grid{grid-template-columns:repeat(2,1fr);gap:14px;}
     .nav-overlay a{font-size:34px;}
     .nav-overlay{gap:28px;}
     .press-lockup .word{font-size:38px;}
@@ -253,6 +294,8 @@
     .nav-right{gap:10px;}
     .nav-right .btn{padding:9px 14px;font-size:12px;}
     .wrap{padding:0 20px;}
+    .review-card{padding:20px 18px;}
+    .rc-score{font-size:29px;}
   }
 </style>
 </head>
@@ -276,6 +319,7 @@
   </button>
   <a href="#about">About</a>
   <a href="#practice">My Practice</a>
+  <a href="#reviews">Patient Reviews</a>
   <a href="#noonshop">Noon Shop</a>
   <a href="#press">Press</a>
 </div>
@@ -293,6 +337,27 @@
       <a href="#about" class="btn btn-outline">About Anna Park, MD</a>
     </div>
     <div class="press-note">As featured in <a href="#press">Entrepreneur Asia Pacific →</a></div>
+
+    <div class="hero-extra">
+      <div class="hx-block">
+        <div class="hx-label">Patient Rating</div>
+        <div class="hx-rating">
+          <span class="hx-score">5.0</span>
+          <span class="hx-stars">★★★★★</span>
+        </div>
+        <div class="hx-sub">Over 350 verified patient reviews across the web. <a href="#reviews">See Reviews →</a></div>
+      </div>
+
+      <blockquote class="hx-quote">
+        “I travel 2 hours from home just to see her. She’s the best.”
+        <cite>Google review</cite>
+      </blockquote>
+
+      <blockquote class="hx-quote">
+        “She is knowledgeable and reassuring. I don’t have a physician that I trust more.”
+        <cite>Verified patient review · Ratings.MD</cite>
+      </blockquote>
+    </div>
   </div>
 </section>
 
@@ -338,12 +403,48 @@
         <h3>Silver Spring Eye</h3>
         <p>General ophthalmology and medical eye care with Anna Park, MD at the Fenton Street office — the same personal attention she built over 17 years in Washington, DC.</p>
         <a href="https://www.silverspringeye.com/book-an-appointment/fenton-street/" class="btn btn-solid">Book an Appointment</a>
+        <div class="card-note"><a href="#reviews">Read patient reviews →</a></div>
       </div>
     </div>
   </div>
 </section>
 
-<section class="block" id="noonshop">
+<section class="block" id="reviews">
+  <div class="wrap">
+    <span class="eyebrow rv">Patient Reviews</span>
+    <h2 class="rv" style="font-size:34px;margin-bottom:12px;">In her patients' words.</h2>
+    <p class="reviews-intro rv">Anna Park, MD is rated independently on several physician directories. Read what patients say about their visits — then judge for yourself.</p>
+    <div class="review-grid">
+      <a class="review-card rv" href="https://www.google.com/search?q=Dr.+Anna+Park,+MD&amp;kgmid=/g/11r4kd9b70" target="_blank" rel="noopener">
+        <div class="rc-source">Google</div>
+        <div class="rc-score">4.8 <span>/ 5</span></div>
+        <div class="rc-count">19 Google reviews</div>
+        <div class="rc-go">Read reviews →</div>
+      </a>
+      <a class="review-card rv d1" href="https://health.usnews.com/doctors/anna-park-131719" target="_blank" rel="noopener">
+        <div class="rc-source">U.S. News</div>
+        <div class="rc-score">5.0 <span>/ 5</span></div>
+        <div class="rc-count">21 reviews · Patients' Top Choice</div>
+        <div class="rc-go">Read reviews →</div>
+      </a>
+      <a class="review-card rv d2" href="https://doctor.webmd.com/doctor/anna-park-7970c867-4e1a-4cb0-b2c7-b65183aaab63-overview" target="_blank" rel="noopener">
+        <div class="rc-source">WebMD</div>
+        <div class="rc-score">5.0 <span>/ 5</span></div>
+        <div class="rc-count">19 patient ratings</div>
+        <div class="rc-go">Read reviews →</div>
+      </a>
+      <a class="review-card rv d3" href="https://ratings.md/profile/anna-park-m-d" target="_blank" rel="noopener">
+        <div class="rc-source">Ratings.MD</div>
+        <div class="rc-score">5.0 <span>/ 5</span></div>
+        <div class="rc-count">342 verified ratings · 54 comments</div>
+        <div class="rc-go">Read reviews →</div>
+      </a>
+    </div>
+    <p class="reviews-note rv">Ratings shown are as published by each directory in September 2026.</p>
+  </div>
+</section>
+
+<section class="block alt" id="noonshop">
   <div class="wrap">
     <span class="eyebrow rv">Also From Anna Park, MD</span>
     <h2 class="rv" style="font-size:30px;margin-bottom:24px;">Noon Shop Eyewear</h2>
@@ -352,7 +453,7 @@
       <h3>A Frame That Finally Fits</h3>
       <p>In 2023, Anna Park, MD founded Noon Shop Eyewear after noticing the same problem again and again in her own exam room: patients with a perfect prescription undone by a frame that didn't fit. Noon Shop makes lightweight, Korean-designed frames engineered for a broader range of faces — low bridges, high cheekbones, and everything in between.</p>
       <div class="micro-quote">"The frame is as important as the prescription."</div>
-      <div class="micro-stat"><strong>80,000+</strong> frames worn worldwide</div>
+      <div class="micro-stat"><strong>100,000+</strong> frames worn worldwide</div>
       <a href="https://www.noonshop.com/" class="btn btn-outline">Visit Noon Shop Eyewear →</a>
     </div>
   </div>
@@ -384,6 +485,7 @@
       <div class="froles">Board-Certified Ophthalmologist</div>
     </div>
     <div class="flinks">
+      <a href="#reviews">Patient Reviews</a>
       <a href="https://www.silverspringeye.com/">Silver Spring Eye</a>
       <a href="https://www.noonshop.com/">Noon Shop</a>
       <a href="https://apac.entrepreneur.com/entrepreneurs/when-fit-becomes-the-innovation-how-one-ophthalmologist-is-redefining-eyewear">Entrepreneur Feature</a>
