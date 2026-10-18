@@ -533,45 +533,52 @@ body{
 .worn figure{margin:0}
 .worn figcaption{margin-top:8px;color:var(--faint)}
 
-/* ═══ 09 · THE CAMPAIGN ══════════════════════════════════════
-   The claim sits in a thin band at the top so the work gets the rest of
-   the panel. Three columns, one per channel, each scrolled by hand: the
-   pieces are social posts and emails, so reading them the way you would
-   on a phone beats watching them slide past. Snapping is proximity, not
-   mandatory, so a short flick still lands between two posts if that is
-   where it was let go.                                               */
-#pcam .wrap{display:grid;grid-template-rows:auto minmax(0,1fr);
-  gap:clamp(10px,1.6vh,20px);height:100dvh;align-content:stretch}
-
-.camhead{display:flex;align-items:flex-end;gap:clamp(16px,2.6vw,46px);flex-wrap:wrap}
-#pcam .hd{font-size:clamp(23px,2.7vw,40px);flex:1 1 300px}
-.feed{display:flex;align-items:flex-end;gap:clamp(10px,1.4vw,22px)}
-.feed figure{margin:0;width:clamp(58px,5.2vw,86px)}
-.feed img{display:block;width:100%;height:auto}
-.feed figcaption{margin-top:5px;color:var(--faint);
+/* ═══ 09 · THE CAMPAIGN, IN THREE ═════════════════════════════
+   One channel per panel: the heading holds still on the left while the
+   work stacks two wide on the right and the viewer scrolls it. Two up
+   rather than one means a whole piece fits the height, which matters
+   for a social post — you should never have to scroll to reach the
+   caption. The scrollbar is deliberately visible; a hidden one left
+   nobody any reason to think the column moved at all.               */
+#pcam1 .wrap,#pcam2 .wrap,#pcam3 .wrap{display:grid;height:100dvh;
+  grid-template-rows:minmax(0,1fr)}
+.chapter{display:grid;grid-template-columns:minmax(0,.72fr) minmax(0,2fr);
+  gap:clamp(20px,3.4vw,60px);height:100%;min-height:0;align-items:stretch}
+.chaphead{display:flex;flex-direction:column;justify-content:center;
+  gap:clamp(12px,2vh,24px);min-width:0}
+.chaptitle{font-family:'Bebas Neue',sans-serif;text-transform:uppercase;
+  letter-spacing:.04em;line-height:.9;font-size:clamp(34px,4.8vw,76px);
+  overflow-wrap:break-word}
+.chapsub{color:var(--mute);font-size:clamp(13px,1.1vw,18px);line-height:1.5;max-width:30ch}
+.chapfeed{display:flex;align-items:flex-end;gap:clamp(10px,1.4vw,22px)}
+.chapfeed figure{margin:0;width:clamp(58px,5.2vw,86px)}
+.chapfeed img{display:block;width:100%;height:auto}
+.chapfeed figcaption{margin-top:5px;color:var(--faint);
   font-family:'JetBrains Mono',monospace;font-size:7.5px;letter-spacing:.16em}
-.camnote{color:var(--faint);line-height:1.8;text-align:right}
+.chaphint{display:flex;align-items:center;gap:8px;color:var(--faint)}
+.chaphint i{width:14px;height:14px;border-right:1px solid currentColor;
+  border-bottom:1px solid currentColor;transform:rotate(45deg) translate(-2px,-2px);
+  flex:none;animation:hintdrop 2.4s ease-in-out infinite}
+@keyframes hintdrop{0%,100%{transform:rotate(45deg) translate(-3px,-3px);opacity:.5}
+  50%{transform:rotate(45deg) translate(1px,1px);opacity:1}}
 
-.streams{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));
-  gap:clamp(8px,1.1vw,18px);min-height:0;
-  opacity:0;transform:translateY(14px);
-  transition:opacity .7s var(--e) .55s,transform .8s var(--eOut) .55s}
-.is-live .streams{opacity:1;transform:none}
-.stream{display:grid;grid-template-rows:auto minmax(0,1fr);
-  gap:clamp(5px,.8vh,10px);min-height:0}
-.chan{color:var(--faint);letter-spacing:.2em}
-
-/* the column itself is the scroller; the deck's wheel handler stands
-   back while one of these still has somewhere to go */
-.col{overflow-y:auto;overflow-x:hidden;min-height:0;
+.feedcol{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));
+  gap:clamp(10px,1.2vw,18px);align-content:start;
+  overflow-y:auto;min-height:0;padding-right:clamp(8px,.9vw,14px);
   overscroll-behavior:contain;scroll-snap-type:y proximity;
-  scrollbar-width:thin;scrollbar-color:rgba(255,255,255,.2) transparent}
-.col::-webkit-scrollbar{width:4px}
-.col::-webkit-scrollbar-track{background:transparent}
-.col::-webkit-scrollbar-thumb{background:rgba(255,255,255,.2);border-radius:4px}
-.col img{display:block;width:100%;height:auto;border-radius:3px;
+  /* no scrollbar-color here on purpose: setting it switches Chrome to the
+     standard scrollbar, which on macOS is an overlay that stays hidden
+     until you already scrolled — the ::-webkit rules below keep a real
+     bar on screen the whole time, so the column looks scrollable */
+  opacity:0;transform:translateY(14px);
+  transition:opacity .7s var(--e) .45s,transform .8s var(--eOut) .45s}
+.is-live .feedcol{opacity:1;transform:none}
+.feedcol::-webkit-scrollbar{width:10px}
+.feedcol::-webkit-scrollbar-track{background:rgba(255,255,255,.1);border-radius:10px}
+.feedcol::-webkit-scrollbar-thumb{background:rgba(255,255,255,.45);border-radius:10px}
+.feedcol::-webkit-scrollbar-thumb:hover{background:rgba(255,255,255,.65)}
+.feedcol img{display:block;width:100%;height:auto;border-radius:3px;
   background:var(--mist);scroll-snap-align:start}
-.col img + img{margin-top:clamp(8px,1.1vw,18px)}
 
 /* ═══ 10 · IT LANDS ═══════════════════════════════════════════
    SORA on the left, the storefront on the right, and every field
@@ -742,9 +749,10 @@ body{
   .readspec.side-b{text-align:left}
   .worn{grid-template-columns:repeat(2,minmax(0,1fr))}
   .worn .src{grid-column:1/-1;max-width:190px}
-  #pcam .wrap{height:auto;grid-template-rows:auto auto}
-  .camnote{text-align:left}
-  .streams{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .chapter{grid-template-columns:minmax(0,1fr);gap:clamp(14px,2.4vh,26px)}
+  #pcam1 .wrap,#pcam2 .wrap,#pcam3 .wrap{height:auto;grid-template-rows:auto}
+  .chaphead{justify-content:flex-start}
+  .feedcol{overflow:visible;scroll-snap-type:none;padding-right:0}
   .worn .gen{height:min(25vh,240px)}
   .phone{width:clamp(112px,25vw,150px)}
   .topline{max-width:none}
@@ -767,12 +775,10 @@ body{
   .checks .ck{font-size:7px;letter-spacing:.11em;line-height:1.5}
   .checks b{font-size:11px}
 
-  /* a phone gets one full-width feed and scrolls the panel through all
-     three in turn, rather than three columns too narrow to read */
-  .streams{grid-template-columns:1fr;gap:clamp(16px,3vh,30px)}
-  .stream{grid-template-rows:auto auto}
-  .col{overflow:visible;scroll-snap-type:none}
-  .feed figure{width:clamp(58px,15vw,78px)}
+  /* one piece across the full width, and the panel does the scrolling */
+  .feedcol{grid-template-columns:1fr;gap:clamp(12px,2vh,20px)}
+  .chapfeed figure{width:clamp(54px,14vw,74px)}
+  .chaphint{display:none}
 
   /* the phone mock only repeats the storefront sitting above it */
   .phone{display:none}
@@ -1139,60 +1145,97 @@ body{
   </div>
 </section>
 
-<!-- ══ 09 · THE CAMPAIGN ══════════════════════════════════════
-     Two frames go in. Everything the engine made from them is here to
-     be read: three channels, each scrolled by hand.                -->
-<section class="panel" id="pcam" data-tone="dark" data-label="The campaign" data-replay="1">
+<!-- ══ SOCIAL ══════════════════════════════════════════════ -->
+<section class="panel" id="pcam1" data-tone="dark" data-label="Social" data-replay="1">
   <p class="tag m">05 &middot; The campaign</p>
   <div class="wrap">
-    <div class="camhead">
-      <h2 class="hd r" style="--d:.1s">Two frames in. An entire campaign out.</h2>
-      <div class="feed r" style="--d:.35s">
-        <figure>
-          <img src="assets/frame-sb82614.png" alt="SB82614, a rectangular acetate frame." width="620" height="192">
-          <figcaption>SB82614</figcaption>
-        </figure>
-        <figure>
-          <img src="assets/frame-dr26203.png" alt="DR26203, a round TR90 frame." width="620" height="195">
-          <figcaption>DR26203</figcaption>
-        </figure>
+    <div class="chapter">
+      <div class="chaphead">
+        <h2 class="chaptitle r" style="--d:.1s">Social</h2>
+        <p class="chapsub r" style="--d:.25s">Six posts for the feed, written and shot from the two frames.</p>
+        <div class="chapfeed r" style="--d:.4s">
+          <figure>
+            <img src="assets/frame-sb82614.png" alt="SB82614, a rectangular acetate frame." width="620" height="192">
+            <figcaption>SB82614</figcaption>
+          </figure>
+          <figure>
+            <img src="assets/frame-dr26203.png" alt="DR26203, a round TR90 frame." width="620" height="195">
+            <figcaption>DR26203</figcaption>
+          </figure>
+        </div>
+        <p class="chaphint m r" style="--d:.55s"><i aria-hidden="true"></i>Scroll the column</p>
       </div>
-      <p class="camnote m r" style="--d:.5s">Seventeen finished assets<br>Scroll any column</p>
+      <div class="feedcol" tabindex="0" aria-label="Social, 6 pieces">
+        <img src="assets/cam-diary.jpg" alt="Instagram post: a four&ndash;scene eyewear diary.">
+        <img src="assets/cam-groupchat.jpg" alt="Instagram post: three frames, one group chat decision.">
+        <img src="assets/cam-angles.jpg" alt="Instagram post: checking new glasses from every angle." loading="lazy">
+        <img src="assets/cam-outfit.jpg" alt="Instagram post: the glasses picked the outfit." loading="lazy">
+        <img src="assets/cam-saturday.jpg" alt="Instagram post: which Saturday are you?" loading="lazy">
+        <img src="assets/cam-looking.jpg" alt="Instagram post: looking for glasses while wearing them." loading="lazy">
+      </div>
     </div>
+  </div>
+</section>
 
-    <div class="streams">
-        <section class="stream">
-          <p class="chan m">Social</p>
-          <div class="col col-1" tabindex="0" aria-label="Social, 6 pieces">
-            <img src="assets/cam-diary.jpg" alt="Instagram post: a four&ndash;scene eyewear diary.">
-            <img src="assets/cam-groupchat.jpg" alt="Instagram post: three frames, one group chat decision.">
-            <img src="assets/cam-angles.jpg" alt="Instagram post: checking new glasses from every angle.">
-            <img src="assets/cam-outfit.jpg" alt="Instagram post: the glasses picked the outfit.">
-            <img src="assets/cam-saturday.jpg" alt="Instagram post: which Saturday are you?">
-            <img src="assets/cam-looking.jpg" alt="Instagram post: looking for glasses while wearing them.">
-          </div>
-        </section>
-        <section class="stream">
-          <p class="chan m">Advertising</p>
-          <div class="col col-2" tabindex="0" aria-label="Advertising, 7 pieces">
-            <img src="assets/cam-ig-ad.jpg" alt="Sponsored Instagram ad: great eyewear starts with the right fit.">
-            <img src="assets/cam-lessframe.jpg" alt="Advertisement: a little less frame, a lot more you.">
-            <img src="assets/cam-portraits.jpg" alt="Advertisement: looks like you, fits like it.">
-            <img src="assets/cam-organza.jpg" alt="Advertisement: light enough to steal the scene.">
-            <img src="assets/cam-display.jpg" alt="Display ad: fit is fundamental.">
-            <img src="assets/cam-poster.jpg" alt="In&ndash;store poster: find your fit here.">
-            <img src="assets/cam-web-hero.jpg" alt="Website hero: fit is fundamental.">
-          </div>
-        </section>
-        <section class="stream">
-          <p class="chan m">Email</p>
-          <div class="col col-3" tabindex="0" aria-label="Email, 4 pieces">
-            <img src="assets/cam-email-fit.jpg" alt="Email: fit is fundamental.">
-            <img src="assets/cam-email-moods.jpg" alt="Email: two frames, two moods.">
-            <img src="assets/cam-email-naomi.jpg" alt="Email: finding your next pair.">
-            <img src="assets/cam-email-first.jpg" alt="Email: start with what fits you.">
-          </div>
-        </section>
+<!-- ══ ADVERTISING ══════════════════════════════════════════════ -->
+<section class="panel" id="pcam2" data-tone="dark" data-label="Advertising" data-replay="1">
+  <p class="tag m">05 &middot; The campaign</p>
+  <div class="wrap">
+    <div class="chapter">
+      <div class="chaphead">
+        <h2 class="chaptitle r" style="--d:.1s">Advertising</h2>
+        <p class="chapsub r" style="--d:.25s">Seven pieces &mdash; paid social, display, print and the storefront hero.</p>
+        <div class="chapfeed r" style="--d:.4s">
+          <figure>
+            <img src="assets/frame-sb82614.png" alt="SB82614, a rectangular acetate frame." width="620" height="192">
+            <figcaption>SB82614</figcaption>
+          </figure>
+          <figure>
+            <img src="assets/frame-dr26203.png" alt="DR26203, a round TR90 frame." width="620" height="195">
+            <figcaption>DR26203</figcaption>
+          </figure>
+        </div>
+        <p class="chaphint m r" style="--d:.55s"><i aria-hidden="true"></i>Scroll the column</p>
+      </div>
+      <div class="feedcol" tabindex="0" aria-label="Advertising, 7 pieces">
+        <img src="assets/cam-ig-ad.jpg" alt="Sponsored Instagram ad: great eyewear starts with the right fit.">
+        <img src="assets/cam-lessframe.jpg" alt="Advertisement: a little less frame, a lot more you.">
+        <img src="assets/cam-portraits.jpg" alt="Advertisement: looks like you, fits like it." loading="lazy">
+        <img src="assets/cam-organza.jpg" alt="Advertisement: light enough to steal the scene." loading="lazy">
+        <img src="assets/cam-display.jpg" alt="Display ad: fit is fundamental." loading="lazy">
+        <img src="assets/cam-poster.jpg" alt="In&ndash;store poster: find your fit here." loading="lazy">
+        <img src="assets/cam-web-hero.jpg" alt="Website hero: fit is fundamental." loading="lazy">
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══ EMAIL MARKETING ══════════════════════════════════════════════ -->
+<section class="panel" id="pcam3" data-tone="dark" data-label="Email marketing" data-replay="1">
+  <p class="tag m">05 &middot; The campaign</p>
+  <div class="wrap">
+    <div class="chapter">
+      <div class="chaphead">
+        <h2 class="chaptitle r" style="--d:.1s">Email marketing</h2>
+        <p class="chapsub r" style="--d:.25s">Four campaigns, built and ready to send.</p>
+        <div class="chapfeed r" style="--d:.4s">
+          <figure>
+            <img src="assets/frame-sb82614.png" alt="SB82614, a rectangular acetate frame." width="620" height="192">
+            <figcaption>SB82614</figcaption>
+          </figure>
+          <figure>
+            <img src="assets/frame-dr26203.png" alt="DR26203, a round TR90 frame." width="620" height="195">
+            <figcaption>DR26203</figcaption>
+          </figure>
+        </div>
+        <p class="chaphint m r" style="--d:.55s"><i aria-hidden="true"></i>Scroll the column</p>
+      </div>
+      <div class="feedcol" tabindex="0" aria-label="Email marketing, 4 pieces">
+        <img src="assets/cam-email-fit.jpg" alt="Email: fit is fundamental.">
+        <img src="assets/cam-email-moods.jpg" alt="Email: two frames, two moods.">
+        <img src="assets/cam-email-naomi.jpg" alt="Email: finding your next pair." loading="lazy">
+        <img src="assets/cam-email-first.jpg" alt="Email: start with what fits you." loading="lazy">
+      </div>
     </div>
   </div>
 </section>
@@ -1875,7 +1918,7 @@ body{
 
     /* a panel always opens at its own top, however it was left */
     p.scrollTop = 0;
-    p.querySelectorAll('.col').forEach(function(c){ c.scrollTop = 0; });
+    p.querySelectorAll('.feedcol').forEach(function(c){ c.scrollTop = 0; });
 
     if (p.id === 'p4') runReel();
     if (p.id === 'pwrite') { if (reduced) wStatic(); else wRun(); }
@@ -2160,7 +2203,7 @@ body{
   deck.addEventListener('wheel', function(e){
     if (Math.abs(e.deltaX) > Math.abs(e.deltaY)) return;
     /* a campaign feed takes the wheel while it still has room to move */
-    var col = e.target && e.target.closest && e.target.closest('.col');
+    var col = e.target && e.target.closest && e.target.closest('.feedcol');
     if (col && col.scrollHeight - col.clientHeight > 4) {
       var cTop = col.scrollTop <= 0;
       var cBot = col.scrollTop + col.clientHeight >= col.scrollHeight - 1;
