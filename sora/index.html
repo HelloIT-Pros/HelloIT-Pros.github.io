@@ -164,6 +164,9 @@ body{
 .castrow figure:nth-of-type(4n) .gen,
 .worn figure:nth-of-type(4n) .gen,
 .kit figure:nth-of-type(4n) .gen{--g:3.3s}
+/* the cast runs five wide, so the last one gets a phase of its own
+   rather than sweeping in step with the first */
+.castrow figure:nth-of-type(5) .gen{--g:4.4s}
 
 /* once the cast has been narrowed, only the chosen faces stay alive */
 .castrow.picking figure:not(.match) .gen::after{animation:none;opacity:0}
@@ -464,7 +467,7 @@ body{
   font-size:clamp(13px,1.15vw,20px);line-height:1.34;margin-top:4px}
 
 /* ═══ 06 · CAST ═══════════════════════════════════════════════ */
-.castrow{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:clamp(6px,1vw,16px)}
+.castrow{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:clamp(6px,1vw,16px)}
 .castrow figure{margin:0}
 .castrow .gen{aspect-ratio:7/6;max-height:min(23vh,212px)}
 .castrow .gen > img{object-position:center 26%}
@@ -735,8 +738,8 @@ body{
      inside 100dvh here so the deck can be swiped end to end without any
      panel scrolling inside itself. */
 
-  /* eight faces on two rows instead of four */
-  .castrow{grid-template-columns:repeat(4,minmax(0,1fr));gap:5px}
+  /* the five stay on one row, tighter */
+  .castrow{grid-template-columns:repeat(5,minmax(0,1fr));gap:4px}
   .castrow .gen{max-height:min(13vh,112px)}
   .castrow figcaption{margin-top:4px;font-size:6.5px;letter-spacing:.12em}
   .castrow .badge{top:4px;left:4px;padding:2px 6px 1px;font-size:6px;letter-spacing:.12em}
@@ -1067,13 +1070,13 @@ body{
         <span class="lbl m">Source photo</span>
       </div>
       <div class="link r" style="--d:.35s">
-        <span class="anchor"><img src="assets/cast-elin.jpg" alt="Elin's anchor portrait." width="460" height="578"></span>
+        <span class="anchor"><img src="assets/cast-rafael.jpg" alt="Rafael&rsquo;s anchor portrait." width="700" height="875"></span>
         <span class="m" style="color:var(--faint)">Anchor</span>
         <span class="beam"></span>
       </div>
       <div class="gen" style="--dur:3.4s;--del:.9s">
-        <img class="raw" src="assets/hero-generated.jpg" alt="" aria-hidden="true">
-        <img class="fin" src="assets/hero-generated.jpg" alt="The generated image: the same frame worn by Elin.">
+        <img class="raw" src="assets/face-rafael-relaxed.jpg" alt="" aria-hidden="true">
+        <img class="fin" src="assets/face-rafael-relaxed.jpg" alt="The generated image: the same frame on Rafael.">
       <span class="bar"></span>
         <span class="lbl m">Generated</span>
       </div>
@@ -1099,20 +1102,20 @@ body{
         <p class="m" style="color:var(--faint);margin-top:8px">Source &middot; once</p>
       </div>
       <figure><div class="gen" style="--dur:2.1s;--del:.5s">
-        <img class="raw" src="assets/worn-elena.jpg" alt="" aria-hidden="true">
-        <img class="fin" src="assets/worn-elena.jpg" alt="Elena wearing the frame.">
-      <span class="bar"></span></div><figcaption class="m">Elena</figcaption></figure>
+        <img class="raw" src="assets/face-claire-relaxed.jpg" alt="" aria-hidden="true">
+        <img class="fin" src="assets/face-claire-relaxed.jpg" alt="Claire, the same frame on her.">
+      <span class="bar"></span></div><figcaption class="m">Claire</figcaption></figure>
       <figure><div class="gen" style="--dur:2.1s;--del:.75s">
-        <img class="raw" src="assets/worn-elin.jpg" alt="" aria-hidden="true">
-        <img class="fin" src="assets/worn-elin.jpg" alt="Elin wearing the frame.">
-      <span class="bar"></span></div><figcaption class="m">Elin</figcaption></figure>
+        <img class="raw" src="assets/face-ren-tilt.jpg" alt="" aria-hidden="true">
+        <img class="fin" src="assets/face-ren-tilt.jpg" alt="Ren, the same frame on him.">
+      <span class="bar"></span></div><figcaption class="m">Ren</figcaption></figure>
       <figure><div class="gen" style="--dur:2.1s;--del:1s">
-        <img class="raw" src="assets/worn-adrian.jpg" alt="" aria-hidden="true">
-        <img class="fin" src="assets/worn-adrian.jpg" alt="Adrian wearing the frame.">
-      <span class="bar"></span></div><figcaption class="m">Adrian</figcaption></figure>
+        <img class="raw" src="assets/face-naomi-34.jpg" alt="" aria-hidden="true">
+        <img class="fin" src="assets/face-naomi-34.jpg" alt="Naomi, the same frame on her.">
+      <span class="bar"></span></div><figcaption class="m">Naomi</figcaption></figure>
       <figure><div class="gen" style="--dur:2.1s;--del:1.25s">
-        <img class="raw" src="assets/worn-hana.jpg" alt="" aria-hidden="true">
-        <img class="fin" src="assets/worn-hana.jpg" alt="Hana wearing the frame.">
+        <img class="raw" src="assets/face-hana-relaxed.jpg" alt="" aria-hidden="true">
+        <img class="fin" src="assets/face-hana-relaxed.jpg" alt="Hana, the same frame on her.">
       <span class="bar"></span></div><figcaption class="m">Hana</figcaption></figure>
     </div>
   </div>
@@ -1132,20 +1135,20 @@ body{
       <span class="flash" aria-hidden="true"></span>
       <figure class="tile wide" style="--d:1.5s">
         <div class="gen" style="--dur:1.5s;--del:1.55s">
-          <img class="raw" src="assets/hero-generated.jpg" alt="" aria-hidden="true">
-          <img class="fin" src="assets/hero-generated.jpg" alt="Studio photography placeholder.">
+          <img class="raw" src="assets/face-claire-34.jpg" alt="" aria-hidden="true">
+          <img class="fin" src="assets/face-claire-34.jpg" alt="Studio photography placeholder.">
         <span class="bar"></span></div>
         <figcaption class="m">Studio</figcaption></figure>
       <figure class="tile wide" style="--d:1.64s">
         <div class="gen" style="--dur:1.5s;--del:1.69s">
-          <img class="raw" src="assets/worn-elena.jpg" alt="" aria-hidden="true">
-          <img class="fin" src="assets/worn-elena.jpg" alt="Lifestyle photography placeholder.">
+          <img class="raw" src="assets/face-naomi-tilt.jpg" alt="" aria-hidden="true">
+          <img class="fin" src="assets/face-naomi-tilt.jpg" alt="Lifestyle photography placeholder.">
         <span class="bar"></span></div>
         <figcaption class="m">Lifestyle</figcaption></figure>
       <figure class="tile wide" style="--d:1.78s">
         <div class="gen" style="--dur:1.5s;--del:1.83s">
-          <img class="raw" src="assets/worn-hana.jpg" alt="" aria-hidden="true">
-          <img class="fin" src="assets/worn-hana.jpg" alt="Editorial photography placeholder.">
+          <img class="raw" src="assets/face-hana-tilt.jpg" alt="" aria-hidden="true">
+          <img class="fin" src="assets/face-hana-tilt.jpg" alt="Editorial photography placeholder.">
         <span class="bar"></span></div>
         <figcaption class="m">Editorial</figcaption></figure>
 
@@ -1157,14 +1160,14 @@ body{
         <figcaption class="m">Product detail</figcaption></figure>
       <figure class="tile" style="--d:2.06s">
         <div class="gen" style="--dur:1.3s;--del:2.11s">
-          <img class="raw" src="assets/worn-adrian.jpg" alt="" aria-hidden="true">
-          <img class="fin" src="assets/worn-adrian.jpg" alt="Social placeholder.">
+          <img class="raw" src="assets/face-ren-relaxed.jpg" alt="" aria-hidden="true">
+          <img class="fin" src="assets/face-ren-relaxed.jpg" alt="Social placeholder.">
         <span class="bar"></span></div>
         <figcaption class="m">Social</figcaption></figure>
       <figure class="tile" style="--d:2.2s">
         <div class="gen" style="--dur:1.3s;--del:2.25s">
-          <img class="raw" src="assets/worn-elin.jpg" alt="" aria-hidden="true">
-          <img class="fin" src="assets/worn-elin.jpg" alt="Advertising placeholder.">
+          <img class="raw" src="assets/face-rafael-tilt.jpg" alt="" aria-hidden="true">
+          <img class="fin" src="assets/face-rafael-tilt.jpg" alt="Advertising placeholder.">
         <span class="bar"></span></div>
         <figcaption class="m">Advertising</figcaption></figure>
       <figure class="tile" style="--d:2.34s">
@@ -1175,8 +1178,8 @@ body{
         <figcaption class="m">Email</figcaption></figure>
       <figure class="tile" style="--d:2.48s">
         <div class="gen gray" style="--dur:1.3s;--del:2.53s">
-          <img class="raw" src="assets/cast-theo.jpg" alt="" aria-hidden="true">
-          <img class="fin" src="assets/cast-theo.jpg" alt="PR placeholder.">
+          <img class="raw" src="assets/face-claire-tilt.jpg" alt="" aria-hidden="true">
+          <img class="fin" src="assets/face-claire-tilt.jpg" alt="PR placeholder.">
         <span class="bar"></span></div>
         <figcaption class="m">PR</figcaption></figure>
       <figure class="tile" style="--d:2.62s">
@@ -1207,8 +1210,8 @@ body{
 
           <div class="card">
             <div class="gen lite shotbox" style="--dur:2s;--del:1.5s">
-              <img class="raw" src="assets/hero-generated.jpg" alt="" aria-hidden="true">
-              <img class="fin" src="assets/hero-generated.jpg" alt="Hana, worn, on its product page.">
+              <img class="raw" src="assets/face-claire-relaxed.jpg" alt="" aria-hidden="true">
+              <img class="fin" src="assets/face-claire-relaxed.jpg" alt="The Hana frame on its product page.">
             <span class="bar"></span>
               <span class="chip tryon m land" style="--d:3.6s">Try on</span>
               <span class="chip wt m land" style="--d:3.75s">13g &middot; so light</span>
@@ -1233,8 +1236,8 @@ body{
         <div class="scr">
           <div class="pn"><span>Noon Shop</span><i></i></div>
           <div class="gen lite" style="--dur:1.8s;--del:2.4s">
-            <img class="raw" src="assets/worn-hana.jpg" alt="" aria-hidden="true">
-            <img class="fin" src="assets/worn-hana.jpg" alt="The same page on a phone.">
+            <img class="raw" src="assets/face-claire-tilt.jpg" alt="" aria-hidden="true">
+            <img class="fin" src="assets/face-claire-tilt.jpg" alt="The same page on a phone.">
           <span class="bar"></span>
           </div>
           <div class="pf"><span class="land" style="--d:4.4s">Hana</span><span class="land" style="--d:4.5s">$285</span></div>
@@ -1302,7 +1305,7 @@ body{
     return imgs.filter(function(i){ return i.complete && i.naturalWidth; });
   }
 
-  var MADE = ['hero-generated','worn-elena','worn-elin','worn-adrian','worn-hana'];
+  var MADE = ['cast-claire','cast-ren','cast-naomi','cast-rafael','cast-hana'];
   var made = MADE.map(function(n){
     var i = new Image(); i.src = 'assets/' + n + '.jpg'; return i;
   });
@@ -1898,8 +1901,8 @@ body{
   }
 
   /* ── cast + storefront grid ─────────────────────────────────── */
-  var CAST = ['adrian','daniel','elena','elin','hana','leo','maya','theo'];
-  var MATCHES = { elena: 1, elin: 1 };
+  var CAST = ['claire','ren','naomi','rafael','hana'];
+  var MATCHES = { claire: 1, naomi: 1 };
   var castrow = document.getElementById('castrow');
   CAST.forEach(function(n, i){
     var f = document.createElement('figure');
@@ -1940,8 +1943,8 @@ body{
   var O_META  = 'An ultra–light titanium cat eye in five colorways, 49–20–145. Frames only, fitted with demo lenses, ready for your optician.';
   var O_CITIES = ['Atlanta','Austin','Boston','Chicago','Dallas','Detroit',
                   'Houston','Phoenix','San Diego','Hana'];
-  var O_FACES = [['worn-elin','Elin'], ['worn-elena','Elena'],
-                 ['worn-adrian','Adrian'], ['worn-hana','Hana']];
+  var O_FACES = [['cast-claire','Claire'], ['cast-ren','Ren'],
+                 ['cast-naomi','Naomi'], ['cast-rafael','Rafael']];
   var oFace = 0;
 
   /* the reel of candidate names is built once */
