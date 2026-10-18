@@ -534,45 +534,44 @@ body{
 .worn figcaption{margin-top:8px;color:var(--faint)}
 
 /* ═══ 09 · THE CAMPAIGN ══════════════════════════════════════
-   The claim sits on the left with the two frames it rests on; the work
-   runs down the right in three feeds, one per channel. Each feed holds
-   its run twice over and travels exactly half its own height, so the
-   loop has no seam. The spacing is a margin on every item rather than a
-   grid gap, because a gap would leave half of itself at the join.
-   The three run at different speeds so they never scroll in step.   */
-#pcam .wrap{display:grid;align-content:center}
-.camgrid{display:grid;grid-template-columns:minmax(0,.95fr) minmax(0,2fr);
-  gap:clamp(20px,3vw,56px);height:clamp(320px,66vh,700px)}
-/* the rail is narrower than a full-width headline, so this one sets
-   its own size rather than inheriting the deck's largest */
-#pcam .hd{font-size:clamp(26px,3.1vw,46px)}
-.camside{display:flex;flex-direction:column;justify-content:center;
-  gap:clamp(14px,2.4vh,30px);min-width:0}
+   The claim sits in a thin band at the top so the work gets the rest of
+   the panel. Three columns, one per channel, each scrolled by hand: the
+   pieces are social posts and emails, so reading them the way you would
+   on a phone beats watching them slide past. Snapping is proximity, not
+   mandatory, so a short flick still lands between two posts if that is
+   where it was let go.                                               */
+#pcam .wrap{display:grid;grid-template-rows:auto minmax(0,1fr);
+  gap:clamp(10px,1.6vh,20px);height:100dvh;align-content:stretch}
 
-.feed{display:flex;align-items:flex-end;gap:clamp(12px,1.6vw,26px)}
-.feed figure{margin:0;width:clamp(74px,7vw,120px)}
+.camhead{display:flex;align-items:flex-end;gap:clamp(16px,2.6vw,46px);flex-wrap:wrap}
+#pcam .hd{font-size:clamp(23px,2.7vw,40px);flex:1 1 300px}
+.feed{display:flex;align-items:flex-end;gap:clamp(10px,1.4vw,22px)}
+.feed figure{margin:0;width:clamp(58px,5.2vw,86px)}
 .feed img{display:block;width:100%;height:auto}
-.feed figcaption{margin-top:6px;color:var(--faint);
+.feed figcaption{margin-top:5px;color:var(--faint);
   font-family:'JetBrains Mono',monospace;font-size:7.5px;letter-spacing:.16em}
+.camnote{color:var(--faint);line-height:1.8;text-align:right}
 
 .streams{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));
   gap:clamp(8px,1.1vw,18px);min-height:0;
-  opacity:0;transform:translateY(16px);
-  transition:opacity .8s var(--e) .8s,transform .9s var(--eOut) .8s}
+  opacity:0;transform:translateY(14px);
+  transition:opacity .7s var(--e) .55s,transform .8s var(--eOut) .55s}
 .is-live .streams{opacity:1;transform:none}
 .stream{display:grid;grid-template-rows:auto minmax(0,1fr);
-  gap:clamp(6px,1vh,12px);min-height:0}
-.stream .chan{color:var(--faint);letter-spacing:.2em}
-.col{position:relative;overflow:hidden;min-height:0;
-  -webkit-mask-image:linear-gradient(180deg,transparent,#000 8%,#000 92%,transparent);
-  mask-image:linear-gradient(180deg,transparent,#000 8%,#000 92%,transparent)}
-.colrun{position:absolute;top:0;left:0;right:0}
-.colrun img{display:block;width:100%;height:auto;border-radius:3px;
-  background:var(--mist);margin-bottom:clamp(8px,1.1vw,18px)}
-.col-1 .colrun{animation:rise 54s linear infinite}
-.col-2 .colrun{animation:rise 68s linear infinite}
-.col-3 .colrun{animation:rise 44s linear infinite}
-@keyframes rise{from{transform:translate3d(0,0,0)}to{transform:translate3d(0,-50%,0)}}
+  gap:clamp(5px,.8vh,10px);min-height:0}
+.chan{color:var(--faint);letter-spacing:.2em}
+
+/* the column itself is the scroller; the deck's wheel handler stands
+   back while one of these still has somewhere to go */
+.col{overflow-y:auto;overflow-x:hidden;min-height:0;
+  overscroll-behavior:contain;scroll-snap-type:y proximity;
+  scrollbar-width:thin;scrollbar-color:rgba(255,255,255,.2) transparent}
+.col::-webkit-scrollbar{width:4px}
+.col::-webkit-scrollbar-track{background:transparent}
+.col::-webkit-scrollbar-thumb{background:rgba(255,255,255,.2);border-radius:4px}
+.col img{display:block;width:100%;height:auto;border-radius:3px;
+  background:var(--mist);scroll-snap-align:start}
+.col img + img{margin-top:clamp(8px,1.1vw,18px)}
 
 /* ═══ 10 · IT LANDS ═══════════════════════════════════════════
    SORA on the left, the storefront on the right, and every field
@@ -743,10 +742,9 @@ body{
   .readspec.side-b{text-align:left}
   .worn{grid-template-columns:repeat(2,minmax(0,1fr))}
   .worn .src{grid-column:1/-1;max-width:190px}
-  .camgrid{grid-template-columns:minmax(0,1fr);gap:clamp(12px,2vh,22px);
-    height:auto}
-  .camside{gap:clamp(10px,1.6vh,18px)}
-  .streams{height:clamp(240px,42vh,400px)}
+  #pcam .wrap{height:auto;grid-template-rows:auto auto}
+  .camnote{text-align:left}
+  .streams{grid-template-columns:repeat(2,minmax(0,1fr))}
   .worn .gen{height:min(25vh,240px)}
   .phone{width:clamp(112px,25vw,150px)}
   .topline{max-width:none}
@@ -769,11 +767,12 @@ body{
   .checks .ck{font-size:7px;letter-spacing:.11em;line-height:1.5}
   .checks b{font-size:11px}
 
-  /* the three feeds stay side by side, just narrower */
-  .streams{height:clamp(220px,34vh,320px);gap:5px}
-  .stream .chan{font-size:6px;letter-spacing:.1em}
-  .colrun img{margin-bottom:5px}
-  .feed figure{width:clamp(64px,18vw,88px)}
+  /* a phone gets one full-width feed and scrolls the panel through all
+     three in turn, rather than three columns too narrow to read */
+  .streams{grid-template-columns:1fr;gap:clamp(16px,3vh,30px)}
+  .stream{grid-template-rows:auto auto}
+  .col{overflow:visible;scroll-snap-type:none}
+  .feed figure{width:clamp(58px,15vw,78px)}
 
   /* the phone mock only repeats the storefront sitting above it */
   .phone{display:none}
@@ -798,7 +797,6 @@ body{
   .r,.stat,.checks li,.sfgrid div,.land,.blk,.wtail{
     opacity:1!important;transform:none!important;filter:none!important;transition:none!important}
   .land::after{animation:none!important;opacity:0}
-  .colrun{animation:none!important}
   .checks .tk::after{transform:rotate(-45deg) scale(1)!important;transition:none!important}
   .gen .fin{clip-path:none!important;animation:none!important}
   .gen .raw,.gen .bar{animation:none!important;opacity:0}
@@ -1095,8 +1093,8 @@ body{
         <span class="beam"></span>
       </div>
       <div class="gen" style="--dur:3.4s;--del:.9s">
-        <img class="raw" src="assets/face-claire-relaxed.jpg" alt="" aria-hidden="true">
-        <img class="fin" src="assets/face-claire-relaxed.jpg" alt="The generated image: the same frame on Claire.">
+        <img class="raw" src="assets/worn-claire-front.jpg" alt="" aria-hidden="true">
+        <img class="fin" src="assets/worn-claire-front.jpg" alt="The generated image: Claire wearing the frame.">
       <span class="bar"></span>
         <span class="lbl m">Generated</span>
       </div>
@@ -1122,69 +1120,61 @@ body{
         <p class="m" style="color:var(--faint);margin-top:8px">Source &middot; once</p>
       </div>
       <figure><div class="gen" style="--dur:2.1s;--del:.5s">
-        <img class="raw" src="assets/face-claire-tilt.jpg" alt="" aria-hidden="true">
-        <img class="fin" src="assets/face-claire-tilt.jpg" alt="Claire, the same frame on her.">
+        <img class="raw" src="assets/worn-claire.jpg" alt="" aria-hidden="true">
+        <img class="fin" src="assets/worn-claire.jpg" alt="Claire wearing the frame.">
       <span class="bar"></span></div><figcaption class="m">Claire</figcaption></figure>
       <figure><div class="gen" style="--dur:2.1s;--del:.75s">
-        <img class="raw" src="assets/face-ren-tilt.jpg" alt="" aria-hidden="true">
-        <img class="fin" src="assets/face-ren-tilt.jpg" alt="Ren, the same frame on him.">
+        <img class="raw" src="assets/worn-ren.jpg" alt="" aria-hidden="true">
+        <img class="fin" src="assets/worn-ren.jpg" alt="Ren wearing the frame.">
       <span class="bar"></span></div><figcaption class="m">Ren</figcaption></figure>
       <figure><div class="gen" style="--dur:2.1s;--del:1s">
-        <img class="raw" src="assets/face-naomi-34.jpg" alt="" aria-hidden="true">
-        <img class="fin" src="assets/face-naomi-34.jpg" alt="Naomi, the same frame on her.">
+        <img class="raw" src="assets/worn-naomi.jpg" alt="" aria-hidden="true">
+        <img class="fin" src="assets/worn-naomi.jpg" alt="Naomi wearing the frame.">
       <span class="bar"></span></div><figcaption class="m">Naomi</figcaption></figure>
       <figure><div class="gen" style="--dur:2.1s;--del:1.25s">
-        <img class="raw" src="assets/face-hana-relaxed.jpg" alt="" aria-hidden="true">
-        <img class="fin" src="assets/face-hana-relaxed.jpg" alt="Hana, the same frame on her.">
+        <img class="raw" src="assets/worn-hana.jpg" alt="" aria-hidden="true">
+        <img class="fin" src="assets/worn-hana.jpg" alt="Hana wearing the frame.">
       <span class="bar"></span></div><figcaption class="m">Hana</figcaption></figure>
     </div>
   </div>
 </section>
 
 <!-- ══ 09 · THE CAMPAIGN ══════════════════════════════════════
-     Two frames go in. Everything the engine made from them drifts
-     past below: social, advertising, email, retail and web.        -->
+     Two frames go in. Everything the engine made from them is here to
+     be read: three channels, each scrolled by hand.                -->
 <section class="panel" id="pcam" data-tone="dark" data-label="The campaign" data-replay="1">
   <p class="tag m">05 &middot; The campaign</p>
   <div class="wrap">
-    <div class="camgrid">
-      <div class="camside">
-        <h2 class="hd r" style="--d:.1s">Two frames in.<br>An entire campaign out.</h2>
-        <div class="feed r" style="--d:.45s">
-          <figure>
-            <img src="assets/frame-sb82614.png" alt="SB82614, a rectangular acetate frame." width="620" height="192">
-            <figcaption>SB82614</figcaption>
-          </figure>
-          <figure>
-            <img src="assets/frame-dr26203.png" alt="DR26203, a round TR90 frame." width="620" height="195">
-            <figcaption>DR26203</figcaption>
-          </figure>
-        </div>
-        <p class="closer r" style="--d:2.2s">Seventeen finished assets from two frames. <br class="brk">Weeks of creative production, generated in one workflow.</p>
+    <div class="camhead">
+      <h2 class="hd r" style="--d:.1s">Two frames in. An entire campaign out.</h2>
+      <div class="feed r" style="--d:.35s">
+        <figure>
+          <img src="assets/frame-sb82614.png" alt="SB82614, a rectangular acetate frame." width="620" height="192">
+          <figcaption>SB82614</figcaption>
+        </figure>
+        <figure>
+          <img src="assets/frame-dr26203.png" alt="DR26203, a round TR90 frame." width="620" height="195">
+          <figcaption>DR26203</figcaption>
+        </figure>
       </div>
+      <p class="camnote m r" style="--d:.5s">Seventeen finished assets<br>Scroll any column</p>
+    </div>
 
-      <div class="streams">
-        <div class="stream">
+    <div class="streams">
+        <section class="stream">
           <p class="chan m">Social</p>
-          <div class="col col-1"><div class="colrun">
+          <div class="col col-1" tabindex="0" aria-label="Social, 6 pieces">
             <img src="assets/cam-diary.jpg" alt="Instagram post: a four&ndash;scene eyewear diary.">
             <img src="assets/cam-groupchat.jpg" alt="Instagram post: three frames, one group chat decision.">
             <img src="assets/cam-angles.jpg" alt="Instagram post: checking new glasses from every angle.">
             <img src="assets/cam-outfit.jpg" alt="Instagram post: the glasses picked the outfit.">
             <img src="assets/cam-saturday.jpg" alt="Instagram post: which Saturday are you?">
             <img src="assets/cam-looking.jpg" alt="Instagram post: looking for glasses while wearing them.">
-            <!-- the same run again, so the feed loops without a seam -->
-            <img src="assets/cam-diary.jpg" alt="" aria-hidden="true">
-            <img src="assets/cam-groupchat.jpg" alt="" aria-hidden="true">
-            <img src="assets/cam-angles.jpg" alt="" aria-hidden="true">
-            <img src="assets/cam-outfit.jpg" alt="" aria-hidden="true">
-            <img src="assets/cam-saturday.jpg" alt="" aria-hidden="true">
-            <img src="assets/cam-looking.jpg" alt="" aria-hidden="true">
-          </div></div>
-        </div>
-        <div class="stream">
+          </div>
+        </section>
+        <section class="stream">
           <p class="chan m">Advertising</p>
-          <div class="col col-2"><div class="colrun">
+          <div class="col col-2" tabindex="0" aria-label="Advertising, 7 pieces">
             <img src="assets/cam-ig-ad.jpg" alt="Sponsored Instagram ad: great eyewear starts with the right fit.">
             <img src="assets/cam-lessframe.jpg" alt="Advertisement: a little less frame, a lot more you.">
             <img src="assets/cam-portraits.jpg" alt="Advertisement: looks like you, fits like it.">
@@ -1192,31 +1182,17 @@ body{
             <img src="assets/cam-display.jpg" alt="Display ad: fit is fundamental.">
             <img src="assets/cam-poster.jpg" alt="In&ndash;store poster: find your fit here.">
             <img src="assets/cam-web-hero.jpg" alt="Website hero: fit is fundamental.">
-            <!-- the same run again, so the feed loops without a seam -->
-            <img src="assets/cam-ig-ad.jpg" alt="" aria-hidden="true">
-            <img src="assets/cam-lessframe.jpg" alt="" aria-hidden="true">
-            <img src="assets/cam-portraits.jpg" alt="" aria-hidden="true">
-            <img src="assets/cam-organza.jpg" alt="" aria-hidden="true">
-            <img src="assets/cam-display.jpg" alt="" aria-hidden="true">
-            <img src="assets/cam-poster.jpg" alt="" aria-hidden="true">
-            <img src="assets/cam-web-hero.jpg" alt="" aria-hidden="true">
-          </div></div>
-        </div>
-        <div class="stream">
+          </div>
+        </section>
+        <section class="stream">
           <p class="chan m">Email</p>
-          <div class="col col-3"><div class="colrun">
+          <div class="col col-3" tabindex="0" aria-label="Email, 4 pieces">
             <img src="assets/cam-email-fit.jpg" alt="Email: fit is fundamental.">
             <img src="assets/cam-email-moods.jpg" alt="Email: two frames, two moods.">
             <img src="assets/cam-email-naomi.jpg" alt="Email: finding your next pair.">
             <img src="assets/cam-email-first.jpg" alt="Email: start with what fits you.">
-            <!-- the same run again, so the feed loops without a seam -->
-            <img src="assets/cam-email-fit.jpg" alt="" aria-hidden="true">
-            <img src="assets/cam-email-moods.jpg" alt="" aria-hidden="true">
-            <img src="assets/cam-email-naomi.jpg" alt="" aria-hidden="true">
-            <img src="assets/cam-email-first.jpg" alt="" aria-hidden="true">
-          </div></div>
-        </div>
-      </div>
+          </div>
+        </section>
     </div>
   </div>
 </section>
@@ -1237,8 +1213,8 @@ body{
 
           <div class="card">
             <div class="gen lite shotbox" style="--dur:2s;--del:1.5s">
-              <img class="raw" src="assets/face-claire-relaxed.jpg" alt="" aria-hidden="true">
-              <img class="fin" src="assets/face-claire-relaxed.jpg" alt="The Savannah frame on its product page.">
+              <img class="raw" src="assets/worn-claire.jpg" alt="" aria-hidden="true">
+              <img class="fin" src="assets/worn-claire.jpg" alt="Savannah, worn, on its product page.">
             <span class="bar"></span>
               <span class="chip tryon m land" style="--d:3.6s">Try on</span>
               <span class="chip wt m land" style="--d:3.75s">12g &middot; so light</span>
@@ -1263,8 +1239,8 @@ body{
         <div class="scr">
           <div class="pn"><span>Noon Shop</span><i></i></div>
           <div class="gen lite" style="--dur:1.8s;--del:2.4s">
-            <img class="raw" src="assets/face-claire-34.jpg" alt="" aria-hidden="true">
-            <img class="fin" src="assets/face-claire-34.jpg" alt="The same page on a phone.">
+            <img class="raw" src="assets/worn-claire-front.jpg" alt="" aria-hidden="true">
+            <img class="fin" src="assets/worn-claire-front.jpg" alt="The same page on a phone.">
           <span class="bar"></span>
           </div>
           <div class="pf"><span class="land" style="--d:4.4s">Savannah</span><span class="land" style="--d:4.5s">$290</span></div>
@@ -1332,7 +1308,7 @@ body{
     return imgs.filter(function(i){ return i.complete && i.naturalWidth; });
   }
 
-  var MADE = ['cast-claire','cast-ren','cast-naomi','cast-rafael','cast-hana'];
+  var MADE = ['worn-claire','worn-claire-front','worn-ren','worn-naomi','worn-hana'];
   var made = MADE.map(function(n){
     var i = new Image(); i.src = 'assets/' + n + '.jpg'; return i;
   });
@@ -1687,10 +1663,12 @@ body{
             continue;
           }
           var e = Math.pow(it.p, 1.2);               /* barely accelerating  */
-          var x0 = -unit * 0.09;
+          /* big enough to read as a frame on its plate, and it keeps more
+             of that size on the way in rather than shrinking to a speck */
+          var x0 = -unit * 0.14;
           var ix = x0 + (fx - x0) * e;
           var iy = fy;
-          var isz = unit * 0.125 * (1 - it.p * 0.72);
+          var isz = unit * 0.178 * (1 - it.p * 0.56);
           /* dissolves over the last third so it melts into the glow rather
              than shrinking into a visible grey card behind the wordmark */
           var ia = Math.min(1, it.p * 6.5) * Math.min(1, (1 - it.p) * 3.2);
@@ -1895,6 +1873,10 @@ body{
       if (!reduced) g.classList.add('go');
     });
 
+    /* a panel always opens at its own top, however it was left */
+    p.scrollTop = 0;
+    p.querySelectorAll('.col').forEach(function(c){ c.scrollTop = 0; });
+
     if (p.id === 'p4') runReel();
     if (p.id === 'pwrite') { if (reduced) wStatic(); else wRun(); }
 
@@ -1972,8 +1954,8 @@ body{
   var O_META  = 'A round TR90 frame with beta titanium temples, 50–21–147, 12 grams, in five colorways from Noon Shop.';
   var O_CITIES = ['Atlanta','Austin','Boston','Chicago','Dallas','Detroit',
                   'Houston','Phoenix','San Diego','Savannah'];
-  var O_FACES = [['cast-claire','Claire'], ['cast-ren','Ren'],
-                 ['cast-naomi','Naomi'], ['cast-hana','Hana']];
+  var O_FACES = [['worn-claire','Claire'], ['worn-ren','Ren'],
+                 ['worn-naomi','Naomi'], ['worn-hana','Hana']];
   var oFace = 0;
 
   /* the reel of candidate names is built once */
@@ -2177,6 +2159,13 @@ body{
   var acc = 0, lock = false, wt = null;
   deck.addEventListener('wheel', function(e){
     if (Math.abs(e.deltaX) > Math.abs(e.deltaY)) return;
+    /* a campaign feed takes the wheel while it still has room to move */
+    var col = e.target && e.target.closest && e.target.closest('.col');
+    if (col && col.scrollHeight - col.clientHeight > 4) {
+      var cTop = col.scrollTop <= 0;
+      var cBot = col.scrollTop + col.clientHeight >= col.scrollHeight - 1;
+      if (!(cTop && e.deltaY < 0) && !(cBot && e.deltaY > 0)) return;
+    }
     var p = panels[idx];
     if (p && p.classList.contains('scrolly')) {
       var top = p.scrollTop <= 0;
