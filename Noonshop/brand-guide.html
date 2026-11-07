@@ -17,9 +17,10 @@
   --ink2: #2F2F2F;
   --mid: #C9C6BF;
   --border: rgba(28,28,28,.10);
-  --accent: #0B4312;
-  --accent-dark: #072A0C;
-  --accent-light: #2D6B3A;
+  --accent: #202A44;
+  --accent-dark: #111828;
+  --accent-light: #3D4F72;
+  --mist: #9FB0D0;
   --D: 'Bebas Neue', sans-serif;
   --B: 'Outfit', sans-serif;
 }
@@ -41,7 +42,7 @@ body { background: var(--white); color: var(--ink); font-family: var(--B); font-
 
 /* ── Cursor ── */
 .cur { position: fixed; width: 7px; height: 7px; background: var(--accent); border-radius: 50%; pointer-events: none; z-index: 9999; }
-.ring { position: fixed; width: 32px; height: 32px; border: 1px solid rgba(11,67,18,.3); border-radius: 50%; pointer-events: none; z-index: 9998; }
+.ring { position: fixed; width: 32px; height: 32px; border: 1px solid rgba(32,42,68,.3); border-radius: 50%; pointer-events: none; z-index: 9998; }
 
 /* ── Nav ── */
 nav {
@@ -51,10 +52,10 @@ nav {
 }
 nav.scrolled { background: rgba(246,244,239,.88); backdrop-filter: blur(16px); border-bottom: 1px solid rgba(28,28,28,.08); }
 .nav-logo { display: flex; align-items: center; text-decoration: none; }
-.nav-logo img { height: 36px; width: auto; object-fit: contain; opacity: .75; transition: opacity .3s; }
+.nav-logo img { height: 40px; width: auto; object-fit: contain; opacity: 1; transition: opacity .3s; }
 .nav-logo img:hover { opacity: 1; }
 .nav-logo-fallback { font-family: var(--D); font-size: 18px; letter-spacing: .14em; color: rgba(28,28,28,.6); }
-.nav-pill { font-family: var(--B); font-size: 10px; font-weight: 500; letter-spacing: .22em; text-transform: uppercase; color: var(--accent); border: 1px solid rgba(11,67,18,.3); padding: 6px 16px; border-radius: 40px; }
+.nav-pill { font-family: var(--B); font-size: 10px; font-weight: 500; letter-spacing: .22em; text-transform: uppercase; color: var(--accent); border: 1px solid rgba(32,42,68,.3); padding: 6px 16px; border-radius: 40px; }
 
 /* ── Hero ── */
 .hero {
@@ -72,6 +73,7 @@ nav.scrolled { background: rgba(246,244,239,.88); backdrop-filter: blur(16px); b
   position: absolute; top: 0; left: 0; right: 0; height: 2px;
   background: linear-gradient(90deg, transparent, var(--accent), transparent); z-index: 2;
 }
+.hero-logo { height: 54px; width: auto; margin-bottom: 34px; position: relative; z-index: 2; }
 .hero-tag {
   font-size: 10px; font-weight: 400; letter-spacing: .36em; text-transform: uppercase;
   color: var(--accent); margin-bottom: 28px; position: relative; z-index: 2; opacity: 0;
@@ -116,6 +118,10 @@ section { padding: 136px 60px; position: relative; }
 .dh { font-family: var(--D); font-size: clamp(64px, 9.5vw, 160px); line-height: .88; letter-spacing: .025em; margin-bottom: 80px; padding-bottom: .15em; }
 .dh-sub { display: block; font-family: 'Playfair Display', Georgia, serif; font-size: clamp(44px, 7vw, 112px); font-weight: 400; font-style: italic; line-height: 1.18; letter-spacing: -.01em; margin-top: 8px; color: var(--accent-dark); }
 
+/* ── Tile icons ── */
+.tico { display: block; width: 30px; height: 30px; color: var(--accent); margin-bottom: 18px; }
+.tico svg { width: 100%; height: 100%; fill: none; stroke: currentColor; stroke-width: 1.6; stroke-linecap: round; stroke-linejoin: round; }
+
 /* ── Reveal ── */
 .rv { opacity: 0; transform: translateY(28px); transition: opacity .8s ease, transform .8s ease; }
 .rv.in { opacity: 1; transform: translateY(0); }
@@ -141,7 +147,7 @@ section { padding: 136px 60px; position: relative; }
 .accent-row { display: grid; grid-template-columns: 2fr 1fr; gap: 2px; margin-top: 2px; }
 .accent-feature {
   background: var(--white);
-  border: 1px solid rgba(11,67,18,.12);
+  border: 1px solid rgba(32,42,68,.12);
   padding: 56px 52px; display: flex; flex-direction: column; gap: 32px;
 }
 .accent-display {
@@ -209,7 +215,7 @@ section { padding: 136px 60px; position: relative; }
 
 /* ── Story grid ── */
 .story-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 80px; align-items: start; }
-.story-stat { background: rgba(11,67,18,.05); border: 1px solid rgba(11,67,18,.1); padding: 40px 36px; }
+.story-stat { background: rgba(32,42,68,.05); border: 1px solid rgba(32,42,68,.1); padding: 40px 36px; }
 .story-stat-num { font-family: var(--D); font-size: clamp(52px, 7vw, 88px); line-height: .88; letter-spacing: .02em; }
 .story-stat-desc { font-size: 13px; font-weight: 300; color: rgba(28,28,28,.55); margin-top: 12px; line-height: 1.7; }
 .story-panel { background: rgba(28,28,28,.02); border: 1px solid rgba(28,28,28,.07); padding: 40px 36px; }
@@ -221,7 +227,7 @@ section { padding: 136px 60px; position: relative; }
   background: var(--paper);
 }
 .core-belief-inner { max-width: 760px; margin: 0 auto; }
-.core-belief-tag { font-size: 10px; font-weight: 500; letter-spacing: .32em; text-transform: uppercase; color: rgba(11,67,18,.5); margin-bottom: 52px; }
+.core-belief-tag { font-size: 10px; font-weight: 500; letter-spacing: .32em; text-transform: uppercase; color: rgba(32,42,68,.5); margin-bottom: 52px; }
 .core-belief-h { font-family: var(--D); font-size: clamp(72px, 13vw, 200px); line-height: .88; letter-spacing: .025em; color: var(--ink); }
 .core-belief-sub { font-family: 'Playfair Display', Georgia, serif; font-style: italic; font-size: clamp(48px, 9vw, 136px); line-height: 1.1; letter-spacing: -.01em; color: var(--accent); margin-top: 4px; margin-bottom: 52px; display: block; }
 .core-belief-rule { width: 48px; height: 1px; background: var(--accent); margin: 0 auto 48px; opacity: .4; }
@@ -235,16 +241,16 @@ section { padding: 136px 60px; position: relative; }
 .collections-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 2px; }
 .collection-panel { padding: 64px 52px; display: flex; flex-direction: column; gap: 0; position: relative; overflow: hidden; }
 .collection-panel.dormann { background: var(--white); border: 1px solid rgba(28,28,28,.08); }
-.collection-panel.steel-brown { background: var(--paper); border: 1px solid rgba(11,67,18,.1); }
+.collection-panel.steel-brown { background: var(--paper); border: 1px solid rgba(32,42,68,.1); }
 .collection-name { font-family: var(--D); font-size: clamp(52px, 6vw, 88px); line-height: .88; letter-spacing: .025em; margin-bottom: 8px; }
-.collection-tagline { font-family: 'Playfair Display', Georgia, serif; font-style: italic; font-size: clamp(18px, 2vw, 26px); line-height: 1.3; letter-spacing: -.01em; color: rgba(11,67,18,.6); margin-bottom: 48px; }
+.collection-tagline { font-family: 'Playfair Display', Georgia, serif; font-style: italic; font-size: clamp(18px, 2vw, 26px); line-height: 1.3; letter-spacing: -.01em; color: rgba(32,42,68,.6); margin-bottom: 48px; }
 .collection-rule { width: 36px; height: 1px; background: var(--accent); opacity: .4; margin-bottom: 40px; }
 .collection-body { font-size: 15px; font-weight: 300; line-height: 1.85; color: rgba(28,28,28,.6); margin-bottom: 40px; }
 .collection-specs { display: flex; flex-direction: column; gap: 2px; margin-bottom: 40px; }
 .collection-spec { display: flex; gap: 0; }
-.collection-spec-lbl { font-size: 9px; font-weight: 500; letter-spacing: .22em; text-transform: uppercase; color: rgba(11,67,18,.5); width: 88px; flex-shrink: 0; padding: 12px 0; border-bottom: 1px solid rgba(28,28,28,.06); }
+.collection-spec-lbl { font-size: 9px; font-weight: 500; letter-spacing: .22em; text-transform: uppercase; color: rgba(32,42,68,.5); width: 88px; flex-shrink: 0; padding: 12px 0; border-bottom: 1px solid rgba(28,28,28,.06); }
 .collection-spec-val { font-size: 13px; font-weight: 300; color: rgba(28,28,28,.65); padding: 12px 0 12px 16px; border-bottom: 1px solid rgba(28,28,28,.06); flex: 1; line-height: 1.5; }
-.collection-serve { background: rgba(11,67,18,.04); border: 1px solid rgba(11,67,18,.1); padding: 24px 28px; margin-top: auto; }
+.collection-serve { background: rgba(32,42,68,.04); border: 1px solid rgba(32,42,68,.1); padding: 24px 28px; margin-top: auto; }
 .collection-serve-lbl { font-size: 9px; font-weight: 500; letter-spacing: .22em; text-transform: uppercase; color: var(--accent); margin-bottom: 10px; }
 .collection-serve-text { font-size: 13px; font-weight: 300; line-height: 1.7; color: rgba(28,28,28,.6); }
 
@@ -267,13 +273,13 @@ section { padding: 136px 60px; position: relative; }
 .motion-card:hover .motion-demo { width: 80px; opacity: .9; }
 
 /* ── Pull quote ── */
-.pull { border: 1px solid rgba(11,67,18,.18); padding: 80px; max-width: 900px; margin: 80px 0 0; position: relative; }
+.pull { border: 1px solid rgba(32,42,68,.18); padding: 80px; max-width: 900px; margin: 80px 0 0; position: relative; }
 .pull::before { content: ''; position: absolute; top: -1px; left: 0; width: 80px; height: 2px; background: var(--accent); }
 .pull-text { font-family: 'Playfair Display', Georgia, serif; font-style: italic; font-size: clamp(28px, 3vw, 52px); font-weight: 400; line-height: 1.3; letter-spacing: -.01em; color: var(--ink); }
 .pull-text em { color: var(--accent); font-style: normal; }
 
 /* ── Footer ── */
-footer { padding: 80px 60px; display: flex; justify-content: space-between; align-items: center; border-top: 1px solid rgba(11,67,18,.12); background: var(--white); }
+footer { padding: 80px 60px; display: flex; justify-content: space-between; align-items: center; border-top: 1px solid rgba(32,42,68,.12); background: var(--white); }
 .footer-logo img { height: 28px; width: auto; opacity: .35; }
 .footer-meta { font-size: 11px; font-weight: 300; color: rgba(28,28,28,.3); letter-spacing: .1em; }
 .footer-accent { font-size: 10px; font-weight: 500; letter-spacing: .22em; text-transform: uppercase; color: var(--accent); opacity: .6; }
@@ -377,8 +383,7 @@ footer { padding: 80px 60px; display: flex; justify-content: space-between; alig
 <!-- Hero -->
 <section class="hero" id="hero">
   <div class="hero-accent-line"></div>
-  <div class="hero-wm">NOON</div>
-  <div class="hero-tag" id="hTag">Founded by Dr. Anna Park, MD · Ophthalmologist</div>
+  <div class="hero-tag" id="hTag">Founded by Anna Park, MD · Ophthalmologist</div>
   <h1 class="hero-h1" id="hH1">
     FIT IS
     <span class="hero-h1-sub">fundamental.</span>
@@ -401,7 +406,7 @@ footer { padding: 80px 60px; display: flex; justify-content: space-between; alig
     <span class="core-belief-sub">fundamental.</span>
     <div class="core-belief-rule"></div>
     <p class="core-belief-body">You were never hard to fit. You were wearing the wrong brand. Noon Shop exists because precision engineering and low-bridge fit geometry are not opposing forces. They are the same thing.</p>
-    <p class="core-belief-body" style="margin-top:28px">Founded by Dr. Anna Park, MD on a clinical observation: for too long, the eyewear industry had overlooked a vast range of facial structures. Every face deserves a frame that was designed for it.</p>
+    <p class="core-belief-body" style="margin-top:28px">Founded by Anna Park, MD on a clinical observation: for too long, the eyewear industry had overlooked a vast range of facial structures. Every face deserves a frame that was designed for it.</p>
   </div>
   <div style="position:absolute;bottom:0;left:0;right:0;height:1px;background:linear-gradient(90deg,transparent,var(--accent),transparent)"></div>
 </section>
@@ -415,11 +420,11 @@ footer { padding: 80px 60px; display: flex; justify-content: space-between; alig
 
   <div class="story-grid rv d2">
     <div>
-      <p style="font-size:17px;font-weight:300;line-height:1.9;color:rgba(28,28,28,.7);margin-bottom:32px">Patients weren't just struggling to see. They were struggling with the glasses themselves. Frames slipped down noses. Temples pinched. Lenses sat improperly aligned, subtly distorting the very vision they were meant to correct. For Dr. Anna Park, MD, these weren't isolated incidents. Over more than two decades in ophthalmology, they were a pattern.</p>
-      <p style="font-size:17px;font-weight:300;line-height:1.9;color:rgba(28,28,28,.7);margin-bottom:32px">Red marks and discomfort were common, but often dismissed as unavoidable. To Dr. Park, they pointed to something systemic: most frames were designed around a narrow set of facial assumptions, leaving millions with eyewear that corrected their vision but compromised their comfort and daily quality of life.</p>
-      <div style="border-left:2px solid var(--accent);padding:20px 24px;margin:0 0 32px;background:rgba(11,67,18,.04)">
+      <p style="font-size:17px;font-weight:300;line-height:1.9;color:rgba(28,28,28,.7);margin-bottom:32px">Patients weren't just struggling to see. They were struggling with the glasses themselves. Frames slipped down noses. Temples pinched. Lenses sat improperly aligned, subtly distorting the very vision they were meant to correct. For Anna Park, MD, these weren't isolated incidents. Over more than two decades in ophthalmology, they were a pattern.</p>
+      <p style="font-size:17px;font-weight:300;line-height:1.9;color:rgba(28,28,28,.7);margin-bottom:32px">Red marks and discomfort were common, but often dismissed as unavoidable. To Anna Park, they pointed to something systemic: most frames were designed around a narrow set of facial assumptions, leaving millions with eyewear that corrected their vision but compromised their comfort and daily quality of life.</p>
+      <div style="border-left:2px solid var(--accent);padding:20px 24px;margin:0 0 32px;background:rgba(32,42,68,.04)">
         <p style="font-family:'Playfair Display',Georgia,serif;font-style:italic;font-size:16px;line-height:1.75;color:rgba(28,28,28,.85)">"Consumers can easily find lenses that match their prescription, but far fewer can find frames that truly fit their face."</p>
-        <div style="margin-top:12px;font-size:10px;letter-spacing:.18em;text-transform:uppercase;color:rgba(28,28,28,.4)">Dr. Anna Park, MD · Founder</div>
+        <div style="margin-top:12px;font-size:10px;letter-spacing:.18em;text-transform:uppercase;color:rgba(28,28,28,.4)">Anna Park, MD · Founder</div>
       </div>
       <p style="font-size:17px;font-weight:300;line-height:1.9;color:rgba(28,28,28,.7);margin-bottom:32px">The realization became personal when she searched for properly fitting glasses for her son. Three optical shops. No frames that actually fit. "That's when it became clear," she recalls. "This wasn't just my son's issue. It was everywhere." Noon Shop was her response: frames engineered for low bridges, high cheekbones, wider and narrower face shapes: the full range of structure the industry had quietly decided to ignore.</p>
       <p style="font-size:17px;font-weight:300;line-height:1.9;color:rgba(28,28,28,.7)">Medical-grade titanium and stainless steel throughout, chosen for how they wear, not how they photograph. Meaningful innovation, it turns out, often lies in addressing problems that have been normalized. In eyewear, that problem is fit.</p>
@@ -430,8 +435,8 @@ footer { padding: 80px 60px; display: flex; justify-content: space-between; alig
         <div class="story-stat-desc">of U.S. adults wear prescription glasses. The vast majority in frames that were never designed for their face.</div>
       </div>
       <div class="story-panel">
-        <div class="story-stat-num" style="color:var(--ink)">80K+</div>
-        <div class="story-stat-desc">units sold in Korea before U.S. launch. A celebrity and athlete following built on word of mouth and fit alone.</div>
+        <div class="story-stat-num" style="color:var(--ink)">100K+</div>
+        <div class="story-stat-desc">frames worn worldwide. A celebrity and athlete following built in Korea on word of mouth and fit alone, now carried into the U.S.</div>
       </div>
       <div class="story-collections">
         <div style="font-size:10px;font-weight:500;letter-spacing:.22em;text-transform:uppercase;color:var(--accent);margin-bottom:20px">Collections</div>
@@ -445,11 +450,6 @@ footer { padding: 80px 60px; display: flex; justify-content: space-between; alig
             <div style="font-family:var(--D);font-size:22px;letter-spacing:.08em;color:var(--ink)">STEEL BROWN</div>
             <div style="font-size:11px;font-weight:300;color:rgba(28,28,28,.4);letter-spacing:.08em">Stainless steel</div>
           </div>
-          <div style="height:1px;background:rgba(28,28,28,.07)"></div>
-          <div style="display:flex;flex-direction:column;gap:4px">
-            <div style="font-family:var(--D);font-size:22px;letter-spacing:.08em;color:var(--ink)">DENOVA</div>
-            <div style="font-size:11px;font-weight:300;color:rgba(28,28,28,.4);letter-spacing:.08em">Everyday essentials</div>
-          </div>
         </div>
       </div>
     </div>
@@ -457,7 +457,7 @@ footer { padding: 80px 60px; display: flex; justify-content: space-between; alig
 
   <div class="pull rv d3">
     <p class="pull-text">"Seeing clearly shouldn't come at the expense of comfort. <em>Fit is fundamental</em> and it's time the industry treated it that way."</p>
-    <div style="margin-top:28px;font-size:11px;font-weight:500;letter-spacing:.18em;text-transform:uppercase;color:rgba(28,28,28,.35)">Dr. Anna Park, MD · Founder, Noon Shop</div>
+    <div style="margin-top:28px;font-size:11px;font-weight:500;letter-spacing:.18em;text-transform:uppercase;color:rgba(28,28,28,.35)">Anna Park, MD · Founder, Noon Shop</div>
   </div>
 </section>
 
@@ -468,17 +468,17 @@ footer { padding: 80px 60px; display: flex; justify-content: space-between; alig
   <div class="tag rv">The Collections</div>
   <h2 class="dh rv d1" style="color:var(--ink)">THE<br><span class="dh-sub">two collections.</span></h2>
 
-  <p class="rv d2" style="font-size:17px;font-weight:300;line-height:1.9;color:rgba(28,28,28,.6);max-width:640px;margin-bottom:80px">Noon Shop carries two distinct collections, each engineered around a different philosophy of precision. Both begin with fit. Both refuse to compromise on material. And both exist because Dr. Park believed the industry was capable of far more than it was offering.</p>
+  <p class="rv d2" style="font-size:17px;font-weight:300;line-height:1.9;color:rgba(28,28,28,.6);max-width:640px;margin-bottom:80px">Noon Shop carries two distinct collections, each engineered around a different philosophy of precision. Both begin with fit, and both refuse to compromise on material. Every style is named for a city, and the city always sits in its collection's part of the world: Dormann for the Americas, Steel Brown for West Europe.</p>
 
   <div class="collections-grid rv d2">
 
     <!-- Dormann -->
     <div class="collection-panel dormann">
-      <div style="font-size:9px;font-weight:500;letter-spacing:.28em;text-transform:uppercase;color:rgba(11,67,18,.4);margin-bottom:20px">Collection 01</div>
+      <div style="font-size:9px;font-weight:500;letter-spacing:.28em;text-transform:uppercase;color:rgba(32,42,68,.4);margin-bottom:20px">Collection 01 · The Americas</div>
       <div class="collection-name" style="color:var(--ink)">DORMANN</div>
-      <div class="collection-tagline">Playful. Minimal. Correctly fitting — every time.</div>
+      <div class="collection-tagline">Playful. Minimal. Correctly fitting, every time.</div>
       <div class="collection-rule"></div>
-      <p class="collection-body">Dormann frames are made in South Korea and designed to be worn all day without a second thought. Structurally minimal. Impossibly light. The patented screwless snap hinge and beta-titanium temples mean no pressure points, no slipping, no adjusting. Just a secure fit that stays through errands, work, or a weekend with no agenda. Vibrant colors, shapes, and sizes — because fit and personality are not a trade-off. Dormann is the frame you reach for every day and enjoy every time.</p>
+      <p class="collection-body">Dormann frames are made in South Korea and designed to be worn all day without a second thought. Structurally minimal. Impossibly light. The patented screwless snap hinge and beta-titanium temples mean no pressure points, no slipping, no adjusting. Just a secure fit that stays through errands, work, or a weekend with no agenda. Vibrant colors, shapes, and sizes, because fit and personality are not a trade-off. Dormann is the frame you reach for every day and enjoy every time.</p>
       <div class="collection-specs">
         <div class="collection-spec">
           <div class="collection-spec-lbl">Material</div>
@@ -486,7 +486,7 @@ footer { padding: 80px 60px; display: flex; justify-content: space-between; alig
         </div>
         <div class="collection-spec">
           <div class="collection-spec-lbl">Hinge</div>
-          <div class="collection-spec-val">Patented screwless snap hinge — no loose parts, no maintenance</div>
+          <div class="collection-spec-val">Patented screwless snap hinge, no loose parts, no maintenance</div>
         </div>
         <div class="collection-spec">
           <div class="collection-spec-lbl">Origin</div>
@@ -497,19 +497,19 @@ footer { padding: 80px 60px; display: flex; justify-content: space-between; alig
           <div class="collection-spec-val">Low-bridge geometry · wide and narrow face widths · high cheekbone clearance</div>
         </div>
         <div class="collection-spec">
-          <div class="collection-spec-lbl">Price</div>
-          <div class="collection-spec-val">From $260 USD</div>
+          <div class="collection-spec-lbl">Named for</div>
+          <div class="collection-spec-val">Cities of the Americas: Austin, Boston, Chicago, Havana, Buenos Aires</div>
         </div>
       </div>
       <div class="collection-serve">
         <div class="collection-serve-lbl">Who Dormann Serves</div>
-        <div class="collection-serve-text">The person who wants glasses that fit correctly, look great, and let them get on with their life. They enjoy color and shape without taking it too seriously. They move between work and weekend without changing their frame — or their personality. Comfort is expected. Fun is the bonus.</div>
+        <div class="collection-serve-text">The person who wants glasses that fit correctly, look great, and let them get on with their life. They enjoy color and shape without taking it too seriously. They move between work and weekend without changing their frame, or their personality. Comfort is expected. Fun is the bonus.</div>
       </div>
     </div>
 
     <!-- Steel Brown -->
     <div class="collection-panel steel-brown">
-      <div style="font-size:9px;font-weight:500;letter-spacing:.28em;text-transform:uppercase;color:rgba(11,67,18,.4);margin-bottom:20px">Collection 02</div>
+      <div style="font-size:9px;font-weight:500;letter-spacing:.28em;text-transform:uppercase;color:rgba(32,42,68,.4);margin-bottom:20px">Collection 02 · West Europe</div>
       <div class="collection-name" style="color:var(--accent)">STEEL BROWN</div>
       <div class="collection-tagline">Where precision meets quietly confident style.</div>
       <div class="collection-rule"></div>
@@ -533,7 +533,11 @@ footer { padding: 80px 60px; display: flex; justify-content: space-between; alig
         </div>
         <div class="collection-spec">
           <div class="collection-spec-lbl">Aesthetic</div>
-          <div class="collection-spec-val">Refined daily eyewear — boardroom to everything else</div>
+          <div class="collection-spec-val">Refined daily eyewear, boardroom to everything else</div>
+        </div>
+        <div class="collection-spec">
+          <div class="collection-spec-lbl">Named for</div>
+          <div class="collection-spec-val">Cities of West Europe: Amsterdam, Berlin, Dublin, Geneva, London</div>
         </div>
       </div>
       <div class="collection-serve">
@@ -582,9 +586,9 @@ footer { padding: 80px 60px; display: flex; justify-content: space-between; alig
       <div class="swatch-hex">#F6F4EF</div>
       <div class="swatch-desc">Primary light surface</div>
     </div>
-    <div class="swatch" style="background:#0B4312;color:#F6F4EF;border:1px solid rgba(28,28,28,.08)">
-      <div class="swatch-name">Forest</div>
-      <div class="swatch-hex">#0B4312</div>
+    <div class="swatch" style="background:#202A44;color:#F6F4EF;border:1px solid rgba(28,28,28,.08)">
+      <div class="swatch-name">Navy</div>
+      <div class="swatch-hex">#202A44</div>
       <div class="swatch-desc">Brand accent &amp; depth</div>
       <div class="swatch-badge">Signature Accent</div>
     </div>
@@ -593,31 +597,31 @@ footer { padding: 80px 60px; display: flex; justify-content: space-between; alig
   <!-- Accent feature panel -->
   <div class="accent-row rv d3">
     <div class="accent-feature">
-      <div style="font-size:10px;font-weight:500;letter-spacing:.32em;text-transform:uppercase;color:var(--accent)">Brand Accent · Forest</div>
+      <div style="font-size:10px;font-weight:500;letter-spacing:.32em;text-transform:uppercase;color:var(--accent)">Brand Accent · Navy</div>
       <div class="accent-display">THE PRECISE<br>ACCENT</div>
-      <p style="font-size:15px;font-weight:300;line-height:1.75;color:rgba(28,28,28,.6);max-width:440px">Forest is the signature depth of Noon Shop. It enters where precision meets craft: type highlights, border accents, interactive states, wherever the brand needs to feel considered rather than decorative.</p>
+      <p style="font-size:15px;font-weight:300;line-height:1.75;color:rgba(28,28,28,.6);max-width:440px">Navy is the signature depth of Noon Shop. It enters where precision meets craft: type highlights, border accents, interactive states, wherever the brand needs to feel considered rather than decorative.</p>
     </div>
     <div class="accent-samples">
       <div class="accent-sample">
         <div class="accent-sample-lbl">Tint</div>
-        <div class="accent-sample-val" style="color:#2D6B3A">#2D6B3A</div>
+        <div class="accent-sample-val" style="color:#3D4F72">#3D4F72</div>
         <div style="font-size:12px;font-weight:300;color:rgba(28,28,28,.4);margin-top:4px">Subtle borders on light</div>
       </div>
       <div class="accent-sample">
         <div class="accent-sample-lbl">Primary</div>
-        <div class="accent-sample-val" style="color:#0B4312">#0B4312</div>
+        <div class="accent-sample-val" style="color:#202A44">#202A44</div>
         <div style="font-size:12px;font-weight:300;color:rgba(28,28,28,.4);margin-top:4px">Nav, tags, CTAs</div>
       </div>
       <div class="accent-sample">
         <div class="accent-sample-lbl">Deep</div>
-        <div class="accent-sample-val" style="color:#072A0C">#072A0C</div>
+        <div class="accent-sample-val" style="color:#111828">#111828</div>
         <div style="font-size:12px;font-weight:300;color:rgba(28,28,28,.4);margin-top:4px">Borders, hover states</div>
       </div>
     </div>
   </div>
 
   <div class="pull rv d3">
-    <p class="pull-text">Precision in material. Depth in accent. <em>Forest</em> for the moments that matter.</p>
+    <p class="pull-text">Precision in material. Depth in accent. <em>Navy</em> for the moments that matter.</p>
   </div>
 </section>
 
@@ -666,7 +670,7 @@ footer { padding: 80px 60px; display: flex; justify-content: space-between; alig
       <div class="type-meta">
         <div><div class="type-label">Typeface</div><div class="type-value">Outfit</div></div>
         <div><div class="type-label">Role</div><div class="type-value">Body / Interface / Navigation</div></div>
-        <div><div class="type-label">Weights</div><div class="type-value">100–500 (prefer 300)</div></div>
+        <div><div class="type-label">Weights</div><div class="type-value">100 to 500 (prefer 300)</div></div>
       </div>
       <div class="type-sample-outfit">Noon Shop offers eyewear engineered for the full range of facial structures. Founded by an ophthalmologist who understood that fit is not a detail. Titanium, stainless steel, and a clinical commitment to getting it right.</div>
     </div>
@@ -694,16 +698,16 @@ footer { padding: 80px 60px; display: flex; justify-content: space-between; alig
       <span class="logo-label">On light backgrounds</span>
     </div>
     <div class="logo-cell accent-bg">
-      <img class="logo-img" src="assets/logo.png" alt="Noon Shop logo on forest"
+      <img class="logo-img" src="assets/logo.png" alt="Noon Shop logo on navy"
         style="filter:brightness(0) invert(1);opacity:.85"
         onerror="this.style.display='none';this.nextElementSibling.style.display='block'">
       <div style="display:none;font-family:var(--D);font-size:32px;letter-spacing:.2em;color:#F6F4EF">NOON SHOP</div>
-      <span class="logo-label" style="color:rgba(246,244,239,.5)">Forest accent · special use</span>
+      <span class="logo-label" style="color:rgba(246,244,239,.5)">Navy accent · special use</span>
     </div>
     <div class="logo-cell paper">
       <div style="display:flex;flex-direction:column;gap:12px">
         <div style="font-size:10px;font-weight:500;letter-spacing:.22em;text-transform:uppercase;color:var(--accent-dark);margin-bottom:4px">Clear space rule</div>
-        <div style="display:inline-flex;border:1px dashed rgba(11,67,18,.25);padding:24px">
+        <div style="display:inline-flex;border:1px dashed rgba(32,42,68,.25);padding:24px">
           <img class="logo-img" src="assets/logo.png" alt="Logo clearspace" style="max-width:120px"
             onerror="this.style.display='none';this.nextElementSibling.style.display='block'">
           <div style="display:none;font-family:var(--D);font-size:24px;letter-spacing:.2em;color:var(--ink)">NOON SHOP</div>
@@ -721,53 +725,59 @@ footer { padding: 80px 60px; display: flex; justify-content: space-between; alig
 <section class="ls" id="photography">
   <div class="tag tag-ink rv">Photography</div>
   <h2 class="dh rv d1" style="color:var(--ink)">IMAGE<br>DIRECTION.</h2>
-  <p class="rv d2" style="font-size:17px;font-weight:300;line-height:1.8;color:var(--ink2);max-width:640px;margin-bottom:64px">Product photography leads with material and fit. Clean backgrounds, direct light, no lifestyle staging. The forest-toned frames connect directly to the brand accent, reinforcing the link between craft and identity.</p>
+  <p class="rv d2" style="font-size:17px;font-weight:300;line-height:1.8;color:var(--ink2);max-width:640px;margin-bottom:64px">Photography leads with the face and the fit, not the logo. Two libraries carry the brand: warm editorial lifestyle, real people in cafés, galleries, and golden-hour light, and clean studio catalog portraits on a soft cream ground. In both, the frame sits settled and still, and the face is always the subject.</p>
 
-  <!-- Hero photo row -->
+  <!-- Editorial label -->
+  <div class="rv d2" style="font-size:10px;font-weight:500;letter-spacing:.22em;text-transform:uppercase;color:var(--accent);margin:40px 0 16px;display:flex;align-items:center;gap:12px"><span style="display:block;width:24px;height:1px;background:var(--accent)"></span>Editorial &amp; Lifestyle</div>
+
+  <!-- Editorial hero row -->
   <div class="photo-hero rv d2">
     <div class="photo-cell photo-wide">
-      <img src="assets/gold-round-1.png" alt="Gold round sunglasses" onerror="this.parentElement.style.background='#E1DDD3'">
+      <img src="assets/brand/editorial/ed-copper-cafe.jpg" alt="Editorial portrait in a copper-lit café" onerror="this.parentElement.style.background='#E1DDD3'">
     </div>
     <div class="photo-cell photo-tall">
-      <img src="assets/cat-eye.png" alt="Cat-eye sunglasses" onerror="this.parentElement.style.background='#D8CFC4'">
+      <img src="assets/brand/editorial/ed-cafe-champagne.jpg" alt="Sunlit café portrait in champagne frames" onerror="this.parentElement.style.background='#D8CFC4'">
     </div>
   </div>
 
-  <!-- Second row -->
+  <!-- Editorial second row -->
   <div class="photo-row rv d3" style="margin-top:2px">
     <div class="photo-cell photo-sq">
-      <img src="assets/classic-round.png" alt="Classic round frames" onerror="this.parentElement.style.background='#E9EBEC'">
+      <img src="assets/brand/editorial/ed-gallery.jpg" alt="Editorial portrait in a modern gallery" onerror="this.parentElement.style.background='#E9EBEC'">
     </div>
     <div class="photo-cell photo-sq">
-      <img src="assets/thin-rect.png" alt="Thin rectangular frames" onerror="this.parentElement.style.background='#E1DDD3'">
+      <img src="assets/brand/editorial/ed-loft.jpg" alt="Editorial portrait in a warm loft" onerror="this.parentElement.style.background='#E1DDD3'">
     </div>
     <div class="photo-cell photo-sq">
-      <img src="assets/gold-round-2.png" alt="Gold round 2" onerror="this.parentElement.style.background='#D8CFC4'">
+      <img src="assets/brand/editorial/ed-warm-cafe.jpg" alt="Warm café portrait in champagne frames" onerror="this.parentElement.style.background='#D8CFC4'">
     </div>
   </div>
 
   <!-- Caption strip -->
-  <div style="background:var(--paper);border:1px solid rgba(11,67,18,.1);padding:28px 40px;display:flex;justify-content:space-between;align-items:center;margin-top:2px" class="rv d3">
-    <p style="font-size:13px;font-weight:300;line-height:1.7;color:rgba(28,28,28,.6);max-width:480px">Preferred: frames on cream or paper. Material fills 60–80% of frame. No props, no lifestyle context. The frame is the story. Frame tones connect directly to the Forest brand accent.</p>
+  <div style="background:var(--paper);border:1px solid rgba(32,42,68,.1);padding:28px 40px;display:flex;justify-content:space-between;align-items:center;margin-top:2px" class="rv d3">
+    <p style="font-size:13px;font-weight:300;line-height:1.7;color:rgba(28,28,28,.6);max-width:520px">Editorial is warm and lived-in: golden-hour and window light, cafés, terraces, and galleries, champagne and light metal frames. Warm and expressive: real smiles, a little laughter, an easy head tilt. The setting supports the face, it never competes with it.</p>
   </div>
 
-  <!-- Macro row -->
-  <div style="margin-top:56px" class="rv d3">
-    <div style="font-size:10px;font-weight:500;letter-spacing:.22em;text-transform:uppercase;color:var(--accent-dark);margin-bottom:16px;display:flex;align-items:center;gap:12px"><span style="display:block;width:24px;height:1px;background:var(--accent-dark)"></span>Detail &amp; Macro Photography</div>
-    <div class="photo-row-4">
-      <div class="photo-cell photo-sq">
-        <img src="assets/macro-hinge-1.png" alt="Hinge macro" onerror="this.parentElement.style.background='#E9EBEC'">
-      </div>
-      <div class="photo-cell photo-sq">
-        <img src="assets/macro-hinge-2.png" alt="Hinge macro 2" onerror="this.parentElement.style.background='#D8CFC4'">
-      </div>
-      <div class="photo-cell photo-sq">
-        <img src="assets/macro-detail.png" alt="Macro detail" onerror="this.parentElement.style.background='#E1DDD3'">
-      </div>
-      <div class="photo-cell photo-sq">
-        <img src="assets/thin-rect-2.png" alt="Thin rect 2" onerror="this.parentElement.style.background='#E9EBEC'">
-      </div>
-    </div>
+  <!-- Catalog label -->
+  <div class="rv d3" style="font-size:10px;font-weight:500;letter-spacing:.22em;text-transform:uppercase;color:var(--accent);margin:56px 0 16px;display:flex;align-items:center;gap:12px"><span style="display:block;width:24px;height:1px;background:var(--accent)"></span>Catalog &amp; Studio Portraits</div>
+
+  <!-- Catalog rows -->
+  <div class="photo-row-4 rv d3">
+    <div class="photo-cell" style="aspect-ratio:4/5"><img src="assets/brand/catalog/dr24101-01.jpg" alt="Catalog portrait, Dormann DR24101" onerror="this.parentElement.style.background='#E9EBEC'"></div>
+    <div class="photo-cell" style="aspect-ratio:4/5"><img src="assets/brand/catalog/dr25103-01.jpg" alt="Catalog portrait, Dormann DR25103" onerror="this.parentElement.style.background='#D8CFC4'"></div>
+    <div class="photo-cell" style="aspect-ratio:4/5"><img src="assets/brand/catalog/sb82009-01.jpg" alt="Catalog portrait, Steel Brown SB82009" onerror="this.parentElement.style.background='#E1DDD3'"></div>
+    <div class="photo-cell" style="aspect-ratio:4/5"><img src="assets/brand/catalog/dr26205-01.jpg" alt="Catalog portrait, Dormann DR26205" onerror="this.parentElement.style.background='#E9EBEC'"></div>
+  </div>
+  <div class="photo-row-4 rv d3" style="margin-top:2px">
+    <div class="photo-cell" style="aspect-ratio:4/5"><img src="assets/brand/catalog/dr24106-01.jpg" alt="Catalog portrait, Dormann DR24106" onerror="this.parentElement.style.background='#E1DDD3'"></div>
+    <div class="photo-cell" style="aspect-ratio:4/5"><img src="assets/brand/catalog/dr25107-01.jpg" alt="Catalog portrait, Dormann DR25107" onerror="this.parentElement.style.background='#E9EBEC'"></div>
+    <div class="photo-cell" style="aspect-ratio:4/5"><img src="assets/brand/catalog/dr25701-01.jpg" alt="Catalog portrait, Dormann DR25701" onerror="this.parentElement.style.background='#D8CFC4'"></div>
+    <div class="photo-cell" style="aspect-ratio:4/5"><img src="assets/brand/catalog/dr26702-01.jpg" alt="Catalog portrait, Dormann DR26702" onerror="this.parentElement.style.background='#E1DDD3'"></div>
+  </div>
+
+  <!-- Catalog caption -->
+  <div style="background:var(--paper);border:1px solid rgba(32,42,68,.1);padding:28px 40px;margin-top:2px" class="rv d3">
+    <p style="font-size:13px;font-weight:300;line-height:1.7;color:rgba(28,28,28,.6);max-width:520px">Catalog is shot straight on, chest to crown, on a soft cream ground in even light. One frame, one face, filename to SKU. This is the primary commercial shot, the one that shows exactly how a frame sits.</p>
   </div>
 
   <!-- Photography pull quote -->
@@ -792,14 +802,17 @@ footer { padding: 80px 60px; display: flex; justify-content: space-between; alig
     </div>
     <div class="model-grid">
       <div class="model-panel">
+        <span class="tico"><svg viewBox="0 0 24 24"><circle cx="7" cy="13" r="3.2"/><circle cx="17" cy="13" r="3.2"/><path d="M10 14c.8-.8 3.2-.8 4 0"/><path d="M3.8 12.2 2.5 11M20.2 12.2 21.5 11"/></svg></span>
         <div style="font-family:var(--D);font-size:20px;letter-spacing:.06em;color:var(--accent);margin-bottom:12px">LOW BRIDGE</div>
         <p style="font-size:13px;font-weight:300;line-height:1.75;color:rgba(28,28,28,.6)">East Asian, Southeast Asian, Black, and Latinx facial structures. Flatter nasal bridges where standard frames slip forward. The face this brand was explicitly built to serve.</p>
       </div>
       <div class="model-panel">
+        <span class="tico"><svg viewBox="0 0 24 24"><circle cx="7" cy="13" r="3.2"/><circle cx="17" cy="13" r="3.2"/><path d="M10 12c.8.8 3.2.8 4 0"/></svg></span>
         <div style="font-family:var(--D);font-size:20px;letter-spacing:.06em;color:var(--accent);margin-bottom:12px">HIGH CHEEKBONES</div>
         <p style="font-size:13px;font-weight:300;line-height:1.75;color:rgba(28,28,28,.6)">Frames that press on or ride over prominent cheekbones are a persistent, ignored discomfort. Show faces where the frame clears correctly, visibly settled, not fighting the face.</p>
       </div>
       <div class="model-panel">
+        <span class="tico"><svg viewBox="0 0 24 24"><path d="M3 12h18"/><path d="M6.5 8.5 3 12l3.5 3.5"/><path d="M17.5 8.5 21 12l-3.5 3.5"/></svg></span>
         <div style="font-family:var(--D);font-size:20px;letter-spacing:.06em;color:var(--accent);margin-bottom:12px">WIDER &amp; NARROWER</div>
         <p style="font-size:13px;font-weight:300;line-height:1.75;color:rgba(28,28,28,.6)">Both ends of the face-width spectrum, underserved by standard sizing. Temples that sit flush, without squeeze or gap. The frame disappears into the face because it belongs there.</p>
       </div>
@@ -813,16 +826,19 @@ footer { padding: 80px 60px; display: flex; justify-content: space-between; alig
     </div>
     <div class="model-grid">
       <div class="model-panel">
+        <span class="tico"><svg viewBox="0 0 24 24"><rect x="4" y="4" width="16" height="16" rx="2"/><circle cx="12" cy="10" r="2.4"/><path d="M8 16.5c.7-2 2.2-3 4-3s3.3 1 4 3"/></svg></span>
         <div style="font-family:var(--D);font-size:20px;letter-spacing:.06em;color:var(--ink);margin-bottom:8px">CLOSE<br>PORTRAIT</div>
         <div style="width:24px;height:1px;background:var(--accent);margin:12px 0;opacity:.5"></div>
         <p style="font-size:13px;font-weight:300;line-height:1.75;color:rgba(28,28,28,.6)">Chest to crown. Direct eye contact or 15° turn. Shows how the frame sits on the bridge and against the cheekbones. Primary commercial shot. This is the one that sells.</p>
       </div>
       <div class="model-panel">
+        <span class="tico"><svg viewBox="0 0 24 24"><path d="M20 12a8 8 0 1 1-2.3-5.6"/><path d="M20 4v4h-4"/></svg></span>
         <div style="font-family:var(--D);font-size:20px;letter-spacing:.06em;color:var(--ink);margin-bottom:8px">THREE-<br>QUARTER</div>
         <div style="width:24px;height:1px;background:var(--accent);margin:12px 0;opacity:.5"></div>
         <p style="font-size:13px;font-weight:300;line-height:1.75;color:rgba(28,28,28,.6)">45° angle. Reveals the temple arm and how the frame wraps the ear. Best for showing fit quality and frame depth. The shot that builds trust.</p>
       </div>
       <div class="model-panel">
+        <span class="tico"><svg viewBox="0 0 24 24"><path d="M5 4v16"/><path d="M5 7c5 0 9 2.2 9 5s-4 5-9 5"/><circle cx="8.6" cy="12" r="1.1" fill="currentColor" stroke="none"/></svg></span>
         <div style="font-family:var(--D);font-size:20px;letter-spacing:.06em;color:var(--ink);margin-bottom:8px">PROFILE</div>
         <div style="width:24px;height:1px;background:var(--accent);margin:12px 0;opacity:.5"></div>
         <p style="font-size:13px;font-weight:300;line-height:1.75;color:rgba(28,28,28,.6)">Pure side view. Shows frame depth, temple angle, and lens position against the cheekbone. The fit shot. Nothing hides here.</p>
@@ -844,19 +860,19 @@ footer { padding: 80px 60px; display: flex; justify-content: space-between; alig
     <div style="background:var(--white);border:1px solid rgba(28,28,28,.07);padding:40px 36px">
       <div style="font-size:10px;font-weight:500;letter-spacing:.22em;text-transform:uppercase;color:var(--accent);margin-bottom:20px">Expression &amp; Styling</div>
       <ul style="list-style:none;display:flex;flex-direction:column">
-        <li style="font-size:14px;font-weight:300;line-height:1.65;color:rgba(28,28,28,.6);border-bottom:1px solid rgba(28,28,28,.06);padding:14px 0;display:flex;gap:12px"><span style="color:var(--accent);flex-shrink:0">→</span>Calm and composed. No broad smiles or extreme editorial expressions. Serene, assured.</li>
+        <li style="font-size:14px;font-weight:300;line-height:1.65;color:rgba(28,28,28,.6);border-bottom:1px solid rgba(28,28,28,.06);padding:14px 0;display:flex;gap:12px"><span style="color:var(--accent);flex-shrink:0">→</span>Warm and genuine. Real smiles, soft laughter, an easy head tilt. Personality is welcome, as long as the fit stays readable.</li>
         <li style="font-size:14px;font-weight:300;line-height:1.65;color:rgba(28,28,28,.6);border-bottom:1px solid rgba(28,28,28,.06);padding:14px 0;display:flex;gap:12px"><span style="color:var(--accent);flex-shrink:0">→</span>Clothing neutral or out of frame. The face and frame are the only subjects.</li>
         <li style="font-size:14px;font-weight:300;line-height:1.65;color:rgba(28,28,28,.6);border-bottom:1px solid rgba(28,28,28,.06);padding:14px 0;display:flex;gap:12px"><span style="color:var(--accent);flex-shrink:0">→</span>Natural makeup. Present but not dominant. The face at its best, not its most transformed.</li>
-        <li style="font-size:14px;font-weight:300;line-height:1.65;color:rgba(28,28,28,.6);padding-top:14px;display:flex;gap:12px"><span style="color:var(--accent);flex-shrink:0">→</span>Ages 25–50. The premium buyer — not exclusively young, not uniformly aspirational. West Coast tech skews 28–42.</li>
+        <li style="font-size:14px;font-weight:300;line-height:1.65;color:rgba(28,28,28,.6);padding-top:14px;display:flex;gap:12px"><span style="color:var(--accent);flex-shrink:0">→</span>Ages 25 to 50. The premium buyer, not exclusively young, not uniformly aspirational.</li>
       </ul>
     </div>
   </div>
 
   <!-- Audience Context -->
-  <div class="rv d3" style="background:rgba(11,67,18,.05);border:1px solid rgba(11,67,18,.1);padding:48px;margin-top:2px">
+  <div class="rv d3" style="background:rgba(32,42,68,.05);border:1px solid rgba(32,42,68,.1);padding:48px;margin-top:2px">
     <div style="font-size:10px;font-weight:500;letter-spacing:.22em;text-transform:uppercase;color:var(--accent);margin-bottom:20px">Audience Context · West Coast Tech</div>
-    <p style="font-size:16px;font-weight:300;line-height:1.85;color:rgba(28,28,28,.7);max-width:720px;margin-bottom:20px">A significant segment of the Noon Shop buyer is the West Coast technology professional — designers, engineers, founders, and product thinkers. This audience is educated, detail-oriented, and comfortable spending $300–400 on something that genuinely performs. They are drawn to function-forward design, clinical credibility, and material specificity. They are not moved by overt branding or fashion-led imagery.</p>
-    <p style="font-size:16px;font-weight:300;line-height:1.85;color:rgba(28,28,28,.7);max-width:720px">Model imagery for this audience should feel considered and intelligent, not aspirational in the traditional luxury sense. Real faces. Quiet confidence. A person who found the right frame, not a person performing wearing one. The Bay Area and Pacific Northwest are also among the most ethnically diverse regions in the country, which reinforces the brand's range-of-faces direction naturally.</p>
+    <p style="font-size:16px;font-weight:300;line-height:1.85;color:rgba(28,28,28,.7);max-width:720px;margin-bottom:20px">A significant segment of the Noon Shop buyer is the West Coast technology professional, designers, engineers, founders, and product thinkers. This audience is educated, detail-oriented, and comfortable spending more on something that genuinely performs. They are drawn to function-forward design, clinical credibility, and material specificity. They are not moved by overt branding or fashion-led imagery.</p>
+    <p style="font-size:16px;font-weight:300;line-height:1.85;color:rgba(28,28,28,.7);max-width:720px">Model imagery for this audience should feel considered and intelligent, not aspirational in the traditional luxury sense. Real faces, real warmth. Someone who found the right frame and is glad they did, caught mid-smile or mid-thought, not a model performing. The Bay Area and Pacific Northwest are also among the most ethnically diverse regions in the country, which reinforces the brand's range-of-faces direction naturally.</p>
   </div>
 
   <!-- Do/Don't -->
@@ -865,11 +881,11 @@ footer { padding: 80px 60px; display: flex; justify-content: space-between; alig
       <div class="do-lbl">Do</div>
       <ul class="do-list">
         <li>Cast a genuine range of ethnicities and facial structures</li>
-        <li>Show the frame fitting correctly — settled, not slipping or pinching</li>
-        <li>Use calm, composed expressions that convey quiet confidence</li>
+        <li>Show the frame fitting correctly, settled, not slipping or pinching</li>
+        <li>Use warm, genuine expressions: natural smiles, head tilts, easy confidence</li>
         <li>Keep backgrounds on-brand: cream or paper, no lifestyle staging</li>
         <li>Vary angles across portrait, three-quarter, and profile within a set</li>
-        <li>Keep styling minimal — the face and frame are the only subject</li>
+        <li>Keep styling minimal, the face and frame are the only subject</li>
       </ul>
     </div>
     <div class="dont-card">
@@ -877,7 +893,7 @@ footer { padding: 80px 60px; display: flex; justify-content: space-between; alig
       <ul class="dont-list">
         <li>Cast exclusively high-fashion or one type of face</li>
         <li>Use lifestyle backgrounds, props, or active/movement shots</li>
-        <li>Generate over-smoothed, AI-homogenized skin — preserve texture</li>
+        <li>Generate over-smoothed, AI-homogenized skin, preserve texture</li>
         <li>Use dramatic lighting that hides how the frame actually sits</li>
         <li>Apply heavy makeup or styling that competes with the frame</li>
         <li>Show frames sitting off-center, tilted, or appearing to slip</li>
@@ -892,86 +908,6 @@ footer { padding: 80px 60px; display: flex; justify-content: space-between; alig
 
 <div class="rule-d"></div>
 
-<!-- AI System -->
-<section style="background:var(--white)" id="ai-system">
-  <div class="tag rv">How We Scale</div>
-  <h2 class="dh rv d1" style="color:var(--ink)">AI SYSTEM<br><span class="dh-sub">Brand Intelligence.</span></h2>
-
-  <!-- Brief -->
-  <div class="rv d2" style="max-width:720px;margin-bottom:80px">
-    <div style="font-family:var(--D);font-size:clamp(18px,2.5vw,28px);letter-spacing:.1em;color:var(--ink);margin-bottom:32px">THIS DOCUMENT IS THE BRIEF.</div>
-    <p style="font-size:17px;font-weight:300;line-height:1.9;color:rgba(28,28,28,.6);margin-bottom:20px">The Noon Shop Brand Guide is the authoritative source of truth for all AI-assisted content generation across every channel and format. Every output, written, visual, or interactive, is measured against what is defined here.</p>
-    <p style="font-size:17px;font-weight:300;line-height:1.9;color:rgba(28,28,28,.6)">This document functions as the system prompt for Noon Shop's AI content infrastructure. It defines the rules the system operates within. Not suggestions. Rules.</p>
-  </div>
-
-  <!-- What the system governs -->
-  <div class="rv d2" style="margin-bottom:80px">
-    <div style="font-size:10px;font-weight:500;letter-spacing:.22em;text-transform:uppercase;color:var(--accent);margin-bottom:32px;display:flex;align-items:center;gap:12px">
-      <span style="display:block;width:24px;height:1px;background:var(--accent)"></span>What the System Governs
-    </div>
-    <div class="governs-grid">
-      <div class="governs-panel">
-        <div class="governs-title">PRODUCT COPY</div>
-        <p class="governs-body">Product descriptions, frame specifications, collection introductions, and fit language. Every word written about a Noon Shop frame begins with fit as the primary value. Materials are named with specificity, titanium, stainless steel, never described by trend or season alone.</p>
-      </div>
-      <div class="governs-panel">
-        <div class="governs-title">STUDIO MODEL PHOTOGRAPHY</div>
-        <p class="governs-body">AI-generated model imagery for commercial, editorial, and social use. The locked scene spec defined in the Photography section is the only accepted input. Background, light source, color temperature, expression, clothing, and crop are fixed. The face and frame are the only variables.</p>
-      </div>
-      <div class="governs-panel">
-        <div class="governs-title">PRODUCT PHOTOGRAPHY</div>
-        <p class="governs-body">AI-generated product detail and flat lay imagery. Frames on cream or paper. Material fills the frame. No props, no lifestyle staging. The frame tones connect directly to the brand accent. The frame is the story.</p>
-      </div>
-      <div class="governs-panel">
-        <div class="governs-title">EMAIL MARKETING</div>
-        <p class="governs-body">Campaign and transactional email copy. Brand voice applies in full: direct, confident, human, refined. Subject lines lead with fit or a specific clinical truth. No breathless superlatives, no exclamation marks, no fashion-first language.</p>
-      </div>
-      <div class="governs-panel">
-        <div class="governs-title">WEB DESIGN &amp; LANDING PAGES</div>
-        <p class="governs-body">Page layouts, section hierarchy, CTA copy, and interaction patterns follow the motion and typography principles defined here. Bebas Neue for all display. Playfair Display italic for accent. Outfit 300 for body. Forest is a deliberate accent, never decorative.</p>
-      </div>
-      <div class="governs-panel">
-        <div class="governs-title">GOOGLE &amp; META ADS</div>
-        <p class="governs-body">Paid search and social ad copy generated from the approved voice pillars: Direct, Confident, Human, Refined. Headlines lead with the fit problem or the fit solution. No generic eyewear language. No fashion trend references. The brand does not compete on price or style. It competes on precision.</p>
-      </div>
-      <div class="governs-panel">
-        <div class="governs-title">INSTAGRAM &amp; SOCIAL CONTENT</div>
-        <p class="governs-body">Grid tiles, story cards, and caption copy generated to the locked visual system. Three content types only: model portrait, product flat, brand statement tile. All three share the same background, light, and typographic treatment. Consistency is not optional. It is the brand signal.</p>
-      </div>
-      <div class="governs-panel">
-        <div class="governs-title">MARKETING GRAPHICS</div>
-        <p class="governs-body">Campaign banners, event materials, and branded assets. Color palette, typography, and spacing rules are non-negotiable. Forest enters only where precision meets craft. Never as decoration.</p>
-      </div>
-    </div>
-  </div>
-
-  <!-- How the system uses this document -->
-  <div class="rv d3" style="max-width:760px;margin-bottom:80px">
-    <div style="font-size:10px;font-weight:500;letter-spacing:.22em;text-transform:uppercase;color:var(--accent);margin-bottom:32px;display:flex;align-items:center;gap:12px">
-      <span style="display:block;width:24px;height:1px;background:var(--accent)"></span>How the System Uses This Document
-    </div>
-    <p style="font-size:16px;font-weight:300;line-height:1.9;color:rgba(28,28,28,.6);margin-bottom:32px">Before generating any output, the AI references this document to confirm:</p>
-    <ul class="ai-checklist">
-      <li><span>→</span>Is the primary value fit, not style?</li>
-      <li><span>→</span>Does the visual follow the locked scene spec?</li>
-      <li><span>→</span>Is the typography Bebas Neue, Playfair Display italic, or Outfit 300?</li>
-      <li><span>→</span>Is Forest used as a deliberate accent, not a decoration?</li>
-      <li><span>→</span>Does the model casting reflect the full range of facial structures this brand was built to serve?</li>
-      <li><span>→</span>Does the copy lead with clinical credibility, not fashion aspiration?</li>
-      <li><span>→</span>Is the brand voice Direct, Confident, Human, Refined, in that order?</li>
-    </ul>
-    <p style="font-size:14px;font-weight:300;line-height:1.65;color:rgba(28,28,28,.3);margin-top:32px;font-style:italic">If any output deviates from these checks, it does not represent the brand.</p>
-  </div>
-
-  <!-- The Standard -->
-  <div class="pull rv d4">
-    <div style="font-size:10px;font-weight:500;letter-spacing:.22em;text-transform:uppercase;color:rgba(11,67,18,.4);margin-bottom:32px">The Standard</div>
-    <p class="pull-text">Noon Shop was built on a clinical observation. The AI system that scales it is held to the same standard: precision, range, and the honest belief that <em>fit is fundamental</em>.</p>
-    <p style="font-family:'Playfair Display',Georgia,serif;font-style:italic;font-size:clamp(16px,1.8vw,22px);font-weight:400;line-height:1.65;color:rgba(28,28,28,.35);margin-top:32px">Every image. Every word. Every frame.<br>Built for the face it belongs on.</p>
-  </div>
-</section>
-
-<div class="rule-accent"></div>
 
 <!-- Voice -->
 <section style="background:var(--cool)" id="voice">
@@ -979,21 +915,25 @@ footer { padding: 80px 60px; display: flex; justify-content: space-between; alig
   <h2 class="dh rv d1" style="color:var(--ink)">HOW WE<br>SPEAK.</h2>
   <div class="voice-grid rv d2">
     <div class="voice-card">
+      <span class="tico"><svg viewBox="0 0 24 24"><path d="M3 12h16"/><path d="M13 6l6 6-6 6"/></svg></span>
       <div class="voice-title">DIRECT</div>
       <p class="voice-text">We don't hide behind lifestyle imagery or trend language. Fit is either right or it isn't. We say so plainly, without softening the point.</p>
       <p class="voice-ex">"Fit is not optional. It never was."</p>
     </div>
     <div class="voice-card">
+      <span class="tico"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M8 12.3l2.6 2.6L16 9.4"/></svg></span>
       <div class="voice-title">CONFIDENT</div>
       <p class="voice-text">We believe fit is fundamental. Not a bonus feature, not a premium upgrade. The brand speaks with quiet clinical assurance, never loudness.</p>
       <p class="voice-ex">"You weren't hard to fit. The industry just wasn't trying."</p>
     </div>
     <div class="voice-card">
+      <span class="tico"><svg viewBox="0 0 24 24"><circle cx="12" cy="8" r="3.4"/><path d="M5.5 19.5c.4-3.3 3.2-5.8 6.5-5.8s6.1 2.5 6.5 5.8"/></svg></span>
       <div class="voice-title">HUMAN</div>
-      <p class="voice-text">Behind the precision is warmth. Dr. Park built this for real faces, real people, the ones the industry had been quietly excluding for too long.</p>
+      <p class="voice-text">Behind the precision is warmth. Anna Park built this for real faces, real people, the ones the industry had been quietly excluding for too long.</p>
       <p class="voice-ex">"Three optical shops. No frames that actually fit. That's when it became clear: this wasn't just one person's issue. It was everywhere."</p>
     </div>
     <div class="voice-card">
+      <span class="tico"><svg viewBox="0 0 24 24"><path d="M12 4l6 5-6 11-6-11z"/><path d="M6 9h12"/></svg></span>
       <div class="voice-title">REFINED</div>
       <p class="voice-text">Grounded in medicine. Expressed in craft. Titanium and stainless steel chosen for how they wear, not how they photograph. Language that ages well.</p>
       <p class="voice-ex">"Medical-grade materials. Quiet precision. The frame that belongs on your face."</p>
@@ -1005,10 +945,10 @@ footer { padding: 80px 60px; display: flex; justify-content: space-between; alig
       <ul class="do-list">
         <li>Lead with fit as the primary value, always</li>
         <li>Reference the full range of facial structures we serve</li>
-        <li>Draw on Dr. Park's clinical credibility as the brand foundation</li>
+        <li>Draw on Anna Park's clinical credibility as the brand foundation</li>
         <li>Name materials with specificity: titanium, stainless steel</li>
         <li>Use Bebas Neue for all display type</li>
-        <li>Use Forest as a deliberate accent: tags, borders, CTAs</li>
+        <li>Use Navy as a deliberate accent: tags, borders, CTAs</li>
       </ul>
     </div>
     <div class="dont-card">
@@ -1033,16 +973,19 @@ footer { padding: 80px 60px; display: flex; justify-content: space-between; alig
   <h2 class="dh rv d1" style="color:var(--ink)">HOW WE<br>MOVE.</h2>
   <div class="motion-grid rv d2">
     <div class="motion-card">
+      <span class="tico"><svg viewBox="0 0 24 24"><path d="M3 14c3-6 6-6 9 0s6 6 9 0"/></svg></span>
       <div class="motion-name">SMOOTH</div>
       <p class="motion-val">Nothing snaps. Transitions are never hurried. Elements ease in and out naturally, never abruptly.</p>
       <div class="motion-demo"></div>
     </div>
     <div class="motion-card">
+      <span class="tico"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="2.2"/><path d="M6.5 12a5.5 5.5 0 0 1 11 0"/></svg></span>
       <div class="motion-name">SUBTLE</div>
       <p class="motion-val">Hover states whisper, they don't shout. Small lifts, quiet fades. The brand doesn't need to perform.</p>
       <div class="motion-demo"></div>
     </div>
     <div class="motion-card">
+      <span class="tico"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="8"/><circle cx="12" cy="12" r="3"/></svg></span>
       <div class="motion-name">INTENTIONAL</div>
       <p class="motion-val">Every animation has a reason. If it doesn't earn its place, it doesn't belong on the page.</p>
       <div class="motion-demo"></div>
