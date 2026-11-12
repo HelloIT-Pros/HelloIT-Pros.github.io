@@ -12,14 +12,14 @@
 /* Layout: a header, a view switcher, then the system drawing beside a detail panel that explains whatever is hovered. */
 :root {
   --bg: #f4f6f2; --surface: #ffffff; --band: #eaeee7; --ink: #1b2420; --muted: #586560; --line: #c4ccc4; --edge: #8b968f;
-  --live: #4b7a1d; --next: #2161a6; --later: #7647ad; --ai: #a86a10; --sug: #b4236a;
+  --live: #4b7a1d; --next: #2161a6; --later: #7647ad; --ai: #a86a10;
   color-scheme: light;
   --sans: "IBM Plex Sans", system-ui, -apple-system, "Segoe UI", sans-serif;
   --mono: "IBM Plex Mono", ui-monospace, "SF Mono", Menlo, monospace;
 }
 :root[data-theme="dark"] {
   --bg: #111512; --surface: #192019; --band: #161b17; --ink: #e5ebe5; --muted: #9ba79f; --line: #344038; --edge: #6f7b73;
-  --live: #8dc24c; --next: #6aa6ea; --later: #b28ae8; --ai: #e2a948; --sug: #f07fb4; color-scheme: dark }
+  --live: #8dc24c; --next: #6aa6ea; --later: #b28ae8; --ai: #e2a948; color-scheme: dark }
 
 body { margin: 0; background: var(--bg); color: var(--ink); font-family: var(--sans); font-size: 15px; line-height: 1.5; }
 .wrap { max-width: 1440px; margin: 0 auto; padding-block: 28px 40px;
@@ -98,48 +98,44 @@ section > .lede { margin-bottom: 16px; }
 .tabs a[aria-current="page"] { color: var(--ink); border-bottom-color: var(--ink); }
 .tabs a:focus-visible { outline: 2px solid var(--next); outline-offset: 2px; }
 
-/* page 2: features x audiences */
-.key { width: 16px; height: 12px; border-radius: 3px; display: inline-block; border: 1.5px solid var(--live); }
-.key.on { background: color-mix(in srgb, var(--live) 14%, var(--surface)); }
-.key.new { border-color: var(--next); border-width: 2.5px; background: color-mix(in srgb, var(--next) 16%, var(--surface)); }
-.key.off { border-style: dashed; border-color: var(--edge); }
-.key.tbd { border-style: dotted; border-color: var(--muted); }
-.matrix { display: grid; grid-template-columns: 210px repeat(5, minmax(118px, 1fr)); gap: 6px; padding: 14px; min-width: 880px; }
-.mx-h { padding: 6px 8px 10px; align-self: end; }
-.mx-h b { display: block; font-size: 13.5px; font-weight: 600; }
-.mx-h span { display: block; font-size: 11.5px; color: var(--muted); }
-.mx-h .count { font-family: var(--mono); font-size: 11px; color: var(--ink); margin-top: 4px; font-variant-numeric: tabular-nums; }
-.mx-ai { grid-column: 3 / 7; border: 1.5px dashed var(--ai); border-radius: 10px; padding: 10px 14px; font-size: 13px; cursor: pointer; transition: opacity .25s, background .25s; }
-.mx-ai b { font-weight: 600; }
-.mx-ai.on { border-style: solid; background: color-mix(in srgb, var(--ai) 12%, var(--surface)); }
-.mx-ai:not(.on) { opacity: .55; }
-.mx-sec { grid-column: 1 / -1; font: 600 11px var(--sans); letter-spacing: .08em; text-transform: uppercase; color: var(--muted); padding: 14px 8px 2px; border-top: 1px solid var(--line); }
-.mx-sec:first-of-type { border-top: 0; }
-.mx-name { padding: 8px; font-size: 13px; font-weight: 500; cursor: pointer; align-self: center; border-radius: 8px; }
-.mx-name:hover, .mx-name:focus-visible { background: var(--band); }
-.cell { border-radius: 8px; padding: 7px 9px; min-height: 44px; font-size: 12px; line-height: 1.35; cursor: pointer; border: 1.5px solid transparent; transition: opacity .25s, background .25s, border-color .25s; min-width: 0; }
-.cell .ph { display: block; font: 500 10.5px var(--mono); letter-spacing: .02em; }
-.cell .nt { display: block; color: var(--muted); margin-top: 2px; }
-.cell.empty { cursor: default; }
-.cell.on { border-color: var(--live); background: color-mix(in srgb, var(--live) 11%, var(--surface)); }
-.cell.on .ph { color: var(--live); }
-.cell.new { border-color: var(--next); border-width: 2.5px; background: color-mix(in srgb, var(--next) 13%, var(--surface)); }
-.cell.new .ph { color: var(--next); }
-.cell.off { border-style: dashed; border-color: var(--line); opacity: .7; }
-.cell.off .ph { color: var(--muted); }
-.cell.tbd { border-style: dotted; border-color: var(--muted); }
-.cell.tbd .ph { color: var(--muted); }
-.cell:not(.empty):hover, .cell.sel, .cell:focus-visible { outline: 2px solid var(--ink); outline-offset: 1px; }
-.mx-h.closed b { color: var(--muted); }
-/* suggested features: a pink stripe on each cell and a chip on the name */
-.chip { display: inline-block; font: 600 10px var(--sans); letter-spacing: .06em; text-transform: uppercase; color: var(--sug); border: 1px solid var(--sug); border-radius: 999px; padding: 1px 6px; margin-left: 6px; vertical-align: 1px; white-space: nowrap; }
-.mx-name.sug { box-shadow: inset 4px 0 0 var(--sug); padding-left: 12px; }
-.cell.sug { box-shadow: inset 4px 0 0 var(--sug); padding-left: 12px; }
-.key.sug { border: 0; box-shadow: inset 4px 0 0 var(--sug); background: color-mix(in srgb, var(--sug) 14%, var(--surface)); }
-.pill.sug { color: var(--sug); }
-.hide-sug .is-sug { display: none; }
-.head-tools { display: flex; align-items: center; gap: 14px; flex-wrap: wrap; }
-@media (prefers-reduced-motion: reduce) { .cell, .mx-ai { transition: none; } }
+/* page 2: platform features, one column per phase, read left to right */
+.rm-title { font-size: 21px; font-weight: 600; margin: 0 0 4px; text-wrap: balance; }
+.viewas { display: inline-flex; align-items: center; gap: 8px; font-size: 13px; color: var(--muted); }
+.viewas select { font: 500 13px var(--sans); color: var(--ink); background: var(--surface); border: 1px solid var(--line); border-radius: 8px; padding: 7px 10px; }
+.k { width: 14px; height: 10px; border-radius: 3px; display: inline-block; border: 1.5px solid var(--line); background: var(--surface); }
+.k.live { border-color: var(--live); }
+.k.idea { border-style: dashed; border-color: var(--muted); background: transparent; }
+.road { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 14px; }
+@media (max-width: 1100px) { .road { grid-template-columns: minmax(0, 1fr); } }
+.phase { min-width: 0; }
+.ph-head { border-top: 3px solid var(--line); padding: 12px 2px 14px; position: relative; }
+.ph-head::before { content: ""; position: absolute; top: -8px; left: 0; width: 13px; height: 13px; border-radius: 50%; background: var(--bg); border: 3px solid var(--line); }
+.phase.now .ph-head { border-top-color: var(--live); } .phase.now .ph-head::before { border-color: var(--live); background: var(--live); }
+.ph-when { display: block; font: 500 11.5px var(--mono); letter-spacing: .03em; color: var(--muted); margin-top: 6px; }
+.phase.now .ph-when { color: var(--live); }
+.ph-head h3 { font-size: 16px; font-weight: 600; margin: 4px 0 4px; line-height: 1.3; text-wrap: balance; }
+.ph-head p { margin: 0; font-size: 13px; color: var(--muted); }
+.ph-count { display: block; font: 11.5px var(--mono); color: var(--muted); margin-top: 8px; font-variant-numeric: tabular-nums; }
+.grp { margin-bottom: 12px; }
+.grp h4 { margin: 0 0 6px; font: 600 10.5px var(--sans); letter-spacing: .08em; text-transform: uppercase; color: var(--muted); }
+.card { background: var(--surface); border: 1px solid var(--line); border-radius: 10px; margin-bottom: 6px; transition: opacity .2s; }
+.phase.now .card { border-left: 3px solid var(--live); }
+.card.idea { background: transparent; border-style: dashed; border-left-width: 1px; }
+.card summary { list-style: none; cursor: pointer; padding: 9px 11px; display: block; }
+.card summary::-webkit-details-marker { display: none; }
+.card summary:focus-visible { outline: 2px solid var(--next); outline-offset: 2px; border-radius: 10px; }
+.c-title { display: block; font-size: 13.5px; font-weight: 600; line-height: 1.3; }
+.c-tag { display: inline-block; font: 600 9.5px var(--sans); letter-spacing: .07em; text-transform: uppercase; color: var(--muted); margin-bottom: 2px; }
+.c-who { color: var(--muted); }
+.c-when { display: block; font: 500 11px var(--mono); color: var(--next); margin-top: 3px; }
+.c-more { padding: 0 11px 11px; font-size: 12.5px; line-height: 1.45; }
+.c-more p { margin: 0 0 6px; } .c-more p:last-child { margin: 0; }
+.c-more .why { color: var(--muted); border-top: 1px solid var(--line); padding-top: 6px; }
+.card[open] { border-color: var(--ink); }
+.card.dim { opacity: .28; }
+.hide-ideas .card.idea { display: none; }
+.hide-ideas .grp:not(:has(.card:not(.idea))) { display: none; }
+@media (prefers-reduced-motion: reduce) { .card { transition: none; } }
 </style>
 </head>
 <body>
@@ -157,7 +153,7 @@ section > .lede { margin-bottom: 16px; }
 
   <nav class="tabs" aria-label="Pages">
     <a href="#data-flow" id="tab-flow">How data flows</a>
-    <a href="#what-people-see" id="tab-people">What people see</a>
+    <a href="#platform-features" id="tab-people">Platform features</a>
   </nav>
 
   <section id="pg-flow">
@@ -185,31 +181,29 @@ section > .lede { margin-bottom: 16px; }
   </section>
 
   <section id="pg-people" hidden>
-  <p class="lede">What each group sees, and when. Pick a phase to watch the platform grow. Hover or tap any cell.</p>
+  <h2 class="rm-title">From a daily dashboard to Gateway’s operating platform</h2>
+  <p class="lede">Five steps, each building on the last. Tap any feature for detail.</p>
 
   <div class="controls">
-    <div class="seg" role="group" aria-label="Phase">
-      <button type="button" id="p-0" data-ph="0" aria-pressed="false">Today</button>
-      <button type="button" id="p-1" data-ph="1" aria-pressed="false">Dec 2026</button>
-      <button type="button" id="p-2" data-ph="2" aria-pressed="false">Jan – Mar 2027</button>
-      <button type="button" id="p-3" data-ph="3" aria-pressed="false">Q2 2027</button>
-      <button type="button" id="p-4" data-ph="4" aria-pressed="true">2nd half 2027</button>
-    </div>
-    <button type="button" class="btn" id="ph-next">Next phase →</button>
+    <label class="viewas">View as
+      <select id="aud">
+        <option value="">Everyone</option>
+        <option value="owners">Owners</option>
+        <option value="exec">Gateway executives</option>
+        <option value="regional">Regional managers</option>
+        <option value="pm">Property managers</option>
+        <option value="acct">Accounting &amp; admin</option>
+      </select>
+    </label>
     <button type="button" class="btn" id="sug-toggle" aria-pressed="true">Hide suggestions</button>
     <ul class="legend" aria-label="Legend">
-      <li><span class="key on"></span>Available</li>
-      <li><span class="key new"></span>New in this phase</li>
-      <li><span class="key off"></span>Coming later</li>
-      <li><span class="key tbd"></span>To decide</li>
-      <li><span class="key sug"></span>Suggested by HelloIT, not yet agreed</li>
+      <li><span class="k live"></span>Live today</li>
+      <li><span class="k"></span>Planned</li>
+      <li><span class="k idea"></span>Suggested, to discuss</li>
     </ul>
   </div>
 
-  <div class="grid">
-    <div class="stage"><div class="matrix" id="matrix" role="table" aria-label="Platform features by audience and phase"></div></div>
-    <aside id="panel2" aria-live="polite"></aside>
-  </div>
+  <ol class="road" id="road"></ol>
   </section>
 
 </div>
@@ -441,18 +435,7 @@ show(null);
 </script>
 <script>
 (() => {
-const PH = [
-  { label: "Live today", short: "Today" }, { label: "Dec 2026", short: "Dec 2026" }, { label: "Jan – Mar 2027", short: "Jan–Mar 2027" },
-  { label: "Q2 2027", short: "Q2 2027" }, { label: "Second half of 2027", short: "H2 2027" },
-];
 const TBD = 99;
-const AUD = [
-  { id: "owners", name: "Owners", who: "Outside ownership groups", opens: 1 },
-  { id: "exec", name: "Gateway executives", who: "Every property", opens: 0 },
-  { id: "regional", name: "Regional managers", who: "Their properties", opens: 0 },
-  { id: "pm", name: "Property managers", who: "Their properties", opens: 1 },
-  { id: "acct", name: "Accounting & admin", who: "New role", opens: 2 },
-];
 // cell: [phase, note]. Phase is when the feature exists; a column's own first login can make it later.
 // sug: suggested by HelloIT from the data, not yet agreed with Gateway; why: what the suggestion rests on.
 const SECTIONS = [
@@ -526,115 +509,82 @@ const SECTIONS = [
       c: { exec: [2, "Platform admins"] } },
   ]},
 ];
-const AI_TEXT = "Gateway assistant (JOE) sits on top of everything below, within each person’s permissions. Not for owners.";
+const AUD = [
+  { id: "owners", name: "Owners", opens: 1 },
+  { id: "exec", name: "Executives", opens: 0 },
+  { id: "regional", name: "Regional managers", opens: 0 },
+  { id: "pm", name: "Property managers", opens: 1 },
+  { id: "acct", name: "Accounting & admin", opens: 2 },
+];
+const PHASES = [
+  { when: "Live today", title: "The daily dashboard", line: "RealPage data checked and loaded every morning." },
+  { when: "Dec 2026", title: "Open the doors", line: "Google sign-in, logins for owners and property managers, new checks." },
+  { when: "Jan – Mar 2027", title: "Compliance and accounting", line: "An Accounting & admin role, management fees, recertifications." },
+  { when: "Q2 2027", title: "Connect Google Drive", line: "Insurance, taxes and vendors, read from Gateway’s files." },
+  { when: "2nd half 2027", title: "Ask JOE", line: "Gateway’s assistant, answering from everything underneath." },
+];
+const ORDER = ["Dashboard", "Vendors", "Accounting & admin", "Account & security", "Assistant"];
+const road = document.getElementById("road");
+const esc = (s) => s.replace(/[&<>"]/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]));
+const audName = (id) => AUD.find((a) => a.id === id).name;
+// a feature's phase is its earliest planned cell; each group may get it later, when its logins open
+const feats = SECTIONS.flatMap((s) => s.rows.map((r) => {
+  const planned = Object.entries(r.c).filter(([, v]) => v[0] !== TBD);
+  return { ...r, sec: s.name, ph: Math.min(...planned.map(([, v]) => v[0])),
+    who: planned.map(([id, v]) => ({ id, ph: Math.max(v[0], AUD.find((a) => a.id === id).opens), note: v[1] })),
+    tbd: Object.entries(r.c).filter(([, v]) => v[0] === TBD).map(([id, v]) => ({ id, note: v[1] })) };
+}));
+const card = (f) => {
+  const who = f.who.map((w) => audName(w.id)).join(" · ");
+  const later = f.who.filter((w) => w.ph > f.ph).map((w) => `<p>${esc(audName(w.id))}: from ${esc(PHASES[w.ph].when)}.</p>`).join("");
+  const notes = f.who.filter((w) => w.note).map((w) => `<p>${esc(audName(w.id))}: ${esc(w.note)}.</p>`).join("");
+  const tbd = f.tbd.length ? `<p>To decide: ${esc(f.tbd.map((t) => audName(t.id).toLowerCase()).join(", "))}.</p>` : "";
+  return `<details class="card${f.sug ? " idea" : ""}" data-id="${f.id}">
+    <summary>${f.sug ? '<span class="c-tag">Suggested</span>' : ""}<span class="c-title">${esc(f.name)}</span><span class="c-when" hidden></span></summary>
+    <div class="c-more"><p>${esc(f.what)}</p><p class="c-who">For ${esc(who)}.</p>${notes}${later}${tbd}${f.sug ? `<p class="why">Why: ${esc(f.why)}</p>` : ""}</div></details>`;
+};
+road.innerHTML = PHASES.map((p, i) => {
+  const mine = feats.filter((f) => f.ph === i);
+  const groups = ORDER.map((g) => [g, mine.filter((f) => f.sec === g)]).filter(([, l]) => l.length);
+  return `<li class="phase${i === 0 ? " now" : ""}" data-ph="${i}"><div class="ph-head"><span class="ph-when">${esc(p.when)}</span><h3>${esc(p.title)}</h3><p>${esc(p.line)}</p><span class="ph-count"></span></div>
+    ${groups.map(([g, l]) => `<div class="grp"><h4>${esc(g)}</h4>${l.map(card).join("")}</div>`).join("")}</li>`;
+}).join("");
 
-const mx = document.getElementById("matrix"), panel = document.getElementById("panel2");
-let phase = 4, pinned = null;
-const esc = (s) => s.replace(/[&<>]/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;" }[c]));
-const div = (cls, html, attrs = {}) => { const d = document.createElement("div"); d.className = cls; if (html != null) d.innerHTML = html; for (const [k, v] of Object.entries(attrs)) d.setAttribute(k, v); mx.appendChild(d); return d; };
-const eff = (rowPh, a) => (rowPh === TBD ? TBD : Math.max(rowPh, a.opens));
-const rows = SECTIONS.flatMap((s) => s.rows);
-
-// header row
-div("mx-h", "<b>Feature</b><span>by platform section</span>", { role: "columnheader" });
-const heads = AUD.map((a) => div("mx-h", "", { role: "columnheader" }));
-// AI banner
-div("", null);
-const aiEl = div("mx-ai", `<b>${esc("Gateway assistant (JOE)")}</b> · ${esc(AI_TEXT)}`, { tabindex: "0", role: "button" });
-const cells = [];
-for (const s of SECTIONS) {
-  div("mx-sec", esc(s.name), { role: "rowheader" });
-  for (const r of s.rows) {
-    const sg = r.sug ? " sug is-sug" : "";
-    const nm = div("mx-name" + sg, esc(r.name) + (r.sug ? '<span class="chip">Suggested</span>' : ""), { tabindex: "0", role: "rowheader" });
-    bind(nm, () => rowInfo(r));
-    for (const a of AUD) {
-      const v = r.c[a.id];
-      if (!v) { div("cell empty" + (r.sug ? " is-sug" : ""), "", { role: "cell", "aria-hidden": "true" }); continue; }
-      const c = div("cell" + sg, "", { role: "cell", tabindex: "0" });
-      cells.push({ el: c, r, a, ph: eff(v[0], a), note: v[1] });
-      bind(c, () => cellInfo(r, a, eff(v[0], a), v[1]), c);
-    }
-  }
-}
-bind(aiEl, () => `<span class="pill ai">${PH[4].label}</span><h2>Gateway assistant (JOE)</h2><p>In Gateway’s chart, JOE sits at the top. Here it arrives last, because it can only be as good as the data and documents under it.</p><p>It answers each person only from what their role may see, so an owner never gets resident detail through a question. It starts with policies and procedures, then everything else.</p>`);
-
-function bind(el, html, cellEl) {
-  const show = () => { panel.innerHTML = html(); mark(cellEl); };
-  el.addEventListener("mouseenter", show);
-  el.addEventListener("focus", show);
-  el.addEventListener("mouseleave", () => { panel.innerHTML = pinned ? pinned.html() : overview(); mark(pinned && pinned.el); });
-  el.addEventListener("click", () => { pinned = { html, el: cellEl }; show(); });
-  el.addEventListener("keydown", (e) => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); pinned = { html, el: cellEl }; show(); } });
-}
-function mark(el) { for (const c of cells) c.el.classList.toggle("sel", c.el === el); }
-const phLabel = (p) => (p === TBD ? "To decide" : PH[p].label);
-const stateCls = (p) => (p === TBD ? "tbd" : p > phase ? "off" : p === phase && phase > 0 ? "new" : "on");
-function cellInfo(r, a, p, note) {
-  const st = stateCls(p);
-  const pill = p === TBD ? "info" : p === 0 ? "live" : p === 4 ? "ai" : p === 3 ? "later" : "next";
-  const opensNote = a.opens > 0 && p !== TBD && p === a.opens && (r.c[a.id][0] < a.opens)
-    ? `<p>The feature is built already; ${esc(a.name.toLowerCase())} get it when their logins open in ${esc(PH[a.opens].label)}.</p>` : "";
-  return `${sugPill(r)}<span class="pill ${pill}">${esc(phLabel(p))}</span><h2>${esc(r.name)}</h2><p><b>${esc(a.name)}</b>${note ? ": " + esc(note) : ""}</p><p>${esc(r.what)}</p>${opensNote}${sugWhy(r)}`;
-}
-function rowInfo(r) {
-  const who = AUD.filter((a) => r.c[a.id]).map((a) => `<li>${esc(a.name)}: ${esc(phLabel(eff(r.c[a.id][0], a)))}${r.c[a.id][1] ? " · " + esc(r.c[a.id][1]) : ""}</li>`).join("");
-  return `${r.sug ? sugPill(r) : '<span class="pill info">Feature</span>'}<h2>${esc(r.name)}</h2><p>${esc(r.what)}</p><ul>${who}</ul>${sugWhy(r)}`;
-}
-function sugPill(r) { return r.sug ? '<span class="pill sug">Suggested · not yet agreed</span> ' : ""; }
-function sugWhy(r) { return r.sug ? `<p class="tech"><b>Why we suggest it:</b> ${esc(r.why)}</p>` : ""; }
-function overview() {
-  const used = (list) => list.filter((r) => cells.some((c) => c.r === r && c.ph <= phase)).length;
-  const plan = rows.filter((r) => !r.sug), sug = rows.filter((r) => r.sug);
-  const sugLine = showSug ? ` · <span style="color:var(--sug)">${used(sug)} of ${sug.length} suggested</span>` : "";
-  return `<span class="pill info">${esc(PH[phase].label)}</span><h2>${used(plan)} of ${plan.length} planned features in use</h2>
-  <p class="tech" style="border:0;padding:0;margin:0 0 12px">${used(plan)} planned${sugLine}</p>
-  <p>${["Today: the dashboard, for executives and regional managers.",
-        "December: Google sign-in, logins for property managers and owners, prepaid and deposit checks, vendor list.",
-        "January to March: the Accounting & admin role and the management fee calculator.",
-        "Q2 2027: insurance, vendor insurance and real estate taxes, read from Google Drive.",
-        "Second half of 2027: the assistant, first for policies, then for everything."][phase]}</p>
-  <p>Rows marked <span class="chip" style="margin:0">Suggested</span> are HelloIT’s ideas from the data, not yet agreed with Gateway.</p>
-  <p class="tech"><b>How to use:</b> pick a phase or press “Next phase”. Hover or tap a cell for detail.</p>`;
-}
+let aud = "", showSug = true;
 function render() {
-  for (const b of document.querySelectorAll("[data-ph]")) b.setAttribute("aria-pressed", String(+b.dataset.ph === phase));
-  document.getElementById("ph-next").textContent = phase === 4 ? "Back to today" : "Next phase →";
-  for (const c of cells) {
-    const st = stateCls(c.ph);
-    c.el.className = "cell " + st + (c.r.sug ? " sug is-sug" : "") + (c.el.classList.contains("sel") ? " sel" : "");
-    c.el.innerHTML = `<span class="ph">${st === "new" ? "New · " : ""}${esc(c.ph === TBD ? "To decide" : PH[c.ph].short)}</span>${c.note ? `<span class="nt">${esc(c.note)}</span>` : ""}`;
-    c.el.setAttribute("aria-label", `${c.r.name}, ${c.a.name}: ${c.ph === TBD ? "to decide" : PH[c.ph].label}${c.note ? ", " + c.note : ""}`);
+  for (const el of road.querySelectorAll(".card")) {
+    const f = feats.find((x) => x.id === el.dataset.id), w = aud && f.who.find((x) => x.id === aud);
+    el.classList.toggle("dim", !!aud && !w);
+    const tag = el.querySelector(".c-when");
+    tag.hidden = !(w && w.ph > f.ph);
+    if (w && w.ph > f.ph) tag.textContent = `For ${audName(aud).toLowerCase()}: ${PHASES[w.ph].when}`;
   }
-  AUD.forEach((a, i) => {
-    const mine = cells.filter((c) => c.a === a && c.ph !== TBD && (showSug || !c.r.sug)), on = mine.filter((c) => c.ph <= phase).length;
-    const open = a.opens <= phase;
-    heads[i].className = "mx-h" + (open ? "" : " closed");
-    heads[i].innerHTML = `<b>${esc(a.name)}</b><span>${esc(a.who)}</span><span>${open ? (a.opens === 0 ? "Signed in today" : "Logins from " + PH[a.opens].label) : "Logins from " + PH[a.opens].label}</span><span class="count">${on} of ${mine.length} features</span>`;
+  road.querySelectorAll(".phase").forEach((li, i) => {
+    // with a group picked, count what that group gains in this step (its logins may open later than the feature)
+    const mine = feats.filter((f) => (showSug || !f.sug) && (aud ? f.who.some((w) => w.id === aud && w.ph === i) : f.ph === i));
+    const ideas = mine.filter((f) => f.sug).length, n = mine.length - ideas;
+    li.querySelector(".ph-count").textContent = `${n} ${aud ? "new " : ""}feature${n === 1 ? "" : "s"}` + (ideas ? ` · ${ideas} suggested` : "") + (aud ? ` for ${audName(aud).toLowerCase()}` : "");
   });
-  aiEl.classList.toggle("on", phase >= 4);
-  if (!pinned) panel.innerHTML = overview();
 }
-let showSug = true;
+document.getElementById("aud").addEventListener("change", (e) => { aud = e.target.value; render(); });
 document.getElementById("sug-toggle").addEventListener("click", (e) => {
-  showSug = !showSug; mx.classList.toggle("hide-sug", !showSug);
+  showSug = !showSug; road.classList.toggle("hide-ideas", !showSug);
   e.currentTarget.setAttribute("aria-pressed", String(showSug));
   e.currentTarget.textContent = showSug ? "Hide suggestions" : "Show suggestions";
-  pinned = null; mark(null); render();
+  render();
 });
-for (const b of document.querySelectorAll("[data-ph]")) b.addEventListener("click", () => { phase = +b.dataset.ph; pinned = null; mark(null); render(); });
-document.getElementById("ph-next").addEventListener("click", () => { phase = phase === 4 ? 0 : phase + 1; pinned = null; mark(null); render(); });
 render();
 
 // pages
-const pages = { "data-flow": "pg-flow", "what-people-see": "pg-people" };
+const pages = { "data-flow": "pg-flow", "platform-features": "pg-people", "what-people-see": "pg-people" };
 function route() {
   const key = pages[location.hash.slice(1)] ? location.hash.slice(1) : "data-flow";
-  for (const [k, id] of Object.entries(pages)) document.getElementById(id).hidden = k !== key;
-  document.getElementById("tab-flow").setAttribute("aria-current", key === "data-flow" ? "page" : "false");
-  document.getElementById("tab-people").setAttribute("aria-current", key === "what-people-see" ? "page" : "false");
+  for (const id of ["pg-flow", "pg-people"]) document.getElementById(id).hidden = id !== pages[key];
+  document.getElementById("tab-flow").setAttribute("aria-current", pages[key] === "pg-flow" ? "page" : "false");
+  document.getElementById("tab-people").setAttribute("aria-current", pages[key] === "pg-people" ? "page" : "false");
 }
 window.addEventListener("hashchange", route);
+route();
 // light by default; dark on request, remembered on this device
 const tb = document.getElementById("theme");
 function theme(t) {
