@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <meta name="robots" content="noindex, nofollow">
-<title>Gateway Platform Map</title>
+<title>Gateway 360</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600&display=swap">
@@ -92,11 +92,26 @@ svg.focusing .node:not(.sel):not(.near), svg.focusing .edge:not(.hot) { opacity:
 footer { margin-top: 18px; font-size: 12.5px; color: var(--muted); max-width: 90ch; }
 section > .lede { margin-bottom: 16px; }
 
-.tabs { display: flex; gap: 4px; border-bottom: 1px solid var(--line); margin-bottom: 18px; }
-.tabs a { font: 500 14px var(--sans); color: var(--muted); text-decoration: none; padding: 9px 14px; border-bottom: 2px solid transparent; margin-bottom: -1px; }
-.tabs a:hover { color: var(--ink); }
-.tabs a[aria-current="page"] { color: var(--ink); border-bottom-color: var(--ink); }
-.tabs a:focus-visible { outline: 2px solid var(--next); outline-offset: 2px; }
+/* page switcher: two numbered cards, the current one filled, so it is plain there are two pages */
+.pages { display: grid; grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr); gap: 10px; align-items: stretch; margin-bottom: 22px; }
+.pages a { display: flex; gap: 14px; align-items: center; text-decoration: none; color: var(--ink); background: var(--surface); border: 1.5px solid var(--line); border-radius: 12px; padding: 12px 16px; min-width: 0; }
+.pages a:hover { border-color: var(--ink); }
+.pages a:focus-visible { outline: 2px solid var(--next); outline-offset: 2px; }
+.pages .num { flex: none; width: 34px; height: 34px; border-radius: 50%; display: grid; place-items: center; font: 600 15px var(--sans); border: 1.5px solid var(--line); color: var(--muted); }
+.pages b { display: block; font-size: 16px; font-weight: 600; }
+.pages small { display: block; font-size: 12.5px; color: var(--muted); }
+.pages a[aria-current="page"] { background: var(--ink); border-color: var(--ink); color: var(--bg); }
+.pages a[aria-current="page"] small { color: color-mix(in srgb, var(--bg) 75%, transparent); }
+.pages a[aria-current="page"] .num { background: var(--bg); color: var(--ink); border-color: var(--bg); }
+.pages .arrow { align-self: center; color: var(--muted); font-size: 20px; }
+@media (max-width: 640px) { .pages { grid-template-columns: minmax(0, 1fr); } .pages .arrow { display: none; } }
+.pager { display: flex; justify-content: flex-end; margin-top: 22px; }
+.pager.back { justify-content: flex-start; }
+.pager a { display: inline-flex; flex-direction: column; text-decoration: none; color: var(--ink); background: var(--surface); border: 1.5px solid var(--ink); border-radius: 12px; padding: 12px 18px; }
+.pager a:hover { background: var(--band); }
+.pager a:focus-visible { outline: 2px solid var(--next); outline-offset: 2px; }
+.pager small { font: 500 11.5px var(--mono); color: var(--muted); letter-spacing: .03em; }
+.pager b { font-size: 16px; font-weight: 600; }
 
 /* page 2: platform features, one column per phase, read left to right */
 .rm-title { font-size: 21px; font-weight: 600; margin: 0 0 4px; text-wrap: balance; }
@@ -143,7 +158,8 @@ section > .lede { margin-bottom: 16px; }
 <div class="wrap">
   <header>
     <div>
-      <h1>Gateway Platform Map</h1>
+      <h1>Gateway 360</h1>
+      <p class="lede">How the platform works today, and how it grows.</p>
     </div>
     <div class="head-tools">
       <div class="byline">HelloIT Pros · November 2026</div>
@@ -151,9 +167,10 @@ section > .lede { margin-bottom: 16px; }
     </div>
   </header>
 
-  <nav class="tabs" aria-label="Pages">
-    <a href="#data-flow" id="tab-flow">How data flows</a>
-    <a href="#platform-features" id="tab-people">Platform features</a>
+  <nav class="pages" aria-label="Pages">
+    <a href="#data-flow" id="tab-flow"><span class="num">1</span><span><b>How data flows</b><small>From RealPage to the dashboard, and what we’ll add</small></span></a>
+    <span class="arrow" aria-hidden="true">→</span>
+    <a href="#platform-features" id="tab-people"><span class="num">2</span><span><b>Platform features</b><small>What arrives in each step, through 2027</small></span></a>
   </nav>
 
   <section id="pg-flow">
@@ -178,6 +195,7 @@ section > .lede { margin-bottom: 16px; }
     <div class="stage"><svg id="map" viewBox="0 0 1200 700" role="img" aria-label="Gateway platform architecture: RealPage reports flow through the ingestion mailbox and ingest service into the Supabase database and the dashboard; planned additions add Google sign-in, Drive documents and an AI assistant."></svg></div>
     <aside id="panel" aria-live="polite"></aside>
   </div>
+  <div class="pager"><a href="#platform-features"><small>Next · page 2 of 2</small><b>Platform features →</b></a></div>
   </section>
 
   <section id="pg-people" hidden>
@@ -204,6 +222,7 @@ section > .lede { margin-bottom: 16px; }
   </div>
 
   <ol class="road" id="road"></ol>
+  <div class="pager back"><a href="#data-flow"><small>Back · page 1 of 2</small><b>← How data flows</b></a></div>
   </section>
 
 </div>
@@ -583,7 +602,7 @@ function route() {
   document.getElementById("tab-flow").setAttribute("aria-current", pages[key] === "pg-flow" ? "page" : "false");
   document.getElementById("tab-people").setAttribute("aria-current", pages[key] === "pg-people" ? "page" : "false");
 }
-window.addEventListener("hashchange", route);
+window.addEventListener("hashchange", () => { route(); window.scrollTo(0, 0); });
 route();
 // light by default; dark on request, remembered on this device
 const tb = document.getElementById("theme");
