@@ -146,13 +146,16 @@ section > .lede { margin-bottom: 16px; }
 .cell.tbd .ph { color: var(--muted); }
 .cell:not(.empty):hover, .cell.sel, .cell:focus-visible { outline: 2px solid var(--ink); outline-offset: 1px; }
 .mx-h.closed b { color: var(--muted); }
-/* suggested features: a pink stripe on each cell and a chip on the name */
-.chip { display: inline-block; font: 600 10px var(--sans); letter-spacing: .06em; text-transform: uppercase; color: var(--sug); border: 1px solid var(--sug); border-radius: 999px; padding: 1px 6px; margin-left: 6px; vertical-align: 1px; white-space: nowrap; }
-.mx-name.sug { box-shadow: inset 4px 0 0 var(--sug); padding-left: 12px; }
-.cell.sug { box-shadow: inset 4px 0 0 var(--sug); padding-left: 12px; }
-.key.sug { border: 0; box-shadow: inset 4px 0 0 var(--sug); background: color-mix(in srgb, var(--sug) 14%, var(--surface)); }
+/* suggested features: a pink corner fold on each cell, and a pink fold mark before the name */
+.fold { display: inline-block; width: 0; height: 0; border-top: 9px solid var(--sug); border-left: 9px solid transparent; margin-right: 7px; vertical-align: 1px; }
+.mx-name.sug { color: var(--sug); }
+.cell { position: relative; }
+.cell.sug::after { content: ""; position: absolute; top: -1.5px; right: -1.5px; border-top: 14px solid var(--sug); border-left: 14px solid transparent; border-top-right-radius: 8px; }
+.key.sug { border: 1.5px solid var(--line); position: relative; overflow: hidden; }
+.key.sug::after { content: ""; position: absolute; top: 0; right: 0; border-top: 8px solid var(--sug); border-left: 8px solid transparent; }
 .pill.sug { color: var(--sug); }
 .hide-sug .is-sug { display: none; }
+.sr { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
 .icon-btn { width: 38px; height: 38px; display: grid; place-items: center; color: var(--ink); background: var(--surface); border: 1px solid var(--line); border-radius: 50%; cursor: pointer; }
 .icon-btn:hover { border-color: var(--ink); }
 .icon-btn:focus-visible { outline: 2px solid var(--next); outline-offset: 2px; }
@@ -192,9 +195,9 @@ section > .lede { margin-bottom: 16px; }
     <button type="button" class="btn" id="tour">Follow a morning's data</button>
     <ul class="legend" aria-label="Legend">
       <li><span class="sw live"></span>Live today</li>
-      <li><span class="sw next"></span>Next phase · Dec 2026 – Mar 2027</li>
+      <li><span class="sw next"></span>Next phase · Q4 2026 – Q1 2027</li>
       <li><span class="sw later"></span>Q2 2027</li>
-      <li><span class="sw ai"></span>AI layer · second half of 2027</li>
+      <li><span class="sw ai"></span>AI layer · Q3 – Q4 2027</li>
     </ul>
   </div>
 
@@ -211,10 +214,11 @@ section > .lede { margin-bottom: 16px; }
   <div class="controls">
     <div class="seg" role="group" aria-label="Phase">
       <button type="button" id="p-0" data-ph="0" aria-pressed="false">Today</button>
-      <button type="button" id="p-1" data-ph="1" aria-pressed="false">Dec 2026</button>
-      <button type="button" id="p-2" data-ph="2" aria-pressed="false">Jan – Mar 2027</button>
+      <button type="button" id="p-1" data-ph="1" aria-pressed="false">Q4 2026</button>
+      <button type="button" id="p-2" data-ph="2" aria-pressed="false">Q1 2027</button>
       <button type="button" id="p-3" data-ph="3" aria-pressed="false">Q2 2027</button>
-      <button type="button" id="p-4" data-ph="4" aria-pressed="true">2nd half 2027</button>
+      <button type="button" id="p-4" data-ph="4" aria-pressed="false">Q3 2027</button>
+      <button type="button" id="p-5" data-ph="5" aria-pressed="true">Q4 2027</button>
     </div>
     <button type="button" class="btn" id="ph-next">Next phase →</button>
     <button type="button" class="btn" id="sug-toggle" aria-pressed="true">Hide suggestions</button>
@@ -239,7 +243,7 @@ section > .lede { margin-bottom: 16px; }
 <script>
 (() => {
 const STATUS = {
-  live: "Live today", next: "Next phase · Dec 2026 – Mar 2027", later: "Planned · Q2 2027", ai: "Planned · second half of 2027"
+  live: "Live today", next: "Next phase · Q4 2026 – Q1 2027", later: "Planned · Q2 2027", ai: "Planned · Q3 – Q4 2027"
 };
 const N = [
   // AI layer
@@ -418,7 +422,7 @@ function overview() {
   <h2>One feed in, one database, one dashboard</h2>
   <p>Every morning RealPage’s reports reach Gateway’s ingestion mailbox. HelloIT’s ingest service downloads them, checks every figure, and loads the day only if everything passes. The dashboard then reads the database as the signed-in person, so each person sees only what their role allows.</p>
   <p>The planned work keeps that shape and adds three things:</p>
-  <ul><li><b>Google sign-in</b> with 2-Step Verification (next phase)</li><li><b>Documents from Google Drive</b> with reminders: insurance, vendor insurance, taxes (Q2 2027)</li><li><b>An AI assistant</b> that sits on top of everything, within each person’s permissions (second half of 2027)</li></ul>
+  <ul><li><b>Google sign-in</b> with 2-Step Verification (next phase)</li><li><b>Documents from Google Drive</b> with reminders: insurance, vendor insurance, taxes (Q2 2027)</li><li><b>An AI assistant</b> that sits on top of everything, within each person’s permissions (Q3 – Q4 2027)</li></ul>
   <p class="tech"><b>How to use:</b> hover or tap a box for detail. Use the buttons above to step from today to the full plan, or follow one morning’s data end to end.</p>`;
 }
 function detail(id) {
@@ -464,8 +468,8 @@ show(null);
 <script>
 (() => {
 const PH = [
-  { label: "Live today", short: "Today" }, { label: "Dec 2026", short: "Dec 2026" }, { label: "Jan – Mar 2027", short: "Jan–Mar 2027" },
-  { label: "Q2 2027", short: "Q2 2027" }, { label: "Second half of 2027", short: "H2 2027" },
+  { label: "Live today", short: "Today" }, { label: "Q4 2026", short: "Q4 2026" }, { label: "Q1 2027", short: "Q1 2027" },
+  { label: "Q2 2027", short: "Q2 2027" }, { label: "Q3 2027", short: "Q3 2027" }, { label: "Q4 2027", short: "Q4 2027" },
 ];
 const TBD = 99;
 const AUD = [
@@ -536,7 +540,7 @@ const SECTIONS = [
     { id: "pp", name: "Policies & procedures Q&A", what: "Ask about Gateway’s policies in plain English, answered from Gateway’s own documents.",
       c: { exec: [4], regional: [4], pm: [4], acct: [4] } },
     { id: "ask", name: "Ask about everything", what: "Ask about properties, residents, vendors, insurance and taxes. Answers stay within what each person may see.",
-      c: { exec: [4], regional: [4], pm: [4, "Their properties"], acct: [4] } },
+      c: { exec: [5], regional: [5], pm: [5, "Their properties"], acct: [5] } },
   ]},
   { name: "Account & security", rows: [
     { id: "signin", name: "Sign in with Google + 2-Step", what: "Gateway staff sign in with Google and 2-Step Verification. Outside users use a password plus an app code.",
@@ -551,7 +555,7 @@ const SECTIONS = [
 const AI_TEXT = "Gateway assistant (JOE) sits on top of everything below, within each person’s permissions. Not for owners.";
 
 const mx = document.getElementById("matrix"), panel = document.getElementById("panel2");
-let phase = 4, pinned = null;
+let phase = 5, pinned = null;
 const esc = (s) => s.replace(/[&<>]/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;" }[c]));
 const div = (cls, html, attrs = {}) => { const d = document.createElement("div"); d.className = cls; if (html != null) d.innerHTML = html; for (const [k, v] of Object.entries(attrs)) d.setAttribute(k, v); mx.appendChild(d); return d; };
 const eff = (rowPh, a) => (rowPh === TBD ? TBD : Math.max(rowPh, a.opens));
@@ -568,7 +572,7 @@ for (const s of SECTIONS) {
   div("mx-sec", esc(s.name), { role: "rowheader" });
   for (const r of s.rows) {
     const sg = r.sug ? " sug is-sug" : "";
-    const nm = div("mx-name" + sg, esc(r.name) + (r.sug ? '<span class="chip">Suggested</span>' : ""), { tabindex: "0", role: "rowheader" });
+    const nm = div("mx-name" + sg, (r.sug ? '<span class="fold" aria-hidden="true"></span>' : "") + esc(r.name) + (r.sug ? '<span class="sr"> (suggested)</span>' : ""), { tabindex: "0", role: "rowheader" });
     bind(nm, () => rowInfo(r));
     for (const a of AUD) {
       const v = r.c[a.id];
@@ -594,7 +598,7 @@ const phLabel = (p) => (p === TBD ? "To decide" : PH[p].label);
 const stateCls = (p) => (p === TBD ? "tbd" : p > phase ? "off" : p === phase && phase > 0 ? "new" : "on");
 function cellInfo(r, a, p, note) {
   const st = stateCls(p);
-  const pill = p === TBD ? "info" : p === 0 ? "live" : p === 4 ? "ai" : p === 3 ? "later" : "next";
+  const pill = p === TBD ? "info" : p === 0 ? "live" : p >= 4 ? "ai" : p === 3 ? "later" : "next";
   const opensNote = a.opens > 0 && p !== TBD && p === a.opens && (r.c[a.id][0] < a.opens)
     ? `<p>The feature is built already; ${esc(a.name.toLowerCase())} get it when their logins open in ${esc(PH[a.opens].label)}.</p>` : "";
   return `${sugPill(r)}<span class="pill ${pill}">${esc(phLabel(p))}</span><h2>${esc(r.name)}</h2><p><b>${esc(a.name)}</b>${note ? ": " + esc(note) : ""}</p><p>${esc(r.what)}</p>${opensNote}${sugWhy(r)}`;
@@ -612,16 +616,17 @@ function overview() {
   return `<span class="pill info">${esc(PH[phase].label)}</span><h2>${used(plan)} of ${plan.length} planned features in use</h2>
   <p class="tech" style="border:0;padding:0;margin:0 0 12px">${used(plan)} planned${sugLine}</p>
   <p>${["Today: the dashboard, for executives and regional managers.",
-        "December: Google sign-in, logins for property managers and owners, prepaid and deposit checks, vendor list.",
-        "January to March: the Accounting & admin role and the management fee calculator.",
+        "Q4 2026: Google sign-in, logins for property managers and owners, prepaid and deposit checks, vendor list.",
+        "Q1 2027: the Accounting & admin role and the management fee calculator.",
         "Q2 2027: insurance, vendor insurance and real estate taxes, read from Google Drive.",
-        "Second half of 2027: the assistant, first for policies, then for everything."][phase]}</p>
-  <p>Rows marked <span class="chip" style="margin:0">Suggested</span> are HelloIT’s ideas from the data, not yet agreed with Gateway.</p>
+        "Q3 2027: the assistant arrives, answering questions about policies and procedures.",
+        "Q4 2027: the assistant answers questions about everything on the platform."][phase]}</p>
+  <p>Pink rows with a <span class="fold" aria-hidden="true"></span>corner mark are HelloIT’s ideas from the data, not yet agreed with Gateway.</p>
   <p class="tech"><b>How to use:</b> pick a phase or press “Next phase”. Hover or tap a cell for detail.</p>`;
 }
 function render() {
   for (const b of document.querySelectorAll("[data-ph]")) b.setAttribute("aria-pressed", String(+b.dataset.ph === phase));
-  document.getElementById("ph-next").textContent = phase === 4 ? "Back to today" : "Next phase →";
+  document.getElementById("ph-next").textContent = phase === 5 ? "Back to today" : "Next phase →";
   for (const c of cells) {
     const st = stateCls(c.ph);
     c.el.className = "cell " + st + (c.r.sug ? " sug is-sug" : "") + (c.el.classList.contains("sel") ? " sel" : "");
@@ -645,7 +650,7 @@ document.getElementById("sug-toggle").addEventListener("click", (e) => {
   pinned = null; mark(null); render();
 });
 for (const b of document.querySelectorAll("[data-ph]")) b.addEventListener("click", () => { phase = +b.dataset.ph; pinned = null; mark(null); render(); });
-document.getElementById("ph-next").addEventListener("click", () => { phase = phase === 4 ? 0 : phase + 1; pinned = null; mark(null); render(); });
+document.getElementById("ph-next").addEventListener("click", () => { phase = phase === 5 ? 0 : phase + 1; pinned = null; mark(null); render(); });
 render();
 
 // pages
