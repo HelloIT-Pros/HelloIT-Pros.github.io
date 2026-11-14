@@ -12,14 +12,16 @@
 /* Layout: a header, a view switcher, then the system drawing beside a detail panel that explains whatever is hovered. */
 :root {
   --bg: #f4f6f2; --surface: #ffffff; --band: #eaeee7; --ink: #1b2420; --muted: #586560; --line: #c4ccc4; --edge: #8b968f;
-  --live: #4b7a1d; --next: #2161a6; --later: #7647ad; --ai: #a86a10; --sug: #b4236a;
+  --next: #2161a6;
+  --p0: #4b7a1d; --p1: #2161a6; --p2: #0b7d83; --p3: #7647ad; --p4: #b25d00; --p5: #b42f4f;
   color-scheme: light;
   --sans: "IBM Plex Sans", system-ui, -apple-system, "Segoe UI", sans-serif;
   --mono: "IBM Plex Mono", ui-monospace, "SF Mono", Menlo, monospace;
 }
 :root[data-theme="dark"] {
   --bg: #111512; --surface: #192019; --band: #161b17; --ink: #e5ebe5; --muted: #9ba79f; --line: #344038; --edge: #6f7b73;
-  --live: #8dc24c; --next: #6aa6ea; --later: #b28ae8; --ai: #e2a948; --sug: #f07fb4; color-scheme: dark }
+  --next: #6aa6ea;
+  --p0: #8dc24c; --p1: #6aa6ea; --p2: #45c6c2; --p3: #b28ae8; --p4: #f0a24e; --p5: #f27d93; color-scheme: dark }
 
 body { margin: 0; background: var(--bg); color: var(--ink); font-family: var(--sans); font-size: 15px; line-height: 1.5; }
 .wrap { max-width: 1440px; margin: 0 auto; padding-block: 28px 40px;
@@ -41,8 +43,10 @@ button:focus-visible, .node:focus-visible { outline: 2px solid var(--next); outl
 .legend { display: flex; flex-wrap: wrap; gap: 6px 18px; font-size: 12.5px; color: var(--muted); margin: 0; padding: 0; list-style: none; }
 .legend li { display: inline-flex; align-items: center; gap: 7px; }
 .sw { width: 22px; height: 0; border-top: 2px solid; display: inline-block; }
-.sw.live { border-color: var(--live); } .sw.next { border-color: var(--next); border-top-style: dashed; }
-.sw.later { border-color: var(--later); border-top-style: dashed; } .sw.ai { border-color: var(--ai); border-top-style: dashed; }
+/* one colour per quarter: Today, Q4 2026, Q1 2027, Q2 2027, Q3 2027, Q4 2027 */
+.p0 { --c: var(--p0); } .p1 { --c: var(--p1); } .p2 { --c: var(--p2); } .p3 { --c: var(--p3); } .p4 { --c: var(--p4); } .p5 { --c: var(--p5); }
+.sw { border-color: var(--c); } .sw:not(.p0) { border-top-style: dashed; }
+.dot { display: inline-block; width: 9px; height: 9px; border-radius: 50%; background: var(--c); margin-right: 7px; vertical-align: 0; }
 
 .grid { display: grid; grid-template-columns: minmax(0, 1fr) 340px; gap: 20px; align-items: start; }
 @media (max-width: 1080px) { .grid { grid-template-columns: minmax(0, 1fr); } }
@@ -54,7 +58,7 @@ aside { background: var(--surface); border: 1px solid var(--line); border-radius
 aside h2 { font-size: 19px; font-weight: 600; margin: 0 0 8px; text-wrap: balance; }
 aside p { margin: 0 0 12px; }
 .pill { display: inline-block; font: 500 11.5px var(--mono); letter-spacing: 0.03em; padding: 3px 8px; border-radius: 999px; border: 1px solid currentColor; margin-bottom: 12px; }
-.pill.live { color: var(--live); } .pill.next { color: var(--next); } .pill.later { color: var(--later); } .pill.ai { color: var(--ai); } .pill.info { color: var(--muted); }
+.pill { color: var(--c, var(--muted)); } .pill.info { color: var(--muted); }
 .tech { font-family: var(--mono); font-size: 12.5px; color: var(--muted); border-top: 1px solid var(--line); padding-top: 12px; margin-top: 4px; }
 .tech b { font-weight: 500; color: var(--ink); }
 .tour-nav { display: flex; gap: 8px; margin-top: 16px; align-items: center; }
@@ -67,10 +71,7 @@ aside ul { margin: 0 0 12px; padding-left: 18px; } aside li { margin-bottom: 4px
 .node { cursor: pointer; outline: none; transition: opacity .25s; }
 .node .box { fill: var(--surface); stroke-width: 1.5; }
 .node .tint { stroke: none; }
-.node.live .box { stroke: var(--live); } .node.live .tint { fill: var(--live); }
-.node.next .box { stroke: var(--next); stroke-dasharray: 6 4; } .node.next .tint { fill: var(--next); }
-.node.later .box { stroke: var(--later); stroke-dasharray: 6 4; } .node.later .tint { fill: var(--later); }
-.node.ai .box { stroke: var(--ai); stroke-dasharray: 6 4; } .node.ai .tint { fill: var(--ai); }
+.node .box { stroke: var(--c); } .node .tint { fill: var(--c); } .node:not(.p0) .box { stroke-dasharray: 6 4; }
 .node .t { fill: var(--ink); font: 600 13.5px var(--sans); }
 .node .s { fill: var(--muted); font: 400 11.5px var(--sans); }
 .node .l { fill: var(--ink); font: 400 11.5px var(--sans); }
@@ -78,16 +79,14 @@ aside ul { margin: 0 0 12px; padding-left: 18px; } aside li { margin-bottom: 4px
 .node .rule { stroke: var(--line); }
 .node:hover .box, .node.sel .box, .node:focus-visible .box { stroke-width: 2.75; }
 .edge { fill: none; stroke-width: 1.6; transition: opacity .25s, stroke-width .2s; }
-.edge.live { stroke: var(--live); stroke-dasharray: 5 6; animation: flow 1.1s linear infinite; }
-.edge.next { stroke: var(--next); stroke-dasharray: 3 4; }
-.edge.later { stroke: var(--later); stroke-dasharray: 3 4; }
-.edge.ai { stroke: var(--ai); stroke-dasharray: 3 4; }
+.edge { stroke: var(--c); stroke-dasharray: 3 4; }
+.edge.p0 { stroke-dasharray: 5 6; animation: flow 1.1s linear infinite; }
 .edge.hot { stroke-width: 3; }
-.m-live path { fill: var(--live); } .m-next path { fill: var(--next); } .m-later path { fill: var(--later); } .m-ai path { fill: var(--ai); }
+marker path { fill: var(--c); }
 @keyframes flow { to { stroke-dashoffset: -11; } }
 svg.focusing .node:not(.sel):not(.near), svg.focusing .edge:not(.hot) { opacity: .35; }
 .off { opacity: .1 !important; pointer-events: none; }
-@media (prefers-reduced-motion: reduce) { .edge.live { animation: none; } .node, .edge { transition: none; } }
+@media (prefers-reduced-motion: reduce) { .edge.p0 { animation: none; } .node, .edge { transition: none; } }
 
 footer { margin-top: 18px; font-size: 12.5px; color: var(--muted); max-width: 90ch; }
 section > .lede { margin-bottom: 16px; }
@@ -114,53 +113,41 @@ section > .lede { margin-bottom: 16px; }
 .pager b { font-size: 16px; font-weight: 600; }
 
 /* page 2: features x audiences */
-.key { width: 16px; height: 12px; border-radius: 3px; display: inline-block; border: 1.5px solid var(--live); }
-.key.on { background: color-mix(in srgb, var(--live) 14%, var(--surface)); }
-.key.new { border-color: var(--next); border-width: 2.5px; background: color-mix(in srgb, var(--next) 16%, var(--surface)); }
-.key.off { border-style: dashed; border-color: var(--edge); }
-.key.tbd { border-style: dotted; border-color: var(--muted); }
+.key { width: 16px; height: 12px; border-radius: 3px; display: inline-block; border: 1.5px solid var(--muted); background: color-mix(in srgb, var(--muted) 14%, var(--surface)); }
+.key.new { border: 2.5px solid var(--ink); background: var(--surface); }
+.key.off { border-style: dashed; border-color: var(--edge); background: none; }
+.key.tbd { border-style: dotted; border-color: var(--muted); background: none; }
 .matrix { display: grid; grid-template-columns: 210px repeat(5, minmax(118px, 1fr)); gap: 6px; padding: 14px; min-width: 880px; }
 .mx-h { padding: 6px 8px 10px; align-self: end; }
 .mx-h b { display: block; font-size: 13.5px; font-weight: 600; }
 .mx-h span { display: block; font-size: 11.5px; color: var(--muted); }
 .mx-h .count { font-family: var(--mono); font-size: 11px; color: var(--ink); margin-top: 4px; font-variant-numeric: tabular-nums; }
-.mx-ai { grid-column: 3 / 7; border: 1.5px dashed var(--ai); border-radius: 10px; padding: 10px 14px; font-size: 13px; cursor: pointer; transition: opacity .25s, background .25s; }
-.mx-ai b { font-weight: 600; }
-.mx-ai.on { border-style: solid; background: color-mix(in srgb, var(--ai) 12%, var(--surface)); }
-.mx-ai:not(.on) { opacity: .55; }
 .mx-sec { grid-column: 1 / -1; font: 600 11px var(--sans); letter-spacing: .08em; text-transform: uppercase; color: var(--muted); padding: 14px 8px 2px; border-top: 1px solid var(--line); }
 .mx-sec:first-of-type { border-top: 0; }
+.mx-sec.joe { color: var(--ink); cursor: pointer; border-radius: 0 0 8px 8px; }
+.mx-sec.joe:hover, .mx-sec.joe:focus-visible { background: var(--band); }
+.mx-sec .hint { font-weight: 500; letter-spacing: .02em; text-transform: none; color: var(--muted); }
 .mx-name { padding: 8px; font-size: 13px; font-weight: 500; cursor: pointer; align-self: center; border-radius: 8px; }
 .mx-name:hover, .mx-name:focus-visible { background: var(--band); }
 .cell { border-radius: 8px; padding: 7px 9px; min-height: 44px; font-size: 12px; line-height: 1.35; cursor: pointer; border: 1.5px solid transparent; transition: opacity .25s, background .25s, border-color .25s; min-width: 0; }
 .cell .ph { display: block; font: 500 10.5px var(--mono); letter-spacing: .02em; }
 .cell .nt { display: block; color: var(--muted); margin-top: 2px; }
 .cell.empty { cursor: default; }
-.cell.on { border-color: var(--live); background: color-mix(in srgb, var(--live) 11%, var(--surface)); }
-.cell.on .ph { color: var(--live); }
-.cell.new { border-color: var(--next); border-width: 2.5px; background: color-mix(in srgb, var(--next) 13%, var(--surface)); }
-.cell.new .ph { color: var(--next); }
+.cell.on { border-color: var(--c); background: color-mix(in srgb, var(--c) 11%, var(--surface)); }
+.cell.on .ph { color: var(--c); }
+.cell.new { border-color: var(--c); border-width: 2.5px; background: color-mix(in srgb, var(--c) 20%, var(--surface)); }
+.cell.new .ph { color: var(--c); font-weight: 600; }
 .cell.off { border-style: dashed; border-color: var(--line); opacity: .7; }
 .cell.off .ph { color: var(--muted); }
 .cell.tbd { border-style: dotted; border-color: var(--muted); }
 .cell.tbd .ph { color: var(--muted); }
 .cell:not(.empty):hover, .cell.sel, .cell:focus-visible { outline: 2px solid var(--ink); outline-offset: 1px; }
 .mx-h.closed b { color: var(--muted); }
-/* suggested features: a pink corner fold on each cell, and a pink fold mark before the name */
-.fold { display: inline-block; width: 0; height: 0; border-top: 9px solid var(--sug); border-left: 9px solid transparent; margin-right: 7px; vertical-align: 1px; }
-.mx-name.sug { color: var(--sug); }
-.cell { position: relative; }
-.cell.sug::after { content: ""; position: absolute; top: -1.5px; right: -1.5px; border-top: 14px solid var(--sug); border-left: 14px solid transparent; border-top-right-radius: 8px; }
-.key.sug { border: 1.5px solid var(--line); position: relative; overflow: hidden; }
-.key.sug::after { content: ""; position: absolute; top: 0; right: 0; border-top: 8px solid var(--sug); border-left: 8px solid transparent; }
-.pill.sug { color: var(--sug); }
-.hide-sug .is-sug { display: none; }
-.sr { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
 .icon-btn { width: 38px; height: 38px; display: grid; place-items: center; color: var(--ink); background: var(--surface); border: 1px solid var(--line); border-radius: 50%; cursor: pointer; }
 .icon-btn:hover { border-color: var(--ink); }
 .icon-btn:focus-visible { outline: 2px solid var(--next); outline-offset: 2px; }
 .head-tools { display: flex; align-items: center; gap: 14px; flex-wrap: wrap; }
-@media (prefers-reduced-motion: reduce) { .cell, .mx-ai { transition: none; } }
+@media (prefers-reduced-motion: reduce) { .cell { transition: none; } }
 </style>
 </head>
 <body>
@@ -184,20 +171,21 @@ section > .lede { margin-bottom: 16px; }
   </nav>
 
   <section id="pg-flow">
-  <p class="lede">How RealPage data reaches the dashboard today, and what we’ll add: Google sign-in, Drive documents and an AI assistant. Hover or tap any box.</p>
+  <p class="lede">How RealPage data reaches the dashboard today, and what we’ll add: Google sign-in, Drive documents and JOE, the AI assistant. Pick a quarter to see what’s in place by then; hover or tap any box.</p>
 
   <div class="controls">
     <div class="seg" role="group" aria-label="What to show">
-      <button type="button" id="v-today" data-view="today" aria-pressed="false">Today</button>
-      <button type="button" id="v-next" data-view="next" aria-pressed="false">+ Next phase</button>
-      <button type="button" id="v-full" data-view="full" aria-pressed="true">+ Later and AI</button>
+      <button type="button" data-view="0" aria-pressed="false"><span class="dot p0"></span>Today</button>
+      <button type="button" data-view="1" aria-pressed="false"><span class="dot p1"></span>Q4 2026</button>
+      <button type="button" data-view="2" aria-pressed="false"><span class="dot p2"></span>Q1 2027</button>
+      <button type="button" data-view="3" aria-pressed="false"><span class="dot p3"></span>Q2 2027</button>
+      <button type="button" data-view="4" aria-pressed="false"><span class="dot p4"></span>Q3 2027</button>
+      <button type="button" data-view="5" aria-pressed="true"><span class="dot p5"></span>Q4 2027</button>
     </div>
     <button type="button" class="btn" id="tour">Follow a morning's data</button>
     <ul class="legend" aria-label="Legend">
-      <li><span class="sw live"></span>Live today</li>
-      <li><span class="sw next"></span>Next phase · Q4 2026 – Q1 2027</li>
-      <li><span class="sw later"></span>Q2 2027</li>
-      <li><span class="sw ai"></span>AI layer · Q3 – Q4 2027</li>
+      <li><span class="sw p0"></span>Solid: live today</li>
+      <li><span class="sw" style="--c: var(--muted)"></span>Dashed: planned, coloured by quarter</li>
     </ul>
   </div>
 
@@ -209,25 +197,23 @@ section > .lede { margin-bottom: 16px; }
   </section>
 
   <section id="pg-people" hidden>
-  <p class="lede">Pick a phase to watch the platform grow. Hover or tap any cell.</p>
+  <p class="lede">Pick a quarter to watch the platform grow. Each colour is the quarter a feature arrives. Hover or tap any cell.</p>
 
   <div class="controls">
     <div class="seg" role="group" aria-label="Phase">
-      <button type="button" id="p-0" data-ph="0" aria-pressed="false">Today</button>
-      <button type="button" id="p-1" data-ph="1" aria-pressed="false">Q4 2026</button>
-      <button type="button" id="p-2" data-ph="2" aria-pressed="false">Q1 2027</button>
-      <button type="button" id="p-3" data-ph="3" aria-pressed="false">Q2 2027</button>
-      <button type="button" id="p-4" data-ph="4" aria-pressed="false">Q3 2027</button>
-      <button type="button" id="p-5" data-ph="5" aria-pressed="true">Q4 2027</button>
+      <button type="button" id="p-0" data-ph="0" aria-pressed="false"><span class="dot p0"></span>Today</button>
+      <button type="button" id="p-1" data-ph="1" aria-pressed="false"><span class="dot p1"></span>Q4 2026</button>
+      <button type="button" id="p-2" data-ph="2" aria-pressed="false"><span class="dot p2"></span>Q1 2027</button>
+      <button type="button" id="p-3" data-ph="3" aria-pressed="false"><span class="dot p3"></span>Q2 2027</button>
+      <button type="button" id="p-4" data-ph="4" aria-pressed="false"><span class="dot p4"></span>Q3 2027</button>
+      <button type="button" id="p-5" data-ph="5" aria-pressed="true"><span class="dot p5"></span>Q4 2027</button>
     </div>
     <button type="button" class="btn" id="ph-next">Next phase →</button>
-    <button type="button" class="btn" id="sug-toggle" aria-pressed="true">Hide suggestions</button>
     <ul class="legend" aria-label="Legend">
-      <li><span class="key on"></span>Available</li>
-      <li><span class="key new"></span>New in this phase</li>
+      <li><span class="key"></span>Available, in its quarter’s colour</li>
+      <li><span class="key new"></span>New this quarter</li>
       <li><span class="key off"></span>Coming later</li>
       <li><span class="key tbd"></span>To decide</li>
-      <li><span class="key sug"></span>Suggested by HelloIT, not yet agreed</li>
     </ul>
   </div>
 
@@ -242,105 +228,103 @@ section > .lede { margin-bottom: 16px; }
 
 <script>
 (() => {
-const STATUS = {
-  live: "Live today", next: "Next phase · Q4 2026 – Q1 2027", later: "Planned · Q2 2027", ai: "Planned · Q3 – Q4 2027"
-};
+const STATUS = ["Live today", "Planned · Q4 2026", "Planned · Q1 2027", "Planned · Q2 2027", "Planned · Q3 2027", "Planned · Q4 2027"];
 const N = [
   // AI layer
-  { id: "ai", x: 614, y: 56, w: 366, h: 76, st: "ai", t: ["Gateway assistant (JOE)"], s: ["Ask in plain English", "Answers only from what your role may see"],
-    name: "Gateway assistant (JOE)",
-    what: "One place to ask questions such as “When does Amos E. Landrum’s property policy renew?”, “Which properties have residents with large credits?” or “What is our policy on prepaid rent?”. It answers from the database and the documents, always as the person asking: an owner never gets resident detail, and a property manager only hears about their own properties.",
+  { id: "ai", x: 614, y: 56, w: 366, h: 76, st: 4, pill: ["p4", "Planned · Q3 2027, wider in Q4 2027"], t: ["AI Assistant (JOE)"], s: ["Ask in plain English", "Answers only from what your role may see"],
+    name: "AI Assistant (JOE)",
+    what: "One place to ask questions such as “When does Amos E. Landrum’s property policy renew?”, “Which properties have residents with large credits?” or “What is our policy on prepaid rent?”. It starts in Q3 2027 with policies and procedures, and covers everything from Q4 2027. It answers from the database and the documents, always as the person asking: an owner never gets resident detail, and a property manager only hears about their own properties.",
     tech: "Queries run under the asker’s own row-level security, never a master key. Policy answers come from the policies and procedures documents in Drive. The AI assistant Gateway already runs on the same server could be the front end." },
   // daily data
-  { id: "realpage", x: 20, y: 196, h: 64, st: "live", t: ["RealPage OneSite"], s: ["Daily report package"], name: "RealPage OneSite",
+  { id: "realpage", x: 20, y: 196, h: 64, st: 0, t: ["RealPage OneSite"], s: ["Daily report package"], name: "RealPage OneSite",
     what: "Gateway’s scheduled OneSite reports run every day and are packaged together: rent roll, Delinquent & Prepaid, Availability and the rest, for every property. RealPage emails a notice with a download link when the package is ready.",
     tech: "About 168 Excel files per zip. Format is detected from the file’s bytes, not its name, so a switch back to PDF is caught." },
-  { id: "gl", x: 20, y: 276, h: 64, st: "live", t: ["General Ledger"], s: ["Daily, every property"], name: "General Ledger",
+  { id: "gl", x: 20, y: 276, h: 64, st: 0, t: ["General Ledger"], s: ["Daily, every property"], name: "General Ledger",
     what: "The General Ledger report arrives in the same mailbox every day. It gives each property’s month-to-date activity and operating cash, and company-wide balances.",
     tech: "Per-property export since 14 Oct 2026; full chart of accounts since 21 Sep 2026." },
-  { id: "monthly", x: 20, y: 356, h: 76, st: "live", t: ["Monthly Occupancy", "& Delinquency"], s: ["Loaded by hand today"], name: "Monthly Occupancy & Delinquency",
-    pill: ["live", "Live, loaded by hand · automatic next phase"],
-    what: "Gateway’s month-end workbook. Today it is loaded by hand. Next, Gateway emails it to the ingestion mailbox and it loads itself within minutes, starting with the November report.",
+  { id: "monthly", x: 20, y: 356, h: 76, st: 0, t: ["Monthly Occupancy", "& Delinquency"], s: ["Loaded by hand today"], name: "Monthly Occupancy & Delinquency",
+    pill: ["p0", "Live, loaded by hand · automatic from Q4 2026"],
+    what: "Gateway’s month-end workbook. Today it is loaded by hand. From Q4 2026, Gateway emails it to the ingestion mailbox and it loads itself within minutes, starting with the November report.",
     tech: "Every figure must equal the RealPage exports, or the month is refused rather than guessed." },
-  { id: "mailbox", x: 218, y: 196, h: 64, st: "live", t: ["Ingestion mailbox"], s: ["In Gateway’s Workspace"], name: "Ingestion mailbox",
+  { id: "mailbox", x: 218, y: 196, h: 64, st: 0, t: ["Ingestion mailbox"], s: ["In Gateway’s Workspace"], name: "Ingestion mailbox",
     what: "rp-ingestionreports@gwaffordable.com, inside Gateway’s own Google Workspace. Everything the platform loads arrives here first.",
     tech: "HelloIT holds no password for this mailbox." },
-  { id: "relay", x: 218, y: 300, h: 64, st: "live", t: ["Apps Script → n8n"], s: ["Passes on the link"], name: "Apps Script and n8n",
+  { id: "relay", x: 218, y: 300, h: 64, st: 0, t: ["Apps Script → n8n"], s: ["Passes on the link"], name: "Apps Script and n8n",
     what: "A small script inside Gateway’s Google account checks the mailbox on a timer, finds each day’s notice and hands only the download link to n8n, which calls the ingest service.",
     tech: "Time-driven Apps Script trigger. Only a URL leaves Gateway’s Google tenant; no resident data crosses this hop." },
-  { id: "alerts", x: 218, y: 416, h: 60, st: "live", t: ["Problem alerts"], s: ["Email only when needed"], name: "Problem alerts",
+  { id: "alerts", x: 218, y: 416, h: 60, st: 0, t: ["Problem alerts"], s: ["Email only when needed"], name: "Problem alerts",
     what: "Sends an email only when something is wrong: a package failed its checks, or a day is still missing after the automatic retries. Silence means the day loaded.",
     tech: "Retries after 1, 3 and 6 hours. A daily check after 2 pm ET catches days that never arrived at all." },
-  { id: "ingest", x: 416, y: 196, h: 228, st: "live", t: ["Ingest service"], s: ["On HelloIT’s server"],
+  { id: "ingest", x: 416, y: 196, h: 228, st: 0, t: ["Ingest service"], s: ["On HelloIT’s server"],
     steps: ["Download the zip", "Read every file", "Check ~1,200 totals", "Load only if all pass"], name: "Ingest service",
     what: "Downloads the day’s package straight from RealPage, reads every file, and checks each figure against the totals RealPage prints in its own reports, plus report against report. If any check fails, nothing is written and the dashboard keeps yesterday’s figures.",
     tech: "Node service in Docker on the VPS, with no public ports. About 1,238 checks per package; failures are recorded so a bad day can be diagnosed." },
-  { id: "db", x: 614, y: 196, h: 228, st: "live", t: ["Supabase database"], s: ["Postgres"],
+  { id: "db", x: 614, y: 196, h: 228, st: 0, t: ["Supabase database"], s: ["Postgres"],
     lines: ["Daily snapshots", "Ledger postings", "Monthly report", "Row-level security"], name: "Supabase database",
     what: "Holds every daily snapshot, the ledger and the monthly report. Row-level security means the database itself decides what each person can read: their role, their assigned properties, and whether they may see resident names.",
     tech: "Every retained day is kept, which is what the day-over-day arrows on the dashboard use." },
-  { id: "app", x: 812, y: 196, h: 228, st: "live", t: ["Dashboard"], s: ["oneview.gwaffordable.com"],
+  { id: "app", x: 812, y: 196, h: 228, st: 0, t: ["Dashboard"], s: ["oneview.gwaffordable.com"],
     lines: ["Summary", "Operations", "Monthly report", "Settings"], name: "Dashboard",
     what: "The site Gateway uses. It reads the database as the signed-in person, so it can never show more than that person is allowed. When data can’t be read, it says so rather than showing older figures.",
     tech: "Next.js server components. Today people sign in with email and password; there is no second step yet." },
-  { id: "exec", x: 1010, y: 196, h: 44, st: "live", t: ["Executives"], name: "Executives",
+  { id: "exec", x: 1010, y: 196, h: 44, st: 0, t: ["Executives"], name: "Executives",
     what: "Every property, on both the Summary and Operations pages, including company-wide cash and payables." },
-  { id: "regional", x: 1010, y: 250, h: 44, st: "live", t: ["Regional managers"], name: "Regional managers",
+  { id: "regional", x: 1010, y: 250, h: 44, st: 0, t: ["Regional managers"], name: "Regional managers",
     what: "Only their assigned properties, on both pages, including those properties’ financial figures." },
-  { id: "pm", x: 1010, y: 304, h: 44, st: "live", t: ["Property managers"], name: "Property managers",
+  { id: "pm", x: 1010, y: 304, h: 44, st: 0, t: ["Property managers"], name: "Property managers",
     what: "Only their assigned properties, on the Operations page: occupancy, delinquency, availability and recertifications. No financial figures today." },
-  { id: "owners", x: 1010, y: 358, h: 44, st: "next", t: ["Owners"], name: "Owners",
+  { id: "owners", x: 1010, y: 358, h: 44, st: 1, t: ["Owners"], name: "Owners",
     what: "An outside owner sees the Summary page for their own properties only: totals, with no resident detail. The role is built; logins will be issued once Gateway’s access list is confirmed and every role is tested." },
-  { id: "accounting", x: 1010, y: 412, h: 44, st: "next", t: ["Accounting & admin"], name: "Accounting & admin",
+  { id: "accounting", x: 1010, y: 412, h: 44, st: 2, t: ["Accounting & admin"], name: "Accounting & admin",
     what: "A new role for Gateway’s accounting and admin staff, starting with the management fee calculation and later tax and insurance tracking. Who is in it, and whether it sees resident names, is still to be decided." },
   // documents & sign-in
-  { id: "drive", x: 20, y: 540, h: 78, st: "later", t: ["Google Drive"], s: ["COIs · tax bills", "Policies & procedures"], name: "Google Drive folders",
+  { id: "drive", x: 20, y: 540, h: 78, st: 3, t: ["Google Drive"], s: ["COIs · tax bills", "Policies & procedures"], name: "Google Drive folders",
     what: "Gateway’s existing folders: insurance certificates, tax bills, policies and procedures. Gateway shares only the folders the platform needs, as a viewer, and can unshare them at any time.",
     tech: "Best kept in a Shared Drive, so files don’t leave with a person." },
-  { id: "gcp", x: 218, y: 540, h: 78, st: "next", t: ["Google Cloud"], s: ["Owned by Gateway", "Read-only access"], name: "Google Cloud project",
-    what: "A Google Cloud project that Gateway owns. In the next phase it holds the Google sign-in setup. In Q2 it also holds a read-only account that can see only the Drive folders shared with it.",
+  { id: "gcp", x: 218, y: 540, h: 78, st: 1, t: ["Google Cloud"], s: ["Owned by Gateway", "Read-only access"], name: "Google Cloud project",
+    what: "A Google Cloud project that Gateway owns. From Q4 2026 it holds the Google sign-in setup. In Q2 2027 it also holds a read-only account that can see only the Drive folders shared with it.",
     tech: "No domain-wide delegation; read-only Drive scope; the account’s key is kept as a secret on the ingest server, never in the code." },
-  { id: "docs", x: 416, y: 540, h: 78, st: "later", t: ["Documents service"], s: ["Read · review · remind", "Certificates first"], name: "Documents service",
+  { id: "docs", x: 416, y: 540, h: 78, st: 3, t: ["Documents service"], s: ["Read · review · remind", "Certificates first"], name: "Documents service",
     what: "Reads each new document, pulls out the key fields (insurer, policy number, dates, limits, deductible), asks a person to confirm anything it is unsure of, and schedules the reminders. Insurance certificates come first, then vendor insurance and tax bills.",
     tech: "Certificates use standard ACORD 25 and 27 forms with a text layer, so they read cleanly. Mismatches between certificates are flagged for review." },
-  { id: "storage", x: 614, y: 540, h: 78, st: "next", t: ["Document store"], s: ["Originals kept, private", "Plus RealPage zips"], name: "Document store",
-    what: "Keeps the original of every file the platform loads, privately. That starts in the next phase with the daily RealPage packages, which aren’t kept today, and grows to certificates and tax bills in Q2.",
+  { id: "storage", x: 614, y: 540, h: 78, st: 1, t: ["Document store"], s: ["Originals kept, private", "Plus RealPage zips"], name: "Document store",
+    what: "Keeps the original of every file the platform loads, privately. That starts in Q4 2026 with the daily RealPage packages, which aren’t kept today, and grows to certificates and tax bills in Q2 2027.",
     tech: "Supabase Storage, private bucket. Each file’s source and fingerprint are recorded and linked to its property." },
-  { id: "signin", x: 812, y: 540, h: 78, st: "next", t: ["Google sign-in"], s: ["2-Step Verification", "Set in Google Workspace"], name: "Google sign-in and 2-Step Verification",
+  { id: "signin", x: 812, y: 540, h: 78, st: 1, t: ["Google sign-in"], s: ["2-Step Verification", "Set in Google Workspace"], name: "Google sign-in and 2-Step Verification",
     what: "Gateway staff sign in with their Google account, protected by Google’s 2-Step Verification, which Gateway can roll out a group at a time. Suspending someone’s Google account ends their dashboard access. People outside Gateway keep a password plus a code from an authenticator app.",
     tech: "Limited to gwaffordable.com. Google proves who you are; Settings still decides what you see." },
-  { id: "reminders", x: 1010, y: 540, h: 78, st: "later", t: ["Reminders"], s: ["Email · shared calendar", "e.g. 90, 60, 30 days"], name: "Reminders",
+  { id: "reminders", x: 1010, y: 540, h: 78, st: 3, t: ["Reminders"], s: ["Email · shared calendar", "e.g. 90, 60, 30 days"], name: "Reminders",
     what: "Warnings ahead of renewals and due dates, repeated until someone resolves or snoozes them. Sent by email, and optionally onto a shared Gateway calendar." },
 ];
 const E = [
-  { id: "e1", f: "realpage", to: ["mailbox"], st: "live", d: "M188 228 H218" },
-  { id: "e2", f: "gl", to: ["mailbox"], st: "live", d: "M188 308 H203 V244 H218" },
-  { id: "e3", f: "monthly", to: ["mailbox"], st: "next", d: "M188 394 H209 V252 H218" },
-  { id: "e4", f: "mailbox", to: ["relay"], st: "live", d: "M302 260 V300" },
-  { id: "e5", f: "relay", to: ["ingest"], st: "live", d: "M386 332 H416" },
-  { id: "e6", f: "ingest", to: ["alerts"], st: "live", d: "M440 424 V446 H386" },
-  { id: "e7", f: "ingest", to: ["db"], st: "live", d: "M584 310 H614" },
-  { id: "e8", f: "db", to: ["app"], st: "live", d: "M782 310 H812" },
-  { id: "e9", f: "app", to: ["exec", "regional", "pm"], st: "live", arrow: false, d: "M980 310 H995 M995 218 V326 M995 218 H1010 M995 272 H1010 M995 326 H1010" },
-  { id: "e10", f: "app", to: ["owners", "accounting"], st: "next", arrow: false, d: "M995 326 V434 M995 380 H1010 M995 434 H1010" },
-  { id: "e11", f: "ai", to: ["db"], st: "ai", d: "M698 132 V196" },
-  { id: "e12", f: "app", to: ["ai"], st: "ai", d: "M896 196 V132" },
-  { id: "e13", f: "exec", to: ["ai"], st: "ai", d: "M1094 196 V94 H980" },
-  { id: "e14", f: "drive", to: ["gcp"], st: "later", d: "M188 579 H218" },
-  { id: "e15", f: "gcp", to: ["docs"], st: "later", d: "M386 579 H416" },
-  { id: "e16", f: "docs", to: ["storage"], st: "later", d: "M584 579 H614" },
-  { id: "e17", f: "storage", to: ["db"], st: "later", d: "M740 540 V424" },
-  { id: "e18", f: "ingest", to: ["storage"], st: "next", d: "M500 424 V490 H660 V540" },
-  { id: "e19", f: "docs", to: ["reminders"], st: "later", d: "M500 618 V646 H1094 V618" },
-  { id: "e20", f: "gcp", to: ["signin"], st: "next", d: "M302 618 V666 H896 V618" },
-  { id: "e21", f: "signin", to: ["app"], st: "next", d: "M896 540 V424" },
+  { id: "e1", f: "realpage", to: ["mailbox"], st: 0, d: "M188 228 H218" },
+  { id: "e2", f: "gl", to: ["mailbox"], st: 0, d: "M188 308 H203 V244 H218" },
+  { id: "e3", f: "monthly", to: ["mailbox"], st: 1, d: "M188 394 H209 V252 H218" },
+  { id: "e4", f: "mailbox", to: ["relay"], st: 0, d: "M302 260 V300" },
+  { id: "e5", f: "relay", to: ["ingest"], st: 0, d: "M386 332 H416" },
+  { id: "e6", f: "ingest", to: ["alerts"], st: 0, d: "M440 424 V446 H386" },
+  { id: "e7", f: "ingest", to: ["db"], st: 0, d: "M584 310 H614" },
+  { id: "e8", f: "db", to: ["app"], st: 0, d: "M782 310 H812" },
+  { id: "e9", f: "app", to: ["exec", "regional", "pm"], st: 0, arrow: false, d: "M980 310 H995 M995 218 V326 M995 218 H1010 M995 272 H1010 M995 326 H1010" },
+  { id: "e10", f: "app", to: ["owners"], st: 1, arrow: false, d: "M995 326 V380 H1010" },
+  { id: "e10b", f: "app", to: ["accounting"], st: 2, arrow: false, d: "M995 380 V434 H1010" },
+  { id: "e11", f: "ai", to: ["db"], st: 5, d: "M698 132 V196" },
+  { id: "e12", f: "app", to: ["ai"], st: 4, d: "M896 196 V132" },
+  { id: "e13", f: "exec", to: ["ai"], st: 4, d: "M1094 196 V94 H980" },
+  { id: "e14", f: "drive", to: ["gcp"], st: 3, d: "M188 579 H218" },
+  { id: "e15", f: "gcp", to: ["docs"], st: 3, d: "M386 579 H416" },
+  { id: "e16", f: "docs", to: ["storage"], st: 3, d: "M584 579 H614" },
+  { id: "e17", f: "storage", to: ["db"], st: 3, d: "M740 540 V424" },
+  { id: "e18", f: "ingest", to: ["storage"], st: 1, d: "M500 424 V490 H660 V540" },
+  { id: "e19", f: "docs", to: ["reminders"], st: 3, d: "M500 618 V646 H1094 V618" },
+  { id: "e20", f: "gcp", to: ["signin"], st: 1, d: "M302 618 V666 H896 V618" },
+  { id: "e21", f: "signin", to: ["app"], st: 1, d: "M896 540 V424" },
 ];
 const BANDS = [
   { y: 20, h: 128, label: "AI layer · planned" },
   { y: 160, h: 330, label: "Daily data · live today" },
   { y: 502, h: 186, label: "Documents and sign-in · planned" },
 ];
-const VIEWS = { today: ["live"], next: ["live", "next"], full: ["live", "next", "later", "ai"] };
 const TOUR = [
   ["realpage", "RealPage finishes Gateway’s scheduled reports and emails a notice with a download link for the day’s package."],
   ["mailbox", "The notice lands in the ingestion mailbox, inside Gateway’s own Google Workspace. The General Ledger report arrives the same way."],
@@ -361,8 +345,8 @@ const el = (tag, attrs = {}, parent = svg, text) => {
   parent.appendChild(e); return e;
 };
 const defs = el("defs");
-for (const s of ["live", "next", "later", "ai"]) {
-  const m = el("marker", { id: "arrow-" + s, class: "m-" + s, viewBox: "0 0 10 10", refX: "9", refY: "5", markerWidth: "7", markerHeight: "7", orient: "auto-start-reverse" }, defs);
+for (let s = 0; s <= 5; s++) {
+  const m = el("marker", { id: "arrow-" + s, class: "p" + s, viewBox: "0 0 10 10", refX: "9", refY: "5", markerWidth: "7", markerHeight: "7", orient: "auto-start-reverse" }, defs);
   el("path", { d: "M0 0L10 5L0 10z" }, m);
 }
 for (const b of BANDS) {
@@ -372,14 +356,14 @@ for (const b of BANDS) {
 }
 const edgeEls = {};
 for (const e of E) {
-  const p = el("path", { d: e.d, class: "edge " + e.st });
+  const p = el("path", { d: e.d, class: "edge p" + e.st });
   if (e.arrow !== false) p.setAttribute("marker-end", `url(#arrow-${e.st})`);
   edgeEls[e.id] = p;
 }
 const nodeEls = {};
 for (const n of N) {
   const w = n.w || 168;
-  const g = el("g", { class: "node " + n.st, tabindex: "0", role: "button", "aria-label": `${n.name}. ${STATUS[n.st]}` });
+  const g = el("g", { class: "node p" + n.st, tabindex: "0", role: "button", "aria-label": `${n.name}. ${STATUS[n.st]}` });
   el("rect", { class: "box", x: n.x, y: n.y, width: w, height: n.h, rx: 10 }, g);
   el("rect", { class: "tint", x: n.x, y: n.y, width: w, height: n.h, rx: 10, "fill-opacity": 0.07 }, g);
   let y = n.h === 44 ? n.y + 27 : n.y + 23;
@@ -402,7 +386,7 @@ for (const n of N) {
   g.addEventListener("keydown", (ev) => { if (ev.key === "Enter" || ev.key === " ") { ev.preventDefault(); stopTour(); pinned = n.id; show(n.id); } });
 }
 
-let view = "full", pinned = null, touring = false, step = 0;
+let view = 5, pinned = null, touring = false, step = 0;
 const byId = Object.fromEntries(N.map((n) => [n.id, n]));
 const esc = (s) => s.replace(/[&<>]/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;" }[c]));
 
@@ -422,12 +406,12 @@ function overview() {
   <h2>One feed in, one database, one dashboard</h2>
   <p>Every morning RealPage’s reports reach Gateway’s ingestion mailbox. HelloIT’s ingest service downloads them, checks every figure, and loads the day only if everything passes. The dashboard then reads the database as the signed-in person, so each person sees only what their role allows.</p>
   <p>The planned work keeps that shape and adds three things:</p>
-  <ul><li><b>Google sign-in</b> with 2-Step Verification (next phase)</li><li><b>Documents from Google Drive</b> with reminders: insurance, vendor insurance, taxes (Q2 2027)</li><li><b>An AI assistant</b> that sits on top of everything, within each person’s permissions (Q3 – Q4 2027)</li></ul>
-  <p class="tech"><b>How to use:</b> hover or tap a box for detail. Use the buttons above to step from today to the full plan, or follow one morning’s data end to end.</p>`;
+  <ul><li><b>Google sign-in</b> with 2-Step Verification (Q4 2026)</li><li><b>Documents from Google Drive</b> with reminders: insurance, vendor insurance, taxes (Q2 2027)</li><li><b>JOE, the AI assistant</b>, that sits on top of everything, within each person’s permissions (Q3 – Q4 2027)</li></ul>
+  <p class="tech"><b>How to use:</b> hover or tap a box for detail. Use the quarter buttons above to step from today to Q4 2027, or follow one morning’s data end to end.</p>`;
 }
 function detail(id) {
   const n = byId[id];
-  const [cls, label] = n.pill || [n.st, STATUS[n.st]];
+  const [cls, label] = n.pill || ["p" + n.st, STATUS[n.st]];
   return `<span class="pill ${cls}">${esc(label)}</span><h2>${esc(n.name)}</h2><p>${esc(n.what)}</p>${n.tech ? `<p class="tech"><b>Technical:</b> ${esc(n.tech)}</p>` : ""}`;
 }
 function show(id) {
@@ -438,7 +422,7 @@ function show(id) {
 function renderTour() {
   const [id, text] = TOUR[step];
   highlight(id);
-  panel.innerHTML = `<span class="pill live">A morning’s data · step ${step + 1} of ${TOUR.length}</span>
+  panel.innerHTML = `<span class="pill p0">A morning’s data · step ${step + 1} of ${TOUR.length}</span>
     <h2>${esc(byId[id].name)}</h2><p>${esc(text)}</p>
     <div class="tour-nav"><button type="button" class="btn" id="t-back" ${step === 0 ? "disabled" : ""}>Back</button>
     <button type="button" class="btn" id="t-next">${step === TOUR.length - 1 ? "Finish" : "Next"}</button>
@@ -446,22 +430,21 @@ function renderTour() {
   document.getElementById("t-back").onclick = () => { step = Math.max(0, step - 1); renderTour(); };
   document.getElementById("t-next").onclick = () => { if (step === TOUR.length - 1) stopTour(); else { step++; renderTour(); } };
 }
-function startTour() { setView(view === "today" ? "today" : view); touring = true; step = 0; pinned = null; renderTour(); document.getElementById("tour").textContent = "End the walkthrough"; }
+function startTour() { setView(view); touring = true; step = 0; pinned = null; renderTour(); document.getElementById("tour").textContent = "End the walkthrough"; }
 function stopTour() { if (!touring) return; touring = false; document.getElementById("tour").textContent = "Follow a morning's data"; show(pinned); }
 document.getElementById("tour").addEventListener("click", () => (touring ? stopTour() : startTour()));
 
 function setView(v) {
   view = v;
-  for (const b of document.querySelectorAll("[data-view]")) b.setAttribute("aria-pressed", String(b.dataset.view === v));
-  const on = VIEWS[v];
-  for (const n of N) { const g = nodeEls[n.id]; const off = !on.includes(n.st); g.classList.toggle("off", off); off ? g.setAttribute("tabindex", "-1") : g.setAttribute("tabindex", "0"); }
-  for (const e of E) edgeEls[e.id].classList.toggle("off", !on.includes(e.st));
-  if (pinned && !on.includes(byId[pinned].st)) { pinned = null; if (!touring) show(null); }
+  for (const b of document.querySelectorAll("[data-view]")) b.setAttribute("aria-pressed", String(+b.dataset.view === v));
+  for (const n of N) { const g = nodeEls[n.id]; const off = n.st > v; g.classList.toggle("off", off); off ? g.setAttribute("tabindex", "-1") : g.setAttribute("tabindex", "0"); }
+  for (const e of E) edgeEls[e.id].classList.toggle("off", e.st > v);
+  if (pinned && byId[pinned].st > v) { pinned = null; if (!touring) show(null); }
 }
-for (const b of document.querySelectorAll("[data-view]")) b.addEventListener("click", () => setView(b.dataset.view));
+for (const b of document.querySelectorAll("[data-view]")) b.addEventListener("click", () => setView(+b.dataset.view));
 svg.addEventListener("click", (ev) => { if (ev.target === svg || ev.target.closest(".band")) { stopTour(); pinned = null; show(null); } });
 
-setView("full");
+setView(5);
 show(null);
 })();
 </script>
@@ -480,7 +463,6 @@ const AUD = [
   { id: "acct", name: "Accounting & admin", who: "New role", opens: 2 },
 ];
 // cell: [phase, note]. Phase is when the feature exists; a column's own first login can make it later.
-// sug: suggested by HelloIT from the data, not yet agreed with Gateway; why: what the suggestion rests on.
 const SECTIONS = [
   { name: "Dashboard", rows: [
     { id: "summary", name: "Property summary", what: "Occupancy, delinquency, health ratings and alerts, for the portfolio and each property.",
@@ -495,27 +477,19 @@ const SECTIONS = [
       c: { exec: [1], regional: [1], pm: [1], acct: [1] } },
     { id: "deposit", name: "Missing deposit check", what: "Flags every resident with no required deposit, not only those on the delinquency report.",
       c: { exec: [1], regional: [1], pm: [1] } },
-    { id: "recert", sug: true, name: "Recertification compliance desk", what: "Per property: households past their recertification date, due soon with no notice sent, or not yet interviewed.",
-      why: "RealPage’s recertification report already loads daily, notice and interview dates included. In mid-November it listed 83 households past due and 86 due within 60 days with no first notice. A missed recertification can cost tax credits.",
+    { id: "recert", name: "Recertification compliance desk", what: "Per property: households past their recertification date, due soon with no notice sent, or not yet interviewed.",
       c: { exec: [2], regional: [2], pm: [2] } },
-    { id: "makeready", sug: true, name: "Make-ready & vacancy cost", what: "Each vacant unit: days vacant, whether it’s ready, and the rent lost so far.",
-      why: "Already in RealPage’s availability report. In mid-November: 120 vacant units, 91 waiting on make-ready, about $832K in RealPage’s estimated vacancy cost.",
-      c: { exec: [2], regional: [2], pm: [2] } },
-    { id: "budget", sug: true, name: "Budget vs. actual", what: "Monthly variance against budget, by property and line item.",
-      why: "A parser for RealPage’s 12-month P&L, budget column included, is written but not loaded yet. It would also answer the owner financials question.",
-      c: { owners: [TBD, "Summary lines?"], exec: [3], regional: [3], acct: [3] } },
-    { id: "util", sug: true, name: "Utility cost per unit", what: "Electric, water, gas and sewer per occupied unit, month to month and property to property.",
-      why: "Utility accounts 6450–6453 are already in the GL. Catches leaks, billing errors and vacant units still drawing power.",
+    { id: "util", name: "Utility cost per unit", what: "Electric, water, gas and sewer per occupied unit, month to month and property to property.",
       c: { exec: [3], regional: [3], acct: [3] } },
-    { id: "files", sug: true, name: "Property files", what: "Each property page links to its documents in Drive: regulatory agreement, policies, inspections, audit letters.",
-      why: "Comes almost free once Drive is connected, and gives the assistant documents to answer from.",
+    { id: "files", name: "Property files", what: "Each property page links to its documents in Drive: regulatory agreement, policies, inspections, audit letters.",
       c: { exec: [3], regional: [3], pm: [3], acct: [3] } },
   ]},
   { name: "Vendors", rows: [
-    { id: "vendors", name: "Vendor list: HVAC, electrical, plumbing", what: "Vendors paid under GL 6542 and 6546 at each property, with the last invoice and the work done. Waiting on Gateway’s answers.",
+    { id: "vendors", name: "Vendor list: HVAC, electrical, plumbing", what: "Vendors paid under GL 6542 and 6546 at each property, with the last invoice and the work done.",
       c: { exec: [1], regional: [1], pm: [1] } },
-    { id: "vspend", sug: true, name: "Vendor spend & duplicate check", what: "All repair and maintenance vendors, total spend across properties, and flags for duplicate or miscoded invoices.",
-      why: "The same GL data covers about 50 expense accounts. The vendor pull already turned up four identical $441.67 invoices at Langston Lane.",
+    { id: "vspend", name: "Vendor spend", what: "All repair and maintenance vendors, with total spend by vendor across properties.",
+      c: { exec: [3], acct: [3] } },
+    { id: "vins", name: "Vendor insurance", what: "Vendor insurance certificates from Drive, with warnings before they lapse. Flags vendors paid with no insurance on file, and vendors whose insurance on file has expired.",
       c: { exec: [3], acct: [3] } },
   ]},
   { name: "Accounting & admin", rows: [
@@ -523,23 +497,17 @@ const SECTIONS = [
       c: { exec: [2, "View"], acct: [2] } },
     { id: "ins", name: "Property & liability insurance", what: "Every property’s policies from the certificates in Drive, with renewal warnings.",
       c: { exec: [3], acct: [3] } },
-    { id: "vins", name: "Vendor insurance", what: "Vendor insurance expiry dates, with warnings before they lapse.",
-      c: { acct: [3] } },
-    { id: "vpaid", sug: true, name: "Paid vendors without insurance", what: "Vendors paid this month whose certificate is expired, missing or doesn’t match.",
-      why: "Joins vendor insurance to the GL payments. It would have caught two certificates for the same property that give different towns.",
-      c: { exec: [3], acct: [3] } },
     { id: "tax", name: "Real estate taxes", what: "A register of every parcel, each bill matched to its payment, unpaid parcels flagged before the due date.",
       c: { exec: [3, "View"], acct: [3] } },
-    { id: "prem", sug: true, name: "Insurance premiums paid check", what: "Confirms each policy’s premium was paid, from GL insurance account 6720.",
-      why: "Does for insurance what the tax register does for taxes, from data already in the GL.",
+    { id: "prem", name: "Insurance premiums paid check", what: "Confirms each policy’s premium was paid, from the insurance account in the General Ledger.",
       c: { exec: [3, "View"], acct: [3] } },
     { id: "rem", name: "Reminders & calendar", what: "Reminders ahead of renewals and due dates, by email or on a shared calendar.",
       c: { exec: [3], acct: [3] } },
   ]},
-  { name: "Assistant", rows: [
-    { id: "pp", name: "Policies & procedures Q&A", what: "Ask about Gateway’s policies in plain English, answered from Gateway’s own documents.",
+  { name: "AI Assistant · JOE", joe: true, rows: [
+    { id: "pp", name: "Policies & procedures Q&A", what: "Ask JOE about Gateway’s policies in plain English, answered from Gateway’s own documents.",
       c: { exec: [4], regional: [4], pm: [4], acct: [4] } },
-    { id: "ask", name: "Ask about everything", what: "Ask about properties, residents, vendors, insurance and taxes. Answers stay within what each person may see.",
+    { id: "ask", name: "Ask JOE about everything", what: "Ask about properties, residents, vendors, insurance and taxes. Answers stay within what each person may see. Not offered to owners.",
       c: { exec: [5], regional: [5], pm: [5, "Their properties"], acct: [5] } },
   ]},
   { name: "Account & security", rows: [
@@ -547,12 +515,10 @@ const SECTIONS = [
       c: { owners: [1, "Password + app code"], exec: [1], regional: [1], pm: [1], acct: [1] } },
     { id: "users", name: "Manage users", what: "Add people, reset passwords and remove leavers in Settings, without asking HelloIT.",
       c: { exec: [1, "Platform admins"] } },
-    { id: "audit", sug: true, name: "Activity log & data status", what: "Who viewed what, and whether today’s RealPage data arrived.",
-      why: "The platform already records access and usage events; this just shows them.",
+    { id: "audit", name: "Activity log & data status", what: "Who viewed what, and whether today’s RealPage data arrived.",
       c: { exec: [2, "Platform admins"] } },
   ]},
 ];
-const AI_TEXT = "Gateway assistant (JOE) sits on top of everything below, within each person’s permissions. Not for owners.";
 
 const mx = document.getElementById("matrix"), panel = document.getElementById("panel2");
 let phase = 5, pinned = null;
@@ -563,27 +529,27 @@ const rows = SECTIONS.flatMap((s) => s.rows);
 
 // header row
 div("mx-h", "<b>Feature</b><span>by platform section</span>", { role: "columnheader" });
-const heads = AUD.map((a) => div("mx-h", "", { role: "columnheader" }));
-// AI banner
-div("", null);
-const aiEl = div("mx-ai", `<b>${esc("Gateway assistant (JOE)")}</b> · ${esc(AI_TEXT)}`, { tabindex: "0", role: "button" });
+const heads = AUD.map(() => div("mx-h", "", { role: "columnheader" }));
 const cells = [];
 for (const s of SECTIONS) {
-  div("mx-sec", esc(s.name), { role: "rowheader" });
+  const sec = div("mx-sec" + (s.joe ? " joe" : ""), esc(s.name) + (s.joe ? ' <span class="hint">· what is JOE?</span>' : ""), { role: "rowheader" });
+  if (s.joe) { sec.tabIndex = 0; bind(sec, joeInfo); }
   for (const r of s.rows) {
-    const sg = r.sug ? " sug is-sug" : "";
-    const nm = div("mx-name" + sg, (r.sug ? '<span class="fold" aria-hidden="true"></span>' : "") + esc(r.name) + (r.sug ? '<span class="sr"> (suggested)</span>' : ""), { tabindex: "0", role: "rowheader" });
+    const nm = div("mx-name", esc(r.name), { tabindex: "0", role: "rowheader" });
     bind(nm, () => rowInfo(r));
     for (const a of AUD) {
       const v = r.c[a.id];
-      if (!v) { div("cell empty" + (r.sug ? " is-sug" : ""), "", { role: "cell", "aria-hidden": "true" }); continue; }
-      const c = div("cell" + sg, "", { role: "cell", tabindex: "0" });
-      cells.push({ el: c, r, a, ph: eff(v[0], a), note: v[1] });
-      bind(c, () => cellInfo(r, a, eff(v[0], a), v[1]), c);
+      if (!v) { div("cell empty", "", { role: "cell", "aria-hidden": "true" }); continue; }
+      const c = div("cell", "", { role: "cell", tabindex: "0" });
+      const p = eff(v[0], a);
+      cells.push({ el: c, r, a, ph: p, note: v[1] });
+      bind(c, () => cellInfo(r, a, p, v[1]), c);
     }
   }
 }
-bind(aiEl, () => `<span class="pill ai">${PH[4].label}</span><h2>Gateway assistant (JOE)</h2><p>In Gateway’s chart, JOE sits at the top. Here it arrives last, because it can only be as good as the data and documents under it.</p><p>It answers each person only from what their role may see, so an owner never gets resident detail through a question. It starts with policies and procedures, then everything else.</p>`);
+function joeInfo() {
+  return `<span class="pill p4">Q3 – Q4 2027</span><h2>AI Assistant · JOE</h2><p>JOE is Gateway 360’s AI assistant. In Gateway’s chart it sits at the top; here it arrives last, because it can only be as good as the data and documents under it.</p><p>JOE answers each person only from what their role may see. It starts with policies and procedures in Q3 2027, and answers questions about everything on the platform from Q4 2027. It is not offered to owners.</p>`;
+}
 
 function bind(el, html, cellEl) {
   const show = () => { panel.innerHTML = html(); mark(cellEl); };
@@ -597,58 +563,43 @@ function mark(el) { for (const c of cells) c.el.classList.toggle("sel", c.el ===
 const phLabel = (p) => (p === TBD ? "To decide" : PH[p].label);
 const stateCls = (p) => (p === TBD ? "tbd" : p > phase ? "off" : p === phase && phase > 0 ? "new" : "on");
 function cellInfo(r, a, p, note) {
-  const st = stateCls(p);
-  const pill = p === TBD ? "info" : p === 0 ? "live" : p >= 4 ? "ai" : p === 3 ? "later" : "next";
+  const pill = p === TBD ? "info" : "p" + p;
   const opensNote = a.opens > 0 && p !== TBD && p === a.opens && (r.c[a.id][0] < a.opens)
     ? `<p>The feature is built already; ${esc(a.name.toLowerCase())} get it when their logins open in ${esc(PH[a.opens].label)}.</p>` : "";
-  return `${sugPill(r)}<span class="pill ${pill}">${esc(phLabel(p))}</span><h2>${esc(r.name)}</h2><p><b>${esc(a.name)}</b>${note ? ": " + esc(note) : ""}</p><p>${esc(r.what)}</p>${opensNote}${sugWhy(r)}`;
+  return `<span class="pill ${pill}">${esc(phLabel(p))}</span><h2>${esc(r.name)}</h2><p><b>${esc(a.name)}</b>${note ? ": " + esc(note) : ""}</p><p>${esc(r.what)}</p>${opensNote}`;
 }
 function rowInfo(r) {
   const who = AUD.filter((a) => r.c[a.id]).map((a) => `<li>${esc(a.name)}: ${esc(phLabel(eff(r.c[a.id][0], a)))}${r.c[a.id][1] ? " · " + esc(r.c[a.id][1]) : ""}</li>`).join("");
-  return `${r.sug ? sugPill(r) : '<span class="pill info">Feature</span>'}<h2>${esc(r.name)}</h2><p>${esc(r.what)}</p><ul>${who}</ul>${sugWhy(r)}`;
+  return `<span class="pill info">Feature</span><h2>${esc(r.name)}</h2><p>${esc(r.what)}</p><ul>${who}</ul>`;
 }
-function sugPill(r) { return r.sug ? '<span class="pill sug">Suggested · not yet agreed</span> ' : ""; }
-function sugWhy(r) { return r.sug ? `<p class="tech"><b>Why we suggest it:</b> ${esc(r.why)}</p>` : ""; }
 function overview() {
-  const used = (list) => list.filter((r) => cells.some((c) => c.r === r && c.ph <= phase)).length;
-  const plan = rows.filter((r) => !r.sug), sug = rows.filter((r) => r.sug);
-  const sugLine = showSug ? ` · <span style="color:var(--sug)">${used(sug)} of ${sug.length} suggested</span>` : "";
-  return `<span class="pill info">${esc(PH[phase].label)}</span><h2>${used(plan)} of ${plan.length} planned features in use</h2>
-  <p class="tech" style="border:0;padding:0;margin:0 0 12px">${used(plan)} planned${sugLine}</p>
+  const used = rows.filter((r) => cells.some((c) => c.r === r && c.ph <= phase)).length;
+  return `<span class="pill p${phase}">${esc(PH[phase].label)}</span><h2>${used} of ${rows.length} features in use</h2>
   <p>${["Today: the dashboard, for executives and regional managers.",
-        "Q4 2026: Google sign-in, logins for property managers and owners, prepaid and deposit checks, vendor list.",
-        "Q1 2027: the Accounting & admin role and the management fee calculator.",
-        "Q2 2027: insurance, vendor insurance and real estate taxes, read from Google Drive.",
-        "Q3 2027: the assistant arrives, answering questions about policies and procedures.",
-        "Q4 2027: the assistant answers questions about everything on the platform."][phase]}</p>
-  <p>Pink rows with a <span class="fold" aria-hidden="true"></span>corner mark are HelloIT’s ideas from the data, not yet agreed with Gateway.</p>
-  <p class="tech"><b>How to use:</b> pick a phase or press “Next phase”. Hover or tap a cell for detail.</p>`;
+        "Q4 2026: Google sign-in, logins for property managers and owners, prepaid and deposit checks, the vendor list.",
+        "Q1 2027: the Accounting & admin role, the management fee calculator, the recertification compliance desk and the activity log.",
+        "Q2 2027: insurance, vendor insurance and real estate taxes from Google Drive, plus vendor spend, utility cost per unit and property files.",
+        "Q3 2027: JOE, the AI assistant, arrives and answers questions about policies and procedures.",
+        "Q4 2027: JOE answers questions about everything on the platform."][phase]}</p>
+  <p class="tech"><b>How to use:</b> pick a quarter or press “Next phase”. Each colour is the quarter a feature arrives. Hover or tap a cell for detail.</p>`;
 }
 function render() {
   for (const b of document.querySelectorAll("[data-ph]")) b.setAttribute("aria-pressed", String(+b.dataset.ph === phase));
   document.getElementById("ph-next").textContent = phase === 5 ? "Back to today" : "Next phase →";
   for (const c of cells) {
     const st = stateCls(c.ph);
-    c.el.className = "cell " + st + (c.r.sug ? " sug is-sug" : "") + (c.el.classList.contains("sel") ? " sel" : "");
+    c.el.className = "cell " + st + (st === "tbd" ? "" : " p" + c.ph) + (c.el.classList.contains("sel") ? " sel" : "");
     c.el.innerHTML = `<span class="ph">${st === "new" ? "New · " : ""}${esc(c.ph === TBD ? "To decide" : PH[c.ph].short)}</span>${c.note ? `<span class="nt">${esc(c.note)}</span>` : ""}`;
     c.el.setAttribute("aria-label", `${c.r.name}, ${c.a.name}: ${c.ph === TBD ? "to decide" : PH[c.ph].label}${c.note ? ", " + c.note : ""}`);
   }
   AUD.forEach((a, i) => {
-    const mine = cells.filter((c) => c.a === a && c.ph !== TBD && (showSug || !c.r.sug)), on = mine.filter((c) => c.ph <= phase).length;
+    const mine = cells.filter((c) => c.a === a && c.ph !== TBD), on = mine.filter((c) => c.ph <= phase).length;
     const open = a.opens <= phase;
     heads[i].className = "mx-h" + (open ? "" : " closed");
-    heads[i].innerHTML = `<b>${esc(a.name)}</b><span>${esc(a.who)}</span><span>${open ? (a.opens === 0 ? "Signed in today" : "Logins from " + PH[a.opens].label) : "Logins from " + PH[a.opens].label}</span><span class="count">${on} of ${mine.length} features</span>`;
+    heads[i].innerHTML = `<b>${esc(a.name)}</b><span>${esc(a.who)}</span><span>${a.opens === 0 ? "Signed in today" : "Logins from " + PH[a.opens].label}</span><span class="count">${on} of ${mine.length} features</span>`;
   });
-  aiEl.classList.toggle("on", phase >= 4);
   if (!pinned) panel.innerHTML = overview();
 }
-let showSug = true;
-document.getElementById("sug-toggle").addEventListener("click", (e) => {
-  showSug = !showSug; mx.classList.toggle("hide-sug", !showSug);
-  e.currentTarget.setAttribute("aria-pressed", String(showSug));
-  e.currentTarget.textContent = showSug ? "Hide suggestions" : "Show suggestions";
-  pinned = null; mark(null); render();
-});
 for (const b of document.querySelectorAll("[data-ph]")) b.addEventListener("click", () => { phase = +b.dataset.ph; pinned = null; mark(null); render(); });
 document.getElementById("ph-next").addEventListener("click", () => { phase = phase === 5 ? 0 : phase + 1; pinned = null; mark(null); render(); });
 render();
